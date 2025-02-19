@@ -1,0 +1,53 @@
+project:
+  type: book
+
+book:
+  title: "AI in Microscopy: A BioImaging Guide"
+  downloads: "pdf"
+  license: "BSD-3"
+  repo-url: https://github.com/aicjanelia/BioImagingAI
+  cover-image: settings/cover.png
+  favicon: settings/favicon.png
+  editor: 
+    - Owen Puls
+    - Rachel Lee
+    - Teng-Leong Chew
+  chapters:
+    - index.qmd
+    - 1-intro.qmd
+    - part: "Getting Started with AI"
+      chapters:
+       - 2-primer.qmd
+       - 3-llms.qmd
+       - 4-architectures.qmd
+    - part: "Image Acquisition"
+      chapters:
+      - 5-training-data.qmd
+      - 6-image-restoration.qmd
+      - 7-smart-microscopy.qmd
+    - part: "Image Analysis"
+      chapters:
+      - 8-existing-tools.qmd
+      - 9-train-models.qmd
+      - 10-output-quality.qmd
+    - 11-outlook.qmd
+    - glossary.qmd
+    - references.qmd
+
+bibliography: references.bib
+csl: settings/nature.csl
+
+notebook-links: true
+
+format:
+  html:
+    theme:
+      light: flatly
+      dark: darkly
+  pdf:
+    documentclass: scrreprt
+
+glossary:
+  path: glossary.yml
+  popup: click
+  show: true    

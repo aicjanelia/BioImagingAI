@@ -1,0 +1,12 @@
+{
+  "hash": "362e2d764790b2432a17d128cf5116e3",
+  "result": {
+    "engine": "jupyter",
+    "markdown": "# Glossary {.unnumbered #sec-glossary}\n\n\n\n\n\n\n{{< glossary table=true >}}\n\n\n\n\n\n\n\n\n\nThe glossary table will be automatically generated here after we resolve formatting issues.\n\n### Temporary Troubleshooting Table\nSee https://github.com/debruine/quarto-glossary/issues/10\n\n::: {#747311bb .cell execution_count=1}\n\n::: {.cell-output .cell-output-stdout}\n```\nHallucinations\n\nOutputs from a model that do not have a basis in the input data and may contain false or misleading information.\n\n\nTraining Data\n\nData used to train an algorithm to make predictions.\n\n\n```\n:::\n:::\n\n\n",
+    "supporting": [
+      "glossary_files"
+    ],
+    "filters": [],
+    "includes": {}
+  }
+}

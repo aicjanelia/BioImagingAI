@@ -1,0 +1,25 @@
+---
+editors: [
+  "Teng-Leong Chew",
+  "Rachel Lee",
+  "Owen Puls"
+]
+affiliation: [
+  "HHMI Janelia Research Campus"
+]
+# doi: "tempDOI"
+format:
+  html:
+    toc: false
+    template-partials:
+      - settings/title-metadata.html
+---
+
+# Welcome {.unnumbered}
+
+This is an initial outline for the welcome page:
+
+- Include a very brief introduction of the book (this is not the introduction chapter).
+- Explain how to interact with the book. For example, explain how code snippets work for the reader, links to figures, glossary terms, etc.
+- State the licensing and use restrictions.
+- How to cite the book.

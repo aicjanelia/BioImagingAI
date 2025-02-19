@@ -1,0 +1,9 @@
+# This textbook is edited by Teng-Leong Chew, Rachel Lee,
+# and Owen Puls. Management of this repository is handled by
+# Rachel Lee (@ScientistRachel) and Owen Puls (@opp1231).
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# @ScientistRachel and @opp1231 will be requested for
+# review when someone opens a pull request.
+*       @ScientistRachel @opp1231
