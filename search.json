@@ -1,0 +1,746 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "AI in Microscopy: A BioImaging Guide",
+    "section": "",
+    "text": "Welcome\nThis is an initial outline for the welcome page:\n\nInclude a very brief introduction of the book (this is not the introduction chapter).\nExplain how to interact with the book. For example, explain how code snippets work for the reader, links to figures, glossary terms, etc.\nState the licensing and use restrictions.\nHow to cite the book.",
+    "crumbs": [
+      "Welcome"
+    ]
+  },
+  {
+    "objectID": "1-intro.html",
+    "href": "1-intro.html",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "1.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 1 outlines how AI can span experimental design, image acquisition, image processing, and analysis (without discussing what AI is from a technical perspective). This chapter will also outline the roadmap of the book which will largely focus on acquisition and processing.\nTopics suggested during the authors’ meetings: Discuss that AI is not always solution and talk about when it is actually useful. Discuss that there are many types of microscopy images and each will have their own AI considerations (e.g., imaging modality, 2D vs 3D, static vs time lapse).\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "1-intro.html#include-section-headers-as-appropriate",
+    "href": "1-intro.html#include-section-headers-as-appropriate",
+    "title": "1  Introduction",
+    "section": "",
+    "text": "1.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "1-intro.html#bibliography-and-citations",
+    "href": "1-intro.html#bibliography-and-citations",
+    "title": "1  Introduction",
+    "section": "1.2 Bibliography and Citations",
+    "text": "1.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "1-intro.html#adding-to-the-glossary",
+    "href": "1-intro.html#adding-to-the-glossary",
+    "title": "1  Introduction",
+    "section": "1.3 Adding to the Glossary",
+    "text": "1.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "1-intro.html#sec-equation",
+    "href": "1-intro.html#sec-equation",
+    "title": "1  Introduction",
+    "section": "1.4 Code and Equations",
+    "text": "1.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 1.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 1.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{1.1}\\]\n\n1.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 1.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "1-intro.html#quarto-has-additional-features.",
+    "href": "1-intro.html#quarto-has-additional-features.",
+    "title": "1  Introduction",
+    "section": "1.5 Quarto has additional features.",
+    "text": "1.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
+    ]
+  },
+  {
+    "objectID": "2-primer.html",
+    "href": "2-primer.html",
+    "title": "2  AI Primer",
+    "section": "",
+    "text": "2.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 2 demystifies Artificial Intelligence for microscopy users. It should define terms (e.g., machine/deep learning, supervised/unsupervised learning) without programming details such that an educated scientist without AI experience can understand how these concepts apply to microscopy in life sciences. The use-cases and strengths of different approaches for different applications should be discussed (e.g., contrasting unsupervised clustering vs supervised segmentation). This chapter should broadly introduce image restoration and segmentation, as they will be themes throughout.\nSuggestion from authors’ meetings: This chapter can draw on the outlines from other chapters to introduce key topics for the following chapters.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>AI Primer</span>"
+    ]
+  },
+  {
+    "objectID": "2-primer.html#include-section-headers-as-appropriate",
+    "href": "2-primer.html#include-section-headers-as-appropriate",
+    "title": "2  AI Primer",
+    "section": "",
+    "text": "2.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>AI Primer</span>"
+    ]
+  },
+  {
+    "objectID": "2-primer.html#bibliography-and-citations",
+    "href": "2-primer.html#bibliography-and-citations",
+    "title": "2  AI Primer",
+    "section": "2.2 Bibliography and Citations",
+    "text": "2.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>AI Primer</span>"
+    ]
+  },
+  {
+    "objectID": "2-primer.html#adding-to-the-glossary",
+    "href": "2-primer.html#adding-to-the-glossary",
+    "title": "2  AI Primer",
+    "section": "2.3 Adding to the Glossary",
+    "text": "2.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>AI Primer</span>"
+    ]
+  },
+  {
+    "objectID": "2-primer.html#sec-equation",
+    "href": "2-primer.html#sec-equation",
+    "title": "2  AI Primer",
+    "section": "2.4 Code and Equations",
+    "text": "2.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 2.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 2.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{2.1}\\]\n\n2.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 2.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>AI Primer</span>"
+    ]
+  },
+  {
+    "objectID": "2-primer.html#quarto-has-additional-features.",
+    "href": "2-primer.html#quarto-has-additional-features.",
+    "title": "2  AI Primer",
+    "section": "2.5 Quarto has additional features.",
+    "text": "2.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>AI Primer</span>"
+    ]
+  },
+  {
+    "objectID": "3-llms.html",
+    "href": "3-llms.html",
+    "title": "3  Promise and Pitfalls of Large Language Models",
+    "section": "",
+    "text": "3.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 3 addresses use-cases of large language models for microscopists. It should discuss microscopy-specific tools (e.g., Omega, BioImage.io chatbot) as well as using general tools like Chat-GPT. It should describe how to use chatbots to learn about imaging and analysis, to generate code snippets, and others, with a focus on the potential pitfalls of using these tools.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Promise and Pitfalls of Large Language Models</span>"
+    ]
+  },
+  {
+    "objectID": "3-llms.html#include-section-headers-as-appropriate",
+    "href": "3-llms.html#include-section-headers-as-appropriate",
+    "title": "3  Promise and Pitfalls of Large Language Models",
+    "section": "",
+    "text": "3.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Promise and Pitfalls of Large Language Models</span>"
+    ]
+  },
+  {
+    "objectID": "3-llms.html#bibliography-and-citations",
+    "href": "3-llms.html#bibliography-and-citations",
+    "title": "3  Promise and Pitfalls of Large Language Models",
+    "section": "3.2 Bibliography and Citations",
+    "text": "3.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Promise and Pitfalls of Large Language Models</span>"
+    ]
+  },
+  {
+    "objectID": "3-llms.html#adding-to-the-glossary",
+    "href": "3-llms.html#adding-to-the-glossary",
+    "title": "3  Promise and Pitfalls of Large Language Models",
+    "section": "3.3 Adding to the Glossary",
+    "text": "3.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Promise and Pitfalls of Large Language Models</span>"
+    ]
+  },
+  {
+    "objectID": "3-llms.html#sec-equation",
+    "href": "3-llms.html#sec-equation",
+    "title": "3  Promise and Pitfalls of Large Language Models",
+    "section": "3.4 Code and Equations",
+    "text": "3.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 3.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 3.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{3.1}\\]\n\n3.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 3.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Promise and Pitfalls of Large Language Models</span>"
+    ]
+  },
+  {
+    "objectID": "3-llms.html#quarto-has-additional-features.",
+    "href": "3-llms.html#quarto-has-additional-features.",
+    "title": "3  Promise and Pitfalls of Large Language Models",
+    "section": "3.5 Quarto has additional features.",
+    "text": "3.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Promise and Pitfalls of Large Language Models</span>"
+    ]
+  },
+  {
+    "objectID": "4-architectures.html",
+    "href": "4-architectures.html",
+    "title": "4  Architectures and Loss Models",
+    "section": "",
+    "text": "4.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 4 introduces architectures and loss models, defining them and providing examples through two practical case studies: image restoration and segmentation. Although this chapter will include code snippets/exercises, the presentation of essential concepts should communicate the philosophy behind the choice of a model for non-programmers.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Models</span>"
+    ]
+  },
+  {
+    "objectID": "4-architectures.html#include-section-headers-as-appropriate",
+    "href": "4-architectures.html#include-section-headers-as-appropriate",
+    "title": "4  Architectures and Loss Models",
+    "section": "",
+    "text": "4.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Models</span>"
+    ]
+  },
+  {
+    "objectID": "4-architectures.html#bibliography-and-citations",
+    "href": "4-architectures.html#bibliography-and-citations",
+    "title": "4  Architectures and Loss Models",
+    "section": "4.2 Bibliography and Citations",
+    "text": "4.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Models</span>"
+    ]
+  },
+  {
+    "objectID": "4-architectures.html#adding-to-the-glossary",
+    "href": "4-architectures.html#adding-to-the-glossary",
+    "title": "4  Architectures and Loss Models",
+    "section": "4.3 Adding to the Glossary",
+    "text": "4.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Models</span>"
+    ]
+  },
+  {
+    "objectID": "4-architectures.html#sec-equation",
+    "href": "4-architectures.html#sec-equation",
+    "title": "4  Architectures and Loss Models",
+    "section": "4.4 Code and Equations",
+    "text": "4.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 4.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 4.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{4.1}\\]\n\n4.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 4.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Models</span>"
+    ]
+  },
+  {
+    "objectID": "4-architectures.html#quarto-has-additional-features.",
+    "href": "4-architectures.html#quarto-has-additional-features.",
+    "title": "4  Architectures and Loss Models",
+    "section": "4.5 Quarto has additional features.",
+    "text": "4.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Getting Started with AI",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Models</span>"
+    ]
+  },
+  {
+    "objectID": "5-training-data.html",
+    "href": "5-training-data.html",
+    "title": "5  Training Data",
+    "section": "",
+    "text": "5.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 5 discusses collecting, annotating and validating training data. It should highlight potential pitfalls such as balanced data sets, out-of-distribution problems, etc. It should also address the question: how do you collect training data on your microscope? For example, this chapter should discuss collecting low/high-laser power pairs for the purpose of training an image restoration model.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Training Data</span>"
+    ]
+  },
+  {
+    "objectID": "5-training-data.html#include-section-headers-as-appropriate",
+    "href": "5-training-data.html#include-section-headers-as-appropriate",
+    "title": "5  Training Data",
+    "section": "",
+    "text": "5.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Training Data</span>"
+    ]
+  },
+  {
+    "objectID": "5-training-data.html#bibliography-and-citations",
+    "href": "5-training-data.html#bibliography-and-citations",
+    "title": "5  Training Data",
+    "section": "5.2 Bibliography and Citations",
+    "text": "5.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Training Data</span>"
+    ]
+  },
+  {
+    "objectID": "5-training-data.html#adding-to-the-glossary",
+    "href": "5-training-data.html#adding-to-the-glossary",
+    "title": "5  Training Data",
+    "section": "5.3 Adding to the Glossary",
+    "text": "5.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Training Data</span>"
+    ]
+  },
+  {
+    "objectID": "5-training-data.html#sec-equation",
+    "href": "5-training-data.html#sec-equation",
+    "title": "5  Training Data",
+    "section": "5.4 Code and Equations",
+    "text": "5.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 5.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 5.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{5.1}\\]\n\n5.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 5.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Training Data</span>"
+    ]
+  },
+  {
+    "objectID": "5-training-data.html#quarto-has-additional-features.",
+    "href": "5-training-data.html#quarto-has-additional-features.",
+    "title": "5  Training Data",
+    "section": "5.5 Quarto has additional features.",
+    "text": "5.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Training Data</span>"
+    ]
+  },
+  {
+    "objectID": "6-image-restoration.html",
+    "href": "6-image-restoration.html",
+    "title": "6  Extending Your Hardware With AI",
+    "section": "",
+    "text": "6.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: This image restoration focused chapter motivates how AI can improve the image quality beyond hardware limitations. This chapter should include image restoration (denoising) and sensor-less AO (deep-learning-based AO); other topics can be included at the author’s discretion.\nNotes from the authors’ meeting: This chapter can start with a broader overview of the topic, which will reference existing reviews on the topic. Then the chapter will focus on a denoising tutorial, which will include discussions of potential pitfalls and best practices.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Extending Your Hardware With AI</span>"
+    ]
+  },
+  {
+    "objectID": "6-image-restoration.html#include-section-headers-as-appropriate",
+    "href": "6-image-restoration.html#include-section-headers-as-appropriate",
+    "title": "6  Extending Your Hardware With AI",
+    "section": "",
+    "text": "6.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Extending Your Hardware With AI</span>"
+    ]
+  },
+  {
+    "objectID": "6-image-restoration.html#bibliography-and-citations",
+    "href": "6-image-restoration.html#bibliography-and-citations",
+    "title": "6  Extending Your Hardware With AI",
+    "section": "6.2 Bibliography and Citations",
+    "text": "6.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Extending Your Hardware With AI</span>"
+    ]
+  },
+  {
+    "objectID": "6-image-restoration.html#adding-to-the-glossary",
+    "href": "6-image-restoration.html#adding-to-the-glossary",
+    "title": "6  Extending Your Hardware With AI",
+    "section": "6.3 Adding to the Glossary",
+    "text": "6.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Extending Your Hardware With AI</span>"
+    ]
+  },
+  {
+    "objectID": "6-image-restoration.html#sec-equation",
+    "href": "6-image-restoration.html#sec-equation",
+    "title": "6  Extending Your Hardware With AI",
+    "section": "6.4 Code and Equations",
+    "text": "6.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 6.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 6.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{6.1}\\]\n\n6.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 6.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Extending Your Hardware With AI</span>"
+    ]
+  },
+  {
+    "objectID": "6-image-restoration.html#quarto-has-additional-features.",
+    "href": "6-image-restoration.html#quarto-has-additional-features.",
+    "title": "6  Extending Your Hardware With AI",
+    "section": "6.5 Quarto has additional features.",
+    "text": "6.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Extending Your Hardware With AI</span>"
+    ]
+  },
+  {
+    "objectID": "7-smart-microscopy.html",
+    "href": "7-smart-microscopy.html",
+    "title": "7  Adding AI to Your Hardware",
+    "section": "",
+    "text": "7.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 7 motivates how AI can be used to control hardware. This chapter should focus on event-driven microscopy, but other smart microscopy topics can be included at the author’s discretion.\nNotes from the authors’ meeting: This chapter does not have to be extensively technical or include code snippets to be useful to the audience. An overview of smart microscopy as a concept is useful. Even though there are limited instances of event-driven microscopy so far, discussing what those instances accomplished, and why an experiment may consider investing in their use, will benefit readers of this book.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding AI to Your Hardware</span>"
+    ]
+  },
+  {
+    "objectID": "7-smart-microscopy.html#include-section-headers-as-appropriate",
+    "href": "7-smart-microscopy.html#include-section-headers-as-appropriate",
+    "title": "7  Adding AI to Your Hardware",
+    "section": "",
+    "text": "7.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding AI to Your Hardware</span>"
+    ]
+  },
+  {
+    "objectID": "7-smart-microscopy.html#bibliography-and-citations",
+    "href": "7-smart-microscopy.html#bibliography-and-citations",
+    "title": "7  Adding AI to Your Hardware",
+    "section": "7.2 Bibliography and Citations",
+    "text": "7.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding AI to Your Hardware</span>"
+    ]
+  },
+  {
+    "objectID": "7-smart-microscopy.html#adding-to-the-glossary",
+    "href": "7-smart-microscopy.html#adding-to-the-glossary",
+    "title": "7  Adding AI to Your Hardware",
+    "section": "7.3 Adding to the Glossary",
+    "text": "7.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding AI to Your Hardware</span>"
+    ]
+  },
+  {
+    "objectID": "7-smart-microscopy.html#sec-equation",
+    "href": "7-smart-microscopy.html#sec-equation",
+    "title": "7  Adding AI to Your Hardware",
+    "section": "7.4 Code and Equations",
+    "text": "7.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 7.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 7.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{7.1}\\]\n\n7.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 7.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding AI to Your Hardware</span>"
+    ]
+  },
+  {
+    "objectID": "7-smart-microscopy.html#quarto-has-additional-features.",
+    "href": "7-smart-microscopy.html#quarto-has-additional-features.",
+    "title": "7  Adding AI to Your Hardware",
+    "section": "7.5 Quarto has additional features.",
+    "text": "7.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Image Acquisition",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Adding AI to Your Hardware</span>"
+    ]
+  },
+  {
+    "objectID": "8-existing-tools.html",
+    "href": "8-existing-tools.html",
+    "title": "8  Finding and Using Existing Tools",
+    "section": "",
+    "text": "8.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 8 should discuss pre-existing tools that do not require programming knowledge. The chapter should start with a brief discussion of what to consider when searching for pre-trained models and software packages on sites (e.g., BioImage Model Zoo, Bioimage Informatics Index (BIII), image.sc). This should be followed by a discussion of a few specific tools (e.g., CellProfiler, Cellpose, ImageJ’s Weka Segmentation), highlighting what to look for in a tool, potential pitfalls, etc.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Finding and Using Existing Tools</span>"
+    ]
+  },
+  {
+    "objectID": "8-existing-tools.html#include-section-headers-as-appropriate",
+    "href": "8-existing-tools.html#include-section-headers-as-appropriate",
+    "title": "8  Finding and Using Existing Tools",
+    "section": "",
+    "text": "8.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Finding and Using Existing Tools</span>"
+    ]
+  },
+  {
+    "objectID": "8-existing-tools.html#bibliography-and-citations",
+    "href": "8-existing-tools.html#bibliography-and-citations",
+    "title": "8  Finding and Using Existing Tools",
+    "section": "8.2 Bibliography and Citations",
+    "text": "8.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Finding and Using Existing Tools</span>"
+    ]
+  },
+  {
+    "objectID": "8-existing-tools.html#adding-to-the-glossary",
+    "href": "8-existing-tools.html#adding-to-the-glossary",
+    "title": "8  Finding and Using Existing Tools",
+    "section": "8.3 Adding to the Glossary",
+    "text": "8.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Finding and Using Existing Tools</span>"
+    ]
+  },
+  {
+    "objectID": "8-existing-tools.html#sec-equation",
+    "href": "8-existing-tools.html#sec-equation",
+    "title": "8  Finding and Using Existing Tools",
+    "section": "8.4 Code and Equations",
+    "text": "8.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 8.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 8.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{8.1}\\]\n\n8.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 8.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Finding and Using Existing Tools</span>"
+    ]
+  },
+  {
+    "objectID": "8-existing-tools.html#quarto-has-additional-features.",
+    "href": "8-existing-tools.html#quarto-has-additional-features.",
+    "title": "8  Finding and Using Existing Tools",
+    "section": "8.5 Quarto has additional features.",
+    "text": "8.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Finding and Using Existing Tools</span>"
+    ]
+  },
+  {
+    "objectID": "9-train-models.html",
+    "href": "9-train-models.html",
+    "title": "9  Training and Using Your Own Models",
+    "section": "",
+    "text": "9.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 9 discusses the considerations (e.g., over/under-fitting, parameter choices) for training a new model and tools to help getting started (e.g. DL4MicEverywhere). It should include a primer on cloud-based computing tools such as Docker, Google Colab, etc. to highlight the potential for training models without bespoke hardware in house. This chapter should demonstrate a walk-through of training a model for segmentation, following the throughline of the book.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Training and Using Your Own Models</span>"
+    ]
+  },
+  {
+    "objectID": "9-train-models.html#include-section-headers-as-appropriate",
+    "href": "9-train-models.html#include-section-headers-as-appropriate",
+    "title": "9  Training and Using Your Own Models",
+    "section": "",
+    "text": "9.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Training and Using Your Own Models</span>"
+    ]
+  },
+  {
+    "objectID": "9-train-models.html#bibliography-and-citations",
+    "href": "9-train-models.html#bibliography-and-citations",
+    "title": "9  Training and Using Your Own Models",
+    "section": "9.2 Bibliography and Citations",
+    "text": "9.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Training and Using Your Own Models</span>"
+    ]
+  },
+  {
+    "objectID": "9-train-models.html#adding-to-the-glossary",
+    "href": "9-train-models.html#adding-to-the-glossary",
+    "title": "9  Training and Using Your Own Models",
+    "section": "9.3 Adding to the Glossary",
+    "text": "9.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Training and Using Your Own Models</span>"
+    ]
+  },
+  {
+    "objectID": "9-train-models.html#sec-equation",
+    "href": "9-train-models.html#sec-equation",
+    "title": "9  Training and Using Your Own Models",
+    "section": "9.4 Code and Equations",
+    "text": "9.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 9.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 9.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{9.1}\\]\n\n9.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 9.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Training and Using Your Own Models</span>"
+    ]
+  },
+  {
+    "objectID": "9-train-models.html#quarto-has-additional-features.",
+    "href": "9-train-models.html#quarto-has-additional-features.",
+    "title": "9  Training and Using Your Own Models",
+    "section": "9.5 Quarto has additional features.",
+    "text": "9.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>Training and Using Your Own Models</span>"
+    ]
+  },
+  {
+    "objectID": "10-output-quality.html",
+    "href": "10-output-quality.html",
+    "title": "10  Output Quality",
+    "section": "",
+    "text": "10.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Output Quality</span>"
+    ]
+  },
+  {
+    "objectID": "10-output-quality.html#include-section-headers-as-appropriate",
+    "href": "10-output-quality.html#include-section-headers-as-appropriate",
+    "title": "10  Output Quality",
+    "section": "",
+    "text": "10.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Output Quality</span>"
+    ]
+  },
+  {
+    "objectID": "10-output-quality.html#bibliography-and-citations",
+    "href": "10-output-quality.html#bibliography-and-citations",
+    "title": "10  Output Quality",
+    "section": "10.2 Bibliography and Citations",
+    "text": "10.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Output Quality</span>"
+    ]
+  },
+  {
+    "objectID": "10-output-quality.html#adding-to-the-glossary",
+    "href": "10-output-quality.html#adding-to-the-glossary",
+    "title": "10  Output Quality",
+    "section": "10.3 Adding to the Glossary",
+    "text": "10.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Output Quality</span>"
+    ]
+  },
+  {
+    "objectID": "10-output-quality.html#sec-equation",
+    "href": "10-output-quality.html#sec-equation",
+    "title": "10  Output Quality",
+    "section": "10.4 Code and Equations",
+    "text": "10.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 10.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 10.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{10.1}\\]\n\n10.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 10.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Output Quality</span>"
+    ]
+  },
+  {
+    "objectID": "10-output-quality.html#quarto-has-additional-features.",
+    "href": "10-output-quality.html#quarto-has-additional-features.",
+    "title": "10  Output Quality",
+    "section": "10.5 Quarto has additional features.",
+    "text": "10.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "Image Analysis",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>Output Quality</span>"
+    ]
+  },
+  {
+    "objectID": "11-outlook.html",
+    "href": "11-outlook.html",
+    "title": "11  Outlook",
+    "section": "",
+    "text": "11.1 Include section headers as appropriate\nUnder your first header, include a brief introduction to your chapter.\nStarting prompt for this chapter: Chapter 11 concludes the book with a forward-looking assessment of AI in microscopy, focusing on how it can/will enable biological discovery. It should highlight a few motivational examples of discoveries that AI has already enabled and discuss opportunities to which the reader is primed to contribute after reading this book.\nUse markdown heading level two for section headers. You can use standard markdown formatting, for example emphasize the end of this sentence.\nThis is a new paragraph with more text. Your paragraphs can cross reference other items, such as Figure 11.1. Use fig to reference figures, and eq to reference equations, such as Equation 11.1.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Outlook</span>"
+    ]
+  },
+  {
+    "objectID": "11-outlook.html#include-section-headers-as-appropriate",
+    "href": "11-outlook.html#include-section-headers-as-appropriate",
+    "title": "11  Outlook",
+    "section": "",
+    "text": "11.1.1 Sub-subsection headers are also available\nTo make your sections cross reference-able throughout the book, include a section reference, as shown in the header for Section 11.4.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Outlook</span>"
+    ]
+  },
+  {
+    "objectID": "11-outlook.html#bibliography-and-citations",
+    "href": "11-outlook.html#bibliography-and-citations",
+    "title": "11  Outlook",
+    "section": "11.2 Bibliography and Citations",
+    "text": "11.2 Bibliography and Citations\nTo cite a research article, add it to references.bib and then refer to the citation key. For example, reference1 refers to CellPose and reference2 refers to ZeroCostDL4Mic.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Outlook</span>"
+    ]
+  },
+  {
+    "objectID": "11-outlook.html#adding-to-the-glossary",
+    "href": "11-outlook.html#adding-to-the-glossary",
+    "title": "11  Outlook",
+    "section": "11.3 Adding to the Glossary",
+    "text": "11.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Outlook</span>"
+    ]
+  },
+  {
+    "objectID": "11-outlook.html#sec-equation",
+    "href": "11-outlook.html#sec-equation",
+    "title": "11  Outlook",
+    "section": "11.4 Code and Equations",
+    "text": "11.4 Code and Equations\nThis is an example of including a python snippet that generates a figure\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\n\n\n\n\n\n\nFigure 11.1: Simple Plot\n\n\n\n\n\nIn some cases, you may want to include a code-block that is not executed when the book is compiled. Use the eval: false option for this.\n\nimport matplotlib.pyplot as plt\nplt.plot([1,23,2,4])\nplt.show()\n\nFigures can also be generated that do not show the code by using the option for code-fold: true.\n\n\nCode\nimport numpy as np\nimport matplotlib.pyplot as plt\n\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\nfig, ax = plt.subplots(\n  subplot_kw = {'projection': 'polar'} \n)\nax.plot(theta, r)\nax.set_rticks([0.5, 1, 1.5, 2])\nax.grid(True)\nplt.show()\n\n\n\n\n\n\n\n\nFigure 11.2: A spiral on a polar axis\n\n\n\n\n\nHere is an example equation.\n\\[\ns = \\sqrt{\\frac{1}{N-1} \\sum_{i=1}^N (x_i - \\overline{x})^2}\n\\tag{11.1}\\]\n\n11.4.1 Embedding Figures\nYou can also embed figures from other notebooks in the repo as shown in the following embed example.\n\n\n\n\n\n\n\n\n\nFigure 11.3: Polar plot of circles of random areas at random coords\n\n\n\n\n\n\nWhen embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, chapter4_example_u-net.ipynb. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Outlook</span>"
+    ]
+  },
+  {
+    "objectID": "11-outlook.html#quarto-has-additional-features.",
+    "href": "11-outlook.html#quarto-has-additional-features.",
+    "title": "11  Outlook",
+    "section": "11.5 Quarto has additional features.",
+    "text": "11.5 Quarto has additional features.\nYou can learn more about markdown options and additional Quarto features in the Quarto documentation. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.\n\n\n\n\n\n\nNote\n\n\n\nNote that there are five types of callouts, including: note, tip, warning, caution, and important. They can default to open (like this example) or collapsed (example below).\n\n\n\n\n\n\n\n\nTip\n\n\n\n\n\nThese could be good for extra material or exercises.\n\n\n\n\n\n\n\n\n\nCaution\n\n\n\nThere are caveats when applying these tools. Expand the code below to learn more.\n\n\nCode\nr = np.arange(0, 2, 0.01)\ntheta = 2 * np.pi * r\n\n\n\n\n\n\n\n\n\n\nWarning\n\n\n\nBe careful to avoid hallucinations.\n\n\n\n\n\n\n\n\nImportant\n\n\n\nThis is key information.\n\n\n\n\n\n\n1. Stringer, C., Wang, T., Michaelos, M. & Pachitariu, M. Cellpose: A generalist algorithm for cellular segmentation. Nature Methods 18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nature Communications 12, 2276 (2021).",
+    "crumbs": [
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>Outlook</span>"
+    ]
+  },
+  {
+    "objectID": "glossary.html",
+    "href": "glossary.html",
+    "title": "Glossary",
+    "section": "",
+    "text": "Term  Definition \n\nThe glossary table will be automatically generated here after we resolve formatting issues.\n\nTemporary Troubleshooting Table\nSee https://github.com/debruine/quarto-glossary/issues/10\n\n\nHallucinations\n\nOutputs from a model that do not have a basis in the input data and may contain false or misleading information.\n\n\nTraining Data\n\nData used to train an algorithm to make predictions.",
+    "crumbs": [
+      "Glossary"
+    ]
+  },
+  {
+    "objectID": "references.html",
+    "href": "references.html",
+    "title": "References",
+    "section": "",
+    "text": "1. Stringer, C., Wang, T., Michaelos, M. &\nPachitariu, M. Cellpose: A generalist\nalgorithm for cellular segmentation. Nature Methods\n18, 100–106 (2021).\n\n\n2. Chamier, L. von et al. Democratising deep\nlearning for microscopy with ZeroCostDL4Mic. Nature\nCommunications 12, 2276 (2021).",
+    "crumbs": [
+      "References"
+    ]
+  }
+]
