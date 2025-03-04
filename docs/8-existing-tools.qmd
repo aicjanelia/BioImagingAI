@@ -3,18 +3,17 @@ author:
   - name: Beth Cimini
     orcid: 0000-0001-9640-9318
     affiliations:
-      - name: Broad Institute
+      - name: Imaging Platform, Broad Institute
         state: MA
         country: USA
         postal-code: 02142
-  - name: Add any co-authors as appropriate
-    orcid: 
+  - name: Erin Weisbart
+    orcid: 0000-0002-6437-2458
     affiliations:
-      - name: 
-        state: 
-        country: 
-        postal-code: 
-subtitle: optionally add a subtitle
+      - name: Imaging Platform, Broad Institute
+        state: MA
+        country: USA
+        postal-code: 02142
 ---
 
 # Finding and Using Existing Tools

@@ -10,6 +10,7 @@ book:
   repo-url: https://github.com/aicjanelia/BioImagingAI
   cover-image: settings/cover.png
   favicon: settings/favicon.png
+  google-analytics: "G-Y29EKZ8LWD"
   editor: 
     - Owen Puls
     - Rachel Lee
