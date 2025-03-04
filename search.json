@@ -44,7 +44,7 @@
     "href": "1-intro.html#adding-to-the-glossary",
     "title": "1  Introduction",
     "section": "1.3 Adding to the Glossary",
-    "text": "1.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "1.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
@@ -107,7 +107,7 @@
     "href": "2-primer.html#adding-to-the-glossary",
     "title": "2  AI Primer",
     "section": "2.3 Adding to the Glossary",
-    "text": "2.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "2.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "Getting Started with AI",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>AI Primer</span>"
@@ -173,7 +173,7 @@
     "href": "3-llms.html#adding-to-the-glossary",
     "title": "3  Promise and Pitfalls of Large Language Models",
     "section": "3.3 Adding to the Glossary",
-    "text": "3.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "3.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "Getting Started with AI",
       "<span class='chapter-number'>3</span>  <span class='chapter-title'>Promise and Pitfalls of Large Language Models</span>"
@@ -239,7 +239,7 @@
     "href": "4-architectures.html#adding-to-the-glossary",
     "title": "4  Architectures and Loss Models",
     "section": "4.3 Adding to the Glossary",
-    "text": "4.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "4.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "Getting Started with AI",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Models</span>"
@@ -305,7 +305,7 @@
     "href": "5-training-data.html#adding-to-the-glossary",
     "title": "5  Training Data",
     "section": "5.3 Adding to the Glossary",
-    "text": "5.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "5.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "Image Acquisition",
       "<span class='chapter-number'>5</span>  <span class='chapter-title'>Training Data</span>"
@@ -371,7 +371,7 @@
     "href": "6-image-restoration.html#adding-to-the-glossary",
     "title": "6  Extending Your Hardware With AI",
     "section": "6.3 Adding to the Glossary",
-    "text": "6.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "6.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "Image Acquisition",
       "<span class='chapter-number'>6</span>  <span class='chapter-title'>Extending Your Hardware With AI</span>"
@@ -503,7 +503,7 @@
     "href": "8-existing-tools.html#adding-to-the-glossary",
     "title": "8  Finding and Using Existing Tools",
     "section": "8.3 Adding to the Glossary",
-    "text": "8.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "8.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "Image Analysis",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Finding and Using Existing Tools</span>"
@@ -635,7 +635,7 @@
     "href": "10-output-quality.html#adding-to-the-glossary",
     "title": "10  Output Quality",
     "section": "10.3 Adding to the Glossary",
-    "text": "10.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "10.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "Image Analysis",
       "<span class='chapter-number'>10</span>  <span class='chapter-title'>Output Quality</span>"
@@ -698,7 +698,7 @@
     "href": "11-outlook.html#adding-to-the-glossary",
     "title": "11  Outlook",
     "section": "11.3 Adding to the Glossary",
-    "text": "11.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
+    "text": "11.3 Adding to the Glossary\nWe are using the extension Quarto-glossary to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from Outputs from a model that do not have a basis in the input data and may contain false or misleading information.hallucinations. It is important to understand the underlying Data used to train an algorithm to make predictions.training data to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the Glossary.",
     "crumbs": [
       "<span class='chapter-number'>11</span>  <span class='chapter-title'>Outlook</span>"
     ]
