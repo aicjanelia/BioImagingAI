@@ -1,7 +1,7 @@
 project:
   type: book
   resources:
-  - ../CNAME
+  - CNAME
 
 book:
   title: "AI in Microscopy: A BioImaging Guide"
