@@ -16,23 +16,83 @@ author:
         postal-code: 02142
 ---
 
-# Finding and Using Existing Tools
-<!--Your first header will be the chapter's upper-level table of contents title.-->
-<!--If you'd like to have a subtitle, include it in the Quarto header above -->
+# Finding and Selecting Existing Tools
 
-Under your first header, include a brief introduction to your chapter.
+How do you find new-to-you AI models and how do you assess whether a new-to-you model or tool will meet your needs?
+In this chapter, we first help you assess your needs.
+We then introduce a way of categorizing tools and help you use your needs assessment to select the right tool category.
+We suggest several places where you can find AI models for bioimage analysis and describe how to assess how well tools in those locations meet your needs.
+Finally, we show a couple of case studies that fulfill different requirements.
 
-Starting prompt for this chapter: Chapter 8 should discuss pre-existing tools that do not require programming knowledge. The chapter should start with a brief discussion of what to consider when searching for pre-trained models and software packages on sites (e.g., BioImage Model Zoo, Bioimage Informatics Index (BIII), image.sc). This should be followed by a discussion of a few specific tools (e.g., CellProfiler, Cellpose, ImageJ’s Weka Segmentation), highlighting what to look for in a tool, potential pitfalls, etc.
+## Assessing your requirements for a tool
 
-## Include section headers as appropriate
+Before finding and selecting an AI tool, you first need to decide on the type of tool you need.
+Your tool selection will be influenced by a number of factors and you should first honestly answer the following questions:
 
-Use markdown heading level two for section headers. You can use standard markdown formatting, for example _emphasize the end of this sentence_.
+### Questions about your time and expertise:
 
-This is a new paragraph with more text. Your paragraphs can cross reference other items, such as @fig-simple. Use `fig` to reference figures, and `eq` to reference equations, such as @eq-stddev.
+* How much time are you able to put into the task?
+* What is your level of computation comfort?
+    * Do you have the time and motivation to expand your skillset by building new skills outside of your comfort zone?
+    * Do you have a computational collaborator and how much time are they able to contribute?
+* What is your level of biological domain expertise?
+    * Are you confident that you fully understand the task so you can assess how well your AI model is performing?
+    * Do you have a biologist collaborator and how much time are they able to contribute?
 
-###  Sub-subsection headers are also available
+### Questions about your input data:
 
-To make your sections cross reference-able throughout the book, include a section reference, as shown in the header for @sec-equation.
+* How difficult are your images?
+    * Do your images have debris or other technical artifacts?
+    * Do those artifacts need to be identified and removed?
+    * If identified, should the whole image be dropped or do you need to keep non-artifact areas of the image?
+* How big is your data?
+    * What dimensionality is big? e.g. many images, large images
+* Do you need outputs in multiple dimensions?
+    * e.g. If you have z-planes, do you need 3D objects or can each plane be handled separately?
+    * e.g. If you have multiple timepoints, do you need objects tracked across timepoints or can each t be handled separately?
+
+### Questions about your output data:
+
+* What is your desired output? 
+    * Object segmentations? measurements made on individual objects?
+* Do you need all of the outputs to be made in a single software or are you comfortable using multiple softwares?
+
+
+## Choosing the kind of tool to use
+
+Considering the use case of segmentation, which is often a first step in image analysis workflows, there are 5 categories of segmentation methods, each of which has its valid use cases.
+Ordered by levels of computation comfort required they are:
+
+1) Manual annotation. 
+
+2) Classical image processing
+
+3) Pixel based machine learning
+
+4) Pretrained deep learning models
+
+5) Finetuned deep learning models
+
+*(For each of the categories we will discuss pros, cons, use cases, and point to a couple example softwares)*
+
+## Finding models
+
+* *Where to look for models. *
+    * BioImage Model Zoo, 
+    * Bioimage Informatics Index (Biii)
+    * forum.image.sc
+* How to tell if a new-to-you model meets your needs
+    * How does it fit with initial needs assessment
+    * Does it (easily) run in other software, e.g.
+        * CellProfiler
+        * FIJI
+        * Bilayers
+        * ZeroCostDL4Mic
+
+## Case Studies
+
+* Example 1
+* Example 2
 
 ## Bibliography and Citations
 
