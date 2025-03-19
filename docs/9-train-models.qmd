@@ -10,7 +10,142 @@ author:
     affiliations:
       - name: Åbo Akademi University
         country: Finland
+  - name: Iván Hidalgo-Cenalmor
+    orcid: 0009-0000-8923-568X
+    affiliations:
+      - name: Åbo Akademi University
+        country: Finland
+
 subtitle: optionally add a subtitle
+---
+# Chapter 9: How to Train and Use Deep Learning Models in Microscopy
+
+**Practical considerations to train and use deep learning models in microscopy**
+
+## 1. Introduction 
+
+* The landscape evolves constantly; here, we provide some general principles  
+* When to use DL or not?  
+* Finding trained models  
+* Why and when train your own model?
+
+Table   
+What do you want to do \- what can you do \- what do you have to run
+
+## 2. Assessing the performance of a model 
+
+* With the growing availability of trained models, it is essential to start by discussing how to assess the quality of the tools  
+* Defining the objective of the image analysis (Image segmentation vs. classification, restoration..) and scope (dataset specific vs general model)  
+* Visual inspection and Quality metrics	
+
+## 3. Training a segmentation model 
+
+Choosing a model architecture based on the type of segmentation (Binary, semantic, instance) and dimensionality (2D vs 3D segmentation). Depending on the available computing power these training speed and architecture are something that should be taken into account.
+
+Possible image here to showcase common tasks solved with DL, if not covered in other chapters.
+
+### 3.1 Preparing a training dataset
+
+* Training dataset size (dataset specific vs a more general model)  
+* Number of images for training \- Need to have enough labels / masks  
+* Manual annotations  
+* DL/AI to accelerate and curate training datasets (micro-sam, Cellpose, manual curation)  
+* Data augmentation and synthetic data
+
+### 3.2 Training a model from scratch 
+
+* Dataset split (train and validation) \+ data for quality control)  
+* Training is an iterative process  
+* Key Training parameters  
+  * Batch size, epochs, and optimizer selection, learning rate, field of view of the network  
+* Understanding the training and validation loss  
+  * Overfitting & Underfitting
+
+### 3.3 Fine Tuning an existing model and iterative training 
+
+* Transfer learning  
+* Classic fine-tuning  
+* Human-in-the-loop fine-tuning
+
+With 3.2 and 3.3 would be nice to include a figure about different ways to train a model.
+
+### 3.4 Troubleshooting common issues 
+
+## 4. Getting started 
+
+### 4.1 Where to use and train DL models 
+
+- Computing power  
+- Cloud-based resources  
+- Local resources  
+- Servers
+
+Figure X: Here we introduce different ways of training and deploying DL models using cloud and local resources. We also give some examples of current tools that could be used here. Image similar to what was in von Chamier, L., Laine, R.F., Jukkala, J. et al. Democratising deep learning for microscopy with ZeroCostDL4Mic. Nat Commun 12, 2276 (2021). [https://doi.org/10.1038/s41467-021-22518-0](https://doi.org/10.1038/s41467-021-22518-0):
+
+### 4.2. Tools available to use and train DL models
+
+* Tool for Deep learning depending on your comfort zone:  
+  * Code  
+    * Python libraries  
+    * TensorFlow/Keras and PyTorch  
+    * Matlab, etc  
+  * Notebooks  
+    * Biapy  
+    * DL4MicEverywhere for microscopy-specific training.  
+    * ZeroCostDL4Mic  
+  * Graphical interface  
+    * CellPose GUI  
+    * DeepImageJ
+
+### 4.3. Toward reproducibility in DL 
+
+* A DL model is: a dataset \+ code \+ underlying libraries  
+* Docker containers
+
+# 5. Practical Guide: Training a Segmentation Model 
+
+Step-by-step walkthrough of training a deep learning model for segmentation (Stardist or Cellpose). Here we will also have a figure that shows the steps. 
+
+Figure X: Steps of training a segmentation model
+
+### Step 0: Defining the task at hand 
+
+What do you want the DL to do?  
+What model would be the best to use?  
+Are there existing models?
+
+### Step 1: Preparing Data
+
+Dataset selection (open datasets and in-house data).  
+Training data preparation.  
+Splitting into training, validation, and test data.
+
+### Step 2: Setting Up the Training Environment
+
+Installing necessary libraries (TensorFlow/PyTorch, OpenCV, Albumentations).  
+Running models on Google Colab or Docker for easy setup.
+
+### Step 3: Training and validating the Model
+
+Running training.  
+Monitoring loss curves and performance metrics.
+
+### Step 4: Evaluating the Model
+
+Using IoU, F1-score for segmentation assessment for test dataset.  
+Fine-tuning for better performance if needed
+
+### Step 5: Applying the model to own data
+
+Applying the trained model to new microscopy images. Assessing the need for retraining  
+(Post-processing predictions)
+
+# 6. Summary & Outlook
+
+Key takeaways from training deep learning models in microscopy.  
+Future directions in AI-driven microscopy training.  
+Additional resources for hands-on learning.
+
 ---
 
 # Training and Using Your Own Models
