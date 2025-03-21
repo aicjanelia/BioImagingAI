@@ -28,7 +28,8 @@ Image restoration is the process of improving the quality of degraded images by 
 
 ## Image Restoration with Traditional Approaches
 
-(Start by explaining the image degradation model with the following formula and then guide the readers to the four kinds of image restoration in this chapter.)
+Start by explaining the image degradation model with the following formula and then guide the readers to the four kinds of image restoration in this chapter.
+
 $$
 i = e \otimes f ( \phi ) + n
 $$ {#eq-image_restoration}
