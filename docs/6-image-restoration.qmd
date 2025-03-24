@@ -4,7 +4,30 @@ author:
     orcid: 0000-0002-2093-8771
     affiliations:
       - name: Zhejiang University
+        city: Hangzhou
         country: China
+        postal-code: 310027
+  - name: Jun Zhu
+    # orcid: xxx
+    affiliations:
+      - name: Zhejiang University
+        city: Hangzhou
+        country: China
+        postal-code: 310027
+  - name: Mingzhe Wei
+    # orcid: xxx
+    affiliations:
+      - name: Zhejiang University
+        city: Hangzhou
+        country: China
+        postal-code: 310027
+  - name: Yue Li
+    orcid: 0000-0002-9299-0974
+    affiliations:
+      - name: Zhejiang University
+        city: Hangzhou
+        country: China
+        postal-code: 310027
   - name: Hari Shroff
     orcid: 0000-0003-3613-8215
     affiliations:
@@ -14,9 +37,10 @@ author:
         postal-code: 20147
 subtitle: Microscopic Image Restoration with Artificial Intelligence
 ---
+
 # Microscopic Image Restoration with Artificial Intelligence
 
-Fluorescence microscopy is central to biological discovery, enabling the visualization of cellular and subcellular structures with exquisite detail. From observing dynamic intracellular processes to mapping entire tissues, microscopy is indispensable for understanding biological systems. However, the quality of microscopic images is often compromised due to intrinsic limitations such as noise, optical aberrations, diffraction, and limited signal. These factors hinder analysis and interpretation, particularly when studying fine biological structures or dynamic processes. [to give some specific examples of ‘analysis and interpretation’ tasks, e.g. segmentation/quantification/tracking etc.]
+Fluorescence microscopy is central to biological discovery, enabling the visualization of cellular and subcellular structures with exquisite detail. From observing dynamic intracellular processes to mapping entire tissues, microscopy is indispensable for understanding biological systems. However, the quality of microscopic images is often compromised due to intrinsic limitations such as noise, optical aberrations, diffraction, and limited signal. These factors hinder analysis and interpretation, particularly when studying fine biological structures or dynamic processes. \[to give some specific examples of ‘analysis and interpretation’ tasks, e.g. segmentation/quantification/tracking etc.\]
 
 To overcome these challenges, image restoration techniques have been developed to enhance the quality of microscopic images by addressing limitations due to signal, noise, blur, aberrations, and spatial resolution. Traditionally, these techniques relied on mathematical algorithms and physical models of the imaging process. However, recent advances in artificial intelligence (AI), particularly deep learning, have transformed image restoration by enabling data-driven approaches that offer improved performance and flexibility.
 
@@ -36,10 +60,10 @@ $$ {#eq-image_restoration}
 
 Traditional methods of image restoration rely on mathematical modeling of the imaging process and statistical analysis. These approaches address specific image degradation issues, such as noise, blur, or aberrations. Common techniques include:
 
-1.	Denoising: Filtering-based methods like mean filtering, Gaussian filtering, median filtering, and non-local means are used to reduce noise while preserving image details.
-2.	Deconvolution: Algorithms like Richardson-Lucy deconvolution use the point spread function (PSF) of the microscope to reverse the effects of optical blur.
-3.	Deaberration: Wavefront correction (e.g., adaptive optics) mitigates aberrations caused by refractive index mismatches in the sample.[mention the concept of aberrations when explaining the above formula, and describe it in more detail here.]
-4.	Resolution Enhancement: Optical super-resolution techniques, like structured illumination microscopy (SIM) and stimulated emission depletion (STED), bypass the diffraction limit.
+1.  Denoising: Filtering-based methods like mean filtering, Gaussian filtering, median filtering, and non-local means are used to reduce noise while preserving image details.
+2.  Deconvolution: Algorithms like Richardson-Lucy deconvolution use the point spread function (PSF) of the microscope to reverse the effects of optical blur.
+3.  Deaberration: Wavefront correction (e.g., adaptive optics) mitigates aberrations caused by refractive index mismatches in the sample.\[mention the concept of aberrations when explaining the above formula, and describe it in more detail here.\]
+4.  Resolution Enhancement: Optical super-resolution techniques, like structured illumination microscopy (SIM) and stimulated emission depletion (STED), bypass the diffraction limit.
 
 While effective, traditional methods often require precise modeling of the imaging system, careful parameter tuning, and significant computational resources. Moreover, their performance can be limited in highly noisy or complex imaging conditions.
 
@@ -47,71 +71,77 @@ While effective, traditional methods often require precise modeling of the imagi
 
 The advent of artificial intelligence (AI), particularly deep learning, has transformed image restoration in microscopy. Deep learning models, such as convolutional neural networks (CNNs), are capable of learning complex patterns and relationships directly from data without explicit modeling of the imaging system. These models offer several advantages:
 
-* Data-Driven: Deep learning algorithms learn from paired datasets of degraded images and their high-quality counterparts, making them adaptable to diverse imaging conditions.
-*	Generalization: Once trained, AI models can generalize to new datasets with similar imaging conditions or sample structure, enabling rapid restoration. [Mention the limitations of DL vs traditional methods: also in Section 5/caveats.]
-*	Performance: Deep learning methods often outperform traditional approaches in denoising, deconvolution, and resolution enhancement, especially for low signal-to-noise ratio (SNR) data.
+-   Data-Driven: Deep learning algorithms learn from paired datasets of degraded images and their high-quality counterparts, making them adaptable to diverse imaging conditions.
+-   Generalization: Once trained, AI models can generalize to new datasets with similar imaging conditions or sample structure, enabling rapid restoration. \[Mention the limitations of DL vs traditional methods: also in Section 5/caveats.\]
+-   Performance: Deep learning methods often outperform traditional approaches in denoising, deconvolution, and resolution enhancement, especially for low signal-to-noise ratio (SNR) data.
 
 Recent advances, such as content-aware restoration (CARE), residual channel attention networks (RCANs), and deep Fourier-based models, have demonstrated remarkable success in improving image quality while reducing phototoxicity and photobleaching during acquisition.
 
-# Deep Learning-Based Techniques for Image Restoration 
+# Deep Learning-Based Techniques for Image Restoration
 
 We categorize image restoration into four main areas: denoising, deconvolution, deaberration, and resolution enhancement. Each category addresses a specific type of image degradation, contributing to improved visualization and analysis.
 
 ## Denoising
 
-* Noise2Noise
-* Noise2Void
-* CARE
-* RCAN
-* And more
+-   Noise2Noise
+-   Noise2Void
+-   CARE
+-   RCAN
+-   And more
 
 ## Deconvolution
 
-* Supervised Learning: Neural networks trained on paired low-resolution and high-resolution images can predict deblurred outputs, eg, 3D RCAN.
-* Physics-Informed Models: Incorporating PSF models into deep learning frameworks improves interpretability and performance, eg, RL-net.
+-   Supervised Learning: Neural networks trained on paired low-resolution and high-resolution images can predict deblurred outputs, eg, 3D RCAN.
+-   Physics-Informed Models: Incorporating PSF models into deep learning frameworks improves interpretability and performance, eg, RL-net.
 
 ## Deaberration
 
-* Wavefront Prediction: Neural networks trained to explicitly sense aberrated wavefront.
-* Aberration removal on images: Neural networks trained on paired aberrated and corrected images to predict aberration corrections without explicit wavefront sensing, e.g, DeAbe model, HD2Net.
+-   Wavefront Prediction: Neural networks trained to explicitly sense aberrated wavefront.
+-   Aberration removal on images: Neural networks trained on paired aberrated and corrected images to predict aberration corrections without explicit wavefront sensing, e.g, DeAbe model, HD2Net.
 
 ## Resolution Enhancement
 
-* Cross-Modality Super-Resolution: Neural networks trained on paired low-resolution and high-resolution datasets (e.g., confocal to STED with 3D-RCAN) can improve spatial resolution while reducing phototoxicity.
-* Fourier-Based Approaches: Frequency domain models enhance high-frequency details, enabling long-term super-resolution imaging, e.g, DFCAN for SIM.
-* Expansion Microscopy-Inspired Models: Networks trained on expansion microscopy data predict super-resolution images from diffraction-limited inputs. [Note: to mention the importance of precise registration.]
+-   Cross-Modality Super-Resolution: Neural networks trained on paired low-resolution and high-resolution datasets (e.g., confocal to STED with 3D-RCAN) can improve spatial resolution while reducing phototoxicity.
+-   Fourier-Based Approaches: Frequency domain models enhance high-frequency details, enabling long-term super-resolution imaging, e.g, DFCAN for SIM.
+-   Expansion Microscopy-Inspired Models: Networks trained on expansion microscopy data predict super-resolution images from diffraction-limited inputs. \[Note: to mention the importance of precise registration.\]
 
 # Practical Guidelines for Image Registration
 
 ## Step-by-step Workflow
 
-1. Dataset preparation
-  * Acquire paired datasets of degraded and high-quality images for supervised training.
-  * For unsupervised methods, collect degraded images with varying conditions.
+1.  Dataset preparation
 
-2. Model Training
-  * Use open-source frameworks like TensorFlow or PyTorch.
-  * Choose or design networks (e.g., CARE, Noise2Void), or even start with pre-trained models for faster deployment.
+-   Acquire paired datasets of degraded and high-quality images for supervised training.
+-   For unsupervised methods, collect degraded images with varying conditions.
 
-3. Validation
-  * Validate restoration quality using metrics like SSIM and PSNR.
-  * Perform biological validation to ensure restored images are artifact-free.
+2.  Model Training
 
-4. 3D-RCAN as an example to get feet wet
-  * See the PDF (complied from GitHub Markdown) as an appendix
+-   Use open-source frameworks like TensorFlow or PyTorch.
+-   Choose or design networks (e.g., CARE, Noise2Void), or even start with pre-trained models for faster deployment.
 
-<span style="color:red">Figures to illustrate each section</span>.
+3.  Validation
+
+-   Validate restoration quality using metrics like SSIM and PSNR.
+-   Perform biological validation to ensure restored images are artifact-free.
+
+4.  3D-RCAN as an example to get feet wet
+
+-   See the PDF (complied from GitHub Markdown) as an appendix
+
+[Figures to illustrate each section]{style="color:red"}.
 
 # Failure Modes and Outlook for the Future
 
-  * Caveats and issues: guidance and comments.
-  * Newer methods and looking forward: transformers and others.
-
+-   Caveats and issues: guidance and comments.
+-   Newer methods and looking forward: transformers and others.
 
 <!--# Extending Your Hardware With AI-->
+
 <!--Your first header will be the chapter's upper-level table of contents title.-->
+
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
+````{=html}
 <!---
 Under your first header, include a brief introduction to your chapter.
 
@@ -227,3 +257,4 @@ Be careful to avoid hallucinations.
 ::: {.callout-important}
 This is key information.
 :::-->
+````
