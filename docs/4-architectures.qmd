@@ -25,6 +25,23 @@ Under your first header, include a brief introduction to your chapter.
 
 Starting prompt for this chapter: Chapter 4 introduces architectures and loss models, defining them and providing examples through two practical case studies: image restoration and segmentation. Although this chapter will include code snippets/exercises, the presentation of essential concepts should communicate the philosophy behind the choice of a model for non-programmers.
 
+## Initial Outline
+### Intro/abstract
+The problems faced by biologists differ from traditional computer vision problems, such as object recognition or object detection. General object detection models are typically trained on natural scenes with only a few objects in each scene and with only rough outlines of such objects. However, biologists in many cases need to detect tens to hundreds of cells in a single image, often with highly precise segmentation of cell boundaries. As a result, the optimal architectures and loss functions for biological problems may not align with standard computer vision approaches. In this chapter, we will introduce and describe some useful neural network architectures and loss functions for biological applications, with a focus on segmentation. Subsequent chapters will examine other biological problems, expanding on these concepts.
+
+### Outline
+* Conceptual introduction
+  + What is an architecture? There are inputs, outputs, and a configuration in the middle.
+  + What is a loss function? What does it accomplish for a network?
+* Basic binary cross-entropy loss function 0-1 for cell pixel vs non-cell pixel
+  + Explain computing gradients and adjusting weights with tiny example?
+* Traditional convolutional neural network e.g. for object recognition (refer to additional resources for CNN explanations)
+* Transforming traditional CNNs to U-nets for precise per pixel prediction
+* Adding boundary pixels for 0-1-2 multi-class prediction
+* Introduce mean-squared error loss - auxillary prediction variables like distance to boundary, stardist loss, cellpose loss
+* Conceptual overview of Recent architectures for segmentation: SAM (ViT + prompt decoder), DETR, Swin transformer, … ?
+* Potentially mention FPNs and Mask RCNN
+
 ## Include section headers as appropriate
 
 Use markdown heading level two for section headers. You can use standard markdown formatting, for example _emphasize the end of this sentence_.
