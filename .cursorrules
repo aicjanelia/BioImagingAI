@@ -1,0 +1,132 @@
+// CursorRules for BioImaging AI Textbook
+// This file guides AI assistance for the textbook "Computational Bioimaging: Artificial Intelligence for Microscopists"
+
+/**
+ * TEXTBOOK PURPOSE & AUDIENCE
+ */
+purpose: "Make AI accessible to life scientists and microscopists without programming experience"
+audience: "Biologists, microscopists, and life scientists with minimal AI/programming background"
+scope: "AI applications across microscopy workflow: experiment design, image acquisition, processing, segmentation, analysis"
+
+/**
+ * WRITING STYLE REQUIREMENTS
+ */
+style {
+  tone: "Clear, accessible, engaging"
+  avoid: "Unnecessary technical jargon"
+  use: "Lab-based or microscopy-related analogies when helpful"
+  focus: "Practical applications of AI with concrete examples"
+}
+
+/**
+ * BOOK STRUCTURE
+ */
+sections {
+  introduction: "Chapter 1: Overview of AI in microscopy workflow"
+  
+  section_1: "Getting Started with AI" {
+    chapter_2: "Intro to AI for microscopists (terms, concepts)"
+    chapter_3: "LLMs in microscopy (ChatGPT, BioImage.io chatbot)"
+    chapter_4: "AI architectures and loss functions (with case studies)"
+  }
+  
+  section_2: "Image Acquisition" {
+    chapter_5: "Training data (collection, validation, pitfalls)"
+    chapter_6: "Enhancing image quality with AI (denoising, sensorless AO)"
+    chapter_7: "Controlling microscopes with AI (event-driven, smart microscopy)"
+  }
+  
+  section_3: "Image Quantification" {
+    chapter_8: "Using existing tools (CellProfiler, DeepImageJ, BioImage Model Zoo)"
+    chapter_9: "Training your own models (cloud tools, segmentation walkthrough)"
+    chapter_10: "Evaluating models and output quality (segmentation, uncertainty)"
+  }
+  
+  outlook: "Chapter 11: Future impact of AI on biological discovery"
+}
+
+/**
+ * FORMATTING RULES (QUARTO)
+ */
+formatting {
+  chapter_title: "Use one top-level header (#) for chapter title"
+  sections: "Use ## and ### for section headers"
+  citations: "Add using @refname format (must exist in _references.bib)"
+  code: {
+    simple: "Use embedded chunks for simple examples"
+    complex: "Use separate notebook in notebooks/ directory and embed it"
+    naming: "Name notebooks as chapter#_descriptive_name.ipynb"
+  }
+  images: "Prefer image URLs; contact editors for local images"
+}
+
+/**
+ * CONTRIBUTION WORKFLOW
+ */
+workflow {
+  branch: "Work in dedicated branch, not main"
+  pr: "Submit Pull Request for feedback/review"
+  pr_description: "Indicate if first draft, revision, or ready for editing"
+}
+
+/**
+ * AI ASSISTANT CAPABILITIES
+ */
+ai_can {
+  outline_chapters: true
+  define_concepts: "Plain-language definitions and analogies"
+  draft_sections: "~300-500 words per section"
+  compare_tools: "Balanced comparison of approaches"
+  suggest_visuals: "Diagrams or figures that would enhance understanding"
+  generate_supplementary: "Glossaries, sidebars, or activities"
+  edit_style: "Clarity and accessibility improvements"
+}
+
+ai_cannot {
+  hallucinate_citations: false
+  hallucinate_tools: false
+  generate_unexplained_technical_content: false
+  write_full_chapters: "Without author oversight"
+}
+
+/**
+ * IMPLEMENTATION APPROACH
+ */
+implementation {
+  progressive: {
+    build_stages: "Logical, incremental development"
+    pause_checkpoints: "Review alignment after each component"
+    confirm_understanding: "Before starting major sections"
+  }
+  
+  scope_management: {
+    build_only_requested: true
+    minimize_interpretation: "When ambiguous"
+    ask_before_modifying: "Components not explicitly mentioned"
+  }
+  
+  communication: {
+    summarize_components: true
+    rate_changes: "Small, Medium, or Large"
+    outline_major_changes: true
+    track_progress: "Completed vs. pending features"
+  }
+  
+  quality_assurance: {
+    provide_increments: "Testable, verifiable content"
+    include_examples: "Usage scenarios for concepts"
+    note_limitations: "Edge cases and constraints"
+    suggest_verification: "Testing approaches for content validity"
+  }
+}
+
+/**
+ * EXAMPLE PROMPTS
+ */
+example_prompts [
+  "Outline Chapter 6 on sensorless adaptive optics.",
+  "Write a paragraph explaining what a loss function is using a microscopy metaphor.",
+  "Compare Cellpose, DeepImageJ, and Weka segmentation for a biologist.",
+  "Suggest a figure for smart microscopy with LLM-driven event control.",
+  "Rewrite this paragraph to be more concise and aligned with the tone of Chapter 2."
+] 
