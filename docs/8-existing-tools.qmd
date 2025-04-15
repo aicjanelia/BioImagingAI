@@ -16,7 +16,9 @@ author:
         postal-code: 02142
 ---
 
-# Finding and Selecting Existing Tools
+# Chapter 8: How do you select and find a tool?
+
+## Abstract
 
 How do you find new-to-you AI models and how do you assess whether a new-to-you model or tool will meet your needs?
 In this chapter, we first help you assess your needs.
@@ -29,55 +31,133 @@ Finally, we show a couple of case studies that fulfill different requirements.
 Before finding and selecting an AI tool, you first need to decide on the type of tool you need.
 Your tool selection will be influenced by a number of factors and you should first honestly answer the following questions:
 
-### Questions about your time and expertise:
+### Questions about your overall workflow
 
-* How much time are you able to put into the task?
-* What is your level of computation comfort?
-    * Do you have the time and motivation to expand your skillset by building new skills outside of your comfort zone?
-    * Do you have a computational collaborator and how much time are they able to contribute?
-* What is your level of biological domain expertise?
-    * Are you confident that you fully understand the task so you can assess how well your AI model is performing?
-    * Do you have a biologist collaborator and how much time are they able to contribute?
+- **What is your desired output?**
+  You must be able to concisely and specifically state what you would like output by your workflow.
+  Do you need to segment objects?
+  If so, do you need semantic, instance, or panoptic segmentation (Box X)?
+  Do you need measurements and if so should they be made on individual objects or on images?
+- **What is your desired “quality” of your outputs?**  
+  Are you expecting outputs that approach ground truth or will “quick and dirty” be enough for you?
+ 
+- **How will you assess your outputs?**  
+  Will your assessment be qualitative or quantitative?
+  Do you have ground truth?
+  Do you have the expertise to assess output quality?
+ 
+- **What does your ideal workflow look like?**  
+  Do you need all of the outputs to be made in a single software or are you comfortable using multiple softwares?
+  If your images require preprocessing, does that need to happen in the same step?
+  The same software?
 
-### Questions about your input data:
+### Questions about your resources: time, expertise, and compute
 
-* How difficult are your images?
-    * Do your images have debris or other technical artifacts?
-    * Do those artifacts need to be identified and removed?
-    * If identified, should the whole image be dropped or do you need to keep non-artifact areas of the image?
-* How big is your data?
-    * What dimensionality is big? e.g. many images, large images
-* Do you need outputs in multiple dimensions?
-    * e.g. If you have z-planes, do you need 3D objects or can each plane be handled separately?
-    * e.g. If you have multiple timepoints, do you need objects tracked across timepoints or can each t be handled separately?
+- **How much time are you able to put into the task?**
+  An honest assessment at the beginning of any project about the time you are willing to invest is critical.
+  If you are in a rush, you’ll probably want to select a method that is already familiar or best matches your existing competencies.
+ 
+- **What is your priority?**  
+  Determining what your priority is goes hand in hand with assessing the amount of time you can put into your task.
+  Perhaps you’re in a time crunch and speed is the most important consideration for you.
+  Perhaps you have a specific QC metric and you need the tool that will give you the outputs that optimize this metric.
+- **What is your level of computational domain expertise?**  
+  If you don’t have a high level of computational comfort, do you have the time and motivation to expand your skillset by building new skills outside of your comfort zone?
+  Do you have a computational collaborator and how much time, in either teaching you or in handling the data themselves, are they able to contribute?
+ 
+  Computation domain expertise has two critical, but separable, components.
+  The first is the ability to understand what you are doing thoroughly enough that you can design, analyze, and interpret your experiment.
+  The other component is the ability to comfortably interact with software as a computationalist might. 
+  e.g. are you comfortable working from the command line (which is text only) or would you prefer a GUI (graphical interface, where you can point and click).
+ 
+- **What is your level of biological domain expertise?**  
+  Are you confident that you fully understand the task so you can assess how well your AI model is performing?
+  Do you have a biologist collaborator and how much time are they able to contribute to designing the experiment and/or analyzing data?
+  Do you understand what controls you will need and/or corrections (such as single-color controls and/or measured flat-field corrections) you will need to make to be able to interpret your outputs?
+- **What access do you have to compute resources?**  
+  Do you need to be able to run everything on your laptop or do you have ready access to a high performance cluster or scalable cloud compute?
+  Do you have access to GPUs?
+  Different tools have different compute requirements, especially as you scale them, and those requirements don’t always scale linearly with data size.
 
-### Questions about your output data:
+### Questions about your input data
 
-* What is your desired output? 
-    * Object segmentations? measurements made on individual objects?
-* Do you need all of the outputs to be made in a single software or are you comfortable using multiple softwares?
+- **How difficult are your images?**  
+  Perfect, clean data is the ideal input to any analysis.
+  But that’s not always the regime we’re in.
+  There are many sources of “difficult”.
+  A couple examples and corresponding questions are below.
+ 
+  Do your images have debris or other technical artifacts such as out-of-focus regions?
+  Do those artifacts need to be identified and removed?
+  If identified, should the whole image be dropped or do you need to keep non-artifact areas of the image?
+ 
+  Do you have metadata that needs to be associated with your images?
+  Is that metadata organized?
+  How is that metadata organized (e.g. in the file name, in a .csv file, in a picture of a handwritten lab notebook) and does it play nicely with the tool you would like to use?
+ 
+  Are your images in a friendly format?
+  Are they in a proprietary file format?
+  Are they in a file format that allows access to chunks?
+ 
+- **How big is your data?**  
+  The larger data is, the harder it can be to work with.
+  If your data is large, what dimensionality is big?
+  e.g. many images, large individual file sizes, many channels  
+- **Do you need outputs in multiple dimensions?**  
+  If you have z-planes, do you need 3D objects or can each plane be handled separately?
+  If you have multiple timepoints, do you need objects tracked across timepoints or can each timepoint be handled separately?
+ 
+- **Do your images require preprocessing?**  
+  There are many different reasons that images might require preprocessing and some of those reasons may be a way to overcome concerns/technical challenges raised in other questions above.
+  Some examples of preprocessing include stitching or cropping of images, denoising, background subtraction, or flat field correction.
 
+Box X \- segmentation methods:
+In computer vision, there are several discrete kinds of segmentation, although in the field of bioimaging we often refer to all kinds of segmentation under the single blanket term of “segmentation”.
+**Semantic segmentation** divides an image into classes.
+Ilastik is an example of a popular image analysis software that performs semantic segmentation.
+**Instance segmentation** detects individual, specific objects within an image.
+CellProfiler is an example of a popular image analysis software that is most commonly used for instance segmentation.
+**Panoptic segmentation** is a combination of semantic segmentation and instance segmentation that separates an image into regions while also detecting individual object instances within those regions.
+Deep learning can be used for semantic, instance, or panoptic segmentation.
+Most classic image analysis methods are built around instance segmentation for cell-based images, though semantic segmentation is not uncommon for tissue/histology images.
+
+A ![docs/8-existing-tools_files/CellProfiler_instance_segmentation.png] B ![docs/8-existing-tools_files/ilastik_semantic_segmentation.png]
+
+A \- Example of instance segmentations produced in CellProfiler using classic image processing.
+Image is of Drosophila Kc167 cells and is provided in the Example pipeline packaged with CellProfiler.
+ 
+B \- Example of semantic segmentation of the same image produced in ilastik using pixel-based machine learning.
 
 ## Choosing the kind of tool to use
 
-Considering the use case of segmentation, which is often a first step in image analysis workflows, there are 5 categories of segmentation methods, each of which has its valid use cases.
-Ordered by levels of computation comfort required they are:
+Considering the use case of segmentation, which is often a critical step in image analysis workflows, there are roughly 6 categories of segmentation methods, each of which has its valid use cases.
+Ordered by increasing levels of computation comfort required they are:
 
-1) Manual annotation. 
+- Manual annotation
+- Classical image processing  
+- Pixel based machine learning  
+- Pretrained deep learning models  
+- Finetuned deep learning models  
+- From-scratch deep learning models
 
-2) Classical image processing
+We will not cover from-scratch deep learning models, as these are constantly changing and not usually the first choice of biological scientists without extensive computational training and thus are out of scope for this chapter.
 
-3) Pixel based machine learning
+It is worth noting that many of the tool suggestions below are not confined to a single "class"; Many tools listed in the non-deep learning categories allow you to run pre-trained deep learning models inside them; ImageJ and QuPath also contain ability to run pixel classifiers; all deep learning models CAN be retuned with some effort (they may just not have a friendly interface for doing so readily available).
 
-4) Pretrained deep learning models
+**For each type:**
+Suggested examples:
+Time required:
+Best if your priorities include:
+Computational expertise level required:
+Biological expertise level required:
+Ability to handle 'reasonable' technical noise and variability:
+Ease of integration into an overall workflow:
 
-5) Finetuned deep learning models
-
-*(For each of the categories we will discuss pros, cons, use cases, and point to a couple example softwares)*
 
 ## Finding models
 
-* *Where to look for models. *
+* *Where to look for models.
+*
     * BioImage Model Zoo, 
     * Bioimage Informatics Index (Biii)
     * forum.image.sc
@@ -91,16 +171,32 @@ Ordered by levels of computation comfort required they are:
 
 ## Case Studies
 
-* Example 1
-* Example 2
+1 - Cellpose:
+- Start with web console, look at an image or two
+- Move to CellProfiler using Docker, see that it works pretty well across many images but could use improvements
+- Install Cellpose locally and retrain your own model
+
+2 - Sparse 3D objects:
+- Started with DL (instanseg), too sparse
+- moved “backwards” to Ilastik
+
+3 - Notebook
+- A notebook that compares several models
+
 
 ## Bibliography and Citations
 
-To cite a research article, add it to references.bib and then refer to the citation key. For example, reference @stringer2021 refers to CellPose and reference @von_chamier2021 refers to ZeroCostDL4Mic.
+To cite a research article, add it to references.bib and then refer to the citation key.
+For example, reference @stringer2021 refers to CellPose and reference @von_chamier2021 refers to ZeroCostDL4Mic.
 
 ## Adding to the Glossary
 
-We are using the extension [Quarto-glossary](https://debruine.github.io/quarto-glossary/#styles) to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from {{< glossary hallucinations >}}. It is important to understand the underlying {{< glossary "training data" >}} to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the [Glossary](glossary.qmd).
+We are using the extension [Quarto-glossary](https://debruine.github.io/quarto-glossary/#styles) to create a glossary for this book.
+To add a definition, edit the glossary.yml file.
+To reference the glossary, enclose the word as in these examples: LLMs suffer from {{< glossary hallucinations >}}.
+It is important to understand the underlying {{< glossary "training data" >}} to interpret your results.
+Clicking on the word will reveal its definition.
+The complete glossary for the book will be listed in the [Glossary](glossary.qmd).
 
 ## Code and Equations {#sec-equation}
 
@@ -115,7 +211,8 @@ plt.show()
 ```
 
 
-In some cases, you may want to include a code-block that is not executed when the book is compiled. Use the `eval: false` option for this.
+In some cases, you may want to include a code-block that is not executed when the book is compiled.
+Use the `eval: false` option for this.
 
 ```{python}
 #| eval: false
@@ -131,7 +228,8 @@ Figures can also be generated that do not show the code by using the option for 
 #| code-fold: true
 #| label: fig-polar
 #| fig-cap: "A spiral on a polar axis"
-#| fig-alt: "A line plot on a polar axis. The line spirals out from a value of zero to a value of 2."
+#| fig-alt: "A line plot on a polar axis.
+The line spirals out from a value of zero to a value of 2."
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -160,15 +258,24 @@ You can also embed figures from other notebooks in the repo as shown in the foll
 
 {{< embed ../notebooks/test.ipynb#fig-test-fig echo-true >}}
 
-When embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, `chapter4_example_u-net.ipynb`. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code--but not for rendering the book at large--will be installed there. That way, we will not need to handle a global environment across the book.
+When embedding notebooks, please store the .ipynb file in the notebook directory.
+Include the chapter in the name of your file.
+For example, `chapter4_example_u-net.ipynb`.
+This is how we will handle chapter- or example-specific environments.
+We will host notebooks on Google Colab so that any required packages for the code--but not for rendering the book at large--will be installed there.
+That way, we will not need to handle a global environment across the book.
 
 ## Quarto has additional features.
 
-You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
+You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).
+ One example that you might find interesting is the option to include callouts in your text.
+These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful.
+Below are examples of the types of callouts available in Quarto.
 
 ::: {.callout-note}
 Note that there are five types of callouts, including:
-`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
+`note`, `tip`, `warning`, `caution`, and `important`.
+They can default to open (like this example) or collapsed (example below).
 :::
 
 ::: {.callout-tip collapse="true"}
@@ -176,7 +283,8 @@ These could be good for extra material or exercises.
 :::
 
 ::: {.callout-caution}
-There are caveats when applying these tools. Expand the code below to learn more.
+There are caveats when applying these tools.
+Expand the code below to learn more.
 
 ```{python}
 #| code-fold: true
