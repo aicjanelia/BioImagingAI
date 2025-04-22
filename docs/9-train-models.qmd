@@ -3,17 +3,31 @@ author:
   - name: Guillaume Jacquemet
     orcid: 0000-0002-9286-920X
     affiliations:
-      - name: Åbo Akademi University
+      - name: Turku Bioscience Centre, University of Turku and Åbo Akademi University, FI-20520 Turku, FI
+        country: Finland
+      - name: Faculty of Science and Engineering, Cell Biology, Åbo Akademi University, FI-20520 Turku, FI
+        country: Finland
+      - name: InFLAMES Research Flagship Center, University of Turku, FI- 20520, Turku, FI
         country: Finland
   - name: Joanna Pylvänäinen 
     orcid: 0000-0002-3540-5150
     affiliations:
-      - name: Åbo Akademi University
+      - name: Turku Bioscience Centre, University of Turku and Åbo Akademi University, FI-20520 Turku, FI
+        country: Finland
+      - name: Faculty of Science and Engineering, Cell Biology, Åbo Akademi University, FI-20520 Turku, FI
+        country: Finland
+      - name: InFLAMES Research Flagship Center, University of Turku, FI- 20520, Turku, FI
         country: Finland
   - name: Iván Hidalgo-Cenalmor
     orcid: 0009-0000-8923-568X
     affiliations:
-      - name: Åbo Akademi University
+      - name: Turku Bioscience Centre, University of Turku and Åbo Akademi University, FI-20520 Turku, FI
+        country: Finland
+      - name: Faculty of Science and Engineering, Cell Biology, Åbo Akademi University, FI-20520 Turku, FI
+        country: Finland
+      - name: InFLAMES Research Flagship Center, University of Turku, FI- 20520, Turku, FI
+        country: Finland
+      - name: Turku Bioimaging, University of Turku and Åbo Akademi University, FI- 20520 Turku, FI
         country: Finland
 
 subtitle: optionally add a subtitle
