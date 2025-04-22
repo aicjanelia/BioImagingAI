@@ -151,7 +151,8 @@ However, alternative approaches can help reduce the need for extensive manual an
 
 Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [(Schindelin et al., 2012\)], Napari [(Ahlers et al., 2023\)], and QuPath [(Bankhead et al., 2017\)] are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
 
-Here is an example pipeline for manually annotating data using Fiji [(Fazeli et al., 2020\)]. 
+::: {.callout-tip collapse="true"}
+**Here is an example pipeline for manually annotating data using Fiji** [(Fazeli et al., 2020\)]. 
 
 * Open Fiji – activate the LOCI update site and restart Fiji. 
 
@@ -170,6 +171,8 @@ Here is an example pipeline for manually annotating data using Fiji [(Fazeli et 
 * Save the generated ROI map with the same title as the original image in a separate folder. 
 
 * At the end, you will have one folder with the original images and another for the ROI maps.
+:::
+
 
 #### Accelerating annotation with pre-trained models {#sec-9.3.4.3}
 
