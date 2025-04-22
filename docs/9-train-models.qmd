@@ -1,6 +1,6 @@
 ---
 author: 
-  - name: Joanna Pylvänäinen 
+  - name: Joanna W. Pylvänäinen 
     orcid: 0000-0002-3540-5150
     affiliations:
       - name: Turku Bioscience Centre, University of Turku and Åbo Akademi University, FI-20520 Turku, FI
