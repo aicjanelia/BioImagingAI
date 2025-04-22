@@ -1,14 +1,5 @@
 ---
 author: 
-  - name: Guillaume Jacquemet
-    orcid: 0000-0002-9286-920X
-    affiliations:
-      - name: Turku Bioscience Centre, University of Turku and Åbo Akademi University, FI-20520 Turku, FI
-        country: Finland
-      - name: Faculty of Science and Engineering, Cell Biology, Åbo Akademi University, FI-20520 Turku, FI
-        country: Finland
-      - name: InFLAMES Research Flagship Center, University of Turku, FI- 20520, Turku, FI
-        country: Finland
   - name: Joanna Pylvänäinen 
     orcid: 0000-0002-3540-5150
     affiliations:
@@ -27,8 +18,20 @@ author:
         country: Finland
       - name: InFLAMES Research Flagship Center, University of Turku, FI- 20520, Turku, FI
         country: Finland
+  - name: Guillaume Jacquemet
+    orcid: 0000-0002-9286-920X
+    affiliations:
+      - name: Turku Bioscience Centre, University of Turku and Åbo Akademi University, FI-20520 Turku, FI
+        country: Finland
+      - name: Faculty of Science and Engineering, Cell Biology, Åbo Akademi University, FI-20520 Turku, FI
+        country: Finland
+      - name: InFLAMES Research Flagship Center, University of Turku, FI- 20520, Turku, FI
+        country: Finland
       - name: Turku Bioimaging, University of Turku and Åbo Akademi University, FI- 20520 Turku, FI
         country: Finland
+
+  - name: Guillaume Jacquemet
+    orcid: 0000-0002-9286-920X
 
 subtitle: Practical considerations to train and use deep learning models in microscopy
 ---
