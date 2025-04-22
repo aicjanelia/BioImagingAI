@@ -49,9 +49,9 @@ subtitle: Practical considerations to train and use deep learning models in micr
 
 ###  The challenge {#sec-9.1.1}
 
-The growing volume and complexity of image data necessitate increasingly advanced analytical tools. One example of challenging tasks is image segmentation, the process of identifying and delineating structures of interest within images. Segmentation can be particularly difficult and time-consuming when dealing with large, multidimensional datasets, such as 3D volumes or time-lapse sequences, where manual annotation becomes impractical. Machine learning (ML), especially deep learning (DL), can provide effective solutions to these challenges [(Heinrich et al., 2021\)](https://www.zotero.org/google-docs/?wUQFtp).
+The growing volume and complexity of image data necessitate increasingly advanced analytical tools. One example of challenging tasks is image segmentation, the process of identifying and delineating structures of interest within images. Segmentation can be particularly difficult and time-consuming when dealing with large, multidimensional datasets, such as 3D volumes or time-lapse sequences, where manual annotation becomes impractical. Machine learning (ML), especially deep learning (DL), can provide effective solutions to these challenges [(Heinrich et al., 2021\)].
 
-ML algorithms learn patterns from data to perform tasks such as image classification and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [(Arganda-Carreras et al., 2017; Arzt et al., 2022; Berg et al., 2019\)](https://www.zotero.org/google-docs/?8oDvYR). In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, object detection, feature extraction, denoising, and restoration [(Moen et al., 2019; Pylvänäinen et al., 2023\)](https://www.zotero.org/google-docs/?YM0SxJ). Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [(Krizhevsky et al., 2012; Ronneberger et al., 2015\)](https://www.zotero.org/google-docs/?b2WkBe).
+ML algorithms learn patterns from data to perform tasks such as image classification and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [(Arganda-Carreras et al., 2017; Arzt et al., 2022; Berg et al., 2019\)]. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, object detection, feature extraction, denoising, and restoration [(Moen et al., 2019; Pylvänäinen et al., 2023\)]. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [(Krizhevsky et al., 2012; Ronneberger et al., 2015\)].
 
 Segmentation greatly benefits from machine learning and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges.
 
@@ -104,7 +104,7 @@ The process starts by clearly defining your segmentation task and selecting the 
 
 The first step in choosing a DL approach for image segmentation is to clearly define your segmentation task, whether it’s binary, semantic, or instance segmentation (@fig-1), and to determine if you require 2D or 3D segmentation. Next, you should consider whether the model or tool you plan to use makes assumptions about the shapes or structures of the objects you want to segment. Understanding these assumptions will aid in selecting a model that fits your specific biological problem (see @sec-9.2.1). Additionally, consider the amount of data that needs annotation for a particular DL approach (see @sec-9.3.4.5). Finally, take into account your available computational resources (see @sec-9.4.2). More complex models typically demand more GPU memory, longer training times, and additional storage, especially for 3D data or large datasets.
 
-For example, StarDist [(Schmidt et al., 2018\)](https://www.zotero.org/google-docs/?VbEAR3), a widely used tool for nuclei segmentation, assumes that objects are star-convex polygons. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose [(Stringer et al., 2021\)](https://www.zotero.org/google-docs/?lODjDF) uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms. 
+For example, StarDist [(Schmidt et al., 2018\)], a widely used tool for nuclei segmentation, assumes that objects are star-convex polygons. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose [(Stringer et al., 2021\)] uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms. 
 
 Choosing the right DL strategy requires aligning your objective, object shape, data dimensionality, and computing capacity with the strengths and assumptions of the available DL architectures.
 
@@ -114,22 +114,22 @@ Choosing the right DL strategy requires aligning your objective, object shape, d
 
 #### Leveraging pre-trained models {#sec-9.3.3.1}
 
-The increasing availability of already trained (pre-trained) DL models has greatly simplified image analysis. Many of these models can be directly applied to your data, removing the need to train a model yourself [(Bejarano et al., 2024; Fisch et al., 2024\)](https://www.zotero.org/google-docs/?ZvLOBv). This reduces the technical barrier and saves time, making advanced analysis more accessible. However, it is essential to evaluate the quality of any pre-trained model before relying on its results (@fig-4). A model that performs well in one context may not be as effective on your specific data. Always conduct quality control by visually inspecting the outputs and assessing performance with quantitative metrics such as Intersection over Union (IoU) or F1-score, using a small, representative test set. This step is vital when model predictions are used in downstream analyses (see @sec-9.3.7).
+The increasing availability of already trained (pre-trained) DL models has greatly simplified image analysis. Many of these models can be directly applied to your data, removing the need to train a model yourself [(Bejarano et al., 2024; Fisch et al., 2024\)]. This reduces the technical barrier and saves time, making advanced analysis more accessible. However, it is essential to evaluate the quality of any pre-trained model before relying on its results (@fig-4). A model that performs well in one context may not be as effective on your specific data. Always conduct quality control by visually inspecting the outputs and assessing performance with quantitative metrics such as Intersection over Union (IoU) or F1-score, using a small, representative test set. This step is vital when model predictions are used in downstream analyses (see @sec-9.3.7).
 
 Another significant benefit of pre-trained models is their adaptability. Instead of starting from scratch, you can often fine-tune an existing model (see @sec-9.3.6). This method entails retraining the model with a smaller, task-specific dataset, enabling it to adjust to your images while requiring far fewer annotations.
 
 Several excellent resources host pre-trained models suitable for microscopy:
 
-* BioImage Model Zoo [(Ouyang et al., 2022\)](https://www.zotero.org/google-docs/?Z0EtfJ) is an open-source platform that provides models for various tasks. The models include metadata and are compatible with tools such as ZeroCostDL4Mic, BiaPy, DeepImageJ, and ilastik.  
-* DeepCell [(Bannon et al., 2021\)](https://www.zotero.org/google-docs/?i6kB6y) offers scalable models for nuclear, membrane, and cytoplasmic segmentation, with deployment options available in the cloud or locally through Docker.  
-* The MONAI Model Zoo [(Cardoso et al., 2022\)](https://www.zotero.org/google-docs/?KtmHHz) focuses on medical imaging, such as MRI and CT, while offering modular PyTorch-based models that can often be adapted for microscopy tasks.  
+* BioImage Model Zoo [(Ouyang et al., 2022\)] is an open-source platform that provides models for various tasks. The models include metadata and are compatible with tools such as ZeroCostDL4Mic, BiaPy, DeepImageJ, and ilastik.  
+* DeepCell [(Bannon et al., 2021\)] offers scalable models for nuclear, membrane, and cytoplasmic segmentation, with deployment options available in the cloud or locally through Docker.  
+* The MONAI Model Zoo [(Cardoso et al., 2022\)] focuses on medical imaging, such as MRI and CT, while offering modular PyTorch-based models that can often be adapted for microscopy tasks.  
 * General-purpose model hubs such as PyTorch Hub, TensorFlow Hub, and Hugging Face Model Hub host various models. Although they are not specific to microscopy, many models can be fine-tuned for segmentation using annotated datasets.
 
-DL segmentation tools such as StarDist or CellPose also include their own collection of pre-trained models [(Pachitariu and Stringer, 2022\)](https://www.zotero.org/google-docs/?AO5PVU). Researchers also increasingly share trained models alongside their datasets and publications, promoting open science. Platforms like Zenodo are commonly used for this purpose [(Fazeli et al., 2020; Follain et al., 2024\)](https://www.zotero.org/google-docs/?dOhtAh), although deployment may require handling specific file formats or environments.
+DL segmentation tools such as StarDist or CellPose also include their own collection of pre-trained models [(Pachitariu and Stringer, 2022\)]. Researchers also increasingly share trained models alongside their datasets and publications, promoting open science. Platforms like Zenodo are commonly used for this purpose [(Fazeli et al., 2020; Follain et al., 2024\)], although deployment may require handling specific file formats or environments.
 
 #### When to train your model {#sec-9.3.3.2}
 
-Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance [(Archit et al., 2025; Pachitariu and Stringer, 2022; von Chamier et al., 2021\)](https://www.zotero.org/google-docs/?0rCc29). This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your model.
+Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance [(Archit et al., 2025; Pachitariu and Stringer, 2022; von Chamier et al., 2021\)]. This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your model.
 
 Ultimately, always evaluate the model’s performance against your defined success criteria (see @sec-9.3.7). Custom training may be the best path forward if the current model does not meet your needs.
 
@@ -143,15 +143,15 @@ Most segmentation models are trained using supervised learning, where each input
 
 However, alternative approaches can help reduce the need for extensive manual annotations:
 
-* **Unsupervised learning** trains models without paired input and output data. Instead, the network identifies patterns or similarities in unlabelled images [(Kochetov et al., 2024\)](https://www.zotero.org/google-docs/?sGDRMX).  
-* **Self-supervised learning** involves designing tasks in which the model learns useful features directly from the input data without needing explicit labels [(Liu et al., 2025\)](https://www.zotero.org/google-docs/?Hfkis6).  
-* **Weakly supervised learning** uses partial, noisy, or imprecise labels to guide training, which can significantly reduce annotation effort [(Caicedo et al., 2018; Moshkov et al., 2024\)](https://www.zotero.org/google-docs/?xOWTQk).
+* **Unsupervised learning** trains models without paired input and output data. Instead, the network identifies patterns or similarities in unlabelled images [(Kochetov et al., 2024\)].  
+* **Self-supervised learning** involves designing tasks in which the model learns useful features directly from the input data without needing explicit labels [(Liu et al., 2025\)].  
+* **Weakly supervised learning** uses partial, noisy, or imprecise labels to guide training, which can significantly reduce annotation effort [(Caicedo et al., 2018; Moshkov et al., 2024\)].
 
 #### Creating Manual Annotations {#sec-9.3.4.2}
 
-Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [(Schindelin et al., 2012\)](https://www.zotero.org/google-docs/?YaGIAO), Napari [(Ahlers et al., 2023\)](https://www.zotero.org/google-docs/?NHVSEB), and QuPath [(Bankhead et al., 2017\)](https://www.zotero.org/google-docs/?p4mMK5) are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
+Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [(Schindelin et al., 2012\)], Napari [(Ahlers et al., 2023\)], and QuPath [(Bankhead et al., 2017\)] are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
 
-Here is an example pipeline for manually annotating data using Fiji [(Fazeli et al., 2020\)](https://www.zotero.org/google-docs/?8iYHEL). 
+Here is an example pipeline for manually annotating data using Fiji [(Fazeli et al., 2020\)]. 
 
 * Open Fiji – activate the LOCI update site and restart Fiji. 
 
@@ -173,15 +173,15 @@ Here is an example pipeline for manually annotating data using Fiji [(Fazeli et 
 
 #### Accelerating annotation with pre-trained models {#sec-9.3.4.3}
 
-Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, pre-trained DL models such as those provided with StarDist [(Schmidt et al., 2018\)](https://www.zotero.org/google-docs/?1AEwI2) and Cellpose [(Stringer et al., 2021\)](https://www.zotero.org/google-docs/?8GrKdA) can generate initial segmentations that users can manually refine. These annotations can be reintegrated into the model for retraining, establishing an iterative cycle that accelerates both labelling and model refinement. 
+Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, pre-trained DL models such as those provided with StarDist [(Schmidt et al., 2018\)] and Cellpose [(Stringer et al., 2021\)] can generate initial segmentations that users can manually refine. These annotations can be reintegrated into the model for retraining, establishing an iterative cycle that accelerates both labelling and model refinement. 
 
-New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM) [(Archit et al., 2025\)](https://www.zotero.org/google-docs/?Y5qh31) facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [(Pachitariu and Stringer, 2022\)](https://www.zotero.org/google-docs/?Prl7Hs) features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
+New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM) [(Archit et al., 2025\)] facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [(Pachitariu and Stringer, 2022\)] features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
 
 #### Expanding your dataset with augmentation and synthetic data {#sec-9.3.4.4}
 
-When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [(Lecun et al., 1998; Shorten and Khoshgoftaar, 2019\)](https://www.zotero.org/google-docs/?lnvXBi). Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. 
+When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [(Lecun et al., 1998; Shorten and Khoshgoftaar, 2019\)]. Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. 
 
-In the absence of sufficient real data, synthetic data generated through simulations or domain randomisation can help pre-train or bootstrap a model [(Lin et al., 2022; Rangel DaCosta et al., 2024\)](https://www.zotero.org/google-docs/?tycKDC). These synthetic samples can expose the model to a broader range of scenarios early in training before transitioning to fine-tuning with real, annotated data.
+In the absence of sufficient real data, synthetic data generated through simulations or domain randomisation can help pre-train or bootstrap a model [(Lin et al., 2022; Rangel DaCosta et al., 2024\)]. These synthetic samples can expose the model to a broader range of scenarios early in training before transitioning to fine-tuning with real, annotated data.
 
 In summary, a successful segmentation pipeline relies on a careful balance between data quantity and annotation quality. Augmentation strategies can efficiently help to scale and balance training datasets.
 
@@ -189,7 +189,7 @@ In summary, a successful segmentation pipeline relies on a careful balance betwe
 
 In supervised training, it is crucial that each image in the training set is accompanied by a corresponding label image (see @sec-9.3.4.1). The number of image-label pairs required depends on the number of labels per image, the complexity of the model and the desired level of generalizability. Still, the key is having enough representative examples and corresponding annotations for the model to learn meaningful patterns. 
 
-Small and well-curated datasets consisting of tens of images may suffice for highly specific applications, such as segmenting cells or nuclei using a defined imaging modality [(von Chamier et al., 2021\)](https://www.zotero.org/google-docs/?JbHF9k). In these scenarios, transfer learning can also be especially beneficial (see @sec-9.3.6). Models designed to generalise across a wide range of conditions, tissue types, or imaging modalities typically require much larger and more diverse datasets (hundreds to thousands of annotated images) [(Stringer et al., 2021\)](https://www.zotero.org/google-docs/?JyXuWL). These datasets are essential for capturing the inherent variability in broader use cases. 
+Small and well-curated datasets consisting of tens of images may suffice for highly specific applications, such as segmenting cells or nuclei using a defined imaging modality [(von Chamier et al., 2021\)]. In these scenarios, transfer learning can also be especially beneficial (see @sec-9.3.6). Models designed to generalise across a wide range of conditions, tissue types, or imaging modalities typically require much larger and more diverse datasets (hundreds to thousands of annotated images) [(Stringer et al., 2021\)]. These datasets are essential for capturing the inherent variability in broader use cases. 
 
 ### Training a segmentation model from scratch {#sec-9.3.5}
 
@@ -203,7 +203,7 @@ The **training set** is used to train the model to recognise relevant features. 
 
 The **validation set** is used during training to provide feedback on the model's performance with unseen data. This feedback, conveyed as validation loss, assists in detecting overfitting (@fig-6), guiding hyperparameter tuning (see @sec-9.3.5.3), and informing training decisions. Although a separate validation set is ideal, many workflows create one in practice by reserving a portion (typically 10% to 30%) of the training data.
 
-The **test set** serves a separate role: it evaluates the model's performance on entirely unseen data. Unlike the validation set, the test set is not utilised during training, ensuring an unbiased performance assessment. Test images should also include ground truth annotations to facilitate quantitative quality control. Reporting test set performance, using metrics such as accuracy, IoU, or F1-score, is crucial, especially when publishing or benchmarking your model [(Laine et al., 2021\)](https://www.zotero.org/google-docs/?J6lJo7).
+The **test set** serves a separate role: it evaluates the model's performance on entirely unseen data. Unlike the validation set, the test set is not utilised during training, ensuring an unbiased performance assessment. Test images should also include ground truth annotations to facilitate quantitative quality control. Reporting test set performance, using metrics such as accuracy, IoU, or F1-score, is crucial, especially when publishing or benchmarking your model [(Laine et al., 2021\)].
 
 #### Understanding the training process {#sec-9.3.5.2}
 
@@ -257,7 +257,7 @@ Instead of training a model from scratch, fine-tuning an existing DL model is us
 
 #### Applying Transfer Learning {#sec-9.3.6.1}
 
-Transfer learning refers to the process of taking a pre-trained model and adapting it to a new but related task by providing task-specific training data, typically in the form of manually annotated image pairs (@fig-7). Transfer learning freezes part of the model (for instance, the initial layers or almost all the layers except the last ones); these weights will not be updated. Then, the model is trained on the new data, but only the layers that you have unfrozen will be updated. Since the base model already encodes many useful low-level features (e.g., edges, shapes, textures), this approach allows researchers to focus on refining the model for their specific biological structures or imaging modalities [(Li and Shen, 2018; Morid et al., 2021\)](https://www.zotero.org/google-docs/?F2ETNb) .
+Transfer learning refers to the process of taking a pre-trained model and adapting it to a new but related task by providing task-specific training data, typically in the form of manually annotated image pairs (@fig-7). Transfer learning freezes part of the model (for instance, the initial layers or almost all the layers except the last ones); these weights will not be updated. Then, the model is trained on the new data, but only the layers that you have unfrozen will be updated. Since the base model already encodes many useful low-level features (e.g., edges, shapes, textures), this approach allows researchers to focus on refining the model for their specific biological structures or imaging modalities [(Li and Shen, 2018; Morid et al., 2021\)].
 
 This method is especially effective when:
 
@@ -267,7 +267,7 @@ This method is especially effective when:
 
 #### Conducting fine-tuning {#sec-9.3.6.2}
 
-In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training (@fig-7) [(Archit et al., 2025; Pachitariu and Stringer, 2022\)](https://www.zotero.org/google-docs/?L9rdtN).  Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
+In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training (@fig-7) [(Archit et al., 2025; Pachitariu and Stringer, 2022\)].  Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
 
 Classic fine-tuning is ideal when: 
 
@@ -277,7 +277,7 @@ Classic fine-tuning is ideal when:
 
 #### Iterative training: keeping humans in the loop {#sec-9.3.6.3}
 
-Iterative fine-tuning is an interactive approach that combines model prediction with human annotation (see @sec-9.3.4.3). The workflow typically starts with a pre-trained model predicting new images. A user then manually corrects or annotates these predictions, and the improved annotations update the model (@fig-7). This cycle continues, progressively enhancing the model’s accuracy with each iteration until it performs as expected [(Chen et al., 2020; Conrad and Narayan, 2023; Pachitariu and Stringer, 2022\)](https://www.zotero.org/google-docs/?LRuWLx).
+Iterative fine-tuning is an interactive approach that combines model prediction with human annotation (see @sec-9.3.4.3). The workflow typically starts with a pre-trained model predicting new images. A user then manually corrects or annotates these predictions, and the improved annotations update the model (@fig-7). This cycle continues, progressively enhancing the model’s accuracy with each iteration until it performs as expected [(Chen et al., 2020; Conrad and Narayan, 2023; Pachitariu and Stringer, 2022\)].
 
 This method is particularly powerful when:
 
@@ -291,7 +291,7 @@ This method is particularly powerful when:
 
 ![Workflow for evaluating DL model performance during training and on test data. Evaluating model performance is essential before deploying any DL model for image segmentation. This diagram outlines a two-stage process: assessment during training and on a separate test set. During training, validation and training losses (see @sec-9.3.5.4) guide whether to continue training, stop, or expand the dataset. After training, performance is evaluated using a test set. High test metrics (e.g., IoU, F1-score) indicate readiness for deployment. Borderline or poor results suggest reviewing errors, refining training data, or trying a different model. This approach ensures model reliability and task-specific performance.](9-figures\chapter9_8_monitoring.png){#fig-8}
 
-With the rapid increase in DL tools and pre-trained models, it has become easier to use DL for image segmentation, but harder to determine which model will work best for your data. Regardless of how promising a model appears, you must always evaluate its performance before trusting its results. Evaluation is not optional; it is a critical step to ensure that the model meets the requirements of your specific task [(Laine et al., 2021\)](https://www.zotero.org/google-docs/?Fkq5PP) (@fig-8).
+With the rapid increase in DL tools and pre-trained models, it has become easier to use DL for image segmentation, but harder to determine which model will work best for your data. Regardless of how promising a model appears, you must always evaluate its performance before trusting its results. Evaluation is not optional; it is a critical step to ensure that the model meets the requirements of your specific task [(Laine et al., 2021\)] (@fig-8).
 
 There are two main ways to evaluate a model:
 
@@ -304,7 +304,7 @@ Common metrics used in quantitative evaluation include:
 * F1-score (Dice coefficient): This is especially valuable when the object of interest covers a small area in the image, as it balances precision and recall.  
 * True Positives (TP), False Positives (FP), and False Negatives (FN) are particularly important in semantic segmentation and can be used to calculate the IoU or F1 score.
 
-For more information on these metrics, we recommend [(Laine et al., 2021\)](https://www.zotero.org/google-docs/?WjxQKF).
+For more information on these metrics, we recommend [(Laine et al., 2021\)].
 
 If a model fails to produce reasonable results, even on simple examples, you can often reject it based solely on qualitative inspection. However, in these cases, quantitative metrics can still help you understand how and where the model fails.
 
@@ -367,7 +367,7 @@ GUI-based tools include, for instance :
 * Ilastik  
 * QuPath
 
-Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like ZeroCostDL4Mic, BiaPy, and DL4MicEverywhere [(Hidalgo-Cenalmor et al., 2024\)](https://www.zotero.org/google-docs/?3CQnFS) leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. ZeroCostDL4Mic, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.
+Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like ZeroCostDL4Mic, BiaPy, and DL4MicEverywhere [(Hidalgo-Cenalmor et al., 2024\)] leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. ZeroCostDL4Mic, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.
 
 If you are comfortable with programming, you will have even more flexibility. Languages such as Python, MATLAB, Julia, Java, and Rust provide options for building and customizing deep learning workflows. Python stands out as the most beginner-friendly and widely supported choice, boasting a large ecosystem of libraries and community support. Popular Python libraries for deep learning include PyTorch, TensorFlow, Keras, and JAX.
 
@@ -387,7 +387,7 @@ A practical strategy involves starting with lightweight models that demand fewer
 
 Additionally, consider whether to train and deploy your model locally or in the cloud (@fig-11). Local training is more feasible if you already possess compatible hardware, while cloud services like Google Colab or AWS provide access to more powerful resources without needing to invest in hardware. Cloud-based workflows are particularly advantageous for training large models or managing 3D data.
 
-![Training and deployment strategies for DL models in microscopy. Depending on the available tools and infrastructure, models can be trained and deployed locally or in the cloud. Modified from [(von Chamier et al., 2021\)](https://www.zotero.org/google-docs/?zhVvst).](9-figures/chapter9_11_what resources to use when trainig.png){#fig-11}
+![Training and deployment strategies for DL models in microscopy. Depending on the available tools and infrastructure, models can be trained and deployed locally or in the cloud. Modified from [(von Chamier et al., 2021\)].](9-figures/chapter9_11_what resources to use when trainig.png){#fig-11}
 
 ### Ensuring Reproducibility in DL {#sec-9.4.3}
 
@@ -399,7 +399,7 @@ A robust and increasingly popular solution is containerisation. Containers packa
 
 Using containers ensures that your model training and inference processes remain consistent, no matter who executes them or where they are conducted. This greatly simplifies the ability of collaborators or reviewers to reproduce your results.
 
-For researchers unfamiliar with software development, tools like DL4MicEverywhere [(Hidalgo-Cenalmor et al., 2024\)](https://www.zotero.org/google-docs/?hSZPhL) and bia-binder [(Russell et al., 2024\)](https://www.zotero.org/google-docs/?SKCngf) simplify the use of containers by integrating them into user-friendly Jupyter notebook environments. These platforms enable researchers to benefit from the reproducibility of containers without needing to manage complex setups or command-line tools.
+For researchers unfamiliar with software development, tools like DL4MicEverywhere [(Hidalgo-Cenalmor et al., 2024\)] and bia-binder [(Russell et al., 2024\)] simplify the use of containers by integrating them into user-friendly Jupyter notebook environments. These platforms enable researchers to benefit from the reproducibility of containers without needing to manage complex setups or command-line tools.
 
 Reproducibility is crucial for establishing trust in computational results and facilitating long-term scientific collaboration. To ensure your DL workflows are reproducible, follow these best practices:
 
@@ -408,7 +408,7 @@ Reproducibility is crucial for establishing trust in computational results and f
 * Provide a containerised version of your training and inference pipeline when possible.  
 * Taking these steps will make it easier for others to reproduce your results, build on your work, and apply your models in different research settings.
 
-For more information on best practices, consult [(Laine et al., 2021\)](https://www.zotero.org/google-docs/?JQTcnl).
+For more information on best practices, consult [(Laine et al., 2021\)].
 
 ## Summary & Outlook {#sec-9.5}
 
@@ -416,87 +416,87 @@ Segmenting microscopy images remains a critical yet challenging task in bioimage
 
 The decision to use DL should be driven by the complexity of the task, the availability of annotated data, and the specific goals of the segmentation project. Successful DL implementations often require significant investments in data curation, annotation, and computational resources. Furthermore, training from scratch is frequently avoidable thanks to the growing ecosystem of pre-trained models and resources shared by the community.
 
-Notably, the landscape of DL segmentation is rapidly evolving. The emergence of foundation models, which are large, versatile networks pre-trained on vast and diverse datasets, promises to further lower the barriers to entry [(Archit et al., 2025\)](https://www.zotero.org/google-docs/?RyKeFx). These models enable transfer learning, fine-tuning, and even zero-shot segmentation, where accurate predictions can be made on previously unseen data with minimal or no task-specific training. This shift opens exciting new avenues for researchers who previously lacked the resources or expertise to apply DL in their work.
+Notably, the landscape of DL segmentation is rapidly evolving. The emergence of foundation models, which are large, versatile networks pre-trained on vast and diverse datasets, promises to further lower the barriers to entry [(Archit et al., 2025\)]. These models enable transfer learning, fine-tuning, and even zero-shot segmentation, where accurate predictions can be made on previously unseen data with minimal or no task-specific training. This shift opens exciting new avenues for researchers who previously lacked the resources or expertise to apply DL in their work.
 
 The ongoing development and democratization of DL tools, along with enhancements in model generalizability, human-in-the-loop workflows, and reproducibility, are changing how microscopy data is analyzed. Still, the key to successful segmentation will always involve careful planning, quality control, and selecting the right tool for the task, whether it involves deep learning or not.
 
 ## References {#sec-9.6}
 
-   [**Ahlers, J., Althviz Moré, D., Amsalem, O., Anderson, A., Bokota, G., Boone, P., Bragantini, J., Buckley, G., Burt, A., Bussonnier, M., et al.** (2023). napari: a multi-dimensional image viewer for Python.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Ahlers, J., Althviz Moré, D., Amsalem, O., Anderson, A., Bokota, G., Boone, P., Bragantini, J., Buckley, G., Burt, A., Bussonnier, M., et al.** (2023). napari: a multi-dimensional image viewer for Python.]
 
-   [**Archit, A., Freckmann, L., Nair, S., Khalid, N., Hilt, P., Rajashekar, V., Freitag, M., Teuber, C., Buckley, G., von Haaren, S., et al.** (2025). Segment Anything for Microscopy. *Nat Methods* **22**, 579–591.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Archit, A., Freckmann, L., Nair, S., Khalid, N., Hilt, P., Rajashekar, V., Freitag, M., Teuber, C., Buckley, G., von Haaren, S., et al.** (2025). Segment Anything for Microscopy. *Nat Methods* **22**, 579–591.]
 
-   [**Arganda-Carreras, I., Kaynig, V., Rueden, C., Eliceiri, K. W., Schindelin, J., Cardona, A. and Sebastian Seung, H.** (2017). Trainable Weka Segmentation: a machine learning tool for microscopy pixel classification. *Bioinformatics* **33**, 2424–2426.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Arganda-Carreras, I., Kaynig, V., Rueden, C., Eliceiri, K. W., Schindelin, J., Cardona, A. and Sebastian Seung, H.** (2017). Trainable Weka Segmentation: a machine learning tool for microscopy pixel classification. *Bioinformatics* **33**, 2424–2426.]
 
-   [**Arzt, M., Deschamps, J., Schmied, C., Pietzsch, T., Schmidt, D., Tomancak, P., Haase, R. and Jug, F.** (2022). LABKIT: Labeling and Segmentation Toolkit for Big Image Data. *Frontiers in Computer Science* **4**,.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Arzt, M., Deschamps, J., Schmied, C., Pietzsch, T., Schmidt, D., Tomancak, P., Haase, R. and Jug, F.** (2022). LABKIT: Labeling and Segmentation Toolkit for Big Image Data. *Frontiers in Computer Science* **4**,.]
 
-   [**Bankhead, P., Loughrey, M. B., Fernández, J. A., Dombrowski, Y., McArt, D. G., Dunne, P. D., McQuaid, S., Gray, R. T., Murray, L. J., Coleman, H. G., et al.** (2017). QuPath: Open source software for digital pathology image analysis. *Sci Rep* **7**, 16878\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Bankhead, P., Loughrey, M. B., Fernández, J. A., Dombrowski, Y., McArt, D. G., Dunne, P. D., McQuaid, S., Gray, R. T., Murray, L. J., Coleman, H. G., et al.** (2017). QuPath: Open source software for digital pathology image analysis. *Sci Rep* **7**, 16878\.]
 
-   [**Bannon, D., Moen, E., Schwartz, M., Borba, E., Kudo, T., Greenwald, N., Vijayakumar, V., Chang, B., Pao, E., Osterman, E., et al.** (2021). DeepCell Kiosk: scaling deep learning–enabled cellular image analysis with Kubernetes. *Nat Methods* **18**, 43–45.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Bannon, D., Moen, E., Schwartz, M., Borba, E., Kudo, T., Greenwald, N., Vijayakumar, V., Chang, B., Pao, E., Osterman, E., et al.** (2021). DeepCell Kiosk: scaling deep learning–enabled cellular image analysis with Kubernetes. *Nat Methods* **18**, 43–45.]
 
-   [**Bejarano, L., Kauzlaric, A., Lamprou, E., Lourenco, J., Fournier, N., Ballabio, M., Colotti, R., Maas, R., Galland, S., Massara, M., et al.** (2024). Interrogation of endothelial and mural cells in brain metastasis reveals key immune-regulatory mechanisms. *Cancer Cell* **42**, 378-395.e10.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Bejarano, L., Kauzlaric, A., Lamprou, E., Lourenco, J., Fournier, N., Ballabio, M., Colotti, R., Maas, R., Galland, S., Massara, M., et al.** (2024). Interrogation of endothelial and mural cells in brain metastasis reveals key immune-regulatory mechanisms. *Cancer Cell* **42**, 378-395.e10.]
 
-   [**Berg, S., Kutra, D., Kroeger, T., Straehle, C. N., Kausler, B. X., Haubold, C., Schiegg, M., Ales, J., Beier, T., Rudy, M., et al.** (2019). ilastik: interactive machine learning for (bio)image analysis. *Nat Methods* **16**, 1226–1232.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Berg, S., Kutra, D., Kroeger, T., Straehle, C. N., Kausler, B. X., Haubold, C., Schiegg, M., Ales, J., Beier, T., Rudy, M., et al.** (2019). ilastik: interactive machine learning for (bio)image analysis. *Nat Methods* **16**, 1226–1232.]
 
-   [**Caicedo, J. C., McQuin, C., Goodman, A., Singh, S. and Carpenter, A. E.** (2018). Weakly Supervised Learning of Single-Cell Feature Embeddings. In *2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition*, pp. 9309–9318.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Caicedo, J. C., McQuin, C., Goodman, A., Singh, S. and Carpenter, A. E.** (2018). Weakly Supervised Learning of Single-Cell Feature Embeddings. In *2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition*, pp. 9309–9318.]
 
-   [**Cardoso, M. J., Li, W., Brown, R., Ma, N., Kerfoot, E., Wang, Y., Murrey, B., Myronenko, A., Zhao, C., Yang, D., et al.** (2022). MONAI: An open-source framework for deep learning in healthcare.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Cardoso, M. J., Li, W., Brown, R., Ma, N., Kerfoot, E., Wang, Y., Murrey, B., Myronenko, A., Zhao, C., Yang, D., et al.** (2022). MONAI: An open-source framework for deep learning in healthcare.]
 
-   [**Chen, J., Ding, L., Viana, M. P., Lee, H., Sluezwski, M. F., Morris, B., Hendershott, M. C., Yang, R., Mueller, I. A. and Rafelski, S. M.** (2020). The Allen Cell and Structure Segmenter: a new open source toolkit for segmenting 3D intracellular structures in fluorescence microscopy images. 491035\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Chen, J., Ding, L., Viana, M. P., Lee, H., Sluezwski, M. F., Morris, B., Hendershott, M. C., Yang, R., Mueller, I. A. and Rafelski, S. M.** (2020). The Allen Cell and Structure Segmenter: a new open source toolkit for segmenting 3D intracellular structures in fluorescence microscopy images. 491035\.]
 
-   [**Conrad, R. and Narayan, K.** (2023). Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model trained on a diverse dataset. *Cell Systems* **14**, 58-71.e5.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Conrad, R. and Narayan, K.** (2023). Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model trained on a diverse dataset. *Cell Systems* **14**, 58-71.e5.](https://www.
 
-   [**Fazeli, E., Roy, N. H., Follain, G., Laine, R. F., von Chamier, L., Hänninen, P. E., Eriksson, J. E., Tinevez, J.-Y. and Jacquemet, G.** (2020). Automated cell tracking using StarDist and TrackMate. *F1000Res* **9**, 1279\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Fazeli, E., Roy, N. H., Follain, G., Laine, R. F., von Chamier, L., Hänninen, P. E., Eriksson, J. E., Tinevez, J.-Y. and Jacquemet, G.** (2020). Automated cell tracking using StarDist and TrackMate. *F1000Res* **9**, 1279\.]
 
-   [**Fisch, D., Zhang, T., Sun, H., Ma, W., Tan, Y., Gygi, S. P., Higgins, D. E. and Kagan, J. C.** (2024). Molecular definition of the endogenous Toll-like receptor signalling pathways. *Nature* **631**, 635–644.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Fisch, D., Zhang, T., Sun, H., Ma, W., Tan, Y., Gygi, S. P., Higgins, D. E. and Kagan, J. C.** (2024). Molecular definition of the endogenous Toll-like receptor signalling pathways. *Nature* **631**, 635–644.]
 
-   [**Follain, G., Ghimire, S., Pylvänäinen, J. W., Vaitkevičiūtė, M., Wurzinger, D., Guzmán, C., Conway, J. R., Dibus, M., Oikari, S., Rilla, K., et al.** (2024). Fast label-free live imaging reveals key roles of flow dynamics and CD44-HA interaction in cancer cell arrest on endothelial monolayers. 2024.09.30.615654.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Follain, G., Ghimire, S., Pylvänäinen, J. W., Vaitkevičiūtė, M., Wurzinger, D., Guzmán, C., Conway, J. R., Dibus, M., Oikari, S., Rilla, K., et al.** (2024). Fast label-free live imaging reveals key roles of flow dynamics and CD44-HA interaction in cancer cell arrest on endothelial monolayers. 2024.09.30.615654.]
 
-   [**Heinrich, L., Bennett, D., Ackerman, D., Park, W., Bogovic, J., Eckstein, N., Petruncio, A., Clements, J., Pang, S., Xu, C. S., et al.** (2021). Whole-cell organelle segmentation in volume electron microscopy. *Nature* **599**, 141–146.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Heinrich, L., Bennett, D., Ackerman, D., Park, W., Bogovic, J., Eckstein, N., Petruncio, A., Clements, J., Pang, S., Xu, C. S., et al.** (2021). Whole-cell organelle segmentation in volume electron microscopy. *Nature* **599**, 141–146.]
 
-   [**Hidalgo-Cenalmor, I., Pylvänäinen, J. W., G. Ferreira, M., Russell, C. T., Saguy, A., Arganda-Carreras, I., Shechtman, Y., AI4Life Horizon Europe Program Consortium, Muñoz-Barrutia, A., Serrano-Solano, B., et al.** (2024). DL4MicEverywhere: deep learning for microscopy made flexible, shareable and reproducible. *Nat Methods*.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Hidalgo-Cenalmor, I., Pylvänäinen, J. W., G. Ferreira, M., Russell, C. T., Saguy, A., Arganda-Carreras, I., Shechtman, Y., AI4Life Horizon Europe Program Consortium, Muñoz-Barrutia, A., Serrano-Solano, B., et al.** (2024). DL4MicEverywhere: deep learning for microscopy made flexible, shareable and reproducible. *Nat Methods*.]
 
-   [**Kochetov, B., Bell, P. D., Garcia, P. S., Shalaby, A. S., Raphael, R., Raymond, B., Leibowitz, B. J., Schoedel, K., Brand, R. M., Brand, R. E., et al.** (2024). UNSEG: unsupervised segmentation of cells and their nuclei in complex tissue samples. *Commun Biol* **7**, 1–14.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Kochetov, B., Bell, P. D., Garcia, P. S., Shalaby, A. S., Raphael, R., Raymond, B., Leibowitz, B. J., Schoedel, K., Brand, R. M., Brand, R. E., et al.** (2024). UNSEG: unsupervised segmentation of cells and their nuclei in complex tissue samples. *Commun Biol* **7**, 1–14.]
 
-   [**Krizhevsky, A., Sutskever, I. and Hinton, G. E.** (2012). ImageNet Classification with Deep Convolutional Neural Networks. In *Advances in Neural Information Processing Systems*, p. Curran Associates, Inc.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Krizhevsky, A., Sutskever, I. and Hinton, G. E.** (2012). ImageNet Classification with Deep Convolutional Neural Networks. In *Advances in Neural Information Processing Systems*, p. Curran Associates, Inc.]
 
-   [**Laine, R. F., Arganda-Carreras, I., Henriques, R. and Jacquemet, G.** (2021). Avoiding a replication crisis in deep-learning-based bioimage analysis. *Nat Methods* **18**, 1136–1144.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Laine, R. F., Arganda-Carreras, I., Henriques, R. and Jacquemet, G.** (2021). Avoiding a replication crisis in deep-learning-based bioimage analysis. *Nat Methods* **18**, 1136–1144.]
 
-   [**Lecun, Y., Bottou, L., Bengio, Y. and Haffner, P.** (1998). Gradient-based learning applied to document recognition. *Proceedings of the IEEE* **86**, 2278–2324.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Lecun, Y., Bottou, L., Bengio, Y. and Haffner, P.** (1998). Gradient-based learning applied to document recognition. *Proceedings of the IEEE* **86**, 2278–2324.]
 
-   [**Li, Y. and Shen, L.** (2018). cC-GAN: A Robust Transfer-Learning Framework for HEp-2 Specimen Image Segmentation. *IEEE Access* **6**, 14048–14058.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Li, Y. and Shen, L.** (2018). cC-GAN: A Robust Transfer-Learning Framework for HEp-2 Specimen Image Segmentation. *IEEE Access* **6**, 14048–14058.]
 
-   [**Lin, B., Emami, N., Santos, D. A., Luo, Y., Banerjee, S. and Xu, B.-X.** (2022). A deep learned nanowire segmentation model using synthetic data augmentation. *npj Comput Mater* **8**, 1–12.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Lin, B., Emami, N., Santos, D. A., Luo, Y., Banerjee, S. and Xu, B.-X.** (2022). A deep learned nanowire segmentation model using synthetic data augmentation. *npj Comput Mater* **8**, 1–12.]
 
-   [**Liu, B., Polack, M., Coudray, N., Claudio Quiros, A., Sakellaropoulos, T., Le, H., Karimkhan, A., Crobach, A. S. L. P., van Krieken, J. H. J. M., Yuan, K., et al.** (2025). Self-supervised learning reveals clinically relevant histomorphological patterns for therapeutic strategies in colon cancer. *Nat Commun* **16**, 2328\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Liu, B., Polack, M., Coudray, N., Claudio Quiros, A., Sakellaropoulos, T., Le, H., Karimkhan, A., Crobach, A. S. L. P., van Krieken, J. H. J. M., Yuan, K., et al.** (2025). Self-supervised learning reveals clinically relevant histomorphological patterns for therapeutic strategies in colon cancer. *Nat Commun* **16**, 2328\.]
 
-   [**Moen, E., Bannon, D., Kudo, T., Graf, W., Covert, M. and Van Valen, D.** (2019). Deep learning for cellular image analysis. *Nature Methods* **16**, 1233–1246.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Moen, E., Bannon, D., Kudo, T., Graf, W., Covert, M. and Van Valen, D.** (2019). Deep learning for cellular image analysis. *Nature Methods* **16**, 1233–1246.]
 
-   [**Morid, M. A., Borjali, A. and Del Fiol, G.** (2021). A scoping review of transfer learning research on medical image analysis using ImageNet. *Computers in Biology and Medicine* **128**, 104115\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Morid, M. A., Borjali, A. and Del Fiol, G.** (2021). A scoping review of transfer learning research on medical image analysis using ImageNet. *Computers in Biology and Medicine* **128**, 104115\.]
 
-   [**Moshkov, N., Bornholdt, M., Benoit, S., Smith, M., McQuin, C., Goodman, A., Senft, R. A., Han, Y., Babadi, M., Horvath, P., et al.** (2024). Learning representations for image-based profiling of perturbations. *Nat Commun* **15**, 1594\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Moshkov, N., Bornholdt, M., Benoit, S., Smith, M., McQuin, C., Goodman, A., Senft, R. A., Han, Y., Babadi, M., Horvath, P., et al.** (2024). Learning representations for image-based profiling of perturbations. *Nat Commun* **15**, 1594\.]
 
-   [**Ouyang, W., Beuttenmueller, F., Gómez-de-Mariscal, E., Pape, C., Burke, T., Garcia-López-de-Haro, C., Russell, C., Moya-Sans, L., de-la-Torre-Gutiérrez, C., Schmidt, D., et al.** (2022). BioImage Model Zoo: A Community-Driven Resource for Accessible Deep Learning in BioImage Analysis. 2022.06.07.495102.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Ouyang, W., Beuttenmueller, F., Gómez-de-Mariscal, E., Pape, C., Burke, T., Garcia-López-de-Haro, C., Russell, C., Moya-Sans, L., de-la-Torre-Gutiérrez, C., Schmidt, D., et al.** (2022). BioImage Model Zoo: A Community-Driven Resource for Accessible Deep Learning in BioImage Analysis. 2022.06.07.495102.]
 
-   [**Pachitariu, M. and Stringer, C.** (2022). Cellpose 2.0: how to train your own model. *Nat Methods* 1–8.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Pachitariu, M. and Stringer, C.** (2022). Cellpose 2.0: how to train your own model. *Nat Methods* 1–8.]
 
-   [**Pylvänäinen, J. W., Gómez-de-Mariscal, E., Henriques, R. and Jacquemet, G.** (2023). Live-cell imaging in the deep learning era. *Current Opinion in Cell Biology* **85**, 102271\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Pylvänäinen, J. W., Gómez-de-Mariscal, E., Henriques, R. and Jacquemet, G.** (2023). Live-cell imaging in the deep learning era. *Current Opinion in Cell Biology* **85**, 102271\.]
 
-   [**Rangel DaCosta, L., Sytwu, K., Groschner, C. K. and Scott, M. C.** (2024). A robust synthetic data generation framework for machine learning in high-resolution transmission electron microscopy (HRTEM). *npj Comput Mater* **10**, 1–11.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Rangel DaCosta, L., Sytwu, K., Groschner, C. K. and Scott, M. C.** (2024). A robust synthetic data generation framework for machine learning in high-resolution transmission electron microscopy (HRTEM). *npj Comput Mater* **10**, 1–11.]
 
-   [**Ronneberger, O., Fischer, P. and Brox, T.** (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Ronneberger, O., Fischer, P. and Brox, T.** (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation.]
 
-   [**Russell, C. T., Burel, J.-M., Athar, A., Li, S., Sarkans, U., Swedlow, J., Brazma, A., Hartley, M. and Uhlmann, V.** (2024). bia-binder: A web-native cloud compute service for the bioimage analysis community.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Russell, C. T., Burel, J.-M., Athar, A., Li, S., Sarkans, U., Swedlow, J., Brazma, A., Hartley, M. and Uhlmann, V.** (2024). bia-binder: A web-native cloud compute service for the bioimage analysis community.]
 
-   [**Schindelin, J., Arganda-Carreras, I., Frise, E., Kaynig, V., Longair, M., Pietzsch, T., Preibisch, S., Rueden, C., Saalfeld, S., Schmid, B., et al.** (2012). Fiji: an open-source platform for biological-image analysis. *Nature Methods* **9**, 676–682.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Schindelin, J., Arganda-Carreras, I., Frise, E., Kaynig, V., Longair, M., Pietzsch, T., Preibisch, S., Rueden, C., Saalfeld, S., Schmid, B., et al.** (2012). Fiji: an open-source platform for biological-image analysis. *Nature Methods* **9**, 676–682.]
 
-   [**Schmidt, U., Weigert, M., Broaddus, C. and Myers, G.** (2018). Cell Detection with Star-Convex Polygons. In *Medical Image Computing and Computer Assisted Intervention – MICCAI 2018* (ed. Frangi, A. F.), Schnabel, J. A.), Davatzikos, C.), Alberola-López, C.), and Fichtinger, G.), pp. 265–273. Cham: Springer International Publishing.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Schmidt, U., Weigert, M., Broaddus, C. and Myers, G.** (2018). Cell Detection with Star-Convex Polygons. In *Medical Image Computing and Computer Assisted Intervention – MICCAI 2018* (ed. Frangi, A. F.), Schnabel, J. A.), Davatzikos, C.), Alberola-López, C.), and Fichtinger, G.), pp. 265–273. Cham: Springer International Publishing.]
 
-   [**Shorten, C. and Khoshgoftaar, T. M.** (2019). A survey on Image Data Augmentation for Deep Learning. *Journal of Big Data* **6**, 60\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Shorten, C. and Khoshgoftaar, T. M.** (2019). A survey on Image Data Augmentation for Deep Learning. *Journal of Big Data* **6**, 60\.]
 
-   [**Stringer, C., Wang, T., Michaelos, M. and Pachitariu, M.** (2021). Cellpose: a generalist algorithm for cellular segmentation. *Nat Methods* **18**, 100–106.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**Stringer, C., Wang, T., Michaelos, M. and Pachitariu, M.** (2021). Cellpose: a generalist algorithm for cellular segmentation. *Nat Methods* **18**, 100–106.]
 
-   [**von Chamier, L., Laine, R. F., Jukkala, J., Spahn, C., Krentzel, D., Nehme, E., Lerche, M., Hernández-Pérez, S., Mattila, P. K., Karinou, E., et al.** (2021). Democratising deep learning for microscopy with ZeroCostDL4Mic. *Nature Communications* **12**, 2276\.](https://www.zotero.org/google-docs/?Wwiyoi)
+   [**von Chamier, L., Laine, R. F., Jukkala, J., Spahn, C., Krentzel, D., Nehme, E., Lerche, M., Hernández-Pérez, S., Mattila, P. K., Karinou, E., et al.** (2021). Democratising deep learning for microscopy with ZeroCostDL4Mic. *Nature Communications* **12**, 2276\.]
 
 
 ---
