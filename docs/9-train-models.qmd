@@ -45,9 +45,9 @@ subtitle: Practical considerations to train and use deep learning models in micr
 
 
 
-## Introduction {#introduction}
+## Introduction
 
-###  The challenge {#the-challenge}
+###  The challenge
 
 The growing volume and complexity of image data necessitate increasingly advanced analytical tools. One example of challenging tasks is image segmentation, the process of identifying and delineating structures of interest within images. Segmentation can be particularly difficult and time-consuming when dealing with large, multidimensional datasets, such as 3D volumes or time-lapse sequences, where manual annotation becomes impractical. Machine learning (ML), especially deep learning (DL), can provide effective solutions to these challenges [(Heinrich et al., 2021\)](https://www.zotero.org/google-docs/?wUQFtp).
 
@@ -55,7 +55,7 @@ ML algorithms learn patterns from data to perform tasks such as image classifica
 
 Segmentation greatly benefits from machine learning and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges.
 
-### The different types of segmentation {#the-different-types-of-segmentation}
+### The different types of segmentation
 
 Before discussing how to segment microscopy images using deep learning, it is important to describe the different types of segmentation you may want to achieve. Segmentation tasks in microscopy can be categorised into three main types (**Figure 1**): 
 
@@ -67,9 +67,9 @@ Before discussing how to segment microscopy images using deep learning, it is im
 
 ![**Figure 1: The three main types of segmentation in microscopy images**. Original Image: A raw grayscale fluorescence microscopy image showing cell nuclei stained with a nuclear marker. Binary Segmentation: Simplifies the image into two classes—foreground (white, nuclei) and background (black). Instance Segmentation: Assigns a unique label (shown in different colours) to each nucleus, facilitating individual object identification. Semantic Segmentation: Categorises each pixel into predefined classes—nucleus (purple), nucleus edge (yellow), and background (teal)—without distinguishing between individual objects.](9-figures/chapter9_1_segmentation_types.png)
 
-## Preparing for your segmentation project {#preparing-for-your-segmentation-project}
+## Preparing for your segmentation project
 
-   ### Defining your segmentation task and success criteria {#defining-your-segmentation-task-and-success-criteria}
+   ### Defining your segmentation task and success criteria
 
 Every image analysis project should start by clearly defining the scientific question you wish to answer and your success criteria. Careful planning of your objectives ensures that the chosen segmentation approach closely aligns with your scientific goals and will guide critical decisions about data annotation, model selection and performance evaluation. 
 
@@ -77,7 +77,7 @@ Consider whether your segmentation solution is meant for a specific experiment o
 
 Additionally, clearly define the success criteria based on your objectives. For example, be prepared to answer the question, “What do I need to accomplish for my analysis to be sufficient?” This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful.
 
-### Evaluating alternatives: Is DL the right choice? {#evaluating-alternatives:-is-dl-the-right-choice?}
+### Evaluating alternatives: Is DL the right choice?
 
 ![**Figure 2: Is DL the right choice for your segmentation project?** This decision tree guides the selection of appropriate segmentation approaches based on data complexity and project needs. Begin by testing classical image processing methods, such as intensity-based thresholding, which are efficient and easy to apply for well-defined features. If these methods prove insufficient, consider using a pixel classifier, which provides a user-friendly and effective solution for smaller datasets. Only consider deep learning if you possess a large annotated dataset and previous methods have failed. In the absence of suitable data or methods, manual annotation may be necessary.](9-figures/chapter9_2_yes or no DL.png)
 
@@ -89,9 +89,9 @@ DL methods excel in complex scenarios where traditional approaches fail, especia
 
 If you are unsure which approach to use, we usually recommend first trying classical image processing methods and pixel classifiers (**Figure 1**). We typically initiate a DL project only if these methods fail to produce satisfactory results (see [Section 3.3.2](#when-to-train-your-model)).
 
-## Implementing a DL segmentation workflow {#implementing-a-dl-segmentation-workflow}
+## Implementing a DL segmentation workflow
 
-### Overview of a typical DL segmentation workflow {#overview-of-a-typical-dl-segmentation-workflow}
+### Overview of a typical DL segmentation workflow
 
 Once you decide to implement a DL approach for segmentation, the workflow can be divided into a series of steps (**Figure 3**).
 
@@ -99,19 +99,19 @@ The process starts by clearly defining your segmentation task and selecting the 
 
 ![**Figure 3: Conceptual workflow for training a DL segmentation model.** The workflow begins with defining the segmentation task (Step 1), followed by searching for suitable pre-trained models (Step 2). If no such model exists, a training dataset must be prepared (Step 3), and the model is trained (Step 4). The trained model is then evaluated on validation or test data (Step 5). If it performs well, it can be applied to new data (Step 6); otherwise, the model is iteratively refined by returning to earlier steps. Feedback loops from evaluation to earlier stages help refine and improve the model accuracy.](9-figures/chapter9_3_steps for training.png)
 
-### Selecting a suitable DL approach {#selecting-a-suitable-dl-approach}
+### Selecting a suitable DL approach
 
-The first step in choosing a DL approach for image segmentation is to clearly define your segmentation task, whether it’s binary, semantic, or instance segmentation (**Figure** **1**), and to determine if you require 2D or 3D segmentation. Next, you should consider whether the model or tool you plan to use makes assumptions about the shapes or structures of the objects you want to segment. Understanding these assumptions will aid in selecting a model that fits your specific biological problem (see [Section 2.1](#defining-your-segmentation-task-and-success-criteria)). Additionally, consider the amount of data that needs annotation for a particular DL approach (see [Section  3.4.5](#choosing-the-dataset-size:-specific-vs.-general-models)). Finally, take into account your available computational resources (see [Section 4.2](#managing-computational-resources)). More complex models typically demand more GPU memory, longer training times, and additional storage, especially for 3D data or large datasets.
+The first step in choosing a DL approach for image segmentation is to clearly define your segmentation task, whether it’s binary, semantic, or instance segmentation (**Figure 1**), and to determine if you require 2D or 3D segmentation. Next, you should consider whether the model or tool you plan to use makes assumptions about the shapes or structures of the objects you want to segment. Understanding these assumptions will aid in selecting a model that fits your specific biological problem (see [Section 2.1](#defining-your-segmentation-task-and-success-criteria)). Additionally, consider the amount of data that needs annotation for a particular DL approach (see [Section  3.4.5](#choosing-the-dataset-size:-specific-vs.-general-models)). Finally, take into account your available computational resources (see [Section 4.2](#managing-computational-resources)). More complex models typically demand more GPU memory, longer training times, and additional storage, especially for 3D data or large datasets.
 
 For example, StarDist [(Schmidt et al., 2018\)](https://www.zotero.org/google-docs/?VbEAR3), a widely used tool for nuclei segmentation, assumes that objects are star-convex polygons. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose [(Stringer et al., 2021\)](https://www.zotero.org/google-docs/?lODjDF) uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms. 
 
 Choosing the right DL strategy requires aligning your objective, object shape, data dimensionality, and computing capacity with the strengths and assumptions of the available DL architectures.
 
-### Deciding whether to train a new model {#deciding-whether-to-train-a-new-model}
+### Deciding whether to train a new model
 
 ![**Figure 4: Decision workflow for selecting a deep learning model training approach.** This flowchart outlines how to determine an appropriate training approach based on the availability and performance of pre-trained models. ](9-figures/chapter9_4_training approach.png)
 
-#### Leveraging pre-trained models {#leveraging-pre-trained-models}
+#### Leveraging pre-trained models
 
 The increasing availability of already trained (pre-trained) DL models has greatly simplified image analysis. Many of these models can be directly applied to your data, removing the need to train a model yourself [(Bejarano et al., 2024; Fisch et al., 2024\)](https://www.zotero.org/google-docs/?ZvLOBv). This reduces the technical barrier and saves time, making advanced analysis more accessible. However, it is essential to evaluate the quality of any pre-trained model before relying on its results (**Figure 4\)**. A model that performs well in one context may not be as effective on your specific data. Always conduct quality control by visually inspecting the outputs and assessing performance with quantitative metrics such as Intersection over Union (IoU) or F1-score, using a small, representative test set. This step is vital when model predictions are used in downstream analyses (see [Section 3.7](#evaluating-the-performance-of-your-model)).
 
@@ -126,17 +126,17 @@ Several excellent resources host pre-trained models suitable for microscopy:
 
 DL segmentation tools such as StarDist or CellPose also include their own collection of pre-trained models [(Pachitariu and Stringer, 2022\)](https://www.zotero.org/google-docs/?AO5PVU). Researchers also increasingly share trained models alongside their datasets and publications, promoting open science. Platforms like Zenodo are commonly used for this purpose [(Fazeli et al., 2020; Follain et al., 2024\)](https://www.zotero.org/google-docs/?dOhtAh), although deployment may require handling specific file formats or environments.
 
-#### When to train your model {#when-to-train-your-model}
+#### When to train your model
 
 Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance [(Archit et al., 2025; Pachitariu and Stringer, 2022; von Chamier et al., 2021\)](https://www.zotero.org/google-docs/?0rCc29). This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your model.
 
 Ultimately, always evaluate the model’s performance against your defined success criteria (see [Section 3.7](#evaluating-the-performance-of-your-model)). Custom training may be the best path forward if the current model does not meet your needs.
 
-### Preparing your dataset for training {#preparing-your-dataset-for-training}
+### Preparing your dataset for training
 
 A well-designed training dataset is essential for developing a successful segmentation model. The number of images and the quality of annotations needed vary based on factors such as task complexity and the architecture of the intended model. 
 
-#### Types of model training {#types-of-model-training}
+#### Types of model training
 
 Most segmentation models are trained using supervised learning, where each input image is paired with a manually annotated ground truth mask. In this context, all objects that need segmentation must be annotated in the training dataset. This approach enables the model to learn a direct mapping from raw images to segmentation outputs (**Figure 7**).
 
@@ -146,7 +146,7 @@ However, alternative approaches can help reduce the need for extensive manual an
 * **Self-supervised learning** involves designing tasks in which the model learns useful features directly from the input data without needing explicit labels [(Liu et al., 2025\)](https://www.zotero.org/google-docs/?Hfkis6).  
 * **Weakly supervised learning** uses partial, noisy, or imprecise labels to guide training, which can significantly reduce annotation effort [(Caicedo et al., 2018; Moshkov et al., 2024\)](https://www.zotero.org/google-docs/?xOWTQk).
 
-#### Creating Manual Annotations {#creating-manual-annotations}
+#### Creating Manual Annotations
 
 Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [(Schindelin et al., 2012\)](https://www.zotero.org/google-docs/?YaGIAO), Napari [(Ahlers et al., 2023\)](https://www.zotero.org/google-docs/?NHVSEB), and QuPath [(Bankhead et al., 2017\)](https://www.zotero.org/google-docs/?p4mMK5) are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
 
@@ -170,13 +170,13 @@ Here is an example pipeline for manually annotating data using Fiji [(Fazeli et 
 
 * At the end, you will have one folder with the original images and another for the ROI maps.
 
-#### Accelerating annotation with pre-trained models {#accelerating-annotation-with-pre-trained-models}
+#### Accelerating annotation with pre-trained models
 
 Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, pre-trained DL models such as those provided with StarDist [(Schmidt et al., 2018\)](https://www.zotero.org/google-docs/?1AEwI2) and Cellpose [(Stringer et al., 2021\)](https://www.zotero.org/google-docs/?8GrKdA) can generate initial segmentations that users can manually refine. These annotations can be reintegrated into the model for retraining, establishing an iterative cycle that accelerates both labelling and model refinement. 
 
 New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM) [(Archit et al., 2025\)](https://www.zotero.org/google-docs/?Y5qh31) facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [(Pachitariu and Stringer, 2022\)](https://www.zotero.org/google-docs/?Prl7Hs) features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
 
-#### Expanding your dataset with augmentation and synthetic data {#expanding-your-dataset-with-augmentation-and-synthetic-data}
+#### Expanding your dataset with augmentation and synthetic data
 
 When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [(Lecun et al., 1998; Shorten and Khoshgoftaar, 2019\)](https://www.zotero.org/google-docs/?lnvXBi). Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. 
 
@@ -184,17 +184,17 @@ In the absence of sufficient real data, synthetic data generated through simulat
 
 In summary, a successful segmentation pipeline relies on a careful balance between data quantity and annotation quality. Augmentation strategies can efficiently help to scale and balance training datasets.
 
-#### Choosing the dataset size: specific vs. general models {#choosing-the-dataset-size:-specific-vs.-general-models}
+#### Choosing the dataset size: specific vs. general models
 
 In supervised training, it is crucial that each image in the training set is accompanied by a corresponding label image (see [Section 3.4.1](#types-of-model-training)). The number of image-label pairs required depends on the number of labels per image, the complexity of the model and the desired level of generalizability. Still, the key is having enough representative examples and corresponding annotations for the model to learn meaningful patterns. 
 
 Small and well-curated datasets consisting of tens of images may suffice for highly specific applications, such as segmenting cells or nuclei using a defined imaging modality [(von Chamier et al., 2021\)](https://www.zotero.org/google-docs/?JbHF9k). In these scenarios, transfer learning can also be especially beneficial (see [Section 3.6](#fine-tuning-pre-existing-models)). Models designed to generalise across a wide range of conditions, tissue types, or imaging modalities typically require much larger and more diverse datasets (hundreds to thousands of annotated images) [(Stringer et al., 2021\)](https://www.zotero.org/google-docs/?JyXuWL). These datasets are essential for capturing the inherent variability in broader use cases. 
 
-### Training a segmentation model from scratch {#training-a-segmentation-model-from-scratch}
+### Training a segmentation model from scratch
 
 Once you have annotated your training dataset to train your segmentation model, the next steps are to organise your data for training, initialise your model by selecting appropriate hyperparameters, and start the training process (**Figure 7**).
 
-#### Splitting your training data: training, validation, and test sets {#splitting-your-training-data:-training,-validation,-and-test-sets}
+#### Splitting your training data: training, validation, and test sets
 
 A crucial part of preparing your dataset is dividing it into three subsets: training, validation, and test sets. Each subset should contain the original microscopy images paired with their corresponding ground truth segmentations. A common strategy is to allocate 70–80% of the data for training, 10–15% for validation, and the remainder for testing. To ensure unbiased evaluation, ensure these subsets do not overlap in terms of fields of view and represent the variability of your entire dataset.
 
@@ -204,7 +204,7 @@ The **validation set** is used during training to provide feedback on the model'
 
 The **test set** serves a separate role: it evaluates the model's performance on entirely unseen data. Unlike the validation set, the test set is not utilised during training, ensuring an unbiased performance assessment. Test images should also include ground truth annotations to facilitate quantitative quality control. Reporting test set performance, using metrics such as accuracy, IoU, or F1-score, is crucial, especially when publishing or benchmarking your model [(Laine et al., 2021\)](https://www.zotero.org/google-docs/?J6lJo7).
 
-#### Understanding the training process {#understanding-the-training-process}
+#### Understanding the training process
 
 A DL model is composed of multiple layers (**Figure 5**). Each layer contains tens to hundreds of image processing operations (typically multiplications or convolutions), each controlled by multiple adjustable parameters (called weights). Altogether, a DL model may contain millions of adjustable weights. When an input image is processed by a DL model, it is sequentially processed by each layer until an output is generated. Segmentation tasks typically involve converting input images into labelled outputs. During training, the model weights are modified as the model learns how to perform a specific task.
 
@@ -220,7 +220,7 @@ At the end of each epoch, the model assesses its performance on the validation s
 
 Monitoring both training and validation losses during training helps determine whether the model is learning effectively. A consistently decreasing validation loss indicates that the model is improving and generalising well (see [Section 3.5.4](#monitoring-training-and-validation-losses)).
 
-#### Choosing your model hyperparameters {#choosing-your-model-hyperparameters}
+#### Choosing your model hyperparameters
 
 Now that you understand the training process, the next step is to configure the model's hyperparameters, which are the settings that dictate how the model learns. While the model’s parameters (its weights) are updated during training, hyperparameters are established beforehand, defining the structure and behaviour of the training process. Below are some of the most common hyperparameters and their effects on training:
 
@@ -240,7 +240,7 @@ Now that you understand the training process, the next step is to configure the 
 
 Given the many possible configurations, tuning hyperparameters is often essential—especially when applying a model to new data. Start with the recommended values from the model's original publication, but you might need to conduct a hyperparameter search to optimize performance. This can range from a simple grid search to more advanced methods, such as Gaussian-based processes or genetic algorithms.
 
-#### Monitoring training and validation Losses {#monitoring-training-and-validation-losses}
+#### Monitoring training and validation Losses
 
 Once your model begins training, it is helpful to evaluate its learning progress. The two key metrics for assessment are the training loss and the validation loss (**Figure 6**). Monitoring both throughout the training process offers insight into whether your model is improving and learning to generalise beyond the training data. The three main behaviours that you may encounter during training are:
 
@@ -250,11 +250,11 @@ Once your model begins training, it is helpful to evaluate its learning progress
 * **Good fitting:** Both training and validation losses decrease, with the validation loss slightly higher than the training loss, which is expected. This represents the ideal scenario.  
 * **Overfitting:** The model achieves an excellent training loss, but the validation loss does not improve. This may indicate overly similar training data or excessive training epochs, preventing the model from generalising to new data.
 
-###  Fine-Tuning Pre-existing Models {#fine-tuning-pre-existing-models}
+###  Fine-Tuning Pre-existing Models
 
 Instead of training a model from scratch, fine-tuning an existing DL model is usually more efficient, especially when your data resembles the dataset used to train the original model. This approach utilises pre-trained weights and previously learned features, significantly decreasing the amount of required annotated data, training time, and computational resources.
 
-#### Applying Transfer Learning {#applying-transfer-learning}
+#### Applying Transfer Learning
 
 Transfer learning refers to the process of taking a pre-trained model and adapting it to a new but related task by providing task-specific training data, typically in the form of manually annotated image pairs (**Figure 7**). Transfer learning freezes part of the model (for instance, the initial layers or almost all the layers except the last ones); these weights will not be updated. Then, the model is trained on the new data, but only the layers that you have unfrozen will be updated. Since the base model already encodes many useful low-level features (e.g., edges, shapes, textures), this approach allows researchers to focus on refining the model for their specific biological structures or imaging modalities [(Li and Shen, 2018; Morid et al., 2021\)](https://www.zotero.org/google-docs/?F2ETNb) .
 
@@ -264,7 +264,7 @@ This method is especially effective when:
 * Your imaging conditions closely match those of the pre-trained model.  
 * You wish to quickly adapt a general model to a specific dataset.
 
-#### Conducting fine-tuning {#conducting-fine-tuning}
+#### Conducting fine-tuning
 
 In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training (**Figure 7**) [(Archit et al., 2025; Pachitariu and Stringer, 2022\)](https://www.zotero.org/google-docs/?L9rdtN).  Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
 
@@ -274,7 +274,7 @@ Classic fine-tuning is ideal when:
 * You expect that earlier layers may need to adapt, not just the final classifier or output layers.  
 * You have enough annotated data to avoid overfitting during full model training. Although this method is more computationally demanding than light fine-tuning, it often leads to better results on diverse datasets.
 
-#### Iterative training: keeping humans in the loop {#iterative-training:-keeping-humans-in-the-loop}
+#### Iterative training: keeping humans in the loop
 
 Iterative fine-tuning is an interactive approach that combines model prediction with human annotation (see [Section 3.4.3](#accelerating-annotation-with-pre-trained-models)). The workflow typically starts with a pre-trained model predicting new images. A user then manually corrects or annotates these predictions, and the improved annotations update the model (**Figure 7**). This cycle continues, progressively enhancing the model’s accuracy with each iteration until it performs as expected [(Chen et al., 2020; Conrad and Narayan, 2023; Pachitariu and Stringer, 2022\)](https://www.zotero.org/google-docs/?LRuWLx).
 
@@ -286,7 +286,7 @@ This method is particularly powerful when:
 
 ![**Figure 7: Strategies for training deep learning models for image segmentation.** A model can be trained from scratch using a large annotated dataset, fine-tuned from a pre-trained model with task-specific data, or refined through human-in-the-loop workflows where model predictions are manually corrected and fed back for retraining. These approaches balance performance, data availability, and annotation effort.](9-figures/chapter9_6_Underfitting_VS_Overfitting.png)
 
-### Evaluating the performance of your model {#evaluating-the-performance-of-your-model}
+### Evaluating the performance of your model
 
 ![**Figure 8: Workflow for evaluating DL model performance during training and on test data.** Evaluating model performance is essential before deploying any DL model for image segmentation. This diagram outlines a two-stage process: assessment during training and on a separate test set. During training, validation and training losses (see [Section 3.5.4](https://docs.google.com/document/d/1S-F_79HMBBoJ9cm13fyXmYKSWlqcAdZIdqss1H4Hf2s/edit?pli=1&tab=t.0#heading=h.7bgsk7t5p8ac)) guide whether to continue training, stop, or expand the dataset. After training, performance is evaluated using a test set. High test metrics (e.g., IoU, F1-score) indicate readiness for deployment. Borderline or poor results suggest reviewing errors, refining training data, or trying a different model. This approach ensures model reliability and task-specific performance. ](docs\9-figures\chapter9_8_monitoring.png)
 
@@ -311,13 +311,13 @@ If your evaluation metrics indicate weak performance, especially for certain str
 
 In summary, never skip evaluation. Every model must be tested—both visually and quantitatively—to ensure it truly works for your data and provides results you can trust.
 
-### Deploying your model on new data {#deploying-your-model-on-new-data}
+### Deploying your model on new data
 
 Once a segmentation model has been trained and validated, it can be used on new, unseen images. This step typically involves feeding new images into the model to generate segmentation predictions. The deployment approach relies on the computational resources (see [Section 4.2](#managing-computational-resources)) as well as the size and complexity of your dataset (**Figure 9**). 
 
 ![**Figure 9: Decision workflow for model deployment strategy based on computational resources.** The choice of deployment strategy depends on the availability of computational resources (see [Section 4.2](https://docs.google.com/document/d/1S-F_79HMBBoJ9cm13fyXmYKSWlqcAdZIdqss1H4Hf2s/edit?pli=1&tab=t.0#heading=h.9x5jfmgrh00b)) and the sensitivity of the data . If high-performance computing resources are available locally, these should be used for deployment. In their absence, consider whether the data can be transferred to the cloud. If so, cloud-based resources offer an efficient solution. However, if data transfer is restricted—due to size or sensitivity—local deployment remains the only option, though it may require significantly more time. ](9-figures/chapter9_9_deployment.png)
 
-### Troubleshooting Common Problems {#troubleshooting-common-problems}
+### Troubleshooting Common Problems
 
 
 **I found a tool or DL model online, but it does not work. What should I do?**
@@ -350,9 +350,9 @@ Refer to [Section 2.1](#defining-your-segmentation-task-and-success-criteria) fo
 * The model performs well on training data but poorly on new images, suggesting overfitting (**Figure 6**). Implement data augmentation and increase dataset diversity to help the model generalise better.  
 * Inconsistent results across different computers: Differences in GPUs or environments can cause slight variations in outcomes. If the differences are significant, verify that all systems use consistent software versions and configurations. For further information on this topic, refer to [Section 4.3](#ensuring-reproducibility-in-dl).
 
-## Further considerations for DL segmentation {#further-considerations-for-dl-segmentation}
+## Further considerations for DL segmentation
 
-### Choosing the Right Tools for DL {#choosing-the-right-tools-for-dl}
+### Choosing the Right Tools for DL
 
 Selecting the right tools to train and use DL models depends mainly on your level of programming experience and comfort with technical interfaces.
 
@@ -372,7 +372,7 @@ If you are comfortable with programming, you will have even more flexibility. La
 
 While coding can involve a steeper learning curve, it allows you to create customized pipelines, integrate various tools, and troubleshoot intricate workflows, unlocking the full potential of DL for microscopy segmentation.
 
-### Managing Computational Resources {#managing-computational-resources}
+### Managing Computational Resources
 
 When using DL for microscopy, an important consideration is the availability and capacity of your computational resources (**Figure 9**). High-performance DL models, particularly those used for 3D image data, can be very demanding regarding memory and processing power. 
 
@@ -388,7 +388,7 @@ Additionally, consider whether to train and deploy your model locally or in the 
 
 ![**Figure 11: Training and deployment strategies for DL models in microscopy.** Depending on the available tools and infrastructure, models can be trained and deployed locally or in the cloud. Modified from [(von Chamier et al., 2021\)](https://www.zotero.org/google-docs/?zhVvst).](9-figures/chapter9_11_what resources to use when trainig.png)
 
-### Ensuring Reproducibility in DL {#ensuring-reproducibility-in-dl}
+### Ensuring Reproducibility in DL
 
 When sharing how you trained a DL model, two key elements often come to mind: the dataset used and the code that runs the model. However, in practice, reproducibility extends beyond just data and code. In programming environments like Python, which rely heavily on external libraries, ensuring reproducibility also requires capturing the exact configuration of the environment in which the model was trained.
 
@@ -409,7 +409,7 @@ Reproducibility is crucial for establishing trust in computational results and f
 
 For more information on best practices, consult [(Laine et al., 2021\)](https://www.zotero.org/google-docs/?JQTcnl).
 
-## Summary & Outlook {#summary-&-outlook}
+## Summary & Outlook
 
 Segmenting microscopy images remains a critical yet challenging task in bioimage analysis. DL has undeniably transformed this field, offering robust solutions for segmenting complex and variable structures. However, as this chapter emphasizes, DL is not always the fastest or the best approach. Classical image processing techniques or pixel classifiers often provide faster, simpler, and highly effective alternatives in many scenarios.
 
@@ -419,7 +419,7 @@ Notably, the landscape of DL segmentation is rapidly evolving. The emergence of 
 
 The ongoing development and democratization of DL tools, along with enhancements in model generalizability, human-in-the-loop workflows, and reproducibility, are changing how microscopy data is analyzed. Still, the key to successful segmentation will always involve careful planning, quality control, and selecting the right tool for the task, whether it involves deep learning or not.
 
-## References {#references}
+## References
 
    [**Ahlers, J., Althviz Moré, D., Amsalem, O., Anderson, A., Bokota, G., Boone, P., Bragantini, J., Buckley, G., Burt, A., Bussonnier, M., et al.** (2023). napari: a multi-dimensional image viewer for Python.](https://www.zotero.org/google-docs/?Wwiyoi)
 
