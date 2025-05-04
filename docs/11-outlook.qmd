@@ -20,9 +20,34 @@ subtitle: What can AI enable for biology?
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
-Under your first header, include a brief introduction to your chapter.
-
 Starting prompt for this chapter: Chapter 11 concludes the book with a forward-looking assessment of AI in microscopy, focusing on how it can/will enable biological discovery. It should highlight a few motivational examples of discoveries that AI has already enabled and discuss opportunities to which the reader is primed to contribute after reading this book.
+
+## Why it's a good time to start with DL for microscopy now?
+- There is a lot of know-how accumulated in the field, existing architectures work well, new ones promise even more
+- Specific resources are starting to appear, including this book
+- Existing DL tools are quite powerful, but require understanding of limitations. While it's tempting to just use things and move on to the next analysis step, you can get much more out of them if you have an idea about the internals.
+- It provides a strategic advantage for the analysis of challenging data: large, volumetric, high-throughput, temporal. Screening, sorting, finding an elusive phenotype, for these and other applications the performance of your DL will define what is possible.
+
+## Early birds: new biology enabled by DL
+- Connectomics: neuron segmentation, synapse detection, graph-related tasks, all at a scale not possible without segmentation
+- Studying development: segmentation and tracking, the work of Kate McDole/ Jan Funke and Loic Royer. 
+- Image restoration: tbd, find a biology rather than methods paper, something like [Schubert et al, Nat Comms, 2024] as an application for Noise2Void. Perhaps mention light field or another example where DL-based deconvolution can make processing real-time compared to previous requirements of days on a cluster, if not already mentioned in Chapter 6. 
+- Large atlasing efforts: HPA, Platynereis, etc
+
+## What's next?
+- DL is developing in a fast and very inpredictable way. No one asked in 2015 would have come forward with what we have now. 
+- Over the last years, we have seen that foundation models trained on natural image data are finally starting to become useful for microscopy (see all recent DinoV2 examples). Considering humans train themselves to perform microscopy-related vision tasks by finetuning/repurposing their natural vision abilities, we might come to the point where the same will be true for DL models - we will use natural image ones directly, re-train self-supervised on large amounts of target domain data or supervised on a very particular dataset. 
+- For image restoration, uncertainty estimation will only become more critical. New downstream algorithms will have to be developed that can take this uncertainty into account. 
+- DL will move into analysis. See the first work on identifying phenotypes (our MorphoFeatures), finding sub-cellular protein distribution patterns (SubCell), analyzing mechanical forces (great paper, will find reference), etc. 
+
+## How to continue from here? 
+- Open source and open science: check how others train networks in their public models on the BioImage Model Zoo or Hugging Face. Contribute your models, with full metadata and training/validation notebooks. 
+- - Come back to the critical importance of data. Architectures and networks come and go, data remains the foundation of what we do. Short overview of how to make your AI-ready data FAIR. 
+
+
+
+
+
 
 ## Include section headers as appropriate
 
