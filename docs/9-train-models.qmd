@@ -131,7 +131,7 @@ DL segmentation tools such as StarDist or CellPose also include their own collec
 
 #### When to train your model {#sec-9.3.3.2}
 
-Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance [@archit2025; @pachitariu2022; @von_chamier2021]. This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your model.
+Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance [@archit2025; @pachitariu2022; @von_chamier2021]. This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your own model.
 
 Ultimately, always evaluate the model’s performance against your defined success criteria (see @sec-9.3.7). Custom training may be the best path forward if the current model does not meet your needs.
 
