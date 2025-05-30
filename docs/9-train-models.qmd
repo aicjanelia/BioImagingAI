@@ -158,7 +158,7 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
 
 * Open Fiji – activate the LOCI update site and restart Fiji. 
 
-* Open your image to annotate. 
+* Open your image you wish to annotate. 
 
 * Select the Oval or Freehand selection tool. 
 
