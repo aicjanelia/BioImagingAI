@@ -70,7 +70,7 @@ Before discussing how to segment microscopy images using deep learning, it is im
 ![The three main types of segmentation in microscopy images. Original Image: A raw grayscale fluorescence microscopy image showing cell nuclei stained with a nuclear marker. Binary Segmentation: Simplifies the image into two classes—foreground (white, nuclei) and background (black). Instance Segmentation: Assigns a unique label (shown in different colours) to each nucleus, facilitating individual object identification. Semantic Segmentation: Categorises each pixel into predefined classes—nucleus (purple), nucleus edge (yellow), and background (teal)—without distinguishing between individual objects.](9-figures/chapter9_1_segmentation_types.png){#fig-1}
 
 
-## Preparing for your segmentation project {#sec-9.2}
+## Preparing for your project {#sec-9.2}
 
 ### Defining your segmentation task and success criteria {#sec-9.2.1}
 
