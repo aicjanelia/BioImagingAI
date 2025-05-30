@@ -186,7 +186,7 @@ New tools are also pushing the boundaries of interactive annotation. For example
 
 #### Expanding your dataset with augmentation and synthetic data {#sec-9.3.4.4}
 
-When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [@lecun1998; @shorten2019]. Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. 
+When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [@lecun1998; @shorten2019]. Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. However, it's important to apply augmentation carefully as too much or unrealistic augmentation can confuse the model or lead it to learn patterns that don’t exist in real data.
 
 In the absence of sufficient real data, synthetic data generated through simulations or domain randomisation can help pre-train or bootstrap a model [@lin2022; @rangel_dacosta2024]. These synthetic samples can expose the model to a broader range of scenarios early in training before transitioning to fine-tuning with real, annotated data.
 
