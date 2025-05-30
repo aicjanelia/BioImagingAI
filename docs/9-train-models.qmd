@@ -176,7 +176,7 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
 :::
 
 
-#### Accelerating annotation with pre-trained models {#sec-9.3.4.3}
+#### Accelerating annotation with automatic initial segmentations {#sec-9.3.4.3}
 
 Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist [@schmidt2018] and Cellpose [@stringer2021] can generate more accurate initial segmentations that users can manually refine. These annotations can then be reintegrated into the model for retraining, establishing an iterative cycle that accelerates both labelling and model refinement. 
 
