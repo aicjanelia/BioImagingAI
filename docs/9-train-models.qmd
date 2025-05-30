@@ -252,7 +252,7 @@ Given the many possible configurations, tuning hyperparameters is often essentia
 
 Once your model begins training, it is helpful to evaluate its learning progress. The two key metrics for assessment are the training loss and the validation loss (@fig-6). Monitoring both throughout the training process offers insight into whether your model is improving and learning to generalise beyond the training data. The three main behaviours that you may encounter during training are:
 
-![Monitoring training and validation losses during model training.](9-figures/chapter9_6_Underfitting_VS_Overfitting.png){#fig-6}
+![Monitoring training and validation losses during model training. The plot illustrates three typical learning behaviours: underfitting (both losses remain high and similar), good fitting (both losses decrease, with validation loss slightly higher), and overfitting (training loss continues to decrease while validation loss plateaus or increases), highlighting the importance of tracking these metrics to assess model performance and generalisation.](9-figures/chapter9_6_Underfitting_VS_Overfitting.png){#fig-6}
 
 * **Underfitting:** The model has been trained with insufficient data or for too few epochs, resulting in similar training and validation losses, which is far from optimal.  
 * **Good fitting:** Both training and validation losses decrease, with the validation loss slightly higher than the training loss, which is expected. This represents the ideal scenario.  
