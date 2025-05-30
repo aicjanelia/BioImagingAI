@@ -120,14 +120,7 @@ The increasing availability of already trained (pre-trained) DL models has great
 
 Another significant benefit of pre-trained models is their adaptability. Instead of starting from scratch, you can often fine-tune an existing model (see @sec-9.3.6). This method entails retraining the model with a smaller, task-specific dataset, enabling it to adjust to your images while requiring far fewer annotations.
 
-Several excellent resources host pre-trained models suitable for microscopy:
-
-* BioImage Model Zoo [@ouyang2022] is an open-source platform that provides models for various tasks. The models include metadata and are compatible with tools such as ZeroCostDL4Mic, BiaPy, DeepImageJ, and ilastik.  
-* DeepCell [@bannon2021] offers scalable models for nuclear, membrane, and cytoplasmic segmentation, with deployment options available in the cloud or locally through Docker.  
-* The MONAI Model Zoo [@cardoso2022] focuses on medical imaging, such as MRI and CT, while offering modular PyTorch-based models that can often be adapted for microscopy tasks.  
-* General-purpose model hubs such as PyTorch Hub, TensorFlow Hub, and Hugging Face Model Hub host various models. Although they are not specific to microscopy, many models can be fine-tuned for segmentation using annotated datasets.
-
-DL segmentation tools such as StarDist or CellPose also include their own collection of pre-trained models [@pachitariu2022]. Researchers also increasingly share trained models alongside their datasets and publications, promoting open science. Platforms like Zenodo are commonly used for this purpose [@fazeli2020; @follain2024], although deployment may require handling specific file formats or environments.
+Several excellent resources host pre-trained models suitable for microscopy. Researchers also increasingly share trained models alongside their datasets and publications, promoting open science. Platforms like Zenodo are commonly used for this purpose [@fazeli2020; @follain2024], although deployment may require handling specific file formats or environments (see @sec-8).
 
 #### When to train your model {#sec-9.3.3.2}
 
