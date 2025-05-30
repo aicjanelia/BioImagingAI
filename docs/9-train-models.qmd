@@ -42,7 +42,7 @@ author:
 subtitle: Practical considerations through the lens of segmentation
 ---
 
-# How to Train and Use Deep Learning Models in Microscopy
+# How to Train and Use Deep Learning Models in Microscopy {#sec-9}
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
@@ -78,7 +78,7 @@ Every image analysis project should start by clearly defining the scientific que
 
 Consider whether your segmentation solution is meant for a specific experiment or needs to generalise across various imaging techniques, sample types, or experimental conditions. Additionally, evaluate the volume of data to analyse, the feasibility of manual analysis, and the resources available to create a tailored image analysis pipeline. Avoid overengineering a solution when a simple analysis could provide the answer you seek.
 
-Additionally, clearly define the success criteria based on your objectives. For example, be prepared to answer the question, “What do I need to accomplish for my analysis to be sufficient?” This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful.
+Additionally, clearly define the success criteria based on your objectives. For example, be prepared to answer the question, “What do I need to accomplish for my analysis to be sufficient?” This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful {@sec-10}.
 
 ### Evaluating alternatives: Is DL the right choice? {#sec-9.2.2}
 
