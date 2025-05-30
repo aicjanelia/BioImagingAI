@@ -392,7 +392,19 @@ When selecting or designing a DL model, evaluate your available infrastructure:
 
 A practical strategy involves starting with lightweight models that demand fewer resources and scaling up to more complex architectures only if performance improvements become necessary. Tools like StarDist and Cellpose, for example, provide efficient options that function effectively with relatively modest hardware.
 
-Additionally, consider whether to train and deploy your model locally or in the cloud (@fig-11). Local training is more feasible if you already possess compatible hardware, while cloud services like Google Colab or AWS provide access to more powerful resources without needing to invest in hardware. Cloud-based workflows are particularly advantageous for training large models or managing 3D data.
+Additionally, consider whether to train and deploy your model locally or in the cloud (@fig-11). Local training is often more feasible if you already have access to a compatible workstation and want full control over data and execution. However, cloud-based services like Google Colab or AWS offer access to more powerful hardware, removing the need for local infrastructure—this is especially beneficial when working with large models or 3D datasets.
+
+There are four typical combinations of training and prediction workflows:
+
+* Training and prediction locally is well suited for small to medium-sized datasets, especially when computational demands are moderate and data privacy is a priority. This approach also supports some user-friendly desktop applications, such as the Cellpose 2.0 [@pachitariu2022], which can be run locally without requiring cloud access or advanced technical setup.
+
+* Training locally, prediction in the cloud may be useful when models are trained in-house but need to be deployed at scale or integrated into cloud-based pipelines.
+
+* Training in the cloud, prediction locally enables researchers to take advantage of powerful cloud GPUs for model development, while keeping inference close to the data source (e.g., a microscope workstation or in case of sensitive data).
+
+* Training and prediction in the cloud is well suited for collaborative projects or large-scale deployments, where access to centralized, scalable infrastructure is critical.
+
+Choosing between these strategies depends on your data size, hardware access, choice of software, collaboration needs, and whether your workflow prioritizes flexibility, scalability, or control.
 
 ![Training and deployment strategies for DL models in microscopy. Depending on the available tools and infrastructure, models can be trained and deployed locally or in the cloud. Modified from [@von_chamier2021].](9-figures/chapter9_11_what resources to use when trainig.png){#fig-11}
 
