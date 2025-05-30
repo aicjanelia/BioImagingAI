@@ -156,23 +156,32 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
 ::: {.callout-tip collapse="true"}
 **Here is an example pipeline for manually annotating data using Fiji** [@fazeli2020]. 
 
-* Open Fiji – activate the LOCI update site and restart Fiji. 
+1. **Open Fiji – activate the LOCI update site and restart Fiji.**  
+   LOCI tools are required for exporting ROI maps, so enabling this update site ensures the necessary plugins are installed.
 
-* Open your image you wish to annotate. 
+2. **Open your image you wish to annotate.**  
+   Use *File › Open* to browse and load the microscopy image that you want to label manually. You can also drag and drop your image to Fiji.
 
-* Select the Oval or Freehand selection tool. 
+3. **Select the Oval or Freehand selection tool.**  
+   These tools, found in the Fiji toolbar, allow you to manually outline the structures of interest in your image.
 
-* Start drawing around each object (yes, each one\!). 
+4. **Start drawing around each object (yes, each one!).**  
+   Carefully trace each cell or feature you want to annotate—precision is key to ensure useful training data for deep learning.
 
-* After drawing each object, press “t” on your keyboard → the selection will be stored in the ROI manager. 
+5. **After drawing each object, press “t” on your keyboard → the selection will be stored in the ROI manager.**  
+   This adds the drawn region to the ROI (Region of Interest) list, keeping track of all annotated objects in the image.
 
-* Repeat until all objects are in the ROI manager. 
+6. **Repeat until all objects are in the ROI manager.**  
+   Continue drawing and pressing “t” until you have annotated every relevant object in the image.
 
-* When finished, go to Plugins › LOCI › ROI Map. 
+7. **When finished, go to *Plugins › LOCI › ROI Map*.**  
+   This plugin converts all saved ROIs into a single labeled ROI map image, assigning unique values to each region.
 
-* Save the generated ROI map with the same title as the original image in a separate folder. 
+8. **Save the generated ROI map with the same title as the original image in a separate folder.**  
+   Consistent naming ensures each annotated map can be correctly matched with its corresponding raw image during training or analysis.
 
-* At the end, you will have one folder with the original images and another for the ROI maps.
+9. **At the end, you will have one folder with the original images and another for the ROI maps.**  
+   This separation makes it easier to organize and use your data with image analysis or deep learning pipelines.
 :::
 
 
