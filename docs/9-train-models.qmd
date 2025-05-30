@@ -39,7 +39,7 @@ author:
         country: Finland
         postal code: 20520
 
-subtitle: Practical considerations to train and use deep learning models in microscopy
+subtitle: Practical considerations through the lens of segmentation
 ---
 
 # How to Train and Use Deep Learning Models in Microscopy
