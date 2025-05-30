@@ -254,7 +254,7 @@ Once your model begins training, it is helpful to evaluate its learning progress
 
 * **Underfitting:** The model has been trained with insufficient data or for too few epochs, resulting in similar training and validation losses, which is far from optimal.  
 * **Good fitting:** Both training and validation losses decrease, with the validation loss slightly higher than the training loss, which is expected. This represents the ideal scenario.  
-* **Overfitting:** The model achieves an excellent training loss, but the validation loss does not improve. This may indicate overly similar training data or excessive training epochs, preventing the model from generalising to new data.
+* **Overfitting:** The model achieves an excellent training loss, but the validation loss does not improve and may in fact diverge. This may indicate overly similar training data or excessive training epochs, preventing the model from generalising to new data.
 
 ###  Fine-Tuning Pre-existing Models {#sec-9.3.6}
 
