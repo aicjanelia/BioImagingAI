@@ -246,7 +246,7 @@ Now that you understand the training process, the next step is to configure the 
 
 * **Patience (early stopping):** This parameter defines the number of epochs to wait before halting training if the validation loss does not improve. It helps prevent wasting resources on overfitting and overtraining.
 
-Given the many possible configurations, tuning hyperparameters is often essential—especially when applying a model to new data. Start with the recommended values from the model's original publication, but you might need to conduct a hyperparameter search to optimize performance. This can range from a simple grid search to more advanced methods, such as Gaussian-based processes or genetic algorithms [@alibrahim2021].
+Given the many possible configurations, tuning hyperparameters is often essential—especially when applying a model to new data. Start with the recommended values from the model's original publication, but you might need to conduct a hyperparameter search to optimize performance. This can range from a simple grid search to more advanced methods, such as Gaussian-based processes [@ilievski2017] or genetic algorithms [@alibrahim2021].
 
 #### Monitoring training and validation Losses {#sec-9.3.5.4}
 

@@ -699,4 +699,18 @@ Section: New Results},
   number={},
   pages={1551-1559},
   keywords={Training;Machine learning algorithms;Neural networks;Prediction algorithms;Search problems;Time measurement;Bayes methods;Hyperparmeter optimization;Grid Search;Bayesian;Genetic Algorithm},
-  doi={10.1109/CEC45853.2021.9504761}}
+  doi={10.1109/CEC45853.2021.9504761}
+}
+
+@article{ilievski2017, 
+  title={Efficient Hyperparameter Optimization for Deep Learning Algorithms Using Deterministic RBF Surrogates}, 
+  volume={31}, 
+  url={https://ojs.aaai.org/index.php/AAAI/article/view/10647}, 
+  DOI={10.1609/aaai.v31i1.10647}, 
+  abstractNote={ &lt;p&gt; Automatically searching for optimal hyperparameter configurations is of crucial importance for applying deep learning algorithms in practice. Recently, Bayesian optimization has been proposed for optimizing hyperparameters of various machine learning algorithms. Those methods adopt probabilistic surrogate models like Gaussian processes to approximate and minimize the validation error function of hyperparameter values. However, probabilistic surrogates require accurate estimates of sufficient statistics (e.g., covariance) of the error distribution and thus need many function evaluations with a sizeable number of hyperparameters. This makes them inefficient for optimizing hyperparameters of deep learning algorithms, which are highly expensive to evaluate. In this work, we propose a new deterministic and efficient hyperparameter optimization method that employs radial basis functions as error surrogates. The proposed mixed integer algorithm, called HORD, searches the surrogate for the most promising hyperparameter values through dynamic coordinate search and requires many fewer function evaluations. HORD does well in low dimensions but it is exceptionally better in higher dimensions. Extensive evaluations on MNIST and CIFAR-10 for four deep neural networks demonstrate HORD significantly outperforms the well-established Bayesian optimization methods such as GP, SMAC, and TPE. For instance, on average, HORD is more than 6 times faster than GP-EI in obtaining the best configuration of 19 hyperparameters. &lt;/p&gt; }, 
+  number={1}, 
+  journal={Proceedings of the AAAI Conference on Artificial Intelligence}, 
+  author={Ilievski, Ilija and Akhtar, Taimoor and Feng, Jiashi and Shoemaker, Christine}, 
+  year={2017}, 
+  month={Feb.} 
+}
