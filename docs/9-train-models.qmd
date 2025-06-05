@@ -55,11 +55,11 @@ The growing volume and complexity of image data necessitate increasingly advance
 
 ML algorithms learn patterns from data to perform tasks such as image classification and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [@arganda-carreras2017; @arzt2022; @berg2019]. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, object detection, feature extraction, denoising, and restoration [@moen2019; @pylvanainen2023]. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [@krizhevsky2012; @ronneberger2015].
 
-Segmentation greatly benefits from machine learning and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges.
+Segmentation greatly benefits from ML and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges.
 
 ### The different types of segmentation {#sec-9.1.2}
 
-Before discussing how to segment microscopy images using deep learning, it is important to describe the different types of segmentation you may want to achieve. Segmentation tasks in microscopy can be categorised into three main types (@fig-1): 
+Before discussing how to segment microscopy images using DL, it is important to describe the different types of segmentation you may want to achieve. Segmentation tasks in microscopy can be categorised into three main types (@fig-1): 
 
 **Binary segmentation:** This is the simplest form of segmentation that separates the foreground from the background. For example, in a microscopy image, this involves distinguishing cell nuclei (foreground) from the rest of the image (background). This method is useful for detecting whether a structure is present or absent without distinguishing individual objects.
 
@@ -67,7 +67,7 @@ Before discussing how to segment microscopy images using deep learning, it is im
 
 **Semantic segmentation:** This segmentation strategy involves labelling every pixel in an image according to its class, such as "nucleus," "cytoplasm," or "background." Unlike instance segmentation, semantic segmentation does not differentiate between individual objects within the same class. This method is beneficial for analysing the spatial relationships and distribution of various cellular components.
 
-![The three main types of segmentation in microscopy images. Original Image: A raw grayscale fluorescence microscopy image showing cell nuclei stained with a nuclear marker. Binary Segmentation: Simplifies the image into two classes—foreground (white, nuclei) and background (black). Instance Segmentation: Assigns a unique label (shown in different colours) to each nucleus, facilitating individual object identification. Semantic Segmentation: Categorises each pixel into predefined classes—nucleus (purple), nucleus edge (yellow), and background (teal)—without distinguishing between individual objects.](9-figures/chapter9_1_segmentation_types.png){#fig-1}
+![The three main types of segmentation in microscopy images. **Original Image**: A raw grayscale fluorescence microscopy image showing cell nuclei stained with a nuclear marker. **Binary Segmentation**: Simplifies the image into two classes—foreground (white, nuclei) and background (black). **Instance Segmentation**: Assigns a unique label (shown in different colours) to each nucleus, facilitating individual object identification. **Semantic Segmentation**: Categorises each pixel into predefined classes—nucleus (purple), nucleus edge (yellow), and background (teal)—without distinguishing between individual objects.](9-figures/chapter9_1_segmentation_types.png){#fig-1}
 
 
 ## Preparing for your project {#sec-9.2}
@@ -82,9 +82,9 @@ Additionally, clearly define the success criteria based on your objectives. For 
 
 ### Evaluating alternatives: Is DL the right choice? {#sec-9.2.2}
 
-![Is DL the right choice for your segmentation project? This decision tree guides the selection of appropriate segmentation approaches based on data complexity and project needs. Begin by testing classical image processing methods, such as intensity-based thresholding, which are efficient and easy to apply for well-defined features. If these methods prove insufficient, consider using a pixel classifier, which provides a user-friendly and effective solution for smaller datasets. Only consider deep learning if you possess a large annotated dataset and previous methods have failed. In the absence of suitable data or methods, manual annotation may be necessary.](9-figures/chapter9_2_yes or no DL.png){#fig-2}
+![Is DL the right choice for your segmentation project? This decision tree guides the selection of appropriate segmentation approaches based on data complexity and project needs. Begin by testing classical image processing methods, such as intensity-based thresholding, which are efficient and easy to apply for well-defined features. If these methods prove insufficient, consider using a pixel classifier, which provides a user-friendly and effective solution for smaller datasets. Only consider DL if you possess a large annotated dataset and previous methods have failed. In the absence of suitable data or methods, manual annotation may be necessary.](9-figures/chapter9_2_yes or no DL.png){#fig-2}
 
-Choosing the right computational method is essential for consistent and reproducible image analysis. While deep learning (DL) can deliver exceptional segmentation performance, traditional methods and pixel classifiers still offer straightforward and efficient solutions for most tasks (@fig-2). 
+Choosing the right computational method is essential for consistent and reproducible image analysis. While DL can deliver exceptional segmentation performance, traditional methods and pixel classifiers still offer straightforward and efficient solutions for most tasks (@fig-2). 
 
 Traditional image processing techniques—such as intensity-based thresholding, morphological operations, edge detection, and filtering—are ideal for objects with clear, distinguishable features. These methods are well-documented, easy to understand, and usually require minimal computing resources. Pixel classifiers, in particular, are user-friendly and can efficiently tackle many segmentation challenges with minimal manual annotation, making them highly effective for simpler analyses or smaller datasets.
 
@@ -112,11 +112,11 @@ Choosing the right DL strategy requires aligning your goal, object shape, data d
 
 ### Deciding whether to train a new model {#sec-9.3.3}
 
-![Decision workflow for selecting a deep learning model training approach. This flowchart outlines how to determine an appropriate training approach based on the availability and performance of pre-trained models.](9-figures/chapter9_4_training approach.png){#fig-4}
+![Decision workflow for selecting a DL model training approach. This flowchart outlines how to determine an appropriate training approach based on the availability and performance of pre-trained models.](9-figures/chapter9_4_training approach.png){#fig-4}
 
 #### Leveraging pre-trained models {#sec-9.3.3.1}
 
-The increasing availability of already trained (pre-trained) DL models has greatly simplified image analysis. Many of these models can be directly applied to your data, removing the need to train a model yourself [@bejarano2024; @fisch2024]. This reduces the technical barrier and saves time, making advanced analysis more accessible. However, it is essential to evaluate the quality of any pre-trained model before relying on its results (@fig-4). A model that performs well in one context may not be as effective on your specific data. Always conduct quality control by visually inspecting the outputs and assessing performance with quantitative metrics such as Intersection over Union (IoU) or F1-score, using a small, representative test set. This step is vital when model predictions are used in downstream analyses (see @sec-9.3.7).
+The increasing availability of already trained (pre-trained) DL models has greatly simplified image analysis. Many of these models can be directly applied to your data, removing the need to train your own model [@bejarano2024; @fisch2024]. This reduces the technical barrier and saves time, making advanced analysis more accessible. However, it is essential to evaluate the quality of any pre-trained model before relying on its results (@fig-4). A model that performs well in one context may not be as effective on your specific data. Always conduct quality control by visually inspecting the outputs and assessing performance with quantitative metrics such as Intersection over Union (IoU) or F1-score, using a small, representative test set. This step is vital when model predictions are used in downstream analyses (see @sec-9.3.7).
 
 Another significant benefit of pre-trained models is their adaptability. Instead of starting from scratch, you can often fine-tune an existing model (see @sec-9.3.6). This method entails retraining the model with a smaller, task-specific dataset, enabling it to adjust to your images while requiring far fewer annotations.
 
@@ -130,11 +130,11 @@ Ultimately, always evaluate the model’s performance against your defined succe
 
 ### Preparing your dataset for training {#sec-9.3.4}
 
-A well-designed training dataset is essential for developing a successful segmentation model. The number of images and the quality of annotations needed vary based on factors such as task complexity and the architecture of the intended model. 
+A well-designed training dataset is essential for developing successful DL models on tasks such as segmentation. The number of images and the quality of annotations needed vary based on factors such as task complexity and the architecture of the intended model. 
 
 #### Types of model training {#sec-9.3.4.1}
 
-Most segmentation models are trained using supervised learning, where each input image is paired with a manually annotated ground truth mask. In this context, all objects that need segmentation must be annotated in the training dataset. This approach enables the model to learn a direct mapping from raw images to segmentation outputs (@fig-7).
+On segmentation, most DL models are trained using supervised learning, where each input image is paired with a manually annotated ground truth mask. In this context, all objects that need segmentation must be annotated in the training dataset. This approach enables the model to learn a direct mapping from raw images to segmentation outputs (@fig-7).
 
 However, alternative approaches can help reduce the need for extensive manual annotations:
 
@@ -147,7 +147,7 @@ However, alternative approaches can help reduce the need for extensive manual an
 Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [@schindelin2012], Napari [@ahlers2023], and QuPath [@bankhead2017] are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
 
 ::: {.callout-tip collapse="true"}
-**Here is an example pipeline for manually annotating data using Fiji** [@fazeli2020]. 
+## **Here it is an example pipeline for manually annotating data using Fiji** [@fazeli2020]
 
 1. **Open Fiji – activate the LOCI update site and restart Fiji.**  
    LOCI tools are required for exporting ROI maps, so enabling this update site ensures the necessary plugins are installed.
@@ -159,7 +159,7 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
    These tools, found in the Fiji toolbar, allow you to manually outline the structures of interest in your image.
 
 4. **Start drawing around each object (yes, each one!).**  
-   Carefully trace each cell or feature you want to annotate—precision is key to ensure useful training data for deep learning.
+   Carefully trace each cell or feature you want to annotate—precision is key to ensure useful training data for DL.
 
 5. **After drawing each object, press “t” on your keyboard → the selection will be stored in the ROI manager.**  
    This adds the drawn region to the ROI (Region of Interest) list, keeping track of all annotated objects in the image.
@@ -174,13 +174,13 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
    Consistent naming ensures each annotated map can be correctly matched with its corresponding raw image during training or analysis.
 
 9. **At the end, you will have one folder with the original images and another for the ROI maps.**  
-   This separation makes it easier to organize and use your data with image analysis or deep learning pipelines.
+   This separation makes it easier to organize and use your data with image analysis or DL pipelines.
 :::
 
 
 #### Accelerating annotation with automatic initial segmentations {#sec-9.3.4.3}
 
-Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist [@schmidt2018] and Cellpose [@stringer2021] can generate more accurate initial segmentations that users can manually refine. These annotations can then be reintegrated into the model for retraining, establishing an iterative cycle that accelerates both labelling and model refinement. 
+Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu's thresholding to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist [@schmidt2018] and Cellpose [@stringer2021] can generate more accurate initial segmentations that users can manually refine. These annotations can then be reintegrated into the model for retraining, establishing an iterative cycle that accelerates both labelling and model refinement. 
 
 New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM) [@archit2025] facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [@pachitariu2022] features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
 
@@ -188,13 +188,13 @@ New tools are also pushing the boundaries of interactive annotation. For example
 
 When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [@lecun1998; @shorten2019]. Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. However, it's important to apply augmentation carefully as too much or unrealistic augmentation can confuse the model or lead it to learn patterns that don’t exist in real data.
 
-In the absence of sufficient real data, synthetic data generated through simulations or domain randomisation can help pre-train or bootstrap a model [@lin2022; @rangel_dacosta2024]. These synthetic samples can expose the model to a broader range of scenarios early in training before transitioning to fine-tuning with real, annotated data.
+In the absence of sufficient real data, synthetic data generated through simulations or domain randomisation can help pre-training a model [@lin2022; @rangel_dacosta2024]. These synthetic samples can expose the model to a broader range of scenarios early in training before transitioning to fine-tuning with real, annotated data.
 
 In summary, a successful segmentation pipeline relies on a careful balance between data quantity and annotation quality. Augmentation strategies can efficiently help to scale and balance training datasets.
 
 #### Choosing the dataset size: specific vs. general models {#sec-9.3.4.5}
 
-In supervised training, it is crucial that each image in the training set is accompanied by a corresponding label image (see @sec-9.3.4.1). The number of image-label pairs required depends on the number of labels per image, the complexity of the model and the desired level of generalizability. Still, the key is having enough representative examples and corresponding annotations for the model to learn meaningful patterns. 
+In supervised training, it is crucial that each image in the training set is accompanied by a corresponding label image (see @sec-9.3.4.1). The number of image-label pairs required depends on the number of labels per image, the complexity of the model and the desired level of generalisability. Still, the key is having enough representative examples and corresponding annotations for the model to learn meaningful patterns. 
 
 Small and well-curated datasets consisting of tens of images may suffice for highly specific applications, such as segmenting cells or nuclei using a defined imaging modality [@von_chamier2021]. In these scenarios, transfer learning can also be especially beneficial (see @sec-9.3.6). Models designed to generalise across a wide range of conditions, tissue types, or imaging modalities typically require much larger and more diverse datasets (hundreds to thousands of annotated images) [@stringer2021]. These datasets are essential for capturing the inherent variability in broader use cases. 
 
@@ -210,7 +210,7 @@ The **training set** is used to train the model to recognise relevant features. 
 
 The **validation set** is used during training to provide feedback on the model's performance with unseen data. This feedback, conveyed as validation loss, assists in detecting overfitting (@fig-6), guiding hyperparameter tuning (see @sec-9.3.5.3), and informing training decisions. Although a separate validation set is ideal, many workflows create one in practice by reserving a portion (typically 10% to 30%) of the training data.
 
-The **test set** serves a separate role: it evaluates the model's performance on entirely unseen data. Unlike the validation set, the test set is not utilised during training, ensuring an unbiased performance assessment. Test images should also include ground truth annotations to facilitate quantitative quality control. Reporting test set performance, using metrics such as accuracy, IoU, or F1-score, is crucial, especially when publishing or benchmarking your model [@laine2021].
+The **test set**, which serves a separate role, evaluates the model's performance on entirely unseen data. Unlike the validation set, the test set is not utilised during training, ensuring an unbiased performance assessment. Test images should also include ground truth annotations to facilitate quantitative quality control. Reporting test set performance, using metrics such as accuracy, IoU, or F1-score, is crucial, especially when publishing or benchmarking your model [@laine2021].
 
 #### Understanding the training process {#sec-9.3.5.2}
 
@@ -246,16 +246,16 @@ Now that you understand the training process, the next step is to configure the 
 
 * **Patience (early stopping):** This parameter defines the number of epochs to wait before halting training if the validation loss does not improve. It helps prevent wasting resources on overfitting and overtraining.
 
-Given the many possible configurations, tuning hyperparameters is often essential—especially when applying a model to new data. Start with the recommended values from the model's original publication, but you might need to conduct a hyperparameter search to optimize performance. This can range from a simple grid search to more advanced methods, such as Gaussian-based processes [@ilievski2017] or genetic algorithms [@alibrahim2021].
+Given the many possible configurations, tuning hyperparameters is often essential—especially when applying a model to new data. Start with the recommended values from the model's original publication, but you might need to conduct a hyperparameter search to optimize performance. This can range from a simple grid search to more advanced methods, such as gaussian process based bayesian optimisation [@ilievski2017] or genetic algorithms [@alibrahim2021].
 
 #### Monitoring training and validation Losses {#sec-9.3.5.4}
 
 Once your model begins training, it is helpful to evaluate its learning progress. The two key metrics for assessment are the training loss and the validation loss (@fig-6). Monitoring both throughout the training process offers insight into whether your model is improving and learning to generalise beyond the training data. The three main behaviours that you may encounter during training are:
 
-![Monitoring training and validation losses during model training. The plot illustrates three typical learning behaviours: underfitting (both losses remain high and similar), good fitting (both losses decrease, with validation loss slightly higher), and overfitting (training loss continues to decrease while validation loss plateaus or increases), highlighting the importance of tracking these metrics to assess model performance and generalisation.](9-figures/chapter9_6_Underfitting_VS_Overfitting.png){#fig-6}
+![Monitoring training and validation losses during model training. The plot illustrates three typical learning behaviours: **underfitting** (both losses remain high and similar), **good fitting** (both losses decrease, with validation loss slightly higher), and **overfitting** (training loss continues to decrease while validation loss plateaus or increases), highlighting the importance of tracking these metrics to assess model performance and generalisation.](9-figures/chapter9_6_Underfitting_VS_Overfitting.png){#fig-6}
 
 * **Underfitting:** The model has been trained with insufficient data or for too few epochs, resulting in similar training and validation losses, which is far from optimal.  
-* **Good fitting:** Both training and validation losses decrease, with the validation loss slightly higher than the training loss, which is expected. This represents the ideal scenario.  
+* **Good fitting:** Both training and validation losses decrease, with the validation loss slightly higher (worse) than the training loss, which is expected. This represents the ideal scenario.  
 * **Overfitting:** The model achieves an excellent training loss, but the validation loss does not improve and may in fact diverge. This may indicate overly similar training data or excessive training epochs, preventing the model from generalising to new data.
 
 ###  Fine-Tuning Pre-existing Models {#sec-9.3.6}
@@ -289,10 +289,10 @@ Iterative fine-tuning is an interactive approach that combines model prediction 
 This method is particularly powerful when:
 
 * Annotated data is scarce or expensive to generate.   
-* You're working with rare structures, unusual imaging conditions, or new experimental systems.  
+* You work with rare structures, unusual imaging conditions, or new experimental systems.  
 * You want to efficiently build a custom model using feedback from domain experts.
 
-![Strategies for training deep learning models for image segmentation. A model can be trained from scratch using a large annotated dataset, fine-tuned from a pre-trained model with task-specific data, or refined through human-in-the-loop workflows where model predictions are manually corrected and fed back for retraining. These approaches balance performance, data availability, and annotation effort.](9-figures\chapter9_7_training_types.png){#fig-7}
+![Strategies for training DL models for image segmentation. A model can be **trained from scratch** using a large annotated dataset, **fine-tuned** from a pre-trained model with task-specific data, or refined through **human-in-the-loop** workflows where model predictions are manually corrected and fed back for retraining. These approaches balance performance, data availability, and annotation effort.](9-figures\chapter9_7_training_types.png){#fig-7}
 
 ### Evaluating the performance of your model {#sec-9.3.7}
 
@@ -330,7 +330,7 @@ Once a segmentation model has been trained and validated, it can be used on new,
 
 **I found a tool or DL model online, but it does not work. What should I do?**
 
-![Common deep learning segmentation problems and troubleshooting tips.](9-figures/chapter9_10_Does yout model work.png){#fig-10}
+![Common DL segmentation problems and troubleshooting tips.](9-figures/chapter9_10_Does yout model work.png){#fig-10}
 
 **When should I train a model or segment manually?**
 
@@ -376,7 +376,7 @@ GUI-based tools include, for instance :
 
 Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like ZeroCostDL4Mic, BiaPy, and DL4MicEverywhere [@hidalgo-cenalmor2024] leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. ZeroCostDL4Mic, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.
 
-If you are comfortable with programming, you will have even more flexibility. Languages such as Python, MATLAB, Julia, Java, and Rust provide options for building and customizing deep learning workflows. Python stands out as the most beginner-friendly and widely supported choice, boasting a large ecosystem of libraries and community support. Popular Python libraries for deep learning include PyTorch, TensorFlow, Keras, and JAX.
+If you are comfortable with programming, you will have even more flexibility. Languages such as Python, MATLAB, Julia, Java, and Rust provide options for building and customizing DL workflows. Python stands out as the most beginner-friendly and widely supported choice, boasting a large ecosystem of libraries and community support. Popular Python libraries for DL include PyTorch, TensorFlow, Keras, and JAX.
 
 While coding can involve a steeper learning curve, it allows you to create customized pipelines, integrate various tools, and troubleshoot intricate workflows, unlocking the full potential of DL for microscopy segmentation.
 
@@ -437,7 +437,7 @@ The decision to use DL should be driven by the complexity of the task, the avail
 
 Notably, the landscape of DL segmentation is rapidly evolving. The emergence of foundation models, which are large, versatile networks pre-trained on vast and diverse datasets, promises to further lower the barriers to entry [@archit2025]. These models enable transfer learning, fine-tuning, and even zero-shot segmentation, where accurate predictions can be made on previously unseen data with minimal or no task-specific training. This shift opens exciting new avenues for researchers who previously lacked the resources or expertise to apply DL in their work.
 
-The ongoing development and democratization of DL tools, along with enhancements in model generalizability, human-in-the-loop workflows, and reproducibility, are changing how microscopy data is analyzed. Still, the key to successful segmentation will always involve careful planning, quality control, and selecting the right tool for the task, whether it involves deep learning or not.
+The ongoing development and democratization of DL tools, along with enhancements in model generalisability, human-in-the-loop workflows, and reproducibility, are changing how microscopy data is analyzed. Still, the key to successful segmentation will always involve careful planning, quality control, and selecting the right tool for the task, whether it involves DL or not.
 
 <!-- 
 ## References {#sec-9.6}
