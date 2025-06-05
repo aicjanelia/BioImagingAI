@@ -67,7 +67,7 @@ Before discussing how to segment microscopy images using DL, it is important to 
 
 **Semantic segmentation:** This segmentation strategy involves labelling every pixel in an image according to its class, such as "nucleus," "cytoplasm," or "background." Unlike instance segmentation, semantic segmentation does not differentiate between individual objects within the same class. This method is beneficial for analysing the spatial relationships and distribution of various cellular components.
 
-![The three main types of segmentation in microscopy images. **Original Image**: A raw grayscale fluorescence microscopy image showing cell nuclei stained with a nuclear marker. **Binary Segmentation**: Simplifies the image into two classes—foreground (white, nuclei) and background (black). **Instance Segmentation**: Assigns a unique label (shown in different colours) to each nucleus, facilitating individual object identification. **Semantic Segmentation**: Categorises each pixel into predefined classes—nucleus (purple), nucleus edge (yellow), and background (teal)—without distinguishing between individual objects.](9-figures/chapter9_1_segmentation_types.png){#fig-1}
+![The three main types of segmentation in microscopy images. **original**: A raw grayscale fluorescence microscopy image showing cell nuclei stained with a nuclear marker. **binary segmentation**: Simplifies the image into two classes—foreground (white, nuclei) and background (black). **instance segmentation**: Assigns a unique label (shown in different colours) to each nucleus, facilitating individual object identification. **semantic segmentation**: Categorises each pixel into predefined classes—nucleus (purple), nucleus edge (yellow), and background (teal)—without distinguishing between individual objects.](9-figures/chapter9_1_segmentation_types.png){#fig-1}
 
 
 ## Preparing for your project {#sec-9.2}
@@ -150,7 +150,7 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
 ## **Here it is an example pipeline for manually annotating data using Fiji** [@fazeli2020]
 
 1. **Open Fiji – activate the LOCI update site and restart Fiji.**  
-   LOCI tools are required for exporting ROI maps, so enabling this update site ensures the necessary plugins are installed.
+   LOCI tools are required for exporting ROI maps. To enable them, go to *Help > Upate > Manage Update Sites*, look for 'LOCI' and check the *Active* checkbox. Then, clik on *Apply and Close* and *Apply Changes*, this update site ensures the necessary plugins are installed. Finally, restart Fiji.
 
 2. **Open your image you wish to annotate.**  
    Use *File › Open* to browse and load the microscopy image that you want to label manually. You can also drag and drop your image to Fiji.
