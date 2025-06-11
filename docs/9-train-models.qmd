@@ -279,7 +279,7 @@ In classic fine-tuning, all layers of the pre-trained model are retrained, with 
 Classic fine-tuning is ideal when: 
 
 * Your dataset is moderately different from the original training data (e.g., the same biological structure but different staining or modality).  
-* You expect that earlier layers may need to adapt, not just the final classifier or output layers.  
+* You expect that earlier layers may need to adapt, not just the final classifier or output layers. Early layers in deep networks typically learn to detect general features such as edges, textures, or simple shapes, while later layers capture more complex, task-specific patterns. If your new data differs in basic appearance or imaging modality, updating the early layers helps the model better extract relevant low-level features from your images.  
 * You have enough annotated data to avoid overfitting during full model training. Although this method is more computationally demanding than light fine-tuning, it often leads to better results on diverse datasets.
 
 #### Iterative training: keeping humans in the loop {#sec-9.3.6.3}
