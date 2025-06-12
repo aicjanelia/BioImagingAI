@@ -134,7 +134,7 @@ A well-designed training dataset is essential for developing successful DL model
 
 #### Types of model training {#sec-9.3.4.1}
 
-On segmentation, most DL models are trained using supervised learning, where each input image is paired with a manually annotated ground truth mask. In this context, all objects that need segmentation must be annotated in the training dataset. This approach enables the model to learn a direct mapping from raw images to segmentation outputs (@fig-7).
+For segmentation, most DL models are trained using supervised learning, where each input image is paired with a manually annotated ground truth mask. In this context, all objects that need segmentation must be annotated in the training dataset. This approach enables the model to learn a direct mapping from raw images to segmentation outputs (@fig-7).
 
 However, alternative approaches can help reduce the need for extensive manual annotations:
 
@@ -150,7 +150,7 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
 ## **Here it is an example pipeline for manually annotating data using Fiji** [@fazeli2020]
 
 1. **Open Fiji – activate the LOCI update site and restart Fiji.**  
-   LOCI tools are required for exporting ROI maps. To enable them, go to *Help > Upate > Manage Update Sites*, look for 'LOCI' and check the *Active* checkbox. Then, clik on *Apply and Close* and *Apply Changes*, this update site ensures the necessary plugins are installed. Finally, restart Fiji.
+   LOCI tools are required for exporting ROI maps. To enable them, go to *Help > Update > Manage Update Sites*, look for 'LOCI' and check the *Active* checkbox. Then, click on *Apply and Close* and *Apply Changes*, this update site ensures the necessary plugins are installed. Finally, restart Fiji.
 
 2. **Open your image you wish to annotate.**  
    Use *File › Open* to browse and load the microscopy image that you want to label manually. You can also drag and drop your image to Fiji.
@@ -174,21 +174,21 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
    Consistent naming ensures each annotated map can be correctly matched with its corresponding raw image during training or analysis.
 
 9. **At the end, you will have one folder with the original images and another for the ROI maps.**  
-   This separation makes it easier to organize and use your data with image analysis or DL pipelines.
+   This separation makes it easier to organise and use your data with image analysis or DL pipelines.
 :::
 
 
 #### Accelerating annotation with automatic initial segmentations {#sec-9.3.4.3}
 
-Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu's thresholding to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist [@schmidt2018] and Cellpose [@stringer2021] can generate more accurate initial segmentations that users can manually refine. These annotations can then be reintegrated into the model for retraining, establishing an iterative cycle that accelerates both labelling and model refinement. 
+Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu's thresholding to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist [@schmidt2018] and Cellpose [@stringer2021] can generate more accurate initial segmentations that users can manually refine. These annotations can then be used to retrain the model, establishing an iterative cycle that accelerates both labelling and model refinement. 
 
 New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM) [@archit2025] facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [@pachitariu2022] features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
 
 #### Expanding your dataset with augmentation and synthetic data {#sec-9.3.4.4}
 
-When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [@lecun1998; @shorten2019]. Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. However, it's important to apply augmentation carefully as too much or unrealistic augmentation can confuse the model or lead it to learn patterns that don’t exist in real data.
+When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [@lecun1998; @shorten2019]. Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. However, it's important to apply augmentation carefully, as excessive or unrealistic augmentation can confuse the model or cause it to learn patterns that do not exist in real data.
 
-In the absence of sufficient real data, synthetic data generated through simulations or domain randomisation can help pre-training a model [@lin2022; @rangel_dacosta2024]. These synthetic samples can expose the model to a broader range of scenarios early in training before transitioning to fine-tuning with real, annotated data.
+In the absence of sufficient real data, synthetic data generated through simulations or domain randomisation can help pre-training a model [@lin2022; @rangel_dacosta2024]. These synthetic samples can expose the model to a broader range of scenarios early in training, before transitioning to fine-tuning with real, annotated data.
 
 In summary, a successful segmentation pipeline relies on a careful balance between data quantity and annotation quality. Augmentation strategies can efficiently help to scale and balance training datasets.
 
@@ -200,7 +200,7 @@ Small and well-curated datasets consisting of tens of images may suffice for hig
 
 ### Training a segmentation model from scratch {#sec-9.3.5}
 
-Once you have annotated your training dataset to train your segmentation model, the next steps are to organise your data for training, initialise your model by selecting appropriate hyperparameters, and start the training process (@fig-7).
+Once you have annotated your training dataset, the next steps are to organise your data for training, initialise your model by selecting appropriate hyperparameters, and start the training process (@fig-7).
 
 #### Splitting your training data: training, validation, and test sets {#sec-9.3.5.1}
 
@@ -264,7 +264,7 @@ Instead of training a model from scratch, fine-tuning an existing DL model is us
 
 #### Applying Transfer Learning {#sec-9.3.6.1}
 
-Transfer learning refers to the process of taking a pre-trained model and adapting it to a new but related task by providing task-specific training data, typically in the form of manually annotated image pairs (@fig-7). Transfer learning freezes part of the model (for instance, the initial layers or almost all the layers except the last ones); these weights will not be updated. Then, the model is trained on the new data, but only the layers that you have unfrozen will be updated. Since the base model already encodes many useful low-level features (e.g., edges, shapes, textures), this approach allows researchers to focus on refining the model for their specific biological structures or imaging modalities [@li2018; @morid2021].
+Transfer learning refers to the process of taking a pre-trained model and adapting it to a new but related task by providing task-specific training data, typically in the form of manually annotated image pairs (@fig-7). Transfer learning typically involves freezing part of the model (for instance, the initial layers or all layers except the last ones), so their weights are not updated during training. Only the unfrozen layers are updated when the model is trained on new data. Then, the model is trained on the new data, but only the layers that you have unfrozen will be updated. Since the base model already encodes many useful low-level features (e.g., edges, shapes, textures), this approach allows researchers to focus on refining the model for their specific biological structures or imaging modalities [@li2018; @morid2021].
 
 This method is especially effective when:
 
