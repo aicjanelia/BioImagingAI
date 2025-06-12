@@ -55,7 +55,7 @@ The growing volume and complexity of image data necessitate increasingly advance
 
 ML algorithms learn patterns from data to perform tasks such as image classification and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [@arganda-carreras2017; @arzt2022; @berg2019]. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, object detection, feature extraction, denoising, and restoration [@moen2019; @pylvanainen2023]. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [@krizhevsky2012; @ronneberger2015].
 
-Segmentation greatly benefits from ML and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges.
+Segmentation greatly benefits from ML and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges. While we focus on segmentation as a case study, the principles, workflows, and considerations discussed here are broadly applicable to other image analysis tasks, such as classification or denoising. Readers interested in these areas can adapt the described approaches to their specific needs.
 
 ### The different types of segmentation {#sec-9.1.2}
 
@@ -80,6 +80,8 @@ Consider whether your segmentation solution is meant for a specific experiment o
 
 Additionally, clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”* This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful {@sec-10}.
 
+While the following steps are described in the context of segmentation, they can be readily adapted to other deep learning tasks in microscopy.
+
 ### Evaluating alternatives: Is DL the right choice? {#sec-9.2.2}
 
 ![Is DL the right choice for your segmentation project? This decision tree guides the selection of appropriate segmentation approaches based on data complexity and project needs. Begin by testing classical image processing methods, such as intensity-based thresholding, which are efficient and easy to apply for well-defined features. If these methods prove insufficient, consider using a pixel classifier, which provides a user-friendly and effective solution for smaller datasets. Only consider DL if you possess a large annotated dataset and previous methods have failed. In the absence of suitable data or methods, manual annotation may be necessary.](9-figures/chapter9_2_yes or no DL.png){#fig-2}
@@ -93,6 +95,8 @@ DL methods excel in complex scenarios where traditional approaches fail, especia
 If you are unsure which approach to use, we usually recommend first trying classical image processing methods and pixel classifiers (@fig-1). We typically initiate a DL project only if these methods fail to produce satisfactory results (see @sec-9.3.3.2).
 
 ## Implementing a DL segmentation workflow {#sec-9.3}
+
+Although we use segmentation as our primary example, the workflow outlined in this section can be adapted to other deep learning tasks in microscopy and bioimage analysis.
 
 ### Overview of a typical DL segmentation workflow {#sec-9.3.1}
 
@@ -431,7 +435,7 @@ For more information on best practices, consult [@laine2021].
 
 ## Summary & Outlook {#sec-9.5}
 
-Segmenting microscopy images remains a critical yet challenging task in bioimage analysis. DL has undeniably transformed this field, offering robust solutions for segmenting complex and variable structures. However, as this chapter emphasizes, DL is not always the fastest or the best approach. Classical image processing techniques or pixel classifiers often provide faster, simpler, and highly effective alternatives in many scenarios.
+Segmenting microscopy images remains a critical yet challenging task in bioimage analysis. In this chapter, we have used segmentation as a representative example to illustrate deep learning workflows and considerations. However, the strategies and best practices described here—such as data preparation, model selection, training, evaluation, and deployment—are relevant to a wide range of image analysis tasks, including classification, detection, and tracking. DL has undeniably transformed this field, offering robust solutions for segmenting complex and variable structures. However, as this chapter emphasizes, DL is not always the fastest or the best approach. Classical image processing techniques or pixel classifiers often provide faster, simpler, and highly effective alternatives in many scenarios.
 
 The decision to use DL should be driven by the complexity of the task, the availability of annotated data, and the specific goals of the segmentation project. Successful DL implementations often require significant investments in data curation, annotation, and computational resources. Furthermore, training from scratch is frequently avoidable thanks to the growing ecosystem of pre-trained models and resources shared by the community.
 
