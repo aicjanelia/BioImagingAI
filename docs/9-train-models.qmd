@@ -57,9 +57,14 @@ ML algorithms learn patterns from data to perform tasks such as image classifica
 
 Segmentation greatly benefits from ML and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges. While we focus on segmentation as a case study, the principles, workflows, and considerations discussed here are broadly applicable to other image analysis tasks, such as classification or denoising. Readers interested in these areas can adapt the described approaches to their specific needs.
 
-### The different types of segmentation {#sec-9.1.2}
 
-Before discussing how to segment microscopy images using DL, it is important to describe the different types of segmentation you may want to achieve. Segmentation tasks in microscopy can be categorised into three main types (@fig-1): 
+## Preparing for your project {#sec-9.2}
+
+### Defining your task and success criteria {#sec-9.2.1}
+
+Every image analysis project should begin by clearly defining the scientific question you wish to answer, along with the criteria by which success will be measured. These foundational decisions will fundamentally shape your entire workflow. Careful planning of your objectives ensures that the chosen approach closely aligns with your scientific goals and will guide critical decisions about data annotation, model selection and performance evaluation. 
+
+Since segmentation serves as the central example in this chapter, it is important to first understand the different types of segmentation tasks encountered in microscopy before discussing how deep learning methods can be applied. These tasks can typically be categorised into three main types (@fig-1). Each segmentation type presents distinct challenges and is suited to different biological questions:
 
 **Binary segmentation:** This is the simplest form of segmentation that separates the foreground from the background. For example, in a microscopy image, this involves distinguishing cell nuclei (foreground) from the rest of the image (background). This method is useful for detecting whether a structure is present or absent without distinguishing individual objects.
 
@@ -69,18 +74,11 @@ Before discussing how to segment microscopy images using DL, it is important to 
 
 ![The three main types of segmentation in microscopy images. **original**: A raw grayscale fluorescence microscopy image showing cell nuclei stained with a nuclear marker. **binary segmentation**: Simplifies the image into two classes—foreground (white, nuclei) and background (black). **instance segmentation**: Assigns a unique label (shown in different colours) to each nucleus, facilitating individual object identification. **semantic segmentation**: Categorises each pixel into predefined classes—nucleus (purple), nucleus edge (yellow), and background (teal)—without distinguishing between individual objects.](9-figures/chapter9_1_segmentation_types.png){#fig-1}
 
-
-## Preparing for your project {#sec-9.2}
-
-### Defining your segmentation task and success criteria {#sec-9.2.1}
-
-Every image analysis project should start by clearly defining the scientific question you wish to answer and your success criteria. Careful planning of your objectives ensures that the chosen segmentation approach closely aligns with your scientific goals and will guide critical decisions about data annotation, model selection and performance evaluation. 
-
 Consider whether your segmentation solution is meant for a specific experiment or needs to generalise across various imaging techniques, sample types, or experimental conditions. Additionally, evaluate the volume of data to analyse, the feasibility of manual analysis, and the resources available to create a tailored image analysis pipeline. Avoid overengineering a solution when a simple analysis could provide the answer you seek.
 
-Additionally, clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”* This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful {@sec-10}.
+Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”* This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful {@sec-10}.
 
-While the following steps are described in the context of segmentation, they can be readily adapted to other deep learning tasks in microscopy.
+While the following steps focus on segmentation, the underlying principles can be readily adapted to a wide range of DL tasks in microscopy.
 
 ### Evaluating alternatives: Is DL the right choice? {#sec-9.2.2}
 
