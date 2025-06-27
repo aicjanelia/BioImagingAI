@@ -18,9 +18,15 @@ author:
 
 # Chapter 8: How do you select and find a tool?
 
-## Abstract
+## Introduction
 
-How do you find new-to-you AI models and how do you assess whether a new-to-you model or tool will meet your needs?
+We are now transitioning away from a discussion of hardware and into a discussion of software.
+And, more specifically, in this chapter we focus on image analysis, particularly the human thought processes and decisions needed for selecting what software to use and figuring out how to appropriately/best use it.
+Amazing technological developments have occured since the invention of microscopy almost half a millenium ago; 
+Our current relationship to biological microscopy is profoundly shaped by the development of both quantitative microscopy and artificial intelligence in the mid-twentieth century.
+However, underlying the actual use of any technological development is a human (in our case, likely a biologist) selecting a specific technology to solve a specific problem.
+
+In this chapter, we answer the questions of how do you find new-to-you AI models and how do you assess whether a new-to-you model or tool will meet your needs?
 In this chapter, we first help you assess your needs.
 We then introduce a way of categorizing tools and help you use your needs assessment to select the right tool category.
 We suggest several places where you can find AI models for bioimage analysis and describe how to assess how well tools in those locations meet your needs.
@@ -35,14 +41,14 @@ Your tool selection will be influenced by a number of factors and you should fir
 ## Figure 1: Workflows contain modular components
 ![Workflows contain modular components](8-existing-tools_files/workflows.png "Workflows contain modular components")
 **Figure 1.**
-When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left panel) typically consists of multiple subcomponents (right panel).
+When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left of image) typically consists of multiple, modular subcomponents (right of image).
 You may be able to replace your whole workflow with an appropriate AI tool or you may be able to replace only a subcomponent while still keeping many of the original workflow subcomponents the same.
 Replacing a single subcomponent with an AI tool may force you to change surrounding subcomponents in your workflow - either with new tools or new configurations of existing tools - as the AI tool may require different inputs and produce different outputs.
 
 Though you may have built a workflow across multiple softwares, it is worth considering whether a single software (or a reduced number of softwares) can run your workflow and part of this consideration includes assessing how well your desired AI tool can run from within other software.
 Some examples of softwares that can be used to run other softwares include CellProfiler @Stirling2021, Fiji @Schindelin2012, Bilayers @Shah, ZeroCostDL4Mic @von_chamier2021 or DL4MicEverywhere @Hidalgo-Cenalmor2024, and Jupyter notebooks @jupyter.
 
-Figure reproduced from @Haase2024.
+Figure adapted from @Haase2024.
 :::
 
 ### Questions about your overall workflow:
@@ -76,14 +82,14 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
 - **What is your priority?**  
   Determining what your priority is goes hand in hand with assessing the amount of time you can put into your task.
   Perhaps you’re in a time crunch and speed is the most important consideration for you.
-  Perhaps you have a specific QC metric and you need the tool that will give you the outputs that optimize this metric.
+  Perhaps you have a specific quality control (QC) metric and you need the tool that will give you the outputs that optimize this metric.
   Perhaps you've always wanted to gain experience with a particular class of tool, so you want to figure out if this is the right use case for trying it.  
 - **What is your level of computational domain expertise and comfort?**  
   If you don’t have a high level of computational comfort, do you have the time and motivation to expand your skillset by building new skills outside of your comfort zone?
   Do you have a computational collaborator and how much time, in either teaching you or in handling the data themselves, are they able to contribute?  
   Computation domain expertise has two critical, but separable, components.
   The first is the ability to understand what you are doing thoroughly enough that you can design, analyze, and interpret your experiment.
-  The other component is the ability to comfortably interact with software as a computationalist might (e.g. are you comfortable working from the command line (which is text only) or would you prefer a GUI (graphical interface, where you can point and click)).
+  The other component is the ability to comfortably interact with software as a computationalist might (e.g. are you comfortable working from the command line (which is text only) or would you prefer a GUI (graphical user interface, where you can point and click)).
 - **How do you like to learn things?**  
   Are you a person who likes to jump in and just turn all the knobs and buttons to see what they do?
   Do you love to cozy up with a good written manual at the end of the day?
@@ -134,17 +140,14 @@ CellProfiler is an example of a popular image analysis software that is most com
 Deep learning can be used for semantic, instance, or panoptic segmentation.
 Most classic image analysis methods are built around instance segmentation for cell-based images, though semantic segmentation is not uncommon for tissue/histology images.
 
-![Instance segmentation using CellProfiler](8-existing-tools_files/cellprofiler_instance_segmentation.png "Instance segmentation using CellProfiler")
+![Segmentation comparison of CellProfiler and Ilastik](8-existing-tools_files/segmentation_cellprofiler_ilastik.png "Segmentation comparison of CellProfiler and Ilastik")
 
-Example of instance segmentations produced in CellProfiler using classic image processing.
-Image is of Drosophila Kc167 cells and is provided in the Example pipeline packaged with CellProfiler.
-The input image is in the upper left panel.
-The individual objects identified are shown as individually colored masks in the upper right panel.
-The lower left image is the input image overlaid with nuclei objects outlined in green and cell objects outlined in pink.  
-
-![Semantic segmentation using Ilastik](8-existing-tools_files/ilastik_semantic_segmentation.png "Semantic segmentation using Ilastik")
-
-Example of semantic segmentation of the same image produced in ilastik using pixel-based machine learning.
+Example of different types of segmentations produced between CellProfiler and Ilastik.
+A) Input image of Drosophila Kc167 cells, provided in the Example pipeline packaged with CellProfiler.
+B) CellProfiler uses classic image processing to create instance segmentations.
+The individual objects identified are shown as individually colored masks in the upper panel.
+The lower image is the input image overlaid with nuclei objects outlined in green and cell objects outlined in pink.  
+C) Ilastik uses pixel-based machine learning to create semantic segmentation.
 The image is the input image with green shaded areas in the class "Cells” and red shaded areas in the class "Background”.
 :::
 
@@ -190,11 +193,11 @@ Instead, it progresses in unpredictable fits and starts (green line) and/or it i
 In @Cimini2019 we detail and provide examples for a few key heuristics that we think about when deciding if a workflow is "good enough".
 Those heuristics are:
 
-1. How wrong is my current pipeline output?    
-2. How close to 100% accurate is it possible to get?  
-3. How close to accurate do I need to be to assess the % or fold change I expect to see in this experiment?  
-4. How important is this aspect of my experiment to my overall hypothesis?  
-5. What else could I do in the time it will take me to make my pipeline maximally accurate?
+1. How close to accurate do I need to be to assess the % or fold change I expect to see in this experiment?  
+2. How close to 100% accurate is it possible to get with my current workflow?  
+3. How important is this aspect of my experiment to my overall hypothesis?  
+4. How wrong is my current pipeline output?  
+5. What else could I do (e.g. develop a different approach/workflow, learn a new tool, generate new input data) in the time it will take me to make my pipeline maximally accurate?
 
 ## Choosing the kind of tool to use
 
@@ -209,7 +212,8 @@ Ordered by increasing levels of computation comfort required they are:
 * Finetuned deep learning models  
 * From-scratch deep learning models
 
-We will not cover from-scratch deep learning models, as these are constantly changing and not usually the first choice of biological scientists without extensive computational training and thus are out of scope for this chapter.
+We will not cover from-scratch deep learning models in this chapter.
+They are covered in Chapter 9.
 
 It is worth noting that many of the tool suggestions below are not confined to a single "class".
 Many tools listed in the non-deep learning categories allow you to run pre-trained deep learning models inside them (e.g. CellProfiler has a RunCellPose module, ImageJ and QuPath also contain ability to run pixel classifiers). 
@@ -217,11 +221,11 @@ All deep learning models *can* be re-tuned with some effort (they may just not h
 
 | Method category | Suggested light microscopy tools | Time required | Best if your priorities include | Biological expertise level required | Ability to handle *reasonable* technical noise and variability | Largest drawback |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| **Manual Annotation**: hand-drawing in boundaries of all objects. | ImageJ @Schindelin2012 @Schindelin2015, Napari @napari, [this forum thread](https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918) compares a number of programs for 3D annotation | Highest | High accuracy/ outputs approaching ground truth | High | High | Inter- and even intra-operator manual annotations (e.g. after time or image rotation) can be quite variable making manual annotation irreproducible. Can not be automated. |
+| **Manual Annotation**: hand-drawing in boundaries of all objects. | ImageJ @Schindelin2012 @Schindelin2015, Napari @napari, see also [this forum thread](https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918) for 3D annotation | Highest | High accuracy/ outputs approaching ground truth | High | High | Inter- and even intra-operator manual annotations (e.g. after time or image rotation) can be quite variable making manual annotation irreproducible. Can not be automated. |
 | **Classical Image Processing**: Combining mathematically well-defined operations such as thresholding and watershedding to create objects | CellProfiler @Stirling2021, QuPath @Bankhead2017, Icy @de-Chaumont2012 | Medium | Needing to have a good sense of what the failure cases will be (e.g. when cells are too big, too small, too crowded, etc); needing to run in minimal computational footprints  | High | Initially low, can be improved with experience  | Most performant on very bright objects on dark backgrounds. |
-| **Pixel based machine learning**: Using properties of individual pixels to classify each pixel into belonging to a given set of "classes" (such as "true signal", "autofluorescence", and "background").  | Ilastik @Berg2019, Labkit @Arzt2022 | Low to Medium | Identifying objects which are well separated but are not bright-on-dark or are not the only bright-on-dark objects present | High | High if properly represented in the training set | Must be followed by Classical Image Processing if individual object masks are required. |
+| **Pixel based machine learning**: Using properties of individual pixels to classify each pixel into belonging to a given set of "classes" (e.g. "true signal", "autofluorescence", and "background").  | Ilastik @Berg2019, Labkit @Arzt2022 | Low to Medium | Identifying well-separated objects that are not bright-on-dark or are not the *only* bright-on-dark objects present | High | High if properly represented in the training set | Must be followed by Classical Image Processing if individual object masks are required. |
 | **Pretrained deep learning models**: Uses a set of learned transformations (created by the developer) to define the positions and boundaries of objects.  | Stardist @Schmidt2018, Instanseg @Goldsborough2024 | Low | Maximum likelihood for good quality with minimal human time required  | High | High if properly represented in the training set (which you may not know) | If data similar to your data is not present in the training set, pretrained models are unlikely to work. Can be hard to package into workflows. |
-| **Fine tuned deep learning models**: Allows you to update or add to a set of learned transformations (initially created by the developer) to define the positions and boundaries of objects that look like yours.  | Cellpose @Pachitariu2022, µSAM @Archit2025 | Medium | Maximum likelihood for very good quality with less human time than manual annotation requires  | High | High if properly represented in the training set | The most computationally intensive. Many available models are not provided in a non-computationalist friendly format. Can be hard to package into workflows.  |
+| **Fine tuned deep learning models**: Allows you to update or add to a set of learned transformations (initially created by the developer) to define the positions and boundaries of objects that look like yours.  | Cellpose @Pachitariu2022, µSAM @Archit2025 | Medium | Maximum likelihood for very good quality with less human time than manual annotation | High | High if properly represented in the training set | Most computationally intensive. Many available models are not provided in a non-computationalist friendly format. Can be hard to package into workflows.  |
 
 You may have noticed that all methods are listed as requiring a high level of biological expertise.
 It can be tempting for researchers without deep biological expertise to assume that they could just use a pretrained or fine tuned deep learning model and call it a day.
