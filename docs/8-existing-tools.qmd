@@ -221,11 +221,11 @@ All deep learning models *can* be re-tuned with some effort (they may just not h
 
 | Method category | Suggested light microscopy tools | Time required | Best if your priorities include | Biological expertise level required | Ability to handle *reasonable* technical noise and variability | Largest drawback |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| **Manual Annotation**: hand-drawing in boundaries of all objects. | ImageJ @Schindelin2012 @Schindelin2015, Napari @napari, see also [this forum thread](https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918) for 3D annotation | Highest | High accuracy/ outputs approaching ground truth | High | High | Inter- and even intra-operator manual annotations (e.g. after time or image rotation) can be quite variable making manual annotation irreproducible. Can not be automated. |
-| **Classical Image Processing**: Combining mathematically well-defined operations such as thresholding and watershedding to create objects | CellProfiler @Stirling2021, QuPath @Bankhead2017, Icy @de-Chaumont2012 | Medium | Needing to have a good sense of what the failure cases will be (e.g. when cells are too big, too small, too crowded, etc); needing to run in minimal computational footprints  | High | Initially low, can be improved with experience  | Most performant on very bright objects on dark backgrounds. |
-| **Pixel based machine learning**: Using properties of individual pixels to classify each pixel into belonging to a given set of "classes" (e.g. "true signal", "autofluorescence", and "background").  | Ilastik @Berg2019, Labkit @Arzt2022 | Low to Medium | Identifying well-separated objects that are not bright-on-dark or are not the *only* bright-on-dark objects present | High | High if properly represented in the training set | Must be followed by Classical Image Processing if individual object masks are required. |
-| **Pretrained deep learning models**: Uses a set of learned transformations (created by the developer) to define the positions and boundaries of objects.  | Stardist @Schmidt2018, Instanseg @Goldsborough2024 | Low | Maximum likelihood for good quality with minimal human time required  | High | High if properly represented in the training set (which you may not know) | If data similar to your data is not present in the training set, pretrained models are unlikely to work. Can be hard to package into workflows. |
-| **Fine tuned deep learning models**: Allows you to update or add to a set of learned transformations (initially created by the developer) to define the positions and boundaries of objects that look like yours.  | Cellpose @Pachitariu2022, µSAM @Archit2025 | Medium | Maximum likelihood for very good quality with less human time than manual annotation | High | High if properly represented in the training set | Most computationally intensive. Many available models are not provided in a non-computationalist friendly format. Can be hard to package into workflows.  |
+| **Manual Annotation**: Hand-drawing in boundaries of all objects | ImageJ @Schindelin2012 @Schindelin2015, Napari @napari, see also [this forum thread](https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918) for 3D annotation | Highest | High accuracy/ outputs approaching ground truth | High | High | Inter- and even intra-operator manual annotations (e.g. after time or image rotation) variability. Irreproducibility. Can not be automated. |
+| **Classical Image Processing**: Combining mathematically well-defined operations such as thresholding and watershedding to create objects | CellProfiler @Stirling2021, QuPath @Bankhead2017, Icy @de-Chaumont2012 | Medium | Needing to have a good sense of what the failure cases will be (e.g. when cells are too big, too small, too crowded, etc); needing to run in minimal computational footprints  | High | Initially low, can be improved with experience  | Most performant on very bright objects on dark backgrounds |
+| **Pixel based machine learning**: Using properties of individual pixels to classify each pixel into belonging to a given set of "classes" (e.g. "true signal", "autofluorescence", and "background")  | Ilastik @Berg2019, Labkit @Arzt2022 | Low to Medium | Identifying well-separated objects that are not bright-on-dark or are not the *only* bright-on-dark objects present | High | High if properly represented in the training set | Must be followed by Classical Image Processing if individual object masks are required |
+| **Pretrained deep learning models**: Using a set of learned transformations (created by the developer) to define the positions and boundaries of objects  | Stardist @Schmidt2018, Instanseg @Goldsborough2024 | Low | Maximum likelihood for good quality with minimal human time required  | High | High if properly represented in the training set (which you may not know) | Unlikely to work if data similar to your data is not present in the training set. Can be hard to package into workflows. |
+| **Fine tuned deep learning models**: Updating or adding to a pretrained deep learning model with your data  | Cellpose @Pachitariu2022, µSAM @Archit2025 | Medium | Maximum likelihood for very good quality with less human time than manual annotation | High | High if properly represented in the training set | Most computationally intensive. Many available models are not provided in a non-computationalist friendly format. Can be hard to package into workflows.  |
 
 You may have noticed that all methods are listed as requiring a high level of biological expertise.
 It can be tempting for researchers without deep biological expertise to assume that they could just use a pretrained or fine tuned deep learning model and call it a day.
@@ -249,8 +249,7 @@ Keeping an eye on preprint servers like arXiv (particularly in Computing Researc
 
 ### Case Study 1:
 
-This case study starts with a scientist trying to use her standard classical image processing methodds for object identification but finding that she gets better results with a new challenging segmentation task by moving to an AI tool.
-It shows iterative improvements using the same tool in different ways and highlights some of the simple changes she needed to make to her overall workflow to use the new tool.
+#### Introduction
 
 Elena is an image analyst who uses high content microscopy as a method for exploring drug mechanism of action.
 She uses an automated microscope to acquire 9 fields of view in each well of a 384-well plate and just acquired a batch of 4 plates worth of images.
@@ -258,11 +257,14 @@ She often performs the same assay so she has a series of pipelines that she has 
 Elena has a new collaborator that would like to perform a similar screen in a different cell line as the collaborator is interested in a different specific area of biology.
 Because this is the first time that Elena has performed this assay in a new cell line, she needs to carefully tune her existing pipelines so that she has high-quality segmentation of Nuclei and Cell objects.
 
+#### Workflow
+
 ![CellProfiler for nuclei and cell segmentation](8-existing-tools_files/cellprofiler_identifyobjects.png "CellProfiler for nuclei and cell segmentation in easy to segment cells")
 
 Elena usually uses CellProfiler as an image analysis workflow tool, using classical image processing methods for object identification in her pipeline.
 Elena typically performs her screens in A549, U2OS, or HeLa cells which are all considered easy to use for high-content microscopy because they are relatively consistent in size, relatively round, and can grow both sparsely and confluently while remaining in a monolayer.
 She’s quite used to making parameter changes to the IdentifyPrimaryObjects and IdentifySecondaryObjects modules to fine-tune her nuclei and cell segmentations, respectively.
+The image above shows shows the modules in her CellProfiler pipeline (left) and the outputs of her IdentifyPrimaryObjects (center) and IdentifySecondaryObjects modules (right).
 
 ![Fiji for compositing a new png image](8-existing-tools_files/fiji_composite.png "Fiji for compositing a new png image")
 
@@ -272,20 +274,29 @@ She starts by opening Cellpose in its web console as she has heard from colleagu
 She initially struggles to load one of her own images into the web tool but notices that the web page says "upload one PNG or JPG <10 MB".
 She also notices that the example images that are most similar to hers are in color, with a nuclear channel in blue and a cell marker in green.
 Elena's raw images are in .tif format with a single grayscale channel per image so she uses Fiji to make a composite .png image.
+The image above shows her single-channel .tif images opened with FIJI (left, center) and the composite .png image that she created (right).
 
 ![Cellpose web console](8-existing-tools_files/cellpose_console_lipocytes.png "Cellpose web console")
 
 Elena loads her new composite .png into the Cellpose web console and sees that it has identified a number of reasonable cell objects but is not of the quality that she wants for use in her screen.
 However, Elena is excited to explore a new tool and has been actively builing her computational skills so she decides to proceed with Cellpose and see if she can improve the outputs.
+The image above shows her example image loaded into the Cellpose web console (far left) along with the predicted object outlines (center left), masks (center right), and flows (far right).
 
-Elena creates training data.
-She re-trains Cellpose using a Colab notebook and sees that it performs well on a test set.
-She integrates her retrained Cellpose model into her existing workflow by using the RunCellpose module in CellProfiler.
+![RunCellpose in CellProfiler](8-existing-tools_files/runcellpose_in_cellprofiler.png "RunCellpose in CellProfiler")
+
+Elena takes advantage of the fact that Cellpose allows for fine-tuning of the pretrained deep learning models it provides.
+She re-trains Cellpose using a Colab notebook and sees that it now performs quite well on test images from her dataset.
+Because CellProfiler is also an image analysis workflow tool, Elena is able to insert a RunCellpose module in her original pipeline instead of the original secondary object identification module and keep the rest of her image handling and analysis the same while using the newer, better performing object identification that Cellpose provides.
+The image above shows her new CellProfiler pipeline with the RunCellpose module pointing to her custom fine-tuned Cellpose model.
+
+#### Conclusion
+
+This case study starts with a scientist trying to use her standard classical image processing methodds for object identification but finding that she gets better results with a new challenging segmentation task by moving to an AI tool.
+It shows iterative improvements using the same tool in different ways and highlights some of the simple changes she needed to make to her overall workflow to use the new tool.
 
 ### Case Study 2:  
 
-This case study starts with a scientist trying multiple state-of-the-art deep learning segmentation tools for a specific, challenging segmentation task.
-He ultimately discovers that a machine learning pixel classifier works better for this task, illustrating that 1) "less-advanced” tools can perform better than deep learning tools and 2) biological expertise is always needed when inspecting any tool’s outputs.
+#### Introduction
 
 Esteban is an image analyst, working with imaging data acquired by a collaborator.
 The collaborator studies zebrafish brains and sent Esteban fluorescent images taken in a large z-stack in live zebrafish.
@@ -294,19 +305,25 @@ The task is complicated because there is additional autofluorescence in the skin
 The images also have technical challenges because of the nature of their acquisition: because they are 3D live images, as you go deeper in the tissue the signal gets dimmer.
 This makes using normal computer vision segmentation quite hard. 
 
+#### Workflow
+
 ![Point Annotations in napari](8-existing-tools_files/napari_point_annotations.png "Point Annotations in napari")
 
-To help orient Esteban to the image data, he was given a spreadsheet of x,y,z coordinates of microglia that the collaborators manually annotated. Esteban started by opening the images and their point annotations in napari to orient himself to the data.
+To help orient Esteban to the image data, he was given a spreadsheet of x,y,z coordinates of microglia that the collaborators manually annotated.
+Esteban started by opening the images and their point annotations in napari to orient himself to the data.
+The image above shows an example image opened in napari with red circles around the point annotations.
 
 ![Guided Annotations in napari with SAM](8-existing-tools_files/napari_sam_guided_annotations.png "Guided Annotations in napari with SAM")
 
 Esteban then loaded µSAM in napari to use as an annotation tool so that he could use the point annotations to make object masks.
 He tried using automatic segmentation but it didn’t work on his images.
 Instead, he used µSAM assisted segmentation, manually providing positive prompts, and got out reasonable segmentations of the microglia in the image.
+The image above is quite similar to the previous image but also has the µSAM segmentations in color overlays. 
 
 ![Visualizing 3D annotations in napari](8-existing-tools_files/napari_sam_3D_guided_annotations.png "Visualizing 3D annotations in napari")
 
 Though Esteban has three dimensional data, the segmentations he is creating are 2D so he confirms that he is happy with his final masks by examining the image and masks in a 3D viewer.
+The above image shows a 3 dimensional view of his data that contains all of the image slices and annotations viewed together.
 
 ![Cellpose predictions](8-existing-tools_files/cellpose_python_microglia.png "Cellpose predictions")
 
@@ -321,3 +338,9 @@ He used ilastik, first providing annotations for microglia and background.
 The classifier worked quite well at distinguishing microglia from background, but classified the skin autofluorescence as microglia.
 Esteban built on this by using larger filters so that the classifier had more contextual information, training 3 classes (microglia, skin, and background) instead of 2, and adding in autocontext @Kreshuk2019 which improves classification by running it in multiple stages.
 Esteban’s final 3-class pixel classifier performs well to identify microglia separately from skin across the images in his datasets.
+The above image shows a zoom-in of one of his images with the three classes overlaid - red for background pixels, blue for skin pixels, and yellow for microglia pixels.
+
+#### Conclusion
+
+This case study starts with a scientist trying multiple state-of-the-art deep learning segmentation tools for a specific, challenging segmentation task.
+He ultimately discovers that a machine learning pixel classifier works better for this task, illustrating that 1) "less-advanced” tools can perform better than deep learning tools and 2) biological expertise is always needed when inspecting any tool’s outputs.
