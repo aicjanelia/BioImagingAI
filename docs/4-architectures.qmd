@@ -7,146 +7,351 @@ author:
         state: VA
         country: USA
         postal-code: 20147
-  - name: Add any co-authors as appropriate
-    orcid: 
+  - name: Marius Pachitariu
+    orcid: 0000-0001-7106-814X
     affiliations:
-      - name: 
-        state: 
-        country: 
-        postal-code: 
+      - name: HHMI Janelia Research Campus
+        state: VA
+        country: USA
+        postal-code: 20147
 subtitle: optionally add a subtitle
 ---
 
-# Architectures and Loss Models
+# Architectures and Loss Functions
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
-Under your first header, include a brief introduction to your chapter.
+The problems faced by biologists differ in multiple ways from traditional computer vision problems. For example, object detection in computer vision typically involves only a few objects per scene, e.g. determining the approximate locations of cars or pedestrians in a self-driving car application. On the other hand, biologists may need to detect hundreds or thousands of cells in a single image, often with precise segmentations of cell boundaries. Because of these differences, the best algorithms for biological problems might not be the same as those used in standard computer vision. In this chapter, we introduce and describe several neural network architectures and loss functions for biological applications, that are especially useful for identifying and outlining objects in images (segmentation). In subsequent chapters, these concepts will be applied to other biological problems besides segmentation. For a deeper dive into computer vision topics we recommend several resources at the end of the chapter.
 
-Starting prompt for this chapter: Chapter 4 introduces architectures and loss models, defining them and providing examples through two practical case studies: image restoration and segmentation. Although this chapter will include code snippets/exercises, the presentation of essential concepts should communicate the philosophy behind the choice of a model for non-programmers.
+## Neural network architectures
 
-## Initial Outline
-### Intro/abstract
-The problems faced by biologists differ from traditional computer vision problems, such as object recognition or object detection. General object detection models are typically trained on natural scenes with only a few objects in each scene and with only rough outlines of such objects. However, biologists in many cases need to detect tens to hundreds of cells in a single image, often with highly precise segmentation of cell boundaries. As a result, the optimal architectures and loss functions for biological problems may not align with standard computer vision approaches. In this chapter, we will introduce and describe some useful neural network architectures and loss functions for biological applications, with a focus on segmentation. Subsequent chapters will examine other biological problems, expanding on these concepts.
+In computer vision, multiple neural network architectures were designed for various visual tasks. These architectures take as input an image, which often has multiple channels - in the case of natural images there are three input channels for red/green/blue. The neural networks process the image and output various quantities depending on the task. For example, in the case of object recognition, the networks output a single probability vector to indicate the likelihood that each possible object (cat, dog etc) is in the image. 
 
-### Outline
-* Conceptual introduction
-  + What is an architecture? There are inputs, outputs, and a configuration in the middle.
-  + What is a loss function? What does it accomplish for a network?
-* Basic binary cross-entropy loss function 0-1 for cell pixel vs non-cell pixel
-  + Explain computing gradients and adjusting weights with tiny example?
-* Traditional convolutional neural network e.g. for object recognition (refer to additional resources for CNN explanations)
-* Transforming traditional CNNs to U-nets for precise per pixel prediction
-* Adding boundary pixels for 0-1-2 multi-class prediction
-* Introduce mean-squared error loss - auxillary prediction variables like distance to boundary, stardist loss, cellpose loss
-* Conceptual overview of Recent architectures for segmentation: SAM (ViT + prompt decoder), DETR, Swin transformer, … ?
-* Potentially mention FPNs and Mask RCNN
+![Alexnet architecture, adapted from [@krizhevsky2012imagenet]. This early neural network first demonstrated the capabilities of deep learning when trained on large datasets.](4-architectures/alexnet.PNG){#fig-alexnet width=90%}
 
-## Include section headers as appropriate
+In the case of biological problems, the output is often the same size as the input, thus providing pixel-level labels. These can indicate, for example, whether each pixel belongs to the cell class or not. A common architecture for this is a u-net:
 
-Use markdown heading level two for section headers. You can use standard markdown formatting, for example _emphasize the end of this sentence_.
+![U-net architecture, adapted from [@ronneberger2015u]. This neural network was revolutionary for biological analysis, in part due to the image-sized outputs and dense skip connections between layers on the downsampling and upsampling pass.](4-architectures/unet.PNG){#fig-unet}
 
-This is a new paragraph with more text. Your paragraphs can cross reference other items, such as @fig-simple. Use `fig` to reference figures, and `eq` to reference equations, such as @eq-stddev.
+### Linear layers (or fully-connected layers, or dense layers)
 
-###  Sub-subsection headers are also available
+Early research focused on the computational properties of  perceptrons, defined as linear weighted sums of inputsfollowed by a nonlinear activation functions [@rumelhart1986learning]. A neural network layer consistes of a collection of such perceptrons, each with their own input weights. A multilayer perceptron (MLP) is the simplest example of a deep neural network -- which we will discuss later -- and consists of a sequence of such layers that are applied in series, each on the output of the previous one. The linear layer performs a matrix multiplication of a “weights” matrix ($W$) with the input $\vec{x}$ followed by an addition with a vector of “bias” terms ($\vec{b}$). The size of the weights matrix is the number of outputs by the number of inputs, and length of the bias vector is the number of outputs.
 
-To make your sections cross reference-able throughout the book, include a section reference, as shown in the header for @sec-equation.
-
-## Bibliography and Citations
-
-To cite a research article, add it to references.bib and then refer to the citation key. For example, reference @stringer2021 refers to CellPose and reference @von_chamier2021 refers to ZeroCostDL4Mic.
-
-## Adding to the Glossary
-
-We are using the extension [Quarto-glossary](https://debruine.github.io/quarto-glossary/#styles) to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from {{< glossary hallucinations >}}. It is important to understand the underlying {{< glossary "training data" >}} to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the [Glossary](glossary.qmd).
-
-## Code and Equations {#sec-equation}
-
-This is an example of including a python snippet that generates a figure
-
-```{python}
-#| label: fig-simple
-#| fig-cap: "Simple Plot"
-import matplotlib.pyplot as plt
-plt.plot([1,23,2,4])
-plt.show()
-```
+$$ 
+W = 
+\begin{bmatrix}
+W_{11} & \cdots & W_{1n}\\
+\vdots & \ddots & \vdots \\
+W_{n1} & \cdots & W_{nn}
+\end{bmatrix}
+, \quad
+\vec{b} = 
+ \begin{bmatrix}
+ b_1 \\
+ \vdots \\
+ b_n
+ \end{bmatrix} 
+ $$
 
 
-In some cases, you may want to include a code-block that is not executed when the book is compiled. Use the `eval: false` option for this.
+The output of the linear layer is
+$$ \vec{y} = W\vec{x} + \vec{b} = [\sum_{j=1}^n W_{ij} x_{j} + b_{i}]_{i=1}^n$$
 
-```{python}
-#| eval: false
-import matplotlib.pyplot as plt
-plt.plot([1,23,2,4])
-plt.show()
-```
-
-
-Figures can also be generated that do not show the code by using the option for `code-fold: true`.
-
-```{python}
-#| code-fold: true
-#| label: fig-polar
-#| fig-cap: "A spiral on a polar axis"
-#| fig-alt: "A line plot on a polar axis. The line spirals out from a value of zero to a value of 2."
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
-
-Here is an example equation.
+The activation function ($f$) is the nonlinearity applied to each output of the linear layer, such as a ReLU nonlinearity which sets the minimum value of the output to zero. The nonlinearity allows the network to compute more complicated functions of the input than would be possible with a simple linear model [@cybenko1989approximation].
 
 $$
-s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}
-$$ {#eq-stddev}
+y = f(z) = 
+\begin{cases}
+    z,& \text{if } z\geq 0\\
+    0,              & \text{otherwise}
+\end{cases}
+$$
 
-### Embedding Figures
+![ReLU nonlinearity. This is the most-used activation function in neural networks, sometimes with small modifications.](4-architectures/relu.png){width=33% #fig-relu}
 
-You can also embed figures from other notebooks in the repo as shown in the following embed example.
+For images, dense linear layers are not efficient in the number of parameters and computations they perform. To see why, consider a modest-sized input image of 100 by 100 pixels with 3 channels. In this case, there are 30,000 input values. If the output of the layer is the same size as the input, then there are 30,000 output values. The weights matrix then has size  30,000 by 30,000 and the bias vector has length 30,000. This is almost a billion parameters to fit, and would lead to overfitting even with a large amount of training  data. 
 
-
-{{< embed ../notebooks/test.ipynb#fig-test-fig echo-true >}}
-
-When embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, `chapter4_example_u-net.ipynb`. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code--but not for rendering the book at large--will be installed there. That way, we will not need to handle a global environment across the book.
-
-## Quarto has additional features.
-
-You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
-
-::: {.callout-note}
-Note that there are five types of callouts, including:
-`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
-:::
-
-::: {.callout-tip collapse="true"}
-These could be good for extra material or exercises.
-:::
-
-::: {.callout-caution}
-There are caveats when applying these tools. Expand the code below to learn more.
+Here we show a code example for a multi-layer perceptron with 30,000 input values, a hidden layer with 30,000 units, and an output layer with one output:
 
 ```{python}
-#| code-fold: true
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
+import torch 
+from torch import nn
+from torch.nn import functional as F
+
+class MLP(nn.Module):
+    """ Network with one hidden layer
+
+    Args:
+        n_inputs (int): number of input units
+        n_hidden (int): number of units in hidden layer
+
+    Attributes:
+        in_layer (nn.Linear): weights and biases of input layer
+        out_layer (nn.Linear): weights and biases of output layer
+
+    """
+
+    def __init__(self, n_inputs, n_hidden):
+        super().__init__()  # needed to invoke the properties of the parent class nn.Module
+        self.in_layer = nn.Linear(n_inputs, n_hidden) # input units --> hidden units
+        self.out_layer = nn.Linear(n_hidden, 1) # hidden units --> output
+
+    def forward(self, X):
+        """ Input images and output label (e.g. 0 for cat / 1 for dog)
+
+        Args:
+        X (torch.Tensor): input image (flattened), must be of
+            length n_inputs. Can also be a tensor of shape n_images x n_inputs,
+            containing n_images of image vectors
+
+        Returns:
+        torch.Tensor: network outputs for each input provided in X of length n_images. 
+
+        """
+        z = self.in_layer(X)  # hidden representation
+        z = F.relu(z)
+        y = self.out_layer(z)
+        return y
+
+# declare network
+net = MLP(n_inputs=30000, n_hidden=30000)
+
+print('shape of W in first layer: ', net.in_layer.weight.data.shape)
+print('shape of b in first layer: ', net.in_layer.bias.data.shape)
+
+# define input images
+n_images = 8
+X = torch.zeros((n_images, 30000))
+
+# evaluate network
+net.eval()
+with torch.no_grad():
+    y = net(X)
+
+print('input shape: ', X.shape)
+print('output shape: ', y.shape)
+
 ```
+
+### Convolutional layers
+
+Instead of linear layers, convolutional layers are often used in vision tasks, as a parameter-efficient alternative [@lecun1995convolutional]. A convolutional layer slides a small two-dimensional filter across the input image, computing the dot product between the filter and the input at each image position. It also includes the addition of a vector of bias terms. For 2D image processing, we use two-dimensional convolutions, but one/three dimensional convolutions may be used for 1D/3D data respectively. The output of the 2D convolution operation at position $(x,y)$ can be written as follows for an example grayscale image $I$ with a single input channel, where the filter $W$ is size $(2k+1, 2k+1)$ and the bias is $b$:
+
+$$ C(x,y) = \sum_{i_x=-k}^{k} \sum_{i_y=-k}^{k} W(i_x+k, i_y+k) X(x+i_x,y+i_y) + b $$
+
+This **convolutional filter** $W$ is often called a **kernel**. Note that “convolution” and “filtering” are often conflated  in neural network terminology, whereas they refer to distinct operations in the signal processing and mathematical literature. Here is an illustration of a 2D convolution:
+
+![Toy illustration of convolutional operation from this [article](https://towardsdatascience.com/light-on-math-machine-learning-intuitive-guide-to-convolution-neural-networks-e3f054dd5daa). In practice, convolutional kernels are more complicated than simple template detectors.](4-architectures/conv_happy.gif){#fig-convill  width=70%}
+
+This is an example with a single input and a single output channel, but in general a 2D convolutional layer has multiple input and output channels. Each output **channel** is the result of a 2D convolutional kernel applied to the input. In the gif below, the input is in blue, the kernel is in gray, and the output is in green. The number of units in the output channel depends on a  *stride* parameter. In the gif below, the stride is 1 because the input image is sampled at each position. A stride of 2 would mean skipping over every other input position both vertically and horizontally. In most applications, especially with small kernel sizes, a stride of 1 is used for convolution.
+
+![Convolutional operation with padding from this [github](https://github.com/vdumoulin/conv_arithmetic). This illustrates the creation of a single channel output from a single channel input. In practice, both inputs and outputs have multiple channels and all combinations of input and output need to be calculated and summed accordingly.](4-architectures/same_padding_no_strides.gif){#fig-convpad width=40%}
+
+::: {.callout-note} 
+If the kernel size *K* is odd and you set the `padding=K//2` (floor[K/2]) and `stride=1` as  shown in @fig-convpad, you get a **channel** of units that is the same size as the input.
 :::
 
-::: {.callout-warning}
-Be careful to avoid hallucinations.
-:::
+A convolutional layer operates under two main assumptions: 1) the computation only requires local features that are within the spatial extent of the filter operation; and 2) it is not necessary to perform different computations at different positions in the image, and thus the same filter operation can be convolutionally applied across all positions in the image. When these assumptions are acceptable, a convolutional layer can reduce the number of parameters substantially compared to linear layers.
 
-::: {.callout-important}
-This is key information.
-:::
+Taking our example from above, let’s estimate the number of parameters with filters/kernels of size 3 by 9 by 9 pixels, where 3 is the number of input channels and 9 is the size in pixel space, the “kernel size”. The number of input and output images are called “channels”, similar to the red/green/blue channels for RGB images. If we define the layer to have 6 output channels, this requires 6 of these kernels resulting in 1458 parameters in the kernels, along with 6 bias terms, resulting in 1464 parameters in total. As you can see, the number of parameters now is independent of the size of the input in pixels, and a dramatic reduction from the nearly 1 billion parameters for the dense linear layer example above. 
+
+Here we show a code example for a convolutional layer with 3 input channels, 6 output channels and a kernel size of 9:
+
+```{python}
+class ConvolutionalLayer(nn.Module):
+    """Deep network with one convolutional layer
+        Attributes: conv (nn.Conv2d): convolutional layer
+    """
+    def __init__(self, c_in=3, c_out=6, K=9):
+        """Initialize layer
+
+        Args:
+            c_in: number of input stimulus channels
+            c_out: number of output convolutional channels
+            K: size of each convolutional filter
+
+        """
+        super().__init__()
+        self.conv = nn.Conv2d(c_in, c_out, kernel_size=K,
+                            padding=K//2, stride=1)
+
+    def forward(self, X):
+        """Run images through convolutional layer
+
+        Args:
+            X (torch.Tensor): n_images x c_in x h x w tensor with stimuli
+
+        Returns:
+            (torch.Tensor): n_images x c_out x h x w tensor with convolutional layer unit activations.
+
+        """
+        Y = self.conv(X)  # output of convolutional layer
+
+        return Y
+
+
+# declare layer
+layer = ConvolutionalLayer(c_in=3, c_out=6, K=9)
+print('shape of filter W: ', layer.conv.weight.data.shape)
+print('shape of b: ', layer.conv.bias.data.shape)
+
+# define input images
+n_images = 8
+X = torch.zeros((n_images, 3, 100, 100)) # n_images x c_in x h x w
+
+# evaluate network
+layer.eval()
+with torch.no_grad():
+    y = layer(X)
+
+print('input shape: ', X.shape)
+print('output shape: ', y.shape)
+```
+
+The activations of a single convolutional layer, as described, have a receptive field size equivalent to its kernel size: each activation only receives information from pixels within the kernel size. However, objects in images are often larger than the kernel size. To increase the amount of spatial information used for computation, pooling layers are introduced between convolutional layers. A pooling layer consists of a sliding-window operation, just like the convolution layer, but in this case a maximum or average operation is computed within the window, independently for each input channel. To reduce the size of the image, this convolutional operation is applied with a “stride”: to downsample the image by a factor of two, we may use a pooling size of 2 with a stride also set to 2, like in the example below. 
+
+![Illustration of max-pooling with a kernel size of 2 and stride of 2, from [here](https://github.com/dvgodoy/PyTorchStepByStep).](4-architectures/pooling.png){#fig-pool width=90%}
+
+Code to implement max-pooling with a kernel size of 2 and a stride of 2:
+
+```{python}
+# max pooling operation
+pool_layer = nn.MaxPool2d(kernel_size=2, stride=2)
+y = pool_layer(X)
+
+print('input shape: ', X.shape)
+print('output shape: ', y.shape)
+```
+
+If we apply several convolutional and pooling layers, we end up with an output which is smaller in resolution than the input. We can see example activations across convolutional, pooling and linear layers in a network trained to classify MNIST [@lecun1998mnist] digits:
+
+![Activations across convolutional and pooling layers from this [demo](https://adamharley.com/nn_vis/cnn/2d.html). Lighter blue indicates a higher activation.](4-architectures/mnist.PNG){#fig-mnist}
+
+Having an output that is downsampled relative to the input is appropriate for a task like object recognition, where the output is the class of the image, like cat or dog. In the case of biological images, this could be a global image label of a cancerous or non-cancerous phenotype [@spanhol2016breast]. However, for pixel-specific classification or segmentation, we require the output to be the same size as the input. This is where u-nets come in.
+
+### U-nets
+
+U-nets were introduced by Ronneberger, Fischer, and Brox [-@ronneberger2015u] (@fig-unet). They share some similarities with feature pyramid networks [@lin2017feature], but u-nets are more frequently used in biological applications so we will focus on them. U-nets have an encoder-decoder structure, like an autoencoder [@hinton2006reducing], with the encoder consisting of convolutional layers and pooling layers (downsampling), and the decoder consisting of convolutional layers and upsampling or strided conv-transpose layers. End-to-end, u-nets typically produce an output at the same spatial resolution as the input.
+ 
+The downsampling results in a loss of fine spatial information. To recover this information, the output of the convolutional layers in the encoder is concatenated with the activations from the decoder at each spatial scale using skip connections (“copy” operation in @fig-unet). This preserves the higher resolution details, which is important for precise segmentations and pixel-wise predictions.
+
+Conventional u-nets [@ronneberger2015u] have two convolutional layers per block and a small kernel size of 3 in each layer. The downsampling after each block is often set to a factor of 2. Because the kernel size is small, the only way to have large receptive field sizes is through several downsampling blocks. If we want the network to learn complicated tasks across many diverse images, then we need it to have a large “capacity”. This can be achieved by adding more weights to the network, for example by increasing the number of channels in the convolutional layers and/or by adding more convolutional layers in each block and/or by increasing the number of downsampling and upsampling stages [@stringer2021cellpose].
+
+### Vision transformers
+
+Vision transformers are modern architectures that are replacing convolutional networks in many applications. They are not as parameter-efficient as convolutional neural networks - for example the Cellpose segmentation u-net has 6.6 million parameters while ViT-H (“vision-transformer-huge”) has 632 million parameters [@dosovitskiy2020image]. They are still much more efficient than dense linear layers due to special architecture choices (see below), and they introduce a new type of operation called “self-attention”. Transformers avoid overfitting this large set of parameters through training on very large amounts of data. Even though they have many more parameters than standard convolutional networks, they are not too much slower because most of the operations within the transformer are matrix multiplications which are fast on newer GPUs with tensor cores (e.g. from [nvidia](https://www.nvidia.com/en-us/data-center/tensor-cores/)). With more parameters, they have a larger capacity than standard convolutional neural networks to learn from large training datasets.
+
+The vision transformer divides the input image into patches, e.g. 16 by 16 pixels each. In the first layer of the transformer the patches are transformed into the embedding space, using a linear operation that is often implemented using strided convolutions. This embedding space is generally several times larger than the number of pixels in the patch; for example the embedding space in ViT-H is 1280. These patch embeddings are input to the transformer encoder, which consists of many blocks ($L$). Each transformer block has a self-attention block and an MLP block. In the self-attention block, the attention matrix is computed as pairwise interactions between all patches, enabling sharing of information across the entire image. 
+
+![Vision transformer architecture. Originally invented for language modeling [@vaswani2017attention], transformers were then adapted for image processing [@dosovitskiy2020image]. The critical innovation in transformers is the self-attention block (left illustration from [here](https://github.com/dvgodoy/PyTorchStepByStep)).](4-architectures/transformer.PNG){width=90% #fig-vit}
+
+Vision transformers were first trained on image classification tasks but have been extended for various visual tasks like segmentation. A notable example is the Segment Anything model (SAM) [@kirillov2023segment]. This model was originally trained and designed for natural image datasets, but has since been adapted for cellular segmentation by multiple groups [@archit2025segment; @israel2025cellsam]. The Segment Anything model is considered to be a foundation model: it can generalize well to new images and be used for a variety of visual tasks in addition to segmentation. 
+
+![Segment Anything model [@kirillov2023segment], illustration from [@pachitariu2025cellpose]. This architecture differs from a standard transformer in the decoding module, which is necessary for outputting segmentations of images. This model requires inputs in the form of point clicks, box outlines or textual instructions.](4-architectures/sam.PNG){width=60% #fig-sam}
+
+SAM is trained as a promptable model, meaning a user can specify an object for segmentation with a click or a bounding box and the model will produce a predicted object in that region. However, we often want automated segmentations in which we do not have to click on everything in the image. Thus, multiple groups have adapted the SAM decoder to predict auxiliary variables, which we will discuss next as we learn about loss functions. Other innovations in transformers have adapted the architecture to be more suited to the spatial layout of images, such as the Swin transformer [@liu2021swin], which has also been adapted for biological applications [@zhang2025swincell; @achard2025cellseg3d].
+
+## Loss functions
+
+In a standard image classification network, the output is a vector with  length equal to the number of classes in the task. Each of the entries in this vector represents the predicted probability of the class, and the predicted label for the image is chosen as the index of the vector with the largest entry. For each training image we have a ground-truth label for the class. How close the network matches the label is the loss, which is defined as a function between the vector output of the network and the ground-truth label. A lower loss means we matched the ground-truth data better. The gradients of the network are computed automatically via back-propagation, and an optimizer is specified to modify the parameters in order to minimize the loss (described more below).
+
+For classification, we are evaluating predicted probabilities, and so we need to take the output from the network and convert it to a probability across classes that sums to one. For this a softmax operation is performed, defined as $p_c(x) = e^{x_{c}} / (\sum_{i=1}^C e^{x_{i}})$. The cross-entropy loss is a standard loss function for classification, and for comparing probability distributions generally. This loss maximizes the predicted probability of the true class, achieving its minimum value of 0 when the probability of the true class is predicted to be one:
+
+$$ \ell(x, y) = - \sum_{c=1}^C \log [p_c(x)] y_c.$$
+
+In segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, "not cell" and "cell" [@ronneberger2015u]. 
+
+![Binary cross-entropy loss, computed from the output of a u-net trained to classify cell/not cell (predicted cell probability).](4-architectures/bceloss.PNG){#fig-bce width=70%}
+
+In pytorch, the softmax and cross-entropy loss are combined into a single function; for two-class prediction the function is [`nn.BCEWithLogitsLoss`](https://docs.pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html), and for multi-class prediction the function is [`nn.CrossEntropyLoss`](https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html). Here is example code with cell/not-cell prediction with one convolutional layer:
+
+```{python}
+# declare layer
+layer = ConvolutionalLayer(c_in=3, c_out=1, K=9)
+print('shape of filter W: ', layer.conv.weight.data.shape)
+print('shape of b: ', layer.conv.bias.data.shape)
+
+# define input images
+n_images = 8
+X = torch.zeros((n_images, 3, 50, 50))
+# define random cell probabilities
+y_true = (torch.randn((n_images, 1, 50, 50)) > 0.5).float()
+
+# define loss function
+loss_fn = nn.BCEWithLogitsLoss()
+
+# compute network prediction and loss
+y = layer(X)
+
+print('input shape: ', X.shape)
+print('output shape: ', y.shape)
+print('target shape: ', y_true.shape)
+
+# evalulate loss function
+loss = loss_fn(y, y_true)
+
+print('loss = ', loss.item())
+```
+
+To create segmentations for each cell, a threshold is defined on the cell probability and any pixels above the threshold that are connected to each other are formed into objects. This threshold is defined using a validation set - images that are not used for training or testing - to help ensure the threshold generalizes to the held-out test images. The predicted segmentations with this loss function often contain several merges, because cells can often touch each other and the connected components of the image will combine the touching cells into single components. 
+
+![Segmentation with pixelwise cell/not cell predictions.](4-architectures/seg2class.png){width=70% #fig-seg}
+
+To better train the network to discriminate boundaries, a boundary pixel class can be introduced, creating a three class prediction loss function. This can improve segmentation performance, but can still contain merges. This is illustrated in the [tutorial notebook](../notebooks/tutorial_segmentation.ipynb).
+
+The training signals for the network so far have consisted only of class labels. However, it can be helpful to ask the network to predict more complex information about the segmentation. For example, the distance to the boundary can be used to provide context about the local shape of the object [@heinrich2018synaptic]. The distance-to-boundary is computed for each pixel in each object, and the network is trained to predict this, in addition to a multi-class loss like cell/not-cell. Distance-to-boundary is not a class but a continuous variable. In this case, the loss function often used is a mean-squared error loss function between the ground-truth ($\tilde{Y}$) and the predicted values ($Y$):
+
+$$ \ell_\text{MSE} = \sum_{ij} (Y_{ij} - \tilde{Y}_{ij})^2.$$
+
+Stardist extends this approach by computing the distance-to-boundary along multiple fixed rays emanating from each pixel in an object, which can then be used for reconstruction of convex objects [@schmidt2018cell]. Cellpose creates a different type of representation from gradients indicating the direction towards the cell center, and tracks the gradients to reconstruct the segmented objects from the fixed points of the dynamics [@stringer2021cellpose]. This representation helps prevent merges by having strong differences in gradients in boundary areas between two objects, and is sufficiently flexible to be used for non-convex cellular shapes. Other examples of auxiliary functions include local shape descriptors (LSDs), which include other global features like the size of the object, which can be useful for electron microscopy segmentation of neurons with long processes [@sheridan2023local].
+
+![Additional loss functions for segmentation.](4-architectures/auxloss.PNG){width=80% #fig-aux}
+
+## Training neural networks
+
+Now that we have defined a loss function, we want to minimize the loss $\ell$ by updating the weights in the network. For a problem like segmentation, we will need images with ground-truth segmentation labels - this labeling can be done using tools like [Ilastik](https://www.ilastik.org/), [ImageJ](https://imagej.net/software/imagej/), [Paintera](https://github.com/saalfeldlab/paintera), or [Napari](https://napari.org/stable/). Once ground-truth labeling is done on some images, training can be attempted. We will want to use most of the ground-truth labeled images for training, making up a training set, and leave a small subset (like 10%) for testing the performance of the network. For some algorithms, we may also need a validation set for setting post-processing parameters like the cell probability threshold, in which case we can reserve 10-15% of the training set images for validation.
+
+Minimizing the loss is done via gradient descent, in which the weights are updated by the gradient of the loss with respect to each parameter, scaled by the learning rate $\alpha$:
+
+$$ 
+\begin{align*}
+\vec{v}_t &= \alpha \, d L(\vec{w}_t) / d \vec{w}_t \\
+   \vec{w}_t &= \vec{w}_{t-1} - \vec{v}_t
+\end{align*}
+$$
+
+![Gradient descent illustration, from [here](https://compneuro.neuromatch.io/tutorials/W1D5_DeepLearning/student/W1D5_Tutorial1.html).](4-architectures/grad_descent.gif){#fig-gd}
+ 
+Moving the parameters in the negative direction of the gradient reduces the loss for the given images or data points over which the loss is computed. We could compute the loss and gradients over all images in the training set, but this would take too long so in practice the loss is computed in batches of a few to a few hundred images - the number of images in a batch is called the *batch size*. The optimization algorithm for updating the weights in batches is called stochastic gradient descent (SGD). This is often faster than full-dataset gradient descent because it updates the parameters many times on a single pass through the training set (called “epoch”). Also, the stochasticity induced by the random sampling step in SGD effectively adds some noise in the search for a good minimum of the loss function, which may be useful for avoiding local minima.
+
+It can also be beneficial to include momentum, with some value $\beta$ between zero and one, which pushes weight updates along the same direction they have been updating in the past. The updated version of $\vec{v}$ in this case is
+$$ \vec{v}_t = \beta \vec{v}_{t-1} + \alpha\, \frac{d L(\vec{w}_t)}{d \vec{w}_t} $$
+
+Different weights in the network may have differently scaled gradients, and thus a single learning rate may not work well. The Adam optimizer uses a moving average of both the first and second moment of the gradient for rescaling the weight updates while including a momentum term [@kingma2014adam]. This optimizer works better than standard SGD in many cases, and requires less fine-tuning to find good hyperparameter values. In addition to using an optimizer like Adam, it may be helpful to use a learning rate schedule which reduces the learning rate towards the end of training to enable smaller steps for fine-tuning the final weights [@loshchilov2016sgdr]. Sometimes a validation set is used to re-instantiate the best weights, as evaluated on the validation set, before a decrease in the learning rate [@prechelt1998automatic].
+
+During fitting it is important to monitor the training loss and the validation loss. With an appropriate learning rate that is not too large, the training loss should always decrease. The loss on held-out validation data should also ideally decrease over training. If not, then the network is overfitting to the training set: the weights are becoming specifically tuned for the training set examples and no longer generalize to held-out data.
+
+![Example training loss and validation loss across epochs.](4-architectures/trainloss.png){#fig-trainloss width=40%}
+
+To avoid overfitting, regularization is often used. Most commonly in computer vision problems, weight decay will be used for regularization, which is closely-related to L2 regularization. This operation reduces the weights by a small fraction $\lambda$ at each optimization step: 
+
+$$\vec{w}_t = \vec{w}_{t-1} - \alpha \lambda \vec{w}_{t-1} - \vec{v}_t. $$
+
+Other forms of regularization include drop-out, in which a random subset of activations are dropped in linear layers [@hinton2012improving], or entire layers or blocks are randomly dropped [@huang2016deep], for example in transformer architectures [@kirillov2023segment]. Often normalization layers are used after each layer to normalize the activations, with batch normalization used for convolutional layers and layer normalization used in transformers [@ioffe2015batch; @ba2016layer]. This normalization reduces the likelihood of vanishing and exploding gradients, and helps to regularize the weight values. 
+
+Additionally, data augmentation reduces the likelihood of overfitting, which is described in Chapter 5. There is also more detail about training neural networks in Chapter 9.
+
+## Practical application
+
+There is a tutorial for exploring these concepts available [here](../notebooks/tutorial_segmentation.ipynb).
+
+## Additional resources
+
+For more details and exercises for these concepts we recommend the following resources on deep learning:
+
+* Neuromatch Academy Deep Learning [course](https://deeplearning.neuromatch.io)
+* Learn Pytorch for Deep Learning, Computer Vision [tutorial](https://www.learnpytorch.io/03_pytorch_computer_vision)
+* Tutorials from [pytorch](https://docs.pytorch.org/tutorials/)
+* CNN Explainer [demo](https://poloclub.github.io/cnn-explainer/) with activations across layers, and interactive visualizations for padding and stride [@wang2020cnn]
+* Illustration of how momentum works from [Gabriel Goh](https://distill.pub/2017/momentum/)
+
