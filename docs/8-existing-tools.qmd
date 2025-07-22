@@ -245,6 +245,12 @@ All models are described by a common Model Resource Description File Specificati
 - Academic literature can include biology-focused research where users describe applications or computer science research where the tools and models themselves are more likely to be described.
 Keeping an eye on preprint servers like arXiv (particularly in Computing Research Repository or Quantitative Biology sections) and bioRxiv can help you find the most cutting-edge developments.
 
+::: {.callout-note icon=false}
+## Bioimage analysts
+
+There is a whole discipline of people who specialize in figuring out workflows for analyzing microscopy images - their official titles often vary, but many think of themselves as  *bioimage analysts*. If you want to find a local bioimage analyst, or even become one, you can check out the [Global Bioimage Analysts' Society (GloBIAS)](https://www.globias.org/), which holds events, coordinates trainings (including free help sessions), and hosts a database of bioimage analysts and bioimage analysis trainers.
+:::
+
 ## Case Studies
 
 ### Case Study 1:
@@ -344,3 +350,7 @@ The above image shows a zoom-in of one of his images with the three classes over
 
 This case study starts with a scientist trying multiple state-of-the-art deep learning segmentation tools for a specific, challenging segmentation task.
 He ultimately discovers that a machine learning pixel classifier works better for this task, illustrating that 1) "less-advanced” tools can perform better than deep learning tools and 2) biological expertise is always needed when inspecting any tool’s outputs.
+
+## Conclusion
+
+As we shift our focus from hardware to software, it is common and understandable to feel overwhelmed - the bioimage analysis tool space is a constantly-changing array of best practices, and not all microscopists are highly computationally comfortable. This chapter therefore mostly talks about *how to make decisions*, as opposed to *use X tool for Y task*. Ultimately, the "right tool for your task" is the tool (or chain of tools) that allows you to be confident that your analysis has been performed **well enough**, and helps you understand the answer to your biological question and how confident you can be in your conclusion. Even if you try a tool and decide it isn't the right solution for this question, this time still isn't wasted - it simply enlarged the toolbox you can use for answering future questions. In the subsequent chapters, we will teach you about how to train models which could be important parts of your toolbox, but we suggest you keep our guidelines in mind as you finalize the decisions around when your model is "trained enough" and how you decide on your overall workflow. 
