@@ -27,7 +27,7 @@ subtitle: An Introduction to Smart Microscopy
 
 * Setting the bounds
   * What kinds of signals are we looking to extract events from?
-  * What spatioetemporal scales are relevant?
+  * What spatiotemporal scales are relevant?
   * What types of microscopes/imaging assays are in the scope of this chapter?
     * Limiting the scope
 
@@ -45,13 +45,13 @@ subtitle: An Introduction to Smart Microscopy
       * What has been done recently in the literature?
     * What is required to label, train and implement these methods?
       * Special considerations for event detection modesl
-        * Specifics of event detection in contast the other ML tasks
+      * Specifics of event detection in contast the other ML tasks
 
 * Real-time vs a posteriori inference
   * Challenges, opportunities
   * Event detection as the first step in the microscopy workflow
 
-* Limitations and ntoes of caution related to inference
+* Limitations and notes of caution related to inference
   * "Trusting the algorithms"
 
 * Conclusion
