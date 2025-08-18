@@ -19,7 +19,44 @@ subtitle: An Introduction to Smart Microscopy
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
-Under your first header, include a brief introduction to your chapter.
+* Introduction
+  * Define and motivate the "problem" 
+    * What is a Biological "Event"?
+      * Why is it important to study these?
+      * How is it distinct from an "Object"?
+
+* Setting the bounds
+  * What kinds of signals are we looking to extract events from?
+  * What spatioetemporal scales are relevant?
+  * What types of microscopes/imaging assays are in the scope of this chapter?
+    * Limiting the scope
+
+* Brief history/evolution of automated event/object detection in general
+  * Offer some background to current methods
+    * Including classical up to SVM
+      * e.g micropilot and limitations
+      * Case Study #1 : CellProfiler
+      * Case Study #2 : Micropilot
+
+* The need for new methods
+  * Deep learning based and ML approaches
+    * Where the algorithm learns what is important
+    * What are the advantages of these methods?
+      * What has been done recently in the literature?
+    * What is required to label, train and implement these methods?
+      * Special considerations for event detection modesl
+        * Specifics of event detection in contast the other ML tasks
+
+* Real-time vs a posteriori inference
+  * Challenges, opportunities
+  * Event detection as the first step in the microscopy workflow
+
+* Limitations and ntoes of caution related to inference
+  * "Trusting the algorithms"
+
+* Conclusion
+
+<!-- Under your first header, include a brief introduction to your chapter.
 
 Starting prompt for this chapter: Chapter 7 motivates how AI can be used to control hardware. This chapter should focus on event-driven microscopy, but other smart microscopy topics can be included at the author's discretion.
 
@@ -132,4 +169,4 @@ Be careful to avoid hallucinations.
 
 ::: {.callout-important}
 This is key information.
-:::
+::: -->
