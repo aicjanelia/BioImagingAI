@@ -47,8 +47,13 @@ format:
     theme:
       light: flatly
       dark: darkly
+    code-fold: true
+    code-summary: "show code"
   pdf:
     documentclass: scrreprt
+
+execute:
+  eval: false
 
 glossary:
   path: glossary.yml

@@ -23,6 +23,46 @@ Under your first header, include a brief introduction to your chapter.
 
 Starting prompt for this chapter: Chapter 5 discusses collecting, annotating and validating training data. It should highlight potential pitfalls such as balanced data sets, out-of-distribution problems, etc. It should also address the question: how do you collect training data on your microscope? For example, this chapter should discuss collecting low/high-laser power pairs for the purpose of training an image restoration model.
 
+## The importance of good training data
+
+Why training data quality and diversity are the main drivers of success in AI applications?
+
+- High-quality and diverse data often matter more than model architecture (“you are what you eat”).
+- More data is better—but only if it’s well-curated and representative.
+- Poor data silently harms performance; robust models require representative variability.
+
+## Data types, formats, and labeling strategies
+
+What are the typical imaging tasks and modalities, and how to generate or obtain corresponding ground truth labels?
+
+- Common tasks include classification, restoration, segmentation; data are 2D/3D+t, multi-channel, 8/16-bit stacks.
+- Ground truth can come from manual annotation, dual acquisition (e.g., high/low power), or informative channels.
+- Synthetic or weak supervision is helpful, but often limited by oversimplified assumptions.
+
+## Collecting and curating data from the microscope
+
+What is the practical guidance on structured image acquisition and quality control before using data for training?
+
+- Plan acquisitions to cover biological variability under consistent settings and with metadata retention.
+- Use automation (e.g., μManager) and open formats for systematic, reproducible collection.
+- Visual and automated checks (outliers, file consistency, label alignment) are critical to ensure usable datasets.
+
+## Splitting data and building robust validation
+
+What is the proper dataset splitting and how to ensure meaningful model evaluation?
+
+- Use train/validation/test splits: only the test set evaluates final model performance.
+- Validation must reflect the intended use case—ideally different experiments, microscopes, or conditions.
+- Avoid data leakage (e.g., adjacent slices in train/test) to ensure unbiased evaluation.
+
+## Dealing with imbalance and data augmentation
+
+What are the common practical challenges and techniques to improve model generalization?
+
+- Class imbalance can skew learning—oversample minority classes or use weighting strategies.
+- Out-of-distribution issues arise with domain shifts; mitigate via diverse training data and testing.
+- Augmentation helps simulate variation or artifacts, but must respect biological plausibility.
+
 ## Include section headers as appropriate
 
 Use markdown heading level two for section headers. You can use standard markdown formatting, for example _emphasize the end of this sentence_.
