@@ -36,6 +36,8 @@ book:
     - 11-outlook.qmd
     - glossary.qmd
     - references.qmd
+  appendices:
+    - 6-image-restoration-appendix.qmd
 
 bibliography: references.bib
 csl: settings/nature.csl
