@@ -50,7 +50,7 @@ format:
   pdf:
     documentclass: scrreprt
 
-glossary:
-  path: glossary.yml
-  popup: click
-  show: true    
+# glossary:
+#   path: glossary.yml
+#   popup: click
+#   show: true    
