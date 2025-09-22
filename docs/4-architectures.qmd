@@ -17,7 +17,7 @@ author:
 subtitle: optionally add a subtitle
 ---
 
-# Architectures and Loss Models
+# Architectures and Loss Models {#sec-architectures}
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
@@ -41,7 +41,7 @@ To cite a research article, add it to references.bib and then refer to the citat
 
 ## Adding to the Glossary
 
-We are using the extension [Quarto-glossary](https://debruine.github.io/quarto-glossary/#styles) to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from {{< glossary hallucinations >}}. It is important to understand the underlying {{< glossary "training data" >}} to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the [Glossary](glossary.qmd).
+We are using R code to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from [hallucinations](glossary.qmd#hallucinations). It is important to understand the underlying [training data](glossary.qmd#training-data), [validation data](glossary.qmd#validation-data) and [false positives](glossary.qmd#false-positives) to interpret your results. Clicking on the word will reveal its definition by taking you to the entry on the [Glossary](#sec-glossary) page. Pressing back in your browser will return you to your previous place in the textbook. 
 
 ## Code and Equations {#sec-equation}
 
