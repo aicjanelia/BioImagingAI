@@ -17,7 +17,7 @@ author:
 subtitle: Through the Lens of Segmentation
 ---
 
-# Output Quality {#sec-output}
+# Output Quality {#sec-10}
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
