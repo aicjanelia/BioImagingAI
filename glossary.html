@@ -379,7 +379,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./9-train-models.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Training and Using Your Own Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">How to Train and Use Deep Learning Models in Microscopy</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -418,16 +418,36 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#false-negatives" id="toc-false-negatives" class="nav-link active" data-scroll-target="#false-negatives">False Negatives</a></li>
+  <li><a href="#backpropagation" id="toc-backpropagation" class="nav-link active" data-scroll-target="#backpropagation">Backpropagation</a></li>
+  <li><a href="#batch" id="toc-batch" class="nav-link" data-scroll-target="#batch">Batch</a></li>
+  <li><a href="#bayesian-optimization" id="toc-bayesian-optimization" class="nav-link" data-scroll-target="#bayesian-optimization">Bayesian Optimization</a></li>
+  <li><a href="#binary-segmentation" id="toc-binary-segmentation" class="nav-link" data-scroll-target="#binary-segmentation">Binary Segmentation</a></li>
+  <li><a href="#data-augmentation" id="toc-data-augmentation" class="nav-link" data-scroll-target="#data-augmentation">Data Augmentation</a></li>
+  <li><a href="#domain-randomization" id="toc-domain-randomization" class="nav-link" data-scroll-target="#domain-randomization">Domain Randomization</a></li>
+  <li><a href="#epoch" id="toc-epoch" class="nav-link" data-scroll-target="#epoch">Epoch</a></li>
+  <li><a href="#f1-score" id="toc-f1-score" class="nav-link" data-scroll-target="#f1-score">F1 Score</a></li>
+  <li><a href="#false-negatives" id="toc-false-negatives" class="nav-link" data-scroll-target="#false-negatives">False Negatives</a></li>
   <li><a href="#false-positives" id="toc-false-positives" class="nav-link" data-scroll-target="#false-positives">False Positives</a></li>
+  <li><a href="#gaussian-process" id="toc-gaussian-process" class="nav-link" data-scroll-target="#gaussian-process">Gaussian Process</a></li>
+  <li><a href="#genetic-algorithms" id="toc-genetic-algorithms" class="nav-link" data-scroll-target="#genetic-algorithms">Genetic Algorithms</a></li>
   <li><a href="#hallucinations" id="toc-hallucinations" class="nav-link" data-scroll-target="#hallucinations">Hallucinations</a></li>
+  <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">Hyperparameters</a></li>
+  <li><a href="#image-classification" id="toc-image-classification" class="nav-link" data-scroll-target="#image-classification">Image Classification</a></li>
   <li><a href="#inferences" id="toc-inferences" class="nav-link" data-scroll-target="#inferences">Inferences</a></li>
+  <li><a href="#instance-segmentation" id="toc-instance-segmentation" class="nav-link" data-scroll-target="#instance-segmentation">Instance Segmentation</a></li>
+  <li><a href="#iou" id="toc-iou" class="nav-link" data-scroll-target="#iou">IoU</a></li>
+  <li><a href="#manual-annotation" id="toc-manual-annotation" class="nav-link" data-scroll-target="#manual-annotation">Manual Annotation</a></li>
+  <li><a href="#object-detection" id="toc-object-detection" class="nav-link" data-scroll-target="#object-detection">Object Detection</a></li>
+  <li><a href="#pixel-classifiers" id="toc-pixel-classifiers" class="nav-link" data-scroll-target="#pixel-classifiers">Pixel Classifiers</a></li>
   <li><a href="#semantic-segmentation" id="toc-semantic-segmentation" class="nav-link" data-scroll-target="#semantic-segmentation">Semantic Segmentation</a></li>
+  <li><a href="#star-convex-polygon" id="toc-star-convex-polygon" class="nav-link" data-scroll-target="#star-convex-polygon">Star-convex Polygon</a></li>
   <li><a href="#test-data" id="toc-test-data" class="nav-link" data-scroll-target="#test-data">Test Data</a></li>
   <li><a href="#training-data" id="toc-training-data" class="nav-link" data-scroll-target="#training-data">Training Data</a></li>
+  <li><a href="#transfer-learning" id="toc-transfer-learning" class="nav-link" data-scroll-target="#transfer-learning">Transfer Learning</a></li>
   <li><a href="#true-negatives" id="toc-true-negatives" class="nav-link" data-scroll-target="#true-negatives">True Negatives</a></li>
   <li><a href="#true-positives" id="toc-true-positives" class="nav-link" data-scroll-target="#true-positives">True Positives</a></li>
   <li><a href="#validation-data" id="toc-validation-data" class="nav-link" data-scroll-target="#validation-data">Validation Data</a></li>
+  <li><a href="#virtual-machine" id="toc-virtual-machine" class="nav-link" data-scroll-target="#virtual-machine">Virtual Machine</a></li>
   </ul>
 </nav>
     </div>
@@ -460,25 +480,97 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 # Iterate over the terms in the glossary and print them
 
 ``` -->
+<section id="backpropagation" class="level2">
+<h2 class="anchored" data-anchor-id="backpropagation">Backpropagation</h2>
+<p>The method used by neural networks to learn from its predictions. Once the prediction is done, it is compared with the ground truth through a training loss and the value of the comparison is used backwards to sequentially update the weights in the neural network, reward it when making a good prediction and punish it when making a bad prediction.</p>
+</section>
+<section id="batch" class="level2">
+<h2 class="anchored" data-anchor-id="batch">Batch</h2>
+<p>A small group of data that is processed together at the same time. For example, when training a machine learning model, a batch is a group of data that is given to the model for learning. Batches are commonly used to make the processes more efficient.</p>
+</section>
+<section id="bayesian-optimization" class="level2">
+<h2 class="anchored" data-anchor-id="bayesian-optimization">Bayesian Optimization</h2>
+<p>A strategy that allows the optimization of black-box functions such as deep neural networks. It creates a surrogate model, which is a probabilistic representation of the objective function, using only a few example points.</p>
+</section>
+<section id="binary-segmentation" class="level2">
+<h2 class="anchored" data-anchor-id="binary-segmentation">Binary Segmentation</h2>
+<p>A type of image segmentation where each pixel is classified into one of two categories—typically “foreground” (e.g., cell) or “background.” The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).</p>
+</section>
+<section id="data-augmentation" class="level2">
+<h2 class="anchored" data-anchor-id="data-augmentation">Data Augmentation</h2>
+<p>A strategy to artificially increase the diversity of a dataset prior to training by applying transformations such as rotation, flipping, or brightness adjustment. It helps improve model robustness and generalisation.</p>
+</section>
+<section id="domain-randomization" class="level2">
+<h2 class="anchored" data-anchor-id="domain-randomization">Domain Randomization</h2>
+<p>Using simulations or synthetic training data, domain randomization applies random and exaggerated variations to background, lighting, shapes, or textures in the synthetic dataset. This strategy helps the model learn domain-invariant features and is usually used for pretraining a neural network or to enable simulation-to-real transfer.</p>
+</section>
+<section id="epoch" class="level2">
+<h2 class="anchored" data-anchor-id="epoch">Epoch</h2>
+<p>One complete pass through the entire training dataset during the training process.</p>
+</section>
+<section id="f1-score" class="level2">
+<h2 class="anchored" data-anchor-id="f1-score">F1 Score</h2>
+<p>A classification metric that gives the harmonic mean of precision (proportion of correct true positive predictions across all predicted positive cases) and recall (proportion of true positive predictions against the total positive cases). The harmonic mean is a method to balance both metrics equally. This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.</p>
+</section>
 <section id="false-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="false-negatives">False Negatives</h2>
-<p>Temporary definition.</p>
+<p>In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive.</p>
 </section>
 <section id="false-positives" class="level2">
 <h2 class="anchored" data-anchor-id="false-positives">False Positives</h2>
-<p>Temporary definition.</p>
+<p>In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.</p>
+</section>
+<section id="gaussian-process" class="level2">
+<h2 class="anchored" data-anchor-id="gaussian-process">Gaussian Process</h2>
+<p>A common surrogate model for optimization strategies such as Bayesian Optimization. Gaussian Processes are non-parametric a case that models a conditional probability function. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.</p>
+</section>
+<section id="genetic-algorithms" class="level2">
+<h2 class="anchored" data-anchor-id="genetic-algorithms">Genetic Algorithms</h2>
+<p>An optimisation method inspired by the principles of natural selection and genetics. It starts with a population of solutions. These solutions are combined through a process called crossover to produce new solutions (offspring). During this process, random changes or mutations may occur to introduce diversity. After crossover and mutation, a selection step chooses the best solutions from both the parent and offspring populations to form the next generation. This cycle repeats for a set number of generations or until a predefined goal or stopping criterion is met.</p>
 </section>
 <section id="hallucinations" class="level2">
 <h2 class="anchored" data-anchor-id="hallucinations">Hallucinations</h2>
 <p>Outputs from a model that do not have a basis in the input data and may contain false or misleading information.</p>
 </section>
+<section id="hyperparameters" class="level2">
+<h2 class="anchored" data-anchor-id="hyperparameters">Hyperparameters</h2>
+<p>The options you choose when training a machine learning model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss, etc.) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.</p>
+</section>
+<section id="image-classification" class="level2">
+<h2 class="anchored" data-anchor-id="image-classification">Image Classification</h2>
+<p>A computer vision task where each image is associated with one class and the goal of this task is to correctly predict that class.</p>
+</section>
 <section id="inferences" class="level2">
 <h2 class="anchored" data-anchor-id="inferences">Inferences</h2>
 <p>Temporary definition.</p>
 </section>
+<section id="instance-segmentation" class="level2">
+<h2 class="anchored" data-anchor-id="instance-segmentation">Instance Segmentation</h2>
+<p>A segmentation task that not only separates objects from the background but also distinguishes between individual objects of the same type (e.g., separating touching cells one by one).</p>
+</section>
+<section id="iou" class="level2">
+<h2 class="anchored" data-anchor-id="iou">IoU</h2>
+<p>“Intersection over Union”. A segmentation metric that calculates the difference between the area of overlap between two segmentation masks divided by the area of union.</p>
+</section>
+<section id="manual-annotation" class="level2">
+<h2 class="anchored" data-anchor-id="manual-annotation">Manual Annotation</h2>
+<p>The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.</p>
+</section>
+<section id="object-detection" class="level2">
+<h2 class="anchored" data-anchor-id="object-detection">Object Detection</h2>
+<p>A computer vision task that identifies and locates individual objects within an image, typically by drawing bounding boxes around them. It provides both the category (what) and position (where) of each object.</p>
+</section>
+<section id="pixel-classifiers" class="level2">
+<h2 class="anchored" data-anchor-id="pixel-classifiers">Pixel Classifiers</h2>
+<p>Machine learning models that classify each pixel in an image based on features such as intensity, texture, or local neighborhood. Commonly used in traditional workflows for segmentation or classification tasks.</p>
+</section>
 <section id="semantic-segmentation" class="level2">
 <h2 class="anchored" data-anchor-id="semantic-segmentation">Semantic Segmentation</h2>
-<p>Temporary definition.</p>
+<p>A form of segmentation where each pixel in an image is assigned to a class (e.g., nucleus, cytoplasm, background), but it does not distinguish between separate instances of the same class.</p>
+</section>
+<section id="star-convex-polygon" class="level2">
+<h2 class="anchored" data-anchor-id="star-convex-polygon">Star-convex Polygon</h2>
+<p>A geometric shape used in segmentation algorithms like StarDist. Imagine drawing straight lines (rays) from the centre of an object out toward its edges—if you can see the edge from the centre in all directions, the object is considered star-convex. This method works well for blob-like structures such as nuclei, because their general shape can be captured by measuring how far each ray travels from the centre to the boundary.</p>
 </section>
 <section id="test-data" class="level2">
 <h2 class="anchored" data-anchor-id="test-data">Test Data</h2>
@@ -488,17 +580,25 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="training-data">Training Data</h2>
 <p>Data used to train an algorithm to make predictions.</p>
 </section>
+<section id="transfer-learning" class="level2">
+<h2 class="anchored" data-anchor-id="transfer-learning">Transfer Learning</h2>
+<p>A deep learning technique where part of a pretrained neural network (usually the initial layers, responsible for feature extraction) is frozen and reused in a new model. These frozen layers, with the knowledge from a previous dataset, are combined with untrained layers tailored for a specific bioimaging task. During training, only the new layers will be updated, allowing the model to adapt to the new task with limited data.</p>
+</section>
 <section id="true-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="true-negatives">True Negatives</h2>
-<p>Temporary definition.</p>
+<p>In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as negative and were really negative.</p>
 </section>
 <section id="true-positives" class="level2">
 <h2 class="anchored" data-anchor-id="true-positives">True Positives</h2>
-<p>Temporary definition.</p>
+<p>In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.</p>
 </section>
 <section id="validation-data" class="level2">
 <h2 class="anchored" data-anchor-id="validation-data">Validation Data</h2>
 <p>Temporary definition.</p>
+</section>
+<section id="virtual-machine" class="level2">
+<h2 class="anchored" data-anchor-id="virtual-machine">Virtual Machine</h2>
+<p>On a physical computer, you install an operating system (e.g., Windows or Ubuntu) that you interact with. A virtual machine is a program that simulates a complete computer with its own operating system. This lets you run a “computer inside your computer” (e.g., using Linux inside Windows or the other way around). As this simulated computer is separate from your physical one, it adds an extra layer of security, because unless the user specifically allows it, the virtual machine cannot access or connect to your real computer.</p>
 
 
 </section>
