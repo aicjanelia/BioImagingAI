@@ -1,21 +1,24 @@
 # Glossary {.unnumbered #sec-glossary}
 
-{{< glossary table=true >}}
-The glossary table will be automatically generated here after we resolve formatting issues.
-
-### Temporary Troubleshooting Table
-See https://github.com/debruine/quarto-glossary/issues/10
-
-```{python}
-#| echo: false
-import yaml
-
+<!-- 
 # Read the glossary from the YAML file
-with open('glossary.yml', 'r') as file:
-    glossary = yaml.safe_load(file)
 
 # Iterate over the terms in the glossary and print them
-for term, definition in glossary.items():
-    print(f"{term}\n\n{definition}\n")
 
+``` -->
+
+```{r}
+#| echo: false
+#| output: asis
+
+glossary <- yaml::read_yaml("glossary.yml",readLines.warn=FALSE)
+
+sorted_names <- sort(names(glossary))
+
+glossary_new <- glossary[sorted_names]
+
+for (term in names(glossary_new)) {
+    # cat("## ", term, "{#sec-", term , "} \n\n", glossary[[term]], "\n\n", sep = "")
+    cat("## ", term, " \n\n", glossary[[term]], "\n\n", sep = "")
+}
 ```
