@@ -49,6 +49,7 @@ format:
       dark: darkly
   pdf:
     documentclass: scrreprt
+    cite-method: biblatex
 
 # glossary:
 #   path: glossary.yml

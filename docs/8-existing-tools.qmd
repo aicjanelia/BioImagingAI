@@ -16,7 +16,7 @@ author:
         postal-code: 02142
 ---
 
-# Finding and Using Existing Tools
+# Finding and Using Existing Tools {#sec-8}
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
