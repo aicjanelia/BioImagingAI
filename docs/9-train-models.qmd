@@ -51,9 +51,9 @@ subtitle: Practical considerations through the lens of segmentation
 
 ###  The challenge {#sec-9.1.1}
 
-The growing volume and complexity of image data necessitate increasingly advanced analytical tools. One example of challenging tasks is image segmentation, the process of identifying and delineating structures of interest within images. Segmentation can be particularly difficult and time-consuming when dealing with large, multidimensional datasets, such as 3D volumes or time-lapse sequences, where manual annotation becomes impractical. Machine learning (ML), especially deep learning (DL), can provide effective solutions to these challenges [@heinrich2021].
+The growing volume and complexity of image data necessitate increasingly advanced analytical tools. One example of challenging tasks is image segmentation, the process of identifying and delineating structures of interest within images. Segmentation can be particularly difficult and time-consuming when dealing with large, multidimensional datasets, such as 3D volumes or time-lapse sequences, where [manual annotation](glossary.qmd#manual-annotation) becomes impractical. Machine learning (ML), especially deep learning (DL), can provide effective solutions to these challenges [@heinrich2021].
 
-ML algorithms learn patterns from data to perform tasks such as image classification and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [@arganda-carreras2017; @arzt2022; @berg2019]. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, object detection, feature extraction, denoising, and restoration [@moen2019; @pylvanainen2023]. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [@krizhevsky2012; @ronneberger2015].
+ML algorithms learn patterns from data to perform tasks such as [image classification](glossary.qmd#image-classification) and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [@arganda-carreras2017; @arzt2022; @berg2019]. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, [object detection](glossary.qmd#object-detection), feature extraction, denoising, and restoration [@moen2019; @pylvanainen2023]. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [@krizhevsky2012; @ronneberger2015].
 
 Segmentation greatly benefits from ML and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges. While we focus on segmentation as a case study, the principles, workflows, and considerations discussed here are broadly applicable to other image analysis tasks, such as classification or denoising. Readers interested in these areas can adapt the described approaches to their specific needs.
 
@@ -66,17 +66,17 @@ Every image analysis project should begin by clearly defining the scientific que
 
 Since segmentation serves as the central example in this chapter, it is important to first understand the different types of segmentation tasks encountered in microscopy before discussing how deep learning methods can be applied. These tasks can typically be categorised into three main types (@fig-1). Each segmentation type presents distinct challenges and is suited to different biological questions:
 
-**Binary segmentation:** This is the simplest form of segmentation that separates the foreground from the background. For example, in a microscopy image, this involves distinguishing cell nuclei (foreground) from the rest of the image (background). This method is useful for detecting whether a structure is present or absent without distinguishing individual objects.
+**Binary segmentation:** This is the [simplest form of segmentation](glossary.qmd#binary-segmentation) that separates the foreground from the background. For example, in a microscopy image, this involves distinguishing cell nuclei (foreground) from the rest of the image (background). This method is useful for detecting whether a structure is present or absent without distinguishing individual objects.
 
-**Instance segmentation:** This type of segmentation identifies and labels each object independently. For instance, each cell in an image obtains a unique label. This method is crucial for tracking individual cells over time or measuring specific characteristics of each cell separately.
+**Instance segmentation:** This [type of segmentation](glossary.qmd#instance-segmentation) identifies and labels each object independently. For instance, each cell in an image obtains a unique label. This method is crucial for tracking individual cells over time or measuring specific characteristics of each cell separately.
 
-**Semantic segmentation:** This segmentation strategy involves labelling every pixel in an image according to its class, such as "nucleus," "cytoplasm," or "background." Unlike instance segmentation, semantic segmentation does not differentiate between individual objects within the same class. This method is beneficial for analysing the spatial relationships and distribution of various cellular components.
+**Semantic segmentation:** This [segmentation strategy](glossary.qmd#semantic-segmentation) involves labelling every pixel in an image according to its class, such as "nucleus," "cytoplasm," or "background." Unlike instance segmentation, semantic segmentation does not differentiate between individual objects within the same class. This method is beneficial for analysing the spatial relationships and distribution of various cellular components.
 
 ![The three main types of segmentation in microscopy images. **original**: A raw grayscale fluorescence microscopy image showing cell nuclei stained with a nuclear marker. **binary segmentation**: Simplifies the image into two classes—foreground (white, nuclei) and background (black). **instance segmentation**: Assigns a unique label (shown in different colours) to each nucleus, facilitating individual object identification. **semantic segmentation**: Categorises each pixel into predefined classes—nucleus (purple), nucleus edge (yellow), and background (teal)—without distinguishing between individual objects.](9-figures/chapter9_1_segmentation_types.png){#fig-1}
 
 Consider whether your segmentation solution is meant for a specific experiment or needs to generalise across various imaging techniques, sample types, or experimental conditions. Additionally, evaluate the volume of data to analyse, the feasibility of manual analysis, and the resources available to create a tailored image analysis pipeline. Avoid overengineering a solution when a simple analysis could provide the answer you seek.
 
-Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”* This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful {@sec-10}.
+Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”* -- see @sec-10 for more information. This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful (see @sec-10).
 
 While the following steps focus on segmentation, the underlying principles can be readily adapted to a wide range of DL tasks in microscopy.
 
@@ -86,7 +86,7 @@ While the following steps focus on segmentation, the underlying principles can b
 
 Choosing the right computational method is essential for consistent and reproducible image analysis. For example in segmentation tasks, while DL can deliver exceptional segmentation performance, traditional methods and pixel classifiers still offer straightforward and efficient solutions for most tasks (@fig-2). 
 
-Traditional image processing techniques—such as intensity-based thresholding, morphological operations, edge detection, and filtering—are ideal for objects with clear, distinguishable features. These methods are well-documented, easy to understand, and usually require minimal computing resources. Pixel classifiers, in particular, are user-friendly and can efficiently tackle many segmentation challenges with minimal manual annotation, making them highly effective for simpler analyses or smaller datasets.
+Traditional image processing techniques—such as intensity-based thresholding, morphological operations, edge detection, and filtering—are ideal for objects with clear, distinguishable features. These methods are well-documented, easy to understand, and usually require minimal computing resources. [Pixel classifiers](glossary.qmd#pixel-classifiers), in particular, are user-friendly and can efficiently tackle many segmentation challenges with minimal manual annotation, making them highly effective for simpler analyses or smaller datasets.
 
 DL methods excel in complex scenarios where traditional approaches fail, especially when dealing with noisy or context-dependent data. When trained on large, annotated datasets, DL models can effectively generalise across diverse imaging conditions and sample types, rapidly processing significant volumes of images. However, in the absence of pre-trained models, DL methods rarely offer shortcuts for data analysis. DL methods generally take effort and time to implement.
 
@@ -108,7 +108,7 @@ The process starts by clearly defining your task (in this example, segmentation)
 
 The first step in choosing a DL approach for image segmentation is to clearly define your segmentation task, whether it’s binary, semantic, or instance segmentation (@fig-1), and to determine if you require 2D or 3D segmentation. Next, you should consider whether the model or tool you plan to use makes assumptions about the shapes or structures of the objects you want to segment. Understanding these assumptions will aid in selecting a model that fits your specific biological problem (see @sec-9.2.1). Additionally, consider the amount of data that needs annotation for a particular DL approach (see @sec-9.3.4.5). Finally, take into account your available computational resources (see @sec-9.4.2). More complex models typically demand more GPU memory, longer training times, and additional storage, especially for 3D data or large datasets.
 
-For example, StarDist [@schmidt2018], a widely used tool for nuclei segmentation, assumes that objects are star-convex polygons: i.e., a shape for which any two points on its boundary can be connected by a single line that does not intersect the boundary. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose [@stringer2021] uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms. 
+For example, StarDist [@schmidt2018], a widely used tool for nuclei segmentation, assumes that objects are [star-convex polygons](glossary.qmd#star-convex-polygon): i.e., a shape for which any two points on its boundary can be connected by a single line that does not intersect the boundary. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose [@stringer2021] uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms. 
 
 Choosing the right DL strategy requires aligning your goal, object shape, data dimensionality, and computing capacity with the strengths and assumptions of the available DL architectures.
 
@@ -122,7 +122,7 @@ The increasing availability of already trained (pre-trained) DL models has great
 
 Another significant benefit of pre-trained models is their adaptability. Instead of starting from scratch, you can often fine-tune an existing model (see @sec-9.3.6). This method entails retraining the model with a smaller, task-specific dataset, enabling it to adjust to your images while requiring far fewer annotations.
 
-Several excellent resources host pre-trained models suitable for microscopy. Researchers also increasingly share trained models alongside their datasets and publications, promoting open science. Platforms like Zenodo are commonly used for this purpose [@fazeli2020; @follain2024], although deployment may require handling specific file formats or environments (see @sec-8).
+Several excellent resources host pre-trained models suitable for microscopy. Researchers also increasingly share trained models alongside their datasets and publications, promoting open science. Platforms like Zenodo are commonly used for this purpose [@fazeli2020; @follain2024], although deployment may require handling specific file formats or environments (see @sec-8 for more information).
 
 #### When to train your model {#sec-9.3.3.2}
 
@@ -188,9 +188,9 @@ New tools are also pushing the boundaries of interactive annotation. For example
 
 #### Expanding your dataset with augmentation and synthetic data {#sec-9.3.4.4}
 
-When the number of training samples is limited, augmentation techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [@lecun1998; @shorten2019]. Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. However, it's important to apply augmentation carefully, as excessive or unrealistic augmentation can confuse the model or cause it to learn patterns that do not exist in real data.
+When the number of training samples is limited, [augmentation](glossary.qmd#data-augmentation) techniques can enhance dataset diversity to improve the model's generalisation ability and performance on validation and testing [@lecun1998; @shorten2019]. Common augmentation strategies include image rotation, flipping, scaling, and contrast adjustment. However, it's important to apply augmentation carefully, as excessive or unrealistic augmentation can confuse the model or cause it to learn patterns that do not exist in real data.
 
-In the absence of sufficient real data, synthetic data generated through simulations or domain randomisation can help pre-training a model [@lin2022; @rangel_dacosta2024]. These synthetic samples can expose the model to a broader range of scenarios early in training, before transitioning to fine-tuning with real, annotated data.
+In the absence of sufficient real data, synthetic data generated through simulations or [domain randomization](glossary.qmd#domain-randomization) can help pre-training a model [@lin2022; @rangel_dacosta2024]. These synthetic samples can expose the model to a broader range of scenarios early in training, before transitioning to fine-tuning with real, annotated data.
 
 In summary, a successful segmentation pipeline relies on a careful balance between data quantity and annotation quality. Augmentation strategies can efficiently help to scale and balance training datasets.
 
@@ -198,11 +198,11 @@ In summary, a successful segmentation pipeline relies on a careful balance betwe
 
 In supervised training, it is crucial that each image in the training set is accompanied by a corresponding label image (see @sec-9.3.4.1). The number of image-label pairs required depends on the number of labels per image, the complexity of the model and the desired level of generalisability. Still, the key is having enough representative examples and corresponding annotations for the model to learn meaningful patterns. 
 
-Small and well-curated datasets consisting of tens of images may suffice for highly specific applications, such as segmenting cells or nuclei using a defined imaging modality [@von_chamier2021]. In these scenarios, transfer learning can also be especially beneficial (see @sec-9.3.6). Models designed to generalise across a wide range of conditions, tissue types, or imaging modalities typically require much larger and more diverse datasets (hundreds to thousands of annotated images) [@stringer2021]. These datasets are essential for capturing the inherent variability in broader use cases. 
+Small and well-curated datasets consisting of tens of images may suffice for highly specific applications, such as segmenting cells or nuclei using a defined imaging modality [@von_chamier2021]. In these scenarios, [transfer learning](glossary.qmd#transfer-learning) can also be especially beneficial (see @sec-9.3.6). Models designed to generalise across a wide range of conditions, tissue types, or imaging modalities typically require much larger and more diverse datasets (hundreds to thousands of annotated images) [@stringer2021]. These datasets are essential for capturing the inherent variability in broader use cases. 
 
 ### Training a segmentation model from scratch {#sec-9.3.5}
 
-Once you have annotated your training dataset, the next steps are to organise your data for training, initialise your model by selecting appropriate hyperparameters, and start the training process (@fig-7).
+Once you have annotated your training dataset, the next steps are to organise your data for training, initialise your model by selecting appropriate [hyperparameters](glossary.qmd#hyperparameters), and start the training process (@fig-7).
 
 #### Splitting your training data: training, validation, and test sets {#sec-9.3.5.1}
 
@@ -222,9 +222,9 @@ A DL model is composed of multiple layers (@fig-5). Each layer contains tens to 
 
 Training begins with initialising these weights. When training from scratch, the initialisation is often random. However, when using a pre-trained model, the weights are already optimized based on previous training, providing the model with a significant head start (see @sec-9.3.6).
 
-The training process is iterative (@fig-7). Each cycle of training is called an epoch. During each epoch, the model typically learns from every image in the training set. Since datasets are often too large to fit into memory all at once, each epoch is divided into steps or iterations, with each step processing a smaller subset of the data known as a batch. The batch size determines how many samples are processed simultaneously.
+The training process is iterative (@fig-7). Each cycle of training is called an [epoch](glossary.qmd#epoch). During each epoch, the model typically learns from every image in the training set. Since datasets are often too large to fit into memory all at once, each epoch is divided into steps or iterations, with each step processing a smaller subset of the data known as a batch. The batch size determines how many samples are processed simultaneously.
 
-During each step, the model generates predictions for the current data batch. These predictions are compared to the ground truth labels using a loss function that calculates the similarity between the predictions and the ground truths. This score is called the training loss. The model utilises this feedback to adjust its weights through a process known as backpropagation, guided by an optimisation algorithm, to improve its accuracy in future iterations.
+During each step, the model generates predictions for the current data batch. These predictions are compared to the ground truth labels using a loss function that calculates the similarity between the predictions and the ground truths. This score is called the training loss. The model utilises this feedback to adjust its weights through a process known as [backpropagation](glossary.qmd#backpropagation), guided by an optimisation algorithm, to improve its accuracy in future iterations.
 
 At the end of each epoch, the model assesses its performance on the validation set, which comprises data it has not encountered during training. This produces the validation loss, indicating how well the model generalises to new data.
 
@@ -248,7 +248,7 @@ Now that you understand the training process, the next step is to configure the 
 
 * **Patience (early stopping):** This parameter defines the number of epochs to wait before halting training if the validation loss does not improve. It helps prevent wasting resources on overfitting and overtraining.
 
-Given the many possible configurations, tuning hyperparameters is often essential—especially when applying a model to new data. Start with the recommended values from the model's original publication, but you might need to conduct a hyperparameter search to optimize performance. This can range from a simple grid search to more advanced methods, such as gaussian process based bayesian optimisation [@ilievski2017] or genetic algorithms [@alibrahim2021].
+Given the many possible configurations, tuning hyperparameters is often essential—especially when applying a model to new data. Start with the recommended values from the model's original publication, but you might need to conduct a hyperparameter search to optimize performance. This can range from a simple grid search to more advanced methods, such as [Gaussian process-based](glossary.qmd#gaussian-process) [Bayesian optimisation](glossary.qmd#bayesian-optimization) [@ilievski2017] or [genetic algorithms](glossary.qmd#genetic-algorithms) [@alibrahim2021].
 
 #### Monitoring training and validation Losses {#sec-9.3.5.4}
 
@@ -311,15 +311,15 @@ Common metrics used in quantitative evaluation include:
 
 * Intersection over Union (IoU), also known as the Jaccard Index, measures the overlap between the predicted segmentation and the ground truth.  
 * F1-score (Dice coefficient): This is especially valuable when the object of interest covers a small area in the image, as it balances precision and recall.  
-* True Positives (TP), False Positives (FP), and False Negatives (FN) are particularly important in semantic segmentation and can be used to calculate the IoU or F1 score.
+* [True Positives](glossary.qmd#true-positives) (TP), [False Positives](glossary.qmd#false-positives) (FP), and [False Negatives](glossary.qmd#false-negatives) (FN) are particularly important in semantic segmentation and can be used to calculate the [IoU](glossary.qmd#iou) or [F1 score](glossary.qmd#f1-score).
 
-For more information on these metrics, we recommend [@laine2021].
+For more information on these metrics, we recommend [@laine2021] (also see @sec-10 for more information).
 
 If a model fails to produce reasonable results, even on simple examples, you can often reject it based solely on qualitative inspection. However, in these cases, quantitative metrics can still help you understand how and where the model fails.
 
 If your evaluation metrics indicate weak performance, especially for certain structures or image types, you may need to fine-tune the model (see @sec-9.3.6). Consistently strong scores across various test images suggest that a model could be dependable and ready for deployment. If no pre-trained model meets your expectations, the best course may be to train your model using your images (see @sec-9.3.5).
 
-In summary, never skip evaluation. Every model must be tested—both visually and quantitatively—to ensure it truly works for your data and provides results you can trust.
+In summary, **never skip evaluation**. Every model must be tested—both visually and quantitatively—to ensure it truly works for your data and provides results you can trust.
 
 ### Deploying your model on new data {#sec-9.3.8}
 
@@ -368,7 +368,7 @@ Selecting the right tools to train and use DL models depends mainly on your leve
 
 If you prefer not to write code or use command-line tools, opt for platforms that offer graphical user interfaces (GUIs) or interactive notebooks with pre-configured workflows. These tools let you perform powerful segmentation tasks using intuitive interfaces and simple widgets.
 
-GUI-based tools include, for instance :
+GUI-based tools include, for instance (see @sec-8 for more tools):
 
 * Cellpose GUI  
 * Fiji with DeepImageJ and StarDist plugins  
@@ -416,7 +416,7 @@ When sharing how you trained a DL model, two key elements often come to mind: th
 
 DL models are sensitive to changes in library versions and dependencies. Even minor differences in the software stack can result in inconsistent outcomes or training failures. While sharing a list of dependencies (e.g., a requirements.txt or a Conda environment file) is a constructive step, differences in operating systems or local setups can still lead to issues.
 
-A robust and increasingly popular solution is containerisation. Containers package software, dependencies, and environment settings into a portable and self-contained unit. One of the most widely used containerization tools is Docker. A Docker container can be considered a lightweight, standalone virtual machine that includes everything needed to run code, such as the operating system, libraries, and runtime, ensuring applications run consistently across different machines.
+A robust and increasingly popular solution is containerisation. Containers package software, dependencies, and environment settings into a portable and self-contained unit. One of the most widely used containerization tools is Docker. A Docker container can be considered a lightweight, standalone [virtual machine](glossary.qmd#virtual-machine) that includes everything needed to run code, such as the operating system, libraries, and runtime, ensuring applications run consistently across different machines.
 
 Using containers ensures that your model training and inference processes remain consistent, no matter who executes them or where they are conducted. This greatly simplifies the ability of collaborators or reviewers to reproduce your results.
 
