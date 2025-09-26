@@ -136,7 +136,7 @@ A well-designed training dataset is essential for developing successful DL model
 
 #### Types of model training {#sec-9.3.4.1}
 
-For segmentation, most DL models are trained using supervised learning, where each input image is paired with a manually annotated ground truth mask. In this context, all objects that need segmentation must be annotated in the training dataset. This approach enables the model to learn a direct mapping from raw images to segmentation outputs (@fig-7).
+For segmentation, most DL models are trained using supervised learning, where each input image is paired with a manually annotated [ground truth](glossary.qmd#ground-truth) mask. In this context, all objects that need segmentation must be annotated in the training dataset. This approach enables the model to learn a direct mapping from raw images to segmentation outputs (@fig-7).
 
 However, alternative approaches can help reduce the need for extensive manual annotations:
 
