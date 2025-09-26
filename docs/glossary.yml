@@ -87,3 +87,21 @@ Batch: |
 
 Backpropagation: |
   The method used by neural networks to learn from its predictions. Once the prediction is done, it is compared with the ground truth through a training loss and the value of the comparison is used backwards to sequentially update the weights in the neural network, reward it when making a good prediction and punish it when making a bad prediction. 
+
+Computer Vision: |
+  A field of computer science wherein computers extract information from images. It often involves object detection within images and can involve classification of the images and/or objects.
+
+Effect Size: |
+  How "strong" a phenotype is, or how mathematically possible it is to distinguish a given population from the control population.
+
+Ground Truth: |
+  Accurate data against which a model can be evaluated. Ground truth data is often manually annotated. The data type itself will vary depending on the task and evaluation. e.g. instance segmentation may be compared to ground truth object counts or masks.
+
+Metadata: |
+  Any data that provides additional information about other data. In bioimaging, examples include information about sample preparation, the imaging instrument, and image acquisition parameters.
+
+Panoptic Segmentation: |
+  A computer vision technique that is a combination of semantic segmentation and instance segmentation. It separates an image into regions while also detecting individual object instances within those regions.
+
+Quality Control Metric: |
+  Any metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g. an image doesn't have debris) or continuous (e.g. annotated object centroids are within 5 pixels of the ground truth centroids).
