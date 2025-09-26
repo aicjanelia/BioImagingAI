@@ -373,7 +373,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./8-existing-tools.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Finding and Using Existing Tools</span></span></a>
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Chapter 8: How do you select and find a tool?</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -422,14 +422,17 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#batch" id="toc-batch" class="nav-link" data-scroll-target="#batch">Batch</a></li>
   <li><a href="#bayesian-optimization" id="toc-bayesian-optimization" class="nav-link" data-scroll-target="#bayesian-optimization">Bayesian Optimization</a></li>
   <li><a href="#binary-segmentation" id="toc-binary-segmentation" class="nav-link" data-scroll-target="#binary-segmentation">Binary Segmentation</a></li>
+  <li><a href="#computer-vision" id="toc-computer-vision" class="nav-link" data-scroll-target="#computer-vision">Computer Vision</a></li>
   <li><a href="#data-augmentation" id="toc-data-augmentation" class="nav-link" data-scroll-target="#data-augmentation">Data Augmentation</a></li>
   <li><a href="#domain-randomization" id="toc-domain-randomization" class="nav-link" data-scroll-target="#domain-randomization">Domain Randomization</a></li>
+  <li><a href="#effect-size" id="toc-effect-size" class="nav-link" data-scroll-target="#effect-size">Effect Size</a></li>
   <li><a href="#epoch" id="toc-epoch" class="nav-link" data-scroll-target="#epoch">Epoch</a></li>
   <li><a href="#f1-score" id="toc-f1-score" class="nav-link" data-scroll-target="#f1-score">F1 Score</a></li>
   <li><a href="#false-negatives" id="toc-false-negatives" class="nav-link" data-scroll-target="#false-negatives">False Negatives</a></li>
   <li><a href="#false-positives" id="toc-false-positives" class="nav-link" data-scroll-target="#false-positives">False Positives</a></li>
   <li><a href="#gaussian-process" id="toc-gaussian-process" class="nav-link" data-scroll-target="#gaussian-process">Gaussian Process</a></li>
   <li><a href="#genetic-algorithms" id="toc-genetic-algorithms" class="nav-link" data-scroll-target="#genetic-algorithms">Genetic Algorithms</a></li>
+  <li><a href="#ground-truth" id="toc-ground-truth" class="nav-link" data-scroll-target="#ground-truth">Ground Truth</a></li>
   <li><a href="#hallucinations" id="toc-hallucinations" class="nav-link" data-scroll-target="#hallucinations">Hallucinations</a></li>
   <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">Hyperparameters</a></li>
   <li><a href="#image-classification" id="toc-image-classification" class="nav-link" data-scroll-target="#image-classification">Image Classification</a></li>
@@ -437,8 +440,11 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#instance-segmentation" id="toc-instance-segmentation" class="nav-link" data-scroll-target="#instance-segmentation">Instance Segmentation</a></li>
   <li><a href="#iou" id="toc-iou" class="nav-link" data-scroll-target="#iou">IoU</a></li>
   <li><a href="#manual-annotation" id="toc-manual-annotation" class="nav-link" data-scroll-target="#manual-annotation">Manual Annotation</a></li>
+  <li><a href="#metadata" id="toc-metadata" class="nav-link" data-scroll-target="#metadata">Metadata</a></li>
   <li><a href="#object-detection" id="toc-object-detection" class="nav-link" data-scroll-target="#object-detection">Object Detection</a></li>
+  <li><a href="#panoptic-segmentation" id="toc-panoptic-segmentation" class="nav-link" data-scroll-target="#panoptic-segmentation">Panoptic Segmentation</a></li>
   <li><a href="#pixel-classifiers" id="toc-pixel-classifiers" class="nav-link" data-scroll-target="#pixel-classifiers">Pixel Classifiers</a></li>
+  <li><a href="#quality-control-metric" id="toc-quality-control-metric" class="nav-link" data-scroll-target="#quality-control-metric">Quality Control Metric</a></li>
   <li><a href="#semantic-segmentation" id="toc-semantic-segmentation" class="nav-link" data-scroll-target="#semantic-segmentation">Semantic Segmentation</a></li>
   <li><a href="#star-convex-polygon" id="toc-star-convex-polygon" class="nav-link" data-scroll-target="#star-convex-polygon">Star-convex Polygon</a></li>
   <li><a href="#test-data" id="toc-test-data" class="nav-link" data-scroll-target="#test-data">Test Data</a></li>
@@ -496,6 +502,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="binary-segmentation">Binary Segmentation</h2>
 <p>A type of image segmentation where each pixel is classified into one of two categories—typically “foreground” (e.g., cell) or “background.” The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).</p>
 </section>
+<section id="computer-vision" class="level2">
+<h2 class="anchored" data-anchor-id="computer-vision">Computer Vision</h2>
+<p>A field of computer science wherein computers extract information from images. It often involves object detection within images and can involve classification of the images and/or objects.</p>
+</section>
 <section id="data-augmentation" class="level2">
 <h2 class="anchored" data-anchor-id="data-augmentation">Data Augmentation</h2>
 <p>A strategy to artificially increase the diversity of a dataset prior to training by applying transformations such as rotation, flipping, or brightness adjustment. It helps improve model robustness and generalisation.</p>
@@ -503,6 +513,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <section id="domain-randomization" class="level2">
 <h2 class="anchored" data-anchor-id="domain-randomization">Domain Randomization</h2>
 <p>Using simulations or synthetic training data, domain randomization applies random and exaggerated variations to background, lighting, shapes, or textures in the synthetic dataset. This strategy helps the model learn domain-invariant features and is usually used for pretraining a neural network or to enable simulation-to-real transfer.</p>
+</section>
+<section id="effect-size" class="level2">
+<h2 class="anchored" data-anchor-id="effect-size">Effect Size</h2>
+<p>How “strong” a phenotype is, or how mathematically possible it is to distinguish a given population from the control population.</p>
 </section>
 <section id="epoch" class="level2">
 <h2 class="anchored" data-anchor-id="epoch">Epoch</h2>
@@ -527,6 +541,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <section id="genetic-algorithms" class="level2">
 <h2 class="anchored" data-anchor-id="genetic-algorithms">Genetic Algorithms</h2>
 <p>An optimisation method inspired by the principles of natural selection and genetics. It starts with a population of solutions. These solutions are combined through a process called crossover to produce new solutions (offspring). During this process, random changes or mutations may occur to introduce diversity. After crossover and mutation, a selection step chooses the best solutions from both the parent and offspring populations to form the next generation. This cycle repeats for a set number of generations or until a predefined goal or stopping criterion is met.</p>
+</section>
+<section id="ground-truth" class="level2">
+<h2 class="anchored" data-anchor-id="ground-truth">Ground Truth</h2>
+<p>Accurate data against which a model can be evaluated. Ground truth data is often manually annotated. The data type itself will vary depending on the task and evaluation. e.g.&nbsp;instance segmentation may be compared to ground truth object counts or masks.</p>
 </section>
 <section id="hallucinations" class="level2">
 <h2 class="anchored" data-anchor-id="hallucinations">Hallucinations</h2>
@@ -556,13 +574,25 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="manual-annotation">Manual Annotation</h2>
 <p>The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.</p>
 </section>
+<section id="metadata" class="level2">
+<h2 class="anchored" data-anchor-id="metadata">Metadata</h2>
+<p>Any data that provides additional information about other data. In bioimaging, examples include information about sample preparation, the imaging instrument, and image acquisition parameters.</p>
+</section>
 <section id="object-detection" class="level2">
 <h2 class="anchored" data-anchor-id="object-detection">Object Detection</h2>
 <p>A computer vision task that identifies and locates individual objects within an image, typically by drawing bounding boxes around them. It provides both the category (what) and position (where) of each object.</p>
 </section>
+<section id="panoptic-segmentation" class="level2">
+<h2 class="anchored" data-anchor-id="panoptic-segmentation">Panoptic Segmentation</h2>
+<p>A computer vision technique that is a combination of semantic segmentation and instance segmentation. It separates an image into regions while also detecting individual object instances within those regions.</p>
+</section>
 <section id="pixel-classifiers" class="level2">
 <h2 class="anchored" data-anchor-id="pixel-classifiers">Pixel Classifiers</h2>
 <p>Machine learning models that classify each pixel in an image based on features such as intensity, texture, or local neighborhood. Commonly used in traditional workflows for segmentation or classification tasks.</p>
+</section>
+<section id="quality-control-metric" class="level2">
+<h2 class="anchored" data-anchor-id="quality-control-metric">Quality Control Metric</h2>
+<p>Any metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g.&nbsp;an image doesn’t have debris) or continuous (e.g.&nbsp;annotated object centroids are within 5 pixels of the ground truth centroids).</p>
 </section>
 <section id="semantic-segmentation" class="level2">
 <h2 class="anchored" data-anchor-id="semantic-segmentation">Semantic Segmentation</h2>
