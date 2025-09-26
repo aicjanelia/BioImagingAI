@@ -103,5 +103,5 @@ Metadata: |
 Panoptic Segmentation: |
   A computer vision technique that is a combination of semantic segmentation and instance segmentation. It separates an image into regions while also detecting individual object instances within those regions.
 
-Quality Control (Metric): |
+Quality Control Metric: |
   Any metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g. an image doesn't have debris) or continuous (e.g. annotated object centroids are within 5 pixels of the ground truth centroids).

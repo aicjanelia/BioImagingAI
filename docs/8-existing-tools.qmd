@@ -56,14 +56,14 @@ Figure adapted from @Haase2024.
 - **What is your desired output?**   
   You must be able to concisely and specifically state what you would like output by your workflow.
   Do you need to segment objects?
-  If so, do you need semantic, instance, or panoptic segmentation ([Box 1](#Box1))?
+  If so, do you need [semantic](glossary.qmd#semantic-segmentation), [instance](glossary.qmd#instance-segmentation), or [panoptic segmentation](glossary.qmd#panoptic-segmentation) ([Box 1](#Box1))? (see @sec-4 and @sec-9 for more information)
   Do you need measurements and if so should they be made on individual objects or on images?   
 - **How will you assess your outputs?**  
   Will your assessment be qualitative or quantitative?
   Do you have ground truth?
-  Do you have the expertise to assess output quality?
+  Do you have the expertise to assess output quality? (see @sec-10 for more information)
 - **What is your desired "quality” of your outputs?**  
-  Are you expecting outputs that approach ground truth or will "quick and dirty” be enough for you? (see [Ground Truth](#groundtruth))  
+  Are you expecting outputs that approach [ground truth](glossary.qmd#ground-truth) or will "quick and dirty” be enough for you?
 - **What does your ideal workflow look like?**  
   Do you need all of the outputs to be made in a single software or are you comfortable using multiple softwares? If your images require preprocessing, does that need to happen in the same step? The same software?
 
@@ -82,14 +82,14 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
 - **What is your priority?**  
   Determining what your priority is goes hand in hand with assessing the amount of time you can put into your task.
   Perhaps you’re in a time crunch and speed is the most important consideration for you.
-  Perhaps you have a specific quality control (QC) metric and you need the tool that will give you the outputs that optimize this metric.
+  Perhaps you have a specific [quality control (QC) metric](glossary.qmd#quality-control-metric) and you need the tool that will give you the outputs that optimize this metric.
   Perhaps you've always wanted to gain experience with a particular class of tool, so you want to figure out if this is the right use case for trying it.  
 - **What is your level of computational domain expertise and comfort?**  
   If you don’t have a high level of computational comfort, do you have the time and motivation to expand your skillset by building new skills outside of your comfort zone?
-  Do you have a computational collaborator and how much time, in either teaching you or in handling the data themselves, are they able to contribute?  
+  Do you have a computational collaborator and how much time, in either teaching you or in handling the data themselves, are they able to contribute?\  
   Computation domain expertise has two critical, but separable, components.
   The first is the ability to understand what you are doing thoroughly enough that you can design, analyze, and interpret your experiment.
-  The other component is the ability to comfortably interact with software as a computationalist might (e.g. are you comfortable working from the command line (which is text only) or would you prefer a GUI (graphical user interface, where you can point and click)).
+  The other component is the ability to comfortably interact with software as a computationalist might (e.g. are you comfortable working from the command line (which is text only) or would you prefer a GUI (graphical user interface), where you can point and click).
 - **How do you like to learn things?**  
   Are you a person who likes to jump in and just turn all the knobs and buttons to see what they do?
   Do you love to cozy up with a good written manual at the end of the day?
@@ -113,7 +113,7 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
   There are many sources of "difficult”.
   A couple examples and corresponding questions are below.  
   - Do your images have debris or other technical artifacts such as out-of-focus regions? Do those artifacts need to be identified and removed? If identified, should the whole image be dropped or do you need to keep non-artifact areas of the image?  
-  - Do you have metadata that needs to be associated with your images?
+  - Do you have [metadata](glossary.qmd#metadata) that needs to be associated with your images?
   Is that metadata organized?
   How is that metadata organized (e.g. in the file name, in a .csv file, in a picture of a handwritten lab notebook) and does it play nicely with the tool you would like to use?  
   - Are your images in a friendly format?
@@ -170,7 +170,7 @@ Make sure you consider not just how well the tool will perform your specific tas
 ## How do I decide when my workflow is "good enough"? 
 
 Deciding when a workflow is "good enough" can be really hard!
-We generally factor in two major considerations when deciding what quality level we are aiming to achieve: Is this a pilot or final data? and How big is the effect size we're looking for? 
+We generally factor in two major considerations when deciding what quality level we are aiming to achieve: Is this a pilot or final data? and How big is the [effect size](glossary.qmd#effect-size) we're looking for? 
 
 We generally hold pilot data to a lower quality standard than final or production data.
 We are looking for a proof of concept that our assay/method can work but understand that there are likely to be refinements and improvements at many points in the workflow that will increase our final quality.
@@ -205,7 +205,7 @@ Let's consider the use case of instance segmentation (see [Box 1](#Box1)), which
 We have defined 6 categories of segmentation methods, each of which has its valid use cases.
 Ordered by increasing levels of computation comfort required they are:
 
-* Manual annotation   
+* [Manual annotation](glossary.qmd#manual-annotation)   
 * Classical image processing  
 * Pixel based machine learning  
 * Pretrained deep learning models  
@@ -213,10 +213,10 @@ Ordered by increasing levels of computation comfort required they are:
 * From-scratch deep learning models
 
 We will not cover from-scratch deep learning models in this chapter.
-They are covered in Chapter 9.
+They are covered in @sec-9.
 
 It is worth noting that many of the tool suggestions below are not confined to a single "class".
-Many tools listed in the non-deep learning categories allow you to run pre-trained deep learning models inside them (e.g. CellProfiler has a RunCellPose module, ImageJ and QuPath also contain ability to run pixel classifiers). 
+Many tools listed in the non-deep learning categories allow you to run pre-trained deep learning models inside them (e.g. CellProfiler has a RunCellPose module, ImageJ and QuPath also contain ability to run [pixel classifiers](glossary.qmd#pixel-classifiers)). 
 All deep learning models *can* be re-tuned with some effort (they may just not have a friendly interface for doing so). 
 
 | Method category | Suggested light microscopy tools | Time required | Best if your priorities include | Biological expertise level required | Ability to handle *reasonable* technical noise and variability | Largest drawback |
@@ -309,7 +309,7 @@ The collaborator studies zebrafish brains and sent Esteban fluorescent images ta
 The zebrafish express a GFP-tagged protein in their microglia and the collaborators would like to be able to identify the microglia using an automated pipeline so that the researchers can ask biological questions such as where they are within the brain and whether they are close to other cell types (labeled in other fluorescent channels).
 The task is complicated because there is additional autofluorescence in the skin that is the same intensity as the microglia and they do not want skin autofluorescence identified.
 The images also have technical challenges because of the nature of their acquisition: because they are 3D live images, as you go deeper in the tissue the signal gets dimmer.
-This makes using normal computer vision segmentation quite hard. 
+This makes using normal [computer vision](glossary.qmd#computer-vision) segmentation quite hard. 
 
 #### Workflow
 
