@@ -49,8 +49,9 @@ format:
       dark: darkly
   pdf:
     documentclass: scrreprt
+    cite-method: biblatex
 
-glossary:
-  path: glossary.yml
-  popup: click
-  show: true    
+# glossary:
+#   path: glossary.yml
+#   popup: click
+#   show: true    
