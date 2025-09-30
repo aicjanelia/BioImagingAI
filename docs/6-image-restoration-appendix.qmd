@@ -154,7 +154,9 @@ There are two primary ways to apply a model:
 2. To a folder of images (batch mode)
 
    ```
-   python apply.py -m /path/to/model_dir -i /path/to/input_image_dir -o /path/to/output_image_dir
+   python apply.py -m /path/to/model_dir 
+   -i /path/to/input_image_dir 
+   -o /path/to/output_image_dir
    ```
 
    When processing a folder, ground truth images can also be specified using the  -g argument for comparison.
@@ -209,20 +211,20 @@ Configure the settings file (`config_denoise.json`) to define the data locations
 
 ```json
 {
-    "training_data_dir": {
-        "raw": "E:\\DATA_for_3dRCAN\\Denoising\\Tomm20_Mitochondria\\Training\\Raw",
-        "gt": "E:\\DATA_for_3dRCAN\\Denoising\\Tomm20_Mitochondria\\Training\\GT"
-    },
-    "validation_data_dir": {
-        "raw": "E:\\DATA_for_3dRCAN\\Denoising\\Tomm20_Mitochondria\\Val\\raw",
-        "gt": "E:\\DATA_for_3dRCAN\\Denoising\\Tomm20_Mitochondria\\Val\\gt"
-    },
-    "num_channels": 32,
-    "num_residual_blocks": 3,
-    "num_residual_groups": 5,
-    "epochs": 100,
-    "steps_per_epoch": 256,
-    "initial_learning_rate": 1e-4
+  "training_data_dir": {
+      "raw": "E:\\Denoising\\Tomm20_Mitochondria\\Training\\Raw",
+      "gt": "E:\\Denoising\\Tomm20_Mitochondria\\Training\\GT"
+  },
+  "validation_data_dir": {
+      "raw": "E:\\Denoising\\Tomm20_Mitochondria\\Val\\raw",
+      "gt": "E:\\Denoising\\Tomm20_Mitochondria\\Val\\gt"
+  },
+  "num_channels": 32,
+  "num_residual_blocks": 3,
+  "num_residual_groups": 5,
+  "epochs": 100,
+  "steps_per_epoch": 256,
+  "initial_learning_rate": 1e-4
 }
 
 ```
@@ -231,7 +233,8 @@ Configure the settings file (`config_denoise.json`) to define the data locations
 Run the training using the following command, updating the path to where you have stored the example images as appropriate.
 
 ```bash
-python train.py -c config_denoise.json -o " E:\\DATA_for_3dRCAN\\Denoising\\Tomm20_Mitochondria\\output"
+python train.py -c config_denoise.json 
+-o " E:\\Denoising\\Tomm20_Mitochondria\\output"
 ```
 
 ::: {.callout-tip}
@@ -249,9 +252,9 @@ To apply the model trainined in the previous section, provide the model (`-m`), 
 
 ```bash
 python apply.py 
-  -m "E:\\DATA_for_3dRCAN\\Denoising\\Tomm20_Mitochondria\\output"
-  -i "E:\DATA_for_3dRCAN\\Denoising\\Tomm20_Mitochondria\\Test\\Raw"
-  -o "E:\\DATA_for_3dRCAN\\Denoising\\Tomm20_Mitochondria\\Test\\Denoised"
+  -m "E:\\Denoising\\Tomm20_Mitochondria\\output"
+  -i "E:\Denoising\\Tomm20_Mitochondria\\Test\\Raw"
+  -o "E:\\Denoising\\Tomm20_Mitochondria\\Test\\Denoised"
 ```
 
 #### Output Analysis {#sec-denoise-metrics}
@@ -322,20 +325,20 @@ Configure the settings file (`config_decon.json`) to define the data locations f
 
 ```json
 {
-    "training_data_dir": {
-        "raw": "E:\\data_decon\\Decon_Training_Data\\Raw",
-        "gt":"E:\\data_decon\\Decon_Training_Data\\gt"
-    },
-    "validation_data_dir": {
-        "raw":"E:\\data_decon\\Decon_val_Data\\Raw",
-        "gt": "E:\\data_decon\\Decon_val_Data\\gt"
-    },
-    "num_channels": 32,
-    "num_residual_blocks": 3,
-    "num_residual_groups": 5,
-    "epochs": 200,
-    "steps_per_epoch": 256,
-    "initial_learning_rate": 1e-4
+  "training_data_dir": {
+      "raw": "E:\\data_decon\\Decon_Training_Data\\Raw",
+      "gt":"E:\\data_decon\\Decon_Training_Data\\gt"
+  },
+  "validation_data_dir": {
+      "raw":"E:\\data_decon\\Decon_val_Data\\Raw",
+      "gt": "E:\\data_decon\\Decon_val_Data\\gt"
+  },
+  "num_channels": 32,
+  "num_residual_blocks": 3,
+  "num_residual_groups": 5,
+  "epochs": 200,
+  "steps_per_epoch": 256,
+  "initial_learning_rate": 1e-4
 }
 
 ```
@@ -420,20 +423,20 @@ Configure the settings file (`config_deabe.json`) to define the data locations f
 
 ```json
 {
-    "training_data_dir": {
-        "raw": "E:\\data_aberration\\FixedCell_PtK2\\CropForTraining_ab\\Aberrated",
-        "gt":"E:\\data_aberration\\FixedCell_PtK2\\CropForTraining_ab\\GT"
-    },
-    "validation_data_dir": {
-        "raw":"E:\\data_aberration\\FixedCell_PtK2\\CropForTraining_ab\\Validation\\Aberrated",
-        "gt": "E:\\data_aberration\\FixedCell_PtK2\\CropForTraining_ab\\Validation\\GT"
-    },
-    "num_channels": 32,
-    "num_residual_blocks": 3,
-    "num_residual_groups": 5,
-    "epochs": 100,
-    "steps_per_epoch": 100,
-    "initial_learning_rate": 1e-4
+  "training_data_dir": {
+      "raw": "E:\\data_aberration\\CropForTraining_ab\\Aberrated",
+      "gt":"E:\\data_aberration\\CropForTraining_ab\\GT"
+  },
+  "validation_data_dir": {
+      "raw":"E:\\data_aberration\\CropForTraining_ab\\Validation\\Aberrated",
+      "gt": "E:\\data_aberration\\CropForTraining_ab\\Validation\\GT"
+  },
+  "num_channels": 32,
+  "num_residual_blocks": 3,
+  "num_residual_groups": 5,
+  "epochs": 100,
+  "steps_per_epoch": 100,
+  "initial_learning_rate": 1e-4
 }
 
 ```
@@ -443,7 +446,8 @@ Configure the settings file (`config_deabe.json`) to define the data locations f
 Run the training using the following command, updating the path to where you have stored the example images as appropriate.
 
 ```bash
-python train.py -c config_deabe.json -o " E:\\DATA_for_3dRCAN\\DeAbe\\Train\\output"
+python train.py -c config_deabe.json 
+-o " E:\\DeAbe\\Train\\output"
 ```
 
 ::: {.callout-tip}
@@ -461,9 +465,9 @@ To apply the model trainined in the previous section, provide the model (`-m`), 
 
 ```bash
 python apply.py 
-  -m "E:\\DATA_for_3dRCAN\\DeAbe\\Train\\output"
-  -i "E:\DATA_for_3dRCAN\\DeAbe\\Test\\Raw"
-  -o "E:\\DATA_for_3dRCAN\\DeAbe\\Test\\Deabrrated"
+  -m "E:\\DeAbe\\Train\\output"
+  -i "E:\DeAbe\\Test\\Raw"
+  -o "E:\\DeAbe\\Test\\Deabrrated"
 ```
 
 #### Output Analysis
@@ -516,18 +520,18 @@ Configure the settings file (`config_sr.json`) to define the data locations for 
 
 ```json
 {
-    "training_data_dir": {
-        "raw": "E:\\DATA_for_3dRCAN\\Confocal_2_STED\\Microtubule\\Training\\raw",
-        "gt": "E:\\DATA_for_3dRCAN\\Confocal_2_STED\\Microtubule\\Training\\gt1"
-        
-    },
-   
-    "num_channels": 32,
-    "num_residual_blocks": 3,
-    "num_residual_groups": 5,
-    "epochs": 100,
-    "steps_per_epoch": 256,
-    "initial_learning_rate": 1e-4
+  "training_data_dir": {
+      "raw": "E:\\Confocal_2_STED\\Microtubule\\Training\\raw",
+      "gt": "E:\\Confocal_2_STED\\Microtubule\\Training\\gt1"
+      
+  },
+  
+  "num_channels": 32,
+  "num_residual_blocks": 3,
+  "num_residual_groups": 5,
+  "epochs": 100,
+  "steps_per_epoch": 256,
+  "initial_learning_rate": 1e-4
 }
 
 ```
@@ -539,7 +543,7 @@ Run the training using the following command, updating the path to where you hav
 ```bash
 python train.py 
 -c config_ex.json 
--o "E:\\DATA_for_3dRCAN\\Confocal_2_STED\\Microtubule\\Training\\output"
+-o "E:\\Confocal_2_STED\\Microtubule\\Training\\output"
 ```
 
 ::: {.callout-tip}
@@ -555,9 +559,9 @@ To apply the model trainined in the previous section, provide the model (`-m`), 
 
 ```bash
  python apply.py
- -m "E:\\DATA_for_3dRCAN\\Confocal_2_STED\\Microtubule\\Training\\output" 
+ -m "E:\\Confocal_2_STED\\Microtubule\\Training\\output" 
  -i "E:\DATA_for_3dRCAN\Confocal_2_STED\Microtubule\test\" 
- -o "E:\\DATA_for_3dRCAN\\Confocal_2_STED\\Microtubule\\test\output\\"
+ -o "E:\\Confocal_2_STED\\Microtubule\\test\output\\"
 ```
 
 #### Output Analysis
