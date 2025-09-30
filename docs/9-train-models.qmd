@@ -53,7 +53,7 @@ subtitle: Practical considerations through the lens of segmentation
 
 The growing volume and complexity of image data necessitate increasingly advanced analytical tools. One example of challenging tasks is image segmentation, the process of identifying and delineating structures of interest within images. Segmentation can be particularly difficult and time-consuming when dealing with large, multidimensional datasets, such as 3D volumes or time-lapse sequences, where [manual annotation](glossary.qmd#manual-annotation) becomes impractical. Machine learning (ML), especially deep learning (DL), can provide effective solutions to these challenges [@heinrich2021].
 
-ML algorithms learn patterns from data to perform tasks such as [image classification](glossary.qmd#image-classification) and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [@arganda-carreras2017; @arzt2022; @berg2019]. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, [object detection](glossary.qmd#object-detection), feature extraction, denoising, and restoration [@moen2019; @pylvanainen2023]. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [@krizhevsky2012; @ronneberger2015].
+ML algorithms learn patterns from data to perform tasks such as [image classification](glossary.qmd#image-classification) and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [@arganda-carreras2017; @Arzt2022; @Berg2019]. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, [object detection](glossary.qmd#object-detection), feature extraction, denoising, and restoration [@moen2019; @pylvanainen2023]. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [@krizhevsky2012; @Ronneberger2015].
 
 Segmentation greatly benefits from ML and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges. While we focus on segmentation as a case study, the principles, workflows, and considerations discussed here are broadly applicable to other image analysis tasks, such as classification or denoising. Readers interested in these areas can adapt the described approaches to their specific needs.
 
@@ -108,7 +108,7 @@ The process starts by clearly defining your task (in this example, segmentation)
 
 The first step in choosing a DL approach for image segmentation is to clearly define your segmentation task, whether it’s binary, semantic, or instance segmentation (@fig-1), and to determine if you require 2D or 3D segmentation. Next, you should consider whether the model or tool you plan to use makes assumptions about the shapes or structures of the objects you want to segment. Understanding these assumptions will aid in selecting a model that fits your specific biological problem (see @sec-9.2.1). Additionally, consider the amount of data that needs annotation for a particular DL approach (see @sec-9.3.4.5). Finally, take into account your available computational resources (see @sec-9.4.2). More complex models typically demand more GPU memory, longer training times, and additional storage, especially for 3D data or large datasets.
 
-For example, StarDist [@schmidt2018], a widely used tool for nuclei segmentation, assumes that objects are [star-convex polygons](glossary.qmd#star-convex-polygon): i.e., a shape for which any two points on its boundary can be connected by a single line that does not intersect the boundary. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose [@stringer2021] uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms. 
+For example, StarDist [@Schmidt2018], a widely used tool for nuclei segmentation, assumes that objects are [star-convex polygons](glossary.qmd#star-convex-polygon): i.e., a shape for which any two points on its boundary can be connected by a single line that does not intersect the boundary. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose [@stringer2021] uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms. 
 
 Choosing the right DL strategy requires aligning your goal, object shape, data dimensionality, and computing capacity with the strengths and assumptions of the available DL architectures.
 
@@ -126,7 +126,7 @@ Several excellent resources host pre-trained models suitable for microscopy. Res
 
 #### When to train your model {#sec-9.3.3.2}
 
-Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance [@archit2025; @pachitariu2022; @von_chamier2021]. This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your own model.
+Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance [@Archit2025; @Pachitariu2022; @von_chamier2021]. This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your own model.
 
 Ultimately, always evaluate the model’s performance against your defined success criteria (see @sec-9.3.7). Custom training may be the best path forward if the current model does not meet your needs.
 
@@ -146,7 +146,7 @@ However, alternative approaches can help reduce the need for extensive manual an
 
 #### Creating Manual Annotations {#sec-9.3.4.2}
 
-Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [@schindelin2012], Napari [@ahlers2023], and QuPath [@bankhead2017] are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
+Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [@Schindelin2012], Napari [@ahlers2023], and QuPath [@Bankhead2017] are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
 
 ::: {.callout-tip collapse="true"}
 ## **Here it is an example pipeline for manually annotating data using Fiji** [@fazeli2020]
@@ -182,9 +182,9 @@ Creating accurate annotations manually is time-consuming, particularly for 3D da
 
 #### Accelerating annotation with automatic initial segmentations {#sec-9.3.4.3}
 
-Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu's thresholding to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist [@schmidt2018] and Cellpose [@stringer2021] can generate more accurate initial segmentations that users can manually refine. These annotations can then be used to retrain the model, establishing an iterative cycle that accelerates both labelling and model refinement. 
+Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu's thresholding to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist [@Schmidt2018] and Cellpose [@stringer2021] can generate more accurate initial segmentations that users can manually refine. These annotations can then be used to retrain the model, establishing an iterative cycle that accelerates both labelling and model refinement. 
 
-New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM) [@archit2025] facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [@pachitariu2022] features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
+New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM) [@Archit2025] facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [@Pachitariu2022] features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
 
 #### Expanding your dataset with augmentation and synthetic data {#sec-9.3.4.4}
 
@@ -276,7 +276,7 @@ This method is especially effective when:
 
 #### Conducting fine-tuning {#sec-9.3.6.2}
 
-In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training (@fig-7) [@archit2025; @pachitariu2022].  Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
+In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training (@fig-7) [@Archit2025; @Pachitariu2022].  Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
 
 Classic fine-tuning is ideal when: 
 
@@ -286,7 +286,7 @@ Classic fine-tuning is ideal when:
 
 #### Iterative training: keeping humans in the loop {#sec-9.3.6.3}
 
-Iterative fine-tuning is an interactive approach that combines model prediction with human annotation (see @sec-9.3.4.3). The workflow typically starts with a pre-trained model predicting new images. A user then manually corrects or annotates these predictions, and the improved annotations update the model (@fig-7). This cycle continues, progressively enhancing the model’s accuracy with each iteration until it performs as expected [@chen2020; @conrad2023; @pachitariu2022].
+Iterative fine-tuning is an interactive approach that combines model prediction with human annotation (see @sec-9.3.4.3). The workflow typically starts with a pre-trained model predicting new images. A user then manually corrects or annotates these predictions, and the improved annotations update the model (@fig-7). This cycle continues, progressively enhancing the model’s accuracy with each iteration until it performs as expected [@chen2020; @conrad2023; @Pachitariu2022].
 
 This method is particularly powerful when:
 
@@ -376,7 +376,7 @@ GUI-based tools include, for instance (see @sec-8 for more tools):
 * Ilastik  
 * QuPath
 
-Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like BiaPy, and DL4MicEverywhere [@hidalgo-cenalmor2024] leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. DL4MicEverywhere, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.
+Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like BiaPy, and DL4MicEverywhere [@Hidalgo-Cenalmor2024] leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. DL4MicEverywhere, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.
 
 If you are comfortable with programming, you will have even more flexibility. Languages such as Python, MATLAB, Julia, Java, and Rust provide options for building and customizing DL workflows. Python stands out as the most beginner-friendly and widely supported choice, boasting a large ecosystem of libraries and community support. Popular Python libraries for DL include PyTorch, TensorFlow, Keras, and JAX.
 
@@ -398,7 +398,7 @@ Additionally, consider whether to train and deploy your model locally or in the 
 
 There are four typical combinations of training and prediction workflows:
 
-* Training and prediction locally is well suited for small to medium-sized datasets, especially when computational demands are moderate and data privacy is a priority. This approach also supports some user-friendly desktop applications, such as the Cellpose 2.0 [@pachitariu2022], which can be run locally without requiring cloud access or advanced technical setup.
+* Training and prediction locally is well suited for small to medium-sized datasets, especially when computational demands are moderate and data privacy is a priority. This approach also supports some user-friendly desktop applications, such as the Cellpose 2.0 [@Pachitariu2022], which can be run locally without requiring cloud access or advanced technical setup.
 
 * Training locally, prediction in the cloud may be useful when models are trained in-house but need to be deployed at scale or integrated into cloud-based pipelines.
 
@@ -420,7 +420,7 @@ A robust and increasingly popular solution is containerisation. Containers packa
 
 Using containers ensures that your model training and inference processes remain consistent, no matter who executes them or where they are conducted. This greatly simplifies the ability of collaborators or reviewers to reproduce your results.
 
-For researchers unfamiliar with software development, tools like DL4MicEverywhere [@hidalgo-cenalmor2024] and bia-binder [@russell2024] simplify the use of containers by integrating them into user-friendly Jupyter notebook environments. These platforms enable researchers to benefit from the reproducibility of containers without needing to manage complex setups or command-line tools.
+For researchers unfamiliar with software development, tools like DL4MicEverywhere [@Hidalgo-Cenalmor2024] and bia-binder [@russell2024] simplify the use of containers by integrating them into user-friendly Jupyter notebook environments. These platforms enable researchers to benefit from the reproducibility of containers without needing to manage complex setups or command-line tools.
 
 Reproducibility is crucial for establishing trust in computational results and facilitating long-term scientific collaboration. To ensure your DL workflows are reproducible, follow these best practices:
 
@@ -437,7 +437,7 @@ Segmenting microscopy images remains a critical yet challenging task in bioimage
 
 The decision to use DL should be driven by the complexity of the task, the availability of annotated data, and the specific goals of the segmentation project. Successful DL implementations often require significant investments in data curation, annotation, and computational resources. Furthermore, training from scratch is frequently avoidable thanks to the growing ecosystem of pre-trained models and resources shared by the community.
 
-Notably, the landscape of DL segmentation is rapidly evolving. The emergence of foundation models, which are large, versatile networks pre-trained on vast and diverse datasets, promises to further lower the barriers to entry [@archit2025]. These models enable transfer learning, fine-tuning, and even zero-shot segmentation, where accurate predictions can be made on previously unseen data with minimal or no task-specific training. This shift opens exciting new avenues for researchers who previously lacked the resources or expertise to apply DL in their work.
+Notably, the landscape of DL segmentation is rapidly evolving. The emergence of foundation models, which are large, versatile networks pre-trained on vast and diverse datasets, promises to further lower the barriers to entry [@Archit2025]. These models enable transfer learning, fine-tuning, and even zero-shot segmentation, where accurate predictions can be made on previously unseen data with minimal or no task-specific training. This shift opens exciting new avenues for researchers who previously lacked the resources or expertise to apply DL in their work.
 
 The ongoing development and democratization of DL tools, along with enhancements in model generalisability, human-in-the-loop workflows, and reproducibility, are changing how microscopy data is analyzed. Still, the key to successful segmentation will always involve careful planning, quality control, and selecting the right tool for the task, whether it involves DL or not.
 
