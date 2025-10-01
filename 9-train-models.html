@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,9 +63,9 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -373,7 +373,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./6-image-restoration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Extending Your Hardware With AI</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -431,6 +431,23 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
  <span class="menu-text">References</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-image-restoration-appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">3D-RCAN for Image Restoration</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -553,7 +570,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <section id="sec-9.1.1" class="level3" data-number="9.1.1">
 <h3 data-number="9.1.1" class="anchored" data-anchor-id="sec-9.1.1"><span class="header-section-number">9.1.1</span> The challenge</h3>
 <p>The growing volume and complexity of image data necessitate increasingly advanced analytical tools. One example of challenging tasks is image segmentation, the process of identifying and delineating structures of interest within images. Segmentation can be particularly difficult and time-consuming when dealing with large, multidimensional datasets, such as 3D volumes or time-lapse sequences, where <a href="./glossary.html#manual-annotation">manual annotation</a> becomes impractical. Machine learning (ML), especially deep learning (DL), can provide effective solutions to these challenges<span class="citation" data-cites="heinrich2021"><sup><a href="references.html#ref-heinrich2021" role="doc-biblioref">1</a></sup></span>.</p>
-<p>ML algorithms learn patterns from data to perform tasks such as <a href="./glossary.html#image-classification">image classification</a> and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels<span class="citation" data-cites="arganda-carreras2017 arzt2022 berg2019"><sup><a href="references.html#ref-arganda-carreras2017" role="doc-biblioref">2</a>–<a href="references.html#ref-berg2019" role="doc-biblioref">4</a></sup></span>. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, <a href="./glossary.html#object-detection">object detection</a>, feature extraction, denoising, and restoration<span class="citation" data-cites="moen2019 pylvanainen2023"><sup><a href="references.html#ref-moen2019" role="doc-biblioref">5</a>,<a href="references.html#ref-pylvanainen2023" role="doc-biblioref">6</a></sup></span>. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques<span class="citation" data-cites="krizhevsky2012 ronneberger2015"><sup><a href="references.html#ref-krizhevsky2012" role="doc-biblioref">7</a>,<a href="references.html#ref-ronneberger2015" role="doc-biblioref">8</a></sup></span>.</p>
+<p>ML algorithms learn patterns from data to perform tasks such as <a href="./glossary.html#image-classification">image classification</a> and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels<span class="citation" data-cites="arganda-carreras2017 Arzt2022 Berg2019"><sup><a href="references.html#ref-arganda-carreras2017" role="doc-biblioref">2</a>–<a href="references.html#ref-Berg2019" role="doc-biblioref">4</a></sup></span>. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, <a href="./glossary.html#object-detection">object detection</a>, feature extraction, denoising, and restoration<span class="citation" data-cites="moen2019 pylvanainen2023"><sup><a href="references.html#ref-moen2019" role="doc-biblioref">5</a>,<a href="references.html#ref-pylvanainen2023" role="doc-biblioref">6</a></sup></span>. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques<span class="citation" data-cites="krizhevsky2012 Ronneberger2015"><sup><a href="references.html#ref-krizhevsky2012" role="doc-biblioref">7</a>,<a href="references.html#ref-Ronneberger2015" role="doc-biblioref">8</a></sup></span>.</p>
 <p>Segmentation greatly benefits from ML and DL, as manual segmentation is extremely time-consuming and impractical for large datasets. This chapter offers practical guidance on preparing a segmentation project and emphasises effective DL applications to tackle these challenges. While we focus on segmentation as a case study, the principles, workflows, and considerations discussed here are broadly applicable to other image analysis tasks, such as classification or denoising. Readers interested in these areas can adapt the described approaches to their specific needs.</p>
 </section>
 </section>
@@ -619,7 +636,7 @@ Figure&nbsp;9.3: Conceptual workflow for training a DL segmentation model. The w
 <section id="sec-9.3.2" class="level3" data-number="9.3.2">
 <h3 data-number="9.3.2" class="anchored" data-anchor-id="sec-9.3.2"><span class="header-section-number">9.3.2</span> Selecting a suitable DL approach</h3>
 <p>The first step in choosing a DL approach for image segmentation is to clearly define your segmentation task, whether it’s binary, semantic, or instance segmentation (<a href="#fig-1" class="quarto-xref">Figure&nbsp;<span>9.1</span></a>), and to determine if you require 2D or 3D segmentation. Next, you should consider whether the model or tool you plan to use makes assumptions about the shapes or structures of the objects you want to segment. Understanding these assumptions will aid in selecting a model that fits your specific biological problem (see <a href="#sec-9.2.1" class="quarto-xref"><span>Section 9.2.1</span></a>). Additionally, consider the amount of data that needs annotation for a particular DL approach (see <a href="#sec-9.3.4.5" class="quarto-xref"><span>Section 9.3.4.5</span></a>). Finally, take into account your available computational resources (see <a href="#sec-9.4.2" class="quarto-xref"><span>Section 9.4.2</span></a>). More complex models typically demand more GPU memory, longer training times, and additional storage, especially for 3D data or large datasets.</p>
-<p>For example, StarDist<span class="citation" data-cites="schmidt2018"><sup><a href="references.html#ref-schmidt2018" role="doc-biblioref">9</a></sup></span>, a widely used tool for nuclei segmentation, assumes that objects are <a href="./glossary.html#star-convex-polygon">star-convex polygons</a>: i.e., a shape for which any two points on its boundary can be connected by a single line that does not intersect the boundary. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">10</a></sup></span> uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms.</p>
+<p>For example, StarDist<span class="citation" data-cites="Schmidt2018"><sup><a href="references.html#ref-Schmidt2018" role="doc-biblioref">9</a></sup></span>, a widely used tool for nuclei segmentation, assumes that objects are <a href="./glossary.html#star-convex-polygon">star-convex polygons</a>: i.e., a shape for which any two points on its boundary can be connected by a single line that does not intersect the boundary. This assumption works well for round or oval shapes but makes StarDist less suitable for segmenting irregularly shaped or elongated structures. In contrast, Cellpose<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">10</a></sup></span> uses spatial vector flows to direct pixels toward object centres. This approach enables Cellpose to segment objects of various shapes and sizes, including irregular, elongated, or non-convex forms.</p>
 <p>Choosing the right DL strategy requires aligning your goal, object shape, data dimensionality, and computing capacity with the strengths and assumptions of the available DL architectures.</p>
 </section>
 <section id="sec-9.3.3" class="level3" data-number="9.3.3">
@@ -642,7 +659,7 @@ Figure&nbsp;9.4: Decision workflow for selecting a DL model training approach. T
 </section>
 <section id="sec-9.3.3.2" class="level4" data-number="9.3.3.2">
 <h4 data-number="9.3.3.2" class="anchored" data-anchor-id="sec-9.3.3.2"><span class="header-section-number">9.3.3.2</span> When to train your model</h4>
-<p>Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance<span class="citation" data-cites="archit2025 pachitariu2022 von_chamier2021"><sup><a href="references.html#ref-archit2025" role="doc-biblioref">15</a>–<a href="references.html#ref-von_chamier2021" role="doc-biblioref">17</a></sup></span>. This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your own model.</p>
+<p>Pre-trained models serve as an excellent starting point for various microscopy tasks. However, there are many scenarios where training a custom model becomes essential. Custom training enables the model to learn the specific characteristics of your dataset, experiment, or imaging modality, resulting in enhanced performance<span class="citation" data-cites="Archit2025 Pachitariu2022 von_chamier2021"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">15</a>–<a href="references.html#ref-von_chamier2021" role="doc-biblioref">17</a></sup></span>. This is particularly crucial when your data differs significantly from the data used to train existing models. Thus, their performance should always be validated. If quality assessment metrics are poor or key features are not accurately segmented, consider training your own model.</p>
 <p>Ultimately, always evaluate the model’s performance against your defined success criteria (see <a href="#sec-9.3.7" class="quarto-xref"><span>Section 9.3.7</span></a>). Custom training may be the best path forward if the current model does not meet your needs.</p>
 </section>
 </section>
@@ -663,19 +680,20 @@ Figure&nbsp;9.4: Decision workflow for selecting a DL model training approach. T
 </section>
 <section id="sec-9.3.4.2" class="level4" data-number="9.3.4.2">
 <h4 data-number="9.3.4.2" class="anchored" data-anchor-id="sec-9.3.4.2"><span class="header-section-number">9.3.4.2</span> Creating Manual Annotations</h4>
-<p>Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji<span class="citation" data-cites="schindelin2012"><sup><a href="references.html#ref-schindelin2012" role="doc-biblioref">22</a></sup></span>, Napari<span class="citation" data-cites="ahlers2023"><sup><a href="references.html#ref-ahlers2023" role="doc-biblioref">23</a></sup></span>, and QuPath<span class="citation" data-cites="bankhead2017"><sup><a href="references.html#ref-bankhead2017" role="doc-biblioref">24</a></sup></span> are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label.</p>
+<p>Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">22</a></sup></span>, Napari<span class="citation" data-cites="ahlers2023"><sup><a href="references.html#ref-ahlers2023" role="doc-biblioref">23</a></sup></span>, and QuPath<span class="citation" data-cites="Bankhead2017"><sup><a href="references.html#ref-Bankhead2017" role="doc-biblioref">24</a></sup></span> are frequently employed for manual labelling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label.</p>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Tip</span><strong>Here it is an example pipeline for manually annotating data using Fiji</strong><span class="citation" data-cites="fazeli2020"><sup><a href="references.html#ref-fazeli2020" role="doc-biblioref">13</a></sup></span>
+<span class="screen-reader-only">Tip</span><strong>Here it is an example pipeline for manually annotating data using Fiji</strong>
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
 <div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
+<p><em>See also<span class="citation" data-cites="fazeli2020"><sup><a href="references.html#ref-fazeli2020" role="doc-biblioref">13</a></sup></span>.</em></p>
 <ol type="1">
 <li><p><strong>Open Fiji – activate the LOCI update site and restart Fiji.</strong><br>
 LOCI tools are required for exporting ROI maps. To enable them, go to <em>Help &gt; Update &gt; Manage Update Sites</em>, look for ‘LOCI’ and check the <em>Active</em> checkbox. Then, click on <em>Apply and Close</em> and <em>Apply Changes</em>, this update site ensures the necessary plugins are installed. Finally, restart Fiji.</p></li>
@@ -702,8 +720,8 @@ This separation makes it easier to organise and use your data with image analysi
 </section>
 <section id="sec-9.3.4.3" class="level4" data-number="9.3.4.3">
 <h4 data-number="9.3.4.3" class="anchored" data-anchor-id="sec-9.3.4.3"><span class="header-section-number">9.3.4.3</span> Accelerating annotation with automatic initial segmentations</h4>
-<p>Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu’s thresholding to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist<span class="citation" data-cites="schmidt2018"><sup><a href="references.html#ref-schmidt2018" role="doc-biblioref">9</a></sup></span> and Cellpose<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">10</a></sup></span> can generate more accurate initial segmentations that users can manually refine. These annotations can then be used to retrain the model, establishing an iterative cycle that accelerates both labelling and model refinement.</p>
-<p>New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM)<span class="citation" data-cites="archit2025"><sup><a href="references.html#ref-archit2025" role="doc-biblioref">15</a></sup></span> facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0<span class="citation" data-cites="pachitariu2022"><sup><a href="references.html#ref-pachitariu2022" role="doc-biblioref">16</a></sup></span> features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.</p>
+<p>Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu’s thresholding to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist<span class="citation" data-cites="Schmidt2018"><sup><a href="references.html#ref-Schmidt2018" role="doc-biblioref">9</a></sup></span> and Cellpose<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">10</a></sup></span> can generate more accurate initial segmentations that users can manually refine. These annotations can then be used to retrain the model, establishing an iterative cycle that accelerates both labelling and model refinement.</p>
+<p>New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM)<span class="citation" data-cites="Archit2025"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">15</a></sup></span> facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0<span class="citation" data-cites="Pachitariu2022"><sup><a href="references.html#ref-Pachitariu2022" role="doc-biblioref">16</a></sup></span> features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.</p>
 </section>
 <section id="sec-9.3.4.4" class="level4" data-number="9.3.4.4">
 <h4 data-number="9.3.4.4" class="anchored" data-anchor-id="sec-9.3.4.4"><span class="header-section-number">9.3.4.4</span> Expanding your dataset with augmentation and synthetic data</h4>
@@ -799,7 +817,7 @@ Figure&nbsp;9.6: Monitoring training and validation losses during model training
 </section>
 <section id="sec-9.3.6.2" class="level4" data-number="9.3.6.2">
 <h4 data-number="9.3.6.2" class="anchored" data-anchor-id="sec-9.3.6.2"><span class="header-section-number">9.3.6.2</span> Conducting fine-tuning</h4>
-<p>In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training (<a href="#fig-7" class="quarto-xref">Figure&nbsp;<span>9.7</span></a>)<span class="citation" data-cites="archit2025 pachitariu2022"><sup><a href="references.html#ref-archit2025" role="doc-biblioref">15</a>,<a href="references.html#ref-pachitariu2022" role="doc-biblioref">16</a></sup></span>. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.</p>
+<p>In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training (<a href="#fig-7" class="quarto-xref">Figure&nbsp;<span>9.7</span></a>)<span class="citation" data-cites="Archit2025 Pachitariu2022"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">15</a>,<a href="references.html#ref-Pachitariu2022" role="doc-biblioref">16</a></sup></span>. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.</p>
 <p>Classic fine-tuning is ideal when:</p>
 <ul>
 <li>Your dataset is moderately different from the original training data (e.g., the same biological structure but different staining or modality).<br>
@@ -811,7 +829,7 @@ Figure&nbsp;9.6: Monitoring training and validation losses during model training
 </section>
 <section id="sec-9.3.6.3" class="level4" data-number="9.3.6.3">
 <h4 data-number="9.3.6.3" class="anchored" data-anchor-id="sec-9.3.6.3"><span class="header-section-number">9.3.6.3</span> Iterative training: keeping humans in the loop</h4>
-<p>Iterative fine-tuning is an interactive approach that combines model prediction with human annotation (see <a href="#sec-9.3.4.3" class="quarto-xref"><span>Section 9.3.4.3</span></a>). The workflow typically starts with a pre-trained model predicting new images. A user then manually corrects or annotates these predictions, and the improved annotations update the model (<a href="#fig-7" class="quarto-xref">Figure&nbsp;<span>9.7</span></a>). This cycle continues, progressively enhancing the model’s accuracy with each iteration until it performs as expected<span class="citation" data-cites="chen2020 conrad2023 pachitariu2022"><sup><a href="references.html#ref-pachitariu2022" role="doc-biblioref">16</a>,<a href="references.html#ref-chen2020" role="doc-biblioref">34</a>,<a href="references.html#ref-conrad2023" role="doc-biblioref">35</a></sup></span>.</p>
+<p>Iterative fine-tuning is an interactive approach that combines model prediction with human annotation (see <a href="#sec-9.3.4.3" class="quarto-xref"><span>Section 9.3.4.3</span></a>). The workflow typically starts with a pre-trained model predicting new images. A user then manually corrects or annotates these predictions, and the improved annotations update the model (<a href="#fig-7" class="quarto-xref">Figure&nbsp;<span>9.7</span></a>). This cycle continues, progressively enhancing the model’s accuracy with each iteration until it performs as expected<span class="citation" data-cites="chen2020 conrad2023 Pachitariu2022"><sup><a href="references.html#ref-Pachitariu2022" role="doc-biblioref">16</a>,<a href="references.html#ref-chen2020" role="doc-biblioref">34</a>,<a href="references.html#ref-conrad2023" role="doc-biblioref">35</a></sup></span>.</p>
 <p>This method is particularly powerful when:</p>
 <ul>
 <li>Annotated data is scarce or expensive to generate.<br>
@@ -934,7 +952,7 @@ Figure&nbsp;9.10: Common DL segmentation problems and troubleshooting tips.
 </li>
 <li>QuPath</li>
 </ul>
-<p>Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like BiaPy, and DL4MicEverywhere<span class="citation" data-cites="hidalgo-cenalmor2024"><sup><a href="references.html#ref-hidalgo-cenalmor2024" role="doc-biblioref">36</a></sup></span> leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. DL4MicEverywhere, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.</p>
+<p>Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like BiaPy, and DL4MicEverywhere<span class="citation" data-cites="Hidalgo-Cenalmor2024"><sup><a href="references.html#ref-Hidalgo-Cenalmor2024" role="doc-biblioref">36</a></sup></span> leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. DL4MicEverywhere, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.</p>
 <p>If you are comfortable with programming, you will have even more flexibility. Languages such as Python, MATLAB, Julia, Java, and Rust provide options for building and customizing DL workflows. Python stands out as the most beginner-friendly and widely supported choice, boasting a large ecosystem of libraries and community support. Popular Python libraries for DL include PyTorch, TensorFlow, Keras, and JAX.</p>
 <p>While coding can involve a steeper learning curve, it allows you to create customized pipelines, integrate various tools, and troubleshoot intricate workflows, unlocking the full potential of DL for microscopy segmentation.</p>
 </section>
@@ -953,7 +971,7 @@ Figure&nbsp;9.10: Common DL segmentation problems and troubleshooting tips.
 <p>Additionally, consider whether to train and deploy your model locally or in the cloud (<a href="#fig-11" class="quarto-xref">Figure&nbsp;<span>9.11</span></a>). Local training is often more feasible if you already have access to a compatible workstation and want full control over data and execution. However, cloud-based services like Google Colab or AWS offer access to more powerful hardware, removing the need for local infrastructure—this is especially beneficial when working with large models or 3D datasets.</p>
 <p>There are four typical combinations of training and prediction workflows:</p>
 <ul>
-<li><p>Training and prediction locally is well suited for small to medium-sized datasets, especially when computational demands are moderate and data privacy is a priority. This approach also supports some user-friendly desktop applications, such as the Cellpose 2.0<span class="citation" data-cites="pachitariu2022"><sup><a href="references.html#ref-pachitariu2022" role="doc-biblioref">16</a></sup></span>, which can be run locally without requiring cloud access or advanced technical setup.</p></li>
+<li><p>Training and prediction locally is well suited for small to medium-sized datasets, especially when computational demands are moderate and data privacy is a priority. This approach also supports some user-friendly desktop applications, such as the Cellpose 2.0<span class="citation" data-cites="Pachitariu2022"><sup><a href="references.html#ref-Pachitariu2022" role="doc-biblioref">16</a></sup></span>, which can be run locally without requiring cloud access or advanced technical setup.</p></li>
 <li><p>Training locally, prediction in the cloud may be useful when models are trained in-house but need to be deployed at scale or integrated into cloud-based pipelines.</p></li>
 <li><p>Training in the cloud, prediction locally enables researchers to take advantage of powerful cloud GPUs for model development, while keeping inference close to the data source (e.g., a microscope workstation or in case of sensitive data).</p></li>
 <li><p>Training and prediction in the cloud is well suited for collaborative projects or large-scale deployments, where access to centralized, scalable infrastructure is critical.</p></li>
@@ -976,7 +994,7 @@ Figure&nbsp;9.11: Training and deployment strategies for DL models in microscopy
 <p>DL models are sensitive to changes in library versions and dependencies. Even minor differences in the software stack can result in inconsistent outcomes or training failures. While sharing a list of dependencies (e.g., a requirements.txt or a Conda environment file) is a constructive step, differences in operating systems or local setups can still lead to issues.</p>
 <p>A robust and increasingly popular solution is containerisation. Containers package software, dependencies, and environment settings into a portable and self-contained unit. One of the most widely used containerization tools is Docker. A Docker container can be considered a lightweight, standalone <a href="./glossary.html#virtual-machine">virtual machine</a> that includes everything needed to run code, such as the operating system, libraries, and runtime, ensuring applications run consistently across different machines.</p>
 <p>Using containers ensures that your model training and inference processes remain consistent, no matter who executes them or where they are conducted. This greatly simplifies the ability of collaborators or reviewers to reproduce your results.</p>
-<p>For researchers unfamiliar with software development, tools like DL4MicEverywhere<span class="citation" data-cites="hidalgo-cenalmor2024"><sup><a href="references.html#ref-hidalgo-cenalmor2024" role="doc-biblioref">36</a></sup></span> and bia-binder<span class="citation" data-cites="russell2024"><sup><a href="references.html#ref-russell2024" role="doc-biblioref">37</a></sup></span> simplify the use of containers by integrating them into user-friendly Jupyter notebook environments. These platforms enable researchers to benefit from the reproducibility of containers without needing to manage complex setups or command-line tools.</p>
+<p>For researchers unfamiliar with software development, tools like DL4MicEverywhere<span class="citation" data-cites="Hidalgo-Cenalmor2024"><sup><a href="references.html#ref-Hidalgo-Cenalmor2024" role="doc-biblioref">36</a></sup></span> and bia-binder<span class="citation" data-cites="russell2024"><sup><a href="references.html#ref-russell2024" role="doc-biblioref">37</a></sup></span> simplify the use of containers by integrating them into user-friendly Jupyter notebook environments. These platforms enable researchers to benefit from the reproducibility of containers without needing to manage complex setups or command-line tools.</p>
 <p>Reproducibility is crucial for establishing trust in computational results and facilitating long-term scientific collaboration. To ensure your DL workflows are reproducible, follow these best practices:</p>
 <ul>
 <li>Pin every software version used in your workflow.<br>
@@ -994,7 +1012,7 @@ Figure&nbsp;9.11: Training and deployment strategies for DL models in microscopy
 <h2 data-number="9.5" class="anchored" data-anchor-id="sec-9.5"><span class="header-section-number">9.5</span> Summary &amp; Outlook</h2>
 <p>Segmenting microscopy images remains a critical yet challenging task in bioimage analysis. In this chapter, we have used segmentation as a representative example to illustrate deep learning workflows and considerations. However, the strategies and best practices described here—such as data preparation, model selection, training, evaluation, and deployment—are relevant to a wide range of image analysis tasks, including classification, detection, and tracking. DL has undeniably transformed this field, offering robust solutions for segmenting complex and variable structures. However, as this chapter emphasizes, DL is not always the fastest or the best approach. Classical image processing techniques or pixel classifiers often provide faster, simpler, and highly effective alternatives in many scenarios.</p>
 <p>The decision to use DL should be driven by the complexity of the task, the availability of annotated data, and the specific goals of the segmentation project. Successful DL implementations often require significant investments in data curation, annotation, and computational resources. Furthermore, training from scratch is frequently avoidable thanks to the growing ecosystem of pre-trained models and resources shared by the community.</p>
-<p>Notably, the landscape of DL segmentation is rapidly evolving. The emergence of foundation models, which are large, versatile networks pre-trained on vast and diverse datasets, promises to further lower the barriers to entry<span class="citation" data-cites="archit2025"><sup><a href="references.html#ref-archit2025" role="doc-biblioref">15</a></sup></span>. These models enable transfer learning, fine-tuning, and even zero-shot segmentation, where accurate predictions can be made on previously unseen data with minimal or no task-specific training. This shift opens exciting new avenues for researchers who previously lacked the resources or expertise to apply DL in their work.</p>
+<p>Notably, the landscape of DL segmentation is rapidly evolving. The emergence of foundation models, which are large, versatile networks pre-trained on vast and diverse datasets, promises to further lower the barriers to entry<span class="citation" data-cites="Archit2025"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">15</a></sup></span>. These models enable transfer learning, fine-tuning, and even zero-shot segmentation, where accurate predictions can be made on previously unseen data with minimal or no task-specific training. This shift opens exciting new avenues for researchers who previously lacked the resources or expertise to apply DL in their work.</p>
 <p>The ongoing development and democratization of DL tools, along with enhancements in model generalisability, human-in-the-loop workflows, and reproducibility, are changing how microscopy data is analyzed. Still, the key to successful segmentation will always involve careful planning, quality control, and selecting the right tool for the task, whether it involves DL or not.</p>
 <!-- 
 ## References {#sec-9.6}
@@ -1083,11 +1101,11 @@ Figure&nbsp;9.11: Training and deployment strategies for DL models in microscopy
 <div id="ref-arganda-carreras2017" class="csl-entry" role="listitem">
 <div class="csl-left-margin">2. </div><div class="csl-right-inline">Arganda-Carreras, I. <em>et al.</em> <a href="https://doi.org/10.1093/bioinformatics/btx180">Trainable <span>Weka</span> <span>Segmentation</span>: A machine learning tool for microscopy pixel classification</a>. <em>Bioinformatics</em> <strong>33</strong>, 2424–2426 (2017).</div>
 </div>
-<div id="ref-arzt2022" class="csl-entry" role="listitem">
-<div class="csl-left-margin">3. </div><div class="csl-right-inline">Arzt, M. <em>et al.</em> <a href="https://www.frontiersin.org/articles/10.3389/fcomp.2022.777728"><span>LABKIT</span>: <span>Labeling</span> and <span>Segmentation</span> <span>Toolkit</span> for <span>Big</span> <span>Image</span> <span>Data</span></a>. <em>Frontiers in Computer Science</em> <strong>4</strong>, (2022).</div>
+<div id="ref-Arzt2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Arzt, M. <em>et al.</em> <a href="https://www.frontiersin.org/articles/10.3389/fcomp.2022.777728"><span>LABKIT</span>: Labeling and segmentation toolkit for big image data</a>. <em>Front. Comput. Sci.</em> <strong>4</strong>, (2022).</div>
 </div>
-<div id="ref-berg2019" class="csl-entry" role="listitem">
-<div class="csl-left-margin">4. </div><div class="csl-right-inline">Berg, S. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-019-0582-9">Ilastik: Interactive machine learning for (bio)image analysis</a>. <em>Nature Methods</em> <strong>16</strong>, 1226–1232 (2019).</div>
+<div id="ref-Berg2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Berg, S. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-019-0582-9">Ilastik: Interactive machine learning for (bio)image analysis</a>. <em>Nat. Methods</em> <strong>16</strong>, 1226–1232 (2019).</div>
 </div>
 <div id="ref-moen2019" class="csl-entry" role="listitem">
 <div class="csl-left-margin">5. </div><div class="csl-right-inline">Moen, E. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-019-0403-1">Deep learning for cellular image analysis</a>. <em>Nature Methods</em> <strong>16</strong>, 1233–1246 (2019).</div>
@@ -1098,11 +1116,11 @@ Figure&nbsp;9.11: Training and deployment strategies for DL models in microscopy
 <div id="ref-krizhevsky2012" class="csl-entry" role="listitem">
 <div class="csl-left-margin">7. </div><div class="csl-right-inline">Krizhevsky, A., Sutskever, I. &amp; Hinton, G. E. <a href="https://proceedings.neurips.cc/paper_files/paper/2012/hash/c399862d3b9d6b76c8436e924a68c45b-Abstract.html"><span>ImageNet</span> <span>Classification</span> with <span>Deep</span> <span>Convolutional</span> <span>Neural</span> <span>Networks</span></a>. in <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em> vol. 25 (Curran Associates, Inc., 2012).</div>
 </div>
-<div id="ref-ronneberger2015" class="csl-entry" role="listitem">
-<div class="csl-left-margin">8. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-<span>Net</span>: <span>Convolutional</span> <span>Networks</span> for <span>Biomedical</span> <span>Image</span> <span>Segmentation</span>. in <em>Medical <span>Image</span> <span>Computing</span> and <span>Computer</span>-<span>Assisted</span> <span>Intervention</span> – <span>MICCAI</span> 2015</em> (eds. Navab, N., Hornegger, J., Wells, W. M. &amp; Frangi, A. F.) 234–241 (Springer International Publishing, Cham, 2015). doi:<a href="https://doi.org/10.1007/978-3-319-24574-4_28">10.1007/978-3-319-24574-4_28</a>.</div>
+<div id="ref-Ronneberger2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-net: Convolutional networks for biomedical image segmentation. in <em>Medical image computing and computer-assisted intervention – MICCAI 2015</em> (eds. Navab, N., Hornegger, J., Wells, W. M. &amp; Frangi, A. F.) 234–241 (Springer International Publishing, Cham, 2015). doi:<a href="https://doi.org/10.1007/978-3-319-24574-4_28">10.1007/978-3-319-24574-4_28</a>.</div>
 </div>
-<div id="ref-schmidt2018" class="csl-entry" role="listitem">
-<div class="csl-left-margin">9. </div><div class="csl-right-inline">Schmidt, U., Weigert, M., Broaddus, C. &amp; Myers, G. Cell <span>Detection</span> with <span>Star</span>-<span>Convex</span> <span>Polygons</span>. in <em>Medical <span>Image</span> <span>Computing</span> and <span>Computer</span> <span>Assisted</span> <span>Intervention</span> – <span>MICCAI</span> 2018</em> (eds. Frangi, A. F., Schnabel, J. A., Davatzikos, C., Alberola-López, C. &amp; Fichtinger, G.) 265–273 (Springer International Publishing, Cham, 2018). doi:<a href="https://doi.org/10.1007/978-3-030-00934-2_30">10.1007/978-3-030-00934-2_30</a>.</div>
+<div id="ref-Schmidt2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Schmidt, U., Weigert, M., Broaddus, C. &amp; Myers, G. Cell detection with star-convex polygons. in <em>Medical image computing and computer assisted intervention – MICCAI 2018</em> (eds. Frangi, A. F., Schnabel, J. A., Davatzikos, C., Alberola-López, C. &amp; Fichtinger, G.) 265–273 (Springer International Publishing, Cham, 2018). doi:<a href="https://doi.org/10.1007/978-3-030-00934-2_30">10.1007/978-3-030-00934-2_30</a>.</div>
 </div>
 <div id="ref-stringer2021" class="csl-entry" role="listitem">
 <div class="csl-left-margin">10. </div><div class="csl-right-inline">Stringer, C., Wang, T., Michaelos, M. &amp; Pachitariu, M. <a href="https://doi.org/10.1038/s41592-020-01018-x">Cellpose: A generalist algorithm for cellular segmentation</a>. <em>Nature Methods</em> <strong>18</strong>, 100–106 (2021).</div>
@@ -1119,11 +1137,11 @@ Figure&nbsp;9.11: Training and deployment strategies for DL models in microscopy
 <div id="ref-follain2024" class="csl-entry" role="listitem">
 <div class="csl-left-margin">14. </div><div class="csl-right-inline">Follain, G. <em>et al.</em> Fast label-free live imaging reveals key roles of flow dynamics and <span>CD44</span>-<span>HA</span> interaction in cancer cell arrest on endothelial monolayers. (2024) doi:<a href="https://doi.org/10.1101/2024.09.30.615654">10.1101/2024.09.30.615654</a>.</div>
 </div>
-<div id="ref-archit2025" class="csl-entry" role="listitem">
-<div class="csl-left-margin">15. </div><div class="csl-right-inline">Archit, A. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02580-4">Segment <span>Anything</span> for <span>Microscopy</span></a>. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
+<div id="ref-Archit2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Archit, A. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02580-4">Segment anything for microscopy</a>. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
 </div>
-<div id="ref-pachitariu2022" class="csl-entry" role="listitem">
-<div class="csl-left-margin">16. </div><div class="csl-right-inline">Pachitariu, M. &amp; Stringer, C. Cellpose 2.0: How to train your own model. <em>Nature Methods</em> 1–8 (2022) doi:<a href="https://doi.org/10.1038/s41592-022-01663-4">10.1038/s41592-022-01663-4</a>.</div>
+<div id="ref-Pachitariu2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Pachitariu, M. &amp; Stringer, C. <a href="https://doi.org/10.1038/s41592-022-01663-4">Cellpose 2.0: How to train your own model</a>. <em>Nat. Methods</em> <strong>19</strong>, 1634–1641 (2022).</div>
 </div>
 <div id="ref-von_chamier2021" class="csl-entry" role="listitem">
 <div class="csl-left-margin">17. </div><div class="csl-right-inline">Chamier, L. von <em>et al.</em> <a href="https://doi.org/10.1038/s41467-021-22518-0">Democratising deep learning for microscopy with <span>ZeroCostDL4Mic</span></a>. <em>Nature Communications</em> <strong>12</strong>, 2276 (2021).</div>
@@ -1140,14 +1158,14 @@ Figure&nbsp;9.11: Training and deployment strategies for DL models in microscopy
 <div id="ref-moshkov2024" class="csl-entry" role="listitem">
 <div class="csl-left-margin">21. </div><div class="csl-right-inline">Moshkov, N. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-024-45999-1">Learning representations for image-based profiling of perturbations</a>. <em>Nature Communications</em> <strong>15</strong>, 1594 (2024).</div>
 </div>
-<div id="ref-schindelin2012" class="csl-entry" role="listitem">
+<div id="ref-Schindelin2012" class="csl-entry" role="listitem">
 <div class="csl-left-margin">22. </div><div class="csl-right-inline">Schindelin, J. <em>et al.</em> <a href="https://doi.org/10.1038/nmeth.2019">Fiji: An open-source platform for biological-image analysis</a>. <em>Nature Methods</em> <strong>9</strong>, 676–682 (2012).</div>
 </div>
 <div id="ref-ahlers2023" class="csl-entry" role="listitem">
 <div class="csl-left-margin">23. </div><div class="csl-right-inline">Ahlers, J. <em>et al.</em> Napari: A multi-dimensional image viewer for <span>Python</span>. (2023) doi:<a href="https://doi.org/10.5281/zenodo.8115575">10.5281/zenodo.8115575</a>.</div>
 </div>
-<div id="ref-bankhead2017" class="csl-entry" role="listitem">
-<div class="csl-left-margin">24. </div><div class="csl-right-inline">Bankhead, P. <em>et al.</em> <a href="https://doi.org/10.1038/s41598-017-17204-5"><span>QuPath</span>: <span>Open</span> source software for digital pathology image analysis</a>. <em>Scientific Reports</em> <strong>7</strong>, 16878 (2017).</div>
+<div id="ref-Bankhead2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Bankhead, P. <em>et al.</em> <a href="https://doi.org/10.1038/s41598-017-17204-5"><span>QuPath</span>: Open source software for digital pathology image analysis</a>. <em>Sci. Rep.</em> <strong>7</strong>, 16878 (2017).</div>
 </div>
 <div id="ref-lecun1998" class="csl-entry" role="listitem">
 <div class="csl-left-margin">25. </div><div class="csl-right-inline">Lecun, Y., Bottou, L., Bengio, Y. &amp; Haffner, P. <a href="https://doi.org/10.1109/5.726791">Gradient-based learning applied to document recognition</a>. <em>Proceedings of the IEEE</em> <strong>86</strong>, 2278–2324 (1998).</div>
@@ -1182,8 +1200,8 @@ Figure&nbsp;9.11: Training and deployment strategies for DL models in microscopy
 <div id="ref-conrad2023" class="csl-entry" role="listitem">
 <div class="csl-left-margin">35. </div><div class="csl-right-inline">Conrad, R. &amp; Narayan, K. <a href="https://doi.org/10.1016/j.cels.2022.12.006">Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model trained on a diverse dataset</a>. <em>Cell Systems</em> <strong>14</strong>, 58–71.e5 (2023).</div>
 </div>
-<div id="ref-hidalgo-cenalmor2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">36. </div><div class="csl-right-inline">Hidalgo-Cenalmor, I. <em>et al.</em> <span>DL4MicEverywhere</span>: Deep learning for microscopy made flexible, shareable and reproducible. <em>Nature Methods</em> (2024) doi:<a href="https://doi.org/10.1038/s41592-024-02295-6">10.1038/s41592-024-02295-6</a>.</div>
+<div id="ref-Hidalgo-Cenalmor2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">36. </div><div class="csl-right-inline">Hidalgo-Cenalmor, I. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02295-6"><span>DL4MicEverywhere</span>: Deep learning for microscopy made flexible, shareable and reproducible</a>. <em>Nat. Methods</em> <strong>21</strong>, 925–927 (2024).</div>
 </div>
 <div id="ref-russell2024" class="csl-entry" role="listitem">
 <div class="csl-left-margin">37. </div><div class="csl-right-inline">Russell, C. T. <em>et al.</em> Bia-binder: <span>A</span> web-native cloud compute service for the bioimage analysis community. (2024) doi:<a href="https://doi.org/10.48550/arXiv.2411.12662">10.48550/arXiv.2411.12662</a>.</div>

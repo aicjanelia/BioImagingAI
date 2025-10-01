@@ -2,14 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Min Guo">
+<meta name="author" content="Yue Li">
+<meta name="author" content="Jun Zhu">
+<meta name="author" content="Mingzhe Wei">
 <meta name="author" content="Hari Shroff">
+<meta name="author" content="Min Guo">
 
-<title>6&nbsp; Extending Your Hardware With AI – AI in Microscopy: A BioImaging Guide</title>
+<title>6&nbsp; Image Restoration – AI in Microscopy: A BioImaging Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -21,41 +24,6 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
-}
-/* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 /* CSS for citations */
 div.csl-bib-body { }
@@ -97,15 +65,14 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-4c6d65c679321d81af7ec8b61b1d5a24.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/glossary/glossary.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -346,7 +313,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./6-image-restoration.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Extending Your Hardware With AI</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./6-image-restoration.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -437,7 +404,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./6-image-restoration.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Extending Your Hardware With AI</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -495,6 +462,23 @@ window.Quarto = {
  <span class="menu-text">References</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-image-restoration-appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">3D-RCAN for Image Restoration</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -505,17 +489,31 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#include-section-headers-as-appropriate" id="toc-include-section-headers-as-appropriate" class="nav-link active" data-scroll-target="#include-section-headers-as-appropriate"><span class="header-section-number">6.1</span> Include section headers as appropriate</a>
+  <li><a href="#general-concepts-in-image-restoration" id="toc-general-concepts-in-image-restoration" class="nav-link active" data-scroll-target="#general-concepts-in-image-restoration"><span class="header-section-number">6.1</span> General Concepts in Image Restoration</a>
   <ul class="collapse">
-  <li><a href="#sub-subsection-headers-are-also-available" id="toc-sub-subsection-headers-are-also-available" class="nav-link" data-scroll-target="#sub-subsection-headers-are-also-available"><span class="header-section-number">6.1.1</span> Sub-subsection headers are also available</a></li>
+  <li><a href="#image-degradation-model" id="toc-image-degradation-model" class="nav-link" data-scroll-target="#image-degradation-model"><span class="header-section-number">6.1.1</span> Image Degradation Model</a></li>
+  <li><a href="#sec-traditional-restoration" id="toc-sec-traditional-restoration" class="nav-link" data-scroll-target="#sec-traditional-restoration"><span class="header-section-number">6.1.2</span> Image Restoration with Traditional Approaches</a></li>
+  <li><a href="#image-restoration-with-deep-learning-based-approaches" id="toc-image-restoration-with-deep-learning-based-approaches" class="nav-link" data-scroll-target="#image-restoration-with-deep-learning-based-approaches"><span class="header-section-number">6.1.3</span> Image Restoration with Deep Learning-Based Approaches</a></li>
   </ul></li>
-  <li><a href="#bibliography-and-citations" id="toc-bibliography-and-citations" class="nav-link" data-scroll-target="#bibliography-and-citations"><span class="header-section-number">6.2</span> Bibliography and Citations</a></li>
-  <li><a href="#adding-to-the-glossary" id="toc-adding-to-the-glossary" class="nav-link" data-scroll-target="#adding-to-the-glossary"><span class="header-section-number">6.3</span> Adding to the Glossary</a></li>
-  <li><a href="#sec-equation" id="toc-sec-equation" class="nav-link" data-scroll-target="#sec-equation"><span class="header-section-number">6.4</span> Code and Equations</a>
+  <li><a href="#deep-learning-based-techniques-for-image-restoration" id="toc-deep-learning-based-techniques-for-image-restoration" class="nav-link" data-scroll-target="#deep-learning-based-techniques-for-image-restoration"><span class="header-section-number">6.2</span> Deep Learning-Based Techniques for Image Restoration</a>
   <ul class="collapse">
-  <li><a href="#embedding-figures" id="toc-embedding-figures" class="nav-link" data-scroll-target="#embedding-figures"><span class="header-section-number">6.4.1</span> Embedding Figures</a></li>
+  <li><a href="#denoising-1" id="toc-denoising-1" class="nav-link" data-scroll-target="#denoising-1"><span class="header-section-number">6.2.1</span> Denoising</a></li>
+  <li><a href="#deconvolution-1" id="toc-deconvolution-1" class="nav-link" data-scroll-target="#deconvolution-1"><span class="header-section-number">6.2.2</span> Deconvolution</a></li>
+  <li><a href="#deaberration-1" id="toc-deaberration-1" class="nav-link" data-scroll-target="#deaberration-1"><span class="header-section-number">6.2.3</span> Deaberration</a></li>
+  <li><a href="#resolution-enhancement-1" id="toc-resolution-enhancement-1" class="nav-link" data-scroll-target="#resolution-enhancement-1"><span class="header-section-number">6.2.4</span> Resolution Enhancement</a></li>
   </ul></li>
-  <li><a href="#quarto-has-additional-features." id="toc-quarto-has-additional-features." class="nav-link" data-scroll-target="#quarto-has-additional-features."><span class="header-section-number">6.5</span> Quarto has additional features.</a></li>
+  <li><a href="#practical-guidelines-for-image-restoration" id="toc-practical-guidelines-for-image-restoration" class="nav-link" data-scroll-target="#practical-guidelines-for-image-restoration"><span class="header-section-number">6.3</span> Practical Guidelines for Image Restoration</a>
+  <ul class="collapse">
+  <li><a href="#considerations-for-dataset-preparation" id="toc-considerations-for-dataset-preparation" class="nav-link" data-scroll-target="#considerations-for-dataset-preparation"><span class="header-section-number">6.3.1</span> Considerations for Dataset Preparation</a></li>
+  <li><a href="#choosing-a-network-architecture" id="toc-choosing-a-network-architecture" class="nav-link" data-scroll-target="#choosing-a-network-architecture"><span class="header-section-number">6.3.2</span> Choosing a Network Architecture</a></li>
+  <li><a href="#training" id="toc-training" class="nav-link" data-scroll-target="#training"><span class="header-section-number">6.3.3</span> Training</a></li>
+  <li><a href="#validation-and-deployment" id="toc-validation-and-deployment" class="nav-link" data-scroll-target="#validation-and-deployment"><span class="header-section-number">6.3.4</span> Validation and Deployment</a></li>
+  </ul></li>
+  <li><a href="#limitations-and-future-perspectives" id="toc-limitations-and-future-perspectives" class="nav-link" data-scroll-target="#limitations-and-future-perspectives"><span class="header-section-number">6.4</span> Limitations and Future Perspectives</a>
+  <ul class="collapse">
+  <li><a href="#caveats-of-ai-based-image-restoration" id="toc-caveats-of-ai-based-image-restoration" class="nav-link" data-scroll-target="#caveats-of-ai-based-image-restoration"><span class="header-section-number">6.4.1</span> Caveats of AI-based image restoration</a></li>
+  <li><a href="#outlook-for-the-future" id="toc-outlook-for-the-future" class="nav-link" data-scroll-target="#outlook-for-the-future"><span class="header-section-number">6.4.2</span> Outlook for the Future</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -523,10 +521,10 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./6-image-restoration.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Extending Your Hardware With AI</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./6-image-restoration.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Extending Your Hardware With AI</span></h1>
-<p class="subtitle lead">Image Restoration and Related Tools</p>
+<h1 class="title"><span id="sec-Image-Restoration" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></span></h1>
+<p class="subtitle lead">Using Artificial Intelligence for Image Restoration in Fluorescence Microscopy</p>
 </div>
 
 
@@ -535,7 +533,23 @@ window.Quarto = {
   <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Min Guo <a href="https://orcid.org/0000-0002-2093-8771" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    <p class="author">Yue Li <a href="https://orcid.org/0000-0002-9299-0974" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Zhejiang University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jun Zhu </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Zhejiang University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Mingzhe Wei </p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -548,6 +562,14 @@ window.Quarto = {
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
             HHMI Janelia Research Campus
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Min Guo <a href="https://orcid.org/0000-0002-2093-8771" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Zhejiang University
           </p>
       </div>
   </div>
@@ -564,198 +586,423 @@ window.Quarto = {
 </header>
 
 
-<!--Your first header will be the chapter's upper-level table of contents title.-->
-<!--If you'd like to have a subtitle, include it in the Quarto header above -->
-<p>Under your first header, include a brief introduction to your chapter.</p>
-<p>Starting prompt for this chapter: This image restoration focused chapter motivates how AI can improve the image quality beyond hardware limitations. This chapter should include image restoration (denoising) and sensor-less AO (deep-learning-based AO); other topics can be included at the author’s discretion.</p>
-<p>Notes from the authors’ meeting: This chapter can start with a broader overview of the topic, which will reference existing reviews on the topic. Then the chapter will focus on a denoising tutorial, which will include discussions of potential pitfalls and best practices.</p>
-<section id="include-section-headers-as-appropriate" class="level2" data-number="6.1">
-<h2 data-number="6.1" class="anchored" data-anchor-id="include-section-headers-as-appropriate"><span class="header-section-number">6.1</span> Include section headers as appropriate</h2>
-<p>Use markdown heading level two for section headers. You can use standard markdown formatting, for example <em>emphasize the end of this sentence</em>.</p>
-<p>This is a new paragraph with more text. Your paragraphs can cross reference other items, such as <a href="11-outlook.html#fig-simple" class="quarto-xref">Figure&nbsp;<span>11.1</span></a>. Use <code>fig</code> to reference figures, and <code>eq</code> to reference equations, such as <a href="11-outlook.html#eq-stddev" class="quarto-xref">Equation&nbsp;<span>11.1</span></a>.</p>
-<section id="sub-subsection-headers-are-also-available" class="level3" data-number="6.1.1">
-<h3 data-number="6.1.1" class="anchored" data-anchor-id="sub-subsection-headers-are-also-available"><span class="header-section-number">6.1.1</span> Sub-subsection headers are also available</h3>
-<p>To make your sections cross reference-able throughout the book, include a section reference, as shown in the header for <a href="11-outlook.html#sec-equation" class="quarto-xref"><span>Section 11.4</span></a>.</p>
-</section>
-</section>
-<section id="bibliography-and-citations" class="level2" data-number="6.2">
-<h2 data-number="6.2" class="anchored" data-anchor-id="bibliography-and-citations"><span class="header-section-number">6.2</span> Bibliography and Citations</h2>
-<p>To cite a research article, add it to references.bib and then refer to the citation key. For example, reference<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">1</a></sup></span> refers to CellPose and reference<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">2</a></sup></span> refers to ZeroCostDL4Mic.</p>
-</section>
-<section id="adding-to-the-glossary" class="level2" data-number="6.3">
-<h2 data-number="6.3" class="anchored" data-anchor-id="adding-to-the-glossary"><span class="header-section-number">6.3</span> Adding to the Glossary</h2>
-<p>We are using the extension <a href="https://debruine.github.io/quarto-glossary/#styles">Quarto-glossary</a> to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from <button class="glossary" title="Outputs from a model that do not have a basis in the input data and may contain false or misleading information.">hallucinations</button>. It is important to understand the underlying <button class="glossary" title="Data used to train an algorithm to make predictions.">training data</button> to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the <a href="./glossary.html">Glossary</a>.</p>
-</section>
-<section id="sec-equation" class="level2" data-number="6.4">
-<h2 data-number="6.4" class="anchored" data-anchor-id="sec-equation"><span class="header-section-number">6.4</span> Code and Equations</h2>
-<p>This is an example of including a python snippet that generates a figure</p>
-<div id="cell-fig-simple" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">1</span>,<span class="dv">23</span>,<span class="dv">2</span>,<span class="dv">4</span>])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-simple" class="quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="6-image-restoration_files/figure-html/fig-simple-output-1.png" width="566" height="411" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.1: Simple Plot
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>In some cases, you may want to include a code-block that is not executed when the book is compiled. Use the <code>eval: false</code> option for this.</p>
-<div id="b13fcc9b" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">1</span>,<span class="dv">23</span>,<span class="dv">2</span>,<span class="dv">4</span>])</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Figures can also be generated that do not show the code by using the option for <code>code-fold: true</code>.</p>
-<div id="cell-fig-polar" class="cell" data-execution_count="3">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">0.01</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> r</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  subplot_kw <span class="op">=</span> {<span class="st">'projection'</span>: <span class="st">'polar'</span>} </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.plot(theta, r)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ax.set_rticks([<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>])</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-<div class="cell-output cell-output-display">
-<div id="fig-polar" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A line plot on a polar axis. The line spirals out from a value of zero to a value of 2.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-polar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="6-image-restoration_files/figure-html/fig-polar-output-1.png" alt="A line plot on a polar axis. The line spirals out from a value of zero to a value of 2." width="450" height="439" class="figure-img">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-polar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.2: A spiral on a polar axis
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-<p>Here is an example equation.</p>
-<p><span id="eq-stddev"><span class="math display">\[
-s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}
+<p>Fluorescence microscopy is central to biological discovery, enabling the visualization of cellular and subcellular structures with exquisite detail. From observing dynamic intracellular processes to mapping entire tissues, microscopy is indispensable for understanding biological systems<span class="citation" data-cites="Wu2022"><sup><a href="references.html#ref-Wu2022" role="doc-biblioref">1</a></sup></span>. However, the quality of microscopic images is often compromised due to intrinsic limitations such as noise, optical aberrations, diffraction, and limited signal<span class="citation" data-cites="Schermelleh2010"><sup><a href="references.html#ref-Schermelleh2010" role="doc-biblioref">2</a></sup></span>. These factors hinder analysis and interpretation, particularly when studying fine biological structures or dynamic processes. For example, by quantifying the intensity of fluorescence signals, researchers infer the abundance or expression levels of specific molecules (e.g.&nbsp;proteins tagged with a genetically expressed marker). Using image segmentation, researchers can analyze the size, shape, distribution and number of specific objects within a defined region<span class="citation" data-cites="Archit2025"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">3</a></sup></span>. By tracking the movement of fluorescently labeled molecules or cells over time, researchers can study processes including endocytosis, intracellular transport, and cellular signaling<span class="citation" data-cites="Sahl2017"><sup><a href="references.html#ref-Sahl2017" role="doc-biblioref">4</a></sup></span>. In these scenarios, noise and low SNR can make it difficult to distinguish between the actual signal and background; and spatial blurring causes fluorescence signal to spread out, confounding the ability to accurately assign pixels to specific regions or structures.</p>
+<p>Many of these problems can be overcome with suitable hardware or by using advanced imaging techniques. To improve spatial resolution, super-resolution techniques (stimulated emission depletion (STED), structured illumination microscopy (SIM), or single-molecule localization microscopy (SMLM)) may be employed<span class="citation" data-cites="Schermelleh2019"><sup><a href="references.html#ref-Schermelleh2019" role="doc-biblioref">5</a></sup></span>. To suppress noise and maximize the collection of useful signal, highly sensitive detectors, such as cooled charge-coupled devices (CCDs) or complementary metal-oxide-semiconductor (CMOS) sensors can be used. To correct optical distortions, advanced microscopes integrate adaptive optics (<a href="./glossary.html#adaptive-optics">AO</a>)<span class="citation" data-cites="Ji2017 Hampson2021"><sup><a href="references.html#ref-Ji2017" role="doc-biblioref">6</a>,<a href="references.html#ref-Hampson2021" role="doc-biblioref">7</a></sup></span>, which use real-time feedback to dynamically adjust the focus and compensate for aberrations. However, these technologies often come with high cost, require complex operation, or need extensive maintenance. Additionally, improving one attribute of the image (e.g.&nbsp;spatial resolution) often results in a compromise in another (e.g., temporal resolution), requiring careful consideration of the specific needs of a study and the resources available<span class="citation" data-cites="Shroff2024"><sup><a href="references.html#ref-Shroff2024" role="doc-biblioref">8</a></sup></span>.</p>
+<p>Another way to address these limitations is to develop <a href="./glossary.html#image-restoration">image restoration</a> techniques that enhance the quality of microscopic images, often without expensive instrumentation. Traditionally, these techniques relied on mathematical algorithms and physical models of the imaging process. However, recent advances in artificial intelligence (AI), particularly deep learning, have transformed image restoration by enabling data-driven approaches that offer improved performance and flexibility. Manufacturers have increasingly integrated image restoration technologies as an essential component of their products to ensure their users can obtain clearer images directly from the microscope, e.g., Leica THUNDER Imager, Olympus cellSens, Andor iQ, ZEISS arivis, and Nikon NIS-Elements.</p>
+<p>In this chapter, we provide a practical overview of image restoration for applications in fluorescence microscopy. We begin by introducing the general concept of image restoration, then describe traditional and deep learning-based approaches. Next, we review key technologies and advances by categorizing restoration into four major areas: denoising, <a href="./glossary.html#deconvolution">deconvolution</a>, <a href="./glossary.html#aberration">deaberration</a>, and resolution enhancement. Finally, we provide practical guidelines for implementing image restoration, including step-by-step workflows and test datasets for interested readers to practice applying these methods.</p>
+<section id="general-concepts-in-image-restoration" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="general-concepts-in-image-restoration"><span class="header-section-number">6.1</span> General Concepts in Image Restoration</h2>
+<p>Image restoration is the application of mathematical and computational techniques aimed at improving the quality of an image by reversing or reducing the effects of degradation that may occur during the imaging process. These degradations stem from noise, blur, aberrations, and other artifacts. The goal of the restoration is to recover or estimate the latent (true) image from the degraded raw data. Image restoration has the potential not only to improve the precision of biological analyses but also to expand the capabilities of existing microscopes, enabling researchers using basic hardware to achieve advanced imaging quality.</p>
+<section id="image-degradation-model" class="level3" data-number="6.1.1">
+<h3 data-number="6.1.1" class="anchored" data-anchor-id="image-degradation-model"><span class="header-section-number">6.1.1</span> Image Degradation Model</h3>
+<p>Understanding the types of distortions and the causes behind them is the first step in image restoration. This could involve a mathematical model that characterizes how an image is corrupted, using the concept that any real-world imaging system cannot capture an object perfectly. Instead, the imaging system or sample introduces imperfections, which distort the image. In fluorescence microscopy, a general image degradation model can be written as:</p>
+<p><span id="eq-image_restoration"><span class="math display">\[
+i = o \otimes f ( \phi ) + n
 \tag{6.1}\]</span></span></p>
-<section id="embedding-figures" class="level3" data-number="6.4.1">
-<h3 data-number="6.4.1" class="anchored" data-anchor-id="embedding-figures"><span class="header-section-number">6.4.1</span> Embedding Figures</h3>
-<p>You can also embed figures from other notebooks in the repo as shown in the following embed example.</p>
-<div class="quarto-embed-nb-cell" data-notebook="D:\a\BioImagingAI\BioImagingAI\notebooks\test.ipynb" data-notebook-cellid="cell-fig-test-fig">
-<div id="cell-fig-test-fig" class="cell" data-tags="[&quot;test-fig&quot;]" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div id="fig-test-fig" class="quarto-float quarto-figure quarto-figure-center anchored" alt="a demo figure to be embedded in a template chapter">
+<p>Where <span class="math inline">\(i\)</span> is the image acquired by the microscope; <span class="math inline">\(o\)</span> is the intensity distribution of the biological sample; <span class="math inline">\(f(\phi)\)</span> is the point spread function (<a href="./glossary.html#point-spread-function-psf">PSF</a>) of the system; <span class="math inline">\(\phi\)</span> is the phase aberration or wavefront distortion (when <span class="math inline">\(\phi=0\)</span>, the wavefront is ‘flat’ or aberration-free and <span class="math inline">\(f\)</span> is the ideal PSF predicted by theory); <span class="math inline">\(\bigotimes\)</span> is the <a href="./glossary.html#convolution">convolution</a> operator; and <span class="math inline">\(n\)</span> models noise contamination. Two common types of noise are Gaussian noise and Poisson noise. Gaussian noise is caused by random fluctuations in the image due to imperfections in the camera sensor or electronic interference. Poisson noise arises from the random nature of photon detection, meaning that the number of photons detected can vary from one measurement to the next, especially at low light levels. <a href="#eq-image_restoration" class="quarto-xref">Equation&nbsp;<span>6.1</span></a> is described schematically in <a href="#fig-image-degredation" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>.</p>
+<div id="fig-image-degredation" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-test-fig-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="6-image-restoration_files/figure-html/..-notebooks-test-fig-test-fig-output-1.png" class="img-fluid figure-img" alt="a demo figure to be embedded in a template chapter">
+<div aria-describedby="fig-image-degredation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/image1.png" class="img-fluid figure-img">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-test-fig-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.3: Polar plot of circles of random areas at random coords
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-image-degredation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.1: <strong>Schematic of image degradation model for fluorescence microscopy.</strong> Object information passes through the imaging system with degradation due to blurring from the point spread function (PSF, here denoted by the convolution kernel <span class="math inline">\(f\)</span>) and noise. In an ideal case, there is no distortion, and the wavefront associated with a point source maintains a flat phase at the back focal plane of the microscope objective. In any real situation, wavefront distortion due to optical imperfections or heterogeneity within the biological sample results in an aberrated wavefront (indicated by <span class="math inline">\(\phi\)</span>) and PSF, which results in additional blurring. If spatial resolution is enhanced, e.g., by super-resolution methods (SR), the PSF becomes smaller, resulting in sharper images. Super-resolution imaging is also (typically more) prone to aberrations than conventional diffraction-limited imaging, and noise is inherent to any imaging process.
 </figcaption>
 </figure>
 </div>
-</div>
-</div>
-</div>
-<p>When embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, <code>chapter4_example_u-net.ipynb</code>. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.</p>
+</section>
+<section id="sec-traditional-restoration" class="level3" data-number="6.1.2">
+<h3 data-number="6.1.2" class="anchored" data-anchor-id="sec-traditional-restoration"><span class="header-section-number">6.1.2</span> Image Restoration with Traditional Approaches</h3>
+<p>Traditional microscopy image restoration techniques use mathematical modeling of the imaging model and statistical analyses that attempt to reverse or mitigate image degradations, and/or additional microscope hardware. We find it helpful to categorize image restoration into four main areas: denoising, deconvolution, deaberration, and resolution enhancement.</p>
+<section id="denoising" class="level4" data-number="6.1.2.1">
+<h4 data-number="6.1.2.1" class="anchored" data-anchor-id="denoising"><span class="header-section-number">6.1.2.1</span> Denoising</h4>
+<p>Traditional denoising methods try to remove noise while preserving important features such as edges and fine structures. Many denoising algorithms assume Gaussian noise, for computational tractability. Gaussian noise removal can be achieved by filtering-based methods in the <a href="./glossary.html#spatial-domain">spatial</a> or <a href="./glossary.html#frequency-domain">frequency domain</a>, such as Gaussian filtering, mean filtering, wavelet filtering, bilateral filtering<span class="citation" data-cites="Venkatesh2015"><sup><a href="references.html#ref-Venkatesh2015" role="doc-biblioref">9</a></sup></span>, and non-local-based BM3D<span class="citation" data-cites="Danielyan2014"><sup><a href="references.html#ref-Danielyan2014" role="doc-biblioref">10</a></sup></span>. Simple linear filters are easy to implement, but they cause a loss in high-frequency information. Complex denoising methods require careful parameter design and are usually computationally intensive. In many cases, the Gaussian noise model provides a good approximation, but Poisson noise is also a key source of noise for fluorescence microscopy given the quantized nature of fluorescence emission, especially under low signal conditions when detector noise is minimal. One method for dealing with Poisson noise<span class="citation" data-cites="Zhang2019"><sup><a href="references.html#ref-Zhang2019" role="doc-biblioref">11</a></sup></span> directly incorporates its statistics, e.g.&nbsp;the PURE-LET method<span class="citation" data-cites="Li2017"><sup><a href="references.html#ref-Li2017" role="doc-biblioref">12</a></sup></span>. Alternatively, a nonlinear variance-stabilizing transformation (VST)<span class="citation" data-cites="Makitalo2013"><sup><a href="references.html#ref-Makitalo2013" role="doc-biblioref">13</a></sup></span> can be used to convert the Poisson denoising problem into a Gaussian denoising problem. There are several free and open-source resources available for microscopy image denoising, including filters and the PureDeNoise<span class="citation" data-cites="Luisier2010"><sup><a href="references.html#ref-Luisier2010" role="doc-biblioref">14</a></sup></span> plugin in ImageJ/<a href="./glossary.html#fiji">Fiji</a>, and the scikit-image library in Python<span class="citation" data-cites="Van_der_Walt2014"><sup><a href="references.html#ref-Van_der_Walt2014" role="doc-biblioref">15</a></sup></span>.</p>
+</section>
+<section id="deconvolution" class="level4" data-number="6.1.2.2">
+<h4 data-number="6.1.2.2" class="anchored" data-anchor-id="deconvolution"><span class="header-section-number">6.1.2.2</span> Deconvolution</h4>
+<p>Deconvolution is the process of reversing optical blur introduced by the PSF of the microscope (<span class="math inline">\(f(\phi)\)</span> in <a href="#fig-image-degredation" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>) and is most often implemented without considering optical aberrations. It improves effective contrast and resolution by accounting for such blur and reassigning the relevant signal to its most likely location, given the blurring and noise models. Traditional deconvolution methods include frequency-domain algorithms like naive inverse filtering and Wiener filtering<span class="citation" data-cites="Wiener1949 Gonzalez2008"><sup><a href="references.html#ref-Wiener1949" role="doc-biblioref">16</a>,<a href="references.html#ref-Gonzalez2008" role="doc-biblioref">17</a></sup></span>, optimization-based algorithms like Tikhonov regularization<span class="citation" data-cites="Tikhonov1963"><sup><a href="references.html#ref-Tikhonov1963" role="doc-biblioref">18</a></sup></span>, and iterative deconvolution methods like the Tikhonov-Miller algorithm<span class="citation" data-cites="Miller1970"><sup><a href="references.html#ref-Miller1970" role="doc-biblioref">19</a></sup></span>, fast iterative soft-thresholding algorithm<span class="citation" data-cites="Beck2009"><sup><a href="references.html#ref-Beck2009" role="doc-biblioref">20</a></sup></span>, and Richardson-Lucy deconvolution<span class="citation" data-cites="Lucy1974 Richardson1972"><sup><a href="references.html#ref-Lucy1974" role="doc-biblioref">21</a>,<a href="references.html#ref-Richardson1972" role="doc-biblioref">22</a></sup></span>. Traditional deconvolution methods can require significant computational resources, especially for large datasets with complex blurring functions, and also can amplify noise<span class="citation" data-cites="Sarder2006 Goodwin2014 Guo2020"><sup><a href="references.html#ref-Sarder2006" role="doc-biblioref">23</a>–<a href="references.html#ref-Guo2020" role="doc-biblioref">25</a></sup></span>. Commercial deconvolution software includes Huygens, DeltaVison Deconvolution, and AutoQuant. There are also open-source deconvolution plugins integrated into Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">26</a></sup></span> (e.g., DeconvolutionLab2<span class="citation" data-cites="Sage2017"><sup><a href="references.html#ref-Sage2017" role="doc-biblioref">27</a></sup></span>) or MIPAV<span class="citation" data-cites="Bazin2007"><sup><a href="references.html#ref-Bazin2007" role="doc-biblioref">28</a></sup></span> (Medical Image Processing, Analysis, and Visualization, https://mipav.cit.nih.gov/) programs.</p>
+</section>
+<section id="deaberration" class="level4" data-number="6.1.2.3">
+<h4 data-number="6.1.2.3" class="anchored" data-anchor-id="deaberration"><span class="header-section-number">6.1.2.3</span> Deaberration</h4>
+<p>Aberrations refer to the optical imperfections or distortions that occur during image acquisition, degrading the quality of the captured image. Such aberrations can arise due to optical path length differences introduced anywhere in the imaging path, including instrument misalignment, optical imperfections, or differences in refractive index between the heterogeneous and refractile sample, immersion media, and/or objective immersion oil. Aberrations significantly alter the wavefront of light. When the wavefront is distorted, the light rays that are focused by the microscope do not converge as they ideally should. This distortion can lead to various image quality issues, such as loss of resolution, and distortion of fine features. Adaptive optics<span class="citation" data-cites="Ji2017 Booth1861"><sup><a href="references.html#ref-Ji2017" role="doc-biblioref">6</a>,<a href="references.html#ref-Booth1861" role="doc-biblioref">29</a></sup></span> can mitigate aberrations by measuring wavefront distortions and subsequently compensating for them using a deformable mirror or other optical elements. However, implementing AO is nontrivial, often requiring additional control algorithms and new hardware, adding considerable expense to the underlying microscope.</p>
+</section>
+<section id="resolution-enhancement" class="level4" data-number="6.1.2.4">
+<h4 data-number="6.1.2.4" class="anchored" data-anchor-id="resolution-enhancement"><span class="header-section-number">6.1.2.4</span> Resolution Enhancement</h4>
+<p>Optical super-resolution techniques, like STED, PALM, SIM, etc., bypass the diffraction limit by utilizing on/off fluorophore state transitions<span class="citation" data-cites="Hell2007"><sup><a href="references.html#ref-Hell2007" role="doc-biblioref">30</a></sup></span>, sophisticated hardware designs, and/or image reconstruction algorithms<span class="citation" data-cites="Sahl2017 Vicidomini2018 Wu2018"><sup><a href="references.html#ref-Sahl2017" role="doc-biblioref">4</a>,<a href="references.html#ref-Vicidomini2018" role="doc-biblioref">31</a>,<a href="references.html#ref-Wu2018" role="doc-biblioref">32</a></sup></span>. Alternatively, physical expansion of the sample can be used with conventional microscopes<span class="citation" data-cites="Chen2015 Wassie2019"><sup><a href="references.html#ref-Chen2015" role="doc-biblioref">33</a>,<a href="references.html#ref-Wassie2019" role="doc-biblioref">34</a></sup></span>. While effective, all these methods present some tradeoff for the gain in spatial resolution, including increased acquisition time, additional illumination dose, specially designed probes, or more complex instrumentation<span class="citation" data-cites="Valli2021 Chen2024"><sup><a href="references.html#ref-Valli2021" role="doc-biblioref">35</a>,<a href="references.html#ref-Chen2024" role="doc-biblioref">36</a></sup></span>.</p>
+</section>
+<section id="drawbacks" class="level4" data-number="6.1.2.5">
+<h4 data-number="6.1.2.5" class="anchored" data-anchor-id="drawbacks"><span class="header-section-number">6.1.2.5</span> Drawbacks</h4>
+<p>Although traditional image restoration algorithms are used extensively in all these categories, they suffer several drawbacks. For example, many methods require careful and manual parameter tuning, and they often perform poorly in challenging conditions, such as in the presence of high noise, low contrast, defocus, or complex background. This is often because they are based on idealized assumptions (<a href="#eq-image_restoration" class="quarto-xref">Equation&nbsp;<span>6.1</span></a>), which are often not met in practice. Another limitation of traditional restoration methods is that they are generally ‘content unaware’ and do not use sample-specific prior information (e.g., shape, size, intensity distributions). On the one hand, this means that traditional algorithms generalize well, but on the other hand, they are not as performant as newer deep learning methods. Deep learning methods can learn a task such as denoising from the data themselves or provide a sample-specific prior<span class="citation" data-cites="Hagen2021"><sup><a href="references.html#ref-Hagen2021" role="doc-biblioref">37</a></sup></span>, and thus can outperform traditional methods in many cases.</p>
 </section>
 </section>
-<section id="quarto-has-additional-features." class="level2" data-number="6.5">
-<h2 data-number="6.5" class="anchored" data-anchor-id="quarto-has-additional-features."><span class="header-section-number">6.5</span> Quarto has additional features.</h2>
-<p>You can learn more about markdown options and additional Quarto features in the <a href="https://quarto.org/docs/authoring/markdown-basics.html">Quarto documentation</a>. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.</p>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="image-restoration-with-deep-learning-based-approaches" class="level3" data-number="6.1.3">
+<h3 data-number="6.1.3" class="anchored" data-anchor-id="image-restoration-with-deep-learning-based-approaches"><span class="header-section-number">6.1.3</span> Image Restoration with Deep Learning-Based Approaches</h3>
+<p>Artificial intelligence (AI), particularly deep learning, has achieved remarkable progress in recent years, leading to breakthroughs in image restoration tasks. Deep learning uses artificial neural networks with multiple layers to model and learn complex patterns in data through end-to-end training, eliminating the need for handcrafted features or manual parameter tuning. By leveraging large datasets and computational power, deep learning can capture non-linear relationships and subtle details within image data, making it particularly well-suited for image restoration. Techniques such as convolutional neural networks (<a href="./glossary.html#convolutional-neural-networks-CNNs">CNNs</a>), generative adversarial networks (<a href="./glossary.html#genrative-adversarial-networks-gans">GANs</a>), <a href="./glossary.html#autoencoder">autoencoders</a>, and <a href="./glossary.html#transfer-learning">transfer learning</a> have been shown to tackle applications in denoising, deblurring, super-resolution, and deaberration. Recent advances, such as content-aware restoration (<a href="./glossary.html#care-content-aware-image-restoration">CARE</a>)<span class="citation" data-cites="Weigert2018"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a></sup></span>, residual channel attention networks (<a href="./glossary.html#rcan-residual-channel-attention-network">RCANs</a>)<span class="citation" data-cites="Chen2021"><sup><a href="references.html#ref-Chen2021" role="doc-biblioref">39</a></sup></span>, and deep Fourier-based models<span class="citation" data-cites="Qiao2021"><sup><a href="references.html#ref-Qiao2021" role="doc-biblioref">40</a></sup></span>, have demonstrated improvements in image quality while reducing phototoxicity and photobleaching during acquisition. These models offer several advantages over more traditional methods of image restoration:</p>
+<ul>
+<li><p><strong>Automatic Feature Learning</strong>: Traditional image restoration methods rely heavily on manually designed features (e.g., regularization selection) and parameter tuning, which often require fine adjustments for different types of images. Deep learning models, on the other hand, can automatically learn features from large datasets, eliminating the need for manual intervention. This significantly reduces the complexity of parameter tuning and makes the models more adaptable to complex samples or tasks.</p></li>
+<li><p><strong>Strong Non-Linear Modeling Capabilities</strong>: Traditional algorithms are often based on linear image degradation models (<a href="#eq-image_restoration" class="quarto-xref">Equation&nbsp;<span>6.1</span></a>), which ignore sample-specific information and perform poorly in the presence of complex image distortions or noise. However, recovering the object structure from the acquired image is an inherently ill-posed and <a href="./glossary.html#nonlinear-problem">nonlinear problem</a> due to noise and blurring. Deep learning uses nonlinear activation functions (<a href="./glossary.html#relu">ReLU</a>, <a href="./glossary.html#sigmoid-function">sigmoid</a>) and hierarchical layers to approximate complex relationships in the image data. Thus, deep learning can better model the global context of an image, allowing for more accurate restoration of image details under challenging and suboptimal imaging conditions. This can extend the use of existing hardware beyond its original use to new biological questions that were previously inaccessible.</p></li>
+<li><p><strong>Efficient Handling of Complex Scenes</strong>: Deep learning models are typically trained on large datasets and are capable of handling complex scenes (e.g., images contaminated with noise and aberrations<span class="citation" data-cites="Hou2025"><sup><a href="references.html#ref-Hou2025" role="doc-biblioref">41</a></sup></span>) and large-scale data (e.g., GB- or TB-scale time-lapse data). Once a model is trained, it can automatically adapt to new input data with similar acquisition parameters, which makes it much more efficient for large-scale image restoration tasks.</p></li>
+</ul>
+<p>As deep learning models continue to evolve and integrate with advanced microscopy hardware and large datasets, they are expected to further push the boundaries of biological imaging and discovery. In the next section, we will introduce the application of deep learning methods in different image restoration tasks.</p>
+</section>
+</section>
+<section id="deep-learning-based-techniques-for-image-restoration" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="deep-learning-based-techniques-for-image-restoration"><span class="header-section-number">6.2</span> Deep Learning-Based Techniques for Image Restoration</h2>
+<p>Following the convention from <a href="#sec-traditional-restoration" class="quarto-xref"><span>Section 6.1.2</span></a>, we group AI-based restoration into four broad categories.</p>
+<section id="denoising-1" class="level3" data-number="6.2.1">
+<h3 data-number="6.2.1" class="anchored" data-anchor-id="denoising-1"><span class="header-section-number">6.2.1</span> Denoising</h3>
+<p>Traditional denoising techniques struggle to preserve fine details while removing noise<span class="citation" data-cites="Qiao2021 Zhang2017 Dabov2007"><sup><a href="references.html#ref-Qiao2021" role="doc-biblioref">40</a>,<a href="references.html#ref-Zhang2017" role="doc-biblioref">42</a>,<a href="references.html#ref-Dabov2007" role="doc-biblioref">43</a></sup></span>. Deep learning-based methods, on the other hand, can learn to predict what fine details look like even in the presence of noise. Such methods can be generally divided into <a href="./glossary.html#supervised-learning">supervised learning</a> and <a href="./glossary.html#self-supervised-learning">self-supervised learning</a> (<a href="#fig-denoising-methods" class="quarto-xref">Figure&nbsp;<span>6.2</span></a>). Supervised learning methods require a large number of paired datasets of noisy and clean images for training. These datasets can be obtained by tuning illumination intensity and/or exposure time during image acquisition: when imaging with high intensity or longer exposure time, high-SNR clean images can be collected; otherwise, noisy images are collected. Training a supervised deep learning method on these data results in a mapping between noisy and clean images. When sufficient training data is available, these methods can provide very high-quality restoration on noisy data unseen by the network in the training process. However, paired datasets can be difficult to obtain in some microscopy settings (e.g., live-cell imaging). Typical denoising networks include U-Net-based Content-aware image restoration (CARE)<span class="citation" data-cites="Weigert2018"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a></sup></span> and attention-based residual channel attention networks (RCAN)<span class="citation" data-cites="Chen2021"><sup><a href="references.html#ref-Chen2021" role="doc-biblioref">39</a></sup></span>.</p>
+<p>Self-supervised learning methods do not require paired noisy and clean images. Instead, only noisy images are needed for training. They exploit the inherent structure of the data, learning to predict parts of the image using information gleaned from other parts. Typical self-supervised methods include Noise2Void (<a href="./glossary.html#n2v-noise2void">N2V</a>)<span class="citation" data-cites="Krull2019"><sup><a href="references.html#ref-Krull2019" role="doc-biblioref">44</a></sup></span> and Noise2Self (<a href="./glossary.html#n2s-noise2self">N2S</a>)<span class="citation" data-cites="Batson2019"><sup><a href="references.html#ref-Batson2019" role="doc-biblioref">45</a></sup></span>. The key idea underlying N2V and N2S is that pixels from clean images are often highly correlated, i.e., nearby pixels usually look similar and follow predictable patterns. For example, neighboring pixels could show smooth gradients in image texture. However, many noise sources are are randomly correlated in space, particularly across large areas. So by selecting a suitable mechanism, noise and signal can be separated properly. In N2V, missing pixels are randomly masked in the noisy input image and the network is then trained to predict the value of the missing pixel using the surrounding noisy pixels. In N2S, instead of masking the noisy image entirely, local patches are used, and the network is trained to predict the value of the noisy pixel from its neighbors. While self-supervised methods can be effective, they often do not perform as well as supervised methods when the sample or noise distribution is complex. These methods nevertheless are quite useful when paired noisy-clean images are difficult or impossible to obtain.</p>
+<p>Noise2Noise (<a href="./glossary.html#n2n-noise2noise">N2N</a>)<span class="citation" data-cites="Lehtinen2018"><sup><a href="references.html#ref-Lehtinen2018" role="doc-biblioref">46</a></sup></span> represents another kind of supervised training. It trains the model using two noisy images (A and B), where both images contain the same underlying clean signal. Essentially, it learns to map noisy image A to noisy image B. Since both images share the same clean signal beneath the noise, the network can learn to recover the underlying clean image. This method still relies on paired data as supervision, but the supervision signal comes from another noisy image rather than a traditional clean image.</p>
+<div id="fig-denoising-methods" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-denoising-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/image2.png" class="img-fluid figure-img">
 </div>
-<div class="callout-title-container flex-fill">
-Note
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-denoising-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.2: <strong>Different denoising methods for microscopy images.</strong> (a) Supervised denoising methods<span class="citation" data-cites="Weigert2018 Chen2021"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a>,<a href="references.html#ref-Chen2021" role="doc-biblioref">39</a></sup></span>, train a neural network using paired noisy and high-SNR images. (b) In self-supervised methods<span class="citation" data-cites="Krull2019 Batson2019"><sup><a href="references.html#ref-Krull2019" role="doc-biblioref">44</a>,<a href="references.html#ref-Batson2019" role="doc-biblioref">45</a></sup></span>, a portion of the image is masked (blind spots or black pixels in yellow and red subregions) for training, removing the need for explicit high-SNR images. (c) The Noise2Noise network<span class="citation" data-cites="Lehtinen2018"><sup><a href="references.html#ref-Lehtinen2018" role="doc-biblioref">46</a></sup></span> is another form of supervised training, whereby the network is trained with a set of noisy images of the same underlying sample.
+</figcaption>
+</figure>
 </div>
+</section>
+<section id="deconvolution-1" class="level3" data-number="6.2.2">
+<h3 data-number="6.2.2" class="anchored" data-anchor-id="deconvolution-1"><span class="header-section-number">6.2.2</span> Deconvolution</h3>
+<p>Deconvolution has long relied on iterative algorithms like the Richardson-Lucy method. Recent advances in deep learning (DL) have revolutionized this task, offering high speed and in some cases even more accurate predictions than traditional methods<span class="citation" data-cites="Li2022"><sup><a href="references.html#ref-Li2022" role="doc-biblioref">47</a></sup></span>. Deep learning deconvolution methods can be divided into two categories: purely data-driven learning and physics-informed learning (<a href="#fig-decon-methods" class="quarto-xref">Figure&nbsp;<span>6.3</span></a>).</p>
+<p>In the data-driven approach, training is conducted similarly to supervised denoising methods. The raw images are the low-quality blurred acquisitions; the high-quality reference can be the results of traditional restoration (e.g., multi-view jointly deconvolved results, or high SNR deconvolved results). Models like CARE, RCAN, and DenseDeconNet<span class="citation" data-cites="Guo2020"><sup><a href="references.html#ref-Guo2020" role="doc-biblioref">25</a></sup></span> can be used for deconvolution. Once trained, such data-driven deconvolution generally enables more rapid deconvolution than traditional methods. However, these methods are content-aware and depend heavily on high-quality paired training data. This criterion may introduce artifacts and affect how well the network generalizes.</p>
+<p>Physics-informed methods integrate domain knowledge—such as the microscope’s point spread function (PSF), and image formation models—into the network architecture or loss functions. For example, the Richardson-Lucy Network (RLN)<span class="citation" data-cites="Li2022"><sup><a href="references.html#ref-Li2022" role="doc-biblioref">47</a></sup></span> embeds Richardson-Lucy iterations within a convolutional network, creating a hybrid method that leverages classical knowledge and data-driven deep learning. MultiWienerNet uses multiple differentiable Wiener filters paired with a convolutional neural network, exploiting the knowledge of the system’s spatially varying PSF to quickly perform 2D and 3D reconstruction, achieving good results on spatially varying deconvolution tasks<span class="citation" data-cites="Yanny2022"><sup><a href="references.html#ref-Yanny2022" role="doc-biblioref">48</a></sup></span>. Physics-informed methods can also improve interpretability and reliability and may reduce the demand for experimental training data by leveraging synthetic data generated from optical models.</p>
+<div id="fig-decon-methods" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-decon-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/image3.png" class="img-fluid figure-img">
 </div>
-<div class="callout-body-container callout-body">
-<p>Note that there are five types of callouts, including: <code>note</code>, <code>tip</code>, <code>warning</code>, <code>caution</code>, and <code>important</code>. They can default to open (like this example) or collapsed (example below).</p>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-decon-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.3: <strong>Different Deep Learning-Based Methods for Deconvolution in Microscopy Images.</strong> (a) Data-driven based deconvolution methods<span class="citation" data-cites="Guo2020 Weigert2018"><sup><a href="references.html#ref-Guo2020" role="doc-biblioref">25</a>,<a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a></sup></span>, where a neural network is trained using only a large-set of paired raw data and ground truth (GT, e.g., joint deconvolution of multiview data) . (b) Physics-informed deconvolution<span class="citation" data-cites="Li2022 Yanny2022"><sup><a href="references.html#ref-Li2022" role="doc-biblioref">47</a>,<a href="references.html#ref-Yanny2022" role="doc-biblioref">48</a></sup></span>, whereby a neural network is trained using not only paired datasets but also incorporatesprior physical knowledge, such as embedding the image formation function in the loss function and/or the Richardson-Lucy framework or Wiener filtering in the network architecture.
+</figcaption>
+</figure>
 </div>
+</section>
+<section id="deaberration-1" class="level3" data-number="6.2.3">
+<h3 data-number="6.2.3" class="anchored" data-anchor-id="deaberration-1"><span class="header-section-number">6.2.3</span> Deaberration</h3>
+<p>Deaberration addresses image degradation caused by optical distortions due to refractive index mismatches in biological samples or imperfections in the optical system. These aberrations degrade image quality, particularly in thick or scattering samples. Recent advances in deep learning have introduced powerful alternatives to traditional AO for both explicit wavefront estimation and the prediction of cleaner images in which aberrations are suppressed (<a href="#fig-aberration-correction" class="quarto-xref">Figure&nbsp;<span>6.4</span></a>).</p>
+<p>Initial efforts focused on estimating the distorted wavefronts with AI, followed by explicit wavefront correction with hardware (e.g., a deformable mirror, or SLM) to obtain a clean image. The wavefront aberration can be decomposed as a sum of <a href="./glossary.html#zernike-modes">Zernike polynomials</a>. The problem of wavefront estimation then becomes inferring the amplitudes of different Zernike polynomials<span class="citation" data-cites="Saha2020"><sup><a href="references.html#ref-Saha2020" role="doc-biblioref">49</a></sup></span>. This approach combines the strengths of traditional AO with artificial intelligence<span class="citation" data-cites="Kang2024 Kang2024.10.20.619284 Fersini2025"><sup><a href="references.html#ref-Kang2024" role="doc-biblioref">50</a>–<a href="references.html#ref-Fersini2025" role="doc-biblioref">52</a></sup></span>. Following the concept of deconvolution, researchers have also used deep learning to predict the aberrated wavefronts or blurring kernels (aberrated PSFs), also combining this information with post-processing deconvolution algorithms for image restoration<span class="citation" data-cites="Zhou2023 Qiao2024"><sup><a href="references.html#ref-Zhou2023" role="doc-biblioref">53</a>,<a href="references.html#ref-Qiao2024" role="doc-biblioref">54</a></sup></span>.</p>
+<p>In contrast to explicit wavefront prediction, other efforts have trained neural networks directly on paired aberrated and corrected images<span class="citation" data-cites="guo_deep_2025 Hu2021"><sup><a href="references.html#ref-guo_deep_2025" role="doc-biblioref">55</a>,<a href="references.html#ref-Hu2021" role="doc-biblioref">56</a></sup></span>. These models are designed to learn the mapping between aberrated and corrected images, enabling aberration correction as a purely computational post-processing step. This approach eliminates the need for hardware-based wavefront sensing or correction, making it a practical and scalable solution for many microscopy applications. More recently, a unified deep learning framework for simultaneous denoising and deaberration in fluorescence microscopy has also been developed<span class="citation" data-cites="Hou2025"><sup><a href="references.html#ref-Hou2025" role="doc-biblioref">41</a></sup></span>. By addressing both noise and aberrations in a single model, this approach simplifies the image restoration pipeline while delivering high-quality results, highlighting the potential of multitask models to streamline microscopy workflows.</p>
+<div id="fig-aberration-correction" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aberration-correction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/image4.png" class="img-fluid figure-img">
 </div>
-<div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aberration-correction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.4: <strong>Different Deep Learning-Based Methods for Aberration Correction in Microscopy Images.</strong> (a) A method where the network is configured to learn the distorted wavefront (using a sparse representation of Zernike coefficients)<span class="citation" data-cites="Kang2024 Kang2024.10.20.619284 Fersini2025"><sup><a href="references.html#ref-Kang2024" role="doc-biblioref">50</a>–<a href="references.html#ref-Fersini2025" role="doc-biblioref">52</a></sup></span>. The trained network is then used to predict wavefront distortions (in terms of Zernike coefficients) for a new dataset, followed by hardware-based correction using an adaptive optics (AO) system (e.g., a deformable mirror). (b) A method where the network is configured to learn the aberrated Point Spread Function (PSF)<span class="citation" data-cites="Zhou2023 Qiao2024"><sup><a href="references.html#ref-Zhou2023" role="doc-biblioref">53</a>,<a href="references.html#ref-Qiao2024" role="doc-biblioref">54</a></sup></span>. The trained network is then used to predict the aberrated PSF corresponding to a new dataset, and a second step of image deconvolution is applied with the predicted PSF to remove aberrations from raw images. (c) A method where a neural network learns the mapping between aberrated and corrected images directly for post-processing aberration correction<span class="citation" data-cites="guo_deep_2025 Hu2021"><sup><a href="references.html#ref-guo_deep_2025" role="doc-biblioref">55</a>,<a href="references.html#ref-Hu2021" role="doc-biblioref">56</a></sup></span>. The trained network is then used to directly predict the deaberrated image corresponding to a new dataset.
+</figcaption>
+</figure>
 </div>
-<div class="callout-title-container flex-fill">
-Tip
+</section>
+<section id="resolution-enhancement-1" class="level3" data-number="6.2.4">
+<h3 data-number="6.2.4" class="anchored" data-anchor-id="resolution-enhancement-1"><span class="header-section-number">6.2.4</span> Resolution Enhancement</h3>
+<p>The spatial resolution of optical microscopy is fundamentally limited by the diffraction of light, a barrier described by Abbe’s law. Deep learning methods can learn to predict what a higher resolution image might look like, given lower resolution input data (<a href="#fig-resolution-enhancement" class="quarto-xref">Figure&nbsp;<span>6.5</span></a>). Such methods use artificial neural networks to infer high-resolution (HR) details from low-resolution (LR) fluorescence images, which can offer a sharper image without the need for super-resolution microscopes. Cross-modality super-resolution (CMSR) refers to a class of techniques that use information from different imaging modalities to enhance resolution. Models such as CNNs and GANs are trained to learn the mapping between these modalities. For example, researchers can use super-resolution (e.g., STED) images to enhance diffraction-limited (e.g., confocal) images<span class="citation" data-cites="Wang2019"><sup><a href="references.html#ref-Wang2019" role="doc-biblioref">57</a></sup></span>; or use models trained on expansion microscopy data to predict super-resolution images from diffraction-limited inputs. Fourier-based approaches (e.g.&nbsp;DFCAN<span class="citation" data-cites="Qiao2021"><sup><a href="references.html#ref-Qiao2021" role="doc-biblioref">40</a></sup></span>) leverage the frequency content difference across distinct features in the Fourier domain to enable the networks to learn the hierarchical representations of high-frequency information efficiently. While powerful, we note that these resolution enhancement methods offer a prediction at best and cannot truly retrieve higher resolution information absent in the low-resolution input data.</p>
+<p>Another resolution enhancement task is the prediction of isotropic resolution from blurry axial views. The majority of fluorescence microscopy techniques, including most widefield, confocal, and light-sheet microscopes, suffer from unmatched resolution in the lateral and axial directions (i.e., resolution anisotropy), which severely deteriorates the quality, reconstruction, and analysis of 3D images. Deep learning models can be trained to predict and fill in the missing information in the z-direction using the higher lateral resolution view and knowledge of the anisotropic PSF, effectively making the resolution more uniform across the entire image<span class="citation" data-cites="Park2022 Ning2023"><sup><a href="references.html#ref-Park2022" role="doc-biblioref">58</a>,<a href="references.html#ref-Ning2023" role="doc-biblioref">59</a></sup></span>.</p>
+<div id="fig-resolution-enhancement" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-resolution-enhancement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/image3.png" class="img-fluid figure-img">
 </div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resolution-enhancement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain networks.</strong> (a) Cross-modality super resolution<span class="citation" data-cites="Chen2021 Wang2019"><sup><a href="references.html#ref-Chen2021" role="doc-biblioref">39</a>,<a href="references.html#ref-Wang2019" role="doc-biblioref">57</a></sup></span>. Top row: the method takes diffraction-limited data (e.g., confocal microscopy data) as input and super-resolved data (e.g., STED microscopy data or expansion microscopy data) as ground truth. By training a neural network with paired datasets, the network parameters are updated based on the loss between the network’s output and the ground truth, thereby achieving a mapping from the low-resolution domain to the high-resolution domain. Bottom row: similar cross-modality learning can also be adapted using expansion microscopy as the ground truth. The red and yellow arrows highlight improvements in lateral and axial slices due to the restoration process. By ‘digital expansion’, we mean the super-resolution prediction based on expansion microscopy ground truth. (b) Axial resolution enhancement<span class="citation" data-cites="Park2022 Ning2023"><sup><a href="references.html#ref-Park2022" role="doc-biblioref">58</a>,<a href="references.html#ref-Ning2023" role="doc-biblioref">59</a></sup></span>. The method uses datasets composed of low-resolution axial slices (sometimes synthesized from higher resolution lateral views<span class="citation" data-cites="Weigert2018"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a></sup></span>) and high-resolution lateral slices, employing a one-step<span class="citation" data-cites="Park2022"><sup><a href="references.html#ref-Park2022" role="doc-biblioref">58</a></sup></span> or two-step<span class="citation" data-cites="Ning2023"><sup><a href="references.html#ref-Ning2023" role="doc-biblioref">59</a></sup></span> framework to learn the mapping from the low-resolution domain to the high-resolution domain, thus achieving axial resolution enhancement for fluorescence microscopy 3D stack data.
+</figcaption>
+</figure>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>These could be good for extra material or exercises.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Caution
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>There are caveats when applying these tools. Expand the code below to learn more.</p>
-<div id="903ea3cb" class="cell" data-execution_count="4">
-<details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">0.01</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</details>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Be careful to avoid hallucinations.</p>
-</div>
-</div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>This is key information.</p>
-</div>
-</div>
+</section>
+</section>
+<section id="practical-guidelines-for-image-restoration" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="practical-guidelines-for-image-restoration"><span class="header-section-number">6.3</span> Practical Guidelines for Image Restoration</h2>
+<p>For researchers new to deep learning-based image restoration, successfully applying deep learning to image restoration requires careful preparation and a clear understanding of basic concepts. Here we briefly describe practical guidelines to help you get started with using deep learning for image restoration, from data preparation to model deployment. A step-by-step manual for different image restoration tasks (i.e., denoising, deconvolution, deaberration, and resolution enhancement) using RCAN is provided in <a href="6-image-restoration-appendix.html" class="quarto-xref"><span>Appendix A</span></a>.</p>
+<section id="considerations-for-dataset-preparation" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="considerations-for-dataset-preparation"><span class="header-section-number">6.3.1</span> Considerations for Dataset Preparation</h3>
+<p><strong>Microscope Compatibility</strong>: Ensure images are captured with consistent settings (e.g., exposure time, magnification). Common sources include confocal, widefield, light-sheet, or super-resolution microscopes.</p>
+<p><strong>Paired vs.&nbsp;Unpaired Data</strong>: Paired data (low-quality – high-quality pairs) is ideal for supervised learning. Acquire paired datasets of degraded and high-quality images for supervised training. In contrast, unpaired data is typically used for for self-supervised methods (e.g., Noise2Noise). For unsupervised methods, collecting degraded images with varying conditions (e.g, different noise levels) helps the model generalize better across different conditions.</p>
+<p><strong>Training Data Size</strong>: According to the size of the acquired data, start with at least dozens of datasets of size 128×128 for 2D and 128×128×128 for 3D. Augmentation with rotations, flips, and noise injections can expand your training dataset (see also Chapter 5).</p>
+</section>
+<section id="choosing-a-network-architecture" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="choosing-a-network-architecture"><span class="header-section-number">6.3.2</span> Choosing a Network Architecture</h3>
+<p>The choice of network architecture can play an important role when performing image restoration (see also Chapter 4). Here are some popular architectures used for this purpose:</p>
+<ul>
+<li><p>Convolutional Neural Networks (CNNs): CNNs are currently commonly used because they are highly effective at capturing spatial features in images. For example, you can use U-Net<span class="citation" data-cites="Ronneberger2015"><sup><a href="references.html#ref-Ronneberger2015" role="doc-biblioref">60</a></sup></span>, a popular CNN architecture designed for image segmentation that is also well-suited for restoration tasks.</p></li>
+<li><p>Generative Adversarial Networks (GANs): GANs can be used for tasks like image generation or synthesis (e.g., resolution enhancement), where the goal is to generate realistic images from degraded inputs. GANs consist of two networks: a generator (which creates images) and a discriminator (which evaluates the quality of the generated images).</p></li>
+<li><p>Autoencoders: These are unsupervised learning models that can be used for denoising, inpainting, and compression. Autoencoders consist of an encoder and a decoder that map input data into a lower-dimensional representation and then reconstruct it.</p></li>
+<li><p>Choose or design networks (e.g., CARE, Noise2Void), or even start with pre-trained models for faster deployment.</p></li>
+</ul>
+</section>
+<section id="training" class="level3" data-number="6.3.3">
+<h3 data-number="6.3.3" class="anchored" data-anchor-id="training"><span class="header-section-number">6.3.3</span> Training</h3>
+<p>Once you have your data, hardware, and software environment and have chosen a model architecture, it’s time to train the model (see also Chapter 9). Training involves feeding the model the degraded images and their corresponding high-quality <a href="./glossary.html#ground-truth">ground truth</a> and then updating the model weights to minimize the difference between the restored and the ground truth images.</p>
+<p><strong>Loss Functions</strong>: Common loss functions for image restoration include mean squared error (MSE), structural similarity index (SSIM), and perceptual loss, which helps preserve perceptually important image details.</p>
+<p><strong>Optimization</strong>: Use optimizers like Adam or SGD (Stochastic Gradient Descent) to update the model’s parameters during training.</p>
+<p>Training deep learning models can take a significant amount of time, depending on the size of the dataset, the complexity of the model, and the hardware you use. You can use techniques like early stopping<span class="citation" data-cites="Ji2021"><sup><a href="references.html#ref-Ji2021" role="doc-biblioref">61</a></sup></span> to avoid overfitting and ensure the model is trained for an optimal number of epochs<span class="citation" data-cites="Santos2022 Miseta2024"><sup><a href="references.html#ref-Santos2022" role="doc-biblioref">62</a>,<a href="references.html#ref-Miseta2024" role="doc-biblioref">63</a></sup></span>.</p>
+</section>
+<section id="validation-and-deployment" class="level3" data-number="6.3.4">
+<h3 data-number="6.3.4" class="anchored" data-anchor-id="validation-and-deployment"><span class="header-section-number">6.3.4</span> Validation and Deployment</h3>
+<p>After training, it’s important to evaluate your model’s performance (see also Chapter 10). This can be done by testing it on a separate validation set (with ground truth reference) or test set (without ground truth) that wasn’t used during training.</p>
+<p>Common evaluation metrics for image restoration include peak signal-to-noise ratio (PSNR), SSIM, and Visual Quality Assessment. These metrics help assess how close the restored images are to the ground truth in terms of quality and structure. Perform biological validation to ensure restored images are artifact-free, such as expert evaluation, cross-validation with alternative techniques, or repeat experiments to evaluate uncertainty.</p>
+<p>If the initial results are not satisfactory, you may need to fine-tune your model. This can involve: adjusting the model architecture (e.g., adding more layers or changing the number of filters); using a different loss function; and fine-tuning hyperparameters like the learning rate.</p>
+<p>Once your model has been trained and evaluated, the next step is deploying it. Depending on the use case, you might deploy it for real-time image restoration or integrate it into a larger image processing pipeline.</p>
+</section>
+</section>
+<section id="limitations-and-future-perspectives" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="limitations-and-future-perspectives"><span class="header-section-number">6.4</span> Limitations and Future Perspectives</h2>
+<p>The integration of artificial intelligence (AI) into fluorescence microscopy image restoration has opened new avenues for biological discovery. However, as the field evolves, critical challenges and opportunities must be navigated carefully. Below, we outline key failure modes, caveats, and emerging trends, including the role of <a href="./glossary.html#transformer-models">transformers</a> and large models, to guide future research.</p>
+<section id="caveats-of-ai-based-image-restoration" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="caveats-of-ai-based-image-restoration"><span class="header-section-number">6.4.1</span> Caveats of AI-based image restoration</h3>
+<p>While AI has made remarkable strides in fluorescence image restoration, there are still failure modes that researchers must be aware of. One potential issue is overfitting, where a model becomes too specialized to the training data and struggles to generalize to unseen data. This can result in poor restoration performance on images that differ from the dataset used for training.</p>
+<p>Additionally, loss of fine details<span class="citation" data-cites="Qiao2021 Shah2024"><sup><a href="references.html#ref-Qiao2021" role="doc-biblioref">40</a>,<a href="references.html#ref-Shah2024" role="doc-biblioref">64</a></sup></span> and artifact generation<span class="citation" data-cites="Zhang2019 Liu2024"><sup><a href="references.html#ref-Zhang2019" role="doc-biblioref">11</a>,<a href="references.html#ref-Liu2024" role="doc-biblioref">65</a></sup></span> remain a concern. Restored images may exhibit blurring, distorted textures, or unrealistic artifacts<span class="citation" data-cites="Bouchard2023"><sup><a href="references.html#ref-Bouchard2023" role="doc-biblioref">66</a></sup></span>, especially in high-resolution regions or when attempting to restore challenging image regions (e.g., dense and overlapping structures<span class="citation" data-cites="Qiao2023"><sup><a href="references.html#ref-Qiao2023" role="doc-biblioref">67</a></sup></span> or highly degraded structures<span class="citation" data-cites="Hou2025"><sup><a href="references.html#ref-Hou2025" role="doc-biblioref">41</a></sup></span>). For example, while doing confocal-to-STED microscopy restoration with RCAN, certain microtubules evident in the STED remain unresolved in the RCAN result, and RCAN prediction for nuclear pores revealed slight differences in pore placement relative to STED ground truth<span class="citation" data-cites="Chen2021"><sup><a href="references.html#ref-Chen2021" role="doc-biblioref">39</a></sup></span>. While denoising fly wing data with CARE, the same networks predicted obviously dissimilar solutions across multiple trained models<span class="citation" data-cites="Weigert2018"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a></sup></span>. During denoising, conflicts between restoring local details and enhancing global smoothing can arise<span class="citation" data-cites="Zhong2021 Osuna-Vargas2025"><sup><a href="references.html#ref-Zhong2021" role="doc-biblioref">68</a>,<a href="references.html#ref-Osuna-Vargas2025" role="doc-biblioref">69</a></sup></span>. Due to AI’s inability to achieve a global understanding of semantic information, stitching artifacts may arise during large-scale data processing involving tiling operations<span class="citation" data-cites="Park2024"><sup><a href="references.html#ref-Park2024" role="doc-biblioref">70</a></sup></span>, resulting in inconsistent intensity, geometry, and textures. These artifacts may not always be immediately noticeable but can significantly affect subsequent analysis and interpretation. Ensuring algorithm robustness across varied datasets and imaging conditions is key to minimizing these issues.</p>
+<p>Deep learning models often operate in a “black-box” manner. This means that while these models can produce useful predictions, the reasoning behind their predictions is not easily interpretable by humans. This lack of transparency and interpretability means researchers might not know exactly how or why certain features in an image are being restored in specific ways. This issue can undermine trust in the model’s results and limit its acceptance in critical applications.</p>
+<p>AI-based image restoration techniques are highly dependent on the quality of training data. For fluorescence images, obtaining high-quality ground truth data can be challenging, especially when using highly specific imaging conditions or performing imaging on rare biological samples. The availability and variability of the resulting data can limit the model’s ability to generalize to diverse datasets.</p>
+<p>Deep learning models can be computationally expensive during training and require powerful hardware for training and inference. This can be a significant barrier for some research labs or organizations with limited access to high-performance computing resources. Researchers need to consider these limitations when planning AI-based restoration projects and balance trade-offs between model complexity, data availability, and computational requirements.</p>
+</section>
+<section id="outlook-for-the-future" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="outlook-for-the-future"><span class="header-section-number">6.4.2</span> Outlook for the Future</h3>
+<p>With advances in transfer learning and self-supervised learning, AI models are likely to become more efficient, requiring less annotated data and computational power. As datasets grow and become more diverse, the dependency on highly specialized ground truth data will be reduced. Moreover, the integration of AI with microscopy platforms in real-time will enhance the ability to process images on the fly, providing immediate feedback to researchers and enabling dynamic imaging of live cells and tissues.</p>
+<p>Newer methods of AI will be developed. Transformer models and large-scale models have shown remarkable success in other domains like natural language processing and computer vision. Transformer architectures, known for their ability to capture long-range dependencies and global context, could significantly improve image restoration tasks by better handling complex, large-scale image structures. Large models—trained on massive datasets—are likely to offer even greater performance, able to generalize across different imaging modalities and restoration tasks. As computational resources continue to expand and more sophisticated models are developed, we can expect these methods to further push the boundaries of image restoration, achieving even finer levels of detail and more accurate reconstruction.</p>
+<p>In conclusion, the future of AI in fluorescence microscopic image restoration is bright. While challenges such as interpretability, data quality, overfitting, and computational demands remain, the field is poised for rapid advances with new architectures and training techniques.</p>
+<!-- ## Quarto has additional features.
+
+You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
+
+::: {.callout-note}
+Note that there are five types of callouts, including:
+`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
+:::
+
+::: {.callout-tip collapse="true"}
+These could be good for extra material or exercises.
+:::
+
+::: {.callout-caution}
+There are caveats when applying these tools. Expand the code below to learn more.
+:::
+
+::: {.callout-warning}
+Be careful to avoid hallucinations.
+:::
+
+::: {.callout-important}
+This is key information.
+:::
+-->
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
-<div id="ref-stringer2021" class="csl-entry" role="listitem">
-<div class="csl-left-margin">1. </div><div class="csl-right-inline">Stringer, C., Wang, T., Michaelos, M. &amp; Pachitariu, M. <a href="https://doi.org/10.1038/s41592-020-01018-x">Cellpose: A generalist algorithm for cellular segmentation</a>. <em>Nature Methods</em> <strong>18</strong>, 100–106 (2021).</div>
+<div id="ref-Wu2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Wu, Y. &amp; Shroff, H. <a href="https://doi.org/10.1007/s00418-022-02147-4">Multiscale fluorescence imaging of living samples</a>. <em>Histochemistry and Cell Biology</em> <strong>158</strong>, 301–323 (2022).</div>
 </div>
-<div id="ref-von_chamier2021" class="csl-entry" role="listitem">
-<div class="csl-left-margin">2. </div><div class="csl-right-inline">Chamier, L. von <em>et al.</em> <a href="https://doi.org/10.1038/s41467-021-22518-0">Democratising deep learning for microscopy with <span>ZeroCostDL4Mic</span></a>. <em>Nature Communications</em> <strong>12</strong>, 2276 (2021).</div>
+<div id="ref-Schermelleh2010" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Schermelleh, L., Heintzmann, R. &amp; Leonhardt, H. <a href="https://doi.org/10.1083/jcb.201002018">A guide to super-resolution fluorescence microscopy</a>. <em>Journal of Cell Biology</em> <strong>190</strong>, 165–175 (2010).</div>
+</div>
+<div id="ref-Archit2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Archit, A. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02580-4">Segment anything for microscopy</a>. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
+</div>
+<div id="ref-Sahl2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Sahl, S. J., Hell, S. W. &amp; Jakobs, S. <a href="https://doi.org/10.1038/nrm.2017.71">Fluorescence nanoscopy in cell biology</a>. <em>Nature Reviews Molecular Cell Biology</em> <strong>18</strong>, 685–701 (2017).</div>
+</div>
+<div id="ref-Schermelleh2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Schermelleh, L. <em>et al.</em> <a href="https://doi.org/10.1038/s41556-018-0251-8">Super-resolution microscopy demystified</a>. <em>Nature Cell Biology</em> <strong>21</strong>, 72–84 (2019).</div>
+</div>
+<div id="ref-Ji2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Ji, N. <a href="https://doi.org/10.1038/nmeth.4218">Adaptive optical fluorescence microscopy</a>. <em>Nature Methods</em> <strong>14</strong>, 374–380 (2017).</div>
+</div>
+<div id="ref-Hampson2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Hampson, K. M. <em>et al.</em> <a href="https://doi.org/10.1038/s43586-021-00066-7">Adaptive optics for high-resolution imaging</a>. <em>Nature Reviews Methods Primers</em> <strong>1</strong>, 68 (2021).</div>
+</div>
+<div id="ref-Shroff2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Shroff, H., Testa, I., Jug, F. &amp; Manley, S. <a href="https://doi.org/10.1038/s41580-024-00702-6">Live-cell imaging powered by computation</a>. <em>Nature Reviews Molecular Cell Biology</em> <strong>25</strong>, 443–463 (2024).</div>
+</div>
+<div id="ref-Venkatesh2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Venkatesh, M., Mohan, K. &amp; Seelamantula, C. S. <a href="https://doi.org/10.1063/1.4930029">Directional bilateral filters for smoothing fluorescence microscopy images</a>. <em>AIP Advances</em> <strong>5</strong>, 084805 (2015).</div>
+</div>
+<div id="ref-Danielyan2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Danielyan, A., Wu, Y.-W., Shih, P.-Y., Dembitskaya, Y. &amp; Semyanov, A. <a href="https://doi.org/10.1016/j.ymeth.2014.03.010">Denoising of two-photon fluorescence images with block-matching 3D filtering</a>. <em>Methods</em> <strong>68</strong>, 308–316 (2014).</div>
+</div>
+<div id="ref-Zhang2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Zhang, Y. <em>et al.</em> A poisson-gaussian denoising dataset with real fluorescence microscopy images. in <em>2019 IEEE/CVF conference on computer vision and pattern recognition (CVPR)</em> 11702–11710 (Optica Publishing Group, 2019). doi:<a href="https://doi.org/10.1109/CVPR.2019.01198">10.1109/CVPR.2019.01198</a>.</div>
+</div>
+<div id="ref-Li2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Li, J., Luisier, F. &amp; Blu, T. Pure-let deconvolution of 3D fluorescence microscopy images. in <em>2017 IEEE 14th international symposium on biomedical imaging (ISBI 2017)</em> 723–727 (2017). doi:<a href="https://doi.org/10.1109/ISBI.2017.7950621">10.1109/ISBI.2017.7950621</a>.</div>
+</div>
+<div id="ref-Makitalo2013" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Makitalo, M. &amp; Foi, A. <a href="https://doi.org/10.1109/TIP.2012.2202675">Optimal inversion of the generalized anscombe transformation for poisson-gaussian noise</a>. <em>IEEE Transactions on Image Processing</em> <strong>22</strong>, 91–103 (2013).</div>
+</div>
+<div id="ref-Luisier2010" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Luisier, F., Vonesch, C., Blu, T. &amp; Unser, M. <a href="https://doi.org/10.1016/j.sigpro.2009.07.009">Fast interscale wavelet denoising of poisson-corrupted images</a>. <em>Signal Processing</em> <strong>90</strong>, 415–427 (2010).</div>
+</div>
+<div id="ref-Van_der_Walt2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Walt, S. van der <em>et al.</em> <a href="https://peerj.com/articles/453/">Scikit-image: Image processing in python</a>. <em>PeerJ</em> <strong>2</strong>, e453 (2014).</div>
+</div>
+<div id="ref-Wiener1949" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Wiener, N. <em>Extrapolation, Interpolation, and Smoothing of Stationary Time Series: With Engineering Applications</em>. (The MIT Press, 1949). doi:<a href="https://doi.org/10.7551/mitpress/2946.001.0001">10.7551/mitpress/2946.001.0001</a>.</div>
+</div>
+<div id="ref-Gonzalez2008" class="csl-entry" role="listitem">
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Gonzalez, R. C. &amp; Woods, R. E. <em><a href="https://books.google.com/books?id=8uGOnjRGEzoC">Digital Image Processing</a></em>. (Prentice Hall, 2008).</div>
+</div>
+<div id="ref-Tikhonov1963" class="csl-entry" role="listitem">
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Tikhonov, A. N. Solution of incorrectly formulated problems and the regularization method. <em>Soviet Math. Dokl.</em> <strong>4</strong>, 1035–1038 (1963).</div>
+</div>
+<div id="ref-Miller1970" class="csl-entry" role="listitem">
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Miller, K. <a href="https://doi.org/10.1137/0501006">Least squares methods for ill-posed problems with a prescribed bound</a>. <em>SIAM Journal on Mathematical Analysis</em> <strong>1</strong>, 52–74 (1970).</div>
+</div>
+<div id="ref-Beck2009" class="csl-entry" role="listitem">
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Beck, A. &amp; Teboulle, M. <a href="https://doi.org/10.1137/080716542">A fast iterative shrinkage-thresholding algorithm for linear inverse problems</a>. <em>SIAM Journal on Imaging Sciences</em> <strong>2</strong>, 183–202 (2009).</div>
+</div>
+<div id="ref-Lucy1974" class="csl-entry" role="listitem">
+<div class="csl-left-margin">21. </div><div class="csl-right-inline">Lucy, L. B. <a href="https://doi.org/10.1086/111605"><span class="nocase">An iterative technique for the rectification of observed distributions</span></a>. <em>Astronomical Journal</em> <strong>79</strong>, 745 (1974).</div>
+</div>
+<div id="ref-Richardson1972" class="csl-entry" role="listitem">
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Richardson, W. H. <a href="https://doi.org/10.1364/JOSA.62.000055">Bayesian-based iterative method of image restoration<span class="math inline">\(\ast\)</span></a>. <em>J. Opt. Soc. Am.</em> <strong>62</strong>, 55–59 (1972).</div>
+</div>
+<div id="ref-Sarder2006" class="csl-entry" role="listitem">
+<div class="csl-left-margin">23. </div><div class="csl-right-inline">Sarder, P. &amp; Nehorai, A. <a href="https://doi.org/10.1109/MSP.2006.1628876">Deconvolution methods for 3-d fluorescence microscopy images</a>. <em>IEEE Signal Processing Magazine</em> <strong>23</strong>, 32–45 (2006).</div>
+</div>
+<div id="ref-Goodwin2014" class="csl-entry" role="listitem">
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Goodwin, P. C. <a href="https://doi.org/10.1016/B978-0-12-420138-5.00010-0">Chapter 10 - quantitative deconvolution microscopy</a>. in <em>Quantitative imaging in cell biology</em> (eds. Waters, J. C. &amp; Wittman, T.) vol. 123 177–192 (Academic Press, 2014).</div>
+</div>
+<div id="ref-Guo2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">25. </div><div class="csl-right-inline">Guo, M. <em>et al.</em> <a href="https://doi.org/10.1038/s41587-020-0560-x">Rapid image deconvolution and multiview fusion for optical microscopy</a>. <em>Nature Biotechnology</em> <strong>38</strong>, 1337–1346 (2020).</div>
+</div>
+<div id="ref-Schindelin2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">26. </div><div class="csl-right-inline">Schindelin, J. <em>et al.</em> <a href="https://doi.org/10.1038/nmeth.2019">Fiji: An open-source platform for biological-image analysis</a>. <em>Nature Methods</em> <strong>9</strong>, 676–682 (2012).</div>
+</div>
+<div id="ref-Sage2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">27. </div><div class="csl-right-inline">Sage, D. <em>et al.</em> <a href="https://doi.org/10.1016/j.ymeth.2016.12.015">DeconvolutionLab2: An open-source software for deconvolution microscopy</a>. <em>Methods</em> <strong>115</strong>, 28–41 (2017).</div>
+</div>
+<div id="ref-Bazin2007" class="csl-entry" role="listitem">
+<div class="csl-left-margin">28. </div><div class="csl-right-inline">Bazin, P.-L. <em>et al.</em> <a href="https://doi.org/10.1016/j.jneumeth.2007.05.024">Volumetric neuroimage analysis extensions for the MIPAV software package</a>. <em>Journal of Neuroscience Methods</em> <strong>165</strong>, 111–121 (2007).</div>
+</div>
+<div id="ref-Booth1861" class="csl-entry" role="listitem">
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Booth, M. J. <a href="http://www.jstor.org/stable/25190627">Adaptive optics in microscopy</a>. <em>Philosophical Transactions: Mathematical, Physical and Engineering Sciences</em> <strong>365</strong>, 2829–2843 (2007).</div>
+</div>
+<div id="ref-Hell2007" class="csl-entry" role="listitem">
+<div class="csl-left-margin">30. </div><div class="csl-right-inline">Hell, S. W. <a href="https://doi.org/10.1126/science.1137395">Far-field optical nanoscopy</a>. <em>Science</em> <strong>316</strong>, 1153–1158 (2007).</div>
+</div>
+<div id="ref-Vicidomini2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">31. </div><div class="csl-right-inline">Vicidomini, G., Bianchini, P. &amp; Diaspro, A. <a href="https://doi.org/10.1038/nmeth.4593">STED super-resolved microscopy</a>. <em>Nature Methods</em> <strong>15</strong>, 173–182 (2018).</div>
+</div>
+<div id="ref-Wu2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">32. </div><div class="csl-right-inline">Wu, Y. &amp; Shroff, H. <a href="https://doi.org/10.1038/s41592-018-0211-z">Faster, sharper, and deeper: Structured illumination microscopy for biological imaging</a>. <em>Nature Methods</em> <strong>15</strong>, 1011–1019 (2018).</div>
+</div>
+<div id="ref-Chen2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">33. </div><div class="csl-right-inline">Chen, F., Tillberg, P. W. &amp; Boyden, E. S. <a href="https://doi.org/10.1126/science.1260088">Expansion microscopy</a>. <em>Science</em> <strong>347</strong>, 543–548 (2015).</div>
+</div>
+<div id="ref-Wassie2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">34. </div><div class="csl-right-inline">Wassie, A. T., Zhao, Y. &amp; Boyden, E. S. <a href="https://doi.org/10.1038/s41592-018-0219-4">Expansion microscopy: Principles and uses in biological research</a>. <em>Nature Methods</em> vol. 16 33–41 (2019).</div>
+</div>
+<div id="ref-Valli2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">35. </div><div class="csl-right-inline">Valli, J. <em>et al.</em> <a href="https://doi.org/10.1016/j.jbc.2021.100791">Seeing beyond the limit: A guide to choosing the right super-resolution microscopy technique</a>. <em>Journal of Biological Chemistry</em> <strong>297</strong>, 100791 (2021).</div>
+</div>
+<div id="ref-Chen2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">36. </div><div class="csl-right-inline">Chen, H. <em>et al.</em> <a href="https://doi.org/10.1021/cbmi.4c00019">Advancements and practical considerations for biophysical research: Navigating the challenges and future of super-resolution microscopy</a>. <em>Chemical <span>&amp;</span> Biomedical Imaging</em> <strong>2</strong>, 331–344 (2024).</div>
+</div>
+<div id="ref-Hagen2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">37. </div><div class="csl-right-inline">Hagen, G. M. <em>et al.</em> <a href="https://doi.org/10.1093/gigascience/giab032">Fluorescence microscopy datasets for training deep neural networks</a>. <em>GigaScience</em> <strong>10</strong>, giab032 (2021).</div>
+</div>
+<div id="ref-Weigert2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">38. </div><div class="csl-right-inline">Weigert, M. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-018-0216-7">Content-aware image restoration: Pushing the limits of fluorescence microscopy</a>. <em>Nature Methods</em> <strong>15</strong>, 1090–1097 (2018).</div>
+</div>
+<div id="ref-Chen2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">39. </div><div class="csl-right-inline">Chen, J. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-021-01155-x">Three-dimensional residual channel attention networks denoise and sharpen fluorescence microscopy image volumes</a>. <em>Nature Methods</em> <strong>18</strong>, 678–687 (2021).</div>
+</div>
+<div id="ref-Qiao2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">40. </div><div class="csl-right-inline">Qiao, C. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-020-01048-5">Evaluation and development of deep neural networks for image super-resolution in optical microscopy</a>. <em>Nature Methods</em> <strong>18</strong>, 194–202 (2021).</div>
+</div>
+<div id="ref-Hou2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">41. </div><div class="csl-right-inline">Hou, X. <em>et al.</em> <a href="https://doi.org/10.1364/OE.554927">HD2Net: A deep learning framework for simultaneous denoising and deaberration in fluorescence microscopy</a>. <em>Opt. Express</em> <strong>33</strong>, 27317–27333 (2025).</div>
+</div>
+<div id="ref-Zhang2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">42. </div><div class="csl-right-inline">Zhang, K., Zuo, W., Chen, Y., Meng, D. &amp; Zhang, L. <a href="https://doi.org/10.1109/TIP.2017.2662206">Beyond a gaussian denoiser: Residual learning of deep CNN for image denoising</a>. <em>IEEE Transactions on Image Processing</em> <strong>26</strong>, 3142–3155 (2017).</div>
+</div>
+<div id="ref-Dabov2007" class="csl-entry" role="listitem">
+<div class="csl-left-margin">43. </div><div class="csl-right-inline">Dabov, K., Foi, A., Katkovnik, V. &amp; Egiazarian, K. <a href="https://doi.org/10.1109/TIP.2007.901238">Image denoising by sparse 3-d transform-domain collaborative filtering</a>. <em>IEEE Transactions on Image Processing</em> <strong>16</strong>, 2080–2095 (2007).</div>
+</div>
+<div id="ref-Krull2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">44. </div><div class="csl-right-inline">Krull, A., Buchholz, T.-O. &amp; Jug, F. Noise2Void - learning denoising from single noisy images. in <em>2019 IEEE/CVF conference on computer vision and pattern recognition (CVPR)</em> 2124–2132 (2019). doi:<a href="https://doi.org/10.1109/CVPR.2019.00223">10.1109/CVPR.2019.00223</a>.</div>
+</div>
+<div id="ref-Batson2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">45. </div><div class="csl-right-inline">Batson, J. &amp; Royer, L. <a href="https://proceedings.mlr.press/v97/batson19a.html"><span>N</span>oise2<span>S</span>elf: Blind denoising by self-supervision</a>. in <em>Proceedings of the 36th international conference on machine learning</em> (eds. Chaudhuri, K. &amp; Salakhutdinov, R.) vol. 97 524–533 (PMLR, 2019).</div>
+</div>
+<div id="ref-Lehtinen2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">46. </div><div class="csl-right-inline">Lehtinen, J. <em>et al.</em> <a href="https://proceedings.mlr.press/v80/lehtinen18a.html"><span>N</span>oise2<span>N</span>oise: Learning image restoration without clean data</a>. in <em>Proceedings of the 35th international conference on machine learning</em> (eds. Dy, J. &amp; Krause, A.) vol. 80 2965–2974 (PMLR, 2018).</div>
+</div>
+<div id="ref-Li2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">47. </div><div class="csl-right-inline">Li, Y. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-022-01652-7">Incorporating the image formation process into deep learning improves network performance</a>. <em>Nature Methods</em> <strong>19</strong>, 1427–1437 (2022).</div>
+</div>
+<div id="ref-Yanny2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">48. </div><div class="csl-right-inline">Yanny, K., Monakhova, K., Shuai, R. W. &amp; Waller, L. <a href="https://doi.org/10.1364/OPTICA.442438">Deep learning for fast spatially varying deconvolution</a>. <em>Optica</em> <strong>9</strong>, 96–99 (2022).</div>
+</div>
+<div id="ref-Saha2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">49. </div><div class="csl-right-inline">Saha, D. <em>et al.</em> <a href="https://doi.org/10.1364/OE.401933">Practical sensorless aberration estimation for 3D microscopy with deep learning</a>. <em>Opt. Express</em> <strong>28</strong>, 29044–29053 (2020).</div>
+</div>
+<div id="ref-Kang2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">50. </div><div class="csl-right-inline">Kang, I., Zhang, Q., Yu, S. X. &amp; Ji, N. <a href="https://doi.org/10.1038/s42256-024-00853-3">Coordinate-based neural representations for computational adaptive optics in widefield microscopy</a>. <em>Nature Machine Intelligence</em> <strong>6</strong>, 714–725 (2024).</div>
+</div>
+<div id="ref-Kang2024.10.20.619284" class="csl-entry" role="listitem">
+<div class="csl-left-margin">51. </div><div class="csl-right-inline">Kang, I. <em>et al.</em> Adaptive optical correction in in vivo two-photon fluorescence microscopy with neural fields. <em>bioRxiv</em> (2024) doi:<a href="https://doi.org/10.1101/2024.10.20.619284">10.1101/2024.10.20.619284</a>.</div>
+</div>
+<div id="ref-Fersini2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">52. </div><div class="csl-right-inline">Fersini, F. <em>et al.</em> <a href="https://doi.org/10.1364/BOE.559899">Wavefront estimation through structured detection in laser scanning microscopy</a>. <em>Biomed. Opt. Express</em> <strong>16</strong>, 2135–2155 (2025).</div>
+</div>
+<div id="ref-Zhou2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">53. </div><div class="csl-right-inline">Zhou, Y., Jin, Z., Zhao, Q., Xiong, B. &amp; Cao, X. <a href="https://doi.org/10.1002/lpor.202300154">Aberration modeling in deep learning for volumetric reconstruction of light-field microscopy</a>. <em>Laser &amp; Photonics Reviews</em> <strong>17</strong>, 2300154 (2023).</div>
+</div>
+<div id="ref-Qiao2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">54. </div><div class="csl-right-inline">Qiao, C. <em>et al.</em> <a href="https://doi.org/10.1364/PRJ.506778">Deep learning-based optical aberration estimation enables offline digital adaptive optics and super-resolution imaging</a>. <em>Photon. Res.</em> <strong>12</strong>, 474–484 (2024).</div>
+</div>
+<div id="ref-guo_deep_2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">55. </div><div class="csl-right-inline">Guo, M. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-024-55267-x">Deep learning-based aberration compensation improves contrast and resolution in fluorescence microscopy</a>. <em>Nature Communications</em> <strong>16</strong>, 313 (2025).</div>
+</div>
+<div id="ref-Hu2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">56. </div><div class="csl-right-inline">Hu, L., Hu, S., Gong, W. &amp; Si, K. <a href="https://doi.org/10.1364/OL.418997">Image enhancement for fluorescence microscopy based on deep learning with prior knowledge of aberration</a>. <em>Opt. Lett.</em> <strong>46</strong>, 2055–2058 (2021).</div>
+</div>
+<div id="ref-Wang2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">57. </div><div class="csl-right-inline">Wang, H. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-018-0239-0">Deep learning enables cross-modality super-resolution in fluorescence microscopy</a>. <em>Nature Methods</em> <strong>16</strong>, 103–110 (2019).</div>
+</div>
+<div id="ref-Park2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">58. </div><div class="csl-right-inline">Park, H. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-022-30949-6">Deep learning enables reference-free isotropic super-resolution for volumetric fluorescence microscopy</a>. <em>Nature Communications</em> <strong>13</strong>, 3297 (2022).</div>
+</div>
+<div id="ref-Ning2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">59. </div><div class="csl-right-inline">Ning, K. <em>et al.</em> <a href="https://doi.org/10.1038/s41377-023-01230-2">Deep self-learning enables fast, high-fidelity isotropic resolution restoration for volumetric fluorescence microscopy</a>. <em>Light: Science <span>&amp;</span> Applications</em> <strong>12</strong>, 204 (2023).</div>
+</div>
+<div id="ref-Ronneberger2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">60. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-net: Convolutional networks for biomedical image segmentation. in <em>Medical image computing and computer-assisted intervention – MICCAI 2015</em> (eds. Navab, N., Hornegger, J., Wells, W. M. &amp; Frangi, A. F.) 234–241 (Springer International Publishing, Cham, 2015). doi:<a href="https://doi.org/10.1007/978-3-319-24574-4_28">10.1007/978-3-319-24574-4_28</a>.</div>
+</div>
+<div id="ref-Ji2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">61. </div><div class="csl-right-inline">Ji, Z., Li, J. D. &amp; Telgarsky, M. <a href="https://dl.acm.org/doi/10.5555/3540261.3540400">Early-stopped neural networks are consistent</a>. in <em>Advances in neural information processing systems 34 - 35th conference on neural information processing systems, NeurIPS 2021</em> (eds. Ranzato, M., Beygelzimer, A., Dauphin, Y., Liang, {Percy. S. }. &amp; Vaughan}, J. {Wortman) 1805–1817 (Neural information processing systems foundation, 2021).</div>
+</div>
+<div id="ref-Santos2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">62. </div><div class="csl-right-inline">Santos, C. F. G. D. &amp; Papa, J. P. <a href="https://doi.org/10.1145/3510413">Avoiding overfitting: A survey on regularization methods for convolutional neural networks</a>. <em>ACM Comput. Surv.</em> <strong>54</strong>, (2022).</div>
+</div>
+<div id="ref-Miseta2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">63. </div><div class="csl-right-inline">Miseta, T., Fodor, A. &amp; Vathy-Fogarassy, Á. <a href="https://doi.org/10.1016/j.neucom.2023.127028">Surpassing early stopping: A novel correlation-based stopping criterion for neural networks</a>. <em>Neurocomputing</em> <strong>567</strong>, 127028 (2024).</div>
+</div>
+<div id="ref-Shah2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">64. </div><div class="csl-right-inline">Shah, Z. H. <em>et al.</em> <a href="https://doi.org/10.3389/frai.2024.1353873">Image restoration in frequency space using complex-valued CNNs</a>. <em>Frontiers in Artificial Intelligence</em> <strong>Volume 7 - 2024</strong>, (2024).</div>
+</div>
+<div id="ref-Liu2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">65. </div><div class="csl-right-inline">Liu, J., Gao, F., Zhang, L. &amp; Yang, H. <a href="https://doi.org/10.3390/mi15070928">A saturation artifacts inpainting method based on two-stage GAN for fluorescence microscope images</a>. <em>Micromachines</em> <strong>15</strong>, (2024).</div>
+</div>
+<div id="ref-Bouchard2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">66. </div><div class="csl-right-inline">Bouchard, C. <em>et al.</em> <a href="https://doi.org/10.1038/s42256-023-00689-3">Resolution enhancement with a task-assisted GAN to guide optical nanoscopy image analysis and acquisition</a>. <em>Nature Machine Intelligence</em> <strong>5</strong>, 830–844 (2023).</div>
+</div>
+<div id="ref-Qiao2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">67. </div><div class="csl-right-inline">Qiao, C. <em>et al.</em> <a href="https://doi.org/10.1038/s41587-022-01471-3">Rationalized deep learning super-resolution microscopy for sustained live imaging of rapid subcellular processes</a>. <em>Nature Biotechnology</em> <strong>41</strong>, 367–377 (2023).</div>
+</div>
+<div id="ref-Zhong2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">68. </div><div class="csl-right-inline">Zhong, L., Liu, G. &amp; Yang, G. <a href="https://doi.org/10.1109/ISBI48211.2021.9434150">Blind denoising of fluorescence microscopy images using GAN-based global noise modeling</a>. in <em>ISBI</em> 863–867 (2021).</div>
+</div>
+<div id="ref-Osuna-Vargas2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">69. </div><div class="csl-right-inline">Osuna-Vargas, P. <em>et al.</em> Denoising diffusion models for high-resolution microscopy image restoration. in <em>2025 IEEE/CVF winter conference on applications of computer vision (WACV)</em> 4320–4330 (2025). doi:<a href="https://doi.org/10.1109/WACV61041.2025.00424">10.1109/WACV61041.2025.00424</a>.</div>
+</div>
+<div id="ref-Park2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">70. </div><div class="csl-right-inline">Park, E. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-024-55262-2">Unsupervised inter-domain transformation for virtually stained high-resolution mid-infrared photoacoustic microscopy using explainable deep learning</a>. <em>Nature Communications</em> <strong>15</strong>, 10892 (2024).</div>
 </div>
 </div>
+</section>
 </section>
 
 </main> <!-- /main -->

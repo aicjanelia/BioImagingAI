@@ -1,0 +1,1650 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Yue Li">
+<meta name="author" content="Jun Zhu">
+<meta name="author" content="Mingzhe Wei">
+<meta name="author" content="Hari Shroff">
+<meta name="author" content="Min Guo">
+
+<title>Appendix A — 3D-RCAN for Image Restoration – AI in Microscopy: A BioImaging Guide</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./references.html" rel="prev">
+<link href="./settings/favicon.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-4c6d65c679321d81af7ec8b61b1d5a24.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-Y29EKZ8LWD"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
+</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./6-image-restoration-appendix.html">Appendices</a></li><li class="breadcrumb-item"><a href="./6-image-restoration-appendix.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">3D-RCAN for Image Restoration</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">AI in Microscopy: A BioImaging Guide</a> 
+        <div class="sidebar-tools-main tools-wide">
+    <a href="https://github.com/aicjanelia/BioImagingAI" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="./AI-in-Microscopy--A-BioImaging-Guide.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./1-intro.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Getting Started with AI</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./2-primer.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI Primer</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./3-llms.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations of Large Language Models</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4-architectures.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Models</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Image Acquisition</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./5-training-data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Collecting Training Data</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-image-restoration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./7-smart-microscopy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Your Hardware</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Image Analysis</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./8-existing-tools.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Chapter 8: How do you select and find a tool?</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./9-train-models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">How to Train and Use Deep Learning Models in Microscopy</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./10-output-quality.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Output Quality</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./11-outlook.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Outlook</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./glossary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Glossary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">References</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-image-restoration-appendix.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">3D-RCAN for Image Restoration</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#brief-introduction-to-the-model" id="toc-brief-introduction-to-the-model" class="nav-link active" data-scroll-target="#brief-introduction-to-the-model"><span class="header-section-number">A.1</span> Brief Introduction to the Model</a>
+  <ul class="collapse">
+  <li><a href="#residual-learning" id="toc-residual-learning" class="nav-link" data-scroll-target="#residual-learning"><span class="header-section-number">A.1.1</span> Residual Learning</a></li>
+  <li><a href="#channel-attention-mechanism" id="toc-channel-attention-mechanism" class="nav-link" data-scroll-target="#channel-attention-mechanism"><span class="header-section-number">A.1.2</span> Channel Attention Mechanism</a></li>
+  <li><a href="#d-adaptation-for-image-volumes" id="toc-d-adaptation-for-image-volumes" class="nav-link" data-scroll-target="#d-adaptation-for-image-volumes"><span class="header-section-number">A.1.3</span> 3D Adaptation for Image Volumes</a></li>
+  <li><a href="#channel-reduction-for-efficient-3d-processing" id="toc-channel-reduction-for-efficient-3d-processing" class="nav-link" data-scroll-target="#channel-reduction-for-efficient-3d-processing"><span class="header-section-number">A.1.4</span> Channel Reduction for Efficient 3D Processing</a></li>
+  </ul></li>
+  <li><a href="#overview-of-the-code-and-data" id="toc-overview-of-the-code-and-data" class="nav-link" data-scroll-target="#overview-of-the-code-and-data"><span class="header-section-number">A.2</span> Overview of the Code and Data</a>
+  <ul class="collapse">
+  <li><a href="#system-requirements" id="toc-system-requirements" class="nav-link" data-scroll-target="#system-requirements"><span class="header-section-number">A.2.1</span> System Requirements</a></li>
+  <li><a href="#installation-of-dependencies" id="toc-installation-of-dependencies" class="nav-link" data-scroll-target="#installation-of-dependencies"><span class="header-section-number">A.2.2</span> Installation of Dependencies</a></li>
+  <li><a href="#quick-setup-steps" id="toc-quick-setup-steps" class="nav-link" data-scroll-target="#quick-setup-steps"><span class="header-section-number">A.2.3</span> Quick Setup Steps</a></li>
+  <li><a href="#dataset" id="toc-dataset" class="nav-link" data-scroll-target="#dataset"><span class="header-section-number">A.2.4</span> Dataset</a></li>
+  <li><a href="#training" id="toc-training" class="nav-link" data-scroll-target="#training"><span class="header-section-number">A.2.5</span> Training</a></li>
+  <li><a href="#applying-the-model" id="toc-applying-the-model" class="nav-link" data-scroll-target="#applying-the-model"><span class="header-section-number">A.2.6</span> Applying the Model</a></li>
+  </ul></li>
+  <li><a href="#denoising-tutorial" id="toc-denoising-tutorial" class="nav-link" data-scroll-target="#denoising-tutorial"><span class="header-section-number">A.3</span> Denoising Tutorial</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation"><span class="header-section-number">A.3.1</span> Data Preparation</a></li>
+  <li><a href="#training-a-denoising-model" id="toc-training-a-denoising-model" class="nav-link" data-scroll-target="#training-a-denoising-model"><span class="header-section-number">A.3.2</span> Training a Denoising Model</a></li>
+  <li><a href="#applying-the-denoising-model" id="toc-applying-the-denoising-model" class="nav-link" data-scroll-target="#applying-the-denoising-model"><span class="header-section-number">A.3.3</span> Applying the Denoising Model</a></li>
+  <li><a href="#sec-denoise-guidance" id="toc-sec-denoise-guidance" class="nav-link" data-scroll-target="#sec-denoise-guidance"><span class="header-section-number">A.3.4</span> Further Denoising Guidance</a></li>
+  </ul></li>
+  <li><a href="#deconvolution-tutorial" id="toc-deconvolution-tutorial" class="nav-link" data-scroll-target="#deconvolution-tutorial"><span class="header-section-number">A.4</span> Deconvolution Tutorial</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation-1" id="toc-data-preparation-1" class="nav-link" data-scroll-target="#data-preparation-1"><span class="header-section-number">A.4.1</span> Data Preparation</a></li>
+  <li><a href="#training-a-deconvolution-model" id="toc-training-a-deconvolution-model" class="nav-link" data-scroll-target="#training-a-deconvolution-model"><span class="header-section-number">A.4.2</span> Training a Deconvolution Model</a></li>
+  <li><a href="#applying-the-deconvolution-model" id="toc-applying-the-deconvolution-model" class="nav-link" data-scroll-target="#applying-the-deconvolution-model"><span class="header-section-number">A.4.3</span> Applying the Deconvolution Model</a></li>
+  <li><a href="#further-deconvolution-guidance" id="toc-further-deconvolution-guidance" class="nav-link" data-scroll-target="#further-deconvolution-guidance"><span class="header-section-number">A.4.4</span> Further Deconvolution Guidance</a></li>
+  </ul></li>
+  <li><a href="#aberration-correction-tutorial" id="toc-aberration-correction-tutorial" class="nav-link" data-scroll-target="#aberration-correction-tutorial"><span class="header-section-number">A.5</span> Aberration Correction Tutorial</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation-2" id="toc-data-preparation-2" class="nav-link" data-scroll-target="#data-preparation-2"><span class="header-section-number">A.5.1</span> Data Preparation</a></li>
+  <li><a href="#training-an-aberration-correction-model" id="toc-training-an-aberration-correction-model" class="nav-link" data-scroll-target="#training-an-aberration-correction-model"><span class="header-section-number">A.5.2</span> Training an Aberration Correction Model</a></li>
+  <li><a href="#applying-the-aberration-correction-model" id="toc-applying-the-aberration-correction-model" class="nav-link" data-scroll-target="#applying-the-aberration-correction-model"><span class="header-section-number">A.5.3</span> Applying the Aberration Correction Model</a></li>
+  <li><a href="#further-aberration-correction-guidance" id="toc-further-aberration-correction-guidance" class="nav-link" data-scroll-target="#further-aberration-correction-guidance"><span class="header-section-number">A.5.4</span> Further Aberration Correction Guidance</a></li>
+  </ul></li>
+  <li><a href="#resolution-enhancement-tutorial" id="toc-resolution-enhancement-tutorial" class="nav-link" data-scroll-target="#resolution-enhancement-tutorial"><span class="header-section-number">A.6</span> Resolution Enhancement Tutorial</a>
+  <ul class="collapse">
+  <li><a href="#data-preparation-3" id="toc-data-preparation-3" class="nav-link" data-scroll-target="#data-preparation-3"><span class="header-section-number">A.6.1</span> Data Preparation</a></li>
+  <li><a href="#training-a-resolution-enhancement-model" id="toc-training-a-resolution-enhancement-model" class="nav-link" data-scroll-target="#training-a-resolution-enhancement-model"><span class="header-section-number">A.6.2</span> Training a Resolution Enhancement Model</a></li>
+  <li><a href="#applying-the-resolution-enhancement-model" id="toc-applying-the-resolution-enhancement-model" class="nav-link" data-scroll-target="#applying-the-resolution-enhancement-model"><span class="header-section-number">A.6.3</span> Applying the Resolution Enhancement Model</a></li>
+  <li><a href="#further-resolution-enhancement-guidance" id="toc-further-resolution-enhancement-guidance" class="nav-link" data-scroll-target="#further-resolution-enhancement-guidance"><span class="header-section-number">A.6.4</span> Further Resolution Enhancement Guidance</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./6-image-restoration-appendix.html">Appendices</a></li><li class="breadcrumb-item"><a href="./6-image-restoration-appendix.html"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">3D-RCAN for Image Restoration</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span id="sec-RCAN-appendix" class="quarto-section-identifier">Appendix A — 3D-RCAN for Image Restoration</span></h1>
+<p class="subtitle lead">A Manual for Using AI for Image Restoration</p>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Authors</div>
+  <div class="quarto-title-meta-heading">Affiliations</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Yue Li <a href="https://orcid.org/0000-0002-9299-0974" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Zhejiang University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Jun Zhu </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Zhejiang University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Mingzhe Wei </p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Zhejiang University
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Hari Shroff <a href="https://orcid.org/0000-0003-3613-8215" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            HHMI Janelia Research Campus
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Min Guo <a href="https://orcid.org/0000-0002-2093-8771" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Zhejiang University
+          </p>
+      </div>
+  </div>
+
+<div class="quarto-title-meta">
+
+      
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="brief-introduction-to-the-model" class="level2" data-number="A.1">
+<h2 data-number="A.1" class="anchored" data-anchor-id="brief-introduction-to-the-model"><span class="header-section-number">A.1</span> Brief Introduction to the Model</h2>
+<p>Residual Channel Attention Networks (<a href="./glossary.html#rcan-residual-channel-attention-network">RCAN</a><span class="citation" data-cites="Zhang2018"><sup><a href="references.html#ref-Zhang2018" role="doc-biblioref">1</a></sup></span>), are deep learning architectures initially designed for 2D super-resolution images, leveraging residual learning and channel attention mechanisms to prioritize high-frequency details. Their hierarchical “residual-in-residual” structure and adaptive channel-wise feature scaling enable superior recovery of fine textures in natural images. Researchers adapted RCAN for 3D fluorescence microscopy data to address challenges in volumetric imaging. This 3D-RCAN<span class="citation" data-cites="Chen2021"><sup><a href="references.html#ref-Chen2021" role="doc-biblioref">2</a></sup></span> implementation modifies the original architecture by replacing 2D <a href="./glossary.html#convolution">convolutions</a> with 3D operations, optimizing parameters (e.g., residual groups, channel dimensions) for GPU efficiency, and processing spatiotemporal (4D) data. This adaptation enables denoising and resolution enhancement of volumetric time-lapse microscopy, achieving prolonged live-cell imaging with minimal photo bleaching. By training on paired low/high-quality datasets (e.g., confocal <span class="math inline">\(\leftrightarrow\)</span> STED or iSIM <span class="math inline">\(\leftrightarrow\)</span> expansion microscopy), 3D-RCAN restores sub cellular structures, improves lateral and axial resolution, and outperforms existing networks (e.g., <a href="./glossary.html#care-content-aware-image-restoration">CARE</a>)<span class="citation" data-cites="Weigert2018"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">3</a></sup></span>) in fidelity metrics (e.g., SSIM<span class="citation" data-cites="Wang2004"><sup><a href="references.html#ref-Wang2004" role="doc-biblioref">4</a></sup></span> or peak signal to noise ratio). Its applications span fixed and live-cell studies, offering a versatile tool to overcome trade offs between spatiotemporal resolution and phototoxicity in fluorescence microscopy.</p>
+<p>Several features of this neural network enable it to handle complex <a href="./glossary.html#image-restoration">image restoration</a> tasks effectively, as described in the paragraphs below. In later sections, we will employ this model as an example to show you how to undertake AI restoration in fluorescence microscopy.</p>
+<section id="residual-learning" class="level3" data-number="A.1.1">
+<h3 data-number="A.1.1" class="anchored" data-anchor-id="residual-learning"><span class="header-section-number">A.1.1</span> Residual Learning</h3>
+<p>3D-RCAN uses a residual learning approach, which means that the network learns the difference (or residual) between the input image and the desired output. Instead of learning the entire image transformation directly, the network focuses on predicting the fine details that need improvement. This makes it easier for the network to capture high-frequency details (like edges and textures) while ignoring unnecessary background information. The network architecture is built using a residual-in-residual structure. This means that within each “residual block” (a unit of processing), there are even smaller “residual blocks.” This hierarchical design improves the network’s ability to learn intricate patterns in the data, allowing for better restoration of fine image details. The network essentially learns to focus on increasingly refined features at different levels of abstraction.</p>
+<p>3D-RCAN incorporates skip connections in its architecture. Skip connections are shortcuts that allow the input image to bypass certain network layers and pass directly to later layers. There are long skip connections (which bypass multiple layers) and short skip connections (which skip only a few layers). These connections enable the network to focus on high-frequency information and avoid losing important details that may be “washed out” in deeper layers.</p>
+</section>
+<section id="channel-attention-mechanism" class="level3" data-number="A.1.2">
+<h3 data-number="A.1.2" class="anchored" data-anchor-id="channel-attention-mechanism"><span class="header-section-number">A.1.2</span> Channel Attention Mechanism</h3>
+<p>One of the distinctive features of 3D-RCAN is its channel attention mechanism. In any image, different features (such as color or depth in the case of microscopy images) have different levels of influence in the image. The channel attention mechanism allows 3D-RCAN to focus on the most important channels by adaptively adjusting the weight given to each feature channel. This helps the network to enhance high-resolution details in relevant channels while minimizing the influence of less important features.</p>
+</section>
+<section id="d-adaptation-for-image-volumes" class="level3" data-number="A.1.3">
+<h3 data-number="A.1.3" class="anchored" data-anchor-id="d-adaptation-for-image-volumes"><span class="header-section-number">A.1.3</span> 3D Adaptation for Image Volumes</h3>
+<p>3D-RCAN is designed to handle not only 2D images but also 3D image volumes. In many microscopy techniques, images are captured as a series of 2D planes stacked together to form a 3D volume. RCAN adapts its structure to process these multi-dimensional data efficiently. By working in 3D, the network can improve both the lateral (XY) and axial (Z) resolution of the image volumes, which is especially important in applications like fluorescence microscopy.</p>
+</section>
+<section id="channel-reduction-for-efficient-3d-processing" class="level3" data-number="A.1.4">
+<h3 data-number="A.1.4" class="anchored" data-anchor-id="channel-reduction-for-efficient-3d-processing"><span class="header-section-number">A.1.4</span> Channel Reduction for Efficient 3D Processing</h3>
+<p>By reducing channel dimensions before processing and restoring them afterward, the network minimizes redundant computations while retaining essential spatial and structural details. This mechanism enables deeper architectures without overwhelming GPU memory, particularly crucial for large 3D microscopy volumes. Coupled with channel attention, the compressed features are dynamically recalibrated to prioritize high-frequency details, ensuring robust restoration of fine structures like microtubules or mitochondrial membranes. The approach optimizes both training speed and inference performance, validated across synthetic and experimental datasets.</p>
+<div id="fig-RCAN" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-RCAN-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/RCAN.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-RCAN-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.1: <strong>The architecture of 3D-RCAN.</strong> This diagram illustrates the 3D Residual Channel Attention Network (RCAN) architecture for volumetric resolution enhancement. The low-resolution (LR) 3D input progresses through cascaded Residual Groups (RG), each containing Residual Channel Attention Blocks (RCAB) with channel attention to prioritize critical features. Skip connections preserve structural details across groups. The upscale module progressively enhances spatial resolution, culminating in the high-resolution (HR) 3D output.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="overview-of-the-code-and-data" class="level2" data-number="A.2">
+<h2 data-number="A.2" class="anchored" data-anchor-id="overview-of-the-code-and-data"><span class="header-section-number">A.2</span> Overview of the Code and Data</h2>
+<section id="system-requirements" class="level3" data-number="A.2.1">
+<h3 data-number="A.2.1" class="anchored" data-anchor-id="system-requirements"><span class="header-section-number">A.2.1</span> System Requirements</h3>
+<p>The basic system requirements are:</p>
+<ul>
+<li>Operating System: Windows 10, Linux, or Mac OS</li>
+<li>Python 3.7</li>
+<li>GPU: NVIDIA GPU with CUDA 10.0 and cuDNN 7.6.5</li>
+</ul>
+<p>For more information about system requirements, please refer to the <a href="https://github.com/AiviaCommunity/3D-RCAN">3D-RCAN README</a>.</p>
+</section>
+<section id="installation-of-dependencies" class="level3" data-number="A.2.2">
+<h3 data-number="A.2.2" class="anchored" data-anchor-id="installation-of-dependencies"><span class="header-section-number">A.2.2</span> Installation of Dependencies</h3>
+<p>3D-RCAN itself does not require installation and installation of the required the dependencies takes few seconds on a typical PC. The installation process involves three main steps:</p>
+<p><strong>1. Check system requirements</strong>: Ensure your system meets the basic requirements listed above, particularly Python 3.7 and CUDA compatibility.</p>
+<p><strong>2. Create a new virtual environment</strong>: Set up an isolated Python environment to avoid conflicts with other projects and ensure reproducibility.</p>
+<p><strong>3. Install dependencies</strong>: Download the repository and install required Python packages using the requirements.txt file provided in the <a href="https://github.com/AiviaCommunity/3D-RCAN">3D-RCAN respository</a>.</p>
+</section>
+<section id="quick-setup-steps" class="level3" data-number="A.2.3">
+<h3 data-number="A.2.3" class="anchored" data-anchor-id="quick-setup-steps"><span class="header-section-number">A.2.3</span> Quick Setup Steps</h3>
+<ol type="1">
+<li><p><strong>Clone the repository</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/AiviaCommunity/3D-RCAN.git</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Create and activate virtual environment</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create virtual environment</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> venv RCAN3D</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate (Windows)</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="bu">.</span><span class="dt">\\</span>RCAN3D<span class="dt">\\</span>Scripts<span class="dt">\\</span>activate</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Activate (macOS/Linux)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> RCAN3D/bin/activate</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+<li><p><strong>Install dependencies</strong>:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">-r</span> requirements.txt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
+</ol>
+<p>For comprehensive installation instructions, please refer to the <em>Dependencies Installation</em> section in the <a href="https://github.com/AiviaCommunity/3D-RCAN">3D-RCAN README</a>.</p>
+</section>
+<section id="dataset" class="level3" data-number="A.2.4">
+<h3 data-number="A.2.4" class="anchored" data-anchor-id="dataset"><span class="header-section-number">A.2.4</span> Dataset</h3>
+<p><strong>Custom Data</strong>: 3D-RCAN supports 3D data with strict low-quality/high-quality paired training (e.g., noisy/blurred inputs vs.&nbsp;high-SNR/clean GT) . Performance depends on domain alignment between training data (intensity distribution, resolution, noise characteristics) and target applications. The data should follow the format of 3D TIFF stacks (Z-Y-X order).</p>
+<p><strong>Example datasets available</strong>: You can leverage open-source datasets to obtain paired low-quality and high-quality data, such as the dataset from the 3D-RCAN paper. The 3D RCAN dataset is publicly available on <a href="[3D residual channel attention networks denoise and sharpen fluorescence microscopy image volumes](https://zenodo.org/records/4624364#.YF3jsa9Kibg)">Zenodo</a>. It includes paired low-quality and ground truth (<a href="./glossary.html#ground-truth">GT</a>) data for diverse applications: denoising mulitple biological structures (actin, ER, Golgi, lysosomes, microtubules, and mitochondria), synthetic blurred phantom spheres with sharp GT, Confocal-to-STED microscopy modality transfer (microtubules, nuclear pores, DNA, and live-cell nuclei), and expansion microscopy (microtubules and mitochondria, pairing synthetic raw images with <a href="./glossary.html#deconvolution">deconvolved</a> iSIM images). Live-cell test data cover U2OS cells (mitochondria and lysosomes) and Jurkat T cells (EMTB-GFP). Raw data represent inputs (e.g., confocal images, noisy/blurred volumes), while GT corresponds to high-quality outputs (e.g., STED, deconvolved iSIM).</p>
+</section>
+<section id="training" class="level3" data-number="A.2.5">
+<h3 data-number="A.2.5" class="anchored" data-anchor-id="training"><span class="header-section-number">A.2.5</span> Training</h3>
+<p>Training a 3D-RCAN model requires a <code>config.json</code> file to specify parameters and data locations.</p>
+<p>To initiate training, use the command:</p>
+<pre><code>python train.py -c config.json -o /path/to/training/output/dir</code></pre>
+<p>Training data can be specified in the <code>config.json</code> file by either:</p>
+<ol type="1">
+<li>Providing paths to folders containing raw and ground truth images (<code>training_data_dir</code>).</li>
+<li>Listing specific pairs of raw and ground truth image files (training_image_pairs).</li>
+</ol>
+<p>Numerous other options can be configured in the JSON file, including validation data, model architecture parameters (like <code>num_residual_blocks</code>, <code>num_residual_groups</code>), data augmentation settings, learning rate, loss functions, and metrics. The defaults for <code>num_residual_blocks</code> (3) and <code>num_residual_groups</code> (5) are set to balance performance and hardware constraints, aiming for optimal accuracy on standard GPUs (16-24GB VRAM) without causing memory overflow.</p>
+<p>The expected runtime is approximately 5-10 minutes per epoch on a system similar to the tested environment (NVIDIA GeForce GTX 1080 Ti - 11GB) using the example <code>config.json</code>. Training progress and loss values can be monitored using TensorBoard.</p>
+<p>For comprehensive details on configuring the <code>config.json</code> file, all available training options, and further instructions, please refer to the Training section in the <a href="https://github.com/AiviaCommunity/3D-RCAN">3D-RCAN README</a>.</p>
+</section>
+<section id="applying-the-model" class="level3" data-number="A.2.6">
+<h3 data-number="A.2.6" class="anchored" data-anchor-id="applying-the-model"><span class="header-section-number">A.2.6</span> Applying the Model</h3>
+<p>Trained 3D-RCAN models can be applied using the <code>apply.py</code> script. The script will automatically select the model with the lowest validation loss from the specified model directory.</p>
+<p>There are two primary ways to apply a model:</p>
+<ol type="1">
+<li><p>To a single image</p>
+<pre><code>python apply.py -m /path/to/model_dir -i input_raw_image.tif -o output.tif</code></pre></li>
+<li><p>To a folder of images (batch mode)</p>
+<pre><code>python apply.py -m /path/to/model_dir 
+-i /path/to/input_image_dir 
+-o /path/to/output_image_dir</code></pre>
+<p>When processing a folder, ground truth images can also be specified using the -g argument for comparison.</p></li>
+</ol>
+<p>Key command-line arguments include:</p>
+<ul>
+<li><code>-m</code> or <code>--model_dir</code>: Path to the folder containing the trained model (required).</li>
+<li><code>-i</code> or <code>--input</code>: Path to the input raw image or folder (required).</li>
+<li><code>-o</code> or <code>--output</code>: Path for the output processed image or folder (required).</li>
+<li><code>-g</code> or <code>--ground_truth</code>: Path to a reference ground truth image or folder (optional).</li>
+<li><code>-b</code> or <code>--bpp</code>: Bit depth of the output image (e.g., 8, 16, 32).</li>
+<li><code>-B</code> or <code>--block_shape</code>: Dimensions (Z,Y,X) for processing large images in blocks.</li>
+<li><code>-O</code> or <code>--block_overlap_shape</code>: Overlap size (Z,Y,X) between blocks.</li>
+<li><code>--normalize_output_range_between_zero_and_one</code>: Normalizes output intensity to the [0, 1] range, or to the full bit depth range (e.g., [0, 65535] for 16-bit) when combined with <code>-b</code>.</li>
+<li><code>--rescale</code>: Performs affine rescaling to minimize MSE between restored and ground truth images, useful for comparisons similar to CARE methodology.</li>
+<li><code>-f</code> or <code>--output_tiff_format</code>: Sets the output TIFF format (e.g., “imagej” or “ome”).</li>
+</ul>
+<p>For a complete list of all options and detailed explanations, please refer to the Model Apply section in the <a href="https://github.com/AiviaCommunity/3D-RCAN">3D-RCAN README</a>.</p>
+</section>
+</section>
+<section id="denoising-tutorial" class="level2" data-number="A.3">
+<h2 data-number="A.3" class="anchored" data-anchor-id="denoising-tutorial"><span class="header-section-number">A.3</span> Denoising Tutorial</h2>
+<section id="data-preparation" class="level3" data-number="A.3.1">
+<h3 data-number="A.3.1" class="anchored" data-anchor-id="data-preparation"><span class="header-section-number">A.3.1</span> Data Preparation</h3>
+<p><strong>Input Format</strong>: 3D TIFF stacks (Z-Y-X order)</p>
+<p><strong>Data Pairs</strong>: The <a href="[DeAbePlusData](https://zenodo.org/records/11277422)">example image pairs</a> we employ are shown in <a href="#fig-denoise-data" class="quarto-xref">Figure&nbsp;<span>A.2</span></a> and are available in the denoising section of the <a href="https://zenodo.org/records/4645466">data for the 3D-RCAN paper</a>.</p>
+<ul>
+<li><p><strong>Low-SNR Data</strong>: Noisy images. Here we use low signal-to-noise ratio data obtained by imaging mitochondria labeled with mEmerald-Tomm20-C-10 in living U2OS cells using instant structured illumination microscopy under low illumination intensities.</p></li>
+<li><p><strong>High-SNR Ground Truth</strong>: Corresponding clean images. Here we use high signal-to-noise ratio and high-resolution data obtained by imaging mitochondria labeled with mEmerald-Tomm20-C-10 in living U2OS cells using instant structured illumination microscopy under high illumination intensities.</p></li>
+</ul>
+<div id="fig-denoise-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-denoise-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/denoise_dataset.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-denoise-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.2: <strong>Dataset for denoising tasks.</strong> (left) Low signal-to-noise ratio (SNR) image and (right) high-SNR image of mitochondria in U2OS cells. Images were acquired using instant structured illumination microscopy under low and high illumination intensities, respectively. Scale bar: 5 μm.
+</figcaption>
+</figure>
+</div>
+<p><strong>Directory Structure</strong>: Organize the paired image data as follows.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dataset/</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>├── train/</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>│   ├── raw/   # Training noisy data</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>│   └── gt/    # Training clean data</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>└── val/</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    ├── raw/   # Validation noisy data</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    └── gt/    # Validation clean data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The validation data is not necessary for model training, but is an important part of assessing the model quality after training.</p>
+<hr>
+</section>
+<section id="training-a-denoising-model" class="level3" data-number="A.3.2">
+<h3 data-number="A.3.2" class="anchored" data-anchor-id="training-a-denoising-model"><span class="header-section-number">A.3.2</span> Training a Denoising Model</h3>
+<section id="configuration-file" class="level4" data-number="A.3.2.1">
+<h4 data-number="A.3.2.1" class="anchored" data-anchor-id="configuration-file"><span class="header-section-number">A.3.2.1</span> Configuration File</h4>
+<p>Configure the settings file (<code>config_denoise.json</code>) to define the data locations for the training/validation sets and the initial network hyperparameters. An example configuration file is shown below.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"training_data_dir"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"raw"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">Denoising</span><span class="ch">\\</span><span class="st">Tomm20_Mitochondria</span><span class="ch">\\</span><span class="st">Training</span><span class="ch">\\</span><span class="st">Raw"</span><span class="fu">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"gt"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">Denoising</span><span class="ch">\\</span><span class="st">Tomm20_Mitochondria</span><span class="ch">\\</span><span class="st">Training</span><span class="ch">\\</span><span class="st">GT"</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"validation_data_dir"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"raw"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">Denoising</span><span class="ch">\\</span><span class="st">Tomm20_Mitochondria</span><span class="ch">\\</span><span class="st">Val</span><span class="ch">\\</span><span class="st">raw"</span><span class="fu">,</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"gt"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">Denoising</span><span class="ch">\\</span><span class="st">Tomm20_Mitochondria</span><span class="ch">\\</span><span class="st">Val</span><span class="ch">\\</span><span class="st">gt"</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_channels"</span><span class="fu">:</span> <span class="dv">32</span><span class="fu">,</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_residual_blocks"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_residual_groups"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"epochs"</span><span class="fu">:</span> <span class="dv">100</span><span class="fu">,</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"steps_per_epoch"</span><span class="fu">:</span> <span class="dv">256</span><span class="fu">,</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"initial_learning_rate"</span><span class="fu">:</span> <span class="dv">1e-4</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="training-command" class="level4" data-number="A.3.2.2">
+<h4 data-number="A.3.2.2" class="anchored" data-anchor-id="training-command"><span class="header-section-number">A.3.2.2</span> Training Command</h4>
+<p>Run the training using the following command, updating the path to where you have stored the example images as appropriate.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train.py <span class="at">-c</span> config_denoise.json </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="ex">-o</span> <span class="st">" E:</span><span class="dt">\\</span><span class="st">Denoising</span><span class="dt">\\</span><span class="st">Tomm20_Mitochondria</span><span class="dt">\\</span><span class="st">output"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are using a Mac or Linux system, replace the \ in the example paths with /.</p>
+</div>
+</div>
+</section>
+<section id="training-outputs" class="level4" data-number="A.3.2.3">
+<h4 data-number="A.3.2.3" class="anchored" data-anchor-id="training-outputs"><span class="header-section-number">A.3.2.3</span> Training Outputs</h4>
+<p>The output directory will save the model parameters during the training process. For example, the file weights_092_0.06313289.hdf5 represents the model parameters saved at the 92nd training epoch, with a loss value of 0.06313289.</p>
+</section>
+</section>
+<section id="applying-the-denoising-model" class="level3" data-number="A.3.3">
+<h3 data-number="A.3.3" class="anchored" data-anchor-id="applying-the-denoising-model"><span class="header-section-number">A.3.3</span> Applying the Denoising Model</h3>
+<section id="apply-command" class="level4" data-number="A.3.3.1">
+<h4 data-number="A.3.3.1" class="anchored" data-anchor-id="apply-command"><span class="header-section-number">A.3.3.1</span> Apply Command</h4>
+<p>To apply the model trainined in the previous section, provide the model (<code>-m</code>), path for the input images (<code>-i</code>), and path for the output denoised images (<code>-o</code>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> apply.py </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-m</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">Denoising</span><span class="dt">\\</span><span class="st">Tomm20_Mitochondria</span><span class="dt">\\</span><span class="st">output"</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-i</span> <span class="st">"E:\Denoising</span><span class="dt">\\</span><span class="st">Tomm20_Mitochondria</span><span class="dt">\\</span><span class="st">Test</span><span class="dt">\\</span><span class="st">Raw"</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-o</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">Denoising</span><span class="dt">\\</span><span class="st">Tomm20_Mitochondria</span><span class="dt">\\</span><span class="st">Test</span><span class="dt">\\</span><span class="st">Denoised"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="sec-denoise-metrics" class="level4" data-number="A.3.3.2">
+<h4 data-number="A.3.3.2" class="anchored" data-anchor-id="sec-denoise-metrics"><span class="header-section-number">A.3.3.2</span> Output Analysis</h4>
+<p>Since the output TIFF file is a two-channel ImageJ Hyperstack containing raw and restored images, we can easily compare the denoising effects.</p>
+<div id="fig-denoised-performance" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-denoised-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/denoised.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-denoised-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.3: <strong>Denoising Performance.</strong> The images show raw data input (left) and denoised image after using 3D-RCAN (right). Scale bars: 5 μm for main image and 1 μm for inset.
+</figcaption>
+</figure>
+</div>
+<p>3D-RCAN reconstructs continuous organelle membranes (e.g., mitochondrial cristae) in noisy volumetric data by suppressing stochastic noise, achieving sub-diffraction structural integrity without amplifying high-frequency artifacts or distorting fine textures.</p>
+<p>When evaluating the quality of denoised results generated by 3D-RCAN, PSNR (Peak Signal-to-Noise Ratio) and MSE (Mean Squared Error) serve as critical quantitative metrics. PSNR measures the logarithmic relationship between the maximum possible pixel intensity and the distortion introduced during restoration, with higher values indicating better alignment between the restored image and the ground truth (GT). Conversely, MSE calculates the average squared difference between corresponding pixels, where lower values reflect smaller pixel-level errors. For meaningful comparisons, the restored image should exhibit a higher PSNR and lower MSE relative to the raw input when both are evaluated against the GT. This directly quantifies the model’s ability to enhance resolution while minimizing deviations from the true signal.</p>
+<p>You can calculate PSNR and MSE with the formulas below, where <span class="math inline">\(m\)</span>, <span class="math inline">\(n\)</span>, and <span class="math inline">\(p\)</span> are the dimensions of the 3D image. <span class="math inline">\(I_{\text{raw}}(i,j,k)\)</span> is the intensity value of the raw image at position <span class="math inline">\((i,j,k)\)</span> and <span class="math inline">\(I_{\text{GT}}(i,j,k)\)</span> is the intensity value of the ground truth image at position <span class="math inline">\((i,j,k)\)</span>.</p>
+<p><span id="eq-MSE"><span class="math display">\[
+\text{MSE} = \frac{1}{m n p} \sum_{i=0}^{m-1} \sum_{j=0}^{n-1} \sum_{k=0}^{p-1} [I_{\text{raw}}(i,j,k)-I_{\text{GT}}(i,j,k)]^2
+\tag{A.1}\]</span></span></p>
+<p><span id="eq-PSNR"><span class="math display">\[
+\text{PSNR} = 10 \cdot \log_{10}\left(\frac{\text{MAX}_I^2}{\text{MSE}}\right)
+\tag{A.2}\]</span></span></p>
+<p>We recommend intensity normalization across raw, restored, and GT images (e.g., scaling to <span class="math inline">\([0,1]\)</span>) to avoid metric distortions. For heterogeneous samples, compute localized metrics within regions of interest (e.g., cell membranes vs.&nbsp;cytoplasm) to identify performance variations. Note that while high PSNR/MSE improvements generally correlate with perceptual quality, they should complement visual inspection and task-specific validations (e.g., downstream analysis accuracy). Always verify that the model’s output preserves biological relevance—metrics alone cannot capture context-specific artifacts or over-smoothing.</p>
+</section>
+</section>
+<section id="sec-denoise-guidance" class="level3" data-number="A.3.4">
+<h3 data-number="A.3.4" class="anchored" data-anchor-id="sec-denoise-guidance"><span class="header-section-number">A.3.4</span> Further Denoising Guidance</h3>
+<p>To improve the performance of the 3D-RCAN model when unsatisfied with denoising results, we recommend starting by tuning hyperparameters in the <code>config.json</code> file. Start by adjusting the model architecture parameters to balance computational constraints and feature extraction capabilities. For instance, increasing num_channels (default:32) enhances the network’s capacity to learn complex features but requires more GPU memory. If limited by hardware, reducing it to 16-24 while moderately increasing num_residual_groups (default:5) or num_residual_blocks per group (default:3) could maintain depth without overwhelming resources. The channel_reduction ratio (default:8) for attention mechanisms can be lowered to 4-6 to amplify the model’s sensitivity to channel-wise dependencies, though this should be validated using metrics to avoid overfitting.</p>
+<p>Training dynamics can be optimized by revisiting the initial_learning_rate (default:1e-4). If training loss plateaus or fluctuates, gradually lowering it to 1e-5 stabilizes convergence, while aggressive learning rates (e.g., 5e-4) might accelerate early training but risk divergence. Switching the loss function from MAE (robust to noise) to MSE could prioritize pixel-level accuracy for high-frequency details, especially when ground truth data has sharp structures. Extending training epochs beyond the default 300—coupled with early stopping based on validation loss—helps the model capture subtle patterns in volumetric data.</p>
+<p>Data-related parameters require careful calibration. Enabling data_augmentation (default:True) remains vital for small datasets to simulate variations in microscopy imaging, but it can be disabled for large, diverse datasets to speed up training. The intensity_threshold (default:0.25) and area_ratio_threshold (default:0.5) act as filters for low-quality patches. Raising the intensity threshold to 0.3-0.4 suppresses noisy backgrounds, while lowering the area ratio to 0.3-0.4 accommodates sparse biological structures like microtubules. For validation, always specify a dedicated validation_data_dir to monitor generalization and prevent overfitting.</p>
+<p>Finally, hardware limitations can be mitigated by reducing block_shape dimensions during inference or simplifying the model architecture. Experiment iteratively: establish a baseline with default settings, then progressively scale model complexity while tracking validation metrics like PSNR/SSIM. Consider hybrid strategies, such as combining MAE loss with SSIM regularization (a loss penalty using SSIM to preserve structural fidelity and prevent over-smoothing) or dynamic learning rate schedules, to adapt to specific data characteristics. Always validate changes against biologically relevant structures in your test set, as quantitative metrics alone may not reflect practical image quality for microscopy analysis.</p>
+</section>
+</section>
+<section id="deconvolution-tutorial" class="level2" data-number="A.4">
+<h2 data-number="A.4" class="anchored" data-anchor-id="deconvolution-tutorial"><span class="header-section-number">A.4</span> Deconvolution Tutorial</h2>
+<section id="data-preparation-1" class="level3" data-number="A.4.1">
+<h3 data-number="A.4.1" class="anchored" data-anchor-id="data-preparation-1"><span class="header-section-number">A.4.1</span> Data Preparation</h3>
+<p><strong>Input Format</strong>: 3D TIFF stacks (Z-Y-X order)</p>
+<p><strong>Data Pairs</strong>: The example image pairs we employ here are shown in <a href="#fig-decon-data" class="quarto-xref">Figure&nbsp;<span>A.4</span></a> and are available in the ‘DL Decon’ section of <a href="https://zenodo.org/records/11277422">DeAbePlusData</a>.</p>
+<ul>
+<li><p><strong>Input (Raw</strong>): Low-quality, blurry 3D images with <a href="./glossary.html#point-spread-function-psf">PSF</a> such as single-view volumetric images acquired via diSPIM (0.8 NA <span class="math inline">\(\times\)</span> 0.8 NA optics), with voxel size 0.1625 <span class="math inline">\(\times\)</span> 0.1625 <span class="math inline">\(\times\)</span> 1.0 µm</p></li>
+<li><p><strong>Ground Truth (GT):</strong> High-quality, non-blurry 3D images such as dual-view joint deconvolution-reconstructed volumes (fusion of both diSPIM views), with isotropic resolution.</p></li>
+</ul>
+<div id="fig-decon-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-decon-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/decon_data.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-decon-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.4: <strong>Dataset for Deconvolution.</strong> The images show the single-view image (network input, left) and dual-view image (right) of C. elegans embryos. Scale bar: 5 μm.
+</figcaption>
+</figure>
+</div>
+<p><strong>Directory Structure</strong>: Organize data as follows.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dataset/</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>├── train/</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>│   ├── raw/   # Training raw data</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>│   └── gt/    # Training label data</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>└── val/</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    ├── raw/   # Validation raw data</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>    └── gt/    # Validation label data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The validation data is not necessary for model training, but is an important part of assessing the model quality after training.</p>
+</section>
+<section id="training-a-deconvolution-model" class="level3" data-number="A.4.2">
+<h3 data-number="A.4.2" class="anchored" data-anchor-id="training-a-deconvolution-model"><span class="header-section-number">A.4.2</span> Training a Deconvolution Model</h3>
+<section id="configuration-file-1" class="level4" data-number="A.4.2.1">
+<h4 data-number="A.4.2.1" class="anchored" data-anchor-id="configuration-file-1"><span class="header-section-number">A.4.2.1</span> Configuration File</h4>
+<p>Configure the settings file (<code>config_decon.json</code>) to define the data locations for the training/validation sets and the initial network hyper-parameters.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"training_data_dir"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"raw"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">data_decon</span><span class="ch">\\</span><span class="st">Decon_Training_Data</span><span class="ch">\\</span><span class="st">Raw"</span><span class="fu">,</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"gt"</span><span class="fu">:</span><span class="st">"E:</span><span class="ch">\\</span><span class="st">data_decon</span><span class="ch">\\</span><span class="st">Decon_Training_Data</span><span class="ch">\\</span><span class="st">gt"</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"validation_data_dir"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"raw"</span><span class="fu">:</span><span class="st">"E:</span><span class="ch">\\</span><span class="st">data_decon</span><span class="ch">\\</span><span class="st">Decon_val_Data</span><span class="ch">\\</span><span class="st">Raw"</span><span class="fu">,</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"gt"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">data_decon</span><span class="ch">\\</span><span class="st">Decon_val_Data</span><span class="ch">\\</span><span class="st">gt"</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_channels"</span><span class="fu">:</span> <span class="dv">32</span><span class="fu">,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_residual_blocks"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_residual_groups"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"epochs"</span><span class="fu">:</span> <span class="dv">200</span><span class="fu">,</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"steps_per_epoch"</span><span class="fu">:</span> <span class="dv">256</span><span class="fu">,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"initial_learning_rate"</span><span class="fu">:</span> <span class="dv">1e-4</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="training-command-1" class="level4" data-number="A.4.2.2">
+<h4 data-number="A.4.2.2" class="anchored" data-anchor-id="training-command-1"><span class="header-section-number">A.4.2.2</span> Training Command</h4>
+<p>Run the training using the following command, updating the path to where you have stored the example images as appropriate.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train.py <span class="at">-c</span> config_decon.json <span class="at">-o</span>  <span class="st">"E:</span><span class="dt">\\</span><span class="st">data_decon</span><span class="dt">\\</span><span class="st">model_output"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are using a Mac or Linux system, replace the \ in the example paths with /.</p>
+</div>
+</div>
+</section>
+<section id="training-outputs-1" class="level4" data-number="A.4.2.3">
+<h4 data-number="A.4.2.3" class="anchored" data-anchor-id="training-outputs-1"><span class="header-section-number">A.4.2.3</span> Training Outputs:</h4>
+<p>The output directory will save the model parameters during the training process. For example, the file weights_092_0.06313289.hdf5 represents the model parameters saved at the 92nd training epoch, with a loss value of 0.06313289.</p>
+</section>
+</section>
+<section id="applying-the-deconvolution-model" class="level3" data-number="A.4.3">
+<h3 data-number="A.4.3" class="anchored" data-anchor-id="applying-the-deconvolution-model"><span class="header-section-number">A.4.3</span> Applying the Deconvolution Model</h3>
+<section id="apply-command-1" class="level4" data-number="A.4.3.1">
+<h4 data-number="A.4.3.1" class="anchored" data-anchor-id="apply-command-1"><span class="header-section-number">A.4.3.1</span> Apply Command</h4>
+<p>To apply the model trainined in the previous section, provide the model (<code>-m</code>), path for the input images (<code>-i</code>), and path for the output denoised images (<code>-o</code>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> apply.py </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-m</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">data_decon</span><span class="dt">\\</span><span class="st">model_output"</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-i</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">data_decon</span><span class="dt">\\</span><span class="st">Decon_val_Data</span><span class="dt">\\</span><span class="st">Raw"</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-o</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">data_decon</span><span class="dt">\\</span><span class="st">Decon_val_Data</span><span class="dt">\\</span><span class="st">deconvolved"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="output-analysis" class="level4" data-number="A.4.3.2">
+<h4 data-number="A.4.3.2" class="anchored" data-anchor-id="output-analysis"><span class="header-section-number">A.4.3.2</span> Output Analysis</h4>
+<p>Since the output TIFF file is a two-channel ImageJ Hyperstack containing raw and restored images, we can easily compare the deconvolved effects.</p>
+<div id="fig-decon-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-decon-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/DeCon.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-decon-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.5: <strong>Network Prediction for Deconvolution.</strong> The images show the raw data from C. elegans embryos (left) and 3D-RCAN prediction (right), demonstrating deconvolution. Scale bar: 5 μm.
+</figcaption>
+</figure>
+</div>
+<p>3D-RCAN corrects out-of-focus blur in GFP-labeled <em>C. elegans</em> embryos, resolving densely packed microtubule arrays within mitotic spindles and restoring cortical membrane contours obscured by optical scattering in thick embryonic samples, without introducing grid-like artifacts typical of Fourier-based deconvolution.</p>
+<p>Refer to <a href="#sec-denoise-metrics" class="quarto-xref"><span>Section A.3.3.2</span></a> for baseline validation metrics. Compare with classical methods (e.g., Richardson<span class="citation" data-cites="Richardson1972"><sup><a href="references.html#ref-Richardson1972" role="doc-biblioref">5</a></sup></span> -Lucy<span class="citation" data-cites="Lucy1974"><sup><a href="references.html#ref-Lucy1974" role="doc-biblioref">6</a></sup></span> Deconvolution).</p>
+</section>
+</section>
+<section id="further-deconvolution-guidance" class="level3" data-number="A.4.4">
+<h3 data-number="A.4.4" class="anchored" data-anchor-id="further-deconvolution-guidance"><span class="header-section-number">A.4.4</span> Further Deconvolution Guidance</h3>
+<p>Refer to <a href="#sec-denoise-guidance" class="quarto-xref"><span>Section A.3.4</span></a> for general guidance. For deconvolution, use a lightweight attention mechanism (<span class="math inline">\(\leq\)</span> 3 channel reduction steps) to avoid over-smoothing high-frequency structures.</p>
+</section>
+</section>
+<section id="aberration-correction-tutorial" class="level2" data-number="A.5">
+<h2 data-number="A.5" class="anchored" data-anchor-id="aberration-correction-tutorial"><span class="header-section-number">A.5</span> Aberration Correction Tutorial</h2>
+<section id="data-preparation-2" class="level3" data-number="A.5.1">
+<h3 data-number="A.5.1" class="anchored" data-anchor-id="data-preparation-2"><span class="header-section-number">A.5.1</span> Data Preparation</h3>
+<p><strong>Input Format</strong>: 3D TIFF stacks (Z-Y-X order)</p>
+<p><strong>Data Pairs</strong>: The sample image pairs employed here were <em>C. elegans</em> embryos expressing a GFP marker , as shown in <a href="#fig-deabe-data" class="quarto-xref">Figure&nbsp;<span>A.6</span></a>. You can find these examples in the ‘DL DeAbe’ section of the <a href="https://zenodo.org/records/11277422">DeAbePlusData</a>.</p>
+<ul>
+<li><p><strong>Aberrated Input Data</strong>: Artificially degraded images, corrupted by synthetic aberrations modeled via <a href="./glossary.html#zernike-modes">Zernike polynomials</a> (modes 1–7, defocus coefficient <span class="math inline">\(\leq\)</span> 1.5 rad, other modes <span class="math inline">\(\leq\)</span> 0.5 rad) and Poisson noise. Degradation is applied to shallow-layer ground truth using the physical forward model.</p></li>
+<li><p><strong>High-Quality Label Data</strong>: Directly acquired shallow-layer images serve as ground truth, validated by their proximity to the objective lens (minimal inherent <a href="./glossary.html#aberration">aberrations</a>).</p></li>
+</ul>
+<div id="fig-deabe-data" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deabe-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/deabe_data.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deabe-data-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.6: <strong>Dataset for Aberration Correction.</strong> The images show the aberrated data (network input, left) and shallow-layer data (right) of C. elegans embryos expressing a GFP marker. Scale bar: 5 μm.
+</figcaption>
+</figure>
+</div>
+<p><strong>Directory Structure</strong>: Organize data as follows.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dataset/</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>├── train/</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>│   ├── raw/   # Training aberrated data</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>│   └── gt/    # Training label data</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>└── val/</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    ├── raw/   # Validation aberrated data</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    └── gt/    # Validation label data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The validation data is not necessary for model training, but is an important part of assessing the model quality after training.</p>
+</section>
+<section id="training-an-aberration-correction-model" class="level3" data-number="A.5.2">
+<h3 data-number="A.5.2" class="anchored" data-anchor-id="training-an-aberration-correction-model"><span class="header-section-number">A.5.2</span> Training an Aberration Correction Model</h3>
+<section id="configuration-file-2" class="level4" data-number="A.5.2.1">
+<h4 data-number="A.5.2.1" class="anchored" data-anchor-id="configuration-file-2"><span class="header-section-number">A.5.2.1</span> Configuration File</h4>
+<p>Configure the settings file (<code>config_deabe.json</code>) to define the data locations for the training/validation sets and the initial network hyperparameters.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"training_data_dir"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"raw"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">data_aberration</span><span class="ch">\\</span><span class="st">CropForTraining_ab</span><span class="ch">\\</span><span class="st">Aberrated"</span><span class="fu">,</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"gt"</span><span class="fu">:</span><span class="st">"E:</span><span class="ch">\\</span><span class="st">data_aberration</span><span class="ch">\\</span><span class="st">CropForTraining_ab</span><span class="ch">\\</span><span class="st">GT"</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"validation_data_dir"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"raw"</span><span class="fu">:</span><span class="st">"E:</span><span class="ch">\\</span><span class="st">data_aberration</span><span class="ch">\\</span><span class="st">CropForTraining_ab</span><span class="ch">\\</span><span class="st">Validation</span><span class="ch">\\</span><span class="st">Aberrated"</span><span class="fu">,</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"gt"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">data_aberration</span><span class="ch">\\</span><span class="st">CropForTraining_ab</span><span class="ch">\\</span><span class="st">Validation</span><span class="ch">\\</span><span class="st">GT"</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_channels"</span><span class="fu">:</span> <span class="dv">32</span><span class="fu">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_residual_blocks"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_residual_groups"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"epochs"</span><span class="fu">:</span> <span class="dv">100</span><span class="fu">,</span></span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"steps_per_epoch"</span><span class="fu">:</span> <span class="dv">100</span><span class="fu">,</span></span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"initial_learning_rate"</span><span class="fu">:</span> <span class="dv">1e-4</span></span>
+<span id="cb16-16"><a href="#cb16-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="training-command-2" class="level4" data-number="A.5.2.2">
+<h4 data-number="A.5.2.2" class="anchored" data-anchor-id="training-command-2"><span class="header-section-number">A.5.2.2</span> Training Command</h4>
+<p>Run the training using the following command, updating the path to where you have stored the example images as appropriate.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train.py <span class="at">-c</span> config_deabe.json </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="ex">-o</span> <span class="st">" E:</span><span class="dt">\\</span><span class="st">DeAbe</span><span class="dt">\\</span><span class="st">Train</span><span class="dt">\\</span><span class="st">output"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are using a Mac or Linux system, replace the \ in the example paths with /.</p>
+</div>
+</div>
+</section>
+<section id="training-outputs-2" class="level4" data-number="A.5.2.3">
+<h4 data-number="A.5.2.3" class="anchored" data-anchor-id="training-outputs-2"><span class="header-section-number">A.5.2.3</span> Training Outputs:</h4>
+<p>The output directory will save the model parameters during the training process. For example, the file weights_092_0.06313289.hdf5 represents the model parameters saved at the 92nd training epoch, with a loss value of 0.06313289.</p>
+</section>
+</section>
+<section id="applying-the-aberration-correction-model" class="level3" data-number="A.5.3">
+<h3 data-number="A.5.3" class="anchored" data-anchor-id="applying-the-aberration-correction-model"><span class="header-section-number">A.5.3</span> Applying the Aberration Correction Model</h3>
+<section id="apply-command-2" class="level4" data-number="A.5.3.1">
+<h4 data-number="A.5.3.1" class="anchored" data-anchor-id="apply-command-2"><span class="header-section-number">A.5.3.1</span> Apply Command</h4>
+<p>To apply the model trainined in the previous section, provide the model (<code>-m</code>), path for the input images (<code>-i</code>), and path for the output denoised images (<code>-o</code>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> apply.py </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-m</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">DeAbe</span><span class="dt">\\</span><span class="st">Train</span><span class="dt">\\</span><span class="st">output"</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-i</span> <span class="st">"E:\DeAbe</span><span class="dt">\\</span><span class="st">Test</span><span class="dt">\\</span><span class="st">Raw"</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-o</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">DeAbe</span><span class="dt">\\</span><span class="st">Test</span><span class="dt">\\</span><span class="st">Deabrrated"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="output-analysis-1" class="level4" data-number="A.5.3.2">
+<h4 data-number="A.5.3.2" class="anchored" data-anchor-id="output-analysis-1"><span class="header-section-number">A.5.3.2</span> Output Analysis</h4>
+<p>Since the output TIFF file is a two-channel ImageJ Hyperstack containing raw and restored images, we can easily compare the de-aberration effects.</p>
+<div id="fig-deabe-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-deabe-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/DeAbe.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-deabe-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.7: <strong>3D-RCAN Deaberration prediction.</strong> The images show the raw data input to the network (left) and 3D-RCAN prediction (right), demonstrating aberration correction. Scale bar: 5 μm.
+</figcaption>
+</figure>
+</div>
+<p>3D-RCAN effectively corrects system-induced optical aberrations in GFP-labeled <em>C. elegans</em> embryos. The de-aberrated image restores spatially ordered structures obscured by asymmetric blur in the raw data, while suppressing background granularity and enhancing signal-to-background contrast.</p>
+<p>Refer to <a href="#sec-denoise-metrics" class="quarto-xref"><span>Section A.3.3.2</span></a> for baseline validation metrics. For aberration correction validation, analyze Fourier spectra to assess restored spatial symmetry and high-frequency energy, quantify wavefront errors via phase retrieval or bead-based PSF measurements, and evaluate intensity uniformity/edge sharpness across volumes.</p>
+</section>
+</section>
+<section id="further-aberration-correction-guidance" class="level3" data-number="A.5.4">
+<h3 data-number="A.5.4" class="anchored" data-anchor-id="further-aberration-correction-guidance"><span class="header-section-number">A.5.4</span> Further Aberration Correction Guidance</h3>
+<p>Refer to <a href="#sec-denoise-guidance" class="quarto-xref"><span>Section A.3.4</span></a> for basic guidance. Prioritize RCAB layers with wider receptive fields (kernel size <span class="math inline">\(\leq 5^3\)</span>) to capture large-scale distortion patterns.</p>
+</section>
+</section>
+<section id="resolution-enhancement-tutorial" class="level2" data-number="A.6">
+<h2 data-number="A.6" class="anchored" data-anchor-id="resolution-enhancement-tutorial"><span class="header-section-number">A.6</span> Resolution Enhancement Tutorial</h2>
+<section id="data-preparation-3" class="level3" data-number="A.6.1">
+<h3 data-number="A.6.1" class="anchored" data-anchor-id="data-preparation-3"><span class="header-section-number">A.6.1</span> Data Preparation</h3>
+<p><strong>Input Format</strong>: 3D TIFF stacks (Z-Y-X order)</p>
+<p><strong>Data Pairs</strong>: The <a href="[DeAbePlusData](https://zenodo.org/records/11277422)">example image pairs</a> we employ are shown in <a href="#fig-SR-dataset" class="quarto-xref">Figure&nbsp;<span>A.8</span></a>. You can find these examples in the ‘confocal_2_STED’ section of the <a href="https://zenodo.org/records/4645466">data for the 3D-RCAN paper</a>.</p>
+<ul>
+<li><p><strong>Raw data:</strong> The “raw” data here refers to the original confocal microscopy images of the fixed mouse embryonic fibroblast (MEF) cells, specifically focusing on the microtubules. These images are acquired directly from the confocal microscope without any further processing or enhancement. They represent the initial, unaltered state of the microtubule structures as captured by the confocal microscope.</p></li>
+<li><p><strong>Ground Truth (GT) data</strong>: The “ground truth” (GT) data consists of the high-resolution STED (Stimulated Emission Depletion) microscopy images of the same fixed MEF cells, again focusing on the microtubules.</p></li>
+</ul>
+<div id="fig-SR-dataset" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-SR-dataset-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/SR_dataset.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-SR-dataset-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.8: <strong>Dataset for resolution enhancement.</strong> Image captured by confocal microscope (network input, left) and image captured by STED microscopy (ground truth, right). Both images show microtubules in mouse embryonic fibroblast cells. Scale bar: 5 μm.
+</figcaption>
+</figure>
+</div>
+<p><strong>Directory Structure</strong>: Organize data as follows.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>dataset/</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>├── train/</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>│   ├── raw/   #confocal data</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>│   └── gt/    #STED data</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>└── val/</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    ├── raw/   # confocal data</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    └── gt/    # STED data</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The validation data is not necessary for model training, but is an important part of assessing the model quality after training.</p>
+</section>
+<section id="training-a-resolution-enhancement-model" class="level3" data-number="A.6.2">
+<h3 data-number="A.6.2" class="anchored" data-anchor-id="training-a-resolution-enhancement-model"><span class="header-section-number">A.6.2</span> Training a Resolution Enhancement Model</h3>
+<section id="configuration-file-3" class="level4" data-number="A.6.2.1">
+<h4 data-number="A.6.2.1" class="anchored" data-anchor-id="configuration-file-3"><span class="header-section-number">A.6.2.1</span> Configuration File</h4>
+<p>Configure the settings file (<code>config_sr.json</code>) to define the data locations for the training/validation sets and the initial network hyper-parameters.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"training_data_dir"</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"raw"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">Confocal_2_STED</span><span class="ch">\\</span><span class="st">Microtubule</span><span class="ch">\\</span><span class="st">Training</span><span class="ch">\\</span><span class="st">raw"</span><span class="fu">,</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">"gt"</span><span class="fu">:</span> <span class="st">"E:</span><span class="ch">\\</span><span class="st">Confocal_2_STED</span><span class="ch">\\</span><span class="st">Microtubule</span><span class="ch">\\</span><span class="st">Training</span><span class="ch">\\</span><span class="st">gt1"</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>      </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_channels"</span><span class="fu">:</span> <span class="dv">32</span><span class="fu">,</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_residual_blocks"</span><span class="fu">:</span> <span class="dv">3</span><span class="fu">,</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"num_residual_groups"</span><span class="fu">:</span> <span class="dv">5</span><span class="fu">,</span></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"epochs"</span><span class="fu">:</span> <span class="dv">100</span><span class="fu">,</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"steps_per_epoch"</span><span class="fu">:</span> <span class="dv">256</span><span class="fu">,</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="dt">"initial_learning_rate"</span><span class="fu">:</span> <span class="dv">1e-4</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="training-command-3" class="level4" data-number="A.6.2.2">
+<h4 data-number="A.6.2.2" class="anchored" data-anchor-id="training-command-3"><span class="header-section-number">A.6.2.2</span> Training Command</h4>
+<p>Run the training using the following command, updating the path to where you have stored the example images as appropriate.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train.py </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="ex">-c</span> config_ex.json </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="ex">-o</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">Confocal_2_STED</span><span class="dt">\\</span><span class="st">Microtubule</span><span class="dt">\\</span><span class="st">Training</span><span class="dt">\\</span><span class="st">output"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you are using a Mac or Linux system, replace the \ in the example paths with /.</p>
+</div>
+</div>
+<hr>
+</section>
+</section>
+<section id="applying-the-resolution-enhancement-model" class="level3" data-number="A.6.3">
+<h3 data-number="A.6.3" class="anchored" data-anchor-id="applying-the-resolution-enhancement-model"><span class="header-section-number">A.6.3</span> Applying the Resolution Enhancement Model</h3>
+<section id="apply-command-3" class="level4" data-number="A.6.3.1">
+<h4 data-number="A.6.3.1" class="anchored" data-anchor-id="apply-command-3"><span class="header-section-number">A.6.3.1</span> Apply Command</h4>
+<p>To apply the model trainined in the previous section, provide the model (<code>-m</code>), path for the input images (<code>-i</code>), and path for the output denoised images (<code>-o</code>).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a> <span class="ex">python</span> apply.py</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a> <span class="ex">-m</span> <span class="st">"E:</span><span class="dt">\\</span><span class="st">Confocal_2_STED</span><span class="dt">\\</span><span class="st">Microtubule</span><span class="dt">\\</span><span class="st">Training</span><span class="dt">\\</span><span class="st">output"</span> </span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a> <span class="ex">-i</span> <span class="st">"E:\DATA_for_3dRCAN\Confocal_2_STED\Microtubule\test</span><span class="dt">\"</span><span class="st"> </span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="st"> -o "</span>E:<span class="dt">\\</span>Confocal_2_STED<span class="dt">\\</span>Microtubule<span class="dt">\\</span>test<span class="dt">\o</span>utput<span class="dt">\\</span><span class="st">"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="output-analysis-2" class="level4" data-number="A.6.3.2">
+<h4 data-number="A.6.3.2" class="anchored" data-anchor-id="output-analysis-2"><span class="header-section-number">A.6.3.2</span> Output Analysis</h4>
+<p>Since the output TIFF file is a two-channel ImageJ Hyperstack containing raw and restored images, we can easily investigate the extent of resolution enhancement.</p>
+<div id="fig-SR-results" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-SR-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="6-image-restoration_files/SR.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-SR-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;A.9: <strong>Network Prediction for Enhanced Resolution.</strong> The images show the raw data of immunolabeled microtubules from mouse embryonic fibroblast cells (left) and 3D-RCAN predictions (right), demonstrating enhanced resolution. Scale bars: 5 μm for main figure and 1 μm for inset.
+</figcaption>
+</figure>
+</div>
+<p>The model resolves densely packed microtubule intersections and eliminates axial blur in confocal-derived volumes, restoring filament topology to near-STED resolution.</p>
+<p>Refer to <a href="#sec-denoise-metrics" class="quarto-xref"><span>Section A.3.3.2</span></a> for baseline validation metrics. Check for artifacts in Z-stack transitions and consistency in organelle morphology.</p>
+</section>
+</section>
+<section id="further-resolution-enhancement-guidance" class="level3" data-number="A.6.4">
+<h3 data-number="A.6.4" class="anchored" data-anchor-id="further-resolution-enhancement-guidance"><span class="header-section-number">A.6.4</span> Further Resolution Enhancement Guidance</h3>
+<p>Refer to <a href="#sec-denoise-guidance" class="quarto-xref"><span>Section A.3.4</span></a> for basic guidance. Optimize residual groups (e.g., increase from 5 to 10) and channel dimensions (<span class="math inline">\(\leq 64\)</span>) to handle spatially variant upsampling.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-Zhang2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Zhang, Y. <em>et al.</em> <a href="https://arxiv.org/abs/1807.02758">Image super-resolution using very deep residual channel attention networks</a>. (2018).</div>
+</div>
+<div id="ref-Chen2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Chen, J. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-021-01155-x">Three-dimensional residual channel attention networks denoise and sharpen fluorescence microscopy image volumes</a>. <em>Nature Methods</em> <strong>18</strong>, 678–687 (2021).</div>
+</div>
+<div id="ref-Weigert2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Weigert, M. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-018-0216-7">Content-aware image restoration: Pushing the limits of fluorescence microscopy</a>. <em>Nature Methods</em> <strong>15</strong>, 1090–1097 (2018).</div>
+</div>
+<div id="ref-Wang2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Wang, Z., Bovik, A. C., Sheikh, H. R. &amp; Simoncelli, E. P. <a href="https://doi.org/10.1109/TIP.2003.819861">Image quality assessment: From error visibility to structural similarity</a>. <em>IEEE Transactions on Image Processing</em> <strong>13</strong>, 600–612 (2004).</div>
+</div>
+<div id="ref-Richardson1972" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Richardson, W. H. <a href="https://doi.org/10.1364/JOSA.62.000055">Bayesian-based iterative method of image restoration<span class="math inline">\(\ast\)</span></a>. <em>J. Opt. Soc. Am.</em> <strong>62</strong>, 55–59 (1972).</div>
+</div>
+<div id="ref-Lucy1974" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Lucy, L. B. <a href="https://doi.org/10.1086/111605"><span class="nocase">An iterative technique for the rectification of observed distributions</span></a>. <em>Astronomical Journal</em> <strong>79</strong>, 745 (1974).</div>
+</div>
+</div>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./references.html" class="pagination-link" aria-label="References">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">References</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

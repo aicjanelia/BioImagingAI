@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.24">
+<meta name="generator" content="quarto-1.8.25">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -40,9 +40,9 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b651517ce65839d647a86e2780455cfb.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -350,7 +350,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./6-image-restoration.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Extending Your Hardware With AI</span></span></a>
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -408,6 +408,23 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
  <span class="menu-text">References</span></a>
   </div>
 </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendices</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./6-image-restoration-appendix.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">3D-RCAN for Image Restoration</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
     </ul>
     </div>
 </nav>
@@ -418,42 +435,63 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#backpropagation" id="toc-backpropagation" class="nav-link active" data-scroll-target="#backpropagation">Backpropagation</a></li>
+  <li><a href="#aberration" id="toc-aberration" class="nav-link active" data-scroll-target="#aberration">Aberration</a></li>
+  <li><a href="#adaptive-optics" id="toc-adaptive-optics" class="nav-link" data-scroll-target="#adaptive-optics">Adaptive Optics</a></li>
+  <li><a href="#autoencoder" id="toc-autoencoder" class="nav-link" data-scroll-target="#autoencoder">Autoencoder</a></li>
+  <li><a href="#backpropagation" id="toc-backpropagation" class="nav-link" data-scroll-target="#backpropagation">Backpropagation</a></li>
   <li><a href="#batch" id="toc-batch" class="nav-link" data-scroll-target="#batch">Batch</a></li>
   <li><a href="#bayesian-optimization" id="toc-bayesian-optimization" class="nav-link" data-scroll-target="#bayesian-optimization">Bayesian Optimization</a></li>
   <li><a href="#binary-segmentation" id="toc-binary-segmentation" class="nav-link" data-scroll-target="#binary-segmentation">Binary Segmentation</a></li>
+  <li><a href="#care-content-aware-image-restoration" id="toc-care-content-aware-image-restoration" class="nav-link" data-scroll-target="#care-content-aware-image-restoration">CARE (Content-aware image restoration)</a></li>
   <li><a href="#computer-vision" id="toc-computer-vision" class="nav-link" data-scroll-target="#computer-vision">Computer Vision</a></li>
+  <li><a href="#convolution" id="toc-convolution" class="nav-link" data-scroll-target="#convolution">Convolution</a></li>
+  <li><a href="#convolutional-neural-networks-cnns" id="toc-convolutional-neural-networks-cnns" class="nav-link" data-scroll-target="#convolutional-neural-networks-cnns">Convolutional Neural Networks (CNNs)</a></li>
   <li><a href="#data-augmentation" id="toc-data-augmentation" class="nav-link" data-scroll-target="#data-augmentation">Data Augmentation</a></li>
+  <li><a href="#deconvolution" id="toc-deconvolution" class="nav-link" data-scroll-target="#deconvolution">Deconvolution</a></li>
   <li><a href="#domain-randomization" id="toc-domain-randomization" class="nav-link" data-scroll-target="#domain-randomization">Domain Randomization</a></li>
   <li><a href="#effect-size" id="toc-effect-size" class="nav-link" data-scroll-target="#effect-size">Effect Size</a></li>
   <li><a href="#epoch" id="toc-epoch" class="nav-link" data-scroll-target="#epoch">Epoch</a></li>
   <li><a href="#f1-score" id="toc-f1-score" class="nav-link" data-scroll-target="#f1-score">F1 Score</a></li>
   <li><a href="#false-negatives" id="toc-false-negatives" class="nav-link" data-scroll-target="#false-negatives">False Negatives</a></li>
   <li><a href="#false-positives" id="toc-false-positives" class="nav-link" data-scroll-target="#false-positives">False Positives</a></li>
+  <li><a href="#fiji" id="toc-fiji" class="nav-link" data-scroll-target="#fiji">FIJI</a></li>
+  <li><a href="#frequency-domain" id="toc-frequency-domain" class="nav-link" data-scroll-target="#frequency-domain">Frequency Domain</a></li>
   <li><a href="#gaussian-process" id="toc-gaussian-process" class="nav-link" data-scroll-target="#gaussian-process">Gaussian Process</a></li>
+  <li><a href="#generative-adversarial-networks-gans" id="toc-generative-adversarial-networks-gans" class="nav-link" data-scroll-target="#generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</a></li>
   <li><a href="#genetic-algorithms" id="toc-genetic-algorithms" class="nav-link" data-scroll-target="#genetic-algorithms">Genetic Algorithms</a></li>
   <li><a href="#ground-truth" id="toc-ground-truth" class="nav-link" data-scroll-target="#ground-truth">Ground Truth</a></li>
   <li><a href="#hallucinations" id="toc-hallucinations" class="nav-link" data-scroll-target="#hallucinations">Hallucinations</a></li>
   <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">Hyperparameters</a></li>
   <li><a href="#image-classification" id="toc-image-classification" class="nav-link" data-scroll-target="#image-classification">Image Classification</a></li>
-  <li><a href="#inferences" id="toc-inferences" class="nav-link" data-scroll-target="#inferences">Inferences</a></li>
+  <li><a href="#image-restoration" id="toc-image-restoration" class="nav-link" data-scroll-target="#image-restoration">Image Restoration</a></li>
   <li><a href="#instance-segmentation" id="toc-instance-segmentation" class="nav-link" data-scroll-target="#instance-segmentation">Instance Segmentation</a></li>
   <li><a href="#iou" id="toc-iou" class="nav-link" data-scroll-target="#iou">IoU</a></li>
   <li><a href="#manual-annotation" id="toc-manual-annotation" class="nav-link" data-scroll-target="#manual-annotation">Manual Annotation</a></li>
   <li><a href="#metadata" id="toc-metadata" class="nav-link" data-scroll-target="#metadata">Metadata</a></li>
+  <li><a href="#n2n-noise2noise" id="toc-n2n-noise2noise" class="nav-link" data-scroll-target="#n2n-noise2noise">N2N (Noise2Noise)</a></li>
+  <li><a href="#n2s-noise2self" id="toc-n2s-noise2self" class="nav-link" data-scroll-target="#n2s-noise2self">N2S (Noise2Self)</a></li>
+  <li><a href="#n2v-noise2void" id="toc-n2v-noise2void" class="nav-link" data-scroll-target="#n2v-noise2void">N2V (Noise2Void)</a></li>
+  <li><a href="#nonlinear-problem" id="toc-nonlinear-problem" class="nav-link" data-scroll-target="#nonlinear-problem">Nonlinear Problem</a></li>
   <li><a href="#object-detection" id="toc-object-detection" class="nav-link" data-scroll-target="#object-detection">Object Detection</a></li>
   <li><a href="#panoptic-segmentation" id="toc-panoptic-segmentation" class="nav-link" data-scroll-target="#panoptic-segmentation">Panoptic Segmentation</a></li>
   <li><a href="#pixel-classifiers" id="toc-pixel-classifiers" class="nav-link" data-scroll-target="#pixel-classifiers">Pixel Classifiers</a></li>
+  <li><a href="#point-spread-function-psf" id="toc-point-spread-function-psf" class="nav-link" data-scroll-target="#point-spread-function-psf">Point Spread Function (PSF)</a></li>
   <li><a href="#quality-control-metric" id="toc-quality-control-metric" class="nav-link" data-scroll-target="#quality-control-metric">Quality Control Metric</a></li>
+  <li><a href="#rcan-residual-channel-attention-network" id="toc-rcan-residual-channel-attention-network" class="nav-link" data-scroll-target="#rcan-residual-channel-attention-network">RCAN (residual channel attention network)</a></li>
+  <li><a href="#relu" id="toc-relu" class="nav-link" data-scroll-target="#relu">ReLU</a></li>
+  <li><a href="#self-supervised-learning" id="toc-self-supervised-learning" class="nav-link" data-scroll-target="#self-supervised-learning">Self-supervised learning</a></li>
   <li><a href="#semantic-segmentation" id="toc-semantic-segmentation" class="nav-link" data-scroll-target="#semantic-segmentation">Semantic Segmentation</a></li>
+  <li><a href="#sigmoid-function" id="toc-sigmoid-function" class="nav-link" data-scroll-target="#sigmoid-function">Sigmoid Function</a></li>
+  <li><a href="#spatial-domain" id="toc-spatial-domain" class="nav-link" data-scroll-target="#spatial-domain">Spatial Domain</a></li>
   <li><a href="#star-convex-polygon" id="toc-star-convex-polygon" class="nav-link" data-scroll-target="#star-convex-polygon">Star-convex Polygon</a></li>
-  <li><a href="#test-data" id="toc-test-data" class="nav-link" data-scroll-target="#test-data">Test Data</a></li>
+  <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning">Supervised learning</a></li>
   <li><a href="#training-data" id="toc-training-data" class="nav-link" data-scroll-target="#training-data">Training Data</a></li>
   <li><a href="#transfer-learning" id="toc-transfer-learning" class="nav-link" data-scroll-target="#transfer-learning">Transfer Learning</a></li>
+  <li><a href="#transformer-models" id="toc-transformer-models" class="nav-link" data-scroll-target="#transformer-models">Transformer Models</a></li>
   <li><a href="#true-negatives" id="toc-true-negatives" class="nav-link" data-scroll-target="#true-negatives">True Negatives</a></li>
   <li><a href="#true-positives" id="toc-true-positives" class="nav-link" data-scroll-target="#true-positives">True Positives</a></li>
-  <li><a href="#validation-data" id="toc-validation-data" class="nav-link" data-scroll-target="#validation-data">Validation Data</a></li>
   <li><a href="#virtual-machine" id="toc-virtual-machine" class="nav-link" data-scroll-target="#virtual-machine">Virtual Machine</a></li>
+  <li><a href="#zernike-modes" id="toc-zernike-modes" class="nav-link" data-scroll-target="#zernike-modes">Zernike Modes</a></li>
   </ul>
 </nav>
     </div>
@@ -486,6 +524,18 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 # Iterate over the terms in the glossary and print them
 
 ``` -->
+<section id="aberration" class="level2">
+<h2 class="anchored" data-anchor-id="aberration">Aberration</h2>
+<p>The spreading of light (also called ‘wavefront distortion’) due to imperfections in the optical path or variations in refractive index at the sample, which results in images that are blurrier than the ideal diffraction-limited image we would expect were aberrations absent.</p>
+</section>
+<section id="adaptive-optics" class="level2">
+<h2 class="anchored" data-anchor-id="adaptive-optics">Adaptive Optics</h2>
+<p>Technology that senses distortions in the wavefront of light and cancels them, thereby suppressing optical aberrations to enhance image clarity.</p>
+</section>
+<section id="autoencoder" class="level2">
+<h2 class="anchored" data-anchor-id="autoencoder">Autoencoder</h2>
+<p>A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation.</p>
+</section>
 <section id="backpropagation" class="level2">
 <h2 class="anchored" data-anchor-id="backpropagation">Backpropagation</h2>
 <p>The method used by neural networks to learn from its predictions. Once the prediction is done, it is compared with the ground truth through a training loss and the value of the comparison is used backwards to sequentially update the weights in the neural network, reward it when making a good prediction and punish it when making a bad prediction.</p>
@@ -502,13 +552,29 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="binary-segmentation">Binary Segmentation</h2>
 <p>A type of image segmentation where each pixel is classified into one of two categories—typically “foreground” (e.g., cell) or “background.” The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).</p>
 </section>
+<section id="care-content-aware-image-restoration" class="level2">
+<h2 class="anchored" data-anchor-id="care-content-aware-image-restoration">CARE (Content-aware image restoration)</h2>
+<p>A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See https://github.com/CSBDeep/CSBDeep for more information.</p>
+</section>
 <section id="computer-vision" class="level2">
 <h2 class="anchored" data-anchor-id="computer-vision">Computer Vision</h2>
 <p>A field of computer science wherein computers extract information from images. It often involves object detection within images and can involve classification of the images and/or objects.</p>
 </section>
+<section id="convolution" class="level2">
+<h2 class="anchored" data-anchor-id="convolution">Convolution</h2>
+<p>A mathematical process where a kernel (small matrix) slides over input data (e.g., images) to compute feature maps, highlighting patterns like edges or textures.</p>
+</section>
+<section id="convolutional-neural-networks-cnns" class="level2">
+<h2 class="anchored" data-anchor-id="convolutional-neural-networks-cnns">Convolutional Neural Networks (CNNs)</h2>
+<p>A deep learning architecture that applies convolutions to automatically learn features from images for computer vision tasks like classification and detection.</p>
+</section>
 <section id="data-augmentation" class="level2">
 <h2 class="anchored" data-anchor-id="data-augmentation">Data Augmentation</h2>
 <p>A strategy to artificially increase the diversity of a dataset prior to training by applying transformations such as rotation, flipping, or brightness adjustment. It helps improve model robustness and generalisation.</p>
+</section>
+<section id="deconvolution" class="level2">
+<h2 class="anchored" data-anchor-id="deconvolution">Deconvolution</h2>
+<p>A mathematical process to partially reverse the blurring effect caused by the microscope’s PSF, increasing contrast and resolution over the raw image data if performed carefully.</p>
 </section>
 <section id="domain-randomization" class="level2">
 <h2 class="anchored" data-anchor-id="domain-randomization">Domain Randomization</h2>
@@ -534,9 +600,21 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="false-positives">False Positives</h2>
 <p>In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.</p>
 </section>
+<section id="fiji" class="level2">
+<h2 class="anchored" data-anchor-id="fiji">FIJI</h2>
+<p>An image processing platform that comes bundled with many plugins for scientific image analysis. See https://imagej.net/software/fiji/ for more information.</p>
+</section>
+<section id="frequency-domain" class="level2">
+<h2 class="anchored" data-anchor-id="frequency-domain">Frequency Domain</h2>
+<p>The representation of an image as a function of spatial frequency, obtained by transforming an image into the spatial domain using the Fourier transform.</p>
+</section>
 <section id="gaussian-process" class="level2">
 <h2 class="anchored" data-anchor-id="gaussian-process">Gaussian Process</h2>
 <p>A common surrogate model for optimization strategies such as Bayesian Optimization. Gaussian Processes are non-parametric a case that models a conditional probability function. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.</p>
+</section>
+<section id="generative-adversarial-networks-gans" class="level2">
+<h2 class="anchored" data-anchor-id="generative-adversarial-networks-gans">Generative Adversarial Networks (GANs)</h2>
+<p>A deep learning architecture where two neural networks, a generator and a discriminator, are trained in an adversarial process, enabling the generator to create synthetic data, such as realistic images, by learning to deceive the discriminator.</p>
 </section>
 <section id="genetic-algorithms" class="level2">
 <h2 class="anchored" data-anchor-id="genetic-algorithms">Genetic Algorithms</h2>
@@ -558,9 +636,9 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="image-classification">Image Classification</h2>
 <p>A computer vision task where each image is associated with one class and the goal of this task is to correctly predict that class.</p>
 </section>
-<section id="inferences" class="level2">
-<h2 class="anchored" data-anchor-id="inferences">Inferences</h2>
-<p>Temporary definition.</p>
+<section id="image-restoration" class="level2">
+<h2 class="anchored" data-anchor-id="image-restoration">Image Restoration</h2>
+<p>The process of recovering clear, high-quality images from degraded raw data contaminated by blur, noise, or other distortions.</p>
 </section>
 <section id="instance-segmentation" class="level2">
 <h2 class="anchored" data-anchor-id="instance-segmentation">Instance Segmentation</h2>
@@ -578,6 +656,22 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="metadata">Metadata</h2>
 <p>Any data that provides additional information about other data. In bioimaging, examples include information about sample preparation, the imaging instrument, and image acquisition parameters.</p>
 </section>
+<section id="n2n-noise2noise" class="level2">
+<h2 class="anchored" data-anchor-id="n2n-noise2noise">N2N (Noise2Noise)</h2>
+<p>A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See https://github.com/NVlabs/noise2noise for more information.</p>
+</section>
+<section id="n2s-noise2self" class="level2">
+<h2 class="anchored" data-anchor-id="n2s-noise2self">N2S (Noise2Self)</h2>
+<p>A self-supervised denoising method that trains a neural network assuming statistically independent noise across the image, requiring only single noisy images without paired clean data. See https://github.com/czbiohub-sf/noise2self for more information.</p>
+</section>
+<section id="n2v-noise2void" class="level2">
+<h2 class="anchored" data-anchor-id="n2v-noise2void">N2V (Noise2Void)</h2>
+<p>A self-supervised denoising method that trains a neural network to predict pixel values from noisy images by masking input pixels, requiring only single noisy images without paired clean data. See https://github.com/juglab/n2v for more information.</p>
+</section>
+<section id="nonlinear-problem" class="level2">
+<h2 class="anchored" data-anchor-id="nonlinear-problem">Nonlinear Problem</h2>
+<p>A mathematical problem where the governing equations or operations are nonlinear, meaning outputs are not linearly proportional to inputs.</p>
+</section>
 <section id="object-detection" class="level2">
 <h2 class="anchored" data-anchor-id="object-detection">Object Detection</h2>
 <p>A computer vision task that identifies and locates individual objects within an image, typically by drawing bounding boxes around them. It provides both the category (what) and position (where) of each object.</p>
@@ -590,21 +684,45 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="pixel-classifiers">Pixel Classifiers</h2>
 <p>Machine learning models that classify each pixel in an image based on features such as intensity, texture, or local neighborhood. Commonly used in traditional workflows for segmentation or classification tasks.</p>
 </section>
+<section id="point-spread-function-psf" class="level2">
+<h2 class="anchored" data-anchor-id="point-spread-function-psf">Point Spread Function (PSF)</h2>
+<p>A mathematical function that describes how an imaging system blurs a point source.</p>
+</section>
 <section id="quality-control-metric" class="level2">
 <h2 class="anchored" data-anchor-id="quality-control-metric">Quality Control Metric</h2>
 <p>Any metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g.&nbsp;an image doesn’t have debris) or continuous (e.g.&nbsp;annotated object centroids are within 5 pixels of the ground truth centroids).</p>
+</section>
+<section id="rcan-residual-channel-attention-network" class="level2">
+<h2 class="anchored" data-anchor-id="rcan-residual-channel-attention-network">RCAN (residual channel attention network)</h2>
+<p>A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See https://github.com/AiviaCommunity/3D-RCAN for more information.</p>
+</section>
+<section id="relu" class="level2">
+<h2 class="anchored" data-anchor-id="relu">ReLU</h2>
+<p>An activation function common in deep learning that outputs the input directly if it is positive, and outputs zero otherwise; this characteristic helps introduce non-linearity into the model and mitigate the vanishing gradient problem.</p>
+</section>
+<section id="self-supervised-learning" class="level2">
+<h2 class="anchored" data-anchor-id="self-supervised-learning">Self-supervised learning</h2>
+<p>A deep learning method where models generate their own supervisory signals from unlabeled data, often by using pretext tasks, to learn useful representations that can be applied to various downstream tasks.</p>
 </section>
 <section id="semantic-segmentation" class="level2">
 <h2 class="anchored" data-anchor-id="semantic-segmentation">Semantic Segmentation</h2>
 <p>A form of segmentation where each pixel in an image is assigned to a class (e.g., nucleus, cytoplasm, background), but it does not distinguish between separate instances of the same class.</p>
 </section>
+<section id="sigmoid-function" class="level2">
+<h2 class="anchored" data-anchor-id="sigmoid-function">Sigmoid Function</h2>
+<p>An activation function common in deep learning that non-linearly maps real inputs to outputs between 0 and 1, being most sensitive to changes in inputs around zero and increasingly compressing extreme positive or negative inputs as they approach 1 or 0 respectively; this characteristic enables it to model probabilities for binary classification and introduce smooth non-linearity.</p>
+</section>
+<section id="spatial-domain" class="level2">
+<h2 class="anchored" data-anchor-id="spatial-domain">Spatial Domain</h2>
+<p>The representation of an image as a function of spatial coordinates.</p>
+</section>
 <section id="star-convex-polygon" class="level2">
 <h2 class="anchored" data-anchor-id="star-convex-polygon">Star-convex Polygon</h2>
 <p>A geometric shape used in segmentation algorithms like StarDist. Imagine drawing straight lines (rays) from the centre of an object out toward its edges—if you can see the edge from the centre in all directions, the object is considered star-convex. This method works well for blob-like structures such as nuclei, because their general shape can be captured by measuring how far each ray travels from the centre to the boundary.</p>
 </section>
-<section id="test-data" class="level2">
-<h2 class="anchored" data-anchor-id="test-data">Test Data</h2>
-<p>Temporary definition.</p>
+<section id="supervised-learning" class="level2">
+<h2 class="anchored" data-anchor-id="supervised-learning">Supervised learning</h2>
+<p>A deep learning method where models learn from labeled data (input-output pairs), enabling them to learn a mapping function for making predictions or decisions on unseen inputs.</p>
 </section>
 <section id="training-data" class="level2">
 <h2 class="anchored" data-anchor-id="training-data">Training Data</h2>
@@ -612,7 +730,11 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="transfer-learning" class="level2">
 <h2 class="anchored" data-anchor-id="transfer-learning">Transfer Learning</h2>
-<p>A deep learning technique where part of a pretrained neural network (usually the initial layers, responsible for feature extraction) is frozen and reused in a new model. These frozen layers, with the knowledge from a previous dataset, are combined with untrained layers tailored for a specific bioimaging task. During training, only the new layers will be updated, allowing the model to adapt to the new task with limited data.</p>
+<p>A deep learning technique that reuses a model pre-trained on one task as the starting point for a new, related task, leveraging its learned knowledge to improve performance or reduce training requirements. In practice, part of a pretrained neural network (usually the initial layers, responsible for feature extraction) is frozen and reused in a new model. These frozen layers, with the knowledge from a previous dataset, are combined with untrained layers tailored for a specific bioimaging task. During training, only the new layers will be updated, allowing the model to adapt to the new task with limited data.</p>
+</section>
+<section id="transformer-models" class="level2">
+<h2 class="anchored" data-anchor-id="transformer-models">Transformer Models</h2>
+<p>A deep learning architecture based on the multi-head attention mechanism; specifically referring to the ‘vision transformer’ architecture. A vision transformer (ViT) is a transformer designed for computer vision. A ViT decomposes an input image into a series of patches (rather than text into tokens), serializes each patch into a vector, and maps it to a smaller dimension with a single matrix multiplication. These vector embeddings are then processed by a transformer encoder as if they were token embeddings.</p>
 </section>
 <section id="true-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="true-negatives">True Negatives</h2>
@@ -622,13 +744,13 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="true-positives">True Positives</h2>
 <p>In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.</p>
 </section>
-<section id="validation-data" class="level2">
-<h2 class="anchored" data-anchor-id="validation-data">Validation Data</h2>
-<p>Temporary definition.</p>
-</section>
 <section id="virtual-machine" class="level2">
 <h2 class="anchored" data-anchor-id="virtual-machine">Virtual Machine</h2>
 <p>On a physical computer, you install an operating system (e.g., Windows or Ubuntu) that you interact with. A virtual machine is a program that simulates a complete computer with its own operating system. This lets you run a “computer inside your computer” (e.g., using Linux inside Windows or the other way around). As this simulated computer is separate from your physical one, it adds an extra layer of security, because unless the user specifically allows it, the virtual machine cannot access or connect to your real computer.</p>
+</section>
+<section id="zernike-modes" class="level2">
+<h2 class="anchored" data-anchor-id="zernike-modes">Zernike Modes</h2>
+<p>A set of orthogonal polynomials used to describe and correct wavefront aberrations in optical systems.</p>
 
 
 </section>
