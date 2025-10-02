@@ -704,7 +704,7 @@ Figure&nbsp;6.4: <strong>Different Deep Learning-Based Methods for Aberration Co
 <div id="fig-resolution-enhancement" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-resolution-enhancement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="6-image-restoration_files/image3.png" class="img-fluid figure-img">
+<img src="6-image-restoration_files/image5.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-resolution-enhancement-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain networks.</strong> (a) Cross-modality super resolution<span class="citation" data-cites="Chen2021 Wang2019"><sup><a href="references.html#ref-Chen2021" role="doc-biblioref">39</a>,<a href="references.html#ref-Wang2019" role="doc-biblioref">57</a></sup></span>. Top row: the method takes diffraction-limited data (e.g., confocal microscopy data) as input and super-resolved data (e.g., STED microscopy data or expansion microscopy data) as ground truth. By training a neural network with paired datasets, the network parameters are updated based on the loss between the network’s output and the ground truth, thereby achieving a mapping from the low-resolution domain to the high-resolution domain. Bottom row: similar cross-modality learning can also be adapted using expansion microscopy as the ground truth. The red and yellow arrows highlight improvements in lateral and axial slices due to the restoration process. By ‘digital expansion’, we mean the super-resolution prediction based on expansion microscopy ground truth. (b) Axial resolution enhancement<span class="citation" data-cites="Park2022 Ning2023"><sup><a href="references.html#ref-Park2022" role="doc-biblioref">58</a>,<a href="references.html#ref-Ning2023" role="doc-biblioref">59</a></sup></span>. The method uses datasets composed of low-resolution axial slices (sometimes synthesized from higher resolution lateral views<span class="citation" data-cites="Weigert2018"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a></sup></span>) and high-resolution lateral slices, employing a one-step<span class="citation" data-cites="Park2022"><sup><a href="references.html#ref-Park2022" role="doc-biblioref">58</a></sup></span> or two-step<span class="citation" data-cites="Ning2023"><sup><a href="references.html#ref-Ning2023" role="doc-biblioref">59</a></sup></span> framework to learn the mapping from the low-resolution domain to the high-resolution domain, thus achieving axial resolution enhancement for fluorescence microscopy 3D stack data.
@@ -763,31 +763,6 @@ Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain n
 <p>With advances in transfer learning and self-supervised learning, AI models are likely to become more efficient, requiring less annotated data and computational power. As datasets grow and become more diverse, the dependency on highly specialized ground truth data will be reduced. Moreover, the integration of AI with microscopy platforms in real-time will enhance the ability to process images on the fly, providing immediate feedback to researchers and enabling dynamic imaging of live cells and tissues.</p>
 <p>Newer methods of AI will be developed. Transformer models and large-scale models have shown remarkable success in other domains like natural language processing and computer vision. Transformer architectures, known for their ability to capture long-range dependencies and global context, could significantly improve image restoration tasks by better handling complex, large-scale image structures. Large models—trained on massive datasets—are likely to offer even greater performance, able to generalize across different imaging modalities and restoration tasks. As computational resources continue to expand and more sophisticated models are developed, we can expect these methods to further push the boundaries of image restoration, achieving even finer levels of detail and more accurate reconstruction.</p>
 <p>In conclusion, the future of AI in fluorescence microscopic image restoration is bright. While challenges such as interpretability, data quality, overfitting, and computational demands remain, the field is poised for rapid advances with new architectures and training techniques.</p>
-<!-- ## Quarto has additional features.
-
-You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
-
-::: {.callout-note}
-Note that there are five types of callouts, including:
-`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
-:::
-
-::: {.callout-tip collapse="true"}
-These could be good for extra material or exercises.
-:::
-
-::: {.callout-caution}
-There are caveats when applying these tools. Expand the code below to learn more.
-:::
-
-::: {.callout-warning}
-Be careful to avoid hallucinations.
-:::
-
-::: {.callout-important}
-This is key information.
-:::
--->
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
