@@ -128,7 +128,7 @@ The spatial resolution of optical microscopy is fundamentally limited by the dif
 
 Another resolution enhancement task is the prediction of isotropic resolution from blurry axial views. The majority of fluorescence microscopy techniques, including most widefield, confocal, and light-sheet microscopes, suffer from unmatched resolution in the lateral and axial directions (i.e., resolution anisotropy), which severely deteriorates the quality, reconstruction, and analysis of 3D images. Deep learning models can be trained to predict and fill in the missing information in the z-direction using the higher lateral resolution view and knowledge of the anisotropic PSF, effectively making the resolution more uniform across the entire image[@Park2022; @Ning2023].
 
-![**Schematic of resolution enhancement with cross-domain networks.** (a) Cross-modality super resolution[@Chen2021; @Wang2019]. Top row: the method takes diffraction-limited data (e.g., confocal microscopy data) as input and super-resolved data (e.g., STED microscopy data or expansion microscopy data) as ground truth. By training a neural network with paired datasets, the network parameters are updated based on the loss between the network's output and the ground truth, thereby achieving a mapping from the low-resolution domain to the high-resolution domain. Bottom row: similar cross-modality learning can also be adapted using expansion microscopy as the ground truth. The red and yellow arrows highlight improvements in lateral and axial slices due to the restoration process. By ‘digital expansion’, we mean the super-resolution prediction based on expansion microscopy ground truth. (b) Axial resolution enhancement [@Park2022; @Ning2023]. The method uses datasets composed of low-resolution axial slices (sometimes synthesized from higher resolution lateral views @Weigert2018) and high-resolution lateral slices, employing a one-step @Park2022 or two-step @Ning2023 framework to learn the mapping from the low-resolution domain to the high-resolution domain, thus achieving axial resolution enhancement for fluorescence microscopy 3D stack data.](6-image-restoration_files/image3.png){#fig-resolution-enhancement}
+![**Schematic of resolution enhancement with cross-domain networks.** (a) Cross-modality super resolution[@Chen2021; @Wang2019]. Top row: the method takes diffraction-limited data (e.g., confocal microscopy data) as input and super-resolved data (e.g., STED microscopy data or expansion microscopy data) as ground truth. By training a neural network with paired datasets, the network parameters are updated based on the loss between the network's output and the ground truth, thereby achieving a mapping from the low-resolution domain to the high-resolution domain. Bottom row: similar cross-modality learning can also be adapted using expansion microscopy as the ground truth. The red and yellow arrows highlight improvements in lateral and axial slices due to the restoration process. By ‘digital expansion’, we mean the super-resolution prediction based on expansion microscopy ground truth. (b) Axial resolution enhancement [@Park2022; @Ning2023]. The method uses datasets composed of low-resolution axial slices (sometimes synthesized from higher resolution lateral views @Weigert2018) and high-resolution lateral slices, employing a one-step @Park2022 or two-step @Ning2023 framework to learn the mapping from the low-resolution domain to the high-resolution domain, thus achieving axial resolution enhancement for fluorescence microscopy 3D stack data.](6-image-restoration_files/image5.png){#fig-resolution-enhancement}
 
 ## Practical Guidelines for Image Restoration
 For researchers new to deep learning-based image restoration, successfully applying deep learning to image restoration requires careful preparation and a clear understanding of basic concepts. Here we briefly describe practical guidelines to help you get started with using deep learning for image restoration, from data preparation to model deployment. A step-by-step manual for different image restoration tasks (i.e., denoising, deconvolution, deaberration, and resolution enhancement) using RCAN is provided in @sec-RCAN-appendix. 
@@ -190,30 +190,3 @@ With advances in transfer learning and self-supervised learning, AI models are l
 Newer methods of AI will be developed. Transformer models and large-scale models have shown remarkable success in other domains like natural language processing and computer vision. Transformer architectures, known for their ability to capture long-range dependencies and global context, could significantly improve image restoration tasks by better handling complex, large-scale image structures. Large models—trained on massive datasets—are likely to offer even greater performance, able to generalize across different imaging modalities and restoration tasks. As computational resources continue to expand and more sophisticated models are developed, we can expect these methods to further push the boundaries of image restoration, achieving even finer levels of detail and more accurate reconstruction.
 
 In conclusion, the future of AI in fluorescence microscopic image restoration is bright. While challenges such as interpretability, data quality, overfitting, and computational demands remain, the field is poised for rapid advances with new architectures and training techniques. 
-
-
-<!-- ## Quarto has additional features.
-
-You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
-
-::: {.callout-note}
-Note that there are five types of callouts, including:
-`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
-:::
-
-::: {.callout-tip collapse="true"}
-These could be good for extra material or exercises.
-:::
-
-::: {.callout-caution}
-There are caveats when applying these tools. Expand the code below to learn more.
-:::
-
-::: {.callout-warning}
-Be careful to avoid hallucinations.
-:::
-
-::: {.callout-important}
-This is key information.
-:::
--->
