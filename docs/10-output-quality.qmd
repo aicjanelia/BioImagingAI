@@ -7,6 +7,20 @@ author:
         state: VA
         country: USA
         postal-code: 20147
+   - name: Morgan Schwartz
+      orcid: 0000-0001-8131-9125
+      affiliations:
+        - name: HHMI Janelia Research Campus
+          state: VA
+          country: USA
+          postal-code: 20147 
+   - name: Diane Adjavon
+      orcid: 0009-0001-4702-0776
+      affiliations:
+        - name: 
+          state: 
+          country: 
+          postal-code: 
   - name: Add any co-authors as appropriate
     orcid: 
     affiliations:
@@ -23,7 +37,7 @@ Starting prompt for this chapter: Chapter 10 addresses how to assess the quality
 
 * why do we need metrics? to pick models from different training iterations
   (avoid overfitting) and to select models with different hyperparameters
-* mention train/validate/test
+* mention train/validate/test, dicuss the need for "ground truth" data, can callback to chapter 5
 
 ## Metrics and Losses
 
@@ -47,8 +61,13 @@ Starting prompt for this chapter: Chapter 10 addresses how to assess the quality
 
 * ideally: metric reflects *time/cost needed to clean up* for a *particular application*
 * this can mean different things, and sometimes there is no single number (see Cell Tracking below)
+* Discuss tradeoffs in metrics choice
+* Interpretation of different metrics with guidance on how to balance/trade-off priorities
+  * E.g. segmentation for counting (segmentation as object detection) vs. segmentation for size estimation 
 
 ## Examples
+
+Note: We are considering picking one example to place in call out boxes throughout the chapter to facilitate an ongoing discussion with a concrete example. For examples, we will use real data/GT, but synthetically generate the predictions in order to better highlight specific issues.
 
 ### Segmentation Metrics
 
