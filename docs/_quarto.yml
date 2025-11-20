@@ -36,6 +36,8 @@ book:
     - 11-outlook.qmd
     - glossary.qmd
     - references.qmd
+  appendices:
+    - 6-image-restoration-appendix.qmd
 
 bibliography: references.bib
 csl: settings/nature.csl
@@ -49,8 +51,9 @@ format:
       dark: darkly
   pdf:
     documentclass: scrreprt
+    cite-method: biblatex
 
-glossary:
-  path: glossary.yml
-  popup: click
-  show: true    
+# glossary:
+#   path: glossary.yml
+#   popup: click
+#   show: true    
