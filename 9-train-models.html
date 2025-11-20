@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.25">
+<meta name="generator" content="quarto-1.8.26">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,9 +63,9 @@ div.csl-indent {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-707d8167ce6003fca903bfe2be84ab7f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
@@ -295,9 +295,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
   <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
-    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
-      <a href="./index.html" class="sidebar-logo-link">
-      </a>
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">AI in Microscopy: A BioImaging Guide</a> 
         <div class="sidebar-tools-main tools-wide">
@@ -594,7 +592,7 @@ Figure&nbsp;9.1: The three main types of segmentation in microscopy images. <str
 </figure>
 </div>
 <p>Consider whether your segmentation solution is meant for a specific experiment or needs to generalise across various imaging techniques, sample types, or experimental conditions. Additionally, evaluate the volume of data to analyse, the feasibility of manual analysis, and the resources available to create a tailored image analysis pipeline. Avoid overengineering a solution when a simple analysis could provide the answer you seek.</p>
-<p>Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, <em>“What do I need to accomplish for my analysis to be sufficient?”</em> – see <a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a> for more information. This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful (see <a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a>).</p>
+<p>Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, <em>“What do I need to accomplish for my analysis to be sufficient?”</em> – see <span class="quarto-unresolved-ref">?sec-10</span> for more information. This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful (see <span class="quarto-unresolved-ref">?sec-10</span>).</p>
 <p>While the following steps focus on segmentation, the underlying principles can be readily adapted to a wide range of DL tasks in microscopy.</p>
 </section>
 <section id="sec-9.2.2" class="level3" data-number="9.2.2">
@@ -877,7 +875,7 @@ Figure&nbsp;9.8: Workflow for evaluating DL model performance during training an
 </li>
 <li><a href="./glossary.html#true-positives">True Positives</a> (TP), <a href="./glossary.html#false-positives">False Positives</a> (FP), and <a href="./glossary.html#false-negatives">False Negatives</a> (FN) are particularly important in semantic segmentation and can be used to calculate the <a href="./glossary.html#iou">IoU</a> or <a href="./glossary.html#f1-score">F1 score</a>.</li>
 </ul>
-<p>For more information on these metrics, we recommend<span class="citation" data-cites="laine2021"><sup><a href="references.html#ref-laine2021" role="doc-biblioref">29</a></sup></span> (also see <a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a> for more information).</p>
+<p>For more information on these metrics, we recommend<span class="citation" data-cites="laine2021"><sup><a href="references.html#ref-laine2021" role="doc-biblioref">29</a></sup></span> (also see <span class="quarto-unresolved-ref">?sec-10</span> for more information).</p>
 <p>If a model fails to produce reasonable results, even on simple examples, you can often reject it based solely on qualitative inspection. However, in these cases, quantitative metrics can still help you understand how and where the model fails.</p>
 <p>If your evaluation metrics indicate weak performance, especially for certain structures or image types, you may need to fine-tune the model (see <a href="#sec-9.3.6" class="quarto-xref"><span>Section 9.3.6</span></a>). Consistently strong scores across various test images suggest that a model could be dependable and ready for deployment. If no pre-trained model meets your expectations, the best course may be to train your model using your images (see <a href="#sec-9.3.5" class="quarto-xref"><span>Section 9.3.5</span></a>).</p>
 <p>In summary, <strong>never skip evaluation</strong>. Every model must be tested—both visually and quantitatively—to ensure it truly works for your data and provides results you can trust.</p>
