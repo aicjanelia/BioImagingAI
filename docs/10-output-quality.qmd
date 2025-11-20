@@ -1,28 +1,14 @@
 ---
 author: 
-  - name: Jan Funke
-    orcid: 0000-0003-4388-7783
+  - name: Morgan Schwartz
+    orcid: 0000-0001-8131-9125
     affiliations:
       - name: HHMI Janelia Research Campus
         state: VA
         country: USA
-        postal-code: 20147
-   - name: Morgan Schwartz
-      orcid: 0000-0001-8131-9125
-      affiliations:
-        - name: HHMI Janelia Research Campus
-          state: VA
-          country: USA
-          postal-code: 20147 
-   - name: Diane Adjavon
-      orcid: 0009-0001-4702-0776
-      affiliations:
-        - name: 
-          state: 
-          country: 
-          postal-code: 
-  - name: Add any co-authors as appropriate
-    orcid: 
+        postal-code: 20147 
+  - name: Diane Adjavon
+    orcid: 0009-0001-4702-0776
     affiliations:
       - name: 
         state: 
@@ -37,7 +23,7 @@ Starting prompt for this chapter: Chapter 10 addresses how to assess the quality
 
 * why do we need metrics? to pick models from different training iterations
   (avoid overfitting) and to select models with different hyperparameters
-* mention train/validate/test, dicuss the need for "ground truth" data, can callback to chapter 5
+* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5
 
 ## Metrics and Losses
 
