@@ -8,7 +8,7 @@
 
 <meta name="author" content="Wei Ouyang">
 
-<title>3&nbsp; Foundations of Large Language Models – AI in Microscopy: A BioImaging Guide</title>
+<title>3&nbsp; Large Language Models (LLMs) – AI in Microscopy: A BioImaging Guide</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -261,7 +261,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./3-llms.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations of Large Language Models</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./3-llms.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models (LLMs)</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -300,7 +300,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./1-intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Preface</span></span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -321,7 +321,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3-llms.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations of Large Language Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models (LLMs)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -435,11 +435,12 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-multimodal-ai" id="toc-sec-multimodal-ai" class="nav-link active" data-scroll-target="#sec-multimodal-ai"><span class="header-section-number">3.1</span> Multi-modal AI: Vision-Language Models and Generative AI</a></li>
-  <li><a href="#sec-ai-agents" id="toc-sec-ai-agents" class="nav-link" data-scroll-target="#sec-ai-agents"><span class="header-section-number">3.2</span> AI Agents for Microscopy Workflows</a></li>
-  <li><a href="#sec-challenges" id="toc-sec-challenges" class="nav-link" data-scroll-target="#sec-challenges"><span class="header-section-number">3.3</span> Challenges and Limitations</a></li>
-  <li><a href="#sec-future" id="toc-sec-future" class="nav-link" data-scroll-target="#sec-future"><span class="header-section-number">3.4</span> Future Directions</a></li>
-  <li><a href="#sec-practical-guide" id="toc-sec-practical-guide" class="nav-link" data-scroll-target="#sec-practical-guide"><span class="header-section-number">3.5</span> Practical Guide: Getting Started with LLMs for Microscopy</a></li>
+  <li><a href="#sec-llm-foundations" id="toc-sec-llm-foundations" class="nav-link active" data-scroll-target="#sec-llm-foundations"><span class="header-section-number">3.1</span> Foundations of Large Language Models</a></li>
+  <li><a href="#sec-multimodal-ai" id="toc-sec-multimodal-ai" class="nav-link" data-scroll-target="#sec-multimodal-ai"><span class="header-section-number">3.2</span> Multi-modal AI: Vision-Language Models and Generative AI</a></li>
+  <li><a href="#sec-ai-agents" id="toc-sec-ai-agents" class="nav-link" data-scroll-target="#sec-ai-agents"><span class="header-section-number">3.3</span> AI Agents for Microscopy Workflows</a></li>
+  <li><a href="#sec-challenges" id="toc-sec-challenges" class="nav-link" data-scroll-target="#sec-challenges"><span class="header-section-number">3.4</span> Challenges and Limitations</a></li>
+  <li><a href="#sec-future" id="toc-sec-future" class="nav-link" data-scroll-target="#sec-future"><span class="header-section-number">3.5</span> Future Directions</a></li>
+  <li><a href="#sec-practical-guide" id="toc-sec-practical-guide" class="nav-link" data-scroll-target="#sec-practical-guide"><span class="header-section-number">3.6</span> Practical Guide: Getting Started with LLMs for Microscopy</a></li>
   </ul>
 </nav>
     </div>
@@ -447,9 +448,9 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./3-llms.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations of Large Language Models</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./3-llms.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models (LLMs)</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-llm-foundations" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Foundations of Large Language Models</span></span></h1>
+<h1 class="title"><span id="sec-llms" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models (LLMs)</span></span></h1>
 <p class="subtitle lead">Large Language Models and AI Agents for Microscopy Imaging</p>
 </div>
 
@@ -481,25 +482,28 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 
 
 <p>In recent years, large language models (LLMs) have revolutionized how we interact with technology, bringing unprecedented capabilities to scientific research including microscopy. This chapter explores how microscopists can leverage these powerful AI tools to enhance their workflow, from learning concepts to automating analysis tasks. We’ll discuss both general-purpose and microscopy-specific tools while highlighting practical applications and potential pitfalls.</p>
+<section id="sec-llm-foundations" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-llm-foundations"><span class="header-section-number">3.1</span> Foundations of Large Language Models</h2>
 <p>This section introduces the fundamental concepts behind modern language models, focusing on transformer architectures that power tools like ChatGPT. We’ll explain how these models function, their capabilities for understanding scientific text, and their emerging role in generating code for image analysis tasks. We’ll demonstrate how microscopists can effectively use LLMs to learn new concepts, troubleshoot methods, and generate starting points for analysis scripts.</p>
-<section id="sec-multimodal-ai" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="sec-multimodal-ai"><span class="header-section-number">3.1</span> Multi-modal AI: Vision-Language Models and Generative AI</h2>
+</section>
+<section id="sec-multimodal-ai" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-multimodal-ai"><span class="header-section-number">3.2</span> Multi-modal AI: Vision-Language Models and Generative AI</h2>
 <p>Moving beyond text-only interfaces, multi-modal models combine language understanding with visual processing capabilities. This section explores how Vision-Language Models (VLMs) like GPT-4o can “see” and interpret microscopy images, assist with image annotation, and even aid in experimental design. We’ll also cover generative AI technologies including diffusion models that can create synthetic training data, perform style transfer, or convert microscopy images into vector graphics for publications.</p>
 </section>
-<section id="sec-ai-agents" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="sec-ai-agents"><span class="header-section-number">3.2</span> AI Agents for Microscopy Workflows</h2>
+<section id="sec-ai-agents" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-ai-agents"><span class="header-section-number">3.3</span> AI Agents for Microscopy Workflows</h2>
 <p>AI agents represent the next evolution - autonomous systems that combine language understanding with specialized scientific knowledge and the ability to execute actions. We’ll examine microscopy-specific tools like Omega and the BioImage.io chatbot that can perform complex bioimage analysis workflows through natural language instructions. This section will explore chain-of-thought reasoning, code generation and execution capabilities, and how these agents use visual feedback to iteratively improve results.</p>
 </section>
-<section id="sec-challenges" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="sec-challenges"><span class="header-section-number">3.3</span> Challenges and Limitations</h2>
-<p>While powerful, AI assistants come with significant limitations that microscopists must understand. This section addresses critical challenges including: - <button class="glossary" title="">hallucinations</button> and factual errors in generated content - The “black box” nature of models and concerns about reproducibility - Alignment problems when tools lack domain-specific knowledge - The need for human validation and the dangers of overreliance - Practical strategies for steering models toward scientifically valid outputs</p>
+<section id="sec-challenges" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-challenges"><span class="header-section-number">3.4</span> Challenges and Limitations</h2>
+<p>While powerful, AI assistants come with significant limitations that microscopists must understand. This section addresses critical challenges including: - <button class="glossary" title="Outputs from a model that do not have a basis in the input data and may contain false or misleading information.">hallucinations</button> and factual errors in generated content - The “black box” nature of models and concerns about reproducibility - Alignment problems when tools lack domain-specific knowledge - The need for human validation and the dangers of overreliance - Practical strategies for steering models toward scientifically valid outputs</p>
 </section>
-<section id="sec-future" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="sec-future"><span class="header-section-number">3.4</span> Future Directions</h2>
+<section id="sec-future" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-future"><span class="header-section-number">3.5</span> Future Directions</h2>
 <p>The intersection of LLMs and microscopy is rapidly evolving. This final section examines emerging capabilities and future possibilities, including: - Generalist vision-language models capable of performing diverse analysis tasks - Models that can directly transform input images into processed outputs - The integration of AI agents with microscope hardware for fully autonomous imaging - Smart microscopy systems that adapt acquisition parameters based on real-time image understanding - Ethical considerations and best practices for responsible AI adoption in biological research</p>
 </section>
-<section id="sec-practical-guide" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="sec-practical-guide"><span class="header-section-number">3.5</span> Practical Guide: Getting Started with LLMs for Microscopy</h2>
+<section id="sec-practical-guide" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-practical-guide"><span class="header-section-number">3.6</span> Practical Guide: Getting Started with LLMs for Microscopy</h2>
 <p>This hands-on section provides step-by-step guidance for microscopists to begin leveraging LLMs effectively, including: - Crafting effective prompts that produce reliable, scientific outputs - Using ChatGPT and similar tools to learn imaging concepts and generate analysis code - Getting started with BioImage.io tools and microscopy-specific AI agents - Strategies for validating and verifying AI-generated solutions - Example workflows demonstrating LLM integration into real microscopy analysis tasks</p>
 
 
