@@ -15,7 +15,7 @@ author:
 subtitle: An Introduction to Smart Microscopy
 ---
 
-# Adding AI to Your Hardware
+# Adding AI to Your Hardware {#sec-hardware}
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
