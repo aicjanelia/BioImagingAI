@@ -22,7 +22,9 @@ This seemingly limitless possibility has greatly amplified the complexity of the
 
 ## Textbook Outline
 
-As the chapters of this book will collectively demonstrate, AI now plays an indispensable role in the four main stages of the microscopy experimental workflow (Figure 1): Project design, tool-building, execution of experiments, and data modeling. To address each part of this workflow, this textbook is divided into three distinct sections. 
+As the chapters of this book will collectively demonstrate, AI now plays an indispensable role in the four main stages of the microscopy experimental workflow (@fig-ai_workflow): Project design, tool-building, execution of experiments, and data modeling. To address each part of this workflow, this textbook is divided into three distinct sections. 
+
+![**AI impacts every aspect of the microscopy workflow.** The experimental process represents a cycle through four distinct phases: experimental design, constructing systems and workflows, testing hypotheses using these workflows, and analyzing their outputs to develop new models which inform new exeperiments. In the current age, AI holds the capacity to impact each phase of this cycle.](1-intro_files/Figure1.png){#fig-ai_workflow}
 
 The first focuses on introducing the core concepts of AI, large language models (LLMs) and the computational architectures that underpin these technologies. [Chapter 2](#sec-primer) will introduce the basic principles behind artificial intelligence and machine learning (ML) as a gateway for those less familiar with this topic. In the experimental workflow, modern hypotheses can now drive a project design so complex that artificial intelligence may be required to conceptualize and build the dedicated microscopy tool needed to tackle the experimental challenge. This can be accomplished by using large language models (LLMs) as assistants, as discussed in [Chapter 3](#sec-llms). [Chapter 4](#sec-4) will further explain the construction of AI models and how the accuracy of their outputs can be validated.
 
@@ -32,35 +34,6 @@ Finally, the third section addresses the use of AI and ML to process and analyze
 
 We conclude with a [chapter](#sec-outlook) that summarizes the core concepts and hopes to inspire readers to begin taking full advantage of the promise of the new era of AI and ML. To close the loop, we also hope that by equipping readers with the [proper vocabulary](#sec-glossary), the book will facilitate more effective communication between biologists and AI tool developers.
 
-## Potential Additions
+<!-- ## Potential Additions
 
-Topics suggested during the authors' meetings: Discuss that AI is not always solution and talk about when it is actually useful. Discuss that there are many types of microscopy images and each will have their own AI considerations (e.g., imaging modality, 2D vs 3D, static vs time lapse).
-
-<!-- ## Bibliography and Citations
-
-To cite a research article, add it to references.bib and then refer to the citation key. For example, reference @stringer2021 refers to CellPose and reference @von_chamier2021 refers to ZeroCostDL4Mic.
-
-## Quarto has additional features.
-
-You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
-
-::: {.callout-note}
-Note that there are five types of callouts, including:
-`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
-:::
-
-::: {.callout-tip collapse="true"}
-These could be good for extra material or exercises.
-:::
-
-::: {.callout-caution}
-There are caveats when applying these tools.
-:::
-
-::: {.callout-warning}
-Be careful to avoid hallucinations.
-:::
-
-::: {.callout-important}
-This is key information.
-::: -->
+Topics suggested during the authors' meetings: Discuss that AI is not always solution and talk about when it is actually useful. Discuss that there are many types of microscopy images and each will have their own AI considerations (e.g., imaging modality, 2D vs 3D, static vs time lapse). -->
