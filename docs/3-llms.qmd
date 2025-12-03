@@ -8,6 +8,8 @@ author:
 subtitle: "Large Language Models and AI Agents for Microscopy Imaging"
 ---
 
+# Large Language Models (LLMs) {#sec-llms}
+
 In recent years, large language models (LLMs) have revolutionized how we interact with technology, bringing unprecedented capabilities to scientific research including microscopy. This chapter explores how microscopists can leverage these powerful AI tools to enhance their workflow, from learning concepts to automating analysis tasks. We'll discuss both general-purpose and microscopy-specific tools while highlighting practical applications and potential pitfalls.
 
 ## Foundations of Large Language Models {#sec-llm-foundations}

@@ -17,7 +17,7 @@ author:
 subtitle: How to pick a model?
 ---
 
-# Output Quality
+# Output Quality {#sec-output_quality}
 
 Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
 

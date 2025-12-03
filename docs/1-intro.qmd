@@ -13,24 +13,30 @@ contributors: [
 subtitle: AI at Every Stage of the Microscopy Workflow
 ---
 
-# Introduction
+# Preface
 
-- Why is this textbook needed - what gap we are trying to fill
-- What this book tries to accomplish
-  - Demystifying AI
-  - Roadmap for the book: two main pillars 
-    - ML/AI in image acquisition - how AI/ML alter microscope capabilities
-    - ML/AI in image processing analysis
-    - (a very brief synopsis of each chapter will be included)
-- Highlight open source resources
-- Target audience: Biologists & microscopists
-    - (i) reduce the initial trepidation to explore AI/ML
-    - (ii) know where to find open source tools
-    - (iii) can communicate with the right vocabulary with bioimage analysts
+## Introduction
+The rapid advancement of microscopy, further fueled by parallel development in other related technologies such as probe chemistry, molecular biology, image analysis methods, has propelled bioimaging to the forefront of life science studies @balasubramanian_imagining_2023. In fact, many life scientists now fully expect to visualize intricate biological processes in the context of a whole, living organism – a prospect deemed impossible just a mere decade ago.
+
+This seemingly limitless possibility has greatly amplified the complexity of the questions that can be probed. Likewise, it demands a significant degree of forethought in the design of biological experiments [@wait_hypothesis-driven_2020;@lee_believing_2024] to ensure that the maximal amount of biological information can be extracted from the acquired data. On the other hand, the wealth of information contained in modern bioimage data can now often exceed the grasp of a human observer and thus require computational means to aid in data interpretation. In other words, the need for the ever-expanding and multifaceted field of artificial intelligence (AI) can no longer be separated from bioimaging. Yet the absence of a comprehensive resource to systematically explore how AI can enhance bioimaging prevents many in the community from taking advantage of this indispensable technology. This textbook therefore aims to demystify AI in its many forms and outline proper use cases thereof to facilitate biological discovery. We have specifically contextualized the textbook for our two target audiences: microscopists and biologists. The scientists developing new AI and ML tools often fail to tailor explanations and tutorials for these users who will ultimately facilitate biological discovery. We hope this textbook will bridge the gap.
+
+## Textbook Outline
+
+As the chapters of this book will collectively demonstrate, AI now plays an indispensable role in the four main stages of the microscopy experimental workflow (Figure 1): Project design, tool-building, execution of experiments, and data modeling. To address each part of this workflow, this textbook is divided into three distinct sections. 
+
+The first focuses on introducing the core concepts of AI, large language models (LLMs) and the computational architectures that underpin these technologies. [Chapter 2](#sec-primer) will introduce the basic principles behind artificial intelligence and machine learning (ML) as a gateway for those less familiar with this topic. In the experimental workflow, modern hypotheses can now drive a project design so complex that artificial intelligence may be required to conceptualize and build the dedicated microscopy tool needed to tackle the experimental challenge. This can be accomplished by using large language models (LLMs) as assistants, as discussed in [Chapter 3](#sec-llms). [Chapter 4](#sec-4) will further explain the construction of AI models and how the accuracy of their outputs can be validated.
+
+The second section focuses on extending microscopy hardware with AI. To render a microscope “smart”, i.e., for it to perform an experiment with minimal or no human intervention, ML software first needs to be trained on extensive and high-quality training data. The collection and design of training data is covered in [Chapter 5](#sec-training). [Chapter 6](#sec-Image-Restoration) will discuss the implementation of AI and ML to enhance the capabilities of existing microscopes through resolution improvement and denoising. Likewise, AI and ML models can be designed to control event-driven image acquisition to visualize biological events that are rare and/or photosensitive ([Chapter 7](#sec-hardware)). 
+
+Finally, the third section addresses the use of AI and ML to process and analyze microscopy data in order to extract biological information beyond what is achievable through human observation alone. [Chapter 8](#sec-8) will focus on helping readers find and use available open-access tools. When those existing tools are yet insufficient, [Chapter 9](#sec-9) seeks to further widen the horizon by discussing the process of training new models for specific image processing and analysis tasks. Finally, [Chapter 10](#sec-output_quality) will address the question of “when is my model performing well enough?”. This important step pinpoints potential weaknesses of any model, thereby placing results in meaningful context.
+
+We conclude with a [chapter](#sec-outlook) that summarizes the core concepts and hopes to inspire readers to begin taking full advantage of the promise of the new era of AI and ML. To close the loop, we also hope that by equipping readers with the [proper vocabulary](#sec-glossary), the book will facilitate more effective communication between biologists and AI tool developers.
+
+## Potential Additions
 
 Topics suggested during the authors' meetings: Discuss that AI is not always solution and talk about when it is actually useful. Discuss that there are many types of microscopy images and each will have their own AI considerations (e.g., imaging modality, 2D vs 3D, static vs time lapse).
 
-## Bibliography and Citations
+<!-- ## Bibliography and Citations
 
 To cite a research article, add it to references.bib and then refer to the citation key. For example, reference @stringer2021 refers to CellPose and reference @von_chamier2021 refers to ZeroCostDL4Mic.
 
@@ -57,4 +63,4 @@ Be careful to avoid hallucinations.
 
 ::: {.callout-important}
 This is key information.
-:::
+::: -->
