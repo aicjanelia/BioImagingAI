@@ -16,7 +16,7 @@ author:
         postal-code: 02142
 ---
 
-# Chapter 8: How do you select and find a tool? {#sec-8}
+# How do you select and find a tool? {#sec-8}
 
 ## Introduction
 
