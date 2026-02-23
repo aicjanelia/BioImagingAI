@@ -42,7 +42,7 @@ Beyond simple classification, these models demonstrate remarkable Visual Questio
 
 ### The Rise of Generalist Models
 
-Recent efforts have been directed toward training "generalist" models, with tools like Cellpose leading the charge. These approaches have tremendously improved generalization capabilities and made deep learning significantly safer to apply across a large variety of input data types. However, even these advances remain limited to relatively simple tasks such as segmentation, which represents a relatively straightforward setting in terms of the overall computational challenge - essentially outputting standard labeled images or binary separation of objects versus background.
+Recent efforts have been directed toward training "generalist" models, with tools like Cellpose leading the charge. These approaches improve generalization capabilities by exposing models to a diverse range of datasets spanning different microscopy modalities as well as natural images with similar visual characteristics. Rather than optimizing for performance on specific data types, this approach prioritizes broad coverage and robustness - a crucial shift given the risks of model misuse. Generalist models tend to be inherently safer than specialized ones when applied blindly to unseen data, as they are less likely to produce confidently wrong results outside their training distribution. While these advances have made deep learning significantly safer to apply across varied input types, they remain largely limited to relatively simple tasks such as segmentation, which represents a straightforward computational challenge of producing binary object/background separation or standard labeled images.
 
 ### The Complexity Challenge in Microscopy
 
@@ -215,7 +215,7 @@ While Vision-Language Models and LLMs provide powerful foundational capabilities
 
 AI agents are autonomous systems that combine the reasoning capabilities of large language models with the ability to interact with external tools, databases, and software environments. Unlike traditional AI models that provide a single response to a query, agents can engage in extended problem-solving sessions involving multiple steps, tool usage, and adaptive planning based on intermediate results.
 
-The key innovation lies in their ability to use approaches like ReAct (Reasoning and Acting), which combines reasoning traces with concrete actions. When faced with a complex task, an agent first reasons about the problem, identifies what tools or information it needs, takes specific actions (such as running code, querying databases, or analyzing images), observes the outcomes, and then reasons about next steps. This iterative cycle continues until the task is completed or the agent determines it needs human intervention.
+The key innovation lies in their ability to use approaches like ReAct (Reasoning and Acting) [@yao2022react], which combines reasoning traces with concrete actions. When faced with a complex task, an agent first reasons about the problem, identifies what tools or information it needs, takes specific actions (such as running code, querying databases, or analyzing images), observes the outcomes, and then reasons about next steps. This iterative cycle continues until the task is completed or the agent determines it needs human intervention.
 
 ### How AI Agents Work in Practice
 
