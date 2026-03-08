@@ -351,9 +351,11 @@ During fitting it is important to monitor the training loss and the validation l
 
 ![Example training loss and validation loss across epochs.](4-architectures/trainloss.png){#fig-trainloss width=40%}
 
-To avoid overfitting, regularization is often used. Most commonly in computer vision problems, weight decay will be used for regularization, which is closely-related to L2 regularization. This operation reduces the weights by a small fraction $\lambda$ at each optimization step: 
+To avoid overfitting to the training set, various weight regularization strategies are used. Most commonly in computer vision problems, weight decay will be used for regularization, which is closely-related to L2 regularization. This operation reduces the weights by a small fraction $\lambda$ at each optimization step: 
 
 $$\vec{w}_t = \vec{w}_{t-1} - \alpha \lambda \vec{w}_{t-1} - \vec{v}_t. $$
+
+This fraction is proportional to the size of the weight, so large weights require stronger gradient sizes to maintain their large size. This means that weight changes that are spurious, for example because a single training batch happened to generate them, will be later undone by the weight regularization returning the weights towards zero.
 
 Other forms of regularization include drop-out, in which a random subset of activations are dropped in linear layers [@hinton2012improving], or entire layers or blocks are randomly dropped [@huang2016deep], for example in transformer architectures [@kirillov2023segment]. Often normalization layers are used after each layer to normalize the activations, with batch normalization used for convolutional layers and layer normalization used in transformers [@ioffe2015batch; @ba2016layer]. This normalization reduces the likelihood of vanishing and exploding gradients, and helps to regularize the weight values. 
 
