@@ -25,24 +25,26 @@ The problems faced by biologists differ in multiple ways from traditional comput
 
 ## Neural network architectures
 
-In computer vision, multiple neural network architectures were designed for various visual tasks. These architectures take as input an image, which often has multiple channels - in the case of natural images there are three input channels for red/green/blue. The neural networks process the image and output various quantities depending on the task. For example, in the case of object recognition, the networks output a single probability vector to indicate the likelihood that each possible object (cat, dog etc) is in the image. 
+In computer vision, multiple neural network architectures were designed for various visual tasks. These architectures take as input an image, which often has multiple channels - in the case of natural images there are three input channels for red/green/blue. The neural networks process the image and output various quantities depending on the task. For example, in the case of object recognition, the networks output a single probability vector to indicate the likelihood that each possible object (cat, dog etc) is in the image. As an example, we illustrate Alexnet [@krizhevsky2012imagenet], the first neural network to achieve high performance at object classification. This neural network takes as input an RGB image, applies filters to the image, downsamples the image (reducing the size of the image), and then repeats this process several times, in the end producing an object category label.
 
 ![Alexnet architecture, adapted from [@krizhevsky2012imagenet]. This early neural network first demonstrated the capabilities of deep learning when trained on large datasets.](4-architectures/alexnet.PNG){#fig-alexnet width=90%}
 
-In the case of biological problems, the output is often the same size as the input, thus providing pixel-level labels. These can indicate, for example, whether each pixel belongs to the cell class or not. A common architecture for this is a u-net:
+In the case of biological problems, however, it is often necessary for the output to be the same size as the input -- pixel-level labels -- rather than a single object category label. For example, for cell classification, each pixel in the output may represent the cell class of the pixel. A common architecture for this is a u-net [@ronneberger2015u], which applies filters and downsamples like Alexnet, and then additionally applies filters with upsampling, in the end producing an output at the same pixel resolution as the input.
 
 ![U-net architecture, adapted from [@ronneberger2015u]. This neural network was revolutionary for biological analysis, in part due to the image-sized outputs and dense skip connections between layers on the downsampling and upsampling pass.](4-architectures/unet.PNG){#fig-unet}
 
-### Linear layers (or fully-connected layers, or dense layers)
+### Linear layers (AKA fully-connected layers, or dense layers)
 
-Early research focused on the computational properties of  perceptrons, defined as linear weighted sums of inputsfollowed by a nonlinear activation functions [@rumelhart1986learning]. A neural network layer consistes of a collection of such perceptrons, each with their own input weights. A multilayer perceptron (MLP) is the simplest example of a deep neural network -- which we will discuss later -- and consists of a sequence of such layers that are applied in series, each on the output of the previous one. The linear layer performs a matrix multiplication of a “weights” matrix ($W$) with the input $\vec{x}$ followed by an addition with a vector of “bias” terms ($\vec{b}$). The size of the weights matrix is the number of outputs by the number of inputs, and length of the bias vector is the number of outputs.
+Early research focused on the computational properties of "perceptrons", defined as linear weighted sums of inputs, followed by a nonlinear activation functions [@rumelhart1986learning]. In other words, an vector of features $\vec{x}$ are the input, they are multiplied by a weight specific for each feature $\vec{w}$, summed together, and then put through a nonlinearity. An example of a feature set may be a summary of cell-based quantifications in an image, like how many cells are oblong or the fraction of cells with specific RNA expression, and the output may represent the phenotype of the cells in the image, for example cancerous or non-cancerous.
+
+A neural network layer consists of a collection of such perceptrons, each with their own input weights; when these vectors of weights for each perceptron are put together, they create a weights matrix $W$. Another term often added to these computations is a "bias" value, and there is one term for each output, creating a vector $\vec{b}$. This additive term provides flexibility for the layer to produce non-zero outputs, even with the inputs are zero. In summary,
 
 $$ 
 W = 
 \begin{bmatrix}
-W_{11} & \cdots & W_{1n}\\
+W_{11} & \cdots & W_{1m}\\
 \vdots & \ddots & \vdots \\
-W_{n1} & \cdots & W_{nn}
+W_{n1} & \cdots & W_{nm}
 \end{bmatrix}
 , \quad
 \vec{b} = 
@@ -50,14 +52,19 @@ W_{n1} & \cdots & W_{nn}
  b_1 \\
  \vdots \\
  b_n
- \end{bmatrix} 
+ \end{bmatrix} ,
  $$
 
+where $m$ is the number of inputs $n$ is the number of outputs. The output of the linear layer is
+$$ \vec{y} = W\vec{x} + \vec{b} = [\sum_{j=1}^m W_{ij} x_{j} + b_{i}]_{i=1}^n.$$
 
-The output of the linear layer is
-$$ \vec{y} = W\vec{x} + \vec{b} = [\sum_{j=1}^n W_{ij} x_{j} + b_{i}]_{i=1}^n$$
+Each of the elements in $\vec{x}$ and $\vec{y}$ are also called neural network **units**. The values of these elements, which are dependent on the specific inputs to the layer, are called **activations**.
 
-The activation function ($f$) is the nonlinearity applied to each output of the linear layer, such as a ReLU nonlinearity which sets the minimum value of the output to zero. The nonlinearity allows the network to compute more complicated functions of the input than would be possible with a simple linear model [@cybenko1989approximation].
+The weights matrix allows any combination of inputs to be used to create each output. This is why these layers are also called "fully-connected", because there is a weight value between each input and output feature. They can also be referred to as "dense" layers because the connectivity is not sparse.
+
+![Illustration of a linear layer with five input features and three output features.](4-architectures/linear.png){#fig-linear width=60%}
+
+The activation function ($f$) is the nonlinearity applied to each output of the linear layer, such as a ReLU nonlinearity which sets the minimum value of the output to zero. The nonlinearity allows the network to compute more complicated functions of the input than would be possible with a simple linear model [@cybenko1989approximation]. In practice, this is essential -- when processing microscopy data, we are performing a complex, nonlinear transformation of the pixel intensities to variables like cell type.
 
 $$
 y = f(z) = 
@@ -69,7 +76,11 @@ $$
 
 ![ReLU nonlinearity. This is the most-used activation function in neural networks, sometimes with small modifications.](4-architectures/relu.png){width=33% #fig-relu}
 
-For images, dense linear layers are not efficient in the number of parameters and computations they perform. To see why, consider a modest-sized input image of 100 by 100 pixels with 3 channels. In this case, there are 30,000 input values. If the output of the layer is the same size as the input, then there are 30,000 output values. The weights matrix then has size  30,000 by 30,000 and the bias vector has length 30,000. This is almost a billion parameters to fit, and would lead to overfitting even with a large amount of training  data. 
+A sequence of such layers that are applied in series, each on the output of the previous one, is called a multilayer perceptron (MLP). This is the simplest example of a deep neural network, and we illustrate the code below. 
+
+![Illustration of a multilayer perceptron (MLP) with two hidden layers.](4-architectures/mlp.png){#fig-mlp width=60%}
+
+For images, we note that dense linear layers are not efficient in the number of parameters and computations they perform. To see why, consider a modest-sized input image of 100 by 100 pixels with 3 channels. In this case, there are 30,000 input values. If the output of the layer is the same size as the input, then there are 30,000 output values. The weights matrix then has size  30,000 by 30,000 and the bias vector has length 30,000. This is almost a billion parameters to fit, and would lead to overfitting even with a large amount of training  data. 
 
 Here we show a code example for a multi-layer perceptron with 30,000 input values, a hidden layer with 30,000 units, and an output layer with one output:
 
@@ -135,25 +146,23 @@ print('output shape: ', y.shape)
 
 ### Convolutional layers
 
-Instead of linear layers, convolutional layers are often used in vision tasks, as a parameter-efficient alternative [@lecun1995convolutional]. A convolutional layer slides a small two-dimensional filter across the input image, computing the dot product between the filter and the input at each image position. It also includes the addition of a vector of bias terms. For 2D image processing, we use two-dimensional convolutions, but one/three dimensional convolutions may be used for 1D/3D data respectively. The output of the 2D convolution operation at position $(x,y)$ can be written as follows for an example grayscale image $I$ with a single input channel, where the filter $W$ is size $(2k+1, 2k+1)$ and the bias is $b$:
-
-$$ C(x,y) = \sum_{i_x=-k}^{k} \sum_{i_y=-k}^{k} W(i_x+k, i_y+k) X(x+i_x,y+i_y) + b $$
-
-This **convolutional filter** $W$ is often called a **kernel**. Note that “convolution” and “filtering” are often conflated  in neural network terminology, whereas they refer to distinct operations in the signal processing and mathematical literature. Here is an illustration of a 2D convolution:
+Instead of linear layers, convolutional layers are often used in vision tasks, as a parameter-efficient alternative [@lecun1995convolutional]. A convolutional layer slides a small two-dimensional filter across the input image, computing a weighted sum of the input at each image position using the filter weights. It also includes the addition of a vector of bias terms. For 2D image processing, we use two-dimensional convolutions, but one/three dimensional convolutions may be used for 1D/3D data respectively. Here is an illustration of a 2D convolution:
 
 ![Toy illustration of convolutional operation from this [article](https://towardsdatascience.com/light-on-math-machine-learning-intuitive-guide-to-convolution-neural-networks-e3f054dd5daa). In practice, convolutional kernels are more complicated than simple template detectors.](4-architectures/conv_happy.gif){#fig-convill  width=70%}
 
-This is an example with a single input and a single output channel, but in general a 2D convolutional layer has multiple input and output channels. Each output **channel** is the result of a 2D convolutional kernel applied to the input. In the gif below, the input is in blue, the kernel is in gray, and the output is in green. The number of units in the output channel depends on a  *stride* parameter. In the gif below, the stride is 1 because the input image is sampled at each position. A stride of 2 would mean skipping over every other input position both vertically and horizontally. In most applications, especially with small kernel sizes, a stride of 1 is used for convolution.
-
-![Convolutional operation with padding from this [github](https://github.com/vdumoulin/conv_arithmetic). This illustrates the creation of a single channel output from a single channel input. In practice, both inputs and outputs have multiple channels and all combinations of input and output need to be calculated and summed accordingly.](4-architectures/same_padding_no_strides.gif){#fig-convpad width=40%}
-
 ::: {.callout-note} 
-If the kernel size *K* is odd and you set the `padding=K//2` (floor[K/2]) and `stride=1` as  shown in @fig-convpad, you get a **channel** of units that is the same size as the input.
+Note that “convolution” and “filtering” are often conflated in neural network terminology, whereas they refer to distinct operations in the signal processing and mathematical literature. 
 :::
 
-A convolutional layer operates under two main assumptions: 1) the computation only requires local features that are within the spatial extent of the filter operation; and 2) it is not necessary to perform different computations at different positions in the image, and thus the same filter operation can be convolutionally applied across all positions in the image. When these assumptions are acceptable, a convolutional layer can reduce the number of parameters substantially compared to linear layers.
+The 2D **convolutional filter** $W$ is often also called a **kernel**, and the size of the filter is called the *kernel size*. To preserve the size of the input, the kernel size needs to be odd and the input needs to be padded with zeros around the edges of the image, with a padding size of the floor of half the kernel size, e.g. if the kernel size is 3 the padding is required to be 1, as shown in @fig-convpad. Additionally, the *stride* parameter needs to be set to 1, which is the number of pixels between each application of the filter. A stride of 2 would mean skipping over every other input position both vertically and horizontally. In most applications, especially with small kernel sizes, a stride of 1 is used for convolution.
 
-Taking our example from above, let’s estimate the number of parameters with filters/kernels of size 3 by 9 by 9 pixels, where 3 is the number of input channels and 9 is the size in pixel space, the “kernel size”. The number of input and output images are called “channels”, similar to the red/green/blue channels for RGB images. If we define the layer to have 6 output channels, this requires 6 of these kernels resulting in 1458 parameters in the kernels, along with 6 bias terms, resulting in 1464 parameters in total. As you can see, the number of parameters now is independent of the size of the input in pixels, and a dramatic reduction from the nearly 1 billion parameters for the dense linear layer example above. 
+![Convolutional operation with padding from this [github](https://github.com/vdumoulin/conv_arithmetic). This illustrates the creation of a single channel output from a single channel input, where the input is in blue, the filter is gray, and the output is in green. In practice, both inputs and outputs have multiple channels and all combinations of input and output need to be calculated and summed accordingly.](4-architectures/same_padding_no_strides.gif){#fig-convpad width=40%}
+
+The number of input and output images are called **channels**, similar to the red/green/blue channels for RGB images. @fig-convpad is an example with a single input and a single output channel, but in general a 2D convolutional layer has multiple input and output channels. Each output channel is the result of a 2D convolutional kernel applied to the input, with weights for each input feature. 
+
+A convolutional layer operates under two main assumptions: 1) the computation only requires local features that are within the spatial extent of the filter operation; and 2) it is not necessary to perform different computations at different positions in the image, and thus the same filter operation can be convolutionally applied across all positions in the image. When these assumptions are acceptable, a convolutional layer can reduce the number of parameters substantially compared to linear layers. We note that for certain microscopy tasks, the amount of spatial context required may vary - for example determining the boundary of a tissue may require a larger context than a task like nuclear segmentation.
+
+Taking our example from above, let’s estimate the number of parameters with filters/kernels of size 3 by 9 by 9 pixels, where 3 is the number of input channels and 9 is the size in pixel space, the "kernel size". If we define the layer to have 6 output channels, this requires 6 of these kernels, resulting in 1458 parameters in the kernels, along with 6 bias terms, resulting in 1464 parameters in total. As you can see, the number of parameters now is independent of the size of the input in pixels, and this is a dramatic reduction from the nearly 1 billion parameters for the dense linear layer example above. 
 
 Here we show a code example for a convolutional layer with 3 input channels, 6 output channels and a kernel size of 9:
 
@@ -223,25 +232,31 @@ print('input shape: ', X.shape)
 print('output shape: ', y.shape)
 ```
 
-If we apply several convolutional and pooling layers, we end up with an output which is smaller in resolution than the input. We can see example activations across convolutional, pooling and linear layers in a network trained to classify MNIST [@lecun1998mnist] digits:
+If we apply several convolutional and pooling layers, we end up with an output which is smaller in resolution than the input. In @fig-mnist, we show an example of such a network, that has been trained to classify the handwritten digits of the MNIST dataset [@lecun1998mnist]. The activations of the units in the network across layers are visualized:
 
-![Activations across convolutional and pooling layers from this [demo](https://adamharley.com/nn_vis/cnn/2d.html). Lighter blue indicates a higher activation.](4-architectures/mnist.PNG){#fig-mnist}
+![Activations of each layer of a small, illustrative network. 
+Lighter blue indicates a higher activation for each unit. The final output layer represents the probability of the input image corresponding to a value between 0 and 9. In this example, the network correctly identifies the input as the number 3. To see this in action, check out the interactive demonstration.
+](4-architectures/mnist.PNG){#fig-mnist}
 
 Having an output that is downsampled relative to the input is appropriate for a task like object recognition, where the output is the class of the image, like cat or dog. In the case of biological images, this could be a global image label of a cancerous or non-cancerous phenotype [@spanhol2016breast]. However, for pixel-specific classification or segmentation, we require the output to be the same size as the input. This is where u-nets come in.
 
 ### U-nets
 
-U-nets were introduced by Ronneberger, Fischer, and Brox [-@ronneberger2015u] (@fig-unet). They share some similarities with feature pyramid networks [@lin2017feature], but u-nets are more frequently used in biological applications so we will focus on them. U-nets have an encoder-decoder structure, like an autoencoder [@hinton2006reducing], with the encoder consisting of convolutional layers and pooling layers (downsampling), and the decoder consisting of convolutional layers and upsampling or strided conv-transpose layers. End-to-end, u-nets typically produce an output at the same spatial resolution as the input.
- 
-The downsampling results in a loss of fine spatial information. To recover this information, the output of the convolutional layers in the encoder is concatenated with the activations from the decoder at each spatial scale using skip connections (“copy” operation in @fig-unet). This preserves the higher resolution details, which is important for precise segmentations and pixel-wise predictions.
+U-nets were introduced by Ronneberger, Fischer, and Brox [-@ronneberger2015u] (@fig-unet). They share some similarities with feature pyramid networks [@lin2017feature], but u-nets are more frequently used in biological applications so we will focus on them. U-nets have what is called an encoder-decoder structure, like an autoencoder [@hinton2006reducing]. The "encoder" consists of the convolutional layers and pooling layers (downsampling), the first half of the network. The "decoder" consists of convolutional layers and upsampling or strided conv-transpose layers, the second half of the network, which return an output at the same spatial resolution as the input. 
 
-Conventional u-nets [@ronneberger2015u] have two convolutional layers per block and a small kernel size of 3 in each layer. The downsampling after each block is often set to a factor of 2. Because the kernel size is small, the only way to have large receptive field sizes is through several downsampling blocks. If we want the network to learn complicated tasks across many diverse images, then we need it to have a large “capacity”. This can be achieved by adding more weights to the network, for example by increasing the number of channels in the convolutional layers and/or by adding more convolutional layers in each block and/or by increasing the number of downsampling and upsampling stages [@stringer2021].
+In the case of an autoencoder [@hinton2006reducing], the network is trained to reproduce the input, and the output of the encoder is defined to be lower dimensional than the input. The output of the encoder is then a compressed version of the inputs that can be used to visualize the data. We can also visualize the output of the encoder of a u-net, although u-nets are usually not trained to predict their inputs. Instead, u-nets are often trained to predict pixel-level cell probabilities, with pixels inside cells defined as one and pixels outside cells defined as zero.
+ 
+The downsampling results in a loss of fine spatial information. To recover this information, in the u-net the output of the convolutional layers in the encoder is concatenated with the activations from the decoder at each spatial scale using skip connections (“copy” operation in @fig-unet). This preserves the higher resolution details, which is important for precise segmentations and pixel-wise predictions.
+
+Conventional u-nets [@ronneberger2015u] have two convolutional layers per spatial scale and a small kernel size of 3 in each layer. Each of these sets of convolutional layers per spatial scale are often referred to as blocks. The downsampling after each block is often set to a factor of 2. Because the kernel size is small, the only way to have large receptive field sizes is through several downsampling blocks. If we want the network to learn complicated tasks across many diverse images, then we need it to have a large “capacity”. This can be achieved by adding more weights to the network, for example by increasing the number of channels in the convolutional layers and/or by adding more convolutional layers in each block and/or by increasing the number of downsampling and upsampling stages [@stringer2021].
 
 ### Vision transformers
 
-Vision transformers are modern architectures that are replacing convolutional networks in many applications. They are not as parameter-efficient as convolutional neural networks - for example the Cellpose segmentation u-net has 6.6 million parameters while ViT-H (“vision-transformer-huge”) has 632 million parameters [@dosovitskiy2020image]. They are still much more efficient than dense linear layers due to special architecture choices (see below), and they introduce a new type of operation called “self-attention”. Transformers avoid overfitting this large set of parameters through training on very large amounts of data. Even though they have many more parameters than standard convolutional networks, they are not too much slower because most of the operations within the transformer are matrix multiplications which are fast on newer GPUs with tensor cores (e.g. from [nvidia](https://www.nvidia.com/en-us/data-center/tensor-cores/)). With more parameters, they have a larger capacity than standard convolutional neural networks to learn from large training datasets.
+Vision transformers are modern architectures that are replacing convolutional networks in many applications. They are not as parameter-efficient as convolutional neural networks - for example the Cellpose segmentation u-net has 6.6 million parameters while ViT-H (“vision-transformer-huge”) has 632 million parameters [@dosovitskiy2020image]. They are still much more efficient than dense linear layers due to special architecture choices (see below), and they introduce a new type of operation called “self-attention”. Transformers avoid overfitting this large set of parameters through training on very large amounts of data. Even though they have many more parameters than standard convolutional networks, they are not too much slower because most of the operations within the transformer are matrix multiplications which are fast on newer GPUs with tensor cores (an explainer from [tech-radar](https://www.techradar.com/computing/gpu/what-is-a-tensor-core-the-nvidia-gpu-technology-explained)). With more parameters, they have a larger capacity than standard convolutional neural networks to learn from large training datasets.
 
-The vision transformer divides the input image into patches, e.g. 16 by 16 pixels each. In the first layer of the transformer the patches are transformed into the embedding space, using a linear operation that is often implemented using strided convolutions. This embedding space is generally several times larger than the number of pixels in the patch; for example the embedding space in ViT-H is 1280. These patch embeddings are input to the transformer encoder, which consists of many blocks ($L$). Each transformer block has a self-attention block and an MLP block. In the self-attention block, the attention matrix is computed as pairwise interactions between all patches, enabling sharing of information across the entire image. 
+The vision transformer first divides the input image into patches, e.g. 16 by 16 pixels each. In the first layer of the transformer the patches are transformed into the embedding space, using a linear operation that is often implemented using strided convolutions. This embedding space is generally several times larger than the number of pixels in the patch; for example the embedding space in ViT-H is 1280. If an image is 512 by 512 pixels, then it has 32 by 32 (=1024) patches, so the patch embeddings are of dimensionality 1024 patches by 1280 feature dimensions in the case of ViT-H.
+
+These patch embeddings are input to the transformer encoder, which consists of many blocks ($L$). Each transformer block has a self-attention block and a multi-layer perceptron (MLP) block. The input patches to each self-attention block are multiplied by three sets of learned feature vectors, which create the queries (Q), keys (K), and values (V) input to the self-attention block. The queries and keys are multiplied across patches, and a normalization operation is applied - this is the attention matrix, where each entry $(i,j)$ is the interaction between patches $i$ and $j$. Because this matrix is across all patches in the image, this operation enables sharing of information across the entire image. The attention matrix is then multiplied with the values matrix, and the result of this operation, which is number of patches by feature dimension, is fed into the MLP. This MLP acts on the feature dimension, applying the same operation to each patch, and often often consists of two layers, with a nonlinearity in the hidden layer only. Residual connections are added to both the attention and MLP operations, in order to speed up training.
 
 ![Vision transformer architecture. Originally invented for language modeling [@vaswani2017attention], transformers were then adapted for image processing [@dosovitskiy2020image]. The critical innovation in transformers is the self-attention block (left illustration from [here](https://github.com/dvgodoy/PyTorchStepByStep)).](4-architectures/transformer.PNG){width=90% #fig-vit}
 
@@ -259,9 +274,9 @@ For classification, we are evaluating predicted probabilities, and so we need to
 
 $$ \ell(x, y) = - \sum_{c=1}^C \log [p_c(x)] y_c.$$
 
-In segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, "not cell" and "cell" [@ronneberger2015u]. 
+In segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, "not cell" as zeros and "cell" as ones [@ronneberger2015u]. 
 
-![Binary cross-entropy loss, computed from the output of a u-net trained to classify cell/not cell (predicted cell probability).](4-architectures/bceloss.PNG){#fig-bce width=70%}
+![An image (upper left) is input to a u-net trained to predict cell/not cell pixels. The output of the network is the predicted cell probability image (bottom left). A sigmoid is applied to the cell probability (middle bottom), and compared to the ground-truth cell probabilities (middle top). The comparison is performed using the binary cross-entropy loss per-pixel (right).](4-architectures/bceloss.PNG){#fig-bce width=70%}
 
 In pytorch, the softmax and cross-entropy loss are combined into a single function; for two-class prediction the function is [`nn.BCEWithLogitsLoss`](https://docs.pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html), and for multi-class prediction the function is [`nn.CrossEntropyLoss`](https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html). Here is example code with cell/not-cell prediction with one convolutional layer:
 
@@ -309,9 +324,11 @@ Stardist extends this approach by computing the distance-to-boundary along multi
 
 ## Training neural networks
 
-Now that we have defined a loss function, we want to minimize the loss $\ell$ by updating the weights in the network. For a problem like segmentation, we will need images with ground-truth segmentation labels - this labeling can be done using tools like [Ilastik](https://www.ilastik.org/), [ImageJ](https://imagej.net/software/imagej/), [Paintera](https://github.com/saalfeldlab/paintera), or [Napari](https://napari.org/stable/). Once ground-truth labeling is done on some images, training can be attempted. We will want to use most of the ground-truth labeled images for training, making up a training set, and leave a small subset (like 10%) for testing the performance of the network. For some algorithms, we may also need a validation set for setting post-processing parameters like the cell probability threshold, in which case we can reserve 10-15% of the training set images for validation.
+Now that we have defined a loss function, we want to minimize the loss $\ell$ by updating the weights in the network. For a problem like segmentation, we will need images with ground-truth segmentation labels - this labeling can be done using tools like [Ilastik](https://www.ilastik.org/), [ImageJ](https://imagej.net/software/imagej/), [Paintera](https://github.com/saalfeldlab/paintera), or [Napari](https://napari.org/stable/). Once ground-truth labeling is performed on some images, training can be attempted. 
 
-Minimizing the loss is done via gradient descent, in which the weights are updated by the gradient of the loss with respect to each parameter, scaled by the learning rate $\alpha$:
+We will want to use most of the ground-truth labeled images for training, making up a training set, and leave a small subset (like 10%) for testing the performance of the network. For some algorithms, we may also need a validation set for setting post-processing parameters like the cell probability threshold, in which case we can reserve 10-15% of the training set images for validation. In other words, we use the validation set to determine the threshold on the cell probabilities that produces the best segmentations on the ground-truth labels. See the training chapter for more details on this.
+
+During optimization, we run the training images through the network, compute the loss, and compute the weight updates that minimize the loss via gradient descent. Gradient descent computes the gradient of the loss with respect to each weight. Moving the weights in the negative direction of the gradient reduces the loss for the given images or data points over which the loss is computed. These weight updates are scaled by the learning rate $\alpha$:
 
 $$ 
 \begin{align*}
@@ -322,10 +339,11 @@ $$
 
 ![Gradient descent illustration, from [here](https://compneuro.neuromatch.io/tutorials/W1D5_DeepLearning/student/W1D5_Tutorial1.html).](4-architectures/grad_descent.gif){#fig-gd}
  
-Moving the parameters in the negative direction of the gradient reduces the loss for the given images or data points over which the loss is computed. We could compute the loss and gradients over all images in the training set, but this would take too long so in practice the loss is computed in batches of a few to a few hundred images - the number of images in a batch is called the *batch size*. The optimization algorithm for updating the weights in batches is called stochastic gradient descent (SGD). This is often faster than full-dataset gradient descent because it updates the parameters many times on a single pass through the training set (called “epoch”). Also, the stochasticity induced by the random sampling step in SGD effectively adds some noise in the search for a good minimum of the loss function, which may be useful for avoiding local minima.
+We could compute the loss and gradients over all images in the training set, but this would take too long so in practice the loss is computed in batches of a few to a few hundred images - the number of images in a batch is called the *batch size*. The optimization algorithm for updating the weights in batches is called stochastic gradient descent (SGD). This is often faster than full-dataset gradient descent because it updates the parameters many times on a single pass through the training set (called “epoch”). Also, the stochasticity induced by the random sampling step in SGD effectively adds some noise in the search for a good minimum of the loss function, which may be useful for avoiding local minima.
 
-It can also be beneficial to include momentum, with some value $\beta$ between zero and one, which pushes weight updates along the same direction they have been updating in the past. The updated version of $\vec{v}$ in this case is
+It can also be beneficial to include momentum to speed up training, with some value $\beta$ between zero and one. Momentum pushes weight updates along the same direction they have been updating in the past. The updated version of $\vec{v}$ in this case is
 $$ \vec{v}_t = \beta \vec{v}_{t-1} + \alpha\, \frac{d L(\vec{w}_t)}{d \vec{w}_t} $$
+where in standard SGD $\beta = 1 - \alpha$. In other words, past weight updates slowly decay over optimization steps (at rate $\beta$), and new weight updates are added with size $\alpha$.
 
 Different weights in the network may have differently scaled gradients, and thus a single learning rate may not work well. The Adam optimizer uses a moving average of both the first and second moment of the gradient for rescaling the weight updates while including a momentum term [@kingma2014adam]. This optimizer works better than standard SGD in many cases, and requires less fine-tuning to find good hyperparameter values. In addition to using an optimizer like Adam, it may be helpful to use a learning rate schedule which reduces the learning rate towards the end of training to enable smaller steps for fine-tuning the final weights [@loshchilov2016sgdr]. Sometimes a validation set is used to re-instantiate the best weights, as evaluated on the validation set, before a decrease in the learning rate [@prechelt1998automatic].
 
@@ -340,6 +358,8 @@ $$\vec{w}_t = \vec{w}_{t-1} - \alpha \lambda \vec{w}_{t-1} - \vec{v}_t. $$
 Other forms of regularization include drop-out, in which a random subset of activations are dropped in linear layers [@hinton2012improving], or entire layers or blocks are randomly dropped [@huang2016deep], for example in transformer architectures [@kirillov2023segment]. Often normalization layers are used after each layer to normalize the activations, with batch normalization used for convolutional layers and layer normalization used in transformers [@ioffe2015batch; @ba2016layer]. This normalization reduces the likelihood of vanishing and exploding gradients, and helps to regularize the weight values. 
 
 Additionally, data augmentation reduces the likelihood of overfitting, which is described in Chapter 5. There is also more detail about training neural networks in Chapter 9.
+
+In summary, we hope this chapter serves as a brief introduction to architectures, loss functions, and optimization used for problems the bioimaging community.
 
 ## Practical application
 
