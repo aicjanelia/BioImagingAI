@@ -61,7 +61,7 @@ Figure adapted from @Haase2024.
 - **How will you assess your outputs?**  
   Will your assessment be qualitative or quantitative?
   Do you have ground truth?
-  Do you have the expertise to assess output quality? (see @sec-10 for more information)
+  Do you have the expertise to assess output quality? (see @sec-output_quality for more information)
 - **What is your desired "quality” of your outputs?**  
   Are you expecting outputs that approach [ground truth](glossary.qmd#ground-truth) or will "quick and dirty” be enough for you?
 - **What does your ideal workflow look like?**  

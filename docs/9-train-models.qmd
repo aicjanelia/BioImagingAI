@@ -76,7 +76,7 @@ Since segmentation serves as the central example in this chapter, it is importan
 
 Consider whether your segmentation solution is meant for a specific experiment or needs to generalise across various imaging techniques, sample types, or experimental conditions. Additionally, evaluate the volume of data to analyse, the feasibility of manual analysis, and the resources available to create a tailored image analysis pipeline. Avoid overengineering a solution when a simple analysis could provide the answer you seek.
 
-Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”* -- see @sec-10 for more information. This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful (see @sec-10).
+Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”* -- see @sec-output_quality for more information. This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful (see @sec-output_quality).
 
 While the following steps focus on segmentation, the underlying principles can be readily adapted to a wide range of DL tasks in microscopy.
 
@@ -314,7 +314,7 @@ Common metrics used in quantitative evaluation include:
 * F1-score (Dice coefficient): This is especially valuable when the object of interest covers a small area in the image, as it balances precision and recall.  
 * [True Positives](glossary.qmd#true-positives) (TP), [False Positives](glossary.qmd#false-positives) (FP), and [False Negatives](glossary.qmd#false-negatives) (FN) are particularly important in semantic segmentation and can be used to calculate the [IoU](glossary.qmd#iou) or [F1 score](glossary.qmd#f1-score).
 
-For more information on these metrics, we recommend [@laine2021] (also see @sec-10 for more information).
+For more information on these metrics, we recommend [@laine2021] (also see @sec-output_quality for more information).
 
 If a model fails to produce reasonable results, even on simple examples, you can often reject it based solely on qualitative inspection. However, in these cases, quantitative metrics can still help you understand how and where the model fails.
 
