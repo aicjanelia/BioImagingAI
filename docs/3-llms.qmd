@@ -75,7 +75,7 @@ To orient readers, @tbl-model-evolution summarizes the key model types discussed
 | U-Net variants | Images | Masks, restored images | Segmentation, restoration | U-Net, Cellpose |
 | LLMs | Text | Text, code | Natural language, code generation | ChatGPT, Claude |
 | VLMs | Images + Text | Text, annotations | Visual Q&A, classification, description | GPT-4o/5, Gemini, Claude |
-| AI Agents | Files + Prompts | Code, results, workflows | Tool orchestration, autonomous analysis | Omega, BioImage.IO Chatbot |
+| AI Agents | Files + Prompts | Code, results, workflows | Tool orchestration, autonomous analysis | Claude Code, Gemini CLI, Codex, Omega, BioImage.IO Chatbot |
 
 : Evolution of AI model types relevant to microscopy, from task-specific deep learning to general-purpose AI agents. {#tbl-model-evolution}
 

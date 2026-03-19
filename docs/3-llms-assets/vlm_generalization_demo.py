@@ -17,7 +17,7 @@ Requirements:
 The script will:
 1. Load the cat and microscopy images
 2. Crop the cat image to square format
-3. Use GPT-4.1 to classify both images with logprobs enabled
+3. Use GPT-5.2 to classify both images with logprobs enabled
 4. Create a side-by-side comparison figure similar to CNN demo
 5. Save the results with probability analysis and comprehensive VQA
 """
@@ -78,7 +78,7 @@ Classification: Domestic Animal (Confidence: 60%)"""
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4.1",
+            model="gpt-5.2",
             messages=[
                 {
                     "role": "user",
@@ -161,7 +161,7 @@ Please be as detailed as possible while being scientifically accurate. If you're
 
     try:
         response = client.chat.completions.create(
-            model="gpt-4.1",
+            model="gpt-5.2",
             messages=[
                 {
                     "role": "user",
@@ -327,7 +327,7 @@ def main():
         print(f"Error: Microscopy image not found at {microscopy_image_path}")
         return
     
-    print("Analyzing images with VLM (GPT-4.1)...")
+    print("Analyzing images with VLM (GPT-5.2)...")
     print("This may take a few moments as we query the OpenAI API...")
     
     # Analyze both images
