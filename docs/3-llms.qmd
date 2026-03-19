@@ -1,30 +1,40 @@
 ---
-author: 
+author:
   - name: Wei Ouyang
     orcid: 0000-0002-0291-926X
     affiliations:
       - name: SciLifeLab | KTH Royal Institute of Technology
         country: Sweden
-subtitle: "Large Language Models and AI Agents for Microscopy Imaging"
+  - name: Hanzhao Zhang
+    affiliations:
+      - name: SciLifeLab | KTH Royal Institute of Technology
+        country: Sweden
+subtitle: "From Deep Learning to Autonomous AI-Powered Bioimage Analysis"
 ---
 
-In recent years, artificial intelligence has revolutionized scientific research, with large language models (LLMs) and multi-modal AI bringing unprecedented capabilities to microscopy. This chapter explores how microscopists can leverage these powerful tools to enhance their workflows, from learning concepts to automating complex analysis tasks. We'll trace the evolution from traditional deep learning approaches to modern generative AI, examining both general-purpose and microscopy-specific tools while highlighting practical applications and potential pitfalls.
+# Large Language Models and AI Agents {#sec-llms}
 
-## From Deep Learning to Multi-Modal Generative AI {#sec-intro}
+Over the past decade, the way we analyze microscopy data has changed substantially. What began with specialized deep learning models for individual tasks — segmentation, denoising, classification — has evolved into a broader landscape where AI systems can assist with experiment planning, code generation, instrument control, and workflow adaptation. This chapter traces that evolution and equips microscopists with the knowledge to navigate it.
 
-The field of artificial intelligence in microscopy has undergone a dramatic transformation over the past decade. The journey began with the explosive growth of computer vision models, particularly convolutional neural networks (CNNs), which revolutionized how we process biological images. These supervised models were specifically trained to classify images and spit out labels, or perform various image restoration and translation tasks such as denoising, segmentation, and artificial labeling. Among the most popular architectures that emerged were ResNet for classification tasks and U-Net for segmentation and image-to-image translation - models that became foundational not only in bioimaging but across the broader computer vision landscape.
+We begin by examining the limitations of traditional deep learning and the rise of foundation models that generalize across imaging modalities. We then introduce large language models and explain how they work at an intuitive level (@sec-llm-foundations), before exploring how function calling transformed them from text generators into action-taking agents (@sec-function-calling). The chapter covers vision-language models for microscopy (@sec-multimodal-ai) and the growing ecosystem of AI agents that can orchestrate complex workflows, control instruments, and generate software on demand (@sec-ai-agents, @sec-disposable-software). A hands-on practical guide (@sec-practical-guide) provides concrete workflows for getting started, followed by an honest discussion of challenges, implications for the profession, and an outlook on where the field is headed (@sec-challenges).
+
+Throughout, we maintain a critical perspective: these tools offer genuine capabilities, but they also hallucinate, carry biases, and cannot replace the domain expertise of trained microscopists. Understanding both the power and the limitations is essential for responsible adoption.
+
+## From Deep Learning to Foundation Models and Generative AI {#sec-intro}
+
+The application of artificial intelligence to microscopy has changed rapidly. The modern era began with the rise of computer vision models, particularly convolutional neural networks (CNNs), which substantially improved how we process biological images. These [supervised](glossary.qmd#supervised-learning) models were specifically trained to classify images and output predicted labels, or perform various [image restoration](glossary.qmd#image-restoration) and translation tasks such as denoising, segmentation, and artificial labeling. Among the most popular architectures that emerged were ResNet for [image classification](glossary.qmd#image-classification) tasks and U-Net for segmentation and image-to-image translation - models that became foundational not only in bioimaging but across the broader [computer vision](glossary.qmd#computer-vision) landscape (see @sec-4 for a detailed discussion of these architectures).
 
 ### The Promise and Perils of Early Deep Learning
 
-While these early deep learning approaches showed remarkable capabilities, they came with significant and often underappreciated limitations. One of the biggest downsides of these models lies in their hallucination tendencies, poor generalization capability, and out-of-distribution issues. The fundamental problem is rooted in the fact that neural networks can barely do extrapolation - they are essentially sophisticated pattern matching systems that work reliably only when processing input data that is probabilistically similar to their training images.
+While these early deep learning approaches showed impressive capabilities, they came with significant and often underappreciated limitations. One of the biggest downsides of these models lies in their [hallucination](glossary.qmd#hallucinations) tendencies, poor generalization capability, and out-of-distribution issues. The fundamental problem is rooted in the fact that neural networks can barely do extrapolation - they are essentially sophisticated pattern matching systems that work reliably only when processing input data that is probabilistically similar to their training images.
 
 This extrapolation limitation has been clearly demonstrated in landmark studies like the Neural Arithmetic Logic Units (NALU) research by @trask2018neural, where researchers showed that standard neural networks fail dramatically at simple arithmetic tasks when tested outside their training range. In their experiments, networks trained to learn basic addition on numbers within a small range would completely fail when tested on larger numbers, despite addition being a fundamentally simple operation that should generalize perfectly.
 
-To illustrate this fundamental limitation, we conducted a simple experiment (see `3-llms-assets/neural_network_extrapolation_failure.py`) where we trained a multi-layer perceptron to learn addition using numbers in the range [-1,1]. When tested on progressively larger ranges up to [-1,100], the model's performance degrades catastrophically - with errors increasing by approximately 7,700× from the training range (@fig-extrapolation-failure).
+To illustrate this fundamental limitation, we conducted a simple experiment (see `3-llms-assets/neural_network_extrapolation_failure.py`) where we trained a multi-layer perceptron to learn addition using numbers in the range [-1,1]. When tested on progressively larger ranges up to [-1,100], the model's performance degrades severely - with errors increasing by approximately 7,700× from the training range (@fig-extrapolation-failure).
 
 ![Neural network extrapolation failure in simple addition. A standard MLP trained to learn addition on the range [-1,1] shows catastrophic performance degradation when tested on larger number ranges, with errors increasing exponentially despite addition being a fundamentally simple operation that should generalize perfectly. The dramatic failure - from 0.002 mean absolute error in the training range to 15.411 in the [-1,100] test range - demonstrates the core limitation of neural networks as pattern matching systems rather than true reasoning systems.](3-llms-assets/neural_network_extrapolation_failure.png){#fig-extrapolation-failure}
 
-Stretching these models beyond their training distribution often results in dramatic failure modes: producing hallucinated objects that don't exist in the original image, predicting completely irrelevant labels with deceptively high confidence scores, or generating artifacts that can mislead biological interpretation. If not used cautiously in production settings, these failure modes can result in catastrophic consequences for scientific research - imagine a cell segmentation model confidently identifying non-existent cellular structures, or a classification system labeling healthy cells as diseased with 99% confidence.
+Stretching these models beyond their training distribution often results in severe failure modes: producing hallucinated objects that don't exist in the original image, predicting completely irrelevant labels with deceptively high confidence scores, or generating artifacts that can mislead biological interpretation. If not used cautiously in production settings, these failure modes can result in catastrophic consequences for scientific research - imagine a cell segmentation model confidently identifying non-existent cellular structures, or a classification system labeling healthy cells as diseased with 99% confidence.
 
 This fundamental limitation is vividly demonstrated in @fig-cnn-domain-mismatch, where we apply a standard ResNet50 model trained on ImageNet to both natural and microscopy images. On the left, the model correctly identifies a cat with reasonable confidence: "tabby" (24.7%), "Egyptian cat" (18.2%), and "tiger cat" (15.3%) - demonstrating that the model functions as intended within its training domain. However, when presented with a microscopy image showing TRAP1 protein localization in human cells, the same model produces confident but completely irrelevant predictions: "jellyfish" (36.2%), "sea anemone" (28.1%), and "coral reef" (15.7%).
 
@@ -36,13 +46,25 @@ Importantly, this demonstration doesn't suggest that ImageNet-pretrained models 
 
 ### Superior Generalization of Large Vision-Language Models
 
-In stark contrast to traditional CNNs, large vision-language models demonstrate remarkable generalization capabilities that fundamentally address the out-of-distribution problems we've just discussed. Unlike specialized CNNs that catastrophically fail when encountering data outside their training distribution, these foundation models exhibit robust performance across diverse visual domains due to their massive scale, diverse training data, and sophisticated architecture design. When we apply the same classification task to GPT-4o using the identical cat and microscopy images, the model demonstrates nuanced understanding rather than confident misclassification. The model can recognize that the microscopy image contains cellular structures it hasn't been explicitly trained to identify, providing more appropriate uncertainty estimates and avoiding the confident but incorrect predictions that plague traditional CNNs. This superior generalization capability, combined with the ability to provide calibrated confidence scores through logprobs, represents a fundamental advancement in making AI-powered image analysis more robust and trustworthy for scientific applications. To demonstrate this capability, we created a comparative analysis (see `3-llms-assets/vlm_generalization_demo.py`) that shows how modern vision-language models handle the same domain mismatch scenario with significantly better calibration and awareness of their limitations (@fig-vlm-generalization).
+Large vision-language models (VLMs) handle out-of-distribution data very differently from traditional CNNs. Rather than producing confident but meaningless labels for unfamiliar images, these models draw on broad training data and flexible architectures to provide contextually appropriate responses across diverse visual domains. As of early 2026, all major LLM providers offer powerful multimodal capabilities: OpenAI's GPT-5 series, Anthropic's Claude Sonnet 4.5 and Opus 4.6, Google's Gemini 3 Pro, and open-source models like Meta's Llama 4. When we apply the same classification task to a modern VLM using the identical cat and microscopy images, the model demonstrates nuanced understanding rather than confident misclassification. The model can recognize that the microscopy image contains cellular structures it hasn't been explicitly trained to identify, providing more appropriate uncertainty estimates and avoiding the confident but incorrect predictions that plague traditional CNNs. This improved generalization, combined with features like probability outputs (logprobs) that provide confidence estimates, makes VLMs a more robust starting point for image analysis in scientific applications — though their outputs still require expert validation. To demonstrate this, we created a comparative analysis (see `3-llms-assets/vlm_generalization_demo.py`) showing how modern VLMs handle the same domain mismatch scenario (@fig-vlm-generalization).
 
-Beyond simple classification, these models demonstrate remarkable Visual Question Answering (VQA) capabilities when analyzing biological images. Despite not being specifically trained on microscopy data, they can provide sophisticated biological interpretations including identifying imaging techniques, recognizing cellular structures, interpreting fluorescent channels, and describing biological processes. This detailed biological understanding represents a significant step toward safer, more reliable AI applications in biological research, where the models can acknowledge uncertainty while providing meaningful insights about complex biological systems.
+Beyond classification, these models can perform Visual Question Answering (VQA) on biological images. Despite not being specifically trained on microscopy data, they can often identify imaging techniques, recognize cellular structures, interpret fluorescent channels, and describe biological processes. This ability to provide contextual interpretations — while acknowledging uncertainty — is a meaningful improvement over traditional classifiers, though VLM outputs on specialized scientific images should always be verified by domain experts.
 
-### The Rise of Generalist Models
+### The Rise of Generalist and Foundation Models
 
-Recent efforts have been directed toward training "generalist" models, with tools like Cellpose leading the charge. These approaches improve generalization capabilities by exposing models to a diverse range of datasets spanning different microscopy modalities as well as natural images with similar visual characteristics. Rather than optimizing for performance on specific data types, this approach prioritizes broad coverage and robustness - a crucial shift given the risks of model misuse. Generalist models tend to be inherently safer than specialized ones when applied blindly to unseen data, as they are less likely to produce confidently wrong results outside their training distribution. While these advances have made deep learning significantly safer to apply across varied input types, they remain largely limited to relatively simple tasks such as segmentation, which represents a straightforward computational challenge of producing binary object/background separation or standard labeled images.
+A major trend in bioimage analysis has been the shift from narrow, task-specific models toward **generalist** and **foundation** models that work across diverse imaging conditions without retraining.
+
+**Cellpose** pioneered this approach for cell segmentation. By training on a diverse dataset spanning fluorescence, brightfield, and even non-microscopy images with similar visual characteristics, Cellpose achieved strong generalization across cell types and imaging modalities that previous models required separate training for. Cellpose 3 (@stringer2025cellpose3), published in Nature Methods in 2025, further advanced this by introducing one-click image restoration that enables segmentation even of degraded images - noisy, blurry, or undersampled data that would defeat earlier models.
+
+**Segment Anything Model (SAM)**, released by Meta in 2023, represented a paradigm shift in computer vision. Trained on over 1 billion masks from 11 million images, SAM demonstrated that a single model could segment essentially any object in any image through simple prompts (points, boxes, or text). Despite being trained entirely on natural images - photographs of everyday objects, not microscopy data - SAM showed surprising capability on out-of-domain scientific images, sparking a wave of microscopy-specific adaptations:
+
+- **micro-SAM** (@archit2025microsam), published in Nature Methods in 2025, fine-tuned SAM specifically for light and electron microscopy, extending it to support 3D segmentation and cell tracking over time. micro-SAM provides interactive segmentation tools through a napari plugin, making foundation model capabilities directly accessible to microscopists.
+- **CellSAM** (@cellsam2025), published in Nature Methods in December 2025, combined SAM with a custom cell detection module (CellFinder) to achieve human-level segmentation performance across mammalian cells, yeast, and bacteria - all with a single unified model.
+- **Cellpose-SAM** adapted SAM's pretrained transformer backbone to the Cellpose framework, substantially outperforming inter-human agreement on cell segmentation tasks.
+
+The key insight from this trend is profound: models trained on vast, diverse datasets - including data far outside the target domain - can learn transferable visual features that generalize remarkably well. A model that has seen billions of natural images develops an understanding of edges, textures, boundaries, and object structure that transfers to microscopy, even though it has never seen a fluorescent cell. This is the same principle that makes [transfer learning](glossary.qmd#transfer-learning) effective, but operating at an unprecedented scale.
+
+While these generalist models have made deep learning significantly safer and more accessible, they remain largely focused on segmentation - a relatively well-defined computational task. More complex microscopy challenges such as classification across diverse experimental conditions, image restoration, spectral unmixing, or sophisticated artificial labeling still require task-specific approaches. The gap between what generalist models can do (segment objects reliably) and what microscopy research demands (understand complex biological systems) is precisely the space that LLMs and AI agents are beginning to fill, as we explore in the following sections.
 
 ### The Complexity Challenge in Microscopy
 
@@ -56,51 +78,39 @@ As a result, the vast majority of models remain highly task-specific and data-sp
 
 ### The Overwhelming Landscape
 
-While these community-driven efforts are valuable, they have inadvertently created an increasingly complex ecosystem that presents multifaceted challenges across the entire AI-in-microscopy pipeline (@fig-ai-challenges-ecosystem). This complexity manifests differently for various stakeholders, each facing distinct but interconnected obstacles.
+While community efforts like the BioImage Model Zoo are valuable, they have inadvertently revealed just how complex the AI-in-microscopy ecosystem has become. The challenges are interconnected and affect every stakeholder differently. Model developers struggle with the sheer diversity of training data requirements, validation protocols, and framework compatibility — and the burden of creating user-friendly interfaces often exceeds the time available for core research. Users face the opposite side of this coin: an overwhelming array of model choices without clear guidance on which to select, complex software installations, and limited technical expertise to validate whether a model actually works on their specific data.
 
-**Developer Challenges** encompass the technical complexities of model creation and sharing. Developers must navigate diverse training data requirements, establish robust validation protocols, ensure reproducible research practices, and maintain compatibility across multiple frameworks and platforms. The burden of comprehensive documentation, version control, and creating user-friendly interfaces often exceeds the time available for core research activities.
+The fundamental heterogeneity of microscopy data — varying acquisition parameters, sample preparation protocols, imaging modalities, and annotation standards — makes it extremely difficult to build models that generalize reliably. This drives the proliferation of highly task-specific models, each with unique requirements and limitations, which in turn overwhelms users with choices while making model comparison and benchmarking nearly impossible. The black-box nature of most deep learning models further complicates matters: when a segmentation fails or produces an unexpected result, it is often difficult to understand why, making it hard to validate biological conclusions or adapt models to new experimental contexts.
 
-**User Challenges** center on the accessibility and usability barriers that prevent widespread adoption. Researchers face an overwhelming array of model choices without clear guidance on selection criteria, struggle with installation and configuration of complex software stacks, and often lack the technical expertise to validate model performance on their specific data. The gap between model capabilities and practical implementation in real laboratory workflows remains substantial.
+Modern microscopy compounds these difficulties through sheer data volume. Terabytes of high-resolution images from time-lapse experiments, multi-channel fluorescence imaging, and high-content screening assays require sophisticated visualization tools and extensive manual interaction. A typical analysis workflow involves scrolling through thousands of images, adjusting contrast settings for different channels, identifying regions of interest, testing various analysis parameters, and iterating until results seem reasonable. This process can take days or weeks and still yield only partial exploration of the dataset's potential — many important patterns, subtle phenotypes, or rare events are simply missed due to the practical limitations of human-driven exploration.
 
-**Data Challenges** reflect the fundamental heterogeneity of microscopy imaging. Datasets vary dramatically in acquisition parameters, sample preparation protocols, imaging modalities, and annotation quality. Standardization efforts are hampered by the diverse needs of different research communities, leading to inconsistent data formats, metadata schemas, and quality control practices that limit model generalizability and collaborative development.
+As highlighted by @ouyang2023moving, the traditional desktop-centric paradigm — where data analysis occurs in isolation on a single workstation and sharing happens as an afterthought — creates fundamental barriers to collaboration and reproducibility. When different research groups use varying software versions, hardware configurations, and analysis parameters, comparing and reproducing results becomes an exercise in frustration. This represents a fundamental accessibility paradox: while AI capabilities have advanced remarkably, the practical barriers to using these tools have actually increased for many researchers, creating a widening gap between AI potential and real-world adoption in biological research @ouyang2023moving.
 
-**Model Challenges** arise from the inherent trade-offs between specificity and generalizability. The community faces an exponential growth in task-specific models, each with unique input requirements, performance characteristics, and limitations. Model interpretability remains limited, making it difficult to understand failure modes or adapt models to new contexts. Performance benchmarking across different domains lacks standardization, complicating model comparison and selection.
+### Summary: The Evolution of AI Models for Microscopy
 
-**Application Challenges** involve the translation from research prototypes to production-ready analysis tools. Integration with existing laboratory information management systems, real-time processing requirements, and user interface design for non-expert users present significant hurdles. The gap between proof-of-concept demonstrations and robust, validated tools suitable for routine use remains wide.
+To help orient readers unfamiliar with the AI landscape, @tbl-model-evolution summarizes the key model types discussed in this chapter - from traditional convolutional neural networks to modern AI agents - along with their inputs, outputs, and example tools.
 
-**Analysis Challenges** encompass the statistical and methodological complexities of AI-powered bioimage analysis. Researchers struggle with result interpretation, bias detection, error propagation through analysis pipelines, and establishing appropriate statistical frameworks for AI-assisted discoveries. The black-box nature of many models complicates the validation of biological conclusions and the establishment of confidence intervals.
+| **Model Type** | **Input** | **Output** | **Task Type** | **Example Tools** |
+|----------------|-----------|------------|---------------|-------------------|
+| CNNs | Images | Labels | Classification | ResNet |
+| U-Net | Images | Masks | Segmentation | U-Net, Cellpose |
+| LLMs | Text | Text, code | Natural language, code generation | ChatGPT, Claude |
+| VLMs | Images + Text | Text, masks, overlays | Visual Q&A, classification, explanation | GPT-5, Gemini 3, Claude 4.6 |
+| AI Agents | Files + Prompts | Code, results, workflows | Tool orchestration, autonomous analysis | Omega, BioImage.IO Chatbot |
 
-**Computational Challenges** reflect the substantial resource requirements and infrastructure complexities. High-performance computing needs, cloud computing costs, scalability limitations, and the digital divide between well-funded and resource-limited institutions create significant barriers to equitable access. The environmental impact of large-scale model training and inference adds another layer of consideration.
+: Evolution of AI model types relevant to microscopy, from task-specific deep learning to general-purpose AI agents. {#tbl-model-evolution}
 
-#### The Challenge of Scale in Microscopy Data
+### The Path Forward: From Generative AI to AI Agents
 
-Modern microscopy generates enormous datasets that can quickly overwhelm traditional analysis approaches. We're talking about terabytes of high-resolution images from time-lapse experiments, multi-channel fluorescence imaging, super-resolution techniques, and high-content screening assays. Exploring these massive datasets requires sophisticated visualization tools, specialized analysis software, and extensive human-in-the-loop interactions to dynamically adjust parameters, transform data representations, and quantify biological phenomena.
+The recent wave of generative AI offers new approaches to addressing these challenges. Large language models (LLMs) — such as OpenAI's GPT-5 series, Google's Gemini 2.5/3, and Anthropic's Claude 4.5/4.6 — interact through natural language rather than specialized interfaces. They can generate code, provide explanations, and execute actions through conversation, lowering many of the technical barriers that have limited AI adoption in microscopy.
 
-This conventional approach has been notoriously slow, labor-intensive, and compute-intensive. Consider a typical workflow: a researcher needs to manually scroll through thousands of images, adjust contrast and brightness settings for different channels, identify regions of interest, apply various analysis algorithms with different parameter settings, interpret results, and iterate through multiple combinations to optimize the analysis pipeline. The human operator must constantly make decisions about what to focus on, which parameters to adjust, how to transform the data for better visualization, and what quantitative measures to extract.
+A critical development was the introduction of **function calling** (also called tool use) — the ability for LLMs to invoke external tools, APIs, and software through structured interfaces rather than generating plain text. First introduced by OpenAI in June 2023, function calling transformed LLMs from text generators into systems that can execute code, query databases, control instruments, and interact with scientific software. Combined with standardized protocols like Anthropic's Model Context Protocol (MCP, announced November 2024), this has created a general-purpose interface layer connecting AI reasoning to existing scientific tools.
 
-What could take days or weeks of dedicated work - involving countless hours of manual parameter adjustment, visual inspection, and iterative refinement - often yields only partial exploration of the dataset's full analytical potential. Many potentially important patterns, subtle phenotypes, or rare events may be missed simply due to the practical limitations of human-driven exploration.
+With tool-calling capabilities, LLMs can operate as **AI agents** — systems that plan actions, execute them, observe outcomes, and adapt their approach iteratively. For bioimaging, this means that rather than requiring users to navigate the growing landscape of specialized tools manually, AI agents can help select analysis methods, configure parameters, generate custom code, and troubleshoot failures through natural language interactions. These capabilities are discussed in detail in @sec-function-calling and @sec-ai-agents.
 
-These challenges form a complex web of interdependencies where problems in one domain cascade into others, creating compounding difficulties for the entire ecosystem. For instance, the burden of creating comprehensive documentation and user-friendly interfaces often overwhelms developers, directly contributing to the technical barriers that users face during software installation and configuration. Similarly, the fundamental heterogeneity in microscopy data - from varying acquisition parameters to inconsistent sample preparation protocols - drives the proliferation of highly task-specific models, which in turn overwhelms users with an bewildering array of choices and limited guidance for model selection.
+Multimodal language models — standard across major providers since 2024 — can also interpret microscopy images directly, combining visual understanding with code generation and scientific reasoning in a single interface. Current models support context windows exceeding one million tokens, enabling them to work with large experimental datasets and codebases in a single session. However, as we discuss throughout this chapter, these capabilities come with important limitations that require careful human oversight.
 
-The lack of model interpretability creates a cascade of analysis challenges: researchers struggle to understand failure modes, detect biases, and establish confidence intervals for AI-assisted discoveries. This black-box nature makes it particularly difficult to validate biological conclusions or adapt models to new experimental contexts. Meanwhile, the gap between research prototypes and production-ready tools creates scalability bottlenecks that demand substantial computational resources, further widening the accessibility divide between well-funded and resource-limited institutions.
-
-Data standardization problems propagate throughout the system, limiting model generalizability and complicating collaborative development efforts. When combined with the challenges of sharing and storing large microscopy datasets, these issues create barriers that ultimately force researchers back to desktop-centric, single-user workflows that inhibit collaboration and reproducibility.
-
-These challenges are further compounded by the limitations of traditional desktop-based analysis paradigms. As highlighted by @ouyang2023moving, the current single-user, single-desktop model creates fundamental barriers to collaboration and data sharing in bioimage analysis. The requirement for specialized software installations, complex configuration procedures, and substantial local computational resources not only limits accessibility but also introduces reproducibility challenges when different research groups use varying software versions and hardware configurations.
-
-This multidimensional complexity represents a fundamental accessibility paradox: while the underlying AI capabilities have advanced dramatically, the practical barriers to leveraging these tools have actually increased for many researchers, creating a widening gap between AI potential and practical adoption in biological research. The traditional desktop-centric approach, where data analysis occurs in isolation and sharing happens as a final step, exacerbates these challenges by creating additional friction in collaborative workflows and knowledge transfer @ouyang2023moving.
-
-### The Path Forward: Generative AI Revolution
-
-The recent generative AI revolution offers unprecedented promise in directly addressing the multifaceted challenges outlined above. Large language models (LLMs) - exemplified by OpenAI's ChatGPT, Google's Gemini, and Anthropic's Claude - represent a paradigm shift in how we interact with computational tools. Unlike traditional AI models that require specialized interfaces and domain expertise, LLMs can generate code, provide explanations, and execute actions through natural language conversations, effectively eliminating many of the technical barriers that have hindered widespread AI adoption in microscopy.
-
-When connected to knowledge bases and equipped with tool-calling capabilities, LLMs evolve into AI agents - autonomous entities that can perform highly complex tasks by planning, taking actions, and observing outcomes in iterative loops, much like human problem-solving approaches. These AI agents are already revolutionizing numerous aspects of society, from software development and scientific research to education and creative industries, by providing intelligent automation that adapts dynamically to complex, unpredictable scenarios.
-
-Applied to bioimaging, AI agents hold transformative potential for dynamically constructing workflows for microscopy imaging and bioimage analysis. Rather than requiring users to navigate the overwhelming landscape of specialized tools and models we described earlier, AI agents can automatically select appropriate analysis methods, configure parameters, and even troubleshoot failures - all through natural language interactions. This addresses the developer burden of creating user-friendly interfaces while simultaneously solving user challenges related to model selection, technical barriers, and workflow integration.
-
-Furthermore, multimodal language models - especially those capable of "seeing" images or videos and "drawing" visual outputs - promise to fundamentally transform how bioimage analysis is performed. These models can directly interpret microscopy images, understand experimental contexts, generate analysis code, create visualizations, and provide scientific explanations, all within a single, cohesive interface. This integration of visual understanding, code generation, and scientific reasoning capabilities represents a quantum leap toward autonomous bioimage analysis systems.
-
-In this section, we will dive into these advanced capabilities and explore a future where AI can drastically improve the autonomous level of bioimaging, moving from the current fragmented ecosystem of specialized tools toward unified, intelligent systems that can adapt to diverse experimental needs while maintaining the rigor and interpretability essential for scientific research.
+The following sections explore each of these developments: how LLMs work (@sec-llm-foundations), how function calling enables tool use (@sec-function-calling), how VLMs handle microscopy images (@sec-multimodal-ai), and how AI agents are beginning to reshape experimental workflows (@sec-ai-agents, @sec-disposable-software).
 
 
 ## Foundations of Large Language Models: An Intuitive Primer {#sec-llm-foundations}
@@ -111,39 +121,32 @@ At its core, a Large Language Model (LLM) like ChatGPT, Gemini, or Claude is a h
 
 The "Large" in LLM refers to two aspects: the immense size of the neural network (with billions of adjustable parameters) and the colossal volume of text it learns from. The training process involves feeding the model a massive dataset comprising a significant portion of the public internet, digital books, scientific articles, and code repositories.
 
-The training objective is conceptually straightforward: the model is presented with a piece of text with a word masked out, and its goal is to predict the missing word. For example, it might encounter the sentence: "The scientist placed the sample on the ______ stage." Initially, its predictions are random. But each time it guesses correctly (e.g., "microscope"), its internal connections are algorithmically strengthened. After iterating through this process billions of times, the model develops an incredibly complex statistical map of the relationships between words, phrases, and concepts. To excel at this task, the model must implicitly learn grammar, facts, reasoning patterns, and different styles of writing.
+The training objective is conceptually straightforward: given a sequence of text, the model learns to predict the next word. For example, given the partial sentence "The scientist placed the sample on the microscope," the model learns to predict that "stage" is a likely next word. Before training begins, the model's predictions are essentially random. But through billions of training examples, it gradually learns which words tend to follow which, and its internal connections are adjusted to improve its predictions.
+
+To process text, the model first breaks sentences into **tokens** — chunks that may be whole words or subword pieces. For instance, "microscope" might be a single token, while "fluorescence" might be split into "fluor" + "escence." Each token is converted into a numerical vector through a process called **embedding**, creating a mathematical representation that captures meaning and context. These vectors pass through layers of the neural network, where the model learns how words relate to each other. After training on billions of sentences, the model develops a rich statistical map of language — the relationships between words, phrases, and concepts. To predict the next word accurately, it must implicitly learn grammar, facts, reasoning patterns, and different styles of writing.
 
 ### The Transformer: A Revolution in Understanding Context
 
-The critical breakthrough enabling modern LLMs is the **transformer architecture**. Before this innovation, language models had a very short "memory" and would quickly lose track of the context in a long piece of text. The transformer introduced a mechanism called **self-attention**, which allows the model to weigh the importance of every word in the input text simultaneously, regardless of its position. When processing the sentence, "The *cell* was stained with DAPI, which binds to DNA in the *nucleus*", the attention mechanism enables the model to understand that "nucleus" is a component of the "cell," allowing it to maintain long-range context and generate highly relevant and coherent responses.
+The critical breakthrough enabling modern LLMs is the **[transformer](glossary.qmd#transformer-models) architecture**. Before this innovation, language models had a very short "memory" and would quickly lose track of the context in a long piece of text. The transformer introduced a mechanism called **self-attention**, which allows the model to weigh the importance of every word in the input text simultaneously, regardless of its position. When processing the sentence, "The *cell* was stained with DAPI, which binds to DNA in the *nucleus*", the attention mechanism enables the model to understand that "nucleus" is a component of the "cell," allowing it to maintain long-range context and generate highly relevant and coherent responses.
 
-### A Practical Example: Training Your Own ImageJ Macro Generator
+### How Domain-Specific Language Models are Built: An ImageJ Macro Example
 
-While the scale of training models like ChatGPT or Claude seems impossibly large, it's surprisingly accessible to create specialized language models for specific domains. To illustrate this, let's walk through a practical example of training a small language model to generate ImageJ macros - a task that demonstrates the complete workflow from data collection to a working model in just a few steps.
+While the scale of training models like ChatGPT or Claude seems impossibly large, the underlying principles are surprisingly accessible. To illustrate how LLMs learn to generate domain-specific code, consider how one might train a small language model to generate ImageJ macros — simple scripts that automate repetitive tasks in [Fiji](glossary.qmd#fiji)/ImageJ, one of the most widely used tools in microscopy.
 
-**Step 1: Data Collection**
-The training process begins by gathering domain-specific examples. For ImageJ macros, this involves automatically cloning public GitHub repositories that contain `.ijm` files and collecting them into a training dataset. In our example, we gathered 28 macro files from 6 different repositories, totaling about 82,000 characters of ImageJ macro code - a surprisingly small dataset by modern standards.
+The process begins with **data collection**: gathering domain-specific examples from public GitHub repositories containing `.ijm` files. Even a modest collection - say, 28 macro files totaling about 82,000 characters - provides enough material for a small model to learn the syntax and patterns of ImageJ macro language.
 
-**Step 2: Model Selection**  
-Rather than training from scratch, we use a small pre-trained model called SmolLM2-135M-Instruct with 135 million parameters. While this is tiny compared to commercial models with hundreds of billions of parameters, it's perfectly adequate for learning the syntax and patterns of ImageJ macro language.
+Rather than training from scratch, the approach uses [transfer learning](glossary.qmd#transfer-learning): starting with a small, pre-trained model (such as SmolLM2 with 135 million parameters - tiny compared to commercial models with hundreds of billions) and **fine-tuning** it on the microscopy-specific code. During fine-tuning, the model learns to predict the next word in ImageJ macro sequences, gradually absorbing the syntax, common function calls, and typical workflow patterns of the language. On a modern laptop, this process can take as little as 10-20 minutes without specialized hardware.
 
-**Step 3: Fine-tuning**
-The actual training process involves "fine-tuning" - adapting the pre-trained model to our specific domain. Using standard machine learning libraries, the model learns to predict the next word in ImageJ macro sequences. On a Mac M2 laptop, this process takes approximately 10-20 minutes and requires no specialized hardware or cloud computing resources.
-
-**Step 4: Testing and Evaluation**
-Once trained, the model can generate ImageJ macro code from various types of prompts:
-
-- **Natural language**: "Create a macro to threshold an image"
-- **Partial code**: `run("8-bit");` (the model completes the syntax)
-- **Structured prompts**: `// Batch process directory\ndir = getDirectory(`
-
-The results, while not actually working, demonstrate that the model has learned basic ImageJ syntax, common function calls, and typical workflow patterns. For example, when prompted with "Create a macro to threshold an image," the model might generate:
+After fine-tuning, such a model can generate plausible ImageJ macro code from natural language prompts. When asked to "Create a macro to threshold an image," it might produce something like:
 
 ```
 setThreshold(50, 255);
 run("Convert to Mask");
 run("Analyze Particles...", "size=20-Infinity");
 ```
+
+**Benchmarking LLM Code Generation for Microscopy**
+A rigorous benchmark by Haase et al. (@haase2024benchmark) evaluated 18 state-of-the-art LLMs on 57 bioimage analysis coding tasks with unit tests. Claude 3.5 Sonnet led with a 58% pass rate, followed by GPT-4o (50%) and GPT-4 Turbo (47%). Notably, some tasks — including deconvolution, surface measurement, and voxel size reading — could not be solved by any LLM, highlighting clear limits of current code generation. A broader evaluation across 293 biomedical data science tasks found that standalone LLMs achieve less than 40% accuracy, but an iterative AI agent approach — where the system executes code, observes errors, and refines its solution — raised accuracy to 74% [@wang2026llmcopilot]. These benchmarks provide a realistic picture of where AI-generated code can be trusted and where human expertise remains essential.
 
 **Promise and Current Limitations**
 Large language models hold tremendous promise for bioimage analysis by generating code for composing workflows, creating Python scripts, and building analysis pipelines in various workflow languages. This capability is particularly valuable for non-expert users who need sophisticated analysis tools but lack extensive programming backgrounds. We envision a future where bioimage analysis software will be largely simplified through conversational interfaces or dynamically generated user interfaces, effectively addressing the expensive and time-intensive training traditionally required for coding proficiency.
@@ -153,368 +156,425 @@ However, the current state of AI-assisted code generation, while showing remarka
 This practical example highlights both the immense potential of LLMs as productivity tools and their fundamental limitations. In science, where precision and accuracy are paramount, their output must always be treated as a well-informed suggestion, not an infallible truth. With this foundational understanding, we can better appreciate how these models can be safely and effectively applied to microscopy.
 
 
+## From Text Generation to Action: Function Calling and Tool Use {#sec-function-calling}
+
+The single most transformative advancement in making LLMs practical for scientific research was the introduction of **function calling** (also known as tool use). This capability, first introduced by OpenAI in June 2023 and rapidly adopted by Anthropic, Google, and open-source models, fundamentally changed what LLMs can do: instead of merely generating text about how to analyze an image, an LLM can now directly invoke the analysis tool, pass the correct parameters, receive the results, and reason about next steps.
+
+### How Function Calling Works
+
+In a function calling workflow, the LLM is provided with a set of tool definitions - structured descriptions of available functions, their parameters, and expected inputs. When a user makes a request like "measure the average fluorescence intensity in the green channel," the LLM:
+
+1. **Reasons** about which tool(s) are needed (e.g., an image loading function, a channel extraction function, and an intensity measurement function)
+2. **Generates** structured function calls with the correct parameters (not free-form text, but precise JSON-formatted tool invocations)
+3. **Receives** the results from tool execution
+4. **Interprets** the results and either takes further action or reports findings to the user
+
+This structured approach is fundamentally different from asking an LLM to write a script and hoping the user can execute it correctly. Function calling creates a reliable, machine-readable interface between AI reasoning and real-world tool execution.
+
+### The Rapid Evolution of Tool Use (2023-2026)
+
+The progression has been swift. OpenAI introduced function calling in the GPT API in June 2023. Within months, Anthropic added tool use to Claude and Google to Gemini, establishing function calling as an industry standard by early 2024.
+
+GPT-4o (May 2024) brought native multimodal function calling — a model could examine a microscopy image and directly call analysis tools in a single step, combining visual understanding with programmatic action. OpenAI's o1 reasoning models (September 2024) showed that dedicating more computation to planning before acting improved performance on complex multi-step tasks.
+
+In November 2024, Anthropic announced the **Model Context Protocol (MCP)** — an open standard for connecting AI agents to external tools and data sources. MCP provides a universal way for any AI model to discover and use any tool, much like USB-C standardized physical device connectivity. MCP was later donated to the Linux Foundation (December 2025), co-founded by Anthropic, Block, and OpenAI, establishing it as an industry standard.
+
+By 2025–2026, function calling had become the backbone of AI agents. Current frontier models combine million-token context windows with sophisticated tool use, enabling agents to work with entire experimental datasets and codebases in a single session. The practical impact of these capabilities for microscopy is explored in @sec-ai-agents.
+
+### From Chatbots to Agents: The Trust Escalation
+
+This evolution represents a significant shift in how humans interact with AI. Early LLMs were purely conversational — "chatbots" that could only generate text. Function calling created a spectrum of increasing autonomy, from **assisted mode** (where the AI suggests tool calls but a human approves each one) through **supervised mode** (where routine actions execute automatically but consequential ones require confirmation) to **autonomous mode** (where the AI plans and executes complex multi-step workflows with minimal human intervention, checking in only for high-stakes decisions).
+
+This progression mirrors how we delegate tasks to human colleagues — starting with close supervision and gradually extending trust as competence is demonstrated. In microscopy, this means an AI agent might autonomously run routine segmentation workflows but pause to confirm before modifying acquisition parameters on an expensive experiment, or before discarding images that might contain rare biological events.
+
+::: {.callout-tip}
+## Function Calling in Practice
+
+When you ask a modern AI agent to "segment the nuclei in my DAPI image and count them," the agent doesn't just write a script — it directly calls a segmentation tool (e.g., Cellpose or StarDist), passes your image, retrieves the segmentation mask, calls a counting function, and returns the result with a visualization. Each step is a structured tool call, not free-form text generation.
+:::
+
 ## Multi-modal AI: Vision-Language Models and Generative AI {#sec-multimodal-ai}
 
-Multi-modal AI represents a fundamental expansion beyond text-only language models, integrating multiple data types including text, audio, video, images, and other sensory inputs into unified systems. This capability is particularly relevant for biological research, where data is fundamentally multi-modal - combining microscopy images with transcriptomics, genomics, protein information, experimental metadata, and phenotypic measurements.
-
-### The Multi-modal Paradigm Shift in Bioimage Analysis
-
-Building multi-modal large models that can seamlessly integrate diverse biological data types alongside image analysis represents a complete paradigm shift in how bioimage analysis is performed. Traditional image analysis relies solely on visual features within the image itself. However, multi-modal approaches can incorporate contextual information about the underlying proteins being labeled, cell type classifications, gene expression profiles, and experimental conditions - information that may be critical for accurate interpretation but invisible in the image alone.
-
-For example, cell segmentation could be enhanced not just by visual boundaries in the image, but also by incorporating knowledge about the specific protein markers being visualized, the expected cell morphology for particular cell types, or gene expression patterns that influence cellular appearance. This contextual integration can dramatically improve accuracy in challenging scenarios where visual cues alone are insufficient.
+Multi-modal AI represents a fundamental expansion beyond text-only language models, integrating multiple data types — text, audio, video, images, and other sensory inputs — into unified systems. This capability is particularly relevant for biological research, where data is inherently multi-modal: microscopy images exist alongside transcriptomics, genomics, protein information, experimental metadata, and phenotypic measurements. Traditional image analysis relies solely on visual features within the image itself, but multi-modal approaches can incorporate contextual information about the proteins being labeled, cell type classifications, gene expression profiles, and experimental conditions — information that may be critical for accurate interpretation but invisible in the image alone. For example, cell segmentation could be enhanced not just by visual boundaries, but by knowledge about specific protein markers, expected cell morphology, or gene expression patterns that influence cellular appearance.
 
 ### Vision-Language Models for Microscopy
 
-In bioimaging specifically, combining vision with language capabilities allows Vision-Language Models (VLMs) like GPT-4o to "see" microscopy images and make visually informed decisions. These models can predict image labels - especially when combined with new features such as probability output (logprob) that provide confidence scores - potentially replacing traditional classification models in certain applications. They can also perform Visual Question Answering (VQA), where users can ask natural language questions about microscopy images and receive relevant answers based on the visual content. Beyond VQA, these models can provide natural language descriptions of microscopy images, translating visual observations into interpretable scientific text.
+In bioimaging specifically, combining vision with language capabilities allows VLMs such as GPT-5, Claude Opus 4.6, and Gemini 3 Pro to "see" microscopy images and make visually informed decisions. These models can predict image labels - especially when combined with features such as probability output (logprob) that provide confidence scores - potentially replacing traditional classification models in certain applications. They can also perform Visual Question Answering (VQA), where users can ask natural language questions about microscopy images and receive relevant answers based on the visual content. Beyond VQA, these models can provide natural language descriptions of microscopy images, translating visual observations into interpretable scientific text. Emerging benchmarks suggest that VLMs can achieve competitive performance on biomedical image classification tasks in zero-shot and few-shot settings, sometimes matching or exceeding traditional approaches that require domain-specific training data — though performance varies substantially across tasks and imaging modalities.
 
-#### Demonstrating Superior Generalization: A Direct Comparison
+#### Generalization in Practice: A Direct Comparison
 
-To illustrate the remarkable advancement in generalization capabilities, we conducted a direct comparison using the same cat and microscopy images from our CNN domain mismatch demonstration (@fig-vlm-generalization). The results reveal a fundamental shift in how AI models handle out-of-distribution data, with profound implications for biological applications.
+@fig-vlm-generalization illustrates these capabilities using the same images from the CNN domain mismatch experiment discussed earlier (@fig-cnn-domain-mismatch). Where the CNN generated irrelevant predictions ("jellyfish," "sea anemone") for the TRAP1 protein microscopy image, the VLM recognized it as fluorescence microscopy showing cellular structures — describing what it sees in biological terms rather than forcing it into an irrelevant category.
 
-![Vision-language model generalization comparison using the same cat and microscopy images from the CNN demonstration. Unlike traditional CNNs that confidently misclassify out-of-distribution data, modern vision-language models provide contextually appropriate top-3 classifications with calibrated confidence scores. The model correctly identifies the cat with appropriate animal classifications while recognizing the microscopy image with scientifically meaningful biological terms, demonstrating superior generalization capabilities that represent a fundamental advancement toward safer AI applications in biological research.](3-llms-assets/vlm_generalization_comparison.png){#fig-vlm-generalization}
+![VLM generalization comparison using the same cat and microscopy images from @fig-cnn-domain-mismatch. Unlike the CNN, the VLM provides contextually appropriate descriptions for the microscopy image, recognizing it as fluorescence microscopy with biologically meaningful classifications rather than confident misidentifications.](3-llms-assets/vlm_generalization_comparison.png){#fig-vlm-generalization}
 
-The contrast is striking: where the CNN generated irrelevant top-3 predictions ("jellyfish" 36.2%, "sea anemone" 28.1%, "coral reef" 15.7%) for the TRAP1 protein microscopy image, the vision-language model provided contextually appropriate classifications ("Cellular Structures" 95.0%, "Fluorescent Microscopy" 90.0%, "Biological Tissue" 85.0%). Equally important, the model demonstrated superior confidence calibration - showing high confidence for the familiar cat image ("Cat" 95.0%, "Calico Cat" 85.0%, "Domestic Animal" 80.0%) while maintaining appropriate confidence for the specialized microscopy data with scientifically meaningful classifications rather than confident misidentifications.
+#### Visual Question Answering and Biological Interpretation
 
-#### Comprehensive Biological Understanding Through VQA
+VLMs can go further than classification. When asked to analyze the TRAP1 protein image in detail, a modern VLM correctly identified the imaging technique as confocal fluorescence microscopy, described each fluorescent channel (blue DAPI nuclear staining, red cytoskeletal components, green mitochondrial or Golgi labeling), and offered biological interpretations about cell morphology and intracellular organization. This depth of contextual understanding from a general-purpose model — one not trained on microscopy-specific datasets — is notable, though it must be verified by domain experts, since VLMs can also produce plausible-sounding but incorrect biological interpretations.
 
-Perhaps most impressive is the model's ability to provide sophisticated biological analysis through Visual Question Answering, despite never being explicitly trained on microscopy data. When asked to analyze the TRAP1 protein image comprehensively, the model demonstrated remarkable scientific insight:
+The practical implication is that a VLM can function as an informed first pass: it can say "this appears to be fluorescence microscopy showing cytoskeletal structures, but I am uncertain about the specific protein being labeled" — which is far more useful than a CNN confidently declaring "jellyfish." However, this does not mean VLM outputs can be trusted uncritically. They provide a starting point for interpretation, not a replacement for expert analysis.
 
-**Technical Recognition**: The model correctly identified the imaging technique as "fluorescence microscopy, specifically confocal microscopy" and recognized the multi-channel acquisition approach with "multiple laser lines for excitation of different fluorophores."
+VLMs also open the door to vision-guided programming: the model can analyze an image, suggest appropriate analysis code, and then use visual feedback from the results to refine its approach iteratively — a workflow that was impossible with text-only models.
 
-**Biological Interpretation**: The analysis accurately described each fluorescent channel - blue DAPI nuclear staining, red cytoskeletal components (microtubules or actin filaments), and green mitochondria or Golgi apparatus - demonstrating understanding of standard biological labeling conventions.
+### Practical Capabilities, Convergence, and Current Limitations
 
-**Scientific Context**: The model provided meaningful biological insights about "cell shape, division, and intracellular transport processes" and noted that "the cytoskeleton is prominently organized around the nucleus, suggesting active maintenance of cell shape and possibly movement or division."
+The combination of vision with code generation represents another powerful frontier. Models with text-controlled image outputs offer a glimpse of a future where general-purpose VLMs take microscopy images as input and generate processed images directly from natural language prompts — imagine requesting "segment all mitochondria in this cell and highlight regions with high membrane potential" and receiving both the processed image and the analysis code that generated it.
 
-**Quality Assessment**: Even technical aspects were appropriately evaluated, noting "high-resolution" imaging with "sufficient resolution to distinguish individual cytoskeletal filaments and organelles."
+This capability converges with the foundation models for segmentation discussed in @sec-intro. CellSAM, micro-SAM, and Cellpose-SAM bring validated, high-performance segmentation, while VLMs bring broad visual understanding and natural language reasoning. Together, they enable a new workflow paradigm where a VLM interprets the researcher's intent, selects the appropriate foundation model, runs it, and explains the results — combining the strengths of both approaches (see also @sec-8 for finding such tools, and @sec-9 for training approaches).
 
-This level of biological understanding from a general-purpose model represents a quantum leap beyond traditional computer vision approaches. The model not only avoided confident misclassification but provided scientifically meaningful interpretations that could genuinely assist researchers in understanding their data.
+However, VLMs currently face significant practical limitations. They are costly to run, have substantial environmental impact due to their computational requirements, and operate too slowly for routine analysis of large datasets. These constraints make them impractical as drop-in replacements for traditional analysis pipelines. Despite this, multi-modal models are already finding valuable niches in human-in-the-loop workflows, particularly for label generation, dataset construction, and annotation quality control — tasks where the cost and speed constraints are less prohibitive than in production settings.
 
-#### Implications for Safer AI in Biology
+## AI Agents for Microscopy and Workflow Orchestration {#sec-ai-agents}
 
-These results demonstrate three critical advances for biological applications: **calibrated uncertainty** (expressing appropriate confidence levels), **contextual understanding** (recognizing biological structures rather than forcing inappropriate classifications), and **scientific reasoning** (providing meaningful biological interpretations). This combination addresses the fundamental safety concerns that have limited AI adoption in biological research, where confident but incorrect predictions can mislead scientific conclusions.
+While VLMs and LLMs provide powerful foundational capabilities, **AI agents** represent a qualitative leap beyond these models. An AI agent is not simply a language model that generates text — it is an autonomous system that can reason about problems, take actions in the real world (running code, calling APIs, controlling hardware), observe the results, and adapt its approach iteratively. Where a language model answers questions, an agent *solves problems*.
 
-The ability to acknowledge uncertainty while still providing valuable insights represents a paradigm shift toward AI systems that can serve as reliable scientific collaborators rather than black-box classifiers prone to dangerous overconfidence.
+The field of AI agents has developed rapidly. What began in 2023 as experimental "chatbot plugins" has by early 2026 produced a growing set of frameworks, design patterns, and production-grade tools. Understanding this landscape helps microscopists evaluate which capabilities are ready for practical use.
 
-For code generation, VLMs offer powerful new capabilities by using visual input to inform programming suggestions. The model can analyze an image and suggest appropriate analysis code, or use visual feedback to iteratively refine generated code based on intermediate results. This creates a dynamic, vision-guided programming environment where the AI can "see" what the code is producing and adjust accordingly.
+### What Are AI Agents? {#sec-what-are-agents}
 
-### Vision-Guided Image Processing
+At its core, an AI agent is a system built around a language model that operates in a loop: it **observes** the current state of the world (an image, a dataset, an error message), **reasons** about what to do next (using the LLM's capabilities), **acts** by invoking tools or executing code, and then **observes** the outcome of that action — repeating until the task is complete. This observe-reason-act cycle, formalized in frameworks like ReAct (Reasoning and Acting) [@yao2022react], is what distinguishes an agent from a simple chatbot.
 
-The combination of vision with code generation represents another powerful frontier. With recent releases like GPT-4o models featuring text-controlled image outputs, we see a glimpse of a future where general-purpose VLMs can take images as input and generate processed images directly based on flexible natural language prompts. This pushes the generalist model concept to an extreme - imagine requesting "segment all mitochondria in this cell and highlight regions with high membrane potential" and receiving both the processed image and the analysis code that generated it.
+The early approach to building agents followed what might be called **agentic workflows** — carefully hand-designed sequences of tool calls with human-specified decision points. A developer would define: "first call the segmentation tool, then if the count is above 100 switch to algorithm B, otherwise continue with A." These workflows were effective but rigid: every decision point had to be anticipated and coded in advance.
 
-### Current Limitations and Practical Applications
+The current trend represents a decisive shift toward **general agency**: giving AI agents access to broad capabilities — a terminal, a file system, a web browser, a set of APIs — and trusting them to figure out the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal ("segment and count the nuclei in this dataset") and autonomously determines what tools to use, in what order, with what parameters, handling errors and edge cases as they arise. This shift from prescriptive workflows to goal-directed autonomy mirrors the evolution from scripted automation to intelligent problem-solving.
 
-However, these models, at least currently, face significant practical limitations. They are costly to run, have substantial environmental impact due to their computational requirements, and operate too slowly for routine image analysis workflows. The latency and expense make them impractical for processing large datasets or time-sensitive analysis pipelines.
+Several concepts have emerged as central to building effective agents:
 
-Despite these limitations, multi-modal models are finding valuable applications in human-in-the-loop workflows, particularly for label generation and dataset construction. They excel at helping researchers create high-quality annotated datasets for training classical deep learning models, where the cost and speed constraints are less prohibitive than in production analysis workflows. In these applications, the models can provide intelligent suggestions for annotations, validate label quality, and help standardize labeling protocols across different research groups.
+**Harness engineering**, a term popularized by OpenAI's engineering team in early 2026, refers to the design of the system that wraps around the language model — the scaffolding that manages tool definitions, permission systems, error recovery, memory, and the overall agent loop. OpenAI demonstrated the concept by building an internal product with approximately one million lines of agent-generated code and zero lines of manually written code over five months, averaging 3.5 merged pull requests per engineer per day. The key insight: the quality of the harness — how tools are presented, how errors are handled, how architectural constraints are encoded and enforced — often matters more than the choice of model. Engineers design environments and specify intent; agents write the code.
 
-## AI Agents for Microscopy Data and Workflows {#sec-ai-agents}
+**Context engineering**, a term championed by Shopify CEO Tobi Lutke and former OpenAI researcher Andrej Karpathy in mid-2025, is the discipline of providing exactly the right information at each step of the agent's reasoning. As Karpathy described it: "In every industrial-strength LLM app, context engineering is the delicate art and science of filling the context window with just the right information for the next step." An agent with a million-token context window could theoretically see everything, but in practice, providing too much irrelevant context degrades performance. Effective context engineering involves dynamically loading relevant documentation, previous results, and tool descriptions while filtering out noise. RAG (Retrieval Augmented Generation) is best understood as one flavor of context engineering — a technique for injecting relevant external knowledge into the agent's context at the right moment.
 
-While Vision-Language Models and LLMs provide powerful foundational capabilities, AI agents represent an orchestration layer built on top of these foundation models that brings autonomous data analysis to an entirely new level. Rather than simply generating text or interpreting images, AI agents can plan complex multi-step workflows, execute actions, observe results, and iteratively refine their approach - much like a human analyst working through a challenging problem.
+**Memory systems** enable agents to maintain state across sessions. Research in this area has progressed rapidly, with a comprehensive taxonomy from Tsinghua University (2025) distinguishing between factual memory (stored knowledge), experiential memory (learned patterns from past interactions), and working memory (active processing state during task execution). In practice, short-term memory (the conversation context) allows an agent to build on previous steps within a session, while long-term memory (persistent storage in vector databases or knowledge graphs) enables agents to improve over time, remember user preferences, and maintain project-specific knowledge across separate work sessions.
 
-### What Are AI Agents?
+### Modern AI Agent Architecture in Practice {#sec-agent-architecture}
 
-AI agents are autonomous systems that combine the reasoning capabilities of large language models with the ability to interact with external tools, databases, and software environments. Unlike traditional AI models that provide a single response to a query, agents can engage in extended problem-solving sessions involving multiple steps, tool usage, and adaptive planning based on intermediate results.
+A modern AI agent consists of several integrated components working together:
 
-The key innovation lies in their ability to use approaches like ReAct (Reasoning and Acting) [@yao2022react], which combines reasoning traces with concrete actions. When faced with a complex task, an agent first reasons about the problem, identifies what tools or information it needs, takes specific actions (such as running code, querying databases, or analyzing images), observes the outcomes, and then reasons about next steps. This iterative cycle continues until the task is completed or the agent determines it needs human intervention.
+The **language model** serves as the reasoning core — it interprets the user's intent, plans multi-step strategies, generates code, and decides which tools to invoke. Current frontier models (Claude Opus 4.6, GPT-5.2, Gemini 3 Pro) provide the sophisticated reasoning needed for complex scientific tasks.
 
-### How AI Agents Work in Practice
+The **tool integration layer** connects the agent to external capabilities. This layer has been standardized through protocols like the **Model Context Protocol (MCP)**, announced by Anthropic in November 2024 and now widely adopted across the industry. MCP was donated to the Agentic AI Foundation under the Linux Foundation in December 2025, co-founded by Anthropic, Block, and OpenAI — cementing its status as an industry standard. Google's **Agent-to-Agent (A2A) protocol**, launched April 2025 with 50+ technology partners (now 150+ organizations), extends this further by enabling agents to communicate with each other through standardized "Agent Cards" that advertise capabilities, coordinating multi-agent workflows where specialized agents collaborate on complex tasks.
 
-AI agents typically operate through several key components:
+The **execution environment** determines what the agent can actually do. Early agents were limited to generating text and calling predefined API functions. Modern coding agents operate in full terminal environments where they can read and write files, execute arbitrary shell commands, install packages, run tests, and interact with version control systems. **Claude Code** (Anthropic, public launch May 2025) has seen rapid adoption and now supports multi-agent orchestration where a leader agent coordinates worker agents with independent system prompts and permissions. **Gemini CLI** (Google, released June 2025) is open-source and offers generous free-tier access with Gemini's million-token context. **OpenAI Codex** is open-source (written in Rust) and runs tasks in isolated sandboxes. **Cursor** integrates agents directly into code editors with background agent capabilities and has seen widespread adoption among professional developers. **Devin** (Cognition Labs) provides complete sandboxed development environments — Goldman Sachs deployed it as their first AI "employee" in a hybrid workforce model.
 
-**Planning and Reasoning**: Using LLMs to break down complex requests into manageable steps and develop strategies for accomplishing goals.
+The **guardrails and safety layer** ensures agents operate within acceptable boundaries. This includes permission systems (asking for confirmation before destructive actions), sandboxing (isolating agents in containers or virtual machines to prevent damage to host systems), rate limiting, and human-in-the-loop checkpoints for consequential decisions. For microscopy, where instruments are expensive and samples irreplaceable, robust guardrails are essential — an agent should never be able to damage a sample or crash a microscope without explicit human authorization.
 
-**Tool Integration**: Seamlessly interfacing with external tools, libraries, and services through APIs, allowing agents to execute code, query databases, control software interfaces, and access specialized analysis functions.
+::: {.callout-note}
+## The Agent Ecosystem (2026)
 
-**Execution and Observation**: Running code, processing data, and analyzing results while maintaining awareness of what worked and what didn't.
-
-**Error Correction**: Automatically detecting and fixing problems by analyzing error messages, adjusting approaches, and trying alternative strategies.
-
-**Contextual Memory**: Maintaining conversation history and intermediate results to inform future decisions and build upon previous work.
+Key production-grade coding agents (as of early 2026) include **Claude Code** (multi-agent orchestration, CLI-based), **GitHub Copilot** (agent mode with MCP support), **Cursor** (IDE-integrated agents), **Gemini CLI** (open-source, generous free tier), **OpenAI Codex** (open-source), and **Devin** (sandboxed development environments). Major agent SDKs include OpenAI Agents SDK, Claude Agent SDK, Google ADK, and LangGraph — all supporting MCP and function calling.
+:::
 
 ### Use Cases for Bioimage Analysis
 
-AI agents excel at several types of bioimage analysis tasks:
+AI agents are particularly well-suited to microscopy workflows because they combine the ability to reason about biological problems with the ability to execute computational solutions. Key use cases include:
 
-**Conversational Image Processing**: Users can request complex analyses through natural language, such as "segment cell nuclei in this image, count them, and create a statistical report comparing nuclear sizes across different treatment conditions."
+**Conversational image processing**, where users request complex multi-step analyses through natural language — such as "segment cell nuclei in this image, count them, measure their areas, and create a statistical report comparing sizes across treatment conditions." The agent breaks this into tool calls, executes them, and presents results with visualizations.
 
-**Automated Workflow Construction**: Agents can dynamically build analysis pipelines by selecting appropriate tools, configuring parameters, and chaining operations based on image content and user goals.
+**Automated workflow construction**, where agents dynamically build analysis pipelines by selecting appropriate tools, configuring parameters, and chaining operations based on image content and user goals — adapting the workflow as results come in.
 
-**On-Demand Interface Creation**: Rather than using pre-built software interfaces, agents can create custom widgets and analysis tools tailored to specific experimental needs.
+**On-demand interface and code generation**, where agents create custom widgets, scripts, and analysis tools tailored to specific experimental needs (see @sec-disposable-software for a full discussion of this paradigm).
 
-**Autonomous Error Handling**: When analysis code fails or produces unexpected results, agents can diagnose problems, search documentation, and implement fixes without human intervention.
+**Autonomous error handling**, where agents diagnose failures by analyzing error messages, searching documentation and community forums through MCP connections, and implementing fixes without human intervention — a capability that substantially reduces the expertise barrier for complex computational workflows.
 
-**Educational Guidance**: Agents can provide step-by-step instructions, explain methodological choices, and help users understand complex analysis concepts through interactive dialogue.
-
-**Multi-Modal Integration**: Combining image analysis with metadata, experimental context, and domain knowledge to provide more informed and accurate results.
+**Educational guidance**, where agents explain methodological choices, walk through analysis concepts step by step, and adapt their explanations to the user's level of expertise — functioning as personalized microscopy tutors.
 
 ### Concrete Examples: Omega and BioImage.IO Chatbot
 
 Two prominent examples demonstrate the practical application of AI agents in bioimage analysis:
 
-**Omega** (@royer2024omega) is implemented as a napari plugin that enables conversational image processing and analysis. Users can instruct Omega to "segment cell nuclei in the selected image," then "count the number of segmented nuclei," and finally "return a table listing the nuclei, their positions and areas." Beyond basic analysis, Omega can create custom widgets on demand, such as tools for filtering segments by area or creating depth-coded color projections of 3D image stacks. With access to GPT-4's vision capabilities, Omega can visually interpret the napari viewer's contents to make informed decisions about analysis approaches. The system demonstrates approximately 90% success rate in complex tasks and includes an AI-augmented code editor for refining and reusing generated code.
+**Omega** (@royer2024omega), published in Nature Methods in 2024, is implemented as a napari plugin that enables conversational image processing and analysis. Users can instruct Omega to "segment cell nuclei in the selected image," then "count the number of segmented nuclei," and finally "return a table listing the nuclei, their positions and areas." Beyond basic analysis, Omega can create custom widgets on demand, such as tools for filtering segments by area or creating depth-coded color projections of 3D image stacks. Through its LiteMind library, Omega supports multiple LLM providers including OpenAI (GPT-5, GPT-4o), Anthropic (Claude Opus, Sonnet, Haiku), and Google Gemini, allowing it to visually interpret the napari viewer's contents and make informed decisions about analysis approaches. As reported in the Nature Methods publication, the system demonstrates approximately 90% success rate in complex tasks, is downloaded approximately 2,000 times per month, and includes an AI-augmented code editor for refining and reusing generated code.
 
-**BioImage.IO Chatbot** (@lei2024bioimageio) represents a community-driven platform that leverages Retrieval Augmented Generation (RAG) to provide context-aware assistance for bioimage analysis. Built on a comprehensive knowledge base of community-contributed documentation from tools like ImageJ, deepImageJ, and databases like bio.tools, the chatbot offers specialized assistants: Melman for general Q&A, Nina for educational content, and Bridget for hands-on analysis. The system can generate and execute Python code directly in the browser, perform image segmentation using models like Cellpose, and create statistical reports. Through its extension mechanism, it integrates with community databases and services, enabling complex multi-step workflows that combine information retrieval, code generation, and autonomous analysis.
+**BioImage.IO Chatbot** (@lei2024bioimageio), published in Nature Methods in 2024, represents a community-driven platform that leverages Retrieval Augmented Generation (RAG) to provide context-aware assistance for bioimage analysis. Built on the Hypha distributed computing framework and the ImJoy plugin ecosystem, the chatbot uses a comprehensive knowledge base of community-contributed documentation from tools like ImageJ, deepImageJ, and databases like bio.tools. It offers specialized assistants: Melman for general Q&A, Nina for educational content, and Bridget for hands-on analysis. The system can generate and execute Python code directly in the browser, perform image segmentation using models like Cellpose, and create statistical reports. Through its extension mechanism built on Hypha services, developers can serve chatbot extensions in a distributed manner, enabling hardware device control (e.g., microscope operation) and GPU-accelerated computational resources. This architecture enables complex multi-step workflows that combine information retrieval, code generation, and autonomous analysis.
 
 
-### AI Agents as Intelligent Data Explorers: Multi-Modal RAG and Dynamic Workflow Generation
+### The Vision: Intent-Driven Autonomous Microscopy
 
-AI agents represent a paradigm shift in microscopy data exploration, offering unprecedented capabilities that go far beyond traditional visualization tools. These intelligent systems leverage multi-modal Retrieval Augmented Generation (RAG) architectures that seamlessly integrate microscopy images with experimental metadata, creating comprehensive knowledge bases that understand both visual content and contextual information.
+The ultimate promise of AI agents for microscopy is a paradigm we call **intent-driven microscopy**: the researcher describes *what* they want to discover, and the AI system figures out *how* to achieve it - planning the experiment, controlling the instrument, acquiring images, analyzing results, and adapting in real-time (@fig-intent-driven).
 
-#### The Model Context Protocol: Foundation for Intelligent Microscopy AI
+![The vision of intent-driven autonomous microscopy. The researcher describes their experimental goal in natural language. An AI agent orchestrator plans the workflow, coordinating specialized sub-agents for acquisition, analysis, and quality control. The system controls the microscope hardware, collects and analyzes data, and feeds results back to adapt the experiment in real-time - creating a closed-loop system that operates with minimal human intervention.](3-llms-assets/intent-driven-microscopy.excalidraw.png){#fig-intent-driven}
 
-A key enabling technology revolutionizing this landscape is the Model Context Protocol (MCP), which serves as the "USB-C for connecting AI agents to the microscopy ecosystem" - providing a standardized, universal way to connect AI agents with external tools, databases, and knowledge sources. Just as USB-C simplified device connectivity by providing a single, versatile interface, MCP dramatically simplifies how AI agents interact with the complex ecosystem of microscopy tools and data systems.
+Consider a concrete scenario: a researcher tells the system *"Find all cells undergoing mitosis in my sample and capture high-resolution z-stacks of each."* In an intent-driven system, the AI agent would:
 
-In the microscopy context, MCP enables AI agents to seamlessly interface with:
+1. **Plan**: Design a scanning strategy - overview acquisition at low magnification, followed by targeted high-resolution imaging
+2. **Acquire**: Control the stage to systematically scan the sample, capturing overview images
+3. **Analyze**: Run real-time cell classification to identify mitotic cells as images are acquired
+4. **Adapt**: Switch to high magnification, move to each identified cell, optimize focus and exposure, capture z-stacks
+5. **Report**: Deliver the dataset with metadata, quality metrics, and preliminary analysis
 
-- **Interactive visualization platforms** that can render and manipulate large image datasets in real-time
-- **Classical image analysis libraries** containing decades of proven algorithms for image processing and quantification
-- **Deep learning frameworks** hosting modern AI models for advanced analysis tasks
-- **Database systems** storing experimental metadata, annotations, and analysis results
-- **Documentation repositories** including GitHub, API specifications, and community knowledge bases
-- **Computational resources** for intensive processing tasks and distributed computing
-- **Community forums and troubleshooting databases** for error-driven learning and problem solving
+This is not science fiction. The building blocks exist today, and several systems are demonstrating this vision in practice.
 
-This standardized connection protocol enables the sophisticated multi-modal RAG systems and dynamic workflow generation capabilities that follow, allowing AI agents to seamlessly combine classical image analysis algorithms with modern deep learning models, creating sophisticated analysis pipelines that adapt dynamically to the specific needs of each dataset and research question.
+### Autonomous Microscopy: AI Agents Controlling Instruments
 
-#### Multi-Modal RAG Systems for Microscopy
+The most striking demonstrations of AI agents in microscopy involve direct instrument control. Several recent systems illustrate how LLM-based agents can operate microscopes autonomously:
 
-Unlike traditional image databases that treat images as isolated files, AI agents build sophisticated knowledge graphs that connect visual features with rich experimental metadata including acquisition parameters, sample preparation protocols, treatment conditions, temporal sequences, and biological annotations. When a researcher queries "Find cells showing stress response in the high-temperature condition," the agent doesn't just search for visual patterns - it cross-references experimental metadata, identifies relevant time points, correlates with gene expression data, and contextualizes findings within the broader experimental framework.
+**EIMS (Embodied Intelligence Microscope System)** [@huang2025eims] reconceptualizes the microscope as an autonomous agent. In this hierarchical framework, a high-level LLM acts as a deliberative planner, interpreting complex experimental intent and decomposing it into subgoals executed by specialized low-level control modules. EIMS achieves zero-shot generalization on complex multi-step protocols and has successfully automated challenging biological missions such as capturing sparse spatiotemporal events of cell mitosis - tasks that would require a human operator to watch for hours.
 
-These RAG systems continuously update their knowledge base as new images are acquired, automatically extracting metadata from OMERO databases, parsing experimental logs, and even interpreting handwritten lab notes through OCR. The integration of vision-language models allows agents to "see" and describe cellular phenotypes while simultaneously accessing structured metadata about experimental conditions, creating a truly multi-modal understanding of the dataset. Through MCP connections, agents can seamlessly access literature databases, experimental protocols, and community knowledge bases to provide contextual interpretations of observed phenomena, combining quantitative analysis results with natural language explanations and interactive exploration capabilities.
+**AILA (Artificially Intelligent Lab Assistant)** (@mandal2025aila), published in Nature Communications in 2025, applies LLM agents to atomic force microscopy. Using specialized agents coordinated by a central planner, AILA was benchmarked on 100 real laboratory tasks (AFMBench). A key finding was sobering: even state-of-the-art LLMs struggle with basic experimental tasks, and general domain knowledge does not translate automatically to experimental capabilities. Multi-agent frameworks significantly outperformed single-agent approaches, and the authors raised important "sleepwalking" safety concerns about autonomous instrument control.
 
-#### CodeAgent: Dynamic Programming Through MCP
+**SmartEM** (@smartem2026), published in Nature Methods in 2026, integrates machine learning directly into electron microscope image acquisition. It implements a "foveated" strategy - performing a quick low-resolution pass, then rescanning only critical areas at higher quality - achieving up to 7-fold acceleration of connectomic brain imaging. SmartEM was recognized in Nature Methods' "Method of the Year" for connectomics.
 
-Perhaps most transformatively, AI agents function as dynamic CodeAgents that generate analysis code on-the-fly by leveraging the Model Context Protocol (MCP) to access comprehensive programming references, documentation, and tool specifications. When faced with a novel analysis request like "Track mitochondrial fission events and correlate with calcium oscillations," the CodeAgent doesn't rely on pre-written templates but dynamically constructs analysis pipelines by:
+**pySTED** (@bilodeau2024pysted), published in Nature Machine Intelligence in 2024, demonstrates that reinforcement learning agents trained in realistic simulation can be deployed successfully on real STED microscopes without fine-tuning, bridging the simulation-to-reality gap for super-resolution microscopy control.
 
-**Real-time Reference Retrieval**: Using MCP to query documentation databases, GitHub repositories, and API specifications for relevant analysis libraries, ensuring access to the most current methods and best practices.
+These examples span a spectrum from fully autonomous operation to human-supervised assistance, and collectively suggest that AI-controlled microscopy is transitioning from research prototypes toward practical tools — though most systems remain in early stages of validation.
 
-**Adaptive Code Generation**: Generating custom Python scripts, ImageJ macros, or workflow language specifications tailored to the specific data characteristics, experimental design, and analysis requirements detected in the dataset.
+### The Rise of Coding Agents: AI with Terminal Access {#sec-coding-agents}
 
-**Tool Integration Discovery**: Automatically identifying and connecting appropriate visualization tools, analysis libraries, and computational resources based on data complexity and computational requirements. The MCP protocol enables agents to discover available tools, read their documentation, and compose complex pipelines that might combine ImageJ filters, scikit-image algorithms, and deep learning models from the BioImage Model Zoo.
+A particularly consequential development has been the emergence of **coding agents** — AI systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier LLM assistants that could only suggest code snippets in a chat window.
 
-**Error-Driven Learning**: When initial code fails, the agent uses MCP to search error databases, community forums, and troubleshooting guides, iteratively refining the approach until successful execution. This enables real-time pipeline adaptation where agents can modify analysis strategies on-the-fly based on intermediate results and user feedback. When initial segmentation fails, agents can automatically query troubleshooting databases through MCP, identify alternative approaches, and implement solutions without human intervention.
+**Claude Code** (Anthropic) is a CLI-based agent that lives in the developer's terminal. It can read and edit files across entire codebases, run shell commands, execute tests, interact with version control systems, browse documentation, and orchestrate complex multi-step software engineering tasks - all while maintaining context across long work sessions enabled by million-token context windows. For microscopy researchers, this means an AI agent that can install analysis packages, write and debug Python scripts for napari or ImageJ, run analysis pipelines, and iterate on results - all through natural language conversation in a terminal.
 
-#### Intelligent Visualization Control and Navigation
+**Devin** (Cognition Labs, announced March 2024) was introduced as the "first AI software engineer," capable of autonomously planning, coding, debugging, and deploying software projects. It operates in a sandboxed development environment with its own code editor, terminal, and web browser.
 
-Through standardized APIs and MCP connections, AI agents gain unprecedented control over visualization environments, creating dynamic, responsive interfaces that adapt to research needs:
+**GitHub Copilot** has evolved from inline code suggestions (2021) to Copilot Workspace and Agent mode, where it can plan changes across repositories, edit multiple files, run tests, and iterate on feedback. **Cursor** and **Windsurf** represent a new category of AI-native code editors that deeply integrate agent capabilities into the development workflow.
 
-**Context-Aware Parameter Adjustment**: Automatically optimizing contrast, brightness, colormap selection, and viewing angles based on image content analysis and user intentions. For example, detecting high-background images and automatically adjusting gamma correction, or recognizing co-localization experiments and setting up appropriate dual-channel visualization. An agent analyzing mitochondrial dynamics can automatically adjust temporal sampling rates, optimize contrast for specific organelles, and synchronize multiple viewers to compare treatment conditions.
+The pace of improvement has been notable. On the SWE-bench Verified benchmark — which tests agents on real-world GitHub issues requiring understanding codebases, diagnosing bugs, and implementing fixes — success rates rose from under 5% in early 2024 to over 70% by late 2025. These benchmarks measure general software engineering, not scientific applications specifically, but the underlying capabilities — reading code, debugging errors, composing multi-step solutions — are directly relevant to microscopy analysis pipelines.
 
-**Intelligent Dataset Navigation**: Smart browsing algorithms that can identify the most relevant images, time points, or experimental conditions based on preliminary analysis results and research objectives. Through MCP connections to metadata databases, agents can correlate image quality metrics with experimental success, automatically prioritize high-information content regions, and suggest optimal sampling strategies. The agent might automatically skip time points with poor image quality, focus on regions showing interesting phenotypes, or identify outlier conditions that warrant closer examination.
+::: {.callout-warning}
+## Coding Agents Require Validation
 
-**Multi-dimensional Data Orchestration**: Seamlessly navigating complex datasets with temporal, spatial, and channel dimensions while maintaining spatial and temporal context. For instance, automatically creating montages that show cellular changes over time, or generating 3D projections that highlight subcellular localization patterns.
+While coding agents can generate and execute analysis code autonomously, their outputs must always be validated by domain experts. An agent may produce code that runs without errors but implements an inappropriate analysis method or makes incorrect biological assumptions. Always verify that AI-generated analysis pipelines produce scientifically sound results.
+:::
 
-**Real-time Collaborative Annotation**: Enabling multiple researchers to simultaneously explore and annotate datasets while the AI agent tracks contributions, resolves conflicts, and maintains annotation consistency across the research team.
+### Computer Use and Full Desktop Automation
 
-#### Dynamic Workflow Construction and Adaptation
+Beyond terminal access, AI agents are gaining the ability to operate graphical user interfaces directly. Anthropic's Claude **computer use** capability (announced October 2024) enables AI agents to see a computer screen, move the mouse, click buttons, and type text - effectively operating any software application the same way a human would. Claude Sonnet 4.5 achieved 61.4% on OSWorld, a benchmark measuring computer use proficiency.
 
-AI agents excel at constructing sophisticated analysis workflows that adapt in real-time based on data characteristics and intermediate results:
+For microscopy, this opens practical possibilities: an AI agent could operate proprietary microscopy control software through its native GUI, adjusting acquisition parameters, navigating to regions of interest, and capturing images - even when no programmatic API is available. It could operate ImageJ/Fiji through its menus, configure CellProfiler pipelines through the visual interface, or interact with any analysis software that a human researcher would use.
 
-**Conditional Analysis Pipelines**: Building branching workflows that make decisions based on image analysis results. For example, if initial segmentation reveals high cell density, the agent might automatically switch to a different segmentation algorithm or apply additional preprocessing steps.
+### Tool Access: From Protocols to Terminal Control
 
-**Multi-Modal Data Integration**: Seamlessly incorporating diverse data types including live-cell imaging, immunofluorescence, electron microscopy, and omics data within unified analysis workflows. The agent can correlate morphological changes observed in microscopy with gene expression patterns, metabolic measurements, or behavioral data.
+The practical power of an AI agent depends on what tools it can access and how it accesses them. Three complementary approaches have emerged, each with distinct strengths for microscopy applications.
 
-**Experimental Design Optimization**: Analyzing preliminary results to suggest modifications to experimental parameters, recommend additional controls, or identify potential confounding factors that should be addressed in future experiments.
+**Structured tool integration** through protocols like MCP and function calling provides reliable, typed interfaces between agents and specific tools. An MCP server for a microscope might expose functions like `acquire_image(channel, exposure, z_stack)` and `move_stage(x, y)`, enabling precise programmatic control. This approach works well for instrument control where safety and predictability are paramount — the agent can only invoke pre-defined, validated operations.
 
-**Statistical Framework Selection**: Automatically choosing appropriate statistical methods based on experimental design, sample sizes, data distribution, and research questions, while providing clear explanations of methodological choices.
+**Command-line and API access** represents a more powerful and increasingly dominant paradigm. When an agent has terminal access — as in Claude Code, Gemini CLI, or OpenAI Codex — it can install packages, read documentation, write and execute arbitrary code, interact with any CLI tool, and compose complex workflows by piping commands together. This is the approach that has driven rapid improvements in coding benchmarks: the agent operates like a developer at a terminal, using whatever tools the situation demands rather than being limited to a pre-defined set.
 
-#### Proactive Insight Generation
+**Sandboxed computer use** extends agent capabilities to graphical interfaces. An agent with computer use capability can operate proprietary microscopy software through its native GUI — clicking menus, adjusting parameters, navigating views — even when no programmatic API exists. This is particularly relevant for microscopy, where many commercial instruments provide only GUI-based control software.
 
-Beyond reactive analysis, AI agents can proactively identify patterns and generate hypotheses:
+The trend is clear: agents are moving from carefully constrained tool-calling toward general-purpose execution environments where they have broad access to terminals, file systems, and APIs, operating within guardrails that prevent destructive actions but otherwise allowing autonomous problem-solving. For microscopy, this means an agent can be given access to a microscope's control interface and an analysis toolkit, and then asked to "find and image all cells in metaphase" — composing the acquisition and analysis workflow dynamically rather than following a pre-written script.
 
-**Anomaly Detection and Flagging**: Continuously monitoring data streams to identify unusual patterns, experimental artifacts, or potentially interesting biological phenomena that might be missed in manual analysis.
+### Dynamic Code Generation and Intelligent Data Exploration
 
-**Cross-Experiment Pattern Recognition**: Identifying subtle patterns that emerge across multiple experiments, time points, or treatment conditions, potentially revealing biological insights that wouldn't be apparent from individual dataset analysis.
+One of the most practically useful capabilities of modern AI agents is their ability to write, execute, and iteratively refine code on-the-fly. When faced with a novel analysis request like "Track mitochondrial fission events and correlate with calcium oscillations," a coding agent does not rely on pre-written templates. Instead, it retrieves relevant library documentation, generates custom Python scripts tailored to the data characteristics, discovers appropriate tools, executes the code, observes the results, and — when the initial approach fails — diagnoses the error, searches for alternative methods, and iterates until the analysis succeeds. This iterative, error-driven development cycle mirrors how a skilled programmer works, but at machine speed and with access to the full breadth of available documentation and community knowledge.
 
-**Literature Integration**: Connecting observed phenomena with relevant scientific literature, suggesting mechanistic hypotheses, and identifying gaps in current understanding that warrant further investigation.
+Agents also serve as intelligent data explorers. By connecting to metadata databases and image repositories, they can build contextual understanding that goes beyond what is visible in any single image. When a researcher queries "Find cells showing stress response in the high-temperature condition," the agent can cross-reference experimental metadata, identify relevant time points, and contextualize findings within the broader experimental framework. Combined with automatic visualization control — optimizing contrast and colormaps based on image content, navigating multi-dimensional datasets, creating comparative montages — this transforms the experience of working with large microscopy datasets from manual parameter adjustment to goal-directed exploration.
 
-**Predictive Modeling**: Using temporal data to predict future cellular behavior, treatment outcomes, or experimental trajectories, enabling researchers to make informed decisions about experiment continuation or modification.
+## On-Demand Software and the Changing Nature of Microscopy Tools {#sec-disposable-software}
 
-## Challenges and Limitations {#sec-challenges}
+One of the most far-reaching consequences of capable AI agents is a quiet revolution in how scientific software is created and used. For decades, microscopy analysis has depended on durable software products — applications like CellProfiler, ImageJ/Fiji, and napari that represent years of development effort, extensive documentation, and ongoing community maintenance. These tools are general-purpose by design: they must serve a broad range of users and use cases to justify the investment required to build and maintain them. The trade-off is that researchers must learn to navigate complex menus, adapt their thinking to the software's workflow logic, and work within the constraints of someone else's design decisions.
 
-While the capabilities of LLMs, vision-language models, and AI agents in microscopy are impressive, they come with significant limitations and potential pitfalls that microscopists must understand and actively guard against. Scientific research demands the highest standards of accuracy, reproducibility, and ethical conduct - requirements that current AI systems cannot independently meet. This section provides essential warnings and guidance for responsible adoption.
+AI agents are beginning to invert this relationship. Instead of a researcher learning to operate a complex application, they describe what they need — "create an interface that lets me draw regions on my confocal image, measure mean fluorescence intensity in each region across all channels, and export the results as a CSV" — and the agent produces a purpose-built tool within minutes. The resulting application does exactly what was asked for, nothing more, and requires no training to use. If the requirements change tomorrow, the agent generates a new version rather than patching the old one.
+
+### The Economics and Implications of Ephemeral Software
+
+The economic implications of this shift are significant. What previously required weeks of professional software development can now be accomplished in a single conversation. Custom analysis GUIs that might have cost thousands of dollars in developer time become essentially free. Every workflow can be unique — perfectly adapted to a specific experimental setup, imaging modality, and scientific question — rather than being forced into the mold of a general-purpose tool. The maintenance burden that consumes so much of scientific software developers' time simply disappears: disposable software does not need to be maintained, documented for future users, or kept compatible with evolving dependencies.
+
+This paradigm has been described as "vibe coding" — a term coined by Andrej Karpathy in February 2025 to capture the idea that users describe the *feel* or *intent* of what they want rather than specifying technical requirements. Tools like Claude Artifacts, v0 (Vercel), and bolt.new can generate complete, functional web applications from natural language descriptions. For microscopy, this means a researcher can describe an analysis workflow conversationally and receive a working application without ever writing or reading a line of code.
+
+The implications for microscopy software are already visible. AI agents can create custom graphical interfaces on demand — showing only the controls relevant to the current task rather than presenting the researcher with dozens of menus and hundreds of parameters. Each experiment can have its own bespoke analysis pipeline, tailored to the specific imaging conditions and scientific questions at hand. Interactive dashboards for exploring multi-dimensional datasets can be generated with visualizations matched to the data structure rather than constrained by a pre-built application's display options.
+
+### From Menus to Conversations
+
+Perhaps most fundamentally, this revolution changes the nature of the interaction between microscopists and their software. Traditional microscopy applications present dense interfaces with complex menu hierarchies and parameter panels that require significant training to navigate. Researchers routinely spend more time learning software than doing science. The emerging paradigm inverts this: the researcher describes the goal, and the system handles the complexity.
+
+The new interaction model takes several forms. In conversational interfaces, the researcher communicates with the AI agent through natural language, building on context from previous exchanges — a researcher can say "increase the exposure a bit" and the agent interprets the intent without requiring exact numerical values. In dynamically generated interfaces, the agent creates simplified, task-specific GUIs showing only the controls relevant to the current experiment — a custom widget rather than a full application. For routine experiments, end-to-end automation becomes possible: the researcher provides a protocol description and the system executes it autonomously, from sample navigation to data export, with the AI monitoring quality and adapting parameters in real-time.
+
+This transition goes beyond user interface improvement. It represents a reconceptualization of what microscopy software is: no longer a static product that the researcher must learn to operate, but an intelligent layer that adapts to the researcher's needs, expertise level, and experimental goals. The software becomes a conversation rather than a constraint.
+
+## Practical Guide: Getting Started with AI Agents for Microscopy {#sec-practical-guide}
+
+This section provides a hands-on walkthrough for microscopists who want to begin using AI agents for image analysis. Rather than demonstrating a web-based chatbot, we use a **terminal-based AI coding agent** — the kind of tool that can read your files, write and execute code, install packages, and iterate on results autonomously. This represents the current state of the art in AI-assisted scientific computing.
+
+### Choosing and Installing an AI Agent
+
+We use **Gemini CLI** (Google) for this tutorial because it offers a generous free tier (60 requests/minute, 1,000/day with a personal Google account, no credit card required) and runs the powerful Gemini model with a 1-million-token context window. However, the same workflows can be accomplished with any terminal-based AI agent, including **Claude Code** (`npm install -g @anthropic-ai/claude-code`), **OpenAI Codex**, or IDE-integrated agents like **Cursor** or **GitHub Copilot**. If you prefer a graphical editor, both Cursor and VS Code with Copilot provide similar agent capabilities in a visual interface.
+
+To install Gemini CLI, you need Node.js 18 or later (Node.js 20+ recommended). Then run:
+
+```bash
+npm install -g @google/gemini-cli
+```
+
+Alternatively, you can use it without permanent installation via `npx @google/gemini-cli`. On first run, Gemini CLI will open your browser and ask you to sign in with your Google account — this is a one-time setup. Once authenticated, you can start the agent in any directory by simply typing:
+
+```bash
+cd /path/to/your/microscopy-data
+gemini
+```
+
+The agent will read the files in your directory, understand the context, and respond to natural language requests. It can write Python scripts, execute shell commands, install packages, read images, and iterate on results — all from your terminal.
+
+::: {.callout-warning}
+## Always Verify AI-Generated Code and Claims
+
+Never execute AI-generated analysis code on important data without first understanding what it does and validating the results. Read through generated code before running it, test on a small subset first, visually inspect intermediate results (e.g., segmentation overlays), and compare with known ground truth when available. AI agents can and do make mistakes — including calling non-existent functions, using incorrect parameters, or implementing inappropriate analysis methods.
+:::
+
+### Walkthrough: Cell Cycle Classification with an AI Agent
+
+This walkthrough demonstrates a realistic, multi-step analysis using Gemini CLI (or any equivalent agent). The scenario: you have multi-channel fluorescence images of FUCCI-labeled U2OS cells (FUCCI is the Fluorescent Ubiquitination-based Cell Cycle Indicator system, which marks cells in different cell cycle phases with distinct fluorescent colors; U2OS is a commonly used human osteosarcoma cell line) and want to classify cell cycle phases.
+
+**Step 1: Orient the agent and understand your data.** Start Gemini CLI in your data directory and describe what you have:
+
+```
+$ gemini
+> I have images of live FUCCI-labeled U2OS cells. Each image has
+  separate channels: brightfield, 488nm (green), and 561nm (red),
+  saved as .bmp files. I want to segment cells, measure per-cell
+  fluorescence, and classify cell cycle phase (G1/S/G2). Can you
+  look at the files in this directory and explain the analysis steps?
+```
+
+The agent will list your files, examine the directory structure, and propose an analysis plan — explaining the biology (FUCCI reporters, cell cycle phases) and the computational steps needed. This is the key difference from a web chatbot: the agent can *see* your actual files and tailor its approach accordingly.
+
+**Step 2: Load, inspect, and visualize.** Ask the agent to write and run code to load your images:
+
+```
+> Write a Python script to load the brightfield, 488nm, and 561nm
+  .bmp images, normalize intensities, and display them side by side
+  using matplotlib. Save the figure as overview.png.
+```
+
+The agent will write the script, execute it, and show you the result. If the images look misaligned or the contrast is wrong, describe the problem — "the green channel looks too dim, can you adjust the normalization?" — and the agent will modify and re-run the code.
+
+**Step 3: Segment cells.** Ask the agent to perform segmentation:
+
+```
+> Use Cellpose to segment cells from the brightfield image. Install
+  cellpose if it's not already available. Show me the segmentation
+  overlay on the brightfield image so I can verify the quality.
+```
+
+The agent will check if Cellpose is installed, install it if needed (`pip install cellpose`), run the segmentation, generate a visualization overlay, and save it. If the segmentation quality is poor — say touching nuclei are being merged — describe the issue and the agent will adjust parameters or try a different model.
+
+**Step 4: Measure and classify.** With segmentation masks in hand, ask for quantification:
+
+```
+> For each segmented cell, measure the mean intensity in the green
+  (488nm) and red (561nm) channels. Based on the FUCCI system,
+  classify each cell as G1 (high red, low green), S (both moderate),
+  or G2/M (low red, high green). Create a scatter plot of red vs
+  green intensity colored by phase, and export the results as a CSV.
+```
+
+The agent writes the measurement code, runs it, produces the scatter plot, and saves the CSV. If the classification thresholds don't match your data — perhaps the green signal is weak in your particular experiment — describe the problem: "The S-phase cells are being classified as G1. The green signal is weak — can you use k-means clustering on the intensity ratios instead of fixed thresholds?" The agent adapts its approach based on your feedback.
+
+**Step 5: Validate and finalize.** Ask for a validation visualization:
+
+```
+> Overlay each cell's segmentation mask and cell cycle phase label
+  (color-coded: red=G1, yellow=S, green=G2) on the brightfield
+  image. Save as validation_overlay.png.
+```
+
+Review the overlay carefully. Does the classification make biological sense? Are there obvious errors? This visual validation step is essential — it is the human expert's irreplaceable contribution to the workflow.
+
+### Microscopy-Specific AI Tools
+
+Beyond general-purpose coding agents, several tools are specifically designed for microscopy:
+
+**BioImage.IO Chatbot** (https://bioimage.io) is a web-based assistant with a curated knowledge base of bioimage analysis documentation from ImageJ, napari, CellProfiler, and other community tools. It excels at helping researchers find pre-trained models, understand analysis methods, and get guidance on tool selection — all through natural language conversation.
+
+**Omega for napari** (`pip install napari-chatgpt`) brings conversational AI directly into the napari image viewer. Researchers can load images, ask Omega to segment structures, create measurements, and generate custom analysis widgets — all through natural language, with the results appearing directly in the napari viewer.
+
+For researchers who prefer working in an IDE, **Cursor** and **VS Code with GitHub Copilot** provide similar agent capabilities in a visual editor environment, with the advantage of seeing code changes, file trees, and terminal output in an integrated interface.
+
+## Challenges, Implications, and the Road Ahead {#sec-challenges}
+
+While the capabilities described above are impressive, they come with significant limitations that microscopists must understand and actively guard against. Scientific research demands the highest standards of accuracy, reproducibility, and ethical conduct - requirements that current AI systems cannot independently meet. Beyond the models themselves, the broader ecosystem of AI tools is often fragile: scripts, notebooks, plugins, and hosted APIs may stop working without warning as software versions change or interfaces update. Microscopy workflows are inherently collaborative, spanning biologists, imaging scientists, computational analysts, and software developers, each facing different friction points that can fragment workflows and hinder adoption.
+
+This section provides an honest reckoning with these challenges, followed by a critical discussion of what these technologies mean for the future of microscopy software, the bioimage analysis profession, and scientific practice.
 
 ### The Hallucination Problem: When AI Fabricates Scientific "Facts"
 
-Perhaps the most dangerous limitation of current AI systems is their tendency to {{< glossary hallucinations text="hallucinate" >}} - generating confident, plausible-sounding but entirely fabricated information. Unlike human experts who typically indicate uncertainty ("I'm not sure, but..."), AI models often present false information with the same confidence as accurate facts. In microscopy contexts, this can manifest in several critical ways:
+Perhaps the most dangerous limitation is the tendency of AI systems to {{< glossary hallucinations text="hallucinate" >}} — generating confident, plausible-sounding but entirely fabricated information. Studies evaluating LLMs on systematic review tasks have found that a substantial fraction of AI-generated scientific references are fabricated, with rates varying widely across models — from roughly 30% for the best-performing models to over 90% for weaker ones [@chelli2024hallucination]. Unlike a human expert who typically signals uncertainty ("I'm not sure, but..."), AI models present fabricated information with the same fluency and confidence as verified facts, making it difficult for non-experts to distinguish reliable output from invention.
 
-**Fabricated Citations and References**: AI models routinely generate realistic-looking but completely false scientific citations, including non-existent papers with believable titles, author names, and journal references. A model might confidently cite "Smith et al. (2023) 'Novel Fluorescent Markers for Mitochondrial Dynamics' Nature Methods 15:234-241" when no such paper exists.
+In microscopy, hallucinations take several particularly insidious forms. AI models routinely generate realistic-looking but completely false scientific citations — complete with plausible author names, journal titles, volume numbers, and page ranges for papers that do not exist. A model might confidently cite "Smith et al. (2023) 'Novel Fluorescent Markers for Mitochondrial Dynamics' Nature Methods 15:234-241" when no such paper has ever been published. When asked for experimental protocols, models can produce detailed, professional-sounding procedures that are scientifically invalid — suggesting fluorophore combinations that are physically incompatible, or imaging parameters that could damage samples. They may state with confidence that certain proteins localize to specific cellular compartments, or that particular treatments have established effects, without any basis in the scientific literature. And they frequently claim that software packages have features they lack, suggesting analysis workflows built on non-existent functions or parameter settings that do not exist in the actual tools.
 
-**Invented Protocols and Parameters**: When asked for experimental protocols, models can generate detailed, professional-sounding procedures that are actually dangerous or scientifically invalid. For example, suggesting fluorophore combinations that are physically incompatible or imaging parameters that could damage samples.
+### Reproducibility, Bias, and Validation
 
-**False Biological Claims**: Models may state with confidence that certain proteins localize to specific cellular compartments, that particular treatments have established effects, or that experimental techniques have capabilities they don't possess - all without any basis in scientific literature.
+AI-generated analysis introduces a web of interconnected challenges for scientific rigor that go beyond simple accuracy concerns.
 
-**Fabricated Tool Capabilities**: AI systems might claim that software packages have features they lack, suggest analysis workflows using non-existent functions, or recommend parameter settings that don't exist in the actual tools.
+Confidence calibration is a persistent problem. Models may report cellular measurements to multiple decimal places with implied high precision when the underlying analysis has substantial uncertainty, suggest statistical significance where only correlation exists, or interpret preliminary or ambiguous results as definitive findings. For a researcher unfamiliar with the limitations, this false precision can be more misleading than an obviously wrong answer.
 
-### Overconfidence and Calibration Failures
+Reproducibility is complicated by the non-deterministic nature of AI-generated code. The same prompt given to the same model at different times may produce different analysis scripts — perhaps using different libraries, different algorithm implementations, or different parameter values. Even when the code works correctly in both cases, the results may differ in ways that are difficult to trace or explain. AI-generated code also tends to lack the comprehensive inline documentation, version pinning, and parameter justification that would be needed for another researcher to understand and replicate the analysis.
 
-Even when AI systems provide accurate information, their confidence calibration is often poor. Models may express high certainty about uncertain topics or provide narrow confidence intervals when wide uncertainty exists. In microscopy analysis, this can lead to:
+The training data underlying these models carries systematic biases that directly affect their utility for microscopy. Published scientific literature — the primary training source — skews toward positive results, novel findings, and work from well-funded institutions in developed countries. Documentation for expensive commercial microscopy systems is more extensively available online than information about open-source or custom-built equipment, which can bias AI recommendations toward costly solutions. Knowledge cutoffs mean models always lag behind the latest techniques and publications, though retrieval-augmented generation approaches partially address this by connecting models to up-to-date knowledge bases.
 
-**False Precision in Measurements**: An AI agent might report cellular measurements to multiple decimal places with implied high precision when the underlying analysis actually has substantial uncertainty.
+Privacy and data governance concerns are significant for any researcher working with sensitive data. Sending microscopy images and experimental metadata to commercial AI services means that unpublished results, proprietary techniques, or patient-derived data leaves institutional control and may be stored on external servers. Clinical or patient-derived samples may have specific data protection requirements under HIPAA or GDPR that are difficult to ensure when using third-party AI services. The economic costs of API-based AI processing can also be prohibitive for large-scale experiments, and the energy consumption of large-scale AI inference — particularly for high-resolution microscopy images — raises legitimate environmental and equity concerns.
 
-**Inappropriate Statistical Claims**: Models may suggest statistical significance or causality when the data only supports correlation, or recommend statistical tests without proper consideration of underlying assumptions.
+::: {.callout-warning}
+## The Validation Imperative
 
-**Premature Conclusion Drawing**: AI systems may interpret preliminary or ambiguous results as definitive findings, potentially misleading researchers about the strength of their evidence.
+All AI-generated protocols, workflows, and scientific claims must be independently verified. AI tools should augment, not replace, human expertise. When AI is used in research, document the specific models, prompts, and validation procedures in your methods section. Research institutions should develop guidelines for responsible AI use appropriate to their contexts.
+:::
 
-### Training Data Limitations and Biases
+### Will AI Make Existing Analysis Software Obsolete? {#sec-tools-obsolete}
 
-Current AI models are trained on data that has systematic limitations and biases that directly impact their utility for microscopy:
+A question on many microscopists' minds: will AI agents render tools like [ImageJ/Fiji](glossary.qmd#fiji), CellProfiler, napari, and ilastik obsolete?
 
-**Temporal Limitations**: Models trained on data with specific cutoff dates lack knowledge of recent developments. GPT-4's training data, for example, has a knowledge cutoff, meaning it cannot access the latest microscopy techniques, recently published papers, or emerging analysis methods.
+The short answer is no - but the relationship between researchers and these tools is changing fundamentally. AI agents do not replace existing analysis software; they **orchestrate** it. The MCP paradigm described in @sec-ai-agents makes established tools *more* valuable, not less, because they become the validated, community-tested "hands" that AI agents use to manipulate data. When an AI agent segments nuclei, it calls Cellpose or StarDist in the background. When it measures fluorescence, it invokes scikit-image functions. The intelligence is in the orchestration; the reliability is in the established tools.
 
-**Publication Bias**: Training data predominantly includes published research, which has well-known biases toward positive results, novel findings, and work from well-funded institutions. This skews AI understanding toward "publishable" science while underrepresenting negative results, replication studies, and routine laboratory practices.
+A useful analogy: spreadsheet software did not eliminate accountants - it eliminated tedious manual calculation and made accountants far more productive. Similarly, AI agents will not eliminate ImageJ, but they will eliminate the need to memorize where commands are buried in ImageJ's menu hierarchy, or to manually write batch-processing scripts.
 
-**Demographic and Geographic Biases**: Most scientific literature used in training comes from wealthy institutions in developed countries, potentially creating blind spots about low-resource settings, alternative methodologies, or culturally different research approaches.
+That said, the landscape is genuinely shifting. Software that exposes programmable APIs, command-line interfaces, and standardized protocols like MCP will thrive in an agent-driven world. Closed, GUI-only tools that cannot be invoked programmatically face a harder future - not because they are technically inferior, but because AI agents cannot use what they cannot call. The "disposable" software layer described in @sec-disposable-software sits *on top of* validated community tools, not instead of them.
 
-**Commercial Tool Bias**: Documentation for expensive, commercial microscopy systems is more extensively available online than information about open-source or custom-built equipment, potentially biasing AI recommendations toward costly solutions.
+The tools that will flourish are those that embrace both human and machine users: intuitive for researchers working directly, and programmable for AI agents orchestrating complex workflows.
 
-### Reproducibility and Documentation Challenges
+### The Evolving Role of Bioimage Analysts and Microscopists {#sec-evolving-role}
 
-AI-generated analysis workflows pose significant challenges for scientific reproducibility:
+If AI agents can generate analysis pipelines, write code, and even operate microscopes, what becomes of the bioimage analyst? Will human microscopists still be needed?
 
-**Non-Deterministic Code Generation**: The same prompt given to an AI agent at different times may generate different analysis code, making it difficult to reproduce exact procedures. Even minor differences in generated algorithms can lead to different results.
+The answer is an emphatic yes - but the role is evolving. The demand for bioimage analysts is likely to *increase*, not decrease, as AI makes advanced analysis accessible to more researchers who then need expert guidance on validation, interpretation, and experimental design. The job description, however, is shifting: from "the person who runs CellProfiler" to "the person who validates whether an AI-generated pipeline produces biologically meaningful results, understands when the segmentation has failed in subtle ways, and designs experiments that are amenable to quantitative analysis."
 
-**Insufficient Documentation**: AI-generated code often lacks comprehensive comments, version tracking, or detailed parameter justification that would be necessary for other researchers to understand and replicate the analysis.
+Microscopists bring irreplaceable domain knowledge that current AI systems fundamentally lack. They understand sample preparation artifacts, recognize when photobleaching is affecting a time-lapse, know that an optical aberration is creating the bright ring around a nucleus (not a real biological structure), and can judge whether a segmentation result makes sense given the biology. The AILA study on AI agents for atomic force microscopy (@mandal2025aila) explicitly demonstrated that even state-of-the-art LLMs "struggle with basic experimental tasks" - domain knowledge does not automatically translate into experimental competence.
 
-**Hidden Dependencies**: AI agents might generate code that relies on specific software versions, system configurations, or undocumented assumptions that aren't explicitly stated in the workflow description.
+The real risk is not job elimination but **skills atrophy**. If researchers stop learning how segmentation algorithms work because "the AI handles it," the field loses its collective ability to catch AI errors - precisely when that ability matters most. A researcher who cannot manually inspect a segmentation mask cannot evaluate whether the AI's output is correct.
 
-**Lack of Validation Reporting**: AI systems rarely provide comprehensive validation results, uncertainty estimates, or limitations statements that would be essential for scientific evaluation of their outputs.
+::: {.callout-note}
+## How Should the Field Prepare?
 
-### Privacy, Security, and Data Governance Concerns
+1. **Teach AI literacy alongside microscopy fundamentals** - researchers need both
+2. **Develop standardized validation frameworks** for AI-generated analyses
+3. **Maintain human-in-the-loop requirements** for high-stakes experimental decisions
+4. **Invest in understanding, not just using** - knowing *why* an analysis works is as important as getting a result
+:::
 
-Using commercial AI systems for microscopy analysis raises serious privacy and security considerations:
+### The Potential — and the Hype Check {#sec-hype-check}
 
-**Data Transmission**: Sending microscopy images and experimental metadata to commercial AI services means that sensitive research data, potentially including unpublished results or proprietary information, leaves institutional control and may be stored on external servers.
+The pace of advancement has been rapid, and it is worth taking stock of where the field actually stands rather than where enthusiasm or marketing might place it.
 
-**Intellectual Property Risks**: Images containing novel biological findings, innovative experimental setups, or commercially valuable discoveries become accessible to AI service providers and potentially their other clients.
+Several capabilities are validated and deployable today. Code generation for analysis scripts works well when paired with human validation — AI agents can produce functional Python pipelines, ImageJ macros, and napari scripts that substantially accelerate development. Conversational assistants are effective for learning concepts, troubleshooting errors, and navigating documentation. Foundation models for cell segmentation, including CellSAM, micro-SAM, and Cellpose, have reached human-level or superhuman performance and can be applied across diverse imaging modalities with minimal configuration. VLM-based image classification and visual question answering provide useful biological insights, and AI-assisted literature search and protocol guidance are already part of many researchers' daily workflows.
 
-**Collaborative Research Conflicts**: Using AI systems trained on broad scientific literature could potentially reveal information about competing research groups' work or unpublished methods.
+A second tier of capabilities has been demonstrated in research settings and is approaching production readiness. Autonomous microscope control, as shown by systems like EIMS and SmartEM, has demonstrated that AI agents can plan and execute imaging protocols with limited human oversight. AI agents that orchestrate multi-tool analysis pipelines — dynamically selecting algorithms, configuring parameters, and adapting to intermediate results — are functional in several frameworks. Dynamic GUI generation and on-demand software creation are already changing how researchers interact with analysis tools, and closed-loop adaptive imaging experiments are being demonstrated in specialized domains. More broadly, multi-agent systems are beginning to coordinate entire biomedical research workflows, from experimental design through data analysis [@li2026agenticai], and LLM agents have been shown to automate complex experimental protocols end-to-end, as demonstrated by CRISPR-GPT for gene editing [@qu2026crisprgpt].
 
-**Regulatory Compliance**: Clinical or patient-derived samples may have specific data protection requirements (HIPAA, GDPR) that are difficult to ensure when using third-party AI services.
+A third tier remains aspirational. Fully autonomous discovery pipelines — where an AI system formulates hypotheses, designs experiments, collects data, analyzes results, and iterates toward insight without human intervention — have been demonstrated in narrow domains but remain far from routine in biology. Causal inference and mechanistic understanding from image data alone, AI systems that genuinely replace domain expertise in experimental decision-making, and real-time models that continuously learn and improve during deployment are all active areas of research but have not yet proven reliable at scale.
 
-### Computational Cost and Environmental Impact
-
-The environmental and economic costs of large-scale AI use in microscopy are substantial and often underestimated:
-
-**Energy Consumption**: Training large language models requires enormous computational resources with significant carbon footprints. Even inference (using trained models) for vision-language tasks is energy-intensive, particularly for high-resolution microscopy images.
-
-**Economic Barriers**: API costs for processing large datasets through commercial AI services can quickly become prohibitive, potentially creating inequitable access to these tools between well-funded and resource-limited research groups.
-
-**Scalability Limitations**: Current AI systems are too slow and expensive for routine, high-throughput analysis workflows, limiting their practical utility for many real-world applications.
-
-### Skills Development and Scientific Training
-
-Over-reliance on AI tools poses risks to scientific skill development and critical thinking:
-
-**Algorithm Understanding Degradation**: Researchers who rely heavily on AI-generated analysis workflows may lose understanding of the underlying algorithms, making it difficult to troubleshoot problems, interpret results appropriately, or recognize when methods are inappropriately applied.
-
-**Critical Evaluation Skills**: If AI systems provide authoritative-sounding answers to most questions, researchers may become less practiced at critically evaluating information, checking sources, and maintaining healthy scientific skepticism.
-
-**Innovation Stagnation**: Easy access to AI-generated solutions might reduce incentives to develop novel analytical approaches or to deeply understand the biological systems being studied.
-
-### Validation and Quality Control Imperatives
-
-Given these limitations, responsible use of AI in microscopy requires rigorous validation and quality control procedures:
-
-**Independent Verification**: All AI-generated protocols, analysis workflows, and scientific claims must be independently verified through traditional scholarly methods - checking citations, validating protocols, and comparing results with established techniques.
-
-**Human Expertise Integration**: AI tools should augment, not replace, human expertise. Critical scientific decisions should always involve knowledgeable researchers who can evaluate AI suggestions against domain knowledge and experimental context.
-
-**Transparent Documentation**: When AI tools are used in research, their role should be clearly documented in methods sections, including specific models used, prompts provided, and how outputs were validated.
-
-**Continuous Monitoring**: AI-assisted research workflows should include ongoing checks for accuracy, reproducibility, and scientific validity, with clear procedures for identifying and correcting errors.
-
-**Ethical Review**: Research institutions should develop guidelines for responsible AI use in scientific research, addressing privacy, reproducibility, and quality standards appropriate for their research contexts.
-
-The power of AI tools in microscopy is undeniable, but their responsible adoption requires careful attention to these limitations and proactive measures to mitigate risks. Rather than viewing these challenges as barriers to adoption, they should be seen as essential considerations for maintaining the integrity and reliability of scientific research in an AI-enabled future.
-
-## Future Directions {#sec-future}
-
-The intersection of LLMs and microscopy represents one of the most rapidly evolving frontiers in biological research technology. While current capabilities are impressive, they represent only the beginning of a transformation that promises to fundamentally reshape how we acquire, analyze, and interpret microscopy data. This section examines emerging technological developments, anticipates future challenges, and considers the broader implications for scientific research and education.
-
-### Next-Generation AI Architectures for Microscopy
-
-**Foundation Models for Biology**: The next wave of AI development focuses on creating large foundation models specifically trained on biological data, including microscopy images, omics datasets, and scientific literature. Unlike current general-purpose models that must generalize from natural images to microscopy, these specialized models will understand biological structures, processes, and experimental contexts from the ground up. Companies and research consortiums are already developing foundation models trained on millions of microscopy images with corresponding biological annotations, promising more accurate and scientifically reliable analysis capabilities.
-
-**Multimodal Scientific Reasoning**: Future AI systems will seamlessly integrate diverse data modalities - microscopy images, gene expression profiles, protein interaction networks, metabolomic data, and experimental metadata - within unified reasoning frameworks. Rather than analyzing images in isolation, these systems will contextualize visual observations within comprehensive biological knowledge graphs, enabling deeper insights into complex biological phenomena.
-
-**Real-Time Adaptive Models**: Emerging architectures enable AI models to learn and adapt during deployment, continuously improving their performance on specific experimental setups, cell types, or imaging conditions. This "lifelong learning" capability will allow AI systems to become increasingly specialized and accurate for particular research contexts while maintaining broad applicability.
-
-### Autonomous Microscopy and Smart Imaging Systems
-
-**AI-Controlled Hardware Integration**: The most transformative near-term development involves direct integration of AI agents with microscopy hardware, creating autonomous imaging systems that can plan experiments, optimize acquisition parameters, and make real-time decisions about where and what to image. These systems will combine computer vision for sample navigation, predictive modeling for experimental outcomes, and adaptive control algorithms for dynamic parameter adjustment.
-
-**Intelligent Experimental Design**: Future AI systems will not just analyze experiments but actively design them, suggesting optimal experimental conditions, predicting sample requirements, and even identifying potential confounding factors before data collection begins. By analyzing preliminary results in real-time, these systems can suggest protocol modifications, additional controls, or alternative approaches that maximize information gain while minimizing resource consumption.
-
-**Closed-Loop Discovery Systems**: The ultimate vision involves fully autonomous discovery pipelines where AI systems formulate hypotheses, design experiments to test them, control instrumentation to collect data, analyze results, and iteratively refine understanding - all with minimal human intervention. While fully autonomous discovery remains years away, intermediate capabilities are already emerging in targeted domains like drug screening and materials science.
-
-### Advanced Analysis and Interpretation Capabilities
-
-**Generative AI for Image Processing**: Beyond analysis, future AI systems will excel at image generation and transformation. Researchers will be able to request specific image processing operations through natural language ("enhance the contrast of mitochondria while preserving nuclear detail" or "remove motion artifacts from this time-lapse sequence") and receive both the processed images and the algorithms that created them.
-
-**Causal Inference and Mechanistic Understanding**: Current AI excels at pattern recognition but struggles with causal reasoning. Next-generation systems will integrate causal inference capabilities, helping researchers distinguish correlation from causation, identify confounding variables, and develop mechanistic understanding of biological processes observed in microscopy data.
-
-**Uncertainty Quantification and Confidence Modeling**: Future AI systems will provide rigorous uncertainty estimates for all predictions and analyses, enabling researchers to make informed decisions about result reliability and identify cases where additional data or alternative approaches are needed.
-
-### Democratization and Accessibility Advances
-
-**No-Code Scientific Computing**: The development of sophisticated AI agents will dramatically lower barriers to advanced microscopy analysis, enabling researchers without programming expertise to access state-of-the-art computational methods through conversational interfaces. This democratization will be particularly transformative for researchers in resource-limited settings or interdisciplinary scientists who bring domain expertise but lack computational training.
-
-**Real-Time Education and Training**: AI tutors specialized in microscopy will provide personalized, adaptive training experiences, helping researchers learn new techniques, understand complex biological phenomena, and troubleshoot experimental problems. These systems will adapt their teaching strategies to individual learning styles and provide immediate feedback on experimental design and data interpretation.
-
-**Global Collaborative Platforms**: Future AI-enabled platforms will facilitate unprecedented global collaboration, allowing researchers worldwide to share data, analysis workflows, and insights through intelligent systems that can bridge language barriers, standardize methodologies, and identify complementary research efforts across institutions and cultures.
-
-### Regulatory and Standardization Developments
-
-**AI Validation Frameworks**: As AI tools become more prevalent in scientific research, regulatory bodies and professional organizations are developing frameworks for validating AI-generated results, ensuring reproducibility, and maintaining research integrity. These standards will likely include requirements for transparency in AI-assisted research, validation protocols for AI-generated analyses, and guidelines for documenting AI tool usage in scientific publications.
-
-**Quality Control Automation**: Future systems will incorporate automated quality control mechanisms that continuously monitor analysis pipelines for errors, bias, or degradation in performance. These systems will alert researchers to potential problems and suggest corrective actions, helping maintain the reliability of AI-assisted research.
-
-**Ethical AI Governance**: As AI capabilities grow more powerful, the scientific community is developing ethical frameworks for responsible AI use in research, addressing issues of bias, fairness, privacy, and the appropriate balance between automation and human oversight.
-
-### Challenges and Open Questions
-
-**Scientific Creativity and Innovation**: A critical open question concerns the impact of increasingly capable AI systems on scientific creativity and innovation. While AI can accelerate many aspects of research, there's ongoing debate about whether widespread AI adoption might reduce the development of human intuition, creativity, and deep understanding that drive scientific breakthroughs.
-
-**Reproducibility in the AI Era**: Ensuring reproducibility becomes more complex when research increasingly relies on AI systems that may be non-deterministic, constantly updating, or proprietary. The scientific community must develop new standards and practices for maintaining reproducibility in AI-enabled research.
-
-**Skills Evolution in Science**: As AI handles more routine analysis tasks, the skills required for scientific success will evolve. Future scientists may need different combinations of domain expertise, AI literacy, and critical thinking skills. Educational institutions are beginning to adapt curricula, but the optimal training for AI-enabled science remains an open question.
-
-**Computational Sustainability**: The environmental impact of AI use in science is significant and growing. Future developments must balance increasing AI capabilities with environmental sustainability, potentially through more efficient algorithms, specialized hardware, or carbon-aware computing practices.
-
-### Long-Term Vision: AI as Scientific Collaborator
-
-Looking further ahead, the ultimate vision involves AI systems that function as true scientific collaborators rather than sophisticated tools. These systems would:
-
-- **Generate Novel Hypotheses**: By integrating vast amounts of scientific knowledge with observed patterns in data, AI collaborators could propose genuinely novel biological hypotheses that human researchers might not consider.
-
-- **Design Innovative Experiments**: AI systems could suggest entirely new experimental approaches, combining techniques in unexpected ways or identifying overlooked experimental opportunities.
-
-- **Accelerate Discovery Cycles**: By automating routine aspects of research while augmenting human creativity and intuition, AI collaborators could dramatically accelerate the pace of scientific discovery.
-
-- **Bridge Disciplinary Boundaries**: AI systems with broad scientific knowledge could facilitate interdisciplinary research by identifying connections and opportunities that span traditional academic boundaries.
+The trajectory is clear: capabilities are moving from aspirational to emerging to production faster than many expected. Foundation models that integrate microscopy with omics data, protein structures, and literature within unified reasoning frameworks represent the next major frontier. But honest assessment demands acknowledging what remains genuinely hard. Causal reasoning, scientific creativity, and the subtle judgment calls that experienced researchers make intuitively — recognizing that a result is "too clean" to be real, or that an artifact resembles a biological signal — are capabilities that current AI systems do not possess. AI excels at pattern recognition and tool orchestration; it struggles with the kind of lateral thinking that produces genuine scientific breakthroughs.
 
 ### Preparing for an AI-Enabled Future
 
-As these capabilities emerge, the microscopy and broader scientific communities must proactively prepare for an AI-enabled future:
+As these capabilities mature, the microscopy community faces a set of practical decisions about how to prepare — decisions that will shape whether AI tools are adopted equitably, responsibly, and effectively.
 
-**Education and Training**: Scientific education must evolve to include AI literacy while maintaining emphasis on fundamental biological understanding, critical thinking, and experimental design skills that remain essential regardless of technological advances.
+Scientific education must evolve to include AI literacy as a core competency alongside fundamental biological understanding, critical thinking, and experimental design. Researchers need to understand what AI agents can and cannot do, how to evaluate their outputs, and when to trust or override their suggestions. At the same time, curricula must resist the temptation to replace foundational training with AI tools — the ability to understand why a segmentation algorithm works, not just how to invoke it, remains essential for catching errors and advancing the field.
 
-**Infrastructure Development**: Research institutions need to invest in computational infrastructure, data management systems, and AI expertise to support researchers in adopting these powerful new tools responsibly and effectively.
+Research institutions need to invest in computational infrastructure, data management systems, and AI expertise. This includes not only hardware and software, but also supporting open-source tools and open protocols that prevent vendor lock-in and ensure equitable access across institutions with different levels of funding. The community-driven approach exemplified by the BioImage Model Zoo, AI4Life, and the BioImage.IO Chatbot provides a model for how AI tools can be developed collaboratively and transparently — ensuring that advances benefit the entire research community rather than concentrating capability in a few well-resourced laboratories.
 
-**Community Engagement**: Ongoing dialogue between AI developers, microscopy researchers, and the broader scientific community is essential to ensure that AI development serves scientific needs and maintains the values of open, reproducible, and ethical research.
+Funding agencies, publishers, and scientific societies must adapt policies for AI-assisted research. This includes developing requirements for documenting AI tool usage in methods sections — specifying which models were used, what prompts were given, and how outputs were validated. Standards for validating AI-generated analyses need to be established, along with guidelines that balance the drive for innovation with the non-negotiable requirement for reproducibility. These policies should be developed through broad community consultation rather than imposed top-down, recognizing that the field's needs are evolving as rapidly as the technology itself.
 
-**Policy and Governance**: Funding agencies, publishers, and scientific societies must adapt policies and practices to accommodate AI-assisted research while maintaining scientific rigor and integrity.
+## Conclusion
 
-The future of microscopy in an AI-enabled world is not predetermined but will be shaped by the choices made today by researchers, institutions, and the broader scientific community. By thoughtfully navigating the opportunities and challenges ahead, we can harness the power of AI to accelerate biological discovery while preserving the core values and practices that make science a reliable source of knowledge about the natural world.
+This chapter has traced the journey from the fundamental limitations of traditional deep learning - where neural networks catastrophically fail outside their training distribution - to a new era where large language models, vision-language models, and autonomous AI agents are reshaping every aspect of microscopy, from image acquisition to analysis to interpretation.
 
-The journey from traditional microscopy to AI-enabled analysis represents more than technological advancement - it represents an evolution in how we approach scientific inquiry itself. As we stand at this inflection point, the decisions made about how to develop, deploy, and govern AI in microscopy will influence the trajectory of biological research for generations to come.
+The transformation is real and accelerating. Function calling and tool use have converted passive text generators into active agents. The Model Context Protocol is creating a universal interface between AI reasoning and the microscopy tool ecosystem. Foundation models like CellSAM achieve human-level segmentation across diverse modalities. Coding agents write and execute analysis pipelines with increasing autonomy. And the concept of disposable, AI-generated software is fundamentally changing who can build analysis tools and how quickly.
 
-## Practical Guide: Getting Started with LLMs for Microscopy {#sec-practical-guide}
+Yet this chapter has also been deliberately candid about what these tools cannot do. They hallucinate scientific facts. They produce overconfident results. They carry systematic biases inherited from their training data. They cannot replace the domain knowledge of an experienced microscopist who recognizes that a bright ring around a nucleus is an optical artifact, not a biological structure. The AILA study's finding that LLMs "struggle with basic experimental tasks" is a healthy reminder that impressive language capabilities do not automatically confer experimental competence.
 
-This hands-on section provides step-by-step guidance for microscopists to begin leveraging LLMs effectively, including:
-- Crafting effective prompts that produce reliable, scientific outputs
-- Using ChatGPT and similar tools to learn imaging concepts and generate analysis code
-- Getting started with BioImage.io tools and microscopy-specific AI agents
-- Strategies for validating and verifying AI-generated solutions
-- Example workflows demonstrating LLM integration into real microscopy analysis tasks
+The central message is this: AI agents are the most significant shift in how microscopy analysis is practiced since the transition from film to digital imaging. They will not replace microscopists or bioimage analysts, but they will redefine what these roles look like. The researchers who thrive will be those who combine deep biological understanding with the ability to critically evaluate AI-generated results - who use these tools as powerful amplifiers of human expertise rather than substitutes for it.
+
+The future is not predetermined. It will be shaped by the choices made today: how we teach the next generation of scientists, what validation standards we establish, whether we invest in open infrastructure, and whether we maintain the healthy skepticism that is the hallmark of good science. The tools described in this chapter are extraordinarily powerful. Using them well requires the same qualities that have always defined excellent microscopy: careful observation, rigorous validation, intellectual honesty, and a deep respect for the complexity of biological systems.
+
+For hands-on training approaches, see @sec-9. For guidance on evaluating tool quality, see @sec-10. For an introduction to the AI architectures underlying these tools, see @sec-4.
+
+## AI Disclosure {.unnumbered}
+
+AI language model assistants (Anthropic's Claude) were used during the drafting of this chapter for literature research, text drafting, and structural organization. All content was reviewed, verified, and edited by the human authors, who take full responsibility for accuracy and scientific integrity. Factual claims and references were independently verified against primary sources (March 2026). Given the rapid pace of AI development, specific model versions and benchmarks may have evolved since publication.
