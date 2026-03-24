@@ -2,15 +2,18 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Carsen Stringer">
-<meta name="author" content="Add any co-authors as appropriate">
+<meta name="author" content="Marius Pachitariu">
 
-<title>4&nbsp; Architectures and Loss Models – AI in Microscopy: A BioImaging Guide</title>
+<title>4&nbsp; Architectures and Loss Functions – AI in Microscopy: A BioImaging Guide</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -92,19 +95,18 @@ div.csl-indent {
 <link href="./settings/favicon.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-4c6d65c679321d81af7ec8b61b1d5a24.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ffc4c3fc79587ee79da4865b6a08975e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-acff971833d9769290026d534105daaa.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ffc4c3fc79587ee79da4865b6a08975e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -143,7 +145,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </script>
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 const typesetMath = (el) => {
@@ -345,7 +347,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./4-architectures.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Models</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./4-architectures.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -411,7 +413,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4-architectures.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Functions</span></span></a>
   </div>
 </li>
       </ul>
@@ -519,17 +521,16 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#include-section-headers-as-appropriate" id="toc-include-section-headers-as-appropriate" class="nav-link active" data-scroll-target="#include-section-headers-as-appropriate"><span class="header-section-number">4.1</span> Include section headers as appropriate</a>
+  <li><a href="#neural-network-architectures" id="toc-neural-network-architectures" class="nav-link active" data-scroll-target="#neural-network-architectures"><span class="header-section-number">4.1</span> Neural network architectures</a>
   <ul class="collapse">
-  <li><a href="#sub-subsection-headers-are-also-available" id="toc-sub-subsection-headers-are-also-available" class="nav-link" data-scroll-target="#sub-subsection-headers-are-also-available"><span class="header-section-number">4.1.1</span> Sub-subsection headers are also available</a></li>
+  <li><a href="#linear-layers-aka-fully-connected-layers-or-dense-layers" id="toc-linear-layers-aka-fully-connected-layers-or-dense-layers" class="nav-link" data-scroll-target="#linear-layers-aka-fully-connected-layers-or-dense-layers"><span class="header-section-number">4.1.1</span> Linear layers (aka fully-connected layers or dense layers)</a></li>
+  <li><a href="#convolutional-layers" id="toc-convolutional-layers" class="nav-link" data-scroll-target="#convolutional-layers"><span class="header-section-number">4.1.2</span> Convolutional layers</a></li>
+  <li><a href="#u-nets" id="toc-u-nets" class="nav-link" data-scroll-target="#u-nets"><span class="header-section-number">4.1.3</span> U-nets</a></li>
+  <li><a href="#vision-transformers" id="toc-vision-transformers" class="nav-link" data-scroll-target="#vision-transformers"><span class="header-section-number">4.1.4</span> Vision transformers</a></li>
   </ul></li>
-  <li><a href="#bibliography-and-citations" id="toc-bibliography-and-citations" class="nav-link" data-scroll-target="#bibliography-and-citations"><span class="header-section-number">4.2</span> Bibliography and Citations</a></li>
-  <li><a href="#adding-to-the-glossary" id="toc-adding-to-the-glossary" class="nav-link" data-scroll-target="#adding-to-the-glossary"><span class="header-section-number">4.3</span> Adding to the Glossary</a></li>
-  <li><a href="#sec-equation" id="toc-sec-equation" class="nav-link" data-scroll-target="#sec-equation"><span class="header-section-number">4.4</span> Code and Equations</a>
-  <ul class="collapse">
-  <li><a href="#embedding-figures" id="toc-embedding-figures" class="nav-link" data-scroll-target="#embedding-figures"><span class="header-section-number">4.4.1</span> Embedding Figures</a></li>
-  </ul></li>
-  <li><a href="#quarto-has-additional-features." id="toc-quarto-has-additional-features." class="nav-link" data-scroll-target="#quarto-has-additional-features."><span class="header-section-number">4.5</span> Quarto has additional features.</a></li>
+  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions"><span class="header-section-number">4.2</span> Loss functions</a></li>
+  <li><a href="#training-neural-networks" id="toc-training-neural-networks" class="nav-link" data-scroll-target="#training-neural-networks"><span class="header-section-number">4.3</span> Training neural networks</a></li>
+  <li><a href="#sec-computer-vision-resources" id="toc-sec-computer-vision-resources" class="nav-link" data-scroll-target="#sec-computer-vision-resources"><span class="header-section-number">4.4</span> Additional resources</a></li>
   </ul>
 </nav>
     </div>
@@ -537,16 +538,15 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./4-architectures.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Models</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./4-architectures.html"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Functions</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-4" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Models</span></span></h1>
-<p class="subtitle lead">optionally add a subtitle</p>
+<h1 class="title"><span id="sec-4" class="quarto-section-identifier"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Functions</span></span></h1>
 </div>
 
 
 <div class="quarto-title-meta-author">
   <div class="quarto-title-meta-heading">Authors</div>
-  <div class="quarto-title-meta-heading">Affiliations</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
   
     <div class="quarto-title-meta-contents">
     <p class="author">Carsen Stringer <a href="https://orcid.org/0000-0002-9229-4100" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
@@ -557,11 +557,11 @@ window.Quarto = {
           </p>
       </div>
     <div class="quarto-title-meta-contents">
-    <p class="author">Add any co-authors as appropriate </p>
+    <p class="author">Marius Pachitariu <a href="https://orcid.org/0000-0001-7106-814X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            
+            HHMI Janelia Research Campus
           </p>
       </div>
   </div>
@@ -578,195 +578,638 @@ window.Quarto = {
 </header>
 
 
-<!--Your first header will be the chapter's upper-level table of contents title.-->
-<!--If you'd like to have a subtitle, include it in the Quarto header above -->
-<p>Under your first header, include a brief introduction to your chapter.</p>
-<p>Starting prompt for this chapter: Chapter 4 introduces architectures and loss models, defining them and providing examples through two practical case studies: image restoration and segmentation. Although this chapter will include code snippets/exercises, the presentation of essential concepts should communicate the philosophy behind the choice of a model for non-programmers.</p>
-<section id="include-section-headers-as-appropriate" class="level2" data-number="4.1">
-<h2 data-number="4.1" class="anchored" data-anchor-id="include-section-headers-as-appropriate"><span class="header-section-number">4.1</span> Include section headers as appropriate</h2>
-<p>Use markdown heading level two for section headers. You can use standard markdown formatting, for example <em>emphasize the end of this sentence</em>.</p>
-<p>This is a new paragraph with more text. Your paragraphs can cross reference other items, such as <a href="11-outlook.html#fig-simple" class="quarto-xref">Figure&nbsp;<span>11.1</span></a>. Use <code>fig</code> to reference figures, and <code>eq</code> to reference equations, such as <a href="11-outlook.html#eq-stddev" class="quarto-xref">Equation&nbsp;<span>11.1</span></a>.</p>
-<section id="sub-subsection-headers-are-also-available" class="level3" data-number="4.1.1">
-<h3 data-number="4.1.1" class="anchored" data-anchor-id="sub-subsection-headers-are-also-available"><span class="header-section-number">4.1.1</span> Sub-subsection headers are also available</h3>
-<p>To make your sections cross reference-able throughout the book, include a section reference, as shown in the header for <a href="11-outlook.html#sec-equation" class="quarto-xref"><span>Section 11.4</span></a>.</p>
-</section>
-</section>
-<section id="bibliography-and-citations" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="bibliography-and-citations"><span class="header-section-number">4.2</span> Bibliography and Citations</h2>
-<p>To cite a research article, add it to references.bib and then refer to the citation key. For example, reference<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">1</a></sup></span> refers to CellPose and reference<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">2</a></sup></span> refers to ZeroCostDL4Mic.</p>
-</section>
-<section id="adding-to-the-glossary" class="level2" data-number="4.3">
-<h2 data-number="4.3" class="anchored" data-anchor-id="adding-to-the-glossary"><span class="header-section-number">4.3</span> Adding to the Glossary</h2>
-<p>We are using R code to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from <a href="./glossary.html#hallucinations">hallucinations</a>. It is important to understand the underlying <a href="./glossary.html#training-data">training data</a>, <a href="./glossary.html#validation-data">validation data</a> and <a href="./glossary.html#false-positives">false positives</a> to interpret your results. Clicking on the word will reveal its definition by taking you to the entry on the <a href="glossary.html">Glossary</a> page. Pressing back in your browser will return you to your previous place in the textbook.</p>
-</section>
-<section id="sec-equation" class="level2" data-number="4.4">
-<h2 data-number="4.4" class="anchored" data-anchor-id="sec-equation"><span class="header-section-number">4.4</span> Code and Equations</h2>
-<p>This is an example of including a python snippet that generates a figure</p>
-<div id="cell-fig-simple" class="cell" data-execution_count="1">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">1</span>,<span class="dv">23</span>,<span class="dv">2</span>,<span class="dv">4</span>])</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-display">
-<div id="fig-simple" class="quarto-float quarto-figure quarto-figure-center anchored">
+<p>The problems faced by biologists differ in multiple ways from traditional computer vision problems. For example, object detection in computer vision typically involves only a few objects per scene, e.g.&nbsp;determining the approximate locations of cars or pedestrians in a self-driving car application. On the other hand, biologists may need to detect hundreds or thousands of cells in a single image, often with precise segmentations of cell boundaries. Because of these differences, the best algorithms for biological problems might not be the same as those used in standard computer vision. In this chapter, we introduce and describe several <a href="./glossary.html#network-architecture">neural network architectures</a> and <a href="./glossary.html#loss-function">loss functions</a> for biological applications, that are especially useful for identifying and outlining objects in images (i.e., segmentation). In subsequent chapters, these concepts will be applied to other biological problems besides segmentation. For a deeper dive into computer vision topics we recommend several resources in <a href="#sec-computer-vision-resources" class="quarto-xref"><span>Section 4.4</span></a>.</p>
+<section id="neural-network-architectures" class="level2" data-number="4.1">
+<h2 data-number="4.1" class="anchored" data-anchor-id="neural-network-architectures"><span class="header-section-number">4.1</span> Neural network architectures</h2>
+<p>In computer vision, multiple neural network architectures were designed for various visual tasks. These architectures take as input an image, which often has multiple channels - in the case of <a href="./glossary.html#natural-image">natural images</a> there are three input channels for red/green/blue. The neural networks process the image and output various quantities depending on the task. For example, in the case of object recognition, the networks output a single probability vector to indicate the likelihood that each possible object (cat, dog etc) is in the image. As an example, we illustrate Alexnet<span class="citation" data-cites="krizhevsky2012imagenet"><sup><a href="references.html#ref-krizhevsky2012imagenet" role="doc-biblioref">1</a></sup></span>, the first neural network to achieve high performance at object classification. This neural network takes as input an RGB image, applies filters to the image, downsamples the image (reducing the size of the image), and then repeats this process several times, in the end producing an object category label.</p>
+<div id="fig-alexnet" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="4-architectures_files/figure-html/fig-simple-output-1.png" width="566" height="411" class="figure-img">
+<div aria-describedby="fig-alexnet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/alexnet.PNG" class="img-fluid figure-img" style="width:90.0%">
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-simple-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.1: Simple Plot
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-alexnet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.1: Alexnet architecture, adapted from<span class="citation" data-cites="krizhevsky2012imagenet"><sup><a href="references.html#ref-krizhevsky2012imagenet" role="doc-biblioref">1</a></sup></span>. This early neural network first demonstrated the capabilities of deep learning when trained on large datasets.
 </figcaption>
 </figure>
 </div>
+<p>In the case of biological problems, however, it is often necessary for the output to be the same size as the input – pixel-level labels – rather than a single object category label. For example, for cell classification, each pixel in the output may represent the cell class of the pixel. A common architecture for this is a u-net<span class="citation" data-cites="ronneberger2015u"><sup><a href="references.html#ref-ronneberger2015u" role="doc-biblioref">2</a></sup></span>, which applies filters and downsamples like Alexnet, and then additionally applies filters with upsampling, in the end producing an output at the same pixel resolution as the input.</p>
+<div id="fig-unet" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-unet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/unet.PNG" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-unet-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.2: U-net architecture, adapted from<span class="citation" data-cites="ronneberger2015u"><sup><a href="references.html#ref-ronneberger2015u" role="doc-biblioref">2</a></sup></span>. This neural network was revolutionary for biological analysis, in part due to the image-sized outputs and dense skip connections between layers on the downsampling and upsampling pass.
+</figcaption>
+</figure>
+</div>
+<section id="linear-layers-aka-fully-connected-layers-or-dense-layers" class="level3" data-number="4.1.1">
+<h3 data-number="4.1.1" class="anchored" data-anchor-id="linear-layers-aka-fully-connected-layers-or-dense-layers"><span class="header-section-number">4.1.1</span> Linear layers (aka fully-connected layers or dense layers)</h3>
+<p>Early research focused on the computational properties of <a href="./glossary.html#perceptron">perceptrons</a>, defined as linear weighted sums of inputs, followed by a nonlinear <a href="./glossary.html#activation-function">activation function</a><span class="citation" data-cites="rumelhart1986learning"><sup><a href="references.html#ref-rumelhart1986learning" role="doc-biblioref">3</a></sup></span>. In other words, a vector of features <span class="math inline">\(\vec{x}\)</span> are the input, they are multiplied by a weight specific for each feature <span class="math inline">\(\vec{w}\)</span>, summed together, and then put through a nonlinearity. An example of a feature set may be a summary of cell-based quantifications in an image, like how many cells are oblong or the fraction of cells with specific RNA expression, and the output may represent the phenotype of the cells in the image, for example cancerous or non-cancerous.</p>
+<p>A neural network layer consists of a collection of such perceptrons, each with their own input weights; when these vectors of weights for each perceptron are put together, they create a weights matrix <span class="math inline">\(W\)</span>. Another term often added to these computations is a <a href="./glossary.html#bias-vector">bias</a> value, and there is one term for each output, creating a vector <span class="math inline">\(\vec{b}\)</span>. This additive term provides flexibility for the layer to produce non-zero outputs, even when the inputs are zero. This is summarized by <a href="#eq-W-b" class="quarto-xref">Equation&nbsp;<span>4.1</span></a>, where <span class="math inline">\(m\)</span> is the number of inputs <span class="math inline">\(n\)</span> is the number of outputs.</p>
+<p><span id="eq-W-b"><span class="math display">\[
+W =
+\begin{bmatrix}
+W_{11} &amp; \cdots &amp; W_{1m}\\
+\vdots &amp; \ddots &amp; \vdots \\
+W_{n1} &amp; \cdots &amp; W_{nm}
+\end{bmatrix}
+, \quad
+\vec{b} =
+\begin{bmatrix}
+b_1 \\
+\vdots \\
+b_n
+\end{bmatrix} ,
+  \tag{4.1}\]</span></span></p>
+<p>The output of the linear layer is given by <a href="#eq-linear-layer" class="quarto-xref">Equation&nbsp;<span>4.2</span></a>. <span id="eq-linear-layer"><span class="math display">\[
+\vec{y} = W\vec{x} + \vec{b} = [\sum_{j=1}^m W_{ij} x_{j} + b_{i}]_{i=1}^n.
+\tag{4.2}\]</span></span></p>
+<p>Each of the elements in <span class="math inline">\(\vec{x}\)</span> and <span class="math inline">\(\vec{y}\)</span> are also called <a href="./glossary.html#neural-network-unit">neural network units</a>. The values of these elements, which are dependent on the specific inputs to the layer, are called <a href="./glossary.html#activations">activations</a>.</p>
+<p>The weights matrix allows any combination of inputs to be used to create each output. This is why these layers are also called “fully-connected”, because there is a weight value between each input and output feature. They can also be referred to as “dense” layers because the connectivity is not sparse.</p>
+<div id="fig-linear" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/linear.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-linear-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.3: Illustration of a linear layer with five input features and three output features.
+</figcaption>
+</figure>
+</div>
+<p>The activation function (<span class="math inline">\(f\)</span>) is the <a href="./glossary.html#nonlinear">nonlinearity</a> applied to each output of the linear layer, such as a <a href="./glossary.html#relu">ReLU</a> nonlinearity which sets the minimum value of the output to zero (<a href="#eq-ReLu" class="quarto-xref">Equation&nbsp;<span>4.3</span></a>). The nonlinearity allows the network to compute more complicated functions of the input than would be possible with a simple linear model<span class="citation" data-cites="cybenko1989approximation"><sup><a href="references.html#ref-cybenko1989approximation" role="doc-biblioref">4</a></sup></span>. In practice, this is essential – when processing microscopy data, we are performing a complex, nonlinear transformation of the pixel intensities to variables like cell type.</p>
+<p><span id="eq-ReLu"><span class="math display">\[
+y = f(z) =
+\begin{cases}
+    z,&amp; \text{if } z\geq 0\\
+    0,              &amp; \text{otherwise}
+\end{cases}
+\tag{4.3}\]</span></span></p>
+<div id="fig-relu" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-relu-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/relu.png" class="img-fluid figure-img" style="width:33.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-relu-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.4: ReLU nonlinearity. This is the most-used activation function in neural networks, sometimes with small modifications.
+</figcaption>
+</figure>
+</div>
+<p>A sequence of such layers that are applied in series, each on the output of the previous one, is called a multilayer perceptron (MLP). This is the simplest example of a deep neural network, and we illustrate the code below.</p>
+<div id="fig-mlp" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mlp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/mlp.png" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mlp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.5: Illustration of a multilayer perceptron (MLP) with two hidden layers.
+</figcaption>
+</figure>
+</div>
+<p>For images, we note that <a href="./glossary.html#linear-layer">dense linear layers</a> are not efficient in the number of parameters and computations they perform. To see why, consider a modest-sized input image of 100 by 100 pixels with 3 channels. In this case, there are 30,000 input values. If the output of the layer is the same size as the input, then there are 30,000 output values. The weights matrix then has size 30,000 by 30,000 and the bias vector has length 30,000. This is almost a billion parameters to fit, and would lead to overfitting even with a large amount of training data.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Multi-Layer Perceptron for a 100 x 100 pixel image
 </div>
 </div>
-<p>In some cases, you may want to include a code-block that is not executed when the book is compiled. Use the <code>eval: false</code> option for this.</p>
-<div id="6b8c1523" class="cell" data-execution_count="2">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>plt.plot([<span class="dv">1</span>,<span class="dv">23</span>,<span class="dv">2</span>,<span class="dv">4</span>])</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p>Figures can also be generated that do not show the code by using the option for <code>code-fold: true</code>.</p>
-<div id="cell-fig-polar" class="cell" data-execution_count="3">
+<div class="callout-body-container callout-body">
+<p>Here we show a code example for a multi-layer perceptron with 30,000 input values, a hidden layer with 30,000 units, and an output layer with one output. The code is run on an example of 8 input images, and outputs the sizes of the input, output, weights matrix (W), and bias vector (b).</p>
+<div id="121bfa07" class="cell" data-execution_count="1">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">0.01</span>)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> r</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  subplot_kw <span class="op">=</span> {<span class="st">'projection'</span>: <span class="st">'polar'</span>} </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>ax.plot(theta, r)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>ax.set_rticks([<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="fl">1.5</span>, <span class="dv">2</span>])</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>)</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch <span class="im">import</span> nn</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.nn <span class="im">import</span> functional <span class="im">as</span> F</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MLP(nn.Module):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">""" Network with one hidden layer</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">        n_inputs (int): number of input units</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">        n_hidden (int): number of units in hidden layer</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">    Attributes:</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">        in_layer (nn.Linear): weights and biases of input layer</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">        out_layer (nn.Linear): weights and biases of output layer</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, n_inputs, n_hidden):</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()  <span class="co"># needed to invoke the properties of the parent class nn.Module</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.in_layer <span class="op">=</span> nn.Linear(n_inputs, n_hidden) <span class="co"># input units --&gt; hidden units</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.out_layer <span class="op">=</span> nn.Linear(n_hidden, <span class="dv">1</span>) <span class="co"># hidden units --&gt; output</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, X):</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="co">""" Input images and output label (e.g. 0 for cat / 1 for dog)</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co">        X (torch.Tensor): input image (flattened), must be of</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co">            length n_inputs. Can also be a tensor of shape n_images x n_inputs,</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co">            containing n_images of image vectors</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co">        torch.Tensor: network outputs for each input provided in X of length n_images. </span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> <span class="va">self</span>.in_layer(X)  <span class="co"># hidden representation</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        z <span class="op">=</span> F.relu(z)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> <span class="va">self</span>.out_layer(z)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> y</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># declare network</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>net <span class="op">=</span> MLP(n_inputs<span class="op">=</span><span class="dv">30000</span>, n_hidden<span class="op">=</span><span class="dv">30000</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'shape of W in first layer: '</span>, net.in_layer.weight.data.shape)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'shape of b in first layer: '</span>, net.in_layer.bias.data.shape)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co"># define input images</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>n_images <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.zeros((n_images, <span class="dv">30000</span>))</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluate network</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>net.<span class="bu">eval</span>()</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> net(X)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'input shape: '</span>, X.shape)</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'output shape: '</span>, y.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
-<div class="cell-output cell-output-display">
-<div id="fig-polar" class="quarto-float quarto-figure quarto-figure-center anchored" alt="A line plot on a polar axis. The line spirals out from a value of zero to a value of 2.">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-polar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="4-architectures_files/figure-html/fig-polar-output-1.png" alt="A line plot on a polar axis. The line spirals out from a value of zero to a value of 2." width="450" height="439" class="figure-img">
+<div class="cell-output cell-output-stdout">
+<pre><code>shape of W in first layer:  torch.Size([30000, 30000])
+shape of b in first layer:  torch.Size([30000])
+input shape:  torch.Size([8, 30000])
+output shape:  torch.Size([8, 1])</code></pre>
 </div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-polar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.2: A spiral on a polar axis
+</div>
+</div>
+</div>
+</section>
+<section id="convolutional-layers" class="level3" data-number="4.1.2">
+<h3 data-number="4.1.2" class="anchored" data-anchor-id="convolutional-layers"><span class="header-section-number">4.1.2</span> Convolutional layers</h3>
+<p>Instead of linear layers, <a href="./glossary.html#convolution">convolutional</a> layers are often used in vision tasks, as a parameter-efficient alternative<span class="citation" data-cites="lecun1995convolutional"><sup><a href="references.html#ref-lecun1995convolutional" role="doc-biblioref">5</a></sup></span>. A convolutional layer slides a small two-dimensional <a href="./glossary.html#kernel">filter</a> across the input image, computing a weighted sum of the input at each image position using the filter weights. It also includes the addition of a vector of bias terms. For 2D image processing, we use two-dimensional convolutions, but one/three dimensional convolutions may be used for 1D/3D data respectively. Here is an illustration of a 2D convolution:</p>
+<div id="fig-convill" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-convill-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/conv_happy.gif" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convill-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.6: Toy illustration of convolutional operation from this <a href="https://towardsdatascience.com/light-on-math-machine-learning-intuitive-guide-to-convolution-neural-networks-e3f054dd5daa">article</a>. In practice, convolutional kernels are more complicated than simple template detectors.
 </figcaption>
 </figure>
 </div>
-</div>
-</div>
-<p>Here is an example equation.</p>
-<p><span id="eq-stddev"><span class="math display">\[
-s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}
-\tag{4.1}\]</span></span></p>
-<section id="embedding-figures" class="level3" data-number="4.4.1">
-<h3 data-number="4.4.1" class="anchored" data-anchor-id="embedding-figures"><span class="header-section-number">4.4.1</span> Embedding Figures</h3>
-<p>You can also embed figures from other notebooks in the repo as shown in the following embed example.</p>
-<div class="quarto-embed-nb-cell" data-notebook="D:\a\BioImagingAI\BioImagingAI\notebooks\test.ipynb" data-notebook-cellid="cell-fig-test-fig">
-<div id="cell-fig-test-fig" class="cell" data-tags="[&quot;test-fig&quot;]" data-execution_count="2">
-<div class="cell-output cell-output-display">
-<div id="fig-test-fig" class="quarto-float quarto-figure quarto-figure-center anchored" alt="a demo figure to be embedded in a template chapter">
-<figure class="quarto-float quarto-float-fig figure">
-<div aria-describedby="fig-test-fig-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<img src="4-architectures_files/figure-html/..-notebooks-test-fig-test-fig-output-1.png" class="img-fluid figure-img" alt="a demo figure to be embedded in a template chapter">
-</div>
-<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-test-fig-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.3: Polar plot of circles of random areas at random coords
-</figcaption>
-</figure>
-</div>
-</div>
-</div>
-</div>
-<p>When embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, <code>chapter4_example_u-net.ipynb</code>. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code–but not for rendering the book at large–will be installed there. That way, we will not need to handle a global environment across the book.</p>
-</section>
-</section>
-<section id="quarto-has-additional-features." class="level2" data-number="4.5">
-<h2 data-number="4.5" class="anchored" data-anchor-id="quarto-has-additional-features."><span class="header-section-number">4.5</span> Quarto has additional features.</h2>
-<p>You can learn more about markdown options and additional Quarto features in the <a href="https://quarto.org/docs/authoring/markdown-basics.html">Quarto documentation</a>. One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Note
+<span class="screen-reader-only">Note</span>Convolution vs Filtering
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Note that there are five types of callouts, including: <code>note</code>, <code>tip</code>, <code>warning</code>, <code>caution</code>, and <code>important</code>. They can default to open (like this example) or collapsed (example below).</p>
+<p>Note that “convolution” and “filtering” are often conflated in neural network terminology, whereas they refer to distinct operations in the signal processing and mathematical literature.</p>
 </div>
+</div>
+<p>The 2D convolutional filter <span class="math inline">\(W\)</span> is often also called a <a href="./glossary.html#kernel">kernel</a>, and the size of the filter is called the <em>kernel size</em>. To preserve the size of the input, the kernel size needs to be odd and the input needs to be <a href="./glossary.html#padding">padded</a> with zeros around the edges of the image. This padding size should be the floor of half the kernel size, e.g.&nbsp;if the kernel size is 3 the padding is required to be 1, as shown in <a href="#fig-convpad" class="quarto-xref">Figure&nbsp;<span>4.7</span></a>. Additionally, the <a href="./glossary.html#stride">stride</a> parameter needs to be set to 1, which is the number of pixels between each application of the filter. A stride of 2 would mean skipping over every other input position both vertically and horizontally. In most applications, especially with small kernel sizes, a stride of 1 is used for convolution.</p>
+<div id="fig-convpad" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-convpad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/same_padding_no_strides.gif" class="img-fluid figure-img" style="width:40.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-convpad-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.7: Convolutional operation with padding from this <a href="https://github.com/vdumoulin/conv_arithmetic">GitHub</a>. This illustrates the creation of a single channel output from a single channel input, where the input is in blue, the filter is gray, and the output is in green. In practice, both inputs and outputs have multiple channels and all combinations of input and output need to be calculated and summed accordingly.
+</figcaption>
+</figure>
+</div>
+<p>The number of input and output images are called <a href="./glossary.html#channels">channels</a>, similar to the red/green/blue channels for RGB images. <a href="#fig-convpad" class="quarto-xref">Figure&nbsp;<span>4.7</span></a> is an example with a single input and a single output channel, but in general a 2D convolutional layer has multiple input and output channels. Each output channel is the result of a 2D convolutional kernel applied to the input, with weights for each input feature.</p>
+<p>A convolutional layer operates under two main assumptions: 1) the computation only requires local features that are within the spatial extent of the filter operation; and 2) it is not necessary to perform different computations at different positions in the image, and thus the same filter operation can be convolutionally applied across all positions in the image. When these assumptions are acceptable, a convolutional layer can reduce the number of parameters substantially compared to linear layers. We note that for certain microscopy tasks, the amount of spatial context required may vary - for example determining the boundary of a tissue may require a larger context than a task like nuclear segmentation.</p>
+<p>Taking our example from above, let’s estimate the number of parameters with filters (i.e., kernels) of size 3 by 9 by 9 pixels, where 3 is the number of input channels and 9 is the size in pixel space, the “kernel size”. If we define the layer to have 6 output channels, this requires 6 of these kernels, resulting in 1458 parameters in the kernels, along with 6 bias terms, resulting in 1464 parameters in total. As you can see, the number of parameters now is independent of the size of the input in pixels, and this is a dramatic reduction from the nearly 1 billion parameters for the dense linear layer example above.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Convolutional Network Example Code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Here we show a code example for a convolutional layer with 3 input channels, 6 output channels and a kernel size of 9.</p>
+<div id="3fed051b" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConvolutionalLayer(nn.Module):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Deep network with one convolutional layer</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">        Attributes: conv (nn.Conv2d): convolutional layer</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, c_in<span class="op">=</span><span class="dv">3</span>, c_out<span class="op">=</span><span class="dv">6</span>, K<span class="op">=</span><span class="dv">9</span>):</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Initialize layer</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">            c_in: number of input stimulus channels</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">            c_out: number of output convolutional channels</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">            K: size of each convolutional filter</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.conv <span class="op">=</span> nn.Conv2d(c_in, c_out, kernel_size<span class="op">=</span>K,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                            padding<span class="op">=</span>K<span class="op">//</span><span class="dv">2</span>, stride<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, X):</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="co">"""Run images through convolutional layer</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">        Args:</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">            X (torch.Tensor): n_images x c_in x h x w tensor with stimuli</span></span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="co">        Returns:</span></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co">            (torch.Tensor): n_images x c_out x h x w tensor with convolutional layer unit activations.</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="co">        """</span></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>        Y <span class="op">=</span> <span class="va">self</span>.conv(X)  <span class="co"># output of convolutional layer</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> Y</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># declare layer</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>layer <span class="op">=</span> ConvolutionalLayer(c_in<span class="op">=</span><span class="dv">3</span>, c_out<span class="op">=</span><span class="dv">6</span>, K<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'shape of filter W: '</span>, layer.conv.weight.data.shape)</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'shape of b: '</span>, layer.conv.bias.data.shape)</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co"># define input images</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>n_images <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.zeros((n_images, <span class="dv">3</span>, <span class="dv">100</span>, <span class="dv">100</span>)) <span class="co"># n_images x c_in x h x w</span></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluate network</span></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>layer.<span class="bu">eval</span>()</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> layer(X)</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'input shape: '</span>, X.shape)</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'output shape: '</span>, y.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape of filter W:  torch.Size([6, 3, 9, 9])
+shape of b:  torch.Size([6])
+input shape:  torch.Size([8, 3, 100, 100])
+output shape:  torch.Size([8, 6, 100, 100])</code></pre>
+</div>
+</div>
+</div>
+</div>
+<p>We define the <a href="./glossary.html#receptive-field">receptive field</a> size of a convolutional layer as the total spatial extent of pixels that influence the activations of the layer. For a single convolutional layer, the activations have a receptive field size equivalent to its kernel size: each activation only receives information from pixels within the kernel size. However, objects in images are often larger than the kernel size. To increase the amount of spatial information used for computation, <a href="./glossary.html#pooling-layer">pooling layers</a> are introduced between convolutional layers. A pooling layer performs operations in sliding windows across the image, just like the convolution layer, but in this case a maximum or average operation is computed within the window, independently for each input channel (rather than the application of a filter). To reduce the size of the image, this convolutional operation is applied with a “stride”: to downsample the image by a factor of two, we may use a pooling size of 2 with a stride also set to 2, like in the example below.</p>
+<div id="fig-pool" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-pool-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/pooling.png" class="img-fluid figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-pool-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.8: Illustration of max-pooling with a kernel size of 2 and stride of 2, from <a href="https://github.com/dvgodoy/PyTorchStepByStep">here</a>.
+</figcaption>
+</figure>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Tip
-</div>
-<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
-</div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
-<div class="callout-body-container callout-body">
-<p>These could be good for extra material or exercises.</p>
-</div>
-</div>
-</div>
-<div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Caution
+<span class="screen-reader-only">Tip</span>Max-Pooling Example Code
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>There are caveats when applying these tools. Expand the code below to learn more.</p>
-<div id="eac2dd41" class="cell" data-execution_count="4">
+<p>This example code implements max-pooling with a kernel size of 2 and a stride of 2.</p>
+<div id="2146558e" class="cell" data-execution_count="5">
 <details class="code-fold">
-<summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>r <span class="op">=</span> np.arange(<span class="dv">0</span>, <span class="dv">2</span>, <span class="fl">0.01</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>theta <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> np.pi <span class="op">*</span> r</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># max pooling operation</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>pool_layer <span class="op">=</span> nn.MaxPool2d(kernel_size<span class="op">=</span><span class="dv">2</span>, stride<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> pool_layer(X)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'input shape: '</span>, X.shape)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'output shape: '</span>, y.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div class="cell-output cell-output-stdout">
+<pre><code>input shape:  torch.Size([8, 3, 100, 100])
+output shape:  torch.Size([8, 3, 50, 50])</code></pre>
 </div>
 </div>
 </div>
-<div class="callout callout-style-default callout-warning callout-titled">
+</div>
+<p>If we apply several convolutional and pooling layers, we end up with an output which is smaller in resolution than the input. In <a href="#fig-mnist" class="quarto-xref">Figure&nbsp;<span>4.9</span></a>, we show an example of such a network, that has been trained to classify the handwritten digits of the MNIST dataset<span class="citation" data-cites="lecun1998mnist"><sup><a href="references.html#ref-lecun1998mnist" role="doc-biblioref">6</a></sup></span>. The activations of the units in the network across layers are visualized:</p>
+<div id="fig-mnist" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-mnist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/mnist.PNG" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-mnist-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.9: Activations of each layer of a small, illustrative network. Lighter blue indicates a higher activation for each unit. The final output layer represents the probability of the input image corresponding to a value between 0 and 9. In this example, the network correctly identifies the input as the number 3. To see this in action, check out the interactive demonstration by Adam Harley: <a href="https://adamharley.com/nn_vis/cnn/2d.html">https://adamharley.com/nn_vis/cnn/2d.html</a>
+</figcaption>
+</figure>
+</div>
+<p>Having an output that is downsampled relative to the input is appropriate for a task like object recognition, where the output is the class of the image, like cat or dog. In the case of biological images, this could be a global image label of a cancerous or non-cancerous phenotype<span class="citation" data-cites="spanhol2016breast"><sup><a href="references.html#ref-spanhol2016breast" role="doc-biblioref">7</a></sup></span>. However, for pixel-specific classification or segmentation, we require the output to be the same size as the input. This is where u-nets come in.</p>
+</section>
+<section id="u-nets" class="level3" data-number="4.1.3">
+<h3 data-number="4.1.3" class="anchored" data-anchor-id="u-nets"><span class="header-section-number">4.1.3</span> U-nets</h3>
+<p>U-nets were introduced by Ronneberger, Fischer, and Brox<span class="citation" data-cites="ronneberger2015u"><sup><a href="references.html#ref-ronneberger2015u" role="doc-biblioref">2</a></sup></span> (<a href="#fig-unet" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>). They share some similarities with feature pyramid networks<span class="citation" data-cites="lin2017feature"><sup><a href="references.html#ref-lin2017feature" role="doc-biblioref">8</a></sup></span>, but u-nets are more frequently used in biological applications so we will focus on them. U-nets have what is called an <a href="./glossary.html#encoder-decoder">encoder-decoder</a> structure, like an <a href="./glossary.html#autoencoder">autoencoder</a><span class="citation" data-cites="hinton2006reducing"><sup><a href="references.html#ref-hinton2006reducing" role="doc-biblioref">9</a></sup></span>. The “encoder” consists of the convolutional layers and pooling layers (<a href="./glossary.html#downsampling">downsampling</a>), and is the first half of the network. The “decoder” consists of convolutional layers and <a href="./glossary.html#upsampling">upsampling</a> or strided conv-transpose layers. This is the second half of the network, which returns an output at the same spatial resolution as the input.</p>
+<p>In the case of an autoencoder<span class="citation" data-cites="hinton2006reducing"><sup><a href="references.html#ref-hinton2006reducing" role="doc-biblioref">9</a></sup></span>, the network is trained to reproduce the input, and the output of the encoder is defined to be lower dimensional than the input. The output of the encoder is then a compressed version of the inputs that can be used to visualize the data. We can also visualize the output of the encoder of a u-net, although u-nets are usually not trained to predict their inputs. Instead, u-nets are often trained to predict pixel-level cell probabilities, with pixels inside cells defined as one and pixels outside cells defined as zero.</p>
+<p>The downsampling results in a loss of fine spatial information. To recover this information, in the u-net the output of the convolutional layers in the encoder is concatenated with the activations from the decoder at each spatial scale using <a href="./glossary.html#skip-connection">skip connections</a> (“copy” operation in <a href="#fig-unet" class="quarto-xref">Figure&nbsp;<span>4.2</span></a>). This preserves the higher resolution details, which is important for precise segmentations and pixel-wise predictions.</p>
+<p>Conventional u-nets<span class="citation" data-cites="ronneberger2015u"><sup><a href="references.html#ref-ronneberger2015u" role="doc-biblioref">2</a></sup></span> have two convolutional layers per spatial scale and a small kernel size of 3 in each layer. Each of these sets of convolutional layers per spatial scale are often referred to as blocks. The downsampling after each block is often set to a factor of 2. Because the kernel size is small, the only way to have large receptive field sizes is through several downsampling blocks. If we want the network to learn complicated tasks across many diverse images, then we need it to have a large <a href="./glossary.html#capacity">capacity</a>. This can be achieved by adding more weights to the network, for example by increasing the number of channels in the convolutional layers and/or by adding more convolutional layers in each block and/or by increasing the number of downsampling and upsampling stages<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">10</a></sup></span>.</p>
+</section>
+<section id="vision-transformers" class="level3" data-number="4.1.4">
+<h3 data-number="4.1.4" class="anchored" data-anchor-id="vision-transformers"><span class="header-section-number">4.1.4</span> Vision transformers</h3>
+<p>Vision transformers are modern architectures that are replacing convolutional networks in many applications. They are not as parameter-efficient as convolutional neural network. For example, the Cellpose segmentation u-net has 6.6 million parameters while ViT-H (“vision-transformer-huge”) has 632 million parameters<span class="citation" data-cites="dosovitskiy2020image"><sup><a href="references.html#ref-dosovitskiy2020image" role="doc-biblioref">11</a></sup></span>. They are still much more efficient than dense linear layers due to special architecture choices (see below), and they introduce a new type of operation called <a href="./glossary.html#self-attention">self-attention</a>. Transformers avoid overfitting this large set of parameters through training on very large amounts of data. Even though they have many more parameters than standard convolutional networks, they are not too much slower because most of the operations within the transformer are matrix multiplications which are fast on newer GPUs with tensor cores (learn more in this <a href="https://www.techradar.com/computing/gpu/what-is-a-tensor-core-the-nvidia-gpu-technology-explained">explainer from tech-radar</a>). With more parameters, they have a larger capacity than standard convolutional neural networks to learn from large training datasets.</p>
+<p>The vision transformer first divides the input image into <a href="./glossary.html#patches">patches</a>, e.g.&nbsp;16 by 16 pixels each. In the first layer of the transformer the patches are transformed into the <a href="./glossary.html#embedding-space">embedding space</a>, using a linear operation that is often implemented using strided convolutions. This embedding space is generally several times larger than the number of pixels in the patch; for example the embedding space in ViT-H is 1280. If an image is 512 by 512 pixels, then it has 32 by 32 (=1024) patches, so the patch embeddings are of dimensionality 1024 patches by 1280 feature dimensions in the case of ViT-H.</p>
+<p>These patch embeddings are input to the transformer encoder, which consists of many blocks (<span class="math inline">\(L\)</span>). Each transformer block has a self-attention block and a <a href="./glossary.html#multilayer-perceptron">multi-layer perceptron</a> (MLP) block. The input patches to each self-attention block are multiplied by three sets of learned feature vectors, which create the queries (Q), keys (K), and values (V) input to the self-attention block. The queries and keys are multiplied across patches, and a normalization operation is applied – this is the attention matrix, where each entry <span class="math inline">\((i,j)\)</span> is the interaction between patches <span class="math inline">\(i\)</span> and <span class="math inline">\(j\)</span>. Because this matrix is across all patches in the image, this operation enables sharing of information across the entire image. The attention matrix is then multiplied with the values matrix, and the result of this operation, which is number of patches by feature dimension, is fed into the MLP. This MLP acts on the feature dimension, applying the same operation to each patch, and often often consists of two layers, with a nonlinearity in the hidden layer only. Residual connections are added to both the attention and MLP operations, in order to speed up training.</p>
+<div id="fig-vit" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/transformer.PNG" class="img-fluid figure-img" style="width:90.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vit-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.10: Vision transformer architecture. Originally invented for language modeling<span class="citation" data-cites="vaswani2017attention"><sup><a href="references.html#ref-vaswani2017attention" role="doc-biblioref">12</a></sup></span>, transformers were then adapted for image processing<span class="citation" data-cites="dosovitskiy2020image"><sup><a href="references.html#ref-dosovitskiy2020image" role="doc-biblioref">11</a></sup></span>. The critical innovation in transformers is the self-attention block (left illustration from <a href="https://github.com/dvgodoy/PyTorchStepByStep">PyTorchStepByStep</a>).
+</figcaption>
+</figure>
+</div>
+<p>Vision transformers were first trained on image classification tasks but have been extended for various visual tasks like segmentation. A notable example is the Segment Anything model (SAM)<span class="citation" data-cites="kirillov2023segment"><sup><a href="references.html#ref-kirillov2023segment" role="doc-biblioref">13</a></sup></span>. This model was originally trained and designed for natural image datasets, but has since been adapted for cellular segmentation by multiple groups<span class="citation" data-cites="archit2025segment israel2025cellsam"><sup><a href="references.html#ref-archit2025segment" role="doc-biblioref">14</a>,<a href="references.html#ref-israel2025cellsam" role="doc-biblioref">15</a></sup></span>. The Segment Anything model is considered to be a <a href="./glossary.html#foundation-model">foundation model</a>: it can generalize well to new images and be used for a variety of visual tasks in addition to segmentation.</p>
+<div id="fig-sam" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/sam.PNG" class="img-fluid figure-img" style="width:60.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.11: Segment Anything model<span class="citation" data-cites="kirillov2023segment"><sup><a href="references.html#ref-kirillov2023segment" role="doc-biblioref">13</a></sup></span>; illustration from<span class="citation" data-cites="pachitariu2025cellpose"><sup><a href="references.html#ref-pachitariu2025cellpose" role="doc-biblioref">16</a></sup></span>. This architecture differs from a standard transformer in the decoding module, which is necessary for outputting segmentations of images. This model requires inputs in the form of point clicks, box outlines or textual instructions.
+</figcaption>
+</figure>
+</div>
+<p>SAM is trained as a promptable model, meaning a user can specify an object for segmentation with a click or a bounding box and the model will produce a predicted object in that region. However, we often want automated segmentations in which we do not have to click on everything in the image. Thus, multiple groups have adapted the SAM decoder to predict <a href="./glossary.html#auxillary-variables">auxiliary variables</a>, which we will discuss next as we learn about loss functions. Other innovations in transformers have adapted the architecture to be more suited to the spatial layout of images, such as the Swin transformer<span class="citation" data-cites="liu2021swin"><sup><a href="references.html#ref-liu2021swin" role="doc-biblioref">17</a></sup></span>, which has also been adapted for biological applications<span class="citation" data-cites="zhang2025swincell achard2025cellseg3d"><sup><a href="references.html#ref-zhang2025swincell" role="doc-biblioref">18</a>,<a href="references.html#ref-achard2025cellseg3d" role="doc-biblioref">19</a></sup></span>.</p>
+</section>
+</section>
+<section id="loss-functions" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="loss-functions"><span class="header-section-number">4.2</span> Loss functions</h2>
+<p>In a standard image classification network, the output is a vector with length equal to the number of classes in the task. Each of the entries in this vector represents the predicted probability of the class, and the predicted label for the image is chosen as the index of the vector with the largest entry. For each training image we have a <a href="./glossary.html#ground-truth">ground-truth</a> label for the class. How close the network matches the label is the loss, which is defined as a function between the vector output of the network and the ground-truth label. A lower loss means we matched the ground-truth data better. The gradients of the network are computed automatically via <a href="./glossary.html#backpropagation">back-propagation</a>, and an <a href="./glossary.html#optimizer">optimizer</a> is specified to modify the parameters in order to minimize the loss (described more below).</p>
+<p>For classification, we are evaluating predicted probabilities, and so we need to take the output from the network and convert it to a probability across classes that sums to one. For this a softmax operation is performed, defined as <span class="math inline">\(p_c(x) = e^{x_{c}} / (\sum_{i=1}^C e^{x_{i}})\)</span>. The cross-entropy loss is a standard loss function for classification, and for comparing probability distributions generally. This loss maximizes the predicted probability of the true class, achieving its minimum value of 0 when the probability of the true class is predicted to be one (<a href="#eq-cross-entropy" class="quarto-xref">Equation&nbsp;<span>4.4</span></a>).</p>
+<p><span id="eq-cross-entropy"><span class="math display">\[
+\ell(x, y) = - \sum_{c=1}^C \log [p_c(x)] y_c.
+\tag{4.4}\]</span></span></p>
+<p>In segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, “not cell” as zeros and “cell” as ones<span class="citation" data-cites="ronneberger2015u"><sup><a href="references.html#ref-ronneberger2015u" role="doc-biblioref">2</a></sup></span>.</p>
+<div id="fig-bce" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bce-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/bceloss.PNG" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bce-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.12: An image (upper left) is input to a u-net trained to predict cell/not cell pixels. The output of the network is the predicted cell probability image (bottom left). A sigmoid is applied to the cell probability (middle bottom), and compared to the ground-truth cell probabilities (middle top). The comparison is performed using the binary cross-entropy loss per-pixel (right).
+</figcaption>
+</figure>
+</div>
+<p>In pytorch, the softmax and cross-entropy loss are combined into a single function; for two-class prediction the function is <a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html"><code>nn.BCEWithLogitsLoss</code></a>, and for multi-class prediction the function is <a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html"><code>nn.CrossEntropyLoss</code></a>.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Warning
+<span class="screen-reader-only">Tip</span>Cell/Not-Cell Prediction
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Be careful to avoid hallucinations.</p>
+<p>Here is example code with cell/not-cell prediction with one convolutional layer.</p>
+<div id="2883f503" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare layer</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>layer <span class="op">=</span> ConvolutionalLayer(c_in<span class="op">=</span><span class="dv">3</span>, c_out<span class="op">=</span><span class="dv">1</span>, K<span class="op">=</span><span class="dv">9</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'shape of filter W: '</span>, layer.conv.weight.data.shape)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'shape of b: '</span>, layer.conv.bias.data.shape)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># define input images</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>n_images <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> torch.zeros((n_images, <span class="dv">3</span>, <span class="dv">50</span>, <span class="dv">50</span>))</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># define random cell probabilities</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>y_true <span class="op">=</span> (torch.randn((n_images, <span class="dv">1</span>, <span class="dv">50</span>, <span class="dv">50</span>)) <span class="op">&gt;</span> <span class="fl">0.5</span>).<span class="bu">float</span>()</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># define loss function</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>loss_fn <span class="op">=</span> nn.BCEWithLogitsLoss()</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co"># compute network prediction and loss</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> layer(X)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'input shape: '</span>, X.shape)</span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'output shape: '</span>, y.shape)</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'target shape: '</span>, y_true.shape)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co"># evalulate loss function</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>loss <span class="op">=</span> loss_fn(y, y_true)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'loss = '</span>, loss.item())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape of filter W:  torch.Size([1, 3, 9, 9])
+shape of b:  torch.Size([1])
+input shape:  torch.Size([8, 3, 50, 50])
+output shape:  torch.Size([8, 1, 50, 50])
+target shape:  torch.Size([8, 1, 50, 50])
+loss =  0.6977032423019409</code></pre>
 </div>
 </div>
-<div class="callout callout-style-default callout-important callout-titled">
+</div>
+</div>
+<p>To create segmentations for each cell, a threshold is defined on the cell probability and any pixels above the threshold that are connected to each other are formed into objects. This threshold is defined using a validation set - images that are not used for training or testing - to help ensure the threshold generalizes to the held-out test images. The predicted segmentations with this loss function often contain several merges, because cells can often touch each other and the connected components of the image will combine the touching cells into single components.</p>
+<div id="fig-seg" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-seg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/seg2class.png" class="img-fluid figure-img" style="width:70.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-seg-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.13: Segmentation with pixelwise cell/not cell predictions.
+</figcaption>
+</figure>
+</div>
+<p>To better train the network to discriminate boundaries, a boundary pixel class can be introduced, creating a three class prediction loss function. This can improve segmentation performance, but can still contain merges. This is illustrated in the <a href="../notebooks/tutorial_segmentation.ipynb">tutorial notebook</a>.</p>
+<p>The training signals for the network so far have consisted only of class labels. However, it can be helpful to ask the network to predict more complex information about the segmentation. For example, the distance to the boundary can be used to provide context about the local shape of the object<span class="citation" data-cites="heinrich2018synaptic"><sup><a href="references.html#ref-heinrich2018synaptic" role="doc-biblioref">20</a></sup></span>. The distance-to-boundary is computed for each pixel in each object, and the network is trained to predict this, in addition to a multi-class loss like cell/not-cell. Distance-to-boundary is not a class but a continuous variable. In this case, the loss function often used is a mean-squared error loss function between the ground-truth (<span class="math inline">\(\tilde{Y}\)</span>) and the predicted values (<span class="math inline">\(Y\)</span>), as shown in <a href="#eq-mse-loss" class="quarto-xref">Equation&nbsp;<span>4.5</span></a>.</p>
+<p><span id="eq-mse-loss"><span class="math display">\[
+\ell_\text{MSE} = \sum_{ij} (Y_{ij} - \tilde{Y}_{ij})^2.
+\tag{4.5}\]</span></span></p>
+<p><a href="https://stardist.net/">Stardist</a><span class="citation" data-cites="Schmidt2018"><sup><a href="references.html#ref-Schmidt2018" role="doc-biblioref">21</a></sup></span> extends this approach by computing the distance-to-boundary along multiple fixed rays emanating from each pixel in an object, which can then be used for reconstruction of convex objects<span class="citation" data-cites="schmidt2018cell"><sup><a href="references.html#ref-schmidt2018cell" role="doc-biblioref">22</a></sup></span>. <a href="https://www.cellpose.org/">Cellpose</a> creates a different type of representation from gradients indicating the direction towards the cell center, and tracks the gradients to reconstruct the segmented objects from the fixed points of the dynamics<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">10</a></sup></span>. This representation helps prevent merges by having strong differences in gradients in boundary areas between two objects, and is sufficiently flexible to be used for non-convex cellular shapes. Other examples of auxiliary functions include local shape descriptors (LSDs), which include other global features like the size of the object, which can be useful for electron microscopy segmentation of neurons with long processes<span class="citation" data-cites="sheridan2023local"><sup><a href="references.html#ref-sheridan2023local" role="doc-biblioref">23</a></sup></span>.</p>
+<div id="fig-aux" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aux-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/auxloss.PNG" class="img-fluid figure-img" style="width:80.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aux-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.14: Additional loss functions for segmentation.
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="training-neural-networks" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="training-neural-networks"><span class="header-section-number">4.3</span> Training neural networks</h2>
+<p>Now that we have defined a loss function, we want to minimize the loss <span class="math inline">\(\ell\)</span> by updating the weights in the network. For a problem like segmentation, we will need images with ground-truth segmentation labels – this labeling can be done using tools like <a href="https://www.ilastik.org/">Ilastik</a>, <a href="https://imagej.net/software/imagej/">ImageJ</a>, <a href="https://github.com/saalfeldlab/paintera">Paintera</a>, or <a href="https://napari.org/stable/">Napari</a>. Once ground-truth labeling is performed on some images, training can be attempted.</p>
+<p>We will want to use most of the ground-truth labeled images for training, making up a training set, and leave a small subset (like 10%) for testing the performance of the network. For some algorithms, we may also need a validation set for setting post-processing parameters like the cell probability threshold, in which case we can reserve 10-15% of the training set images for validation. In other words, we use the validation set to determine the threshold on the cell probabilities that produces the best segmentations on the ground-truth labels. See <a href="5-training-data.html" class="quarto-xref"><span>Chapter 5</span></a> for more details on this.</p>
+<p>During optimization, we run the training images through the network, compute the loss, and compute the weight updates that minimize the loss via <a href="./glossary.html#gradient-descent">gradient descent</a>. Gradient descent computes the gradient of the loss with respect to each weight. Moving the weights in the negative direction of the gradient reduces the loss for the given images or data points over which the loss is computed. These weight updates are scaled by the learning rate <span class="math inline">\(\alpha\)</span> (<a href="#eq-learning-rate" class="quarto-xref">Equation&nbsp;<span>4.6</span></a>).</p>
+<p><span id="eq-learning-rate"><span class="math display">\[
+\begin{aligned}
+\vec{v}_t &amp;= \alpha \, d L(\vec{w}_t) / d \vec{w}_t \\
+   \vec{w}_t &amp;= \vec{w}_{t-1} - \vec{v}_t
+\end{aligned}
+\tag{4.6}\]</span></span></p>
+<div id="fig-gd" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/grad_descent.gif" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-gd-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.15: Gradient descent illustration, from <a href="https://compneuro.neuromatch.io/tutorials/W1D5_DeepLearning/student/W1D5_Tutorial1.html">Neuromatch</a>.
+</figcaption>
+</figure>
+</div>
+<p>We could compute the loss and gradients over all images in the training set, but this would take too long so in practice the loss is computed in <a href="./glossary.html#batch">batches</a> of a few to a few hundred images – the number of images in a batch is called the <em>batch size</em>. The optimization algorithm for updating the weights in batches is called stochastic gradient descent (SGD). This is often faster than full-dataset gradient descent because it updates the parameters many times on a single pass through the training set (called an <a href="./glossary.html#epoch">epoch</a>). Also, the stochasticity induced by the random sampling step in SGD effectively adds some noise in the search for a good minimum of the loss function, which may be useful for avoiding local minima.</p>
+<p>It can also be beneficial to include <a href="./glossary.html#momentum">momentum</a> to speed up training, with some value <span class="math inline">\(\beta\)</span> between zero and one. Momentum pushes weight updates along the same direction they have been updating in the past. The updated version of <span class="math inline">\(\vec{v}\)</span> in this case is shown in <a href="#eq-momentum" class="quarto-xref">Equation&nbsp;<span>4.7</span></a> where in standard SGD <span class="math inline">\(\beta = 1 - \alpha\)</span>. In other words, past weight updates slowly decay over optimization steps (at rate <span class="math inline">\(\beta\)</span>), and new weight updates are added with size <span class="math inline">\(\alpha\)</span>. <span id="eq-momentum"><span class="math display">\[
+\vec{v}_t = \beta \vec{v}_{t-1} + \alpha\, \frac{d L(\vec{w}_t)}{d \vec{w}_t}
+\tag{4.7}\]</span></span></p>
+<p>Different weights in the network may have differently scaled gradients, and thus a single learning rate may not work well. The Adam optimizer uses a moving average of both the first and second moment of the gradient for rescaling the weight updates while including a momentum term<span class="citation" data-cites="kingma2014adam"><sup><a href="references.html#ref-kingma2014adam" role="doc-biblioref">24</a></sup></span>. This optimizer works better than standard SGD in many cases, and requires less fine-tuning to find good hyperparameter values. In addition to using an optimizer like Adam, it may be helpful to use a learning rate schedule which reduces the learning rate towards the end of training to enable smaller steps for fine-tuning the final weights<span class="citation" data-cites="loshchilov2016sgdr"><sup><a href="references.html#ref-loshchilov2016sgdr" role="doc-biblioref">25</a></sup></span>. Sometimes a validation set is used to re-instantiate the best weights, as evaluated on the validation set, before a decrease in the learning rate<span class="citation" data-cites="prechelt1998automatic"><sup><a href="references.html#ref-prechelt1998automatic" role="doc-biblioref">26</a></sup></span>.</p>
+<p>During fitting it is important to monitor the training loss and the validation loss. With an appropriate learning rate that is not too large, the training loss should always decrease. The loss on held-out validation data should also ideally decrease over training. If not, then the network is overfitting to the training set: the weights are becoming specifically tuned for the training set examples and no longer generalize to held-out data.</p>
+<div id="fig-trainloss" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-trainloss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="4-architectures/trainloss.png" class="img-fluid figure-img" style="width:40.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-trainloss-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4.16: Example training loss and validation loss across epochs.
+</figcaption>
+</figure>
+</div>
+<p>To avoid overfitting to the training set, various weight <a href="./glossary.html#regularization">regularization</a> strategies are used. Most commonly in computer vision problems, weight decay will be used for regularization, which is closely-related to L2 regularization. This operation reduces the weights by a small fraction <span class="math inline">\(\lambda\)</span> at each optimization step (<a href="#eq-weight-decay" class="quarto-xref">Equation&nbsp;<span>4.8</span></a>).</p>
+<p><span id="eq-weight-decay"><span class="math display">\[
+\vec{w}_t = \vec{w}_{t-1} - \alpha \lambda \vec{w}_{t-1} - \vec{v}_t.
+\tag{4.8}\]</span></span></p>
+<p>This fraction is proportional to the size of the weight, so large weights require stronger gradient sizes to maintain their large size. This means that weight changes that are spurious, for example because a single training batch happened to generate them, will be later undone by the weight regularization returning the weights towards zero.</p>
+<p>Other forms of regularization include drop-out, in which a random subset of activations are dropped in linear layers<span class="citation" data-cites="hinton2012improving"><sup><a href="references.html#ref-hinton2012improving" role="doc-biblioref">27</a></sup></span>, or entire layers or blocks are randomly dropped<span class="citation" data-cites="huang2016deep"><sup><a href="references.html#ref-huang2016deep" role="doc-biblioref">28</a></sup></span>, for example in transformer architectures<span class="citation" data-cites="kirillov2023segment"><sup><a href="references.html#ref-kirillov2023segment" role="doc-biblioref">13</a></sup></span>. Often normalization layers are used after each layer to normalize the activations, with batch normalization used for convolutional layers and layer normalization used in transformers<span class="citation" data-cites="ioffe2015batch ba2016layer"><sup><a href="references.html#ref-ioffe2015batch" role="doc-biblioref">29</a>,<a href="references.html#ref-ba2016layer" role="doc-biblioref">30</a></sup></span>. This normalization reduces the likelihood of vanishing and exploding gradients, and helps to regularize the weight values.</p>
+<p>Additionally, <a href="./glossary.html#data-augmentation">data augmentation</a> reduces the likelihood of overfitting, which is described in <a href="5-training-data.html" class="quarto-xref"><span>Chapter 5</span></a>. There is also more detail about training neural networks in <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
+<p>In summary, we hope this chapter serves as a brief introduction to architectures, loss functions, and optimization used for problems the bioimaging community.</p>
+</section>
+<section id="sec-computer-vision-resources" class="level2" data-number="4.4">
+<h2 data-number="4.4" class="anchored" data-anchor-id="sec-computer-vision-resources"><span class="header-section-number">4.4</span> Additional resources</h2>
+<p>There is a tutorial for exploring these concepts available <a href="../notebooks/tutorial_segmentation.ipynb">as a Jupyter notebook</a>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Important
+<span class="screen-reader-only">Note</span>Resources for Continued Learning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>This is key information.</p>
+<p>For more details and exercises for these concepts we recommend the following resources on deep learning:</p>
+<ul>
+<li>Course: <a href="https://deeplearning.neuromatch.io">Neuromatch Academy Deep Learning Course</a></li>
+<li>Tutorial: <a href="https://www.learnpytorch.io/03_pytorch_computer_vision">Learn Pytorch for Deep Learning, Computer Vision</a></li>
+<li>Multiple Tutorials: <a href="https://docs.pytorch.org/tutorials/">pytorch</a></li>
+<li>Demonstration: <a href="https://poloclub.github.io/cnn-explainer/">CNN Explainer</a>. This includes discussion of activations across layers, and interactive visualizations for padding and stride<span class="citation" data-cites="wang2020cnn"><sup><a href="references.html#ref-wang2020cnn" role="doc-biblioref">31</a></sup></span>.</li>
+<li>Illustration: <a href="https://distill.pub/2017/momentum/">How momentum works by Gabriel Goh</a></li>
+</ul>
 </div>
 </div>
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
-<div id="ref-stringer2021" class="csl-entry" role="listitem">
-<div class="csl-left-margin">1. </div><div class="csl-right-inline">Stringer, C., Wang, T., Michaelos, M. &amp; Pachitariu, M. <a href="https://doi.org/10.1038/s41592-020-01018-x">Cellpose: A generalist algorithm for cellular segmentation</a>. <em>Nature Methods</em> <strong>18</strong>, 100–106 (2021).</div>
+<div id="ref-krizhevsky2012imagenet" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Krizhevsky, A., Sutskever, I. &amp; Hinton, G. E. Imagenet classification with deep convolutional neural networks. <em>Advances in neural information processing systems</em> <strong>25</strong>, (2012).</div>
 </div>
-<div id="ref-von_chamier2021" class="csl-entry" role="listitem">
-<div class="csl-left-margin">2. </div><div class="csl-right-inline">Chamier, L. von <em>et al.</em> <a href="https://doi.org/10.1038/s41467-021-22518-0">Democratising deep learning for microscopy with <span>ZeroCostDL4Mic</span></a>. <em>Nature Communications</em> <strong>12</strong>, 2276 (2021).</div>
+<div id="ref-ronneberger2015u" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-net: Convolutional networks for biomedical image segmentation. in <em>International conference on medical image computing and computer-assisted intervention</em> 234–241 (Springer, 2015).</div>
+</div>
+<div id="ref-rumelhart1986learning" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Rumelhart, D. E., Hinton, G. E. &amp; Williams, R. J. Learning representations by back-propagating errors. <em>nature</em> <strong>323</strong>, 533–536 (1986).</div>
+</div>
+<div id="ref-cybenko1989approximation" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Cybenko, G. Approximation by superpositions of a sigmoidal function. <em>Mathematics of control, signals and systems</em> <strong>2</strong>, 303–314 (1989).</div>
+</div>
+<div id="ref-lecun1995convolutional" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline"><span class="nocase">LeCun, Y., Bengio, Y., <em>et al.</em></span> Convolutional networks for images, speech, and time series. <em>The handbook of brain theory and neural networks</em> <strong>3361</strong>, 1995 (1995).</div>
+</div>
+<div id="ref-lecun1998mnist" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">LeCun, Y. The MNIST database of handwritten digits. <em>http://yann. lecun. com/exdb/mnist/</em> (1998).</div>
+</div>
+<div id="ref-spanhol2016breast" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Spanhol, F. A., Oliveira, L. S., Petitjean, C. &amp; Heutte, L. Breast cancer histopathological image classification using convolutional neural networks. in <em>2016 international joint conference on neural networks (IJCNN)</em> 2560–2567 (IEEE, 2016).</div>
+</div>
+<div id="ref-lin2017feature" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Lin, T.-Y. <em>et al.</em> Feature pyramid networks for object detection. in <em>Proceedings of the IEEE conference on computer vision and pattern recognition</em> 2117–2125 (2017).</div>
+</div>
+<div id="ref-hinton2006reducing" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Hinton, G. E. &amp; Salakhutdinov, R. R. Reducing the dimensionality of data with neural networks. <em>science</em> <strong>313</strong>, 504–507 (2006).</div>
+</div>
+<div id="ref-stringer2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Stringer, C., Wang, T., Michaelos, M. &amp; Pachitariu, M. <a href="https://doi.org/10.1038/s41592-020-01018-x">Cellpose: A generalist algorithm for cellular segmentation</a>. <em>Nature Methods</em> <strong>18</strong>, 100–106 (2021).</div>
+</div>
+<div id="ref-dosovitskiy2020image" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline"><span class="nocase">Dosovitskiy, A. <em>et al.</em></span> An image is worth 16x16 words: Transformers for image recognition at scale. <em>arXiv preprint arXiv:2010.11929</em> (2020).</div>
+</div>
+<div id="ref-vaswani2017attention" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Vaswani, A. <em>et al.</em> Attention is all you need. <em>Advances in neural information processing systems</em> <strong>30</strong>, (2017).</div>
+</div>
+<div id="ref-kirillov2023segment" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline"><span class="nocase">Kirillov, A. <em>et al.</em></span> Segment anything. in <em>Proceedings of the IEEE/CVF international conference on computer vision</em> 4015–4026 (2023).</div>
+</div>
+<div id="ref-archit2025segment" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline"><span class="nocase">Archit, A. <em>et al.</em></span> Segment anything for microscopy. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
+</div>
+<div id="ref-israel2025cellsam" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline"><span class="nocase">Israel, U. <em>et al.</em></span> CellSAM: A foundation model for cell segmentation. <em>BioRxiv</em> 2023–11 (2025).</div>
+</div>
+<div id="ref-pachitariu2025cellpose" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Pachitariu, M., Rariden, M. &amp; Stringer, C. Cellpose-SAM: Superhuman generalization for cellular segmentation. <em>bioRxiv</em> 2025–04 (2025).</div>
+</div>
+<div id="ref-liu2021swin" class="csl-entry" role="listitem">
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Liu, Z. <em>et al.</em> Swin transformer: Hierarchical vision transformer using shifted windows. in <em>Proceedings of the IEEE/CVF international conference on computer vision</em> 10012–10022 (2021).</div>
+</div>
+<div id="ref-zhang2025swincell" class="csl-entry" role="listitem">
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Zhang, X. <em>et al.</em> SwinCell: A 3D transformer and flow-based framework for improved cell segmentation. <em>Communications Biology</em> <strong>8</strong>, 962 (2025).</div>
+</div>
+<div id="ref-achard2025cellseg3d" class="csl-entry" role="listitem">
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Achard, C. <em>et al.</em> CellSeg3D, self-supervised 3D cell segmentation for fluorescence microscopy. <em>eLife</em> <strong>13</strong>, RP99848 (2025).</div>
+</div>
+<div id="ref-heinrich2018synaptic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Heinrich, L., Funke, J., Pape, C., Nunez-Iglesias, J. &amp; Saalfeld, S. Synaptic cleft segmentation in non-isotropic volume electron microscopy of the complete drosophila brain. in <em>International conference on medical image computing and computer-assisted intervention</em> 317–325 (Springer, 2018).</div>
+</div>
+<div id="ref-Schmidt2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">21. </div><div class="csl-right-inline">Schmidt, U., Weigert, M., Broaddus, C. &amp; Myers, G. Cell detection with star-convex polygons. in <em>Medical image computing and computer assisted intervention – MICCAI 2018</em> (eds. Frangi, A. F., Schnabel, J. A., Davatzikos, C., Alberola-López, C. &amp; Fichtinger, G.) 265–273 (Springer International Publishing, Cham, 2018). doi:<a href="https://doi.org/10.1007/978-3-030-00934-2_30">10.1007/978-3-030-00934-2_30</a>.</div>
+</div>
+<div id="ref-schmidt2018cell" class="csl-entry" role="listitem">
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Schmidt, U., Weigert, M., Broaddus, C. &amp; Myers, G. Cell detection with star-convex polygons. in <em>International conference on medical image computing and computer-assisted intervention</em> 265–273 (Springer, 2018).</div>
+</div>
+<div id="ref-sheridan2023local" class="csl-entry" role="listitem">
+<div class="csl-left-margin">23. </div><div class="csl-right-inline">Sheridan, A. <em>et al.</em> Local shape descriptors for neuron segmentation. <em>Nature methods</em> <strong>20</strong>, 295–303 (2023).</div>
+</div>
+<div id="ref-kingma2014adam" class="csl-entry" role="listitem">
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Kingma, D. P. &amp; Ba, J. Adam: A method for stochastic optimization. <em>arXiv preprint arXiv:1412.6980</em> (2014).</div>
+</div>
+<div id="ref-loshchilov2016sgdr" class="csl-entry" role="listitem">
+<div class="csl-left-margin">25. </div><div class="csl-right-inline">Loshchilov, I. &amp; Hutter, F. Sgdr: Stochastic gradient descent with warm restarts. <em>arXiv preprint arXiv:1608.03983</em> (2016).</div>
+</div>
+<div id="ref-prechelt1998automatic" class="csl-entry" role="listitem">
+<div class="csl-left-margin">26. </div><div class="csl-right-inline">Prechelt, L. Automatic early stopping using cross validation: Quantifying the criteria. <em>Neural networks</em> <strong>11</strong>, 761–767 (1998).</div>
+</div>
+<div id="ref-hinton2012improving" class="csl-entry" role="listitem">
+<div class="csl-left-margin">27. </div><div class="csl-right-inline">Hinton, G. E., Srivastava, N., Krizhevsky, A., Sutskever, I. &amp; Salakhutdinov, R. R. Improving neural networks by preventing co-adaptation of feature detectors. <em>arXiv preprint arXiv:1207.0580</em> (2012).</div>
+</div>
+<div id="ref-huang2016deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">28. </div><div class="csl-right-inline">Huang, G., Sun, Y., Liu, Z., Sedra, D. &amp; Weinberger, K. Q. Deep networks with stochastic depth. in <em>European conference on computer vision</em> 646–661 (Springer, 2016).</div>
+</div>
+<div id="ref-ioffe2015batch" class="csl-entry" role="listitem">
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Ioffe, S. &amp; Szegedy, C. Batch normalization: Accelerating deep network training by reducing internal covariate shift. in <em>International conference on machine learning</em> 448–456 (pmlr, 2015).</div>
+</div>
+<div id="ref-ba2016layer" class="csl-entry" role="listitem">
+<div class="csl-left-margin">30. </div><div class="csl-right-inline">Ba, J. L., Kiros, J. R. &amp; Hinton, G. E. Layer normalization. <em>arXiv preprint arXiv:1607.06450</em> (2016).</div>
+</div>
+<div id="ref-wang2020cnn" class="csl-entry" role="listitem">
+<div class="csl-left-margin">31. </div><div class="csl-right-inline">Wang, Z. J. <em>et al.</em> CNN explainer: Learning convolutional neural networks with interactive visualization. <em>IEEE Transactions on Visualization and Computer Graphics</em> <strong>27</strong>, 1396–1406 (2020).</div>
 </div>
 </div>
 </section>

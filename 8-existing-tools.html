@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.8.26">
+<meta name="generator" content="quarto-1.9.36">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -11,6 +11,9 @@
 
 <title>8&nbsp; How do you select and find a tool? – AI in Microscopy: A BioImaging Guide</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -57,19 +60,18 @@ div.csl-indent {
 <link href="./settings/favicon.png" rel="icon" type="image/png">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b758ccaa5987ceb1b75504551e579abf.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-587c61ba64f3a5504c4d52d930310e48.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-f418161beb48e0141c760e455f12af2c.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-4c6d65c679321d81af7ec8b61b1d5a24.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-2641b481724464e61c86985d8c912b6f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-ffc4c3fc79587ee79da4865b6a08975e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-acff971833d9769290026d534105daaa.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-ffc4c3fc79587ee79da4865b6a08975e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -347,7 +349,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./4-architectures.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Models</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Architectures and Loss Functions</span></span></a>
   </div>
 </li>
       </ul>
@@ -552,9 +554,9 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 You must be able to concisely and specifically state what you would like output by your workflow. Do you need to segment objects? If so, do you need <a href="./glossary.html#semantic-segmentation">semantic</a>, <a href="./glossary.html#instance-segmentation">instance</a>, or <a href="./glossary.html#panoptic-segmentation">panoptic segmentation</a> (<a href="#Box1">Box 1</a>)? (see <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a> for more information) Do you need measurements and if so should they be made on individual objects or on images?<br>
 </li>
 <li><strong>How will you assess your outputs?</strong><br>
-Will your assessment be qualitative or quantitative? Do you have ground truth? Do you have the expertise to assess output quality? (see <span class="quarto-unresolved-ref">?sec-10</span> for more information)</li>
-<li><strong>What is your desired “quality” of your outputs?</strong><br>
-Are you expecting outputs that approach <a href="./glossary.html#ground-truth">ground truth</a> or will “quick and dirty” be enough for you?</li>
+Will your assessment be qualitative or quantitative? Do you have ground truth? Do you have the expertise to assess output quality? (see <a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a> for more information)</li>
+<li>**What is your desired “quality” of your outputs?**<br>
+Are you expecting outputs that approach <a href="./glossary.html#ground-truth">ground truth</a> or will”quick and dirty” be enough for you?</li>
 <li><strong>What does your ideal workflow look like?</strong><br>
 Do you need all of the outputs to be made in a single software or are you comfortable using multiple softwares? If your images require preprocessing, does that need to happen in the same step? The same software?</li>
 </ul>
@@ -633,7 +635,7 @@ There are many different reasons that images might require preprocessing and som
 </figure>
 </div>
 <p>Example of different types of segmentations produced between CellProfiler and Ilastik. A) Input image of Drosophila Kc167 cells, provided in the Example pipeline packaged with CellProfiler. B) CellProfiler uses classic image processing to create instance segmentations. The individual objects identified are shown as individually colored masks in the upper panel. The lower image is the input image overlaid with nuclei objects outlined in green and cell objects outlined in pink.<br>
-C) Ilastik uses pixel-based machine learning to create semantic segmentation. The image is the input image with green shaded areas in the class “Cells” and red shaded areas in the class “Background”.</p>
+C) Ilastik uses pixel-based machine learning to create semantic segmentation. The image is the input image with green shaded areas in the class “Cells” and red shaded areas in the class”Background”.</p>
 </div>
 </div>
 </section>
@@ -762,7 +764,7 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 <p>There are many places that one can look to find new (or new-to-them) tools and models. A few suggestions are as follows:</p>
 <ul>
 <li>BioImage Model Zoo<span class="citation" data-cites="Ouyang2022"><sup><a href="references.html#ref-Ouyang2022" role="doc-biblioref">22</a></sup></span> is a community-driven AI model repository that offers a variety of pretrained AI models. All models are described by a common Model Resource Description File Specification which simplifies using models in the BioImage Model Zoo with partner software such as ilastik<span class="citation" data-cites="Berg2019"><sup><a href="references.html#ref-Berg2019" role="doc-biblioref">16</a></sup></span>, ImJoy<span class="citation" data-cites="Ouyang2019"><sup><a href="references.html#ref-Ouyang2019" role="doc-biblioref">23</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">2</a></sup></span>, deepImageJ<span class="citation" data-cites="Gomez-de-Mariscal2021"><sup><a href="references.html#ref-Gomez-de-Mariscal2021" role="doc-biblioref">24</a></sup></span> and ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">4</a></sup></span>.</li>
-<li>Bioimage Informatics Index (Biii)<span class="citation" data-cites="Zhang2023"><sup><a href="references.html#ref-Zhang2023" role="doc-biblioref">25</a></sup></span> is a community-curated index that includes software and helps researchers find tools whether their search is problem-based (e.g.&nbsp;“find nuclei in cells”), method-based (e.g.&nbsp;“active contour-based segmentation”), or tool-based (e.g.&nbsp;“CellProfiler”).<br>
+<li>Bioimage Informatics Index (Biii)<span class="citation" data-cites="Zhang2023"><sup><a href="references.html#ref-Zhang2023" role="doc-biblioref">25</a></sup></span> is a community-curated index that includes software and helps researchers find tools whether their search is problem-based (e.g.&nbsp;“find nuclei in cells”), method-based (e.g.&nbsp;”active contour-based segmentation”), or tool-based (e.g.&nbsp;“CellProfiler”).<br>
 </li>
 <li>The Scientific Community Image Forum (<a href="http://forum.image.sc">forum.image.sc</a>)<span class="citation" data-cites="Rueden2019"><sup><a href="references.html#ref-Rueden2019" role="doc-biblioref">26</a></sup></span> is a platform where users can pose bioimage software-related questions and receive feedback from a broad user community and maintainers from &gt;75 partner softwares.<br>
 </li>
@@ -899,7 +901,7 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 <div class="csl-left-margin">5. </div><div class="csl-right-inline">Hidalgo-Cenalmor, I. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02295-6"><span>DL4MicEverywhere</span>: Deep learning for microscopy made flexible, shareable and reproducible</a>. <em>Nat. Methods</em> <strong>21</strong>, 925–927 (2024).</div>
 </div>
 <div id="ref-jupyter" class="csl-entry" role="listitem">
-<div class="csl-left-margin">6. </div><div class="csl-right-inline">Kluyver, T. <em>et al.</em> <a href="https://eprints.soton.ac.uk/403913/">Jupyter notebooks - a publishing format for reproducible computational workflows</a>. in <em>Positioning and power in academic publishing: Players, agents and agendas</em> (eds. Loizides, F. &amp; Scmidt, B.) 87–90 (IOS Press, Netherlands, 2016).</div>
+<div class="csl-left-margin">6. </div><div class="csl-right-inline"><span class="nocase">Kluyver, T. <em>et al.</em></span> <a href="https://eprints.soton.ac.uk/403913/">Jupyter notebooks - a publishing format for reproducible computational workflows</a>. in <em>Positioning and power in academic publishing: Players, agents and agendas</em> (eds. Loizides, F. &amp; Scmidt, B.) 87–90 (IOS Press, Netherlands, 2016).</div>
 </div>
 <div id="ref-Haase2024" class="csl-entry" role="listitem">
 <div class="csl-left-margin">7. </div><div class="csl-right-inline">Haase, R., Tischer, C., Bankhead, P., Miura, K. &amp; Cimini, B. <a href="https://osf.io/preprints/osf/2zgmc_v1">A call for <span>FAIR</span> and open-access training materials to advance <span>BioImage</span> analysis</a>. (2024).</div>
@@ -947,7 +949,7 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 <div class="csl-left-margin">21. </div><div class="csl-right-inline">Archit, A. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02580-4">Segment anything for microscopy</a>. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
 </div>
 <div id="ref-Ouyang2022" class="csl-entry" role="listitem">
-<div class="csl-left-margin">22. </div><div class="csl-right-inline">Ouyang, W. <em>et al.</em> <span>BioImage</span> model zoo: A community-driven resource for accessible deep learning in <span>BioImage</span> analysis. <em>bioRxiv</em> 2022.06.07.495102 (2022) doi:<a href="https://doi.org/10.1101/2022.06.07.495102">10.1101/2022.06.07.495102</a>.</div>
+<div class="csl-left-margin">22. </div><div class="csl-right-inline"><span class="nocase">Ouyang, W. <em>et al.</em></span> <span>BioImage</span> model zoo: A community-driven resource for accessible deep learning in <span>BioImage</span> analysis. <em>bioRxiv</em> 2022.06.07.495102 (2022) doi:<a href="https://doi.org/10.1101/2022.06.07.495102">10.1101/2022.06.07.495102</a>.</div>
 </div>
 <div id="ref-Ouyang2019" class="csl-entry" role="listitem">
 <div class="csl-left-margin">23. </div><div class="csl-right-inline">Ouyang, W., Mueller, F., Hjelmare, M., Lundberg, E. &amp; Zimmer, C. <a href="https://doi.org/10.1038/s41592-019-0627-0"><span>ImJoy</span>: An open-source computational platform for the deep learning era</a>. <em>Nat. Methods</em> <strong>16</strong>, 1199–1200 (2019).</div>
