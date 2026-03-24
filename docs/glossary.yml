@@ -155,7 +155,7 @@ Autoencoder: |
   A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsuperivsed learning version of the more general encoder-decoder architecture.
 
 ReLU: |
-  An activation function common in deep learning that outputs the input directly if it is positive, and outputs zero otherwise. That is, it is ramp function where it equals x if x>0 and 0 if x<=0. This characteristic helps introduce non-linearity into the model and mitigate the vanishing gradient problem. ReLU stands for rectified linear unit.  
+  An activation function common in deep learning that outputs the input directly if it is positive, and outputs zero otherwise. That is, it is the ramp function where it equals x if x>0 and 0 if x<=0. This characteristic helps introduce non-linearity into the model and mitigate the vanishing gradient problem. ReLU stands for rectified linear unit.  
 
 Sigmoid Function: |
   An activation function common in deep learning that non-linearly maps real inputs to outputs between 0 and 1, being most sensitive to changes in inputs around zero and increasingly compressing extreme positive or negative inputs as they approach 1 or 0 respectively; this characteristic enables it to model probabilities for binary classification and introduce smooth non-linearity.
@@ -176,7 +176,7 @@ Neural Network : |
   Neural networks are a type of computational model that were inspired by the way that biological neural networks are structured.
 
 Network Architecture : |
-  The architecture of a machine learning model refers to the design and structure of the model, including choices in how individual components (such as preprocessing or features extraction) are connected to each other.
+  The architecture of a machine learning model refers to the design and structure of the model, including choices in how individual components (such as preprocessing or feature extraction) are connected to each other.
 
 Natural Image  : |
   Natural images are images of the environment. This most commonly refers to color photographs of people, nature, objects, etc. Many machine learning researchers focus on natural images for tasks like self-driving cars, but microscopy images pose additional challenges for AI.
@@ -185,10 +185,10 @@ Probability Vector  : |
   A probability vector is composed of values that indicate the probability of a particular variable (e.g., the probability that an image is a dog or cat). The values of a probability vector sum to one.
 
 Skip Connection  : |
-  Skip connections are also sometimes know as residual connections. These connections are when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a U-Net architecture connect across image resolutions.
+  Skip connections are also sometimes know as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a U-Net architecture connect across image resolutions.
 
 Downsampling  : |
-  Upsampling is a technique to reduce the sampling of input data. For an image, this involves descreasing the number of pixels, and thus decreasing the resolution of the image.
+  Downsampling is a technique to reduce the sampling of input data. For an image, this involves descreasing the number of pixels, and thus decreasing the resolution of the image.
 
 Upsampling  : |
   Upsampling is a technique to increase the sampling of input data. For an image, this involves increasing the number of pixels and interpolating values for the newly sampled pixels.
@@ -197,7 +197,7 @@ Perceptron  : |
   Perceptrons are linear weighted sums of inputs followed by a nonlinear activation function. They are used for binary classification, and can be combined to create more complex network archictures. Perceptrons are a specific type of an artificial neuron or node.
 
 Activation Function  : |
-  An activation function is a mathematical formula that calculates the output of a node. These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," named in an analogy to the way in which biological neurons can be activated.
+  An activation function is a mathematical formula that calculates the output of a node. These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," an analogy to the way in which biological neurons can be activated.
 
 Linear Layer  : |
   Linear layers are also known as fully-connected layers or dense layers. They are a set of input nodes (or neurons) that are each connected to every output node of the layer. 
@@ -209,7 +209,7 @@ Nonlinear  : |
   If a system or function is non-linear, changes in its output are not proportional to the changes that are made to the input. Non-linear functions are incorporated into machine learning networks to allow for the solution of complicated problems because it allows for non-linear decision boundaries.
 
 Kernel  : |
-  Convolutional kernels are also known as filters. They are small matrices that define the function for taking input pixels and creating an output image. They are often used for tasks liek blurring or edge detection.
+  Convolutional kernels are also known as filters. They are small matrices that define the function for taking input pixels and creating an output image. They are often used for tasks like blurring or edge detection.
 
 Receptive Field  : |
   The receptive field size of a convolutional layer is the total spatial extent of pixels that influence the activations of the layer. The receptive field of the entire network describes the size of the region in the input image that influences the output image.
@@ -263,7 +263,7 @@ Multilayer Perceptron : |
   A sequence of fully-connected layers that are applied in series, each on the output of the previous one, is called a multilayer perceptron (MLP). This is the simplest example of a deep neural network.
 
 Foundation Model : |
-  A foundation model is a model that was trained a very large and very diverse dataset. Because of this diversity in training data, foundation models can be used for a many downstream tasks or can be fine-tuned for specific purposes.
+  A foundation model is a model that was trained on a very large and very diverse dataset. Because of this diversity in training data, foundation models can be used for many downstream tasks or can be fine-tuned for specific purposes.
 
 Momentum : |
   In the context of learning rate, momentum speeds up learning when the gradient is consistent over multiple iterations, which allows the training to avoid local minima.
