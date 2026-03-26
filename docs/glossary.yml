@@ -152,10 +152,10 @@ Generative Adversarial Networks (GANs): |
   A deep learning architecture where two neural networks, a generator and a discriminator, are trained in an adversarial process, enabling the generator to create synthetic data, such as realistic images, by learning to deceive the discriminator.
 
 Autoencoder: |
-  A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. 
+  A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsuperivsed learning version of the more general encoder-decoder architecture.
 
 ReLU: |
-  An activation function common in deep learning that outputs the input directly if it is positive, and outputs zero otherwise; this characteristic helps introduce non-linearity into the model and mitigate the vanishing gradient problem.
+  An activation function common in deep learning that outputs the input directly if it is positive, and outputs zero otherwise. That is, it is the ramp function where it equals x if x>0 and 0 if x<=0. This characteristic helps introduce non-linearity into the model and mitigate the vanishing gradient problem. ReLU stands for rectified linear unit.  
 
 Sigmoid Function: |
   An activation function common in deep learning that non-linearly maps real inputs to outputs between 0 and 1, being most sensitive to changes in inputs around zero and increasingly compressing extreme positive or negative inputs as they approach 1 or 0 respectively; this characteristic enables it to model probabilities for binary classification and introduce smooth non-linearity.
@@ -168,3 +168,102 @@ Self-supervised learning: |
 
 Supervised learning: |
   A deep learning method where models learn from labeled data (input-output pairs), enabling them to learn a mapping function for making predictions or decisions on unseen inputs.
+
+Neural Network Unit: |
+  A neural unit is the processing element of a neural network. It also sometimes called a node or artificial neuron.
+
+Neural Network : |
+  Neural networks are a type of computational model that were inspired by the way that biological neural networks are structured.
+
+Network Architecture : |
+  The architecture of a machine learning model refers to the design and structure of the model, including choices in how individual components (such as preprocessing or feature extraction) are connected to each other.
+
+Natural Image  : |
+  Natural images are images of the environment. This most commonly refers to color photographs of people, nature, objects, etc. Many machine learning researchers focus on natural images for tasks like self-driving cars, but microscopy images pose additional challenges for AI.
+
+Probability Vector  : |
+  A probability vector is composed of values that indicate the probability of a particular variable (e.g., the probability that an image is a dog or cat). The values of a probability vector sum to one.
+
+Skip Connection  : |
+  Skip connections are also sometimes know as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a U-Net architecture connect across image resolutions.
+
+Downsampling  : |
+  Downsampling is a technique to reduce the sampling of input data. For an image, this involves descreasing the number of pixels, and thus decreasing the resolution of the image.
+
+Upsampling  : |
+  Upsampling is a technique to increase the sampling of input data. For an image, this involves increasing the number of pixels and interpolating values for the newly sampled pixels.
+
+Perceptron  : |
+  Perceptrons are linear weighted sums of inputs followed by a nonlinear activation function. They are used for binary classification, and can be combined to create more complex network archictures. Perceptrons are a specific type of an artificial neuron or node.
+
+Activation Function  : |
+  An activation function is a mathematical formula that calculates the output of a node. These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," an analogy to the way in which biological neurons can be activated.
+
+Linear Layer  : |
+  Linear layers are also known as fully-connected layers or dense layers. They are a set of input nodes (or neurons) that are each connected to every output node of the layer. 
+
+Bias Vector  : |
+  The bias vector is a set of values (one for each node in the layer) that is added to the weighted input of the layer before the activation function is calculated. Note that the use of "bias" here is mathematical and not related to any potential biases in the model's decision making.
+
+Nonlinear  : |
+  If a system or function is non-linear, changes in its output are not proportional to the changes that are made to the input. Non-linear functions are incorporated into machine learning networks to allow for the solution of complicated problems because it allows for non-linear decision boundaries.
+
+Kernel  : |
+  Convolutional kernels are also known as filters. They are small matrices that define the function for taking input pixels and creating an output image. They are often used for tasks like blurring or edge detection.
+
+Receptive Field  : |
+  The receptive field size of a convolutional layer is the total spatial extent of pixels that influence the activations of the layer. The receptive field of the entire network describes the size of the region in the input image that influences the output image.
+
+Pooling Layer  : |
+  A pooling layer aggregates information from many vectors into fewer vectors, i.e., it downsamples the image. The pooling layer does this using sliding windows across the image of maximum or average operations. This removes redundant information and reduces the size of the image for the following calculations.
+
+Stride  : |
+  When performing a convolution or cross-correlation, the kernel (aka the filter) moves across the entire image. When the stride is 1, this corresponds to moving the filter across every pixel in the image. For larger values of the stride, the kernel is moved more than one element at a time. For example, a stride of 2 would skip every other pixel in the image.
+
+Padding  : |
+  Padding involves adding extra layers of pixels around an image to avoid edge effects. Padding can be performed by simply setting the extra pixels to zero, or it can take into account the image itself (such as in mirror padding or replicate padding).
+
+Encoder-Decoder : |
+  An encoder-decoder architecture refers to a network with two parts. The "encoder" component of the network is a series of layers that take the input and map it to an abstract representation. The second "decoder" component of the network is trained to recreate input data from the abstract representation. This type of architecture learns an efficient way to represent the input data and is often used for dimensionality reduction.
+
+Self-attention  : |
+  Attention allows a model to determine the importance of each component of an input sequence. Self-attention is a type of attention mechanism that is commonly used in transformer architectures.
+
+Patches  : |
+  In image processing, a patch refers to a small region or subset of pixels that are extracted from the larger image.
+
+Embedding Space  : |
+  Embedding space is also know as a latent space or latent feature space. This space is a set of variables that describe items such that similar items are positioned closer together in the space.
+
+Auxiliary Variables  : |
+  Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precison, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other shape descriptors can be used as part of of a loss function. 
+
+Loss function : |
+  A loss function (or cost function) is a formula for quantifying how much a model's predication deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss.
+
+Optimizer  : |
+  An optimizer is a function that is used to adjust model parameters during training. By adjusting weights and biases, the optimizer attempts to minimize the loss function and thus make the model more accurate.
+
+Gradient Descent  : |
+  Gradient descent computes the gradient of the loss with respect to each weight. Moving the weights in the negative direction of the gradient reduces the loss for the given images or data points over which the loss is computed.
+
+Regularization  : |
+  Regularization adds a penalty term to the loss function to prevent overfitting. This term discourages overly complex models.
+
+Activations : |
+  The values of elements in neural network units, often specifically the values of the output of an activation function.
+
+Channels : |
+  In natural color images there are often three channels (red, green, and blue). In microscopy images, the number of channels can refer to the number of fluorescent labels or image settings used while imaging. The term is used similarly in neural networks where channels refers to the number of layers in an image. These channels can come from convolutional operations, leading to images with hundreds of channels corresponding to each filter used.
+
+Capacity : |
+  A model's capacity reflects how much information a network can store. It corresponds to a network's ability to model an arbitrary function.
+
+Multilayer Perceptron : |
+  A sequence of fully-connected layers that are applied in series, each on the output of the previous one, is called a multilayer perceptron (MLP). This is the simplest example of a deep neural network.
+
+Foundation Model : |
+  A foundation model is a model that was trained on a very large and very diverse dataset. Because of this diversity in training data, foundation models can be used for many downstream tasks or can be fine-tuned for specific purposes.
+
+Momentum : |
+  In the context of learning rate, momentum speeds up learning when the gradient is consistent over multiple iterations, which allows the training to avoid local minima.

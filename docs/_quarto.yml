@@ -49,6 +49,8 @@ format:
     theme:
       light: flatly
       dark: darkly
+    code-fold: true
+    code-summary: "show code"
   pdf:
     documentclass: scrreprt
     cite-method: biblatex

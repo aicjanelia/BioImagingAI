@@ -4,3 +4,5 @@
 _environment.local
 /_*.local
 ../.venv/
+
+**/*.quarto_ipynb
