@@ -316,5 +316,11 @@ General Agency : |
 Coding Agent : |
   Coding agents are AI systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier LLM assistants that could only suggest code snippets.
 
-Skills atrophy : |
+Skills Atrophy : |
   Skills atrophy is the decrease or loss of human expertise due to underuse. In this context, skills atrophy could be caused by an over-reliance on AI tools. This gradual erosion of the community's ability would decrease the field's ability to evaluate AI outputs.
+
+ResNet : |
+  A residual neural network (ResNet) is a deep learning architecture in which skip connections between layers are used to learn residual mappings instead of direct transformations, increasing training efficacy and deeper networks.
+
+Image Translation : |
+  Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g. brightfield) into a different modality (e.g. DAPI staining of nuclei) in the same field of view.
