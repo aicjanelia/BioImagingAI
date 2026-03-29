@@ -7,18 +7,15 @@
 
 ``` -->
 
-```{r}
+```{python}
 #| echo: false
 #| output: asis
 
-glossary <- yaml::read_yaml("glossary.yml",readLines.warn=FALSE)
+import yaml
 
-sorted_names <- sort(names(glossary))
+with open("glossary.yml", "r") as f:
+    glossary = yaml.safe_load(f)
 
-glossary_new <- glossary[sorted_names]
-
-for (term in names(glossary_new)) {
-    # cat("## ", term, "{#sec-", term , "} \n\n", glossary[[term]], "\n\n", sep = "")
-    cat("## ", term, " \n\n", glossary[[term]], "\n\n", sep = "")
-}
+for term in sorted(glossary.keys()):
+    print(f"## {term} \n\n{glossary[term]}\n\n")
 ```

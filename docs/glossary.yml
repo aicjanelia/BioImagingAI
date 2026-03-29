@@ -5,16 +5,16 @@ Training Data: |
   Data used to train an algorithm to make predictions.
 
 False Positives: |
-  In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.
+  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.
 
 False Negatives: |
-  In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive.
+  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive.
 
 True Positives: |
-  In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.
+  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.
 
 True Negatives: |
-  In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as negative and were really negative.
+  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as negative and were really negative.
 
 Manual Annotation: |
   The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.
@@ -53,7 +53,7 @@ Genetic Algorithms: |
   An optimisation method inspired by the principles of natural selection and genetics. It starts with a population of solutions. These solutions are combined through a process called crossover to produce new solutions (offspring). During this process, random changes or mutations may occur to introduce diversity. After crossover and mutation, a selection step chooses the best solutions from both the parent and offspring populations to form the next generation. This cycle repeats for a set number of generations or until a predefined goal or stopping criterion is met.
 
 Virtual Machine: |
-  On a physical computer, you install an operating system (e.g., Windows or Ubuntu) that you interact with. A virtual machine is a program that simulates a complete computer with its own operating system. This lets you run a “computer inside your computer” (e.g., using Linux inside Windows or the other way around). As this simulated computer is separate from your physical one, it adds an extra layer of security, because unless the user specifically allows it, the virtual machine cannot access or connect to your real computer.
+  On a physical computer, you install an operating system (e.g., Windows or Ubuntu) that you interact with. A virtual machine is a program that simulates a complete computer with its own operating system. This lets you run a "computer inside your computer" (e.g., using Linux inside Windows or the other way around). As this simulated computer is separate from your physical one, it adds an extra layer of security, because unless the user specifically allows it, the virtual machine cannot access or connect to your real computer.
 
 Star-convex Polygon: |
   A geometric shape used in segmentation algorithms like StarDist. Imagine drawing straight lines (rays) from the centre of an object out toward its edges—if you can see the edge from the centre in all directions, the object is considered star-convex. This method works well for blob-like structures such as nuclei, because their general shape can be captured by measuring how far each ray travels from the centre to the boundary.
@@ -267,3 +267,60 @@ Foundation Model : |
 
 Momentum : |
   In the context of learning rate, momentum speeds up learning when the gradient is consistent over multiple iterations, which allows the training to avoid local minima.
+
+Large Language Model (LLM) : |
+  Large Language Models (LLMs) are a type of AI model that was trained on a vast amount of data. Users interact with LLMs using natural language to accomplish a variety of tasks.
+
+U-Net : |
+  A U-Net is a type of convolutional neural network that was specifically developed for the task of image segmentation. It has since been used for a variety of tasks. The model is so named because downsampling layers are followed by upsampling layers, which are each connected by skip connections, and togther this gives diagrams of the network a U shape.
+
+Vision-Language Model (VLM) : |
+  A Vision-language Model (VLM) are a type of model that can process both images and text with a single architecture. Because they can accept both natual language and visual inputs, they can include context in their analysis.
+
+AI agent : |
+  AI agents extend models into systems that can take actions (running code, calling APIs, controlling hardware), observe the results, and adapt their approach iteratively. At its core, an AI agent is a system built around a language model that operates in a loop: it observes the current state (an image, a dataset, an error message), reasons about what to do next, acts by invoking tools or executing code, and then observes the outcome — repeating until the task is complete. This observe-reason-act cycle is what distinguishes an agent from a chatbot.
+
+Function Calling : |
+  Function calling is also called tool use. This is the ability for LLMs to invoke external tools, APIs, and software through structured interfaces rather than generating plain text. 
+
+Tokens : |
+  Tokens are units of data processed by an AI model. For an LLM, these tokens are chunks that may be whole words or subword pieces. For instance, "microscope" might be a single token, while "fluorescence" might be split into "fluor" + "escence."
+
+Fine-Tuning : |
+  Fine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific traning data. In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
+
+Tool Definitions : |
+  Tool definitions are structured descriptions of available functions, their parameters, and expected inputs. When a user makes a request, the model reasons about which tools are needed, generates structured calls with correct parameters, receives results, and decides whether to take further action or report findings.
+
+Model Context Protocol (MCP) : |
+  The Model Context Protocol (MCP) is a standardized way for AI systems to connect to external tools and data sources. MCP gives any AI model a universal way to discover and use any compatible tool — analogous to how USB standardized device connectivity. For microscopy, MCP means that a single agent could potentially access a microscope control system, an image analysis library, a literature database, and a model repository through the same protocol. 
+
+Context Window : |
+  A context window is the size of the largest input that a model can consider at once. Making the context window larger allows the model to incorporate more information into the output.
+
+logprobs : |
+  Logprobs is short for log probabilities. Taking the logarithm of a probability has practical computational advantages. In the AI context, logprobs refers to the probability of each token, given the previous token, and can be used as a measure of model confidence.
+
+Visual Question Answering : |
+  Visual Question Answering (VQA) is when a model is asked an open-ended question based on an image input. The result is a natural language response to a natural language question associated with an image.
+
+Human-in-the-loop: |
+  Human-in-the-loop workflows use model predictions that are manually corrected for retraining. This iterative approach can be used to superivise the model output and improve accuracy.
+
+Agentic Workflow : |
+  Agentic workflows are hand-designed sequences of tool calls with human-specified decision points. A developer would define: "first call the segmentation tool, then if the count is above 100 switch to algorithm B." These workflows are effective but rigid: every decision point must be anticipated in advance.
+
+General Agency : |
+  General agency gives AI agents access to broad capabilities — a terminal, a file system, APIs, analysis libraries — and lets them determine the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal ("segment and count the nuclei in this dataset") and works out what tools to use, in what order, handling errors as they arise.
+
+Coding Agent : |
+  Coding agents are AI systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier LLM assistants that could only suggest code snippets.
+
+Skills Atrophy : |
+  Skills atrophy is the decrease or loss of human expertise due to underuse. In this context, skills atrophy could be caused by an over-reliance on AI tools. This gradual erosion of the community's ability would decrease the field's ability to evaluate AI outputs.
+
+ResNet : |
+  A residual neural network (ResNet) is a deep learning architecture in which skip connections between layers are used to learn residual mappings instead of direct transformations, increasing training efficacy and deeper networks.
+
+Image Translation : |
+  Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g. brightfield) into a different modality (e.g. DAPI staining of nuclei) in the same field of view.
