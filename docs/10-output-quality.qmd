@@ -67,4 +67,15 @@ Note: We are considering picking one example to place in call out boxes througho
 
 * usually not a single number: topological correctness vs. positional correctness
 * show traccuracy and discuss some of their metrics
+* Need for selecting metrics based on the biological priority
 
+Fig: Types of tracking errors
+- Missing nodes/edges
+- Missed divisions
+- Wrong daughter divisions
+- Identity switches
+
+Fig: Failures of summary metrics (adversarial examples)
+- No edges
+- No divisions
+- Accuracy over time
