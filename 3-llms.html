@@ -7,8 +7,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Wei Ouyang">
+<meta name="author" content="Hanzhao Zhang">
 
-<title>3&nbsp; Large Language Models (LLMs) – AI in Microscopy: A BioImaging Guide</title>
+<title>3&nbsp; Large Language Models and AI Agents – AI in Microscopy: A BioImaging Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -24,7 +25,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -51,7 +107,6 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap-ffc4c3fc79587ee79da4865b6a08975e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-acff971833d9769290026d534105daaa.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-ffc4c3fc79587ee79da4865b6a08975e.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/glossary/glossary.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -263,7 +318,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./3-llms.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models (LLMs)</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./3-llms.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models and AI Agents</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -323,7 +378,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./3-llms.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models (LLMs)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models and AI Agents</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -437,12 +492,65 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#sec-llm-foundations" id="toc-sec-llm-foundations" class="nav-link active" data-scroll-target="#sec-llm-foundations"><span class="header-section-number">3.1</span> Foundations of Large Language Models</a></li>
-  <li><a href="#sec-multimodal-ai" id="toc-sec-multimodal-ai" class="nav-link" data-scroll-target="#sec-multimodal-ai"><span class="header-section-number">3.2</span> Multi-modal AI: Vision-Language Models and Generative AI</a></li>
-  <li><a href="#sec-ai-agents" id="toc-sec-ai-agents" class="nav-link" data-scroll-target="#sec-ai-agents"><span class="header-section-number">3.3</span> AI Agents for Microscopy Workflows</a></li>
-  <li><a href="#sec-challenges" id="toc-sec-challenges" class="nav-link" data-scroll-target="#sec-challenges"><span class="header-section-number">3.4</span> Challenges and Limitations</a></li>
-  <li><a href="#sec-future" id="toc-sec-future" class="nav-link" data-scroll-target="#sec-future"><span class="header-section-number">3.5</span> Future Directions</a></li>
-  <li><a href="#sec-practical-guide" id="toc-sec-practical-guide" class="nav-link" data-scroll-target="#sec-practical-guide"><span class="header-section-number">3.6</span> Practical Guide: Getting Started with LLMs for Microscopy</a></li>
+  <li><a href="#sec-intro" id="toc-sec-intro" class="nav-link active" data-scroll-target="#sec-intro"><span class="header-section-number">3.1</span> From Deep Learning to Foundation Models and Generative AI</a>
+  <ul class="collapse">
+  <li><a href="#the-extrapolation-problem-why-task-specific-models-break-down" id="toc-the-extrapolation-problem-why-task-specific-models-break-down" class="nav-link" data-scroll-target="#the-extrapolation-problem-why-task-specific-models-break-down"><span class="header-section-number">3.1.1</span> The Extrapolation Problem: Why Task-Specific Models Break Down</a></li>
+  <li><a href="#the-rise-of-generalist-and-foundation-models" id="toc-the-rise-of-generalist-and-foundation-models" class="nav-link" data-scroll-target="#the-rise-of-generalist-and-foundation-models"><span class="header-section-number">3.1.2</span> The Rise of Generalist and Foundation Models</a></li>
+  <li><a href="#the-complexity-challenge" id="toc-the-complexity-challenge" class="nav-link" data-scroll-target="#the-complexity-challenge"><span class="header-section-number">3.1.3</span> The Complexity Challenge</a></li>
+  <li><a href="#summary-the-evolution-of-ai-models-for-microscopy" id="toc-summary-the-evolution-of-ai-models-for-microscopy" class="nav-link" data-scroll-target="#summary-the-evolution-of-ai-models-for-microscopy"><span class="header-section-number">3.1.4</span> Summary: The Evolution of AI Models for Microscopy</a></li>
+  <li><a href="#the-path-forward-from-generative-ai-to-ai-agents" id="toc-the-path-forward-from-generative-ai-to-ai-agents" class="nav-link" data-scroll-target="#the-path-forward-from-generative-ai-to-ai-agents"><span class="header-section-number">3.1.5</span> The Path Forward: From Generative AI to AI Agents</a></li>
+  </ul></li>
+  <li><a href="#sec-llm-foundations" id="toc-sec-llm-foundations" class="nav-link" data-scroll-target="#sec-llm-foundations"><span class="header-section-number">3.2</span> Foundations of Large Language Models: An Intuitive Primer</a>
+  <ul class="collapse">
+  <li><a href="#how-llms-learn-training-on-the-worlds-text" id="toc-how-llms-learn-training-on-the-worlds-text" class="nav-link" data-scroll-target="#how-llms-learn-training-on-the-worlds-text"><span class="header-section-number">3.2.1</span> How LLMs Learn: Training on the World’s Text</a></li>
+  <li><a href="#the-transformer-a-revolution-in-understanding-context" id="toc-the-transformer-a-revolution-in-understanding-context" class="nav-link" data-scroll-target="#the-transformer-a-revolution-in-understanding-context"><span class="header-section-number">3.2.2</span> The Transformer: A Revolution in Understanding Context</a></li>
+  <li><a href="#fine-tuning-for-domain-specific-tasks-an-imagej-macro-example" id="toc-fine-tuning-for-domain-specific-tasks-an-imagej-macro-example" class="nav-link" data-scroll-target="#fine-tuning-for-domain-specific-tasks-an-imagej-macro-example"><span class="header-section-number">3.2.3</span> Fine-Tuning for Domain-Specific Tasks: An ImageJ Macro Example</a></li>
+  <li><a href="#code-generation-for-microscopy-capabilities-and-limits" id="toc-code-generation-for-microscopy-capabilities-and-limits" class="nav-link" data-scroll-target="#code-generation-for-microscopy-capabilities-and-limits"><span class="header-section-number">3.2.4</span> Code Generation for Microscopy: Capabilities and Limits</a></li>
+  </ul></li>
+  <li><a href="#sec-function-calling" id="toc-sec-function-calling" class="nav-link" data-scroll-target="#sec-function-calling"><span class="header-section-number">3.3</span> From Text Generation to Action: Function Calling and Tool Use</a>
+  <ul class="collapse">
+  <li><a href="#how-function-calling-works" id="toc-how-function-calling-works" class="nav-link" data-scroll-target="#how-function-calling-works"><span class="header-section-number">3.3.1</span> How Function Calling Works</a></li>
+  <li><a href="#from-fragmented-tools-to-a-universal-protocol" id="toc-from-fragmented-tools-to-a-universal-protocol" class="nav-link" data-scroll-target="#from-fragmented-tools-to-a-universal-protocol"><span class="header-section-number">3.3.2</span> From Fragmented Tools to a Universal Protocol</a></li>
+  <li><a href="#from-chatbots-to-agents-the-trust-escalation" id="toc-from-chatbots-to-agents-the-trust-escalation" class="nav-link" data-scroll-target="#from-chatbots-to-agents-the-trust-escalation"><span class="header-section-number">3.3.3</span> From Chatbots to Agents: The Trust Escalation</a></li>
+  </ul></li>
+  <li><a href="#sec-multimodal-ai" id="toc-sec-multimodal-ai" class="nav-link" data-scroll-target="#sec-multimodal-ai"><span class="header-section-number">3.4</span> Multi-modal AI: Vision-Language Models for Microscopy</a>
+  <ul class="collapse">
+  <li><a href="#how-vlms-interpret-microscopy-images" id="toc-how-vlms-interpret-microscopy-images" class="nav-link" data-scroll-target="#how-vlms-interpret-microscopy-images"><span class="header-section-number">3.4.1</span> How VLMs Interpret Microscopy Images</a></li>
+  <li><a href="#practical-capabilities-and-current-limitations" id="toc-practical-capabilities-and-current-limitations" class="nav-link" data-scroll-target="#practical-capabilities-and-current-limitations"><span class="header-section-number">3.4.2</span> Practical Capabilities and Current Limitations</a></li>
+  </ul></li>
+  <li><a href="#sec-ai-agents" id="toc-sec-ai-agents" class="nav-link" data-scroll-target="#sec-ai-agents"><span class="header-section-number">3.5</span> AI Agents for Microscopy and Workflow Orchestration</a>
+  <ul class="collapse">
+  <li><a href="#sec-what-are-agents" id="toc-sec-what-are-agents" class="nav-link" data-scroll-target="#sec-what-are-agents"><span class="header-section-number">3.5.1</span> What Are AI Agents?</a></li>
+  <li><a href="#sec-agent-architecture" id="toc-sec-agent-architecture" class="nav-link" data-scroll-target="#sec-agent-architecture"><span class="header-section-number">3.5.2</span> How Agents Interact with the World</a></li>
+  <li><a href="#use-cases-for-bioimage-analysis" id="toc-use-cases-for-bioimage-analysis" class="nav-link" data-scroll-target="#use-cases-for-bioimage-analysis"><span class="header-section-number">3.5.3</span> Use Cases for Bioimage Analysis</a></li>
+  <li><a href="#concrete-examples-omega-and-the-bioimage.io-chatbot" id="toc-concrete-examples-omega-and-the-bioimage.io-chatbot" class="nav-link" data-scroll-target="#concrete-examples-omega-and-the-bioimage.io-chatbot"><span class="header-section-number">3.5.4</span> Concrete Examples: Omega and the BioImage.IO Chatbot</a></li>
+  <li><a href="#the-vision-intent-driven-autonomous-microscopy" id="toc-the-vision-intent-driven-autonomous-microscopy" class="nav-link" data-scroll-target="#the-vision-intent-driven-autonomous-microscopy"><span class="header-section-number">3.5.5</span> The Vision: Intent-Driven Autonomous Microscopy</a></li>
+  <li><a href="#autonomous-microscopy-ai-controlled-instruments" id="toc-autonomous-microscopy-ai-controlled-instruments" class="nav-link" data-scroll-target="#autonomous-microscopy-ai-controlled-instruments"><span class="header-section-number">3.5.6</span> Autonomous Microscopy: AI-Controlled Instruments</a></li>
+  <li><a href="#sec-coding-agents" id="toc-sec-coding-agents" class="nav-link" data-scroll-target="#sec-coding-agents"><span class="header-section-number">3.5.7</span> Coding Agents: AI with Terminal Access</a></li>
+  </ul></li>
+  <li><a href="#sec-disposable-software" id="toc-sec-disposable-software" class="nav-link" data-scroll-target="#sec-disposable-software"><span class="header-section-number">3.6</span> On-Demand Software and the Changing Nature of Microscopy Tools</a>
+  <ul class="collapse">
+  <li><a href="#when-on-demand-software-makes-sense" id="toc-when-on-demand-software-makes-sense" class="nav-link" data-scroll-target="#when-on-demand-software-makes-sense"><span class="header-section-number">3.6.1</span> When On-Demand Software Makes Sense</a></li>
+  <li><a href="#the-reproducibility-question" id="toc-the-reproducibility-question" class="nav-link" data-scroll-target="#the-reproducibility-question"><span class="header-section-number">3.6.2</span> The Reproducibility Question</a></li>
+  <li><a href="#a-shift-in-researchersoftware-interaction" id="toc-a-shift-in-researchersoftware-interaction" class="nav-link" data-scroll-target="#a-shift-in-researchersoftware-interaction"><span class="header-section-number">3.6.3</span> A Shift in Researcher–Software Interaction</a></li>
+  </ul></li>
+  <li><a href="#sec-practical-guide" id="toc-sec-practical-guide" class="nav-link" data-scroll-target="#sec-practical-guide"><span class="header-section-number">3.7</span> Practical Guide: Getting Started with AI Agents for Microscopy</a>
+  <ul class="collapse">
+  <li><a href="#choosing-and-installing-a-coding-agent" id="toc-choosing-and-installing-a-coding-agent" class="nav-link" data-scroll-target="#choosing-and-installing-a-coding-agent"><span class="header-section-number">3.7.1</span> Choosing and Installing a Coding Agent</a></li>
+  <li><a href="#writing-effective-prompts" id="toc-writing-effective-prompts" class="nav-link" data-scroll-target="#writing-effective-prompts"><span class="header-section-number">3.7.2</span> Writing Effective Prompts</a></li>
+  <li><a href="#walkthrough-cell-cycle-classification-with-an-ai-agent" id="toc-walkthrough-cell-cycle-classification-with-an-ai-agent" class="nav-link" data-scroll-target="#walkthrough-cell-cycle-classification-with-an-ai-agent"><span class="header-section-number">3.7.3</span> Walkthrough: Cell Cycle Classification with an AI Agent</a></li>
+  </ul></li>
+  <li><a href="#sec-challenges" id="toc-sec-challenges" class="nav-link" data-scroll-target="#sec-challenges"><span class="header-section-number">3.8</span> Challenges, Implications, and the Road Ahead</a>
+  <ul class="collapse">
+  <li><a href="#sec-hallucinations" id="toc-sec-hallucinations" class="nav-link" data-scroll-target="#sec-hallucinations"><span class="header-section-number">3.8.1</span> The Hallucination Problem</a></li>
+  <li><a href="#reproducibility-and-non-determinism" id="toc-reproducibility-and-non-determinism" class="nav-link" data-scroll-target="#reproducibility-and-non-determinism"><span class="header-section-number">3.8.2</span> Reproducibility and Non-Determinism</a></li>
+  <li><a href="#bias-and-data-governance" id="toc-bias-and-data-governance" class="nav-link" data-scroll-target="#bias-and-data-governance"><span class="header-section-number">3.8.3</span> Bias and Data Governance</a></li>
+  <li><a href="#sec-evolving-role" id="toc-sec-evolving-role" class="nav-link" data-scroll-target="#sec-evolving-role"><span class="header-section-number">3.8.4</span> The Evolving Role of Bioimage Analysts</a></li>
+  <li><a href="#sec-hype-check" id="toc-sec-hype-check" class="nav-link" data-scroll-target="#sec-hype-check"><span class="header-section-number">3.8.5</span> Taking Stock: What Works, What Is Emerging, What Remains Aspirational</a></li>
+  <li><a href="#preparing-for-an-ai-enabled-future" id="toc-preparing-for-an-ai-enabled-future" class="nav-link" data-scroll-target="#preparing-for-an-ai-enabled-future"><span class="header-section-number">3.8.6</span> Preparing for an AI-Enabled Future</a></li>
+  </ul></li>
+  <li><a href="#sec-conclusion" id="toc-sec-conclusion" class="nav-link" data-scroll-target="#sec-conclusion"><span class="header-section-number">3.9</span> Conclusion</a></li>
+  <li><a href="#ai-disclosure" id="toc-ai-disclosure" class="nav-link" data-scroll-target="#ai-disclosure">AI Disclosure</a></li>
   </ul>
 </nav>
     </div>
@@ -450,19 +558,27 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./3-llms.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models (LLMs)</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./2-primer.html">Getting Started with AI</a></li><li class="breadcrumb-item"><a href="./3-llms.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models and AI Agents</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-llms" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models (LLMs)</span></span></h1>
-<p class="subtitle lead">Large Language Models and AI Agents for Microscopy Imaging</p>
+<h1 class="title"><span id="sec-llms" class="quarto-section-identifier"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Large Language Models and AI Agents</span></span></h1>
+<p class="subtitle lead">From Deep Learning to Autonomous AI-Powered Bioimage Analysis</p>
 </div>
 
 
 <div class="quarto-title-meta-author">
-  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Authors</div>
   <div class="quarto-title-meta-heading">Affiliation</div>
   
     <div class="quarto-title-meta-contents">
     <p class="author">Wei Ouyang <a href="https://orcid.org/0000-0002-0291-926X" class="quarto-title-author-orcid"> <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            SciLifeLab | KTH Royal Institute of Technology
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Hanzhao Zhang </p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
@@ -483,32 +599,682 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </header>
 
 
-<p>In recent years, large language models (LLMs) have revolutionized how we interact with technology, bringing unprecedented capabilities to scientific research including microscopy. This chapter explores how microscopists can leverage these powerful AI tools to enhance their workflow, from learning concepts to automating analysis tasks. We’ll discuss both general-purpose and microscopy-specific tools while highlighting practical applications and potential pitfalls.</p>
-<section id="sec-llm-foundations" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="sec-llm-foundations"><span class="header-section-number">3.1</span> Foundations of Large Language Models</h2>
-<p>This section introduces the fundamental concepts behind modern language models, focusing on transformer architectures that power tools like ChatGPT. We’ll explain how these models function, their capabilities for understanding scientific text, and their emerging role in generating code for image analysis tasks. We’ll demonstrate how microscopists can effectively use LLMs to learn new concepts, troubleshoot methods, and generate starting points for analysis scripts.</p>
+<p>Over the past decade, the way we analyze microscopy data has changed markedly. What began with specialized deep learning models for individual tasks — segmentation, denoising, classification — has evolved into a broader landscape where AI systems can assist with experiment planning, code generation, instrument control, and workflow adaptation. This chapter traces that evolution and equips microscopists with the knowledge to navigate it.</p>
+<p>We begin by examining the limitations of traditional deep learning and the rise of foundation models that generalize across imaging modalities. We then introduce large language models and explain how they work at an intuitive level (<a href="#sec-llm-foundations" class="quarto-xref"><span>Section 3.2</span></a>), before exploring how function calling transformed them from text generators into action-taking agents (<a href="#sec-function-calling" class="quarto-xref"><span>Section 3.3</span></a>). The chapter covers vision-language models for microscopy (<a href="#sec-multimodal-ai" class="quarto-xref"><span>Section 3.4</span></a>) and the growing ecosystem of AI agents that can orchestrate complex workflows, control instruments, and generate software on demand (<a href="#sec-ai-agents" class="quarto-xref"><span>Section 3.5</span></a>, <a href="#sec-disposable-software" class="quarto-xref"><span>Section 3.6</span></a>). A hands-on practical guide (<a href="#sec-practical-guide" class="quarto-xref"><span>Section 3.7</span></a>) provides concrete workflows for getting started, followed by an honest discussion of challenges, implications for the profession, and an outlook on where the field is headed (<a href="#sec-challenges" class="quarto-xref"><span>Section 3.8</span></a>).</p>
+<p>Throughout, we maintain a critical perspective: these tools offer genuine capabilities, but they also hallucinate, carry biases, and cannot replace the domain expertise of trained microscopists. Understanding both the power and the limitations is essential for responsible adoption.</p>
+<section id="sec-intro" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="sec-intro"><span class="header-section-number">3.1</span> From Deep Learning to Foundation Models and Generative AI</h2>
+<p>The application of artificial intelligence to microscopy has changed rapidly. The modern era began with <a href="./glossary.html#convolutional-neural-networks-cnns">convolutional neural networks</a> (CNNs), which improved how we process biological images. These <a href="./glossary.html#supervised-learning">supervised</a> models were trained to perform specific tasks: <a href="./glossary.html#image-classification">classifying images</a>, <a href="./glossary.html#binary-segmentation">segmenting structures</a>, <a href="./glossary.html#image-restoration">denoising acquisitions</a>, or <a href="./glossary.html#image-translation">translating between imaging modalities</a>. Architectures like <a href="./glossary.html#resnet">ResNet</a> (for image classification) and <a href="./glossary.html#u-net">U-Net</a> (for segmentation and image-to-image translation) became foundational not only in bioimaging but across <a href="./glossary.html#computer-vision">computer vision</a> more broadly (see <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> for a detailed discussion of these architectures).</p>
+<section id="the-extrapolation-problem-why-task-specific-models-break-down" class="level3" data-number="3.1.1">
+<h3 data-number="3.1.1" class="anchored" data-anchor-id="the-extrapolation-problem-why-task-specific-models-break-down"><span class="header-section-number">3.1.1</span> The Extrapolation Problem: Why Task-Specific Models Break Down</h3>
+<p>These early deep learning approaches showed impressive capabilities within their training domains, but they carry a fundamental and often underappreciated limitation: neural networks are sophisticated pattern-matching systems that work reliably only when processing inputs similar to their training data. They are poor at extrapolation. A network trained to segment fluorescent nuclei in one cell line, imaged on one microscope, at one magnification, may fail — sometimes silently — when applied to a different cell type, a different microscope, or even a different staining protocol. This brittleness has been documented systematically: standard neural networks fail at tasks as simple as arithmetic when tested outside their training range<span class="citation" data-cites="trask2018neural"><sup><a href="references.html#ref-trask2018neural" role="doc-biblioref">1</a></sup></span>, and the problem compounds for the complex, high-dimensional data typical of microscopy.</p>
+<p>To illustrate this, we conducted a simple experiment (see <a href="https://github.com/aicjanelia/BioImagingAI/tree/main/docs/3-llms-assets/neural_network_extrapolation_failure.py"><code>neural_network_extrapolation_failure.py</code></a>) where we trained a <a href="./glossary.html#multilayer-perceptron">multi-layer perceptron</a> to learn addition using numbers in the range [-1,1]. When tested on progressively larger ranges, the model’s performance degrades severely — with errors increasing by approximately 7,700× from the training range (<a href="#fig-extrapolation-failure" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>).</p>
+<div id="fig-extrapolation-failure" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-extrapolation-failure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="3-llms-assets/neural_network_extrapolation_failure.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-extrapolation-failure-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1: Neural network extrapolation failure in simple addition. A standard MLP trained on the range [-1,1] shows severe performance degradation on larger number ranges, despite addition being a simple operation that should generalize perfectly. This illustrates the core limitation of neural networks as pattern-matching systems that fail outside their training distribution.
+</figcaption>
+</figure>
+</div>
+<p><a href="#fig-cnn-domain-mismatch" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> demonstrates the same problem with direct relevance to microscopy. When we apply a standard ResNet50 model trained on ImageNet to a <a href="./glossary.html#natural-image">natural photograph</a>, it correctly identifies a cat with reasonable confidence. But when presented with a fluorescence microscopy image showing TRAP1 protein localization in human cells, the same model produces confident yet completely irrelevant predictions — “jellyfish” (36.2%), “sea anemone” (28.1%), “coral reef” (15.7%). The model has never encountered microscopy data, so it maps unfamiliar visual patterns onto the closest categories it knows.</p>
+<div id="fig-cnn-domain-mismatch" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cnn-domain-mismatch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="3-llms-assets/cnn_microscopy_failure.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cnn-domain-mismatch-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2: Domain mismatch between natural and microscopy images. A ResNet50 model trained on ImageNet correctly classifies a cat photograph (left) but produces confident, irrelevant predictions for a TRAP1 protein immunofluorescence image (right). Image credit: Human Protein Atlas (<a href="https://www.proteinatlas.org/ENSG00000126602-TRAP1">https://www.proteinatlas.org/ENSG00000126602-TRAP1</a>).
+</figcaption>
+</figure>
+</div>
+<p>A researcher unfamiliar with the model’s training background might trust these confident predictions, potentially misinterpreting biological data. The 36.2% confidence in “jellyfish” illustrates a general failure mode: neural networks can produce authoritative-sounding but scientifically meaningless outputs when applied outside their intended domain. Stretching these models beyond their training distribution can result in hallucinated objects, irrelevant labels assigned with deceptively high confidence, or artifacts that mislead biological interpretation.</p>
+<p>This does not mean that ImageNet-pretrained models are useless for microscopy — in practice, most deep learning approaches in bioimaging start from ImageNet-pretrained weights and then fine-tune on domain-specific data. But even after fine-tuning, the base model retains learned features from its original training. When the model encounters microscopy images with visual patterns that happen to resemble natural objects — jellyfish-like fluorescent textures, coral-like tissue structures — these embedded representations can influence predictions, potentially introducing systematic biases.</p>
 </section>
-<section id="sec-multimodal-ai" class="level2" data-number="3.2">
-<h2 data-number="3.2" class="anchored" data-anchor-id="sec-multimodal-ai"><span class="header-section-number">3.2</span> Multi-modal AI: Vision-Language Models and Generative AI</h2>
-<p>Moving beyond text-only interfaces, multi-modal models combine language understanding with visual processing capabilities. This section explores how Vision-Language Models (VLMs) like GPT-4o can “see” and interpret microscopy images, assist with image annotation, and even aid in experimental design. We’ll also cover generative AI technologies including diffusion models that can create synthetic training data, perform style transfer, or convert microscopy images into vector graphics for publications.</p>
+<section id="the-rise-of-generalist-and-foundation-models" class="level3" data-number="3.1.2">
+<h3 data-number="3.1.2" class="anchored" data-anchor-id="the-rise-of-generalist-and-foundation-models"><span class="header-section-number">3.1.2</span> The Rise of Generalist and Foundation Models</h3>
+<p>A major trend in bioimage analysis has been the shift from narrow, task-specific models toward <strong>generalist</strong> and <a href="./glossary.html#foundation-model">foundation models</a> that work across diverse imaging conditions without retraining.</p>
+<p><strong>Cellpose</strong> pioneered this approach for cell segmentation. By training on a diverse dataset spanning fluorescence, brightfield, and even non-microscopy images with similar visual characteristics, Cellpose achieved strong generalization across cell types and imaging modalities that previous models required separate training for. Cellpose 3<span class="citation" data-cites="stringer2025cellpose3"><sup><a href="references.html#ref-stringer2025cellpose3" role="doc-biblioref">2</a></sup></span> further advanced this by introducing one-click image restoration that enables segmentation even of degraded images — noisy, blurry, or undersampled data that would defeat earlier models.</p>
+<p><strong>Segment Anything Model (SAM)</strong>, released by Meta in 2023, advanced the field of promptable segmentation further. Trained on over one billion masks from 11 million images, SAM demonstrated that a single model could segment essentially any object in any image through simple prompts (points, boxes, or text). Despite being trained entirely on natural images, SAM showed unexpected capability on out-of-domain scientific images, sparking a wave of microscopy-specific adaptations:</p>
+<ul>
+<li><strong>micro-SAM</strong><span class="citation" data-cites="Archit2025"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">3</a></sup></span> fine-tuned SAM specifically for light and electron microscopy, extending it to support 3D segmentation and cell tracking. micro-SAM provides interactive segmentation tools through a napari plugin, making foundation model capabilities directly accessible to microscopists.</li>
+<li><strong>CellSAM</strong><span class="citation" data-cites="cellsam2025"><sup><a href="references.html#ref-cellsam2025" role="doc-biblioref">4</a></sup></span> combined SAM with a custom cell detection module (CellFinder) to achieve expert-level segmentation performance across mammalian cells, yeast, and bacteria — all with a single unified model.</li>
+<li><strong>Cellpose-SAM</strong><span class="citation" data-cites="pachitariu2025cellposesam"><sup><a href="references.html#ref-pachitariu2025cellposesam" role="doc-biblioref">5</a></sup></span> adapted SAM’s pretrained transformer backbone to the Cellpose framework, achieving what the authors describe as superhuman generalization for cellular segmentation across diverse imaging conditions.</li>
+</ul>
+<p>The key insight is that models trained on vast, diverse datasets can learn transferable visual features that generalize well to microscopy. A model that has processed billions of natural images learns representations of edges, textures, boundaries, and object structure that transfer effectively, even to fluorescent cells it has never encountered. This is the same principle underlying <a href="./glossary.html#transfer-learning">transfer learning</a>, but operating at a much larger scale.</p>
+<p>While these generalist models have made deep learning safer and more accessible, they remain largely focused on segmentation — a relatively well-defined computational task. More complex microscopy challenges such as classification across diverse experimental conditions, image restoration, spectral unmixing, or artificial labeling still require task-specific approaches. The gap between what generalist models can do and what microscopy research demands is precisely the space that <a href="./glossary.html#large-language-model-llm">large language models</a> and AI agents are beginning to fill.</p>
 </section>
-<section id="sec-ai-agents" class="level2" data-number="3.3">
-<h2 data-number="3.3" class="anchored" data-anchor-id="sec-ai-agents"><span class="header-section-number">3.3</span> AI Agents for Microscopy Workflows</h2>
-<p>AI agents represent the next evolution - autonomous systems that combine language understanding with specialized scientific knowledge and the ability to execute actions. We’ll examine microscopy-specific tools like Omega and the BioImage.io chatbot that can perform complex bioimage analysis workflows through natural language instructions. This section will explore chain-of-thought reasoning, code generation and execution capabilities, and how these agents use visual feedback to iteratively improve results.</p>
+<section id="the-complexity-challenge" class="level3" data-number="3.1.3">
+<h3 data-number="3.1.3" class="anchored" data-anchor-id="the-complexity-challenge"><span class="header-section-number">3.1.3</span> The Complexity Challenge</h3>
+<p>Microscopy imaging presents complexity well beyond segmentation. Researchers routinely work with diverse labeling schemes, varying numbers of channels, different spatial scales, temporal dimensions, and countless combinations of experimental conditions. These multifaceted combinations make it difficult to build generalist models for broader tasks, and as a result, the vast majority of models remain highly task- and data-specific. This proliferation has driven community efforts such as the BioImage Model Zoo (<a href="https://bioimage.io">https://bioimage.io</a>) — a collaborative initiative to facilitate sharing of AI models across input image types and architectures, providing essential infrastructure for the community (<a href="#fig-bioimage-model-zoo" class="quarto-xref">Figure&nbsp;<span>3.3</span></a>).</p>
+<div id="fig-bioimage-model-zoo" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-bioimage-model-zoo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="3-llms-assets/bioimage-model-zoo-screenshot.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-bioimage-model-zoo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3: The BioImage Model Zoo serves as a centralized repository promoting FAIR (Findable, Accessible, Interoperable, and Reusable) principles for AI models in bioimage analysis. The platform integrates with popular tools including ilastik, ImageJ/Fiji, QuPath, napari, and others, allowing researchers to access AI models through familiar interfaces.
+</figcaption>
+</figure>
+</div>
+<p>Yet the growing ecosystem has also revealed an accessibility paradox. Model developers struggle with diverse training data requirements, validation protocols, and framework compatibility, while the burden of creating user-friendly interfaces often exceeds available time. Users face the opposite problem: an overwhelming array of model choices without clear guidance on which to select, complex software installations, and limited technical expertise to validate whether a model works on their specific data. As highlighted by Ouyang, et al.<span class="citation" data-cites="ouyang2023moving"><sup><a href="references.html#ref-ouyang2023moving" role="doc-biblioref">6</a></sup></span>, the traditional desktop-centric paradigm — where analysis occurs in isolation on a single workstation — creates barriers to collaboration and reproducibility. While AI capabilities have advanced considerably, the practical barriers to using these tools have in many cases increased, widening the gap between AI potential and real-world adoption in biological research.</p>
+<p>Modern microscopy data volumes amplify these challenges further. Terabytes of high-resolution images from time-lapse experiments, multi-channel fluorescence imaging, and high-content screening assays require sophisticated visualization and extensive manual interaction. Many important patterns, subtle phenotypes, or rare events are simply missed due to practical limitations of human-driven exploration.</p>
 </section>
-<section id="sec-challenges" class="level2" data-number="3.4">
-<h2 data-number="3.4" class="anchored" data-anchor-id="sec-challenges"><span class="header-section-number">3.4</span> Challenges and Limitations</h2>
-<p>While powerful, AI assistants come with significant limitations that microscopists must understand. This section addresses critical challenges including: - <button class="glossary" title="Outputs from a model that do not have a basis in the input data and may contain false or misleading information.">hallucinations</button> and factual errors in generated content - The “black box” nature of models and concerns about reproducibility - Alignment problems when tools lack domain-specific knowledge - The need for human validation and the dangers of overreliance - Practical strategies for steering models toward scientifically valid outputs</p>
+<section id="summary-the-evolution-of-ai-models-for-microscopy" class="level3" data-number="3.1.4">
+<h3 data-number="3.1.4" class="anchored" data-anchor-id="summary-the-evolution-of-ai-models-for-microscopy"><span class="header-section-number">3.1.4</span> Summary: The Evolution of AI Models for Microscopy</h3>
+<p>To orient readers, <a href="#tbl-model-evolution" class="quarto-xref">Table&nbsp;<span>3.1</span></a> summarizes the key model types discussed in this chapter — from traditional convolutional neural networks to modern AI agents — along with their inputs, outputs, and example tools.</p>
+<div id="tbl-model-evolution" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-model-evolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1: Evolution of AI model types relevant to microscopy, from task-specific deep learning to general-purpose AI agents.
+</figcaption>
+<div aria-describedby="tbl-model-evolution-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th><strong>Model Type</strong></th>
+<th><strong>Input</strong></th>
+<th><strong>Output</strong></th>
+<th><strong>Task Type</strong></th>
+<th><strong>Example Tools</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="./glossary.html#Convolutional-Neural-Networks-CNNs">CNNs</a></td>
+<td>Images</td>
+<td>Labels</td>
+<td>Classification</td>
+<td>ResNet</td>
+</tr>
+<tr class="even">
+<td><a href="./glossary.html#u-net">U-Net variants</a></td>
+<td>Images</td>
+<td>Masks, restored images</td>
+<td>Segmentation, restoration</td>
+<td>U-Net, Cellpose</td>
+</tr>
+<tr class="odd">
+<td><a href="./glossary.html#large-language-model-llm">LLMs</a></td>
+<td>Text</td>
+<td>Text, code</td>
+<td>Natural language, code generation</td>
+<td>ChatGPT, Claude</td>
+</tr>
+<tr class="even">
+<td><a href="./glossary.html#vision-language-model-vlm">VLMs</a></td>
+<td>Images + Text</td>
+<td>Text, annotations</td>
+<td>Visual Q&amp;A, classification, description</td>
+<td>GPT-4o/5, Gemini, Claude</td>
+</tr>
+<tr class="odd">
+<td><a href="./glossary.html#ai-agent">AI Agents</a></td>
+<td>Files + Prompts</td>
+<td>Code, results, workflows</td>
+<td>Tool orchestration, autonomous analysis</td>
+<td>Claude Code, Gemini CLI, Codex, Omega, BioImage.IO Chatbot</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
 </section>
-<section id="sec-future" class="level2" data-number="3.5">
-<h2 data-number="3.5" class="anchored" data-anchor-id="sec-future"><span class="header-section-number">3.5</span> Future Directions</h2>
-<p>The intersection of LLMs and microscopy is rapidly evolving. This final section examines emerging capabilities and future possibilities, including: - Generalist vision-language models capable of performing diverse analysis tasks - Models that can directly transform input images into processed outputs - The integration of AI agents with microscope hardware for fully autonomous imaging - Smart microscopy systems that adapt acquisition parameters based on real-time image understanding - Ethical considerations and best practices for responsible AI adoption in biological research</p>
+<section id="the-path-forward-from-generative-ai-to-ai-agents" class="level3" data-number="3.1.5">
+<h3 data-number="3.1.5" class="anchored" data-anchor-id="the-path-forward-from-generative-ai-to-ai-agents"><span class="header-section-number">3.1.5</span> The Path Forward: From Generative AI to AI Agents</h3>
+<p>Large language models (LLMs) — such as those from OpenAI, Google, and Anthropic — interact through natural language rather than specialized interfaces. They can generate code, provide explanations, and execute actions through conversation, lowering many of the technical barriers that have limited AI adoption in microscopy.</p>
+<p>A critical development was the introduction of <a href="./glossary.html#function-calling">function calling</a> (also called tool use) — the ability for LLMs to invoke external tools, APIs (application programming interface), and software through structured interfaces rather than generating plain text. First introduced by OpenAI in June 2023, function calling transformed LLMs from text generators into systems that can execute code, query databases, control instruments, and interact with scientific software. Combined with standardized protocols like Anthropic’s <a href="./glossary.html#model-context-protocol-mcp">Model Context Protocol</a> (MCP, announced November 2024), this created a general-purpose interface layer connecting AI reasoning to existing scientific tools.</p>
+<p>With tool-calling capabilities, LLMs can operate as <a href="./glossary.html#ai-agents">AI agents</a> — systems that plan actions, execute them, observe outcomes, and adapt iteratively. For bioimaging, this means AI agents can help select analysis methods, configure parameters, generate custom code, and troubleshoot failures through natural language interactions. Multimodal language models can also interpret microscopy images directly, combining visual understanding with code generation in a single interface. However, as we discuss throughout this chapter, these capabilities come with important limitations requiring careful human oversight.</p>
+<p>The following sections explore each of these developments: how LLMs work (<a href="#sec-llm-foundations" class="quarto-xref"><span>Section 3.2</span></a>), how function calling enables tool use (<a href="#sec-function-calling" class="quarto-xref"><span>Section 3.3</span></a>), how vision-language models handle microscopy images (<a href="#sec-multimodal-ai" class="quarto-xref"><span>Section 3.4</span></a>), and how AI agents are reshaping experimental workflows (<a href="#sec-ai-agents" class="quarto-xref"><span>Section 3.5</span></a>, <a href="#sec-disposable-software" class="quarto-xref"><span>Section 3.6</span></a>).</p>
 </section>
-<section id="sec-practical-guide" class="level2" data-number="3.6">
-<h2 data-number="3.6" class="anchored" data-anchor-id="sec-practical-guide"><span class="header-section-number">3.6</span> Practical Guide: Getting Started with LLMs for Microscopy</h2>
-<p>This hands-on section provides step-by-step guidance for microscopists to begin leveraging LLMs effectively, including: - Crafting effective prompts that produce reliable, scientific outputs - Using ChatGPT and similar tools to learn imaging concepts and generate analysis code - Getting started with BioImage.io tools and microscopy-specific AI agents - Strategies for validating and verifying AI-generated solutions - Example workflows demonstrating LLM integration into real microscopy analysis tasks</p>
+</section>
+<section id="sec-llm-foundations" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="sec-llm-foundations"><span class="header-section-number">3.2</span> Foundations of Large Language Models: An Intuitive Primer</h2>
+<p>At its core, a Large Language Model (LLM) like ChatGPT, Gemini, or Claude is a text prediction engine operating at enormous scale. Its fundamental task is: given a sequence of text, predict the most probable next word. The autocomplete feature on your phone does something similar, but an LLM applies this principle with billions of parameters trained on a substantial fraction of human-written text. By repeatedly predicting the next word, an LLM can generate fluent, coherent paragraphs — and in the process, exhibit capabilities that go well beyond simple text completion, including code generation, logical reasoning, and scientific explanation.</p>
+<section id="how-llms-learn-training-on-the-worlds-text" class="level3" data-number="3.2.1">
+<h3 data-number="3.2.1" class="anchored" data-anchor-id="how-llms-learn-training-on-the-worlds-text"><span class="header-section-number">3.2.1</span> How LLMs Learn: Training on the World’s Text</h3>
+<p>The “Large” in LLM refers to two aspects: the size of the neural network (with billions of adjustable parameters) and the volume of text it learns from. Training involves feeding the model a massive dataset comprising a significant portion of the public internet, digital books, scientific articles, and code repositories.</p>
+<p>The training objective is conceptually straightforward: given a sequence of text, the model learns to predict the next word. For example, given the partial sentence “The scientist placed the sample on the microscope,” the model learns that “stage” is a likely next word. Before training, predictions are essentially random, but through billions of examples, the model gradually learns which words tend to follow which, adjusting its internal connections to improve predictions (see <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> for more details on the mechanics of training).</p>
+<p>To process text, the model first breaks sentences into <a href="./glossary.html#tokens">tokens</a> — chunks that may be whole words or subword pieces. For instance, “microscope” might be a single token, while “fluorescence” might be split into “fluor” + “escence.” Each token is converted into a numerical vector through a process called <a href="./glossary.html#embedding-space">embedding</a>, creating a mathematical representation that captures meaning and context. These vectors pass through layers of the neural network, where the model learns how words relate to each other. After training on billions of sentences, the model develops a rich statistical map of language — the relationships between words, phrases, and concepts.</p>
+</section>
+<section id="the-transformer-a-revolution-in-understanding-context" class="level3" data-number="3.2.2">
+<h3 data-number="3.2.2" class="anchored" data-anchor-id="the-transformer-a-revolution-in-understanding-context"><span class="header-section-number">3.2.2</span> The Transformer: A Revolution in Understanding Context</h3>
+<p>The critical breakthrough enabling modern LLMs is the <a href="./glossary.html#transformer-models">transformer architecture</a>, introduced by Vaswani et al.&nbsp;in 2017. Before this innovation, language models had very short “memory” and would lose track of context in longer text. The transformer introduced a mechanism called <a href="./glossary.html#self-attention">self-attention</a>, which allows the model to weigh the importance of every word in the input simultaneously, regardless of position. When processing the sentence “The <em>cell</em> was stained with DAPI, which binds to DNA in the <em>nucleus</em>,” the attention mechanism enables the model to connect “nucleus” to “cell,” maintaining long-range context and generating coherent, relevant responses.</p>
+</section>
+<section id="fine-tuning-for-domain-specific-tasks-an-imagej-macro-example" class="level3" data-number="3.2.3">
+<h3 data-number="3.2.3" class="anchored" data-anchor-id="fine-tuning-for-domain-specific-tasks-an-imagej-macro-example"><span class="header-section-number">3.2.3</span> Fine-Tuning for Domain-Specific Tasks: An ImageJ Macro Example</h3>
+<p>While the scale of training models like ChatGPT or Claude seems daunting, the underlying principles are accessible. To illustrate how LLMs can be adapted for domain-specific code generation, consider how one might fine-tune a small language model to generate ImageJ macros — simple scripts that automate repetitive tasks in <a href="./glossary.html#fiji">Fiji</a>/ImageJ, one of the most widely used tools in microscopy.</p>
+<p>The process begins with <strong>data collection</strong>: gathering domain-specific examples, such as ImageJ macro files (<code>.ijm</code>) from public GitHub repositories. Even a modest collection — say, 28 macro files totaling about 82,000 characters — provides enough material for a small model to learn the syntax and patterns of ImageJ macro language.</p>
+<p>Rather than training from scratch, this approach uses <a href="./glossary.html#transfer-learning">transfer learning</a>: starting with a small, pre-trained model (such as SmolLM2<span class="citation" data-cites="allal2024smollm2"><sup><a href="references.html#ref-allal2024smollm2" role="doc-biblioref">7</a></sup></span> with 135 million parameters — orders of magnitude smaller than commercial frontier models) and <a href="./glossary.html#fine-tuning">fine-tuning</a> it on microscopy-specific code. During fine-tuning, the model learns to predict the next token in ImageJ macro sequences, absorbing the syntax, common function calls, and typical workflow patterns. On a modern laptop, this process can complete in 10–20 minutes without specialized hardware.</p>
+<p>After fine-tuning, such a model can generate plausible ImageJ macro code from natural language prompts. When asked to “Create a macro to threshold an image,” it might produce something like:</p>
+<pre><code>setThreshold(50, 255);
+run("Convert to Mask");
+run("Analyze Particles...", "size=20-Infinity");</code></pre>
+<p>This small-scale example illustrates the same principle behind commercial LLMs: learn statistical patterns of language from large amounts of text, then specialize through fine-tuning. The difference is one of scale — frontier models train on orders of magnitude more data with vastly larger networks — but the core mechanism is the same.</p>
+</section>
+<section id="code-generation-for-microscopy-capabilities-and-limits" class="level3" data-number="3.2.4">
+<h3 data-number="3.2.4" class="anchored" data-anchor-id="code-generation-for-microscopy-capabilities-and-limits"><span class="header-section-number">3.2.4</span> Code Generation for Microscopy: Capabilities and Limits</h3>
+<p>For bioimage analysis, LLM code generation is most valuable when it bridges the gap between a researcher who understands what analysis they need and the programming required to implement it. A microscopist who knows they need to measure nuclear fluorescence intensity across treatment conditions can describe this to an LLM and receive a working Python script — without memorizing the syntax for loading TIFF files or calling scikit-image functions. This lowers the barrier to computational analysis, particularly for researchers who understand the biology but lack extensive programming backgrounds.</p>
+<p>How well does this actually work? A rigorous benchmark by Haase, et. al.<span class="citation" data-cites="haase2024benchmark"><sup><a href="references.html#ref-haase2024benchmark" role="doc-biblioref">8</a></sup></span> evaluated 18 LLMs on 57 bioimage analysis coding tasks with unit tests. The best-performing model (Claude 3.5 Sonnet) achieved a 58% pass rate, followed by GPT-4o at 50%. Notably, some tasks — including deconvolution, surface measurement, and voxel size reading — could not be solved by any model tested. A broader evaluation across 293 biomedical data science tasks found that standalone LLMs achieve under 40% accuracy, but an iterative agent approach — where the system executes code, observes errors, and refines its solution — raised accuracy to 74%<span class="citation" data-cites="wang2026llmcopilot"><sup><a href="references.html#ref-wang2026llmcopilot" role="doc-biblioref">9</a></sup></span>. These benchmark numbers will change as models improve, but they provide a realistic snapshot: AI-generated code is a useful starting point, not a finished product.</p>
+<p>AI-assisted code generation has not reached the point where users without any programming understanding can reliably build complex analysis pipelines. Users still need foundational computational thinking — not necessarily memorized syntax, but the ability to decompose problems into discrete steps, recognize when an output looks wrong, and evaluate whether an approach is appropriate for their data. AI-assisted programming lowers the barrier to entry; it does not eliminate the need for scientific judgment about what the code should do.</p>
+</section>
+</section>
+<section id="sec-function-calling" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="sec-function-calling"><span class="header-section-number">3.3</span> From Text Generation to Action: Function Calling and Tool Use</h2>
+<p>A critical limitation of early LLMs was that they could only produce text. A researcher could ask ChatGPT how to segment nuclei in a DAPI image, and the model would generate a Python script — but the researcher still had to copy that code, set up the right software environment, install dependencies, debug errors, and run it themselves. The model was knowledgeable but unable to act.</p>
+<p><strong>Function calling</strong> (also known as tool use), first introduced for LLMs by OpenAI in June 2023 and rapidly adopted across the industry, changed this. Instead of merely describing what a user should do, an LLM can now invoke external tools, pass structured parameters, receive results, and reason about what to do next.</p>
+<section id="how-function-calling-works" class="level3" data-number="3.3.1">
+<h3 data-number="3.3.1" class="anchored" data-anchor-id="how-function-calling-works"><span class="header-section-number">3.3.1</span> How Function Calling Works</h3>
+<p>In a function-calling workflow, the LLM is provided with a set of <a href="./glossary.html#tool-definitions">tool definitions</a> — structured descriptions of available functions, their parameters, and expected inputs. When a user makes a request, the model reasons about which tools are needed, generates structured calls with correct parameters, receives results, and decides whether to take further action or report findings.</p>
+<p>Consider a concrete example. A microscopist asks: “Measure the average fluorescence intensity in the green channel of my image.” Without function calling, the LLM would write a Python script and ask the user to run it. With function calling, the model directly invokes analysis tools in sequence:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode json code-with-copy"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"tool"</span><span class="fu">:</span> <span class="st">"load_image"</span><span class="fu">,</span> <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"path"</span><span class="fu">:</span> <span class="st">"experiment_01.tif"</span><span class="fu">}}</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"tool"</span><span class="fu">:</span> <span class="st">"extract_channel"</span><span class="fu">,</span> <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"image"</span><span class="fu">:</span> <span class="st">"..."</span><span class="fu">,</span> <span class="dt">"channel"</span><span class="fu">:</span> <span class="st">"green"</span><span class="fu">}}</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">"tool"</span><span class="fu">:</span> <span class="st">"measure_intensity"</span><span class="fu">,</span> <span class="dt">"params"</span><span class="fu">:</span> <span class="fu">{</span><span class="dt">"image"</span><span class="fu">:</span> <span class="st">"..."</span><span class="fu">,</span> <span class="dt">"metric"</span><span class="fu">:</span> <span class="st">"mean"</span><span class="fu">}}</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Each call returns a result that the model inspects before deciding on the next step. If the image fails to load — perhaps the file format is unexpected — the model can read the error, try a different loading function, and continue. This structured, machine-readable interface between AI reasoning and tool execution is fundamentally different from generating a script and hoping the user can run it correctly.</p>
+</section>
+<section id="from-fragmented-tools-to-a-universal-protocol" class="level3" data-number="3.3.2">
+<h3 data-number="3.3.2" class="anchored" data-anchor-id="from-fragmented-tools-to-a-universal-protocol"><span class="header-section-number">3.3.2</span> From Fragmented Tools to a Universal Protocol</h3>
+<p>Function calling became an industry standard quickly — by early 2024, every major LLM provider supported structured tool invocation. Two subsequent developments made it considerably more powerful for scientific applications.</p>
+<p>First, <strong>multimodal function calling</strong> (introduced with GPT-4o in May 2024) allowed a model to examine an image and call analysis tools in a single interaction. A researcher could upload a confocal image and ask “segment the nuclei,” and the model would both interpret the image visually and invoke the appropriate segmentation tool — combining perception with action.</p>
+<p>Second, a key practical challenge was <strong>fragmentation</strong>: every tool provider defined its own interface format, making it difficult to connect a single agent to diverse software. Anthropic’s <strong>Model Context Protocol (MCP)</strong>, announced in November 2024, addressed this by providing an open standard for connecting AI agents to external tools and data sources. MCP gives any AI model a universal way to discover and use any compatible tool — analogous to how USB standardized device connectivity. For microscopy, MCP means that a single agent could potentially access a microscope control system, an image analysis library, a literature database, and a model repository through the same protocol. By late 2025, MCP had been adopted as an industry-wide standard, with donation to the Linux Foundation and support from major AI providers.</p>
+<p>Together, these developments transformed function calling from a feature of individual chatbots into the backbone of AI agent systems. Current frontier models combine large <a href="./glossary.html#context-window">context windows</a> with sophisticated tool use, enabling agents to work with entire experimental datasets in a single session. The practical impact for microscopy is explored in <a href="#sec-ai-agents" class="quarto-xref"><span>Section 3.5</span></a>.</p>
+</section>
+<section id="from-chatbots-to-agents-the-trust-escalation" class="level3" data-number="3.3.3">
+<h3 data-number="3.3.3" class="anchored" data-anchor-id="from-chatbots-to-agents-the-trust-escalation"><span class="header-section-number">3.3.3</span> From Chatbots to Agents: The Trust Escalation</h3>
+<p>Function calling created a spectrum of increasing autonomy. At one end sits <strong>assisted mode</strong>, where the AI suggests tool calls but a human approves each one — useful when learning a new workflow or working with unfamiliar data. In the middle is <strong>supervised mode</strong>, where routine actions (loading an image, running a standard segmentation) execute automatically while consequential ones (deleting data, modifying acquisition settings) require confirmation. At the far end is <strong>autonomous mode</strong>, where the AI plans and executes multi-step workflows with minimal human intervention, checking in only for high-stakes decisions.</p>
+<p>This progression mirrors how we delegate tasks to human colleagues — starting with close supervision and gradually extending trust as competence is demonstrated. In microscopy, the boundaries matter: an AI agent might autonomously run routine segmentation, but it should pause before modifying acquisition parameters on an expensive experiment, before discarding images that might contain rare biological events, or before committing to an irreversible analysis method. Deciding where to draw these boundaries is a design decision that each laboratory must make based on the stakes of the experiment.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Function Calling in Practice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you ask a modern AI agent to “segment the nuclei in my DAPI image and count them,” the agent does not just write a script. It directly calls a segmentation tool (e.g., Cellpose or <a href="https://stardist.net/">StarDist</a><span class="citation" data-cites="Schmidt2018"><sup><a href="references.html#ref-Schmidt2018" role="doc-biblioref">10</a></sup></span>), passes your image, retrieves the segmentation mask, calls a counting function, and returns the result with a visualization. Each step is a structured tool call with typed parameters — not free-form text generation. If any step fails, the agent reads the error and adapts its approach.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-multimodal-ai" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="sec-multimodal-ai"><span class="header-section-number">3.4</span> Multi-modal AI: Vision-Language Models for Microscopy</h2>
+<p>Biological research is inherently multi-modal. A microscopy experiment produces not just images but also metadata about the sample preparation, the imaging conditions, the fluorescent labels used, and the biological question being asked. Traditional image analysis pipelines discard most of this context: a segmentation algorithm processes pixel intensities without knowing what protein is being labeled or what drug treatment was applied. <a href="./glossary.html#vision-language-model-vlm">Vision-language models (VLMs)</a> — models that process both images and text within a single architecture — offer a different approach. By accepting natural language alongside visual input, they can incorporate experimental context into their analysis, at least in principle.</p>
+<p>As of early 2026, all major LLM providers offer VLM capabilities (OpenAI’s GPT-5 series, Anthropic’s Claude 4.5/4.6, Google’s Gemini 3 Pro, and open-source models such as Meta’s Llama 4). These models accept images as input alongside text prompts and can generate text descriptions, answer questions about visual content, and — when combined with function calling (<a href="#sec-function-calling" class="quarto-xref"><span>Section 3.3</span></a>) — invoke analysis tools based on what they see.</p>
+<section id="how-vlms-interpret-microscopy-images" class="level3" data-number="3.4.1">
+<h3 data-number="3.4.1" class="anchored" data-anchor-id="how-vlms-interpret-microscopy-images"><span class="header-section-number">3.4.1</span> How VLMs Interpret Microscopy Images</h3>
+<p>The difference between a VLM and a traditional CNN becomes clear when both encounter unfamiliar data. As demonstrated in <a href="#sec-intro" class="quarto-xref"><span>Section 3.1</span></a>, a ResNet50 model trained on ImageNet confidently misclassified a fluorescence microscopy image of TRAP1 protein as “jellyfish” — the model had no mechanism to recognize that it was looking at something outside its training categories. <a href="#fig-vlm-generalization" class="quarto-xref">Figure&nbsp;<span>3.4</span></a> shows what happens when a VLM encounters the same image. Rather than forcing the image into a predefined label set, the VLM recognized it as fluorescence microscopy and described the cellular structures in biological terms, acknowledging the limits of what it could determine from the image alone.</p>
+<div id="fig-vlm-generalization" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-vlm-generalization-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="3-llms-assets/vlm_generalization_comparison.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-vlm-generalization-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.4: VLM generalization comparison using the same cat and microscopy images from <a href="#fig-cnn-domain-mismatch" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>. Unlike the CNN, the VLM provides contextually appropriate descriptions for the microscopy image, recognizing it as fluorescence microscopy with biologically meaningful classifications rather than confident misidentifications.
+</figcaption>
+</figure>
+</div>
+<p>This difference stems from how the models are built. A CNN trained for classification must assign one of its predefined labels to every input — it has no way to say “I don’t recognize this.” A VLM, by contrast, generates open-ended text responses and can express uncertainty, describe what it observes, and qualify its interpretations. When combined with token-level log-probability outputs (<a href="./glossary.html#logprobs">logprobs</a>), VLMs can provide rough indicators of their own confidence — though these reflect the model’s internal state rather than calibrated probabilities, and should not be interpreted as rigorous uncertainty estimates.</p>
+<p>VLMs can also perform <a href="./glossary.html#visual-question-answering">Visual Question Answering (VQA)</a> on biological images. When asked to analyze the TRAP1 protein image in detail, a modern VLM described the imaging modality, identified the likely fluorescent channels (blue DAPI nuclear staining, red cytoskeletal structures, green organelle labeling), and offered interpretations about intracellular organization. This contextual analysis from a general-purpose model — one not specifically trained on microscopy data — goes beyond what a classifier can provide. However, these interpretations should be treated as informed hypotheses, not established facts: VLMs can produce plausible-sounding but incorrect biological descriptions, particularly for specialized imaging techniques or unusual sample preparations. Early benchmarks suggest competitive performance on some biomedical image classification tasks in zero-shot settings, though results vary considerably across imaging modalities and systematic evaluations on microscopy-specific data remain limited.</p>
+</section>
+<section id="practical-capabilities-and-current-limitations" class="level3" data-number="3.4.2">
+<h3 data-number="3.4.2" class="anchored" data-anchor-id="practical-capabilities-and-current-limitations"><span class="header-section-number">3.4.2</span> Practical Capabilities and Current Limitations</h3>
+<p>The combination of visual understanding and language generation enables a workflow pattern that was impossible with text-only models: <strong>vision-guided programming</strong>. A researcher can upload a microscopy image, ask the VLM to suggest an appropriate analysis strategy, have it generate the corresponding code, execute that code, show the VLM the output, and iterate based on visual inspection of the results. This tight feedback loop between seeing and coding is particularly valuable for microscopy, where visual inspection of intermediate results — checking whether a segmentation mask aligns with cell boundaries, whether background subtraction was adequate, whether a threshold captures the structures of interest — is a routine part of quality control.</p>
+<p>An important convergence is emerging between VLMs and the foundation models for segmentation discussed in <a href="#sec-intro" class="quarto-xref"><span>Section 3.1</span></a>. Models like CellSAM, micro-SAM, and Cellpose-SAM provide validated, high-performance segmentation across diverse imaging modalities. VLMs contribute broad visual understanding and natural language reasoning. When connected through function calling (<a href="#sec-function-calling" class="quarto-xref"><span>Section 3.3</span></a>), these capabilities combine: a researcher describes their goal (“segment all cells and measure their nuclear-to-cytoplasmic ratio”), the VLM interprets the intent, selects and invokes the appropriate segmentation model, and explains the results. The precision comes from the specialized tool; the flexibility comes from the language interface (see also <a href="8-existing-tools.html" class="quarto-xref"><span>Chapter 8</span></a> for guidance on selecting analysis tools, and <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a> for model training approaches).</p>
+<p>Despite these capabilities, several practical constraints limit where VLMs are useful today. Processing a single high-resolution microscopy image through a frontier VLM can cost several cents in API fees — acceptable for exploratory analysis of a few images, but prohibitive for high-content screening experiments involving thousands of images. Inference is slow (seconds per image rather than milliseconds), and the computational requirements carry a considerable environmental footprint. Most importantly, the quality of VLM outputs on specialized scientific imagery, while often useful, is inconsistent: a VLM might correctly identify imaging modalities and fluorescent channels in one image, then misinterpret a phase-contrast image as brightfield in the next.</p>
+<p>These constraints position VLMs most effectively in <a href="./glossary.html#human-in-the-loop">human-in-the-loop</a> roles: initial data exploration, annotation quality control, generating training labels for specialized models, and helping researchers develop analysis strategies. In these applications, the cost per image is acceptable, speed is not critical, and expert oversight is already part of the workflow. For production analysis at scale, dedicated pipelines built on specialized models remain the practical choice — but VLMs are increasingly useful for designing those pipelines in the first place.</p>
+</section>
+</section>
+<section id="sec-ai-agents" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="sec-ai-agents"><span class="header-section-number">3.5</span> AI Agents for Microscopy and Workflow Orchestration</h2>
+<p>LLMs and VLMs provide powerful individual capabilities — generating text, writing code, interpreting images — but each interaction is essentially one-shot: the user asks, the model responds. <strong>AI agents</strong> extend these models into systems that can take actions (running code, calling APIs, controlling hardware), observe the results, and adapt their approach iteratively. Where a language model answers a question, an agent works through a problem step by step until it reaches a solution — or recognizes that it cannot.</p>
+<section id="sec-what-are-agents" class="level3" data-number="3.5.1">
+<h3 data-number="3.5.1" class="anchored" data-anchor-id="sec-what-are-agents"><span class="header-section-number">3.5.1</span> What Are AI Agents?</h3>
+<p>At its core, an AI agent is a system built around a language model that operates in a loop: it <strong>observes</strong> the current state (an image, a dataset, an error message), <strong>reasons</strong> about what to do next, <strong>acts</strong> by invoking tools or executing code, and then <strong>observes</strong> the outcome — repeating until the task is complete. This observe-reason-act cycle, formalized in frameworks like ReAct<span class="citation" data-cites="yao2022react"><sup><a href="references.html#ref-yao2022react" role="doc-biblioref">11</a></sup></span>, is what distinguishes an agent from a chatbot.</p>
+<p>An important question is how agents handle uncertainty — when should they recognize that they cannot answer a query with sufficient confidence? Unlike traditional software that either succeeds or throws an error, language models can produce plausible-sounding but incorrect responses without any internal “failure signal.” Current agents address this through several mechanisms: well-designed system prompts that instruct the model to express uncertainty rather than guess, tool calls that ground responses in verifiable data (e.g., retrieving documentation rather than reciting from memory), and confidence calibration through chain-of-thought reasoning where the model explicitly weighs evidence before responding. In practice, agents are more reliable when they can verify claims through tool use — for instance, running code to check whether a function exists rather than asserting that it does. For microscopy users, this means that agent responses backed by executed code or retrieved documentation are generally more trustworthy than ungrounded assertions about biology or software capabilities. When an agent says “I’m not sure” or asks for clarification, this is often a better outcome than a confident but incorrect answer.</p>
+<p>The evolution of agent design reflects a shift in philosophy. Early agents followed <a href="./glossary.html#agentic-workflow">agentic workflows</a> — hand-designed sequences of tool calls with human-specified decision points. A developer would define: “first call the segmentation tool, then if the count is above 100 switch to algorithm B.” These workflows were effective but rigid: every decision point had to be anticipated in advance.</p>
+<p>Current practice favors <a href="./glossary.html#general-agency">general agency</a>: giving agents access to broad capabilities — a terminal, a file system, APIs, analysis libraries — and letting them determine the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal (“segment and count the nuclei in this dataset”) and works out what tools to use, in what order, handling errors as they arise. This shift from prescriptive scripts to goal-directed problem-solving is the key conceptual development.</p>
+<p>Three design principles have proven important for building effective agents, each with direct relevance to microscopy:</p>
+<p><strong>Harness engineering</strong> refers to the scaffolding that wraps around the language model — the system that manages tool definitions, permissions, error recovery, and the overall agent loop. For microscopy, a well-designed harness determines whether an agent can only call pre-validated segmentation functions (safe but limited) or can install arbitrary packages and run custom code (powerful but requiring oversight). A key lesson from early deployments is that the quality of this scaffolding — how tools are presented, how errors are handled, what safety boundaries are enforced — often matters more than the choice of underlying language model.</p>
+<p><strong>Context engineering</strong> is the discipline of providing the right information at each step of the agent’s reasoning. An agent with a million-token context window could, in theory, ingest everything, but irrelevant information degrades performance. Effective context engineering involves dynamically loading relevant documentation, previous results, and tool descriptions while filtering out noise. <a href="./glossary.html#retrieval-augmented-generation">Retrieval Augmented Generation</a> (RAG) is one common approach — injecting relevant external knowledge, such as analysis documentation or published protocols, into the agent’s context at the moment it is needed.</p>
+<p><strong>Memory systems</strong> allow agents to retain information across sessions. Short-term memory (the conversation context) lets an agent build on previous steps within a session. Long-term memory (persistent storage) enables agents to remember, for instance, which segmentation parameters work well on a particular lab’s imaging setup, or that a user’s file naming convention encodes the treatment condition in the third field.</p>
+</section>
+<section id="sec-agent-architecture" class="level3" data-number="3.5.2">
+<h3 data-number="3.5.2" class="anchored" data-anchor-id="sec-agent-architecture"><span class="header-section-number">3.5.2</span> How Agents Interact with the World</h3>
+<p>The practical power of an agent depends on what it can access and how. Three complementary approaches have emerged, each with distinct strengths for microscopy.</p>
+<p><strong>Structured tool integration</strong> through protocols like MCP (<a href="#sec-function-calling" class="quarto-xref"><span>Section 3.3</span></a>) and function calling provides typed, validated interfaces between agents and specific tools. An MCP server for a microscope might expose functions like <code>acquire_image(channel, exposure, z_stack)</code> and <code>move_stage(x, y)</code>. Because the agent can only invoke pre-defined operations, this approach is well-suited to instrument control, where safety and predictability are paramount.</p>
+<p><strong>Terminal and API access</strong> is more powerful and increasingly common. When an agent has access to a command line — as provided by terminal-based coding agents — it can install packages, read documentation, write and execute arbitrary code, and compose workflows by combining tools. This is the approach driving rapid improvements in software engineering benchmarks: the agent works like a developer at a terminal, using whatever tools the task demands rather than being limited to a pre-defined set. For microscopy researchers, this means an agent that can install Cellpose, write a Python analysis script, run it, inspect the output, and iterate — all through natural language conversation.</p>
+<p><strong>Graphical interface automation</strong> extends agent capabilities to GUI-based software. Computer use capabilities (e.g., Anthropic’s Claude computer use, announced October 2024) allow agents to see a screen, move a cursor, click buttons, and type text — operating software the way a human would. For microscopy, this opens the possibility of controlling proprietary acquisition software or navigating ImageJ/Fiji menus even when no programmatic API is available. Performance on GUI automation benchmarks is improving but remains well below human reliability on complex multi-step tasks.</p>
+<p>The trend across all three approaches is toward broader access with safety guardrails. Modern agents operate within permission systems that ask for confirmation before destructive actions, sandbox execution environments to prevent damage to host systems, and provide human-in-the-loop checkpoints for consequential decisions. For microscopy, where instruments are expensive and samples can be irreplaceable, these guardrails are not optional — an agent should never modify acquisition parameters on a running experiment without explicit human authorization.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The Coding Agent Ecosystem (2026)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Several production-grade coding agents are available as of early 2026. Terminal-based agents — <strong>Claude Code</strong> (Anthropic), <strong>Gemini CLI</strong> (Google, open-source with generous free tier), and <strong>OpenAI Codex</strong> (open-source) — run in the developer’s command line. IDE-integrated agents like <strong>Cursor</strong> and <strong>GitHub Copilot</strong> (agent mode) embed in code editors. <strong>Devin</strong> (Cognition Labs) provides fully sandboxed development environments. All support MCP and function calling; the choice often comes down to cost, interface preference, and which model best suits the task. See <a href="#sec-practical-guide" class="quarto-xref"><span>Section 3.7</span></a> for a hands-on tutorial.</p>
+</div>
+</div>
+</section>
+<section id="use-cases-for-bioimage-analysis" class="level3" data-number="3.5.3">
+<h3 data-number="3.5.3" class="anchored" data-anchor-id="use-cases-for-bioimage-analysis"><span class="header-section-number">3.5.3</span> Use Cases for Bioimage Analysis</h3>
+<p>AI agents are well-suited to microscopy because they combine the ability to reason about biological problems with the ability to execute computational solutions. Several patterns of use have emerged:</p>
+<p><strong>Conversational image analysis.</strong> A researcher describes a multi-step analysis in natural language — “segment the nuclei in this image, measure their areas, and compare the size distributions across treatment conditions” — and the agent breaks this into tool calls, executes them, and presents results with visualizations. The key advantage over a static pipeline is that the researcher can inspect intermediate results and redirect the analysis conversationally: “the segmentation is merging touching nuclei — try a smaller cell diameter.”</p>
+<p><strong>Automated workflow construction.</strong> Agents can build analysis pipelines dynamically by selecting appropriate tools, configuring parameters, and chaining operations based on image content and user goals — adapting the workflow as intermediate results come in.</p>
+<p><strong>On-demand software generation.</strong> Agents can create custom scripts, GUIs, and analysis tools tailored to specific experimental needs — a capability transformative enough to warrant its own discussion (see <a href="#sec-disposable-software" class="quarto-xref"><span>Section 3.6</span></a>).</p>
+<p><strong>Autonomous error handling.</strong> When a pipeline step fails, agents can diagnose the problem by analyzing error messages, searching documentation, and implementing fixes without human intervention. For researchers without extensive programming experience, this considerably reduces the barrier to using computational tools.</p>
+<p><strong>Intelligent data exploration.</strong> For large microscopy datasets — where a researcher might otherwise spend days scrolling through images — an agent can cross-reference experimental metadata, identify relevant subsets, and surface patterns or rare events that would be impractical to find by manual inspection.</p>
+</section>
+<section id="concrete-examples-omega-and-the-bioimage.io-chatbot" class="level3" data-number="3.5.4">
+<h3 data-number="3.5.4" class="anchored" data-anchor-id="concrete-examples-omega-and-the-bioimage.io-chatbot"><span class="header-section-number">3.5.4</span> Concrete Examples: Omega and the BioImage.IO Chatbot</h3>
+<p>Two published systems illustrate what AI agents can accomplish in bioimage analysis today, and where the practical limits lie.</p>
+<p><strong>Omega</strong>, published in 2024<span class="citation" data-cites="royer2024omega"><sup><a href="references.html#ref-royer2024omega" role="doc-biblioref">12</a></sup></span>, is a napari plugin that enables conversational image analysis. Users describe tasks in natural language — “segment the nuclei” or “create a depth-coded projection of this z-stack” — and Omega generates and executes the corresponding code within the napari viewer. Through its LiteMind library, Omega connects to multiple LLM providers (OpenAI, Anthropic, Google), allowing it to visually interpret the contents of the napari viewer and make context-dependent decisions about analysis approaches. The system can also generate custom widgets on demand — for instance, a slider-based tool for filtering segmented objects by area. Omega demonstrates that conversational agents can meaningfully lower the barrier to interactive image analysis, though the quality of results depends on how precisely the user describes their intent and on the underlying LLM’s ability to generate correct code.</p>
+<p><strong>BioImage.IO Chatbot</strong>, also published in in 2024<span class="citation" data-cites="lei2024bioimageio"><sup><a href="references.html#ref-lei2024bioimageio" role="doc-biblioref">13</a></sup></span>, takes a different approach. Built on Retrieval Augmented Generation (RAG), the chatbot draws on a curated knowledge base of community-contributed documentation from tools including ImageJ, deepImageJ, and the bio.tools registry. Rather than generating analysis code from scratch, it retrieves and synthesizes relevant information from existing documentation, helping users navigate the complex landscape of bioimage analysis tools. The chatbot can also execute Python code in the browser, run models from the BioImage Model Zoo (such as Cellpose), and generate statistical reports. Its extension mechanism, built on the Hypha distributed computing framework, allows developers to serve additional capabilities — including hardware control and GPU-accelerated computation — making it a platform for community-driven agent development rather than a standalone tool.</p>
+<p>Both systems are early examples of a paradigm that is evolving rapidly. Neither replaces the need for domain expertise: the researcher must still judge whether a segmentation result makes biological sense, whether the analysis approach is appropriate, and whether the conclusions are supported.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Agents Require Validation
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>An agent may produce code that runs without errors but implements an inappropriate analysis method or makes incorrect biological assumptions. Segmentation that looks reasonable at first glance may systematically miss a subpopulation of cells. Always inspect intermediate results visually, test on known data when possible, and verify that the analysis logic matches your scientific intent. See <a href="#sec-challenges" class="quarto-xref"><span>Section 3.8</span></a> for a full discussion.</p>
+</div>
+</div>
+</section>
+<section id="the-vision-intent-driven-autonomous-microscopy" class="level3" data-number="3.5.5">
+<h3 data-number="3.5.5" class="anchored" data-anchor-id="the-vision-intent-driven-autonomous-microscopy"><span class="header-section-number">3.5.5</span> The Vision: Intent-Driven Autonomous Microscopy</h3>
+<p>The trajectory of these developments points toward what we call <strong>intent-driven microscopy</strong>: the researcher describes <em>what</em> they want to discover, and the AI system determines <em>how</em> to achieve it — planning the experiment, controlling the instrument, acquiring images, analyzing results, and adapting in real-time (<a href="#fig-intent-driven" class="quarto-xref">Figure&nbsp;<span>3.5</span></a>).</p>
+<div id="fig-intent-driven" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-intent-driven-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="3-llms-assets/intent-driven-microscopy.excalidraw.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-intent-driven-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.5: The vision of intent-driven autonomous microscopy. The researcher describes their experimental goal in natural language. An AI agent orchestrator plans the workflow, coordinating specialized sub-agents for acquisition, analysis, and quality control. The system controls the microscope hardware, collects and analyzes data, and feeds results back to adapt the experiment in real-time — creating a closed-loop system that operates with minimal human intervention.
+</figcaption>
+</figure>
+</div>
+<p>Consider a concrete scenario: a researcher tells the system <em>“Find all cells undergoing mitosis in my sample and capture high-resolution z-stacks of each.”</em> An intent-driven system would plan a scanning strategy (low-magnification overview followed by targeted imaging), acquire overview images, run real-time cell classification to identify mitotic cells, switch to high magnification for targeted z-stack acquisition, and deliver the dataset with metadata and quality metrics. Several of these building blocks exist today in isolation — the scientific and engineering challenge lies in integrating them into systems that are reliable, general-purpose, and safe enough for routine use.</p>
+</section>
+<section id="autonomous-microscopy-ai-controlled-instruments" class="level3" data-number="3.5.6">
+<h3 data-number="3.5.6" class="anchored" data-anchor-id="autonomous-microscopy-ai-controlled-instruments"><span class="header-section-number">3.5.6</span> Autonomous Microscopy: AI-Controlled Instruments</h3>
+<p>The most ambitious application of AI agents in microscopy is direct instrument control — systems that not only analyze images but plan and execute acquisition protocols (see also <a href="7-smart-microscopy.html" class="quarto-xref"><span>Chapter 7</span></a>). Several recent systems illustrate different points on the spectrum from AI-assisted to AI-driven microscopy.</p>
+<p><strong>EIMS (Embodied Intelligence Microscope System)</strong>, described in a 2025 preprint<span class="citation" data-cites="huang2025eims"><sup><a href="references.html#ref-huang2025eims" role="doc-biblioref">14</a></sup></span>, reconceptualizes the microscope as an autonomous agent. A high-level LLM acts as a deliberative planner, interpreting experimental intent (e.g., “capture mitotic events in this sample”) and decomposing it into subgoals executed by specialized control modules. The system reportedly achieves generalization on multi-step protocols without task-specific training, including automated capture of rare spatiotemporal events such as cell division. As a preprint, these results await peer review and independent validation.</p>
+<p><strong>AILA (Artificially Intelligent Lab Assistant)</strong>, published in 2025<span class="citation" data-cites="mandal2025aila"><sup><a href="references.html#ref-mandal2025aila" role="doc-biblioref">15</a></sup></span>, applies LLM-based agents to atomic force microscopy. Using specialized agents coordinated by a central planner, AILA was benchmarked on 100 real laboratory tasks (AFMBench). A central finding was sobering: even frontier LLMs struggle with basic experimental tasks, and general language fluency does not translate into experimental competence. Multi-agent architectures significantly outperformed single-agent designs, and the authors raised important safety concerns about autonomous instrument operation — what they termed “sleepwalking,” where an agent takes confident but incorrect actions on expensive equipment.</p>
+<p>Two further systems illustrate the broader trend toward AI-controlled microscopy, though they use specialized machine learning rather than LLM-based agents. <strong>SmartEM</strong>, published in 2026<span class="citation" data-cites="smartem2026"><sup><a href="references.html#ref-smartem2026" role="doc-biblioref">16</a></sup></span>, integrates machine learning directly into the electron microscope acquisition loop, implementing a “foveated” strategy: a quick low-resolution survey pass identifies regions of interest, followed by high-resolution rescanning of only those regions, achieving up to 7-fold acceleration of connectomic brain imaging. <strong>pySTED</strong>, published in 2024<span class="citation" data-cites="bilodeau2024pysted"><sup><a href="references.html#ref-bilodeau2024pysted" role="doc-biblioref">17</a></sup></span>, demonstrates that reinforcement learning agents trained in realistic simulation can transfer successfully to real STED super-resolution microscopes without additional fine-tuning, bridging the simulation-to-reality gap for microscopy control.</p>
+<p>These examples span a spectrum from LLM-based planning (EIMS, AILA) to specialized ML-driven acquisition (SmartEM, pySTED). Collectively, they suggest that AI-controlled microscopy is moving from proof-of-concept toward practical deployment — though most systems remain validated only in narrow domains, and the gap between demonstrating a capability in one laboratory and deploying it reliably across diverse instruments is considerable.</p>
+</section>
+<section id="sec-coding-agents" class="level3" data-number="3.5.7">
+<h3 data-number="3.5.7" class="anchored" data-anchor-id="sec-coding-agents"><span class="header-section-number">3.5.7</span> Coding Agents: AI with Terminal Access</h3>
+<p>A particularly consequential development has been the emergence of <a href="./glossary.html#coding-agent">coding agents</a> — AI systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier LLM assistants that could only suggest code snippets.</p>
+<p><strong>Claude Code</strong> (Anthropic) is a CLI-based agent that can read and edit files across entire codebases, run shell commands, execute tests, interact with version control, and orchestrate complex multi-step tasks — all while maintaining context across long sessions with million-token context windows. <strong>Devin</strong> (Cognition Labs) operates in a sandboxed development environment with its own code editor, terminal, and web browser. <strong>GitHub Copilot</strong> has evolved from inline code suggestions to agent mode, where it can plan changes across repositories, edit multiple files, and iterate on feedback. <strong>Cursor</strong> and <strong>Windsurf</strong> represent a new category of AI-native code editors with deeply integrated agent capabilities.</p>
+<p>The pace of improvement has been notable. On the SWE-bench Verified benchmark<span class="citation" data-cites="jimenez2024swebench"><sup><a href="references.html#ref-jimenez2024swebench" role="doc-biblioref">18</a></sup></span> — which tests agents on real-world GitHub issues requiring understanding codebases, diagnosing bugs, and implementing fixes — success rates rose from under 5% in early 2024 to over 70% by late 2025. These benchmarks measure general software engineering, not scientific applications specifically, but the underlying capabilities — reading code, debugging errors, composing multi-step solutions — are directly relevant to microscopy analysis pipelines.</p>
+<p>For microscopy researchers, the practical significance is that these agents can install analysis packages, write and debug Python scripts for napari or ImageJ, run analysis pipelines, and iterate on results — all through natural language conversation in a terminal. The walkthrough in <a href="#sec-practical-guide" class="quarto-xref"><span>Section 3.7</span></a> demonstrates this workflow concretely.</p>
+</section>
+</section>
+<section id="sec-disposable-software" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="sec-disposable-software"><span class="header-section-number">3.6</span> On-Demand Software and the Changing Nature of Microscopy Tools</h2>
+<p>For decades, microscopy analysis has depended on durable software products — applications like CellProfiler, ImageJ/Fiji, and napari that represent years of development effort, extensive documentation, and sustained community maintenance. These tools are general-purpose by design: they must serve a broad range of users and experimental scenarios to justify the investment required to build and maintain them. The trade-off is that researchers must learn to navigate complex interfaces, adapt their thinking to the software’s workflow logic, and work within design decisions made for a broad user base rather than their specific experiment.</p>
+<p>AI agents are beginning to change this equation. Instead of learning to operate a general-purpose application, a researcher describes what they need — “create a tool that lets me draw regions on my confocal image, measure mean fluorescence intensity in each region across all channels, and export the results as a CSV” — and the agent generates a purpose-built script or application, typically within minutes for straightforward tasks. The result does exactly what was requested and requires no training to use. If the requirements change, the agent generates a new version rather than patching the old one.</p>
+<section id="when-on-demand-software-makes-sense" class="level3" data-number="3.6.1">
+<h3 data-number="3.6.1" class="anchored" data-anchor-id="when-on-demand-software-makes-sense"><span class="header-section-number">3.6.1</span> When On-Demand Software Makes Sense</h3>
+<p>Consider a concrete example. A researcher performing calcium imaging needs to load .nd2 files from a specific acquisition system, extract time-series fluorescence traces from user-drawn regions of interest, apply baseline correction using the F0 method appropriate for their calcium indicator, detect peaks above a threshold, and export both the individual traces and summary statistics. No single existing tool performs exactly this combination of steps in the way the experiment requires. Traditionally, the researcher would either write a custom script (requiring programming expertise), adapt a general-purpose tool (requiring time to learn the interface and work around its assumptions), or ask a bioimage analyst to build something bespoke (requiring their availability and understanding of the experiment).</p>
+<p>With a coding agent, the researcher describes these requirements conversationally and receives a working Python script — built on established libraries like scikit-image and matplotlib — that they can run immediately. If the following week’s experiment uses a different calcium indicator requiring different baseline correction, the researcher generates a new script rather than modifying the old one. The entire interaction, for a task of this complexity, might take fifteen to thirty minutes, including testing and refinement.</p>
+<p>This approach is most valuable for tasks that are too specific for general-purpose tools but too routine to justify dedicated software development: custom visualization dashboards for a particular multi-dimensional dataset, batch-processing scripts tailored to a lab’s file naming conventions, or quick analysis prototypes for exploring whether an approach is worth pursuing. For complex analysis pipelines involving multiple interdependent steps, novel algorithms, or large-scale processing, the generation process is neither instantaneous nor guaranteed to work on the first attempt — the researcher must understand the analysis well enough to evaluate whether the generated code is correct.</p>
+</section>
+<section id="the-reproducibility-question" class="level3" data-number="3.6.2">
+<h3 data-number="3.6.2" class="anchored" data-anchor-id="the-reproducibility-question"><span class="header-section-number">3.6.2</span> The Reproducibility Question</h3>
+<p>On-demand software raises a legitimate concern for scientific practice: if an analysis tool is generated and then discarded, how does another laboratory reproduce the analysis?</p>
+<p>The concern is real but addressable with existing practices. The generated code is ordinary Python, R, or ImageJ macro — it can be inspected, version-controlled, and shared like any other analysis script. Researchers using this approach should save the generated code alongside their data, record the prompt and model used to produce it, and include the script in their supplementary materials. Importantly, on-demand tools typically compose and configure established, validated libraries — scikit-image, Cellpose, napari — rather than implementing algorithms from scratch. The generated code calls the same functions that a human programmer would use; the agent handles the boilerplate of loading files, configuring parameters, and creating visualizations.</p>
+<p>A subtler concern is long-term reproducibility. If a finding is questioned years later, the analysis must still be runnable. Version-pinning dependencies (recording the exact library versions used), including the generated code in a repository, and documenting any manual steps taken during the analysis all help — the same practices that good computational science has always required, but that are easily neglected when the code feels disposable.</p>
+<p>There is also a risk of lost institutional knowledge. When a lab builds durable software, the development process creates shared understanding of the analysis logic — what assumptions were made, what edge cases were handled, why certain parameters were chosen. When software is generated on demand and used once, this knowledge may not accumulate. Laboratories adopting this approach should consider maintaining a shared repository of validated analysis scripts, annotated with the experimental context in which they were used.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Best Practices: What to Record When Using an AI Model
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When using AI-generated code or analysis in your research, document the following for reproducibility:</p>
+<ul>
+<li><strong>Model identity</strong>: the specific model name and version (e.g., “Claude Sonnet 4.5, accessed 2026-03-15”)</li>
+<li><strong>Prompts</strong>: the exact prompts or conversation used to generate the code — save the full session log if possible</li>
+<li><strong>Generated code</strong>: the complete script as produced, before any manual edits, stored alongside the final version</li>
+<li><strong>Dependencies</strong>: all library versions used (<code>pip freeze</code> or <code>conda list</code>), ideally captured in a <code>requirements.txt</code> or <code>environment.yml</code></li>
+<li><strong>Manual modifications</strong>: any changes you made to the AI-generated output, and why</li>
+<li><strong>Validation steps</strong>: how you verified the output — test datasets used, visual inspections performed, comparisons with known results</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="a-shift-in-researchersoftware-interaction" class="level3" data-number="3.6.3">
+<h3 data-number="3.6.3" class="anchored" data-anchor-id="a-shift-in-researchersoftware-interaction"><span class="header-section-number">3.6.3</span> A Shift in Researcher–Software Interaction</h3>
+<p>The broader implication is a change in the relationship between microscopists and their computational tools. Traditional software requires the researcher to learn the tool’s interface and adapt their workflow to its logic. On-demand software generation inverts this: the researcher describes the goal, and the software adapts to the researcher. This means that researchers who understand their biology deeply but lack extensive programming training can access computational analysis that was previously gated by programming skill — a meaningful expansion of who can do quantitative microscopy.</p>
+<p>At the same time, this approach sits <em>on top of</em> the established software ecosystem, not in place of it. When an agent generates a segmentation script, it calls Cellpose or StarDist underneath. When it builds a visualization, it uses matplotlib or napari. The durable, community-maintained tools become the validated building blocks that agents compose; they become more valuable in an agent-driven world, not less. Software that exposes programmable APIs and command-line interfaces will thrive because agents can call it. Closed, GUI-only tools that cannot be invoked programmatically face a harder path — not because they are technically inferior, but because agents cannot use what they cannot call.</p>
+<p>A useful analogy: autofocus did not eliminate the need to understand optics — it freed microscopists to focus on experimental design rather than manual focusing. Similarly, AI agents will not eliminate ImageJ, but they will reduce the need to memorize its menu hierarchy or hand-write batch-processing macros.</p>
+<p>How far this shift will go — and where the limits of AI-generated software lie in terms of reliability, complexity, and scientific rigor — remains to be determined through practical experience.</p>
+</section>
+</section>
+<section id="sec-practical-guide" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="sec-practical-guide"><span class="header-section-number">3.7</span> Practical Guide: Getting Started with AI Agents for Microscopy</h2>
+<p>Most microscopists encounter AI agents for the first time through web-based chatbots — typing a question and reading a response. That interaction model is useful for learning concepts or troubleshooting errors, but it cannot access your files, run code on your data, or iterate on results. This section walks through a more powerful approach: using a terminal-based coding agent that operates directly in your data directory, writes and executes analysis scripts, installs packages as needed, and refines its work based on your feedback.</p>
+<section id="choosing-and-installing-a-coding-agent" class="level3" data-number="3.7.1">
+<h3 data-number="3.7.1" class="anchored" data-anchor-id="choosing-and-installing-a-coding-agent"><span class="header-section-number">3.7.1</span> Choosing and Installing a Coding Agent</h3>
+<p>Several terminal-based coding agents are available as of early 2026. The choice between them depends mainly on cost tolerance, institutional preferences, and which model you find most effective for your tasks — the workflow pattern is the same across all of them.</p>
+<div id="tbl-coding-agents" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-coding-agents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2: Terminal-based coding agents available as of early 2026. Pricing and capabilities change frequently; check provider documentation for current details.
+</figcaption>
+<div aria-describedby="tbl-coding-agents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 17%">
+<col style="width: 25%">
+<col style="width: 18%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Agent</strong></th>
+<th><strong>Provider</strong></th>
+<th><strong>Install command</strong></th>
+<th><strong>Free tier</strong></th>
+<th><strong>Context window</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Gemini CLI</td>
+<td>Google</td>
+<td><code>npm install -g @google/gemini-cli</code></td>
+<td>Generous (1,000 req/day, as of early 2026)</td>
+<td>1M tokens</td>
+</tr>
+<tr class="even">
+<td>Claude Code</td>
+<td>Anthropic</td>
+<td><code>npm install -g @anthropic-ai/claude-code</code></td>
+<td>Limited</td>
+<td>1M tokens</td>
+</tr>
+<tr class="odd">
+<td>OpenAI Codex</td>
+<td>OpenAI</td>
+<td><code>npm install -g @openai/codex</code></td>
+<td>Limited</td>
+<td>Varies</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>For this walkthrough, any of these agents will work. To install and start Gemini CLI as an example (it offers a generous free tier at the time of writing):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">npm</span> install <span class="at">-g</span> @google/gemini-cli</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /path/to/your/microscopy-data</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="ex">gemini</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>On first run, the agent will prompt you to authenticate. Once set up, it reads the files in your working directory and responds to natural language requests — writing Python scripts, executing shell commands, installing packages, and iterating on results.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Data Privacy and AI Services
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When you use a cloud-based AI agent, your prompts and — in some cases — your files are sent to external servers. Before uploading unpublished data, patient-derived images, or proprietary experimental details, check your institution’s data governance policies and the provider’s data retention terms. See <a href="#sec-challenges" class="quarto-xref"><span>Section 3.8</span></a> for a fuller discussion.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>Always Verify AI-Generated Code
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Never run AI-generated analysis on important data without understanding what the code does. Read through generated scripts before execution, test on a small data subset first, inspect intermediate results visually, and compare with known ground truth when available. AI agents can call non-existent functions, use incorrect parameters, or implement inappropriate methods — and these errors may not produce obvious failures.</p>
+</div>
+</div>
+</section>
+<section id="writing-effective-prompts" class="level3" data-number="3.7.2">
+<h3 data-number="3.7.2" class="anchored" data-anchor-id="writing-effective-prompts"><span class="header-section-number">3.7.2</span> Writing Effective Prompts</h3>
+<p>The quality of an agent’s output depends heavily on how clearly you describe your goal. A few principles help:</p>
+<ul>
+<li><strong>Be specific about your data.</strong> Rather than “analyze my images,” say “I have 16-bit TIFF files with three channels: DAPI (blue), phalloidin-488 (green), and MitoTracker Red.”</li>
+<li><strong>State your biological question.</strong> “I want to measure whether mitochondrial fragmentation increases after drug treatment” gives the agent far more context than “process these images.”</li>
+<li><strong>Name the tools you prefer.</strong> If you want Cellpose rather than a threshold-based approach, say so. The agent will default to whatever it deems easiest, which may not be the most appropriate method.</li>
+<li><strong>Ask to see intermediate results.</strong> “Show me the segmentation overlay before proceeding” catches errors early.</li>
+<li><strong>Describe failures concretely.</strong> “The segmentation is merging touching cells — can you try the Cellpose ‘cyto3’ model with a smaller diameter?” is more useful than “it didn’t work.”</li>
+</ul>
+</section>
+<section id="walkthrough-cell-cycle-classification-with-an-ai-agent" class="level3" data-number="3.7.3">
+<h3 data-number="3.7.3" class="anchored" data-anchor-id="walkthrough-cell-cycle-classification-with-an-ai-agent"><span class="header-section-number">3.7.3</span> Walkthrough: Cell Cycle Classification with an AI Agent</h3>
+<p>This walkthrough demonstrates a realistic, multi-step analysis. The scenario: you have multi-channel fluorescence images of FUCCI-labeled U2OS cells and want to classify cell cycle phases. FUCCI (Fluorescent Ubiquitination-based Cell Cycle Indicator<span class="citation" data-cites="sakauesawano2008fucci"><sup><a href="references.html#ref-sakauesawano2008fucci" role="doc-biblioref">19</a></sup></span>) uses two fluorescent reporters whose expression is regulated by the cell cycle: mKO2-hCdt1 (red) accumulates during G1 phase, while mAG-hGeminin (green) accumulates during S/G2/M. Cells transitioning through early S-phase co-express both reporters, appearing yellow. U2OS is a human osteosarcoma cell line commonly used in cell cycle studies.</p>
+<p><strong>Step 1: Orient the agent.</strong> Start the agent in your data directory and describe what you have:</p>
+<pre><code>&gt; I have fluorescence images of FUCCI-labeled U2OS cells with three
+  channels saved as separate .bmp files: brightfield, 488nm (green,
+  mAG-hGeminin), and 561nm (red, mKO2-hCdt1). I want to segment
+  individual cells, measure per-cell fluorescence in both channels,
+  and classify cell cycle phase. Can you examine the files here and
+  outline an analysis plan?</code></pre>
+<p>The agent will list your files, check image dimensions and bit depth, and propose a step-by-step plan — explaining the biology and the computational steps needed. This is the key advantage over a web chatbot: the agent works with your actual data, not a hypothetical example.</p>
+<p><strong>Step 2: Visualize the data.</strong> Before any analysis, inspect what you are working with:</p>
+<pre><code>&gt; Load the brightfield, green, and red channel images for one field
+  of view. Display them side by side with appropriate contrast.
+  Save the figure as overview.png.</code></pre>
+<p>The agent writes a script, runs it, and produces the figure. If the contrast is wrong — “the green channel looks saturated” — describe the problem and the agent will adjust.</p>
+<p><strong>Step 3: Segment cells.</strong> Ask the agent to identify individual cells:</p>
+<pre><code>&gt; Use Cellpose to segment cells from the brightfield image. Install
+  cellpose if needed. Show me the segmentation outlines overlaid on
+  the brightfield image so I can check the quality.</code></pre>
+<p>Inspect the overlay carefully. Are touching cells correctly separated? Are small debris objects being counted as cells? If not, describe the problem: “Cells near the image border are being cut off — can you exclude objects touching the edge?” The agent modifies the code and re-runs.</p>
+<p><strong>Step 4: Measure and classify.</strong> With validated segmentation masks, quantify fluorescence:</p>
+<pre><code>&gt; For each segmented cell, measure mean intensity in the green and
+  red channels. Classify cells as: G1 (high red, low green),
+  S-phase (co-expressing both — yellow), or G2/M (high green, low
+  red). Create a red-vs-green scatter plot colored by phase, and
+  export the per-cell data as a CSV.</code></pre>
+<p>If the classification boundaries do not match your data — perhaps because your FUCCI reporter expression levels differ from typical values — ask the agent to adapt: “The fixed thresholds are misclassifying transitional cells. Can you try k-means clustering with three clusters on the log-transformed red/green ratio instead?” The agent revises its approach based on your biological knowledge.</p>
+<p><strong>Step 5: Validate visually.</strong> The final and most important step:</p>
+<pre><code>&gt; Overlay each cell's classification (red=G1, yellow=S, green=G2/M)
+  on the brightfield image. Save as validation_overlay.png.</code></pre>
+<p>Compare the overlay against what you see in the fluorescence channels. Do the red-labeled cells correspond to visibly red cells in the mKO2 channel? Are the yellow (S-phase) cells genuinely co-expressing both reporters? This visual validation is the human expert’s irreplaceable contribution. No amount of computational sophistication substitutes for a biologist confirming that the output makes biological sense.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Beyond This Walkthrough
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The same workflow pattern — orient, visualize, analyze, validate — applies to any microscopy analysis task. Researchers have used coding agents to batch-process time-lapse data, build custom measurement pipelines, generate publication-quality figures, and automate file format conversions. The BioImage.IO Chatbot and Omega for napari, discussed in <a href="#sec-ai-agents" class="quarto-xref"><span>Section 3.5</span></a>, offer complementary approaches: web-based guidance and in-viewer analysis, respectively.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sec-challenges" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="sec-challenges"><span class="header-section-number">3.8</span> Challenges, Implications, and the Road Ahead</h2>
+<p>The capabilities described in this chapter are real, but they carry limitations that researchers must understand before incorporating AI agents into their work. Scientific research demands accuracy, reproducibility, and transparency — standards that current AI systems cannot independently meet. The broader ecosystem of AI tools also introduces practical fragility: scripts break when dependencies update, hosted APIs change without notice, and plugins go unmaintained. This section examines these challenges and considers what they mean for microscopy practice, the bioimage analysis profession, and the scientific enterprise.</p>
+<section id="sec-hallucinations" class="level3" data-number="3.8.1">
+<h3 data-number="3.8.1" class="anchored" data-anchor-id="sec-hallucinations"><span class="header-section-number">3.8.1</span> The Hallucination Problem</h3>
+<p>The most consequential limitation of current AI systems is their tendency to <a href="./glossary.html#hallucinations">hallucinate</a> — to generate confident, fluent, and entirely fabricated information. Unlike a human colleague who typically hedges when uncertain, language models produce invented content with the same surface characteristics as verified facts, making the two difficult to distinguish without independent checking.</p>
+<p>Hallucination rates vary by task and model. A study evaluating LLMs on systematic review tasks found that a large fraction of AI-generated scientific references were fabricated — ranging from roughly 30% for the strongest models to over 90% for weaker ones<span class="citation" data-cites="chelli2024hallucination"><sup><a href="references.html#ref-chelli2024hallucination" role="doc-biblioref">20</a></sup></span>. These figures apply specifically to reference generation, a task where models are particularly prone to invention; hallucination rates for other tasks differ and are less systematically characterized.</p>
+<p>In microscopy, hallucinations take several forms that deserve specific attention. Models routinely produce realistic-looking but entirely fictional scientific citations — complete with plausible author names, journal titles, and page numbers for papers that do not exist. When asked for experimental protocols, models can produce detailed, professional-sounding procedures that are scientifically wrong — suggesting fluorophore pairs whose excitation/emission spectra overlap completely, or recommending laser powers that would damage living samples within seconds. They may assert with confidence that specific proteins localize to particular compartments, or that certain treatments produce established phenotypes, without basis in the literature. And they frequently describe software features, function parameters, or capabilities that do not exist in the actual tools — an agent might generate code calling a Cellpose function with a parameter that was never implemented, producing a runtime error or worse, silently defaulting to unexpected behavior.</p>
+<p>The root cause is architectural: language models generate text by predicting statistically likely continuations, not by retrieving verified facts. A plausible-sounding citation is, from the model’s perspective, simply a likely sequence of tokens. Retrieval-augmented generation (RAG) partially mitigates this by grounding model outputs in retrieved documents, but does not eliminate hallucination — models can still misinterpret, selectively quote, or confabulate beyond what retrieved sources support.</p>
+</section>
+<section id="reproducibility-and-non-determinism" class="level3" data-number="3.8.2">
+<h3 data-number="3.8.2" class="anchored" data-anchor-id="reproducibility-and-non-determinism"><span class="header-section-number">3.8.2</span> Reproducibility and Non-Determinism</h3>
+<p>AI-generated analysis introduces reproducibility challenges distinct from those in traditional computational work. The same natural language prompt given to the same model at different times can produce different analysis scripts — using different libraries, different algorithmic approaches, or different parameter values. Even when both scripts are correct, the results may differ in ways that are difficult to trace.</p>
+<p>This non-determinism is not a bug — it is built into how LLMs work. Rather than computing a single deterministic answer, the model produces a ranked list of candidate next words and then <em>samples</em> from that list. A setting called <strong>temperature</strong> controls how much randomness is involved: low temperature makes the model stick closely to its top predictions, while higher values allow more variety. Additional settings like <strong>top-k</strong> and <strong>top-p sampling</strong> further control which candidates are considered. Because of this sampling process, the same prompt can produce different outputs on every run — much like rolling weighted dice. Even when randomness is turned down to its minimum and a fixed random seed is set, exact reproducibility is not guaranteed: the underlying math involves floating-point operations on GPUs that can produce slightly different results depending on the hardware, parallelization, and even system load. Finally, commercial API providers routinely update models behind the same name — “GPT-4o” in January may behave differently from “GPT-4o” in June — adding another layer of variability invisible to the user.</p>
+<p>These sources of non-determinism can be partially controlled but not eliminated. Most API providers offer temperature and seed parameters that reduce output variability. Researchers who need reproducibility should save the exact generated code (not just the prompt), pin library versions, and record the model name, version, and parameters used — treating the AI interaction as they would any other step in their methods. Where possible, using specific model version identifiers (e.g., <code>gpt-4o-2024-08-06</code> rather than <code>gpt-4o</code>) provides a more stable target, though even versioned endpoints may eventually be deprecated.</p>
+<p>A subtler issue is false precision. AI-generated code may report cellular measurements to many decimal places — six-digit fluorescence intensities, sub-pixel centroid coordinates — creating an impression of precision that the underlying measurement does not support. Experienced analysts routinely round to appropriate significant figures and propagate uncertainty estimates; AI-generated pipelines rarely do so unless explicitly instructed.</p>
+</section>
+<section id="bias-and-data-governance" class="level3" data-number="3.8.3">
+<h3 data-number="3.8.3" class="anchored" data-anchor-id="bias-and-data-governance"><span class="header-section-number">3.8.3</span> Bias and Data Governance</h3>
+<p>The training data underlying language models carries systematic biases that affect their recommendations for microscopy. Published scientific literature skews toward positive results, well-funded institutions, and commercially dominant platforms. Documentation for expensive commercial microscopy systems is more extensively represented online than information about open-source or custom-built equipment, which can bias AI suggestions toward costly solutions — a concern for laboratories in resource-limited settings.</p>
+<p>Privacy and data governance present practical challenges for any laboratory working with sensitive material. When using cloud-based AI agents, prompts and uploaded files are transmitted to external servers. Laboratories working with patient-derived samples, clinical trial data, or proprietary imaging techniques must consider whether sending this data to third-party services complies with institutional review board approvals, HIPAA, GDPR, or other applicable regulations. Local model deployments address these concerns but require institutional infrastructure that may not be available everywhere.</p>
+<p>The economic costs of cloud-based AI processing also merit attention. API charges for processing a single high-resolution image through a frontier VLM are modest (a few cents), but high-content screening experiments involving tens of thousands of images can accumulate considerable costs. The energy consumption of large-scale AI inference also raises environmental questions that the scientific community is beginning to address.</p>
+<div class="callout callout-style-default callout-warning callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Warning</span>The Validation Imperative
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Every AI-generated protocol, analysis pipeline, and factual claim must be independently verified before use in research. AI tools augment human expertise; they do not replace it. When AI is used in a study, document the specific models, prompts, and validation steps in your methods section.</p>
+</div>
+</div>
+</section>
+<section id="sec-evolving-role" class="level3" data-number="3.8.4">
+<h3 data-number="3.8.4" class="anchored" data-anchor-id="sec-evolving-role"><span class="header-section-number">3.8.4</span> The Evolving Role of Bioimage Analysts</h3>
+<p>If AI agents can generate analysis pipelines, write code, and operate microscopes, what becomes of the bioimage analyst?</p>
+<p>The role remains essential — but it is evolving. As AI makes advanced analysis accessible to more researchers, the demand for expert guidance on validation, interpretation, and experimental design is likely to increase rather than decrease. The job description is shifting: less “the person who runs CellProfiler” and more “the person who evaluates whether an AI-generated pipeline produces biologically meaningful results, recognizes when a segmentation has failed in subtle ways, and designs experiments amenable to rigorous quantitative analysis.”</p>
+<p>Microscopists bring domain knowledge that current AI systems lack entirely. They recognize sample preparation artifacts, notice when photobleaching is compromising a time-lapse, understand that a bright ring around a nucleus is an optical aberration rather than a biological structure, and judge whether a segmentation result is consistent with known cell morphology. The AILA benchmarking study<span class="citation" data-cites="mandal2025aila"><sup><a href="references.html#ref-mandal2025aila" role="doc-biblioref">15</a></sup></span> made this point explicitly: even frontier LLMs “struggle with basic experimental tasks.” Fluent language generation does not confer experimental competence.</p>
+<p>The real risk is not job displacement but <a href="./glossary.html#skills-atrophy">skills atrophy</a> — a gradual erosion of the community’s ability to evaluate AI outputs. Consider a graduate student who uses an AI agent to build every analysis pipeline during their PhD, never learning how watershed segmentation works or why intensity thresholds behave differently on 8-bit versus 16-bit images. Five years later, as a postdoc, that researcher reviews a paper where the AI-generated segmentation has subtly failed — merging adjacent G1 and S-phase nuclei in a FUCCI experiment because the model was trained on well-separated cells. Without foundational understanding of how segmentation algorithms handle touching objects, this error is invisible. The researcher approves the analysis, and the flawed quantification enters the published literature.</p>
+<p>Every field that has adopted automation faces this question. Aviation provides a well-studied parallel: as cockpit automation advanced, training programs had to be redesigned to ensure pilots could recognize and respond to automation failures — precisely because those failures became rarer and harder to detect when they did occur.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>How Should the Field Prepare?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><strong>Teach AI literacy alongside microscopy fundamentals</strong> — understanding what an algorithm does is as important as knowing how to invoke it</li>
+<li><strong>Develop community validation standards</strong> for AI-generated analyses, building on efforts like the BioImage Model Zoo’s metadata requirements</li>
+<li><strong>Maintain human-in-the-loop checkpoints</strong> for experimental decisions with irreversible consequences</li>
+<li><strong>Preserve hands-on training</strong> — a researcher who has never manually drawn a segmentation boundary cannot evaluate whether an automated one is correct</li>
+</ol>
+</div>
+</div>
+</section>
+<section id="sec-hype-check" class="level3" data-number="3.8.5">
+<h3 data-number="3.8.5" class="anchored" data-anchor-id="sec-hype-check"><span class="header-section-number">3.8.5</span> Taking Stock: What Works, What Is Emerging, What Remains Aspirational</h3>
+<p>The pace of development has been rapid, and it is worth distinguishing what the field can do today from where enthusiasm or marketing might place it.</p>
+<p><strong>Capabilities that are validated and in routine use.</strong> LLM-assisted code generation for analysis scripts works reliably when paired with human validation — agents produce functional Python pipelines, ImageJ macros, and napari scripts that accelerate development. Conversational AI assistants are effective for learning concepts, troubleshooting errors, navigating documentation, and drafting protocols (with verification). VLM-based image interpretation provides useful starting points for biological analysis. AI-assisted literature search is already part of many researchers’ daily workflows.</p>
+<p><strong>Capabilities demonstrated in research but not yet routine.</strong> Autonomous microscope control has been demonstrated by EIMS<span class="citation" data-cites="huang2025eims"><sup><a href="references.html#ref-huang2025eims" role="doc-biblioref">14</a></sup></span> and SmartEM<span class="citation" data-cites="smartem2026"><sup><a href="references.html#ref-smartem2026" role="doc-biblioref">16</a></sup></span>, showing that AI can plan and execute imaging protocols — though these systems have been validated only in narrow settings. AI agents that orchestrate multi-tool analysis pipelines function in frameworks like Omega and the BioImage.IO Chatbot but lack systematic benchmarking across diverse tasks. On-demand software generation <a href="#sec-disposable-software" class="quarto-xref"><span>Section 3.6</span></a> shows promise for changing how researchers interact with analysis tools. Multi-agent coordination of biomedical research workflows is being explored<span class="citation" data-cites="li2026agenticai"><sup><a href="references.html#ref-li2026agenticai" role="doc-biblioref">21</a></sup></span>, and LLM-driven automation of complex experimental protocols has been demonstrated for specific applications such as CRISPR gene editing<span class="citation" data-cites="qu2026crisprgpt"><sup><a href="references.html#ref-qu2026crisprgpt" role="doc-biblioref">22</a></sup></span>. Closed-loop adaptive imaging experiments are feasible in specialized domains.</p>
+<p><strong>Capabilities that remain aspirational.</strong> Fully autonomous discovery — where AI formulates hypotheses, designs experiments, collects data, and iterates toward insight without human intervention — has been attempted in narrow settings but remains far from routine in biology. Systems that genuinely replace domain expertise in experimental judgment, perform causal reasoning from image data alone, or continuously learn and improve during deployment are active research topics, not available tools.</p>
+<p>The trajectory of improvement has been faster than most observers expected, and capabilities are migrating between tiers at an accelerating rate. But honest assessment requires acknowledging what remains genuinely hard. Causal reasoning, scientific creativity, and the judgment that experienced researchers exercise intuitively — sensing that a result is “too clean,” recognizing that an artifact resembles a biological signal — are not capabilities that current AI systems possess. These tools excel at pattern recognition and workflow orchestration. They do not perform the lateral thinking that drives scientific discovery.</p>
+</section>
+<section id="preparing-for-an-ai-enabled-future" class="level3" data-number="3.8.6">
+<h3 data-number="3.8.6" class="anchored" data-anchor-id="preparing-for-an-ai-enabled-future"><span class="header-section-number">3.8.6</span> Preparing for an AI-Enabled Future</h3>
+<p>As these capabilities mature, the microscopy community faces practical decisions that will shape whether AI tools are adopted responsibly and equitably.</p>
+<p>Training programs must evolve. AI literacy — understanding what these tools can and cannot do, how to evaluate their outputs, and when human judgment must override — belongs alongside optical physics, sample preparation, and experimental design in microscopy curricula. At the same time, foundational training must not be displaced: the ability to understand <em>why</em> a segmentation algorithm works, not merely how to invoke it through an agent, remains essential for catching errors.</p>
+<p>Infrastructure investments matter. Open-source tools, open protocols like MCP, and community-driven resources like the BioImage Model Zoo and AI4Life ensure that AI capabilities remain accessible across institutions with different levels of funding — preventing a widening gap between well-resourced and under-resourced laboratories.</p>
+<p>Publication and funding policies need updating. Journals and funding agencies should establish clear expectations for documenting AI tool usage in methods sections: which models were used, what prompts were given, how outputs were validated. These standards should emerge through community consultation, recognizing that both the technology and best practices are evolving rapidly.</p>
+</section>
+</section>
+<section id="sec-conclusion" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="sec-conclusion"><span class="header-section-number">3.9</span> Conclusion</h2>
+<p>This chapter has traced a shift in what AI can do for microscopists — from task-specific deep learning models that segment cells or denoise images within narrow training distributions, through foundation models that generalize across imaging modalities, to large language models and AI agents that change the nature of the interaction itself. Where earlier tools required researchers to learn specialized software interfaces and write analysis code, LLMs and agents allow them to describe their intent in natural language and have the system handle tool selection, code generation, execution, and iteration.</p>
+<p>This is a genuine change in how microscopy analysis can be conducted, but it is not the change that breathless commentary sometimes suggests. AI agents do not understand biology. They do not design experiments. They cannot judge whether a segmentation result makes sense given what is known about the sample. The AILA benchmarking study<span class="citation" data-cites="mandal2025aila"><sup><a href="references.html#ref-mandal2025aila" role="doc-biblioref">15</a></sup></span> found that even frontier LLMs “struggle with basic experimental tasks” — a finding that should temper expectations about autonomous AI-driven research. What these tools do well is orchestrate existing computational resources, lower barriers to accessing validated analysis methods, and accelerate the cycle of writing code, testing it, and refining it. They are powerful amplifiers of human expertise, not replacements for it.</p>
+<p>The practical value depends on how these tools are used. A researcher who treats AI-generated output as a draft to be evaluated — inspecting segmentation overlays, verifying citations, questioning parameter choices — gains a capable assistant. A researcher who accepts outputs uncritically risks introducing systematic errors that are harder to detect precisely because they are embedded in professional-looking code and fluent prose. The validation practices discussed throughout this chapter are not optional safeguards; they are integral to responsible use.</p>
+<p>Several open questions will shape how this field develops. Can the community establish validation standards for AI-generated analyses that are practical enough to be widely adopted? Will training programs evolve to teach AI literacy alongside microscopy fundamentals, or will foundational skills erode as automation makes them seem unnecessary? Will open protocols and community infrastructure keep these capabilities accessible to laboratories worldwide, or will they concentrate in well-funded institutions? These are not technical questions — they are choices the community is making now through its investments, curricula, and publication standards.</p>
+<p>For readers looking to go deeper: <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> introduces the neural network architectures underlying the models discussed here, <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a> provides guidance on training and fine-tuning models for specific tasks, and <a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a> offers frameworks for evaluating whether AI-generated analysis outputs meet the quality standards that scientific research demands.</p>
+</section>
+<section id="ai-disclosure" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="ai-disclosure">AI Disclosure</h2>
+<p>AI language models (Anthropic’s Claude, specifically Claude Opus 4.6 and Claude Sonnet 4.5) were used during the preparation of this chapter. Their roles included literature search, drafting and revising prose, generating code examples, and producing demonstration figures. All content was reviewed, revised, and verified by the human authors, who take full responsibility for the accuracy and scientific integrity of the final text. Factual claims were checked against primary sources; all cited references were verified to exist and to support the claims attributed to them (verification completed March 2026). The demonstration scripts in <a href="https://github.com/aicjanelia/BioImagingAI/tree/main/docs/3-llms-assets"><code>3-llms-assets/</code></a> were authored with AI assistance and tested by the authors. Given the rapid pace of AI development, specific model versions, benchmark results, and tool capabilities described in this chapter may have changed since publication.</p>
 
 
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-trask2018neural" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Trask, A. <em>et al.</em> <a href="https://papers.nips.cc/paper/2018/file/0e64a7b1e8e0f1c1e8e0f1c1e8e0f1c1-Paper.pdf">Neural arithmetic logic units</a>. in <em>Advances in neural information processing systems</em> vol. 31 8035–8044 (Curran Associates, Inc., 2018).</div>
+</div>
+<div id="ref-stringer2025cellpose3" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Stringer, C. &amp; Pachitariu, M. <a href="https://doi.org/10.1038/s41592-025-02595-5">Cellpose3: One-click image restoration for improved cellular segmentation</a>. <em>Nature Methods</em> <strong>22</strong>, 592–599 (2025).</div>
+</div>
+<div id="ref-Archit2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline"><span class="nocase">Archit, A. <em>et al.</em></span> <a href="https://doi.org/10.1038/s41592-024-02580-4">Segment anything for microscopy</a>. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
+</div>
+<div id="ref-cellsam2025" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline"><span class="nocase">Marks, M. <em>et al.</em></span> <a href="https://doi.org/10.1038/s41592-025-02879-w"><span>CellSAM</span>: A foundation model for cell segmentation</a>. <em>Nature Methods</em> <strong>22</strong>, 2585–2593 (2025).</div>
+</div>
+<div id="ref-pachitariu2025cellposesam" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Pachitariu, M., Rariden, M. &amp; Stringer, C. Cellpose-<span>SAM</span>: Superhuman generalization for cellular segmentation. <em>bioRxiv</em> (2025) doi:<a href="https://doi.org/10.1101/2025.04.28.651001">10.1101/2025.04.28.651001</a>.</div>
+</div>
+<div id="ref-ouyang2023moving" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Ouyang, W., Eliceiri, K. W. &amp; Cimini, B. A. <a href="https://doi.org/10.3389/fbinf.2023.1233748">Moving beyond the desktop: Prospects for practical bioimage analysis via the web</a>. <em>Frontiers in Bioinformatics</em> <strong>3</strong>, 1233748 (2023).</div>
+</div>
+<div id="ref-allal2024smollm2" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline"><span class="nocase">Ben Allal, L. <em>et al.</em></span> <a href="https://huggingface.co/HuggingFaceTB/SmolLM2-135M"><span>SmolLM2</span></a>. (2024).</div>
+</div>
+<div id="ref-haase2024benchmark" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Haase, R., Tischer, C., Hériché, J.-K. &amp; Scherf, N. Benchmarking large language models for bio-image analysis code generation. <em>bioRxiv</em> (2024) doi:<a href="https://doi.org/10.1101/2024.04.19.590278">10.1101/2024.04.19.590278</a>.</div>
+</div>
+<div id="ref-wang2026llmcopilot" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Wang, Z., Danek, B., Yang, Z., Chen, Z. &amp; Sun, J. Making large language models reliable data science programming copilots for biomedical research. <em>Nature Biomedical Engineering</em> (2026) doi:<a href="https://doi.org/10.1038/s41551-025-01587-2">10.1038/s41551-025-01587-2</a>.</div>
+</div>
+<div id="ref-Schmidt2018" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Schmidt, U., Weigert, M., Broaddus, C. &amp; Myers, G. Cell detection with star-convex polygons. in <em>Medical image computing and computer assisted intervention – MICCAI 2018</em> (eds. Frangi, A. F., Schnabel, J. A., Davatzikos, C., Alberola-López, C. &amp; Fichtinger, G.) 265–273 (Springer International Publishing, Cham, 2018). doi:<a href="https://doi.org/10.1007/978-3-030-00934-2_30">10.1007/978-3-030-00934-2_30</a>.</div>
+</div>
+<div id="ref-yao2022react" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Yao, S. <em>et al.</em> ReAct: Synergizing reasoning and acting in language models. <em>arXiv preprint arXiv:2210.03629</em> (2022) doi:<a href="https://doi.org/10.48550/arXiv.2210.03629">10.48550/arXiv.2210.03629</a>.</div>
+</div>
+<div id="ref-royer2024omega" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Royer, L. A. <a href="https://doi.org/10.1038/s41592-024-02310-w">Omega – harnessing the power of large language models for bioimage analysis</a>. <em>Nature Methods</em> <strong>21</strong>, 1371–1373 (2024).</div>
+</div>
+<div id="ref-lei2024bioimageio" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Lei, W., Fuster-Barceló, C., Reder, G., Muñoz-Barrutia, A. &amp; Ouyang, W. <a href="https://doi.org/10.1038/s41592-024-02370-y"><span>BioImage.IO</span> chatbot: A community-driven <span>AI</span> assistant for integrative computational bioimaging</a>. <em>Nature Methods</em> <strong>21</strong>, 1368–1370 (2024).</div>
+</div>
+<div id="ref-huang2025eims" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Huang, G. <em>et al.</em> Embodied intelligence unlocks autonomous microscopy. <em>bioRxiv</em> (2025) doi:<a href="https://doi.org/10.1101/2025.08.13.670210">10.1101/2025.08.13.670210</a>.</div>
+</div>
+<div id="ref-mandal2025aila" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Mandal, I. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-025-64105-7">Evaluating large language model agents for automation of atomic force microscopy</a>. <em>Nature Communications</em> <strong>16</strong>, 9104 (2025).</div>
+</div>
+<div id="ref-smartem2026" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline"><span class="nocase">Meirovitch, Y. <em>et al.</em></span> <a href="https://doi.org/10.1038/s41592-025-02929-3"><span>SmartEM</span>: Machine learning-guided electron microscopy</a>. <em>Nature Methods</em> <strong>23</strong>, 193–204 (2026).</div>
+</div>
+<div id="ref-bilodeau2024pysted" class="csl-entry" role="listitem">
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Bilodeau, A. <em>et al.</em> <a href="https://doi.org/10.1038/s42256-024-00903-w">Development of <span>AI</span>-assisted microscopy frameworks through realistic simulation with <span class="nocase">pySTED</span></a>. <em>Nature Machine Intelligence</em> <strong>6</strong>, 1197–1215 (2024).</div>
+</div>
+<div id="ref-jimenez2024swebench" class="csl-entry" role="listitem">
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Jimenez, C. E. <em>et al.</em> <a href="https://arxiv.org/abs/2310.06770"><span>SWE</span>-bench: Can language models resolve real-world <span>GitHub</span> issues?</a> in <em>Proceedings of the twelfth international conference on learning representations (ICLR)</em> (2024).</div>
+</div>
+<div id="ref-sakauesawano2008fucci" class="csl-entry" role="listitem">
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Sakaue-Sawano, A. <em>et al.</em> <a href="https://doi.org/10.1016/j.cell.2007.12.033">Visualizing spatiotemporal dynamics of multicellular cell-cycle progression</a>. <em>Cell</em> <strong>132</strong>, 487–498 (2008).</div>
+</div>
+<div id="ref-chelli2024hallucination" class="csl-entry" role="listitem">
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Chelli, M. <em>et al.</em> <a href="https://doi.org/10.2196/53164">Hallucination rates and reference accuracy of <span>ChatGPT</span> and <span>Bard</span> for systematic reviews: Comparative analysis</a>. <em>Journal of Medical Internet Research</em> <strong>26</strong>, e53164 (2024).</div>
+</div>
+<div id="ref-li2026agenticai" class="csl-entry" role="listitem">
+<div class="csl-left-margin">21. </div><div class="csl-right-inline"><span class="nocase">Li, B., Saini, A. K., Hernandez, J. G., <em>et al.</em></span> Agentic <span>AI</span> and the rise of in silico team science in biomedical research. <em>Nature Biotechnology</em> (2026) doi:<a href="https://doi.org/10.1038/s41587-026-03035-1">10.1038/s41587-026-03035-1</a>.</div>
+</div>
+<div id="ref-qu2026crisprgpt" class="csl-entry" role="listitem">
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Qu, Y. <em>et al.</em> <a href="https://doi.org/10.1038/s41551-025-01463-z"><span>CRISPR-GPT</span> for agentic automation of gene-editing experiments</a>. <em>Nature Biomedical Engineering</em> <strong>10</strong>, 245–258 (2026).</div>
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
