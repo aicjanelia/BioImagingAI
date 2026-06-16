@@ -364,6 +364,8 @@ gt = build_lineage_tree(n_starting_nodes=10, n_frames=30, division_every=5)
 ```{python}
 #| echo: false
 
+# Plotting utilities
+
 def annotate_positions(g, spacing=1.0, offset=0.0):
     # Assign x coordinates to each node for plotting.
     # Last-frame daughter leaves are spaced by `spacing`.
@@ -413,11 +415,41 @@ def plot_graph(g, ax, color=BLUE):
 
 
 ```{python}
+#| code-fold: true
+#| code-summary: Show code to compute metrics on tracking solutions
+
+
+from traccuracy.matchers import Matched
+from traccuracy import TrackingGraph
+from traccuracy.metrics import CTCMetrics, DivisionMetrics, BasicMetrics
+
+def compute_metrics(solution):
+    """Score a solution against the full ground-truth tree with traccuracy."""
+    matched = Matched(
+        TrackingGraph(gt.copy(), frame_key='frame'),
+        TrackingGraph(solution, frame_key='frame'),
+        mapping=[(nid, nid) for nid in gt.nodes],
+        matcher_info={},
+    )
+    results = {
+        **CTCMetrics().compute(matched).results,
+        **DivisionMetrics().compute(matched).results['Frame Buffer 0'],
+        **BasicMetrics().compute(matched).results,
+    }
+    return results
+```
+
+```{python}
 #| label: fig-sparse-edges
-#| fig-cap: An example of tracking solutions with common failure modes.
-#| warnings: true
+#| fig-cap: "Tracking solutions with common failure modes, each scored with a
+#|   panel of tracking metrics. Trees show a single representative lineage
+#|   truncated to 10 frames; the metric tables are computed over the full
+#|   dataset (10 lineages, 30 frames). Division precision/F1 are undefined
+#|   (n/a) for the no-division solution because it predicts no divisions."
+#| warning: false
 #| echo: false
 
+# Generate single trees for plotting
 plot_gt = get_single_tree(gt, max_frame=10)
 annotate_positions(plot_gt)
 
@@ -427,85 +459,81 @@ sparsify_edges(plot_no_edge)
 plot_no_div = plot_gt.copy()
 remove_divs(plot_no_div)
 
-fig, ax = plt.subplots(1, 3, sharex=True, sharey=True, figsize=(7, 3.4))
-panels = [
-    (plot_gt, "Ground Truth"),
-    (plot_no_edge, "Sparse Edge\nSolution"),
-    (plot_no_div, "No Division\nSolution"),
+# Tables report metrics on the full dataset, not the truncated tree drawn above
+no_edge_full = gt.copy()
+sparsify_edges(no_edge_full)
+no_div_full = gt.copy()
+remove_divs(no_div_full)
+res_no_edge = compute_metrics(no_edge_full)
+res_no_div = compute_metrics(no_div_full)
+
+# (display label, traccuracy results key) for each row of the metric tables
+TABLE_METRICS = [
+    ("TRA", "TRA"),
+    ("LNK", "LNK"),
+    ("Edge F1", "Edge F1"),
+    ("Div. F1", "Division F1"),
 ]
-for axis, (g, title) in zip(ax, panels):
+
+def fmt_metric(key, value):
+    if value != value:  # NaN, e.g. division precision with no predicted divisions
+        return "n/a"
+    if key in ("False Negative Edges", "Total GT Edges"):
+        return f"{int(value)}"
+    return f"{value:.3f}"
+
+
+def add_metric_table(ax, res):
+    ax.axis("off")
+    rows = [[label, fmt_metric(key, res[key])] for label, key in TABLE_METRICS]
+    tbl = ax.table(cellText=rows, colLabels=["Metric", "Value"],
+                   cellLoc="left", colWidths=[0.6, 0.4], loc="center")
+    tbl.auto_set_font_size(False)
+    tbl.set_fontsize(LABEL_FONT_SIZE)
+    tbl.scale(1, 1.25)
+    for (row, _col), cell in tbl.get_celld().items():
+        cell.set_edgecolor("0.8")
+        if row == 0:  # header
+            cell.set_text_props(fontweight="bold")
+
+
+# Top row: lineage trees. Bottom row: a metric table under each solution.
+fig = plt.figure(figsize=(7, 5.2))
+gs = fig.add_gridspec(2, 3, height_ratios=[2.3, 1.0])
+tree_axes = [fig.add_subplot(gs[0, i]) for i in range(3)]
+panels = [
+    (plot_gt, "a) Ground Truth", None),
+    (plot_no_edge, "b) Sparse Edge\nSolution", res_no_edge),
+    (plot_no_div, "c) No Division\nSolution", res_no_div),
+]
+for axis, (g, title, _res) in zip(tree_axes, panels):
     plot_graph(g, axis)
     axis.set_title(title, fontsize=TITLE_FONT_SIZE, fontweight="bold", pad=6)
     # thin boundary box hugging the panel content
     axis.add_patch(Rectangle(
         (-0.6, -0.7), 4.2, 11.4,
         fill=False, edgecolor="black", linewidth=1.0))
+    axis.set_ylim(11.2, -1.2)  # inverted y (frame increases downward)
+    axis.set_xlim(-1.0, 4.0)
 
-ax[0].set_ylim(11.2, -1.2)  # inverted y (frame increases downward)
-ax[0].set_xlim(-1.0, 4.0)
-fig.tight_layout(w_pad=0.4)
+# Ground truth has no error table; solutions get one each.
+for col, (_g, _title, res) in enumerate(panels):
+    table_ax = fig.add_subplot(gs[1, col])
+    if res is None:
+        table_ax.axis("off")
+    else:
+        add_metric_table(table_ax, res)
+
+# tight_layout cannot lay out matplotlib tables, so position panels manually
+fig.subplots_adjust(left=0.05, right=0.97, top=0.88, bottom=0.04,
+                    wspace=0.2, hspace=0.3)
 ```
-
-[TODO - consider embedding metric results into the figure]
 
 The sparse edge solution @fig-sparse-edges is an example of a tracking solution that has missing edges. If we generalize this type of solution to 10 trees over 30 frames.... see metrics below [TODO]
 
-```{python}
-#| code-fold: true
-#| warning: false
 
-from traccuracy.matchers import Matched
-from traccuracy import TrackingGraph
-from traccuracy.metrics import CTCMetrics, DivisionMetrics, BasicMetrics, CHOTAMetric
-from pprint import pprint
-
-# Remove every third edge from the graph
-no_edge = gt.copy()
-sparsify_edges(no_edge)
-
-# Create a matching between nodes in the gt and solution
-matched_no_edge = Matched(
-    TrackingGraph(gt.copy(), frame_key='frame'),
-    TrackingGraph(no_edge, frame_key='frame'),
-    mapping=[(nid, nid) for nid in gt.nodes],
-    matcher_info={}
-)
-res_no_edge = {
-    **CTCMetrics().compute(matched_no_edge).results,
-    **DivisionMetrics().compute(matched_no_edge).results['Frame Buffer 0'],
-    **BasicMetrics().compute(matched_no_edge).results
-}
-metrics = [
-    'TRA',
-    'False Negative Edges',
-    'Total GT Edges'
-]
-pprint({
-    k: res_no_edge[k] for k in metrics
-})
-```
 
 The no division solution @fig-sparse-edges is an example of a tracking solution is missing divisions. If we generalize this type of solution to 10 trees over 30 frames.... [TODO]
 
-```{python}
-#| code-fold: true
-#| warning: false
-
-
-no_divs = gt.copy()
-remove_divs(no_divs)
-
-matched_no_div = Matched(
-    TrackingGraph(gt.copy(), frame_key='frame'),
-    TrackingGraph(no_divs, frame_key='frame'),
-    mapping=[(nid, nid) for nid in gt.nodes],
-    matcher_info={}
-)
-res_no_div = {
-    **CTCMetrics().compute(matched_no_div).results,
-    **DivisionMetrics().compute(matched_no_div).results['Frame Buffer 0']
-}
-pprint(res_no_div)
-```
 
 [TODO] discussion and wrap up on the need to look at more individualized metrics even though summary metrics are convenient
