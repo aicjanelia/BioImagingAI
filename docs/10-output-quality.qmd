@@ -72,7 +72,12 @@ Note: We are considering picking one example to place in call out boxes througho
 
 ```{python}
 #| label: fig-track-errors
-#| fig-cap: Track errors... TODO
+#| fig-cap: "Common types of tracking errors. (a) This example prediction demonstrates multiple types of 
+#|   node and edge errors: false negative node, false negative edges and false positive node. (b) This example 
+#|   shows a missed division as the result of a missed edge between a parent and a daughter. (c) This example 
+#|   shows a division where the parent was correctly identified, but one of the daughters was incorrectly assigned 
+#|   to a different node. (d) This is an example of an identity switch where two nodes are swapped and assigned to 
+#|   the incorrect lineage part way through the lineage."
 #| echo: false
 
 import matplotlib.pyplot as plt
@@ -166,11 +171,13 @@ def panel_missed_division(ax, gap):
     te = [(0, 1), (1, 2), (2, 3), (3, 4), (2, 5), (5, 6)]
     plot_tree(ax, tn, te)
 
-    # Pred: parent + connected daughter form one continuous (red) lineage;
-    # the disconnected daughter segment is a separate track (blue)
+    # Pred: the division is missed, so the parent links linearly into one
+    # daughter (no branch). Nodes keep their correct (true) lineage colors, so
+    # the spurious parent->green link shows as a color change along the track;
+    # the disconnected blue daughter is orphaned.
     pn = {
         0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
-        3: (0.0, 3, RED), 4: (0.0, 4, RED),
+        3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
         5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
     }
     pe = [(0, 1), (1, 2), (2, 3), (3, 4), (5, 6)]
@@ -207,22 +214,23 @@ def panel_identity_switch(ax, gap):
     title = "Identity\nswitch"
     # True: two parallel tracks
     tn = {
-        ("a", i): (0.0, i, PURPLE) for i in range(5)
+        ("a", i): (0.0, i, BLUE) for i in range(5)
     }
-    tn.update({("b", i): (1.0, i, RED) for i in range(5)})
+    tn.update({("b", i): (1.0, i, ORANGE) for i in range(5)})
     te = [(("a", i), ("a", i + 1)) for i in range(4)]
     te += [(("b", i), ("b", i + 1)) for i in range(4)]
     plot_tree(ax, tn, te)
 
-    # Pred: each predicted lineage keeps one consistent color but follows the
-    # wrong cell after the swap, so the colored paths cross columns at frame 2->3
+    # Pred: nodes keep their correct (true) lineage colors; the identity switch
+    # is shown by the linking edges crossing columns at frame 2->3, so each
+    # predicted track follows the wrong cell after the swap.
     pn = {
-        ("a", 0): (0.0, 0, PURPLE), ("a", 1): (0.0, 1, PURPLE),
-        ("a", 2): (0.0, 2, PURPLE),
-        ("a", 3): (0.0, 3, RED), ("a", 4): (0.0, 4, RED),
-        ("b", 0): (1.0, 0, RED), ("b", 1): (1.0, 1, RED),
-        ("b", 2): (1.0, 2, RED),
-        ("b", 3): (1.0, 3, PURPLE), ("b", 4): (1.0, 4, PURPLE),
+        ("a", 0): (0.0, 0, BLUE), ("a", 1): (0.0, 1, BLUE),
+        ("a", 2): (0.0, 2, BLUE),
+        ("a", 3): (0.0, 3, BLUE), ("a", 4): (0.0, 4, BLUE),
+        ("b", 0): (1.0, 0, ORANGE), ("b", 1): (1.0, 1, ORANGE),
+        ("b", 2): (1.0, 2, ORANGE),
+        ("b", 3): (1.0, 3, ORANGE), ("b", 4): (1.0, 4, ORANGE),
     }
     pe = [(("a", 0), ("a", 1)), (("a", 1), ("a", 2)),
           (("b", 0), ("b", 1)), (("b", 1), ("b", 2)),
@@ -444,7 +452,9 @@ def compute_metrics(solution):
 #| fig-cap: "Tracking solutions with common failure modes, each scored with a
 #|   panel of tracking metrics. Trees show a single representative lineage
 #|   truncated to 10 frames; the metric tables are computed over the full
-#|   dataset (10 lineages, 30 frames). Division precision/F1 are undefined
+#|   dataset (10 lineages, 30 frames).
+#|   Panel b shows a solution where every third edge is missing. Panel c shows
+#|   a solution where no divisions were predicted. Division precision/F1 are undefined
 #|   (n/a) for the no-division solution because it predicts no divisions."
 #| warning: false
 #| echo: false
