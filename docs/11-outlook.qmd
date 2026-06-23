@@ -5,13 +5,7 @@ author:
     affiliations:
       - name: European Molecular Biology Laboratory
         country: Germany
-  - name: Add any co-authors as appropriate
-    orcid: 
-    affiliations:
-      - name: 
-        state: 
-        country: 
-        postal-code: 
+
 subtitle: What can AI enable for biology?
 ---
 
@@ -22,17 +16,32 @@ subtitle: What can AI enable for biology?
 
 Starting prompt for this chapter: Chapter 11 concludes the book with a forward-looking assessment of AI in microscopy, focusing on how it can/will enable biological discovery. It should highlight a few motivational examples of discoveries that AI has already enabled and discuss opportunities to which the reader is primed to contribute after reading this book.
 
-## Why it's a good time to start with DL for microscopy now?
-- There is a lot of know-how accumulated in the field, existing architectures work well, new ones promise even more
-- Specific resources are starting to appear, including this book
-- Existing DL tools are quite powerful, but require understanding of limitations. While it's tempting to just use things and move on to the next analysis step, you can get much more out of them if you have an idea about the internals.
-- It provides a strategic advantage for the analysis of challenging data: large, volumetric, high-throughput, temporal. Screening, sorting, finding an elusive phenotype, for these and other applications the performance of your DL will define what is possible.
+With this book, we hope to have set you on a journey of exploration into the use of AI methods in microscopy. In the final chapter, we reflect on some of the field's early successes and share our excitement for its future directions. Finally, we’ll look ahead to the path before you — how you can build on what you've learned to not only answer specific biological questions, but contribute to the broader advancement of this rapidly evolving domain.
 
-## Early birds: new biology enabled by DL
+## Early birds: breakthrough AI applications across biological domains
+### Connectomics
+The field of connectomics aims to reconstruct and analyze complete neural circuit diagrams. Microscopy for connectomics faces the combined challenge of requiring a very high resolution for individual synapse detection and a very large field of view for complete neuron tracing. Up until the very recent advances in Expansion Microscopy, Electron Microscopy remained the only modality suitable for connectomics studies, routinely generating tens to hundreds to thousands of Terabytes of image data at nanoscale resolution.  As the infeasibility of fully manual analysis became obvious with the first significant volume acquisitions (the first c elegans connectome from [White et al, 1988] required 10 years of manual tracing!), neuroscientists sought collaboration with machine learning and computer vision experts to speed up and automate neuron segmentation and synapse detection. Already the first such algorithms (refs) started to alleviate the manual annotation burden, while the rapid progress of the computer vision field in the new age of deep learning has allowed for more and more automated pipelines, complete with AI-based circuit error detection and correction. Beyond direct scaling of the circuit tracing process, new approaches have been proposed to complete tasks which were previously deemed infeasible, such as neurotransmitter prediction directly from EM images of synapses. The future of connectomics, expanding into larger and larger volumes up to the whole mouse brain or substantial pieces of the human brain (cite smth from Lichtmann), is tightly coupled to the progress in AI-based analysis which keeps reshaping our understanding of what is possible (cite google last paper).  
+
+### In situ cryo-Electron Tomography
+Cryogenic Electron Tomography (cryo-ET) images biological samples preserved as vitreous ice with transmission electron microscopy, tilting the sample in serial imaging to achieve volumetric acquisition. Combined with computational post-processing, this technique yields the highest resolution in all of biological imaging, allowing for Ångstrom-level investigation of macromolecular complexes. Here, image analysis challenges come from both technical and biological limitations. On the technical side, the inherently low signal-to-noise ratio (electron dose has to be limited to avoid damaging the sample) and the missing wedge artifact (the imaging is tomographic and not all angles can be achieved) make reliable segmentation and particle identification difficult even for human vision. On the biological side, the frontier application of cryo-ET to intact bacteria or cellular lamellae captures a very crowded and heterogeneous environment, further complicating image interpretation. AI has already integrated deeply into cryo-ET workflows, automating and accelerating many previously manual or challenging steps. With AI enabling faster and smarter data collection, the vision of near-unattended workflows is becoming increasingly attainable. 
+
+
+
+
 - Connectomics: neuron segmentation, synapse detection, graph-related tasks, all at a scale not possible without segmentation
 - Studying development: segmentation and tracking, the work of Kate McDole/ Jan Funke and Loic Royer. 
 - Image restoration: tbd, find a biology rather than methods paper, something like [Schubert et al, Nat Comms, 2024] as an application for Noise2Void. Perhaps mention light field or another example where DL-based deconvolution can make processing real-time compared to previous requirements of days on a cluster, if not already mentioned in Chapter 6. 
 - Large atlasing efforts: HPA, Platynereis, etc
+- cryoET, membraine, Ellen Zhong, etc
+
+## Why it's a good time to start with DL for microscopy now?
+- There is a lot of know-how accumulated in the field, existing architectures work well, new ones promise even more
+- coding itself is getting much easier with new AI tools, see chapter 10. 
+- Specific resources are starting to appear, including this book
+- Existing DL tools are quite powerful, but require understanding of limitations. While it's tempting to just use things and move on to the next analysis step, you can get much more out of them if you have an idea about the internals.
+- It provides a strategic advantage for the analysis of challenging data: large, volumetric, high-throughput, temporal. Screening, sorting, finding an elusive phenotype, for these and other applications the performance of your DL will define what is possible.
+
+
 
 ## What's next?
 - DL is developing in a fast and very inpredictable way. No one asked in 2015 would have come forward with what we have now. 
