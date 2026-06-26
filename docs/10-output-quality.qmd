@@ -15,6 +15,7 @@ author:
         country: 
         postal-code: 
 subtitle: How to pick a model?
+jupyter: 10-output-quality
 ---
 
 # Output Quality
@@ -43,7 +44,7 @@ Starting prompt for this chapter: Chapter 10 addresses how to assess the quality
   * otherwise, find a loss that is a good proxy or chose your model based on
     the metric on the validation dataset
 
-## What Metric to Pick?
+## What Metric to Pick? (Morgan)
 
 * ideally: metric reflects *time/cost needed to clean up* for a *particular application*
 * this can mean different things, and sometimes there is no single number (see Cell Tracking below)
@@ -67,4 +68,472 @@ Note: We are considering picking one example to place in call out boxes througho
 
 * usually not a single number: topological correctness vs. positional correctness
 * show traccuracy and discuss some of their metrics
+* Need for selecting metrics based on the biological priority
 
+```{python}
+#| label: fig-track-errors
+#| fig-cap: Track errors... TODO
+#| echo: false
+
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from matplotlib.patches import Rectangle
+
+# Palette mimicking the reference figure
+RED = "#d62728"
+GREEN = "#2ca02c"
+BLUE = "#1f77b4"
+PURPLE = "#9467bd"
+ORANGE = "#ff7f0e"
+GRAY = "0.6"
+
+# How much darker the predicted tracks are relative to ground truth (1.0 = same)
+PRED_SHADE = 0.6
+
+LABEL_FONT_SIZE = 8
+TITLE_FONT_SIZE = 10
+NODE_SIZE = 50
+EDGE_WIDTH = 2
+
+
+def darken(color, factor=PRED_SHADE):
+    """Return a darker shade of `color` by scaling toward black in RGB."""
+    r, g, b = mcolors.to_rgb(color)
+    return (r * factor, g * factor, b * factor)
+
+
+def plot_tree(ax, nodes, edges, missing_edges=None, x_offset=0.0,
+              shade=1.0):
+    """Draw one lineage tree.
+
+    nodes:         {id: (x, frame, color)}
+    edges:         [(u, v), ...]  drawn as solid lines, colored by child node
+    missing_edges: [(u, v), ...]  drawn as faint dashed lines (false negatives)
+    shade:         scale node/edge colors toward black (use < 1 for Pred trees)
+    """
+    pos = {n: (x + x_offset, f) for n, (x, f, _) in nodes.items()}
+
+    def shaded(c):
+        return darken(c, shade) if shade != 1.0 else c
+
+    for u, v in (missing_edges or []):
+        (xu, yu), (xv, yv) = pos[u], pos[v]
+        ax.plot([xu, xv], [yu, yv], color=GRAY, lw=edge_width,
+                ls=(0, (2, 2)), zorder=1)
+
+    for u, v in edges:
+        (xu, yu), (xv, yv) = pos[u], pos[v]
+        ax.plot([xu, xv], [yu, yv], color=shaded(nodes[v][2]), lw=EDGE_WIDTH,
+                zorder=1)
+
+    for n, (x, f, color) in nodes.items():
+        ax.scatter([x + x_offset], [f], s=NODE_SIZE, color=shaded(color),
+                   zorder=2, edgecolors="none")
+    return pos
+
+
+# --------------------------------------------------------------------------
+# Panel builders. Each returns (true_nodes, true_edges, pred_nodes,
+# pred_edges, pred_missing) and draws its own annotations.
+# Convention: frame increases downward (y axis inverted at the end).
+# --------------------------------------------------------------------------
+
+def panel_node_edge(ax, gap):
+    """FP node + FN node/edge on a single track."""
+    title = "Node & edge\nerrors"
+    # True: straight track, frames 0-4
+    tn = {i: (0, i, BLUE) for i in range(5)}
+    te = [(i, i + 1) for i in range(4)]
+    plot_tree(ax, tn, te)
+
+    # Pred: frame-2 node missing (FN gap), an extra detection at frame 0 (FP)
+    pn = {i: (0, i, BLUE) for i in [0, 1, 3, 4]}
+    pn["fp"] = (0.7, 0, RED)
+    pe = [(0, 1), (3, 4)]
+    plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
+    return title, tn, pn
+
+
+def panel_missed_division(ax, gap):
+    """Division present in True, missing in Pred (FN edge)."""
+    title = "Missed\ndivision"
+    # True: red parent 0-2, divides into green + blue at frame 3
+    tn = {
+        0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
+        3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
+        5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
+    }
+    te = [(0, 1), (1, 2), (2, 3), (3, 4), (2, 5), (5, 6)]
+    plot_tree(ax, tn, te)
+
+    # Pred: parent + connected daughter form one continuous (red) lineage;
+    # the disconnected daughter segment is a separate track (blue)
+    pn = {
+        0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
+        3: (0.0, 3, RED), 4: (0.0, 4, RED),
+        5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
+    }
+    pe = [(0, 1), (1, 2), (2, 3), (3, 4), (5, 6)]
+    plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
+    return title, tn, pn
+
+
+def panel_wrong_daughter(ax, gap):
+    """Correct parent, one correct daughter, one incorrect daughter (I)."""
+    title = "Incorrect\ndaughter"
+    tn = {
+        0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
+        3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
+        5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
+    }
+    te = [(0, 1), (1, 2), (2, 3), (3, 4), (2, 5), (5, 6)]
+    plot_tree(ax, tn, te)
+
+    # Pred: parent divides into the correct green daughter and a wrong cell
+    # (orange); the true blue daughter still exists but is now an orphan track
+    pn = {
+        0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
+        3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
+        "w1": (1.0, 3, ORANGE), "w2": (1.0, 4, ORANGE),
+        5: (1.8, 3, BLUE), 6: (1.8, 4, BLUE),
+    }
+    pe = [(0, 1), (1, 2), (2, 3), (3, 4), (2, "w1"), ("w1", "w2"), (5, 6)]
+    plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
+    return title, tn, pn
+
+
+def panel_identity_switch(ax, gap):
+    """Two lineages whose identities swap partway through (I)."""
+    title = "Identity\nswitch"
+    # True: two parallel tracks
+    tn = {
+        ("a", i): (0.0, i, PURPLE) for i in range(5)
+    }
+    tn.update({("b", i): (1.0, i, RED) for i in range(5)})
+    te = [(("a", i), ("a", i + 1)) for i in range(4)]
+    te += [(("b", i), ("b", i + 1)) for i in range(4)]
+    plot_tree(ax, tn, te)
+
+    # Pred: each predicted lineage keeps one consistent color but follows the
+    # wrong cell after the swap, so the colored paths cross columns at frame 2->3
+    pn = {
+        ("a", 0): (0.0, 0, PURPLE), ("a", 1): (0.0, 1, PURPLE),
+        ("a", 2): (0.0, 2, PURPLE),
+        ("a", 3): (0.0, 3, RED), ("a", 4): (0.0, 4, RED),
+        ("b", 0): (1.0, 0, RED), ("b", 1): (1.0, 1, RED),
+        ("b", 2): (1.0, 2, RED),
+        ("b", 3): (1.0, 3, PURPLE), ("b", 4): (1.0, 4, PURPLE),
+    }
+    pe = [(("a", 0), ("a", 1)), (("a", 1), ("a", 2)),
+          (("b", 0), ("b", 1)), (("b", 1), ("b", 2)),
+          (("a", 3), ("a", 4)), (("b", 3), ("b", 4)),
+          # crossing links
+          (("a", 2), ("b", 3)), (("b", 2), ("a", 3))]
+    plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
+    return title, tn, pn
+
+def plot_figure():
+    panels = [
+        panel_node_edge,
+        panel_missed_division,
+        panel_wrong_daughter,
+        panel_identity_switch,
+    ]
+    gap = 3.6  # horizontal offset of the Pred tree from the True tree
+
+    fig, axes = plt.subplots(1, len(panels), figsize=(7, 2.8))
+    labels = ["a)", "b)", "c)", "d)"]
+    pad_x, label_y = 1.0, -1.05  # box padding and True/Pred label height
+    box_top, box_bot = -1.3, 4.6  # vertical box extent (frames run 0..4)
+    for ax, builder, lab in zip(axes, panels, labels):
+        title, tn, pn = builder(ax, gap)
+        true_xs = [x for x, _, _ in tn.values()]
+        pred_xs = [x + gap for x, _, _ in pn.values()]
+
+        # center each label over the horizontal extent of its lineage
+        ax.text((min(true_xs) + max(true_xs)) / 2, label_y, "Ground\nTruth",
+                ha="center", va="top", linespacing=0.9,
+                fontsize=LABEL_FONT_SIZE)
+        ax.text((min(pred_xs) + max(pred_xs)) / 2, label_y, "Predicted",
+                ha="center", va="top", fontsize=LABEL_FONT_SIZE)
+
+        # square box hugging the panel content
+        xmin = min(true_xs + pred_xs) - pad_x
+        xmax = max(true_xs + pred_xs) + pad_x
+        ax.add_patch(Rectangle(
+            (xmin, box_top), xmax - xmin, box_bot - box_top,
+            fill=False, edgecolor="black", linewidth=1.0))
+
+        ax.set_title(f"{lab} {title}", fontsize=TITLE_FONT_SIZE,
+                     fontweight="bold", pad=6)
+        ax.set_ylim(box_bot + 0.15, box_top - 0.15)  # inverted y
+        ax.set_xlim(xmin - 0.1, xmax + 0.1)
+        ax.axis("off")
+
+    fig.tight_layout(w_pad=0.4)
+
+plot_figure()
+```
+
+
+
+
+```{python}
+#| code-fold: true
+#| code-summary: Show code to generate a set of lineage trees with regular divisions
+import networkx as nx
+
+def build_lineage_tree(
+    n_starting_nodes: int = 10,
+    n_frames: int = 30,
+    division_every: int = 5,
+) -> nx.DiGraph:
+    """
+    Build a lineage tree as a directed graph.
+
+    - Starts with `n_starting_nodes` roots at frame 0
+    - Every `division_every` frames, each live cell divides into 2 daughters
+    - Between division frames, cells persist as a single descendant
+
+    Nodes are labeled like:
+        cell_id = "c0", "c1", ...
+    and store:
+        - frame
+        - root
+    """
+    G = nx.DiGraph()
+
+    cell_counter = 0
+    live_cells = []
+
+    # Create starting nodes at frame 0
+    for root in range(n_starting_nodes):
+        node = cell_counter
+        cell_counter += 1
+        G.add_node(node, frame=0, root=root)
+        live_cells.append(node)
+
+    # Advance through frames
+    for frame in range(1, n_frames + 1):
+        next_live_cells = []
+        is_division_frame = (frame % division_every == 0)
+
+        for parent in live_cells:
+            root = G.nodes[parent]["root"]
+
+            if is_division_frame:
+                # Parent divides into two daughters
+                for _ in range(2):
+                    child = cell_counter
+                    cell_counter += 1
+                    G.add_node(child, frame=frame, root=root)
+                    G.add_edge(parent, child)
+                    next_live_cells.append(child)
+            else:
+                # Parent continues as one descendant
+                child = cell_counter
+                cell_counter += 1
+                G.add_node(child, frame=frame, root=root)
+                G.add_edge(parent, child)
+                next_live_cells.append(child)
+
+        live_cells = next_live_cells
+
+    return G
+
+
+def sparsify_edges(g, mod=3):
+    del_edges = []
+    for i, edge in enumerate(g.edges()):
+        if i % mod == 0:
+            del_edges.append(edge)
+    g.remove_edges_from(del_edges)
+
+
+def remove_divs(g):
+    div_edges = []
+    for node in g.nodes:
+        if g.out_degree(node) == 2:
+            div_edges.extend(g.edges(node))
+
+    g.remove_edges_from(div_edges)
+
+
+gt = build_lineage_tree(n_starting_nodes=10, n_frames=30, division_every=5)
+```
+```{python}
+#| echo: false
+
+# Plotting utilities
+
+def annotate_positions(g, spacing=1.0, offset=0.0):
+    # Assign x coordinates to each node for plotting.
+    # Last-frame daughter leaves are spaced by `spacing`.
+    if len(g.nodes) == 0:
+        return
+
+    last_frame_leaves = [n for n in g.nodes if g.out_degree(n) == 0]
+
+    last_frame_leaves.sort()
+    for i, node in enumerate(last_frame_leaves):
+        g.nodes[node]['x'] = offset + i * spacing
+
+    for node in sorted(g.nodes, key=lambda n: g.nodes[n]['frame'], reverse=True):
+        if 'x' in g.nodes[node]:
+            continue
+        children = list(g.successors(node))
+        if children:
+            g.nodes[node]['x'] = sum(g.nodes[c]['x'] for c in children) / len(children)
+        else:
+            g.nodes[node]['x'] = offset
+
+
+def get_single_tree(g, root=0, max_frame=None):
+    del_nodes = []
+    for n, attrs in g.nodes.items():
+        if attrs['root'] != root:
+            del_nodes.append(n)
+        if max_frame and attrs['frame'] > max_frame:
+            del_nodes.append(n)
+    g_out = g.copy()
+    g_out.remove_nodes_from(set(del_nodes))
+    return g_out
+
+
+def plot_graph(g, ax, color=BLUE):
+    """Draw a lineage tree in the reference style: single-color nodes,
+    arrow-free edges, no axis spines."""
+    pos = {n: (data['x'], data['frame']) for n, data in g.nodes.items()}
+    for u, v in g.edges():
+        (xu, yu), (xv, yv) = pos[u], pos[v]
+        ax.plot([xu, xv], [yu, yv], color=color, lw=EDGE_WIDTH, zorder=1)
+    for n, (x, y) in pos.items():
+        ax.scatter([x], [y], s=NODE_SIZE, color=color,
+                   zorder=2, edgecolors="none")
+    ax.axis("off")
+```
+
+
+```{python}
+#| code-fold: true
+#| code-summary: Show code to compute metrics on tracking solutions
+
+
+from traccuracy.matchers import Matched
+from traccuracy import TrackingGraph
+from traccuracy.metrics import CTCMetrics, DivisionMetrics, BasicMetrics
+
+def compute_metrics(solution):
+    """Score a solution against the full ground-truth tree with traccuracy."""
+    matched = Matched(
+        TrackingGraph(gt.copy(), frame_key='frame'),
+        TrackingGraph(solution, frame_key='frame'),
+        mapping=[(nid, nid) for nid in gt.nodes],
+        matcher_info={},
+    )
+    results = {
+        **CTCMetrics().compute(matched).results,
+        **DivisionMetrics().compute(matched).results['Frame Buffer 0'],
+        **BasicMetrics().compute(matched).results,
+    }
+    return results
+```
+
+```{python}
+#| label: fig-sparse-edges
+#| fig-cap: "Tracking solutions with common failure modes, each scored with a
+#|   panel of tracking metrics. Trees show a single representative lineage
+#|   truncated to 10 frames; the metric tables are computed over the full
+#|   dataset (10 lineages, 30 frames). Division precision/F1 are undefined
+#|   (n/a) for the no-division solution because it predicts no divisions."
+#| warning: false
+#| echo: false
+
+# Generate single trees for plotting
+plot_gt = get_single_tree(gt, max_frame=10)
+annotate_positions(plot_gt)
+
+plot_no_edge = plot_gt.copy()
+sparsify_edges(plot_no_edge)
+
+plot_no_div = plot_gt.copy()
+remove_divs(plot_no_div)
+
+# Tables report metrics on the full dataset, not the truncated tree drawn above
+no_edge_full = gt.copy()
+sparsify_edges(no_edge_full)
+no_div_full = gt.copy()
+remove_divs(no_div_full)
+res_no_edge = compute_metrics(no_edge_full)
+res_no_div = compute_metrics(no_div_full)
+
+# (display label, traccuracy results key) for each row of the metric tables
+TABLE_METRICS = [
+    ("TRA", "TRA"),
+    ("LNK", "LNK"),
+    ("Edge F1", "Edge F1"),
+    ("Div. F1", "Division F1"),
+]
+
+def fmt_metric(key, value):
+    if value != value:  # NaN, e.g. division precision with no predicted divisions
+        return "n/a"
+    if key in ("False Negative Edges", "Total GT Edges"):
+        return f"{int(value)}"
+    return f"{value:.3f}"
+
+
+def add_metric_table(ax, res):
+    ax.axis("off")
+    rows = [[label, fmt_metric(key, res[key])] for label, key in TABLE_METRICS]
+    tbl = ax.table(cellText=rows, colLabels=["Metric", "Value"],
+                   cellLoc="left", colWidths=[0.6, 0.4], loc="center")
+    tbl.auto_set_font_size(False)
+    tbl.set_fontsize(LABEL_FONT_SIZE)
+    tbl.scale(1, 1.25)
+    for (row, _col), cell in tbl.get_celld().items():
+        cell.set_edgecolor("0.8")
+        if row == 0:  # header
+            cell.set_text_props(fontweight="bold")
+
+
+# Top row: lineage trees. Bottom row: a metric table under each solution.
+fig = plt.figure(figsize=(7, 5.2))
+gs = fig.add_gridspec(2, 3, height_ratios=[2.3, 1.0])
+tree_axes = [fig.add_subplot(gs[0, i]) for i in range(3)]
+panels = [
+    (plot_gt, "a) Ground Truth", None),
+    (plot_no_edge, "b) Sparse Edge\nSolution", res_no_edge),
+    (plot_no_div, "c) No Division\nSolution", res_no_div),
+]
+for axis, (g, title, _res) in zip(tree_axes, panels):
+    plot_graph(g, axis)
+    axis.set_title(title, fontsize=TITLE_FONT_SIZE, fontweight="bold", pad=6)
+    # thin boundary box hugging the panel content
+    axis.add_patch(Rectangle(
+        (-0.6, -0.7), 4.2, 11.4,
+        fill=False, edgecolor="black", linewidth=1.0))
+    axis.set_ylim(11.2, -1.2)  # inverted y (frame increases downward)
+    axis.set_xlim(-1.0, 4.0)
+
+# Ground truth has no error table; solutions get one each.
+for col, (_g, _title, res) in enumerate(panels):
+    table_ax = fig.add_subplot(gs[1, col])
+    if res is None:
+        table_ax.axis("off")
+    else:
+        add_metric_table(table_ax, res)
+
+# tight_layout cannot lay out matplotlib tables, so position panels manually
+fig.subplots_adjust(left=0.05, right=0.97, top=0.88, bottom=0.04,
+                    wspace=0.2, hspace=0.3)
+```
+
+The sparse edge solution @fig-sparse-edges is an example of a tracking solution that has missing edges. If we generalize this type of solution to 10 trees over 30 frames.... see metrics below [TODO]
+
+
+
+The no division solution @fig-sparse-edges is an example of a tracking solution is missing divisions. If we generalize this type of solution to 10 trees over 30 frames.... [TODO]
+
+
+[TODO] discussion and wrap up on the need to look at more individualized metrics even though summary metrics are convenient
