@@ -16,6 +16,9 @@ author:
         postal-code: 
 subtitle: How to pick a model?
 jupyter: 10-output-quality
+execute:
+    cache: true
+bibliography: references.bib
 ---
 
 # Output Quality
@@ -69,6 +72,135 @@ Note: We are considering picking one example to place in call out boxes througho
 * usually not a single number: topological correctness vs. positional correctness
 * show traccuracy and discuss some of their metrics
 * Need for selecting metrics based on the biological priority
+* chota ref[@kaiser2024chota]
+* TRA ref[@mavska2014benchmark]
+
+Cell tracking is typically approached as a multi-stage task. The first stage is detection where cells in each frame of the time series are detected using point detections, bounding boxes or segmentation masks. In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees.
+
+
+
+```{python}
+#| label: fig-tracking-graph
+#| fig-cap: "Cell tracking represented as a graph. (Top) Segmentation masks
+#|   detect a few cells in each of three time points; the blue cell persists
+#|   across all three frames while the orange cell divides into two daughters
+#|   (green and purple) at $t = 2$. (Bottom) The corresponding tracking graph places one
+#|   node per detected cell, with edges linking the same cell across frames.
+#|   Node columns and colors align with the masks above, and the division
+#|   appears as a node with two outgoing edges."
+#| echo: false
+
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from matplotlib.patches import Rectangle
+
+# Palette consistent with the rest of the chapter
+BLUE = "#1f77b4"
+ORANGE = "#ff7f0e"
+GREEN = "#2ca02c"
+PURPLE = "#9467bd"
+
+LABEL_FONT_SIZE = 9
+TITLE_FONT_SIZE = 10
+NODE_SIZE = 220
+EDGE_WIDTH = 2
+N_FRAMES = 3
+
+# Scene: a few cells tracked across three time points.
+#   Cell A (blue):   present in all 3 frames, drifting horizontally but holding
+#                    a fixed vertical position so its lineage is a straight line.
+#   Cell B (orange): present in frames 0 and 1, divides at frame 2 into two
+#                    daughters (green and purple) -> introduces a branch.
+# Each occurrence stores its position (x, y) inside a unit frame; the y value
+# is reused as the vertical position of the matching graph node so that each
+# blob lines up with its node below.
+CELLS = {
+    "A0": dict(frame=0, pos=(0.30, 0.70), color=BLUE,   seed=1, r=(0.15, 0.10)),
+    "A1": dict(frame=1, pos=(0.42, 0.70), color=BLUE,   seed=2, r=(0.15, 0.10)),
+    "A2": dict(frame=2, pos=(0.52, 0.70), color=BLUE,   seed=3, r=(0.15, 0.10)),
+    "B0": dict(frame=0, pos=(0.62, 0.30), color=ORANGE, seed=4, r=(0.16, 0.11)),
+    "B1": dict(frame=1, pos=(0.58, 0.32), color=ORANGE, seed=5, r=(0.11, 0.08)),
+    "C2": dict(frame=2, pos=(0.40, 0.22), color=GREEN,  seed=6, r=(0.13, 0.09)),
+    "D2": dict(frame=2, pos=(0.70, 0.40), color=PURPLE, seed=7, r=(0.13, 0.09)),
+}
+EDGES = [
+    ("A0", "A1"), ("A1", "A2"),
+    ("B0", "B1"),
+    ("B1", "C2"), ("B1", "D2"),  # division
+]
+
+
+def blob_outline(cx, cy, rx, ry, seed):
+    """x, y arrays for a nucleus-like outline: an ellipse with a slight,
+    low-frequency wobble so it reads as an organic shape rather than a circle."""
+    theta = np.linspace(0, 2 * np.pi, 80)
+    rng = np.random.default_rng(seed)
+    a, b = rng.uniform(-1, 1, 2)
+    r = 1 + 0.04 * np.sin(2 * theta + 2 * a) + 0.025 * np.cos(3 * theta + 3 * b)
+    return cx + rx * r * np.cos(theta), cy + ry * r * np.sin(theta)
+
+
+def draw_blob(ax, cell):
+    cx, cy = cell["pos"]
+    rx, ry = cell["r"]
+    x, y = blob_outline(cx, cy, rx, ry, cell["seed"])
+    base = mcolors.to_rgb(cell["color"])
+    fill = tuple(0.55 * c + 0.45 for c in base)  # lightened fill
+    ax.fill(x, y, color=fill, zorder=1)
+    ax.plot(x, y, color=cell["color"], lw=1.8, zorder=2)
+
+
+fig = plt.figure(figsize=(7, 5.0))
+gs = fig.add_gridspec(2, N_FRAMES, height_ratios=[1.0, 1.15],
+                      hspace=0.28, wspace=0.12)
+
+# Top row: segmentation masks at each time point
+for t in range(N_FRAMES):
+    ax = fig.add_subplot(gs[0, t])
+    ax.set_facecolor("white")
+    for cell in CELLS.values():
+        if cell["frame"] == t:
+            draw_blob(ax, cell)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_aspect("equal")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_title(f"$t = {t}$", fontsize=TITLE_FONT_SIZE)
+    # solid black frame of even weight on all four sides
+    for s in ax.spines.values():
+        s.set_visible(True)
+        s.set_color("black")
+        s.set_linewidth(1.2)
+
+# Bottom row: the tracking graph spanning all frames
+gax = fig.add_subplot(gs[1, :])
+pos = {cid: (c["frame"], c["pos"][1]) for cid, c in CELLS.items()}
+# edges drawn as solid lines colored by the child node, matching the other
+# lineage figures in this chapter
+for u, v in EDGES:
+    (xu, yu), (xv, yv) = pos[u], pos[v]
+    gax.plot([xu, xv], [yu, yv], color=CELLS[v]["color"], lw=EDGE_WIDTH,
+             zorder=1)
+for cid, (x, y) in pos.items():
+    gax.scatter([x], [y], s=NODE_SIZE, color=CELLS[cid]["color"],
+                edgecolors="white", linewidths=1.5, zorder=2)
+for t in range(N_FRAMES):
+    gax.plot([t, t], [0, 1.0], color="0.85", lw=1.0, zorder=0)
+    gax.text(t, 1.04, f"$t = {t}$", ha="center", va="bottom",
+             fontsize=LABEL_FONT_SIZE, color="0.4")
+gax.set_xlim(-0.4, N_FRAMES - 1 + 0.4)
+gax.set_ylim(0, 1.14)
+gax.set_xlabel("Time", fontsize=LABEL_FONT_SIZE)
+gax.set_ylabel("Tracking graph", fontsize=LABEL_FONT_SIZE)
+gax.set_xticks([])
+gax.set_yticks([])
+for s in gax.spines.values():
+    s.set_visible(False)
+
+fig.subplots_adjust(left=0.05, right=0.97, top=0.92, bottom=0.06)
+```
 
 ```{python}
 #| label: fig-track-errors
@@ -429,7 +561,7 @@ def plot_graph(g, ax, color=BLUE):
 
 from traccuracy.matchers import Matched
 from traccuracy import TrackingGraph
-from traccuracy.metrics import CTCMetrics, DivisionMetrics, BasicMetrics
+from traccuracy.metrics import CTCMetrics, DivisionMetrics, BasicMetrics, CHOTAMetric
 
 def compute_metrics(solution):
     """Score a solution against the full ground-truth tree with traccuracy."""
@@ -443,6 +575,7 @@ def compute_metrics(solution):
         **CTCMetrics().compute(matched).results,
         **DivisionMetrics().compute(matched).results['Frame Buffer 0'],
         **BasicMetrics().compute(matched).results,
+        **CHOTAMetric().compute(matched).results
     }
     return results
 ```
@@ -481,6 +614,7 @@ res_no_div = compute_metrics(no_div_full)
 TABLE_METRICS = [
     ("TRA", "TRA"),
     ("LNK", "LNK"),
+    ("CHOTA", "CHOTA"),
     ("Edge F1", "Edge F1"),
     ("Div. F1", "Division F1"),
 ]
