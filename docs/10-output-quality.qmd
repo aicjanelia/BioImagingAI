@@ -77,9 +77,7 @@ Note: We are considering picking one example to place in call out boxes througho
 
 Cell tracking is typically approached as a multi-stage task. The first stage is detection where cells in each frame of the time series are detected using point detections, bounding boxes or segmentation masks. In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
 
-With this framework, we can consider some of the common errors that appear in tracking solutions. @fig-track-errors a illustrates basic node errors of a false positive detection (shown in red) and a missing blue detection. The missing node also leads to two missing edges. Often in biology when we are interested in cell tracking, there is a particular value placed an the detection of cell divisions so that cell lineages can be reconstructed over several rounds of divisions. As such we need to consider the specific types of errors that occur involving cell divisions. @fig-track-errors b illustrates a missing edge that results in a missed division detection. @fig-track-errors c instead shows a case where a division is detected, but one daughter is incorrectly assigned to the division leading to an incorrect lineage tree. Finally, @fig-track-errors d illustrates an identity switch where edges are incorrectly assigned in a single frame leading to a swap of lineage identity. 
-
-
+<!-- Intro to tracking figure -->
 ```{python}
 #| label: fig-tracking-graph
 #| fig-cap: "Cell tracking represented as a graph. (Top) Segmentation masks
@@ -203,6 +201,9 @@ for s in gax.spines.values():
 fig.subplots_adjust(left=0.05, right=0.97, top=0.92, bottom=0.06)
 ```
 
+With this framework, we can consider some of the common errors that appear in tracking solutions. [@fig-track-errors]a illustrates basic node errors of a false positive detection (shown in red) and a missing blue detection. The missing node also leads to two missing edges. Often in biology when we are interested in cell tracking, there is a particular value placed an the detection of cell divisions so that cell lineages can be reconstructed over several rounds of divisions. As such we need to consider the specific types of errors that occur involving cell divisions. [@fig-track-errors]b illustrates a missing edge that results in a missed division detection. [@fig-track-errors]c instead shows a case where a division is detected, but one daughter is incorrectly assigned to the division leading to an incorrect lineage tree. Finally, [@fig-track-errors]d illustrates an identity switch where edges are incorrectly assigned in a single frame leading to a swap of lineage identity. 
+
+<!-- Tracking error types -->
 ```{python}
 #| label: fig-track-errors
 #| fig-cap: "Common types of tracking errors. (a) This example prediction demonstrates multiple types of 
@@ -416,9 +417,11 @@ def plot_figure():
 plot_figure()
 ```
 
+There is a common inclination to use a single metric that is intended to capture overall performance on the task. In cell tracking, there are two common single metrics. The first is the TRA[@mavska2014benchmark] score defined by the Cell Tracking Challenge. This score is a weighted sum of node and edge errors that is normalized between 0 and 1. A second common unified metric is CHOTA[@kaiser2024chota] (Cell-specific Higher Order Tracking Accuracy). This metric captures local correctness, global coherence and aspects of lineage tracking. Single metrics can be convenient; however, they are uninformative when the intention is to evaluate and then improve a tracking solution. A unified metric does not indicate what types of errors are present. 
 
+@fig-sparse-edges illustrates three tracking failure modes and the metric scores for each solution. In each example, the small tree is extended over 30 frames and there are 10 trees in each solution. In (b), every third edge is dropped from the ground truth solution representing intermittent missed edges. 
 
-
+<!-- Generate lineage trees with regular divisions -->
 ```{python}
 #| code-fold: true
 #| code-summary: Show code to generate a set of lineage trees with regular divisions
@@ -500,8 +503,17 @@ def remove_divs(g):
     g.remove_edges_from(div_edges)
 
 
+def remove_nodes(g, mod=4):
+    del_nodes = []
+    for i, node in enumerate(sorted(g.nodes)):
+        if g.nodes[node]['frame'] > 0 and i % mod == 0:
+            del_nodes.append(node)
+    g.remove_nodes_from(del_nodes)
+
+
 gt = build_lineage_tree(n_starting_nodes=10, n_frames=30, division_every=5)
 ```
+
 ```{python}
 #| echo: false
 
@@ -569,7 +581,7 @@ def compute_metrics(solution):
     matched = Matched(
         TrackingGraph(gt.copy(), frame_key='frame'),
         TrackingGraph(solution, frame_key='frame'),
-        mapping=[(nid, nid) for nid in gt.nodes],
+        mapping=[(nid, nid) for nid in gt.nodes if nid in solution.nodes],
         matcher_info={},
     )
     results = {
@@ -588,8 +600,9 @@ def compute_metrics(solution):
 #|   truncated to 10 frames; the metric tables are computed over the full
 #|   dataset (10 lineages, 30 frames).
 #|   Panel b shows a solution where every third edge is missing. Panel c shows
-#|   a solution where no divisions were predicted. Division precision/F1 are undefined
-#|   (n/a) for the no-division solution because it predicts no divisions."
+#|   a solution where no divisions were predicted. Panel d shows a solution
+#|   where every fourth node (detection) is missing. Division precision/F1 are
+#|   undefined (n/a) for the no-division solution because it predicts no divisions."
 #| warning: false
 #| echo: false
 
@@ -603,19 +616,25 @@ sparsify_edges(plot_no_edge)
 plot_no_div = plot_gt.copy()
 remove_divs(plot_no_div)
 
+plot_no_node = plot_gt.copy()
+remove_nodes(plot_no_node)
+
 # Tables report metrics on the full dataset, not the truncated tree drawn above
 no_edge_full = gt.copy()
 sparsify_edges(no_edge_full)
 no_div_full = gt.copy()
 remove_divs(no_div_full)
+no_node_full = gt.copy()
+remove_nodes(no_node_full)
 res_no_edge = compute_metrics(no_edge_full)
 res_no_div = compute_metrics(no_div_full)
+res_no_node = compute_metrics(no_node_full)
 
 # (display label, traccuracy results key) for each row of the metric tables
 TABLE_METRICS = [
     ("TRA", "TRA"),
-    ("LNK", "LNK"),
     ("CHOTA", "CHOTA"),
+    ("Node F1", "Node F1"),
     ("Edge F1", "Edge F1"),
     ("Div. F1", "Division F1"),
 ]
@@ -643,13 +662,14 @@ def add_metric_table(ax, res):
 
 
 # Top row: lineage trees. Bottom row: a metric table under each solution.
-fig = plt.figure(figsize=(7, 5.2))
-gs = fig.add_gridspec(2, 3, height_ratios=[2.3, 1.0])
-tree_axes = [fig.add_subplot(gs[0, i]) for i in range(3)]
+fig = plt.figure(figsize=(7.2, 5.2))
+gs = fig.add_gridspec(2, 4, height_ratios=[2.3, 1.0])
+tree_axes = [fig.add_subplot(gs[0, i]) for i in range(4)]
 panels = [
     (plot_gt, "a) Ground Truth", None),
     (plot_no_edge, "b) Sparse Edge\nSolution", res_no_edge),
     (plot_no_div, "c) No Division\nSolution", res_no_div),
+    (plot_no_node, "d) Missing Node\nSolution", res_no_node),
 ]
 for axis, (g, title, _res) in zip(tree_axes, panels):
     plot_graph(g, axis)
@@ -670,15 +690,10 @@ for col, (_g, _title, res) in enumerate(panels):
         add_metric_table(table_ax, res)
 
 # tight_layout cannot lay out matplotlib tables, so position panels manually
-fig.subplots_adjust(left=0.05, right=0.97, top=0.88, bottom=0.04,
-                    wspace=0.2, hspace=0.3)
+fig.subplots_adjust(left=0.03, right=0.99, top=0.88, bottom=0.04,
+                    wspace=0.05, hspace=0.3)
 ```
 
-The sparse edge solution @fig-sparse-edges is an example of a tracking solution that has missing edges. If we generalize this type of solution to 10 trees over 30 frames.... see metrics below [TODO]
 
 
-
-The no division solution @fig-sparse-edges is an example of a tracking solution is missing divisions. If we generalize this type of solution to 10 trees over 30 frames.... [TODO]
-
-
-[TODO] discussion and wrap up on the need to look at more individualized metrics even though summary metrics are convenient
+[TODO] discussion and wrap up on the need to look at more individualized metrics even though summary metrics are convenient. Need for selecting metrics based on the biological priority
