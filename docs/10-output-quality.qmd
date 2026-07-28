@@ -27,21 +27,140 @@ Starting prompt for this chapter: Chapter 10 addresses how to assess the quality
 
 ## Metrics and Losses
 
-* difference between "metric" and "loss"
+> Goodhart's law: When a metric becomes a target, it ceases to be a good metric.
 
-* loss:
-  * has to be "differentiable"
-  * used to train the network
-  * should already be close to the metric you want to use
-  * can be used to assess model quality on validation data (but a custom metric might be more insightful)
+```{python}
+#| code-fold: true 
+#| label: fig-image
+#| fig-cap: Our cells, with the ground truth overlaid.
 
-* metric:
-  * an application specific measure of how close you are to the ground truth
-  * used to select a model and to measure progress
-  * does not need to be "differentiable"
-  * but if it is, that's great, you can use it as a loss
-  * otherwise, find a loss that is a good proxy or chose your model based on
-    the metric on the validation dataset
+import skimage as ski
+import numpy as np
+import matplotlib.pyplot as plt
+from skimage.filters import threshold_otsu
+from skimage.segmentation import clear_border
+from skimage.measure import label, regionprops
+from skimage.morphology import closing, footprint_rectangle
+from skimage.color import label2rgb
+from scipy.ndimage import binary_fill_holes
+import numpy as np
+import matplotlib.pyplot as plt
+
+img = ski.data.cells3d()[20:]
+
+# omit some slices that are partially empty
+image = img[6][1]
+
+# apply threshold
+thresh = threshold_otsu(image)
+bw = closing(image > thresh, footprint_rectangle((3, 3)))
+# remove artifacts connected to image border
+# cleared = clear_border(bw)
+# fill holes
+filled = binary_fill_holes(bw)
+# label image regions
+label_image = label(filled)
+
+# to make the background transparent, pass the value of `bg_label`,
+# and leave `bg_color` as `None` and `kind` as `overlay`
+image_label_overlay = label2rgb(label_image, image=image, bg_label=0)
+
+plt.imshow(image_label_overlay)
+plt.axis("off")
+plt.show()
+```
+
+In chapter (TODO: Add chapter), you've learned about how to train a machine learning model. 
+One essential part of training the model is which loss you choose. 
+This is the differentiable function that is used to fit the parameters of the model to a given task. 
+
+
+Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
+For example, look at the segmentation outputs in @fig-segmentations. 
+At first glance, it is difficult to judge which of these is the most appropriate.
+
+```{python}
+#| code-fold: true 
+#| label: fig-segmentations
+#| fig-cap: Four examples of segmentations, obtained by different models. The quality of the segmentations is difficult to immediately determine. What do we actually want the model to be good at?
+
+fig, axes = plt.subplots(2, 2)
+
+for ax in axes.ravel():
+  ax.imshow(image_label_overlay)
+  ax.axis("off")
+```
+
+
+Let's look at a semantic segmentation task as an example. 
+Suppose you have fluorescence data as in the image above, and you'd like to train a model to return a mask that differentiates cells from background. 
+
+Two standard losses for this task are binary cross entropy, and mean squared error.
+While both of these are differentiable functions, they have very different pros and cons when it comes to training a model. 
+
+* Binary cross-entropy: TODO define. 
+* MSE: TODO define. 
+
+Luckily, you can keep track of both of these things by using one of these functions as a metric. 
+For instance, as your model is being trained with Binary cross-entropy, you can compute the mean-squared error of your model's predictions on validation data as you train. 
+
+You can imagine other functions, however, that might more closely match what you'd think of as "good performance". 
+Let's look at a few of these here for our segmentation task.
+
+::: {.callout-note appearance="simple" icon=false collapse="true"}
+# The DICE coefficient is an overlap metric.
+
+DICE: $\frac{2 |A \cap B|}{|A|+|B|}$
+```{python}
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+import numpy as np
+
+navy, orange = "#1a35e0", "#e47a10"
+
+fig, ax = plt.subplots(figsize=(3, 4))
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 5)
+ax.set_xticks(np.arange(0, 6, 0.5))
+ax.set_yticks(np.arange(0, 6, 0.5))
+ax.grid(True, color="lightgray", lw=0.8)
+ax.tick_params(labelbottom=False, labelleft=False, length=0)
+
+# Rectangle A and B (overlapping)
+A = (0.5, 1, 2, 4)      # x, y, width, height
+B = (1.5, 1.5, 3, 3)
+
+ax.add_patch(Rectangle(A[:2], A[2], A[3], facecolor=navy, alpha=0.85, label="A"))
+ax.add_patch(Rectangle(B[:2], B[2], B[3], facecolor=orange, alpha=0.85, label="B"))
+
+# Intersection, hatched
+ix0, iy0 = max(A[0], B[0]), max(A[1], B[1])
+ix1, iy1 = min(A[0]+A[2], B[0]+B[2]), min(A[1]+A[3], B[1]+B[3])
+ax.add_patch(Rectangle((ix0, iy0), ix1-ix0, iy1-iy0,
+                        facecolor=orange, edgecolor=navy, hatch="////", label="A ∩ B"))
+
+# Legend
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=3, frameon=False, fontsize=14)
+```
+
+:::
+
+::: {.callout-note appearance="simple" icon=false collapse="true"}
+# The Hausdorff distance focuses on boundaries.
+* Hausdorff: TODO define
+:::
+
+
+::: {.callout-note appearance="simple" icon=false collapse="true"}
+# Average precision
+* AP_x (and required matching): TODO define
+:::
+
+You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
+
+Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
+However, just like previously with MSE, we can measure them.
 
 ## What Metric to Pick?
 
