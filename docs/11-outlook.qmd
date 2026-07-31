@@ -6,7 +6,7 @@ author:
       - name: European Molecular Biology Laboratory
         country: Germany
 
-subtitle: What can AI enable for biology?
+subtitle: What can AI enable for biological imaging?
 ---
 
 # Outlook {#sec-outlook}
@@ -25,14 +25,21 @@ The field of connectomics aims to reconstruct and analyze complete neural circui
 ### In situ cryo-Electron Tomography
 Cryogenic Electron Tomography (cryo-ET) images biological samples preserved as vitreous ice with transmission electron microscopy, tilting the sample in serial imaging to achieve volumetric acquisition. Combined with computational post-processing, this technique yields the highest resolution in all of biological imaging, allowing for Ångstrom-level investigation of macromolecular complexes. Here, image analysis challenges come from both technical and biological limitations. On the technical side, the inherently low signal-to-noise ratio (electron dose has to be limited to avoid damaging the sample) and the missing wedge artifact (the imaging is tomographic and not all angles can be achieved) make reliable segmentation and particle identification difficult even for human vision. On the biological side, the frontier application of cryo-ET to intact bacteria or cellular lamellae captures a very crowded and heterogeneous environment, further complicating image interpretation. AI has already integrated deeply into cryo-ET workflows, automating and accelerating many previously manual or challenging steps. With AI enabling faster and smarter data collection, the vision of near-unattended workflows is becoming increasingly attainable. 
 
+### Imaging development
+Development transforms a single cell into a complex organism through coordinated cell divisions, movements, shape changes and differentiation. Modern light-sheet microscopes can capture these processes across entire living embryos with high spatial and temporal resolution, producing volumetric time-lapse recordings in which tens of thousands of cells must be segmented and tracked over hundreds or thousands of frames. Both tasks are challenging at this scale: cells divide, deform and become densely packed, while tracking algorithms must preserve identities, detect divisions and remain robust to segmentation errors that can propagate through complete lineage trees. Continued progress in AI-based segmentation is improving developmental analysis pipelines, while the first methods to treat tracking itself as a deep learning problem are now beginning to emerge (cite Trackastra). Together, these advances bring us closer to turning whole-embryo movies into quantitative records of every cell’s behaviour and history (cite Loïc’s zebrafish and Katie’s mouse work), ultimately enabling systematic comparisons across embryos, perturbations and species.
+
+### Multimodal integration in large-scale experiments
+High-throughput microscopy experiments are reaching an extraordinary scale, producing hundreds of terabytes of data and images of billions of cells across tens or hundreds of thousands of chemical and genetic perturbations (cite JUMP). At the same time, new experimental platforms are beginning to measure several complementary aspects of cellular state, pairing morphological imaging with readouts such as gene expression, protein abundance and spatial organisation(cite Way; CRISPRmap; Perturb-Multimodal). Integrating these modalities is challenging as they differ in dimensionality, resolution, and experimental biases, while each captures only a partial view of the biological response. Early AI-based studies have shown that imaging, transcriptomic and chemical representations can be combined to improve the identification of related perturbations and mechanisms-of-action (cite Moshkov), while newer cross-modal and generative models are beginning to succeed in cross-modality prediction. The longer-term ambition of these efforts is the development of Virtual Cells: computational models that integrate diverse measurements of cellular state and predict how cells will respond to previously unseen perturbations (cite Arc Virtual Cell; CZI/Biohub Virtual Cells). Although such models remain at an early stage, they point towards a future in which large parts of cellular experimentation can first be explored in silico, guiding which hypotheses and interventions should be tested in the laboratory.
+
+### Image restoration and virtual staining
+As discussed in Chapter 6, AI-based image restoration is becoming an increasingly important part of modern microscopy. Restoration models can suppress noise, compensate for optical degradation, improve spatial or temporal resolution, and reconstruct useful images from measurements acquired with fewer photons or less sampling. This can enable faster, deeper and gentler imaging, extending the duration of live-cell experiments and revealing structures or dynamics that would otherwise be difficult to observe. Related virtual-labelling approaches can predict fluorescence-like representations from label-free or sparsely labelled images. However, because these models generate image content rather than simply measure it, their outputs may contain plausible-looking errors unsupported by the acquired data, making trustworthiness a central challenge. Many restoration problems are also intrinsically ill-posed, with several images potentially consistent with the same measurement. Emerging approaches therefore aim to represent distributions of plausible outputs and provide spatially resolved, calibrated uncertainty estimates that indicate where a reconstruction or virtual label may be unreliable (cite Jug lab/MicroSplit). Together, these developments are shifting AI towards an integral—and increasingly uncertainty-aware—part of the imaging process itself.  
 
 
-
-- Connectomics: neuron segmentation, synapse detection, graph-related tasks, all at a scale not possible without segmentation
-- Studying development: segmentation and tracking, the work of Kate McDole/ Jan Funke and Loic Royer. 
+-(done) Connectomics: neuron segmentation, synapse detection, graph-related tasks, all at a scale not possible without segmentation
+-(done) Studying development: segmentation and tracking, the work of Kate McDole/ Jan Funke and Loic Royer, also Takashi. 
 - Image restoration: tbd, find a biology rather than methods paper, something like [Schubert et al, Nat Comms, 2024] as an application for Noise2Void. Perhaps mention light field or another example where DL-based deconvolution can make processing real-time compared to previous requirements of days on a cluster, if not already mentioned in Chapter 6. 
 - Large atlasing efforts: HPA, Platynereis, etc
-- cryoET, membraine, Ellen Zhong, etc
+- (done) cryoET, membraine, Ellen Zhong, etc
 
 ## Why it's a good time to start with DL for microscopy now?
 - There is a lot of know-how accumulated in the field, existing architectures work well, new ones promise even more
