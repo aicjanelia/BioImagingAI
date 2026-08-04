@@ -15,11 +15,17 @@ format:
       - settings/title-metadata.html
 ---
 
+
 # Welcome {.unnumbered}
 
-This is an initial outline for the welcome page:
+_AI in Microscopy_ is an interactive online textbook intended to introduce biologists and microscopists to the fundamentals of artificial intelligence and machine learning.
 
-- Include a very brief introduction of the book (this is not the introduction chapter).
-- Explain how to interact with the book. For example, explain how code snippets work for the reader, links to figures, glossary terms, etc.
-- State the licensing and use restrictions.
-- How to cite the book.
+The table of contents on the left can be used to navigate the book.  Subsections of each chapter appear as a clickable menu on the right side of each chapter page. Key terms in each chapter are highlighted as links to the Glossary page.  A free PDF of the textbook can be downloaded from the upper left menu, which also contains a toggle for using the website in dark mode.
+
+The source code for this textbook is available on [GitHub](https://github.com/aicjanelia/BioImagingAI/). All content is licensed under [BSD 3-Clause](https://github.com/aicjanelia/BioImagingAI/?tab=BSD-3-Clause-1-ov-file), except where noted otherwise.
+
+:::{.callout-caution}
+_AI in Microscopy_ is currently under construction and some chapters are incomplete. This page will continue to be updated as the textbook progresses.
+:::
+
+<!-- - How to cite the book. -->
