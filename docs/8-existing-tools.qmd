@@ -17,6 +17,11 @@ author:
 ---
 
 # How do you select and find a tool? {#sec-8}
+::: {.content-visible when-format="pdf"}
+| **Beth Cimini & Erin Weisbart**
+| *Imaging Platform, Broad Institute*
+| 
+:::
 
 ## Introduction
 

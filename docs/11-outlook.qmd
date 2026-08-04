@@ -10,6 +10,11 @@ subtitle: What can AI enable for biological imaging?
 ---
 
 # Outlook {#sec-outlook}
+::: {.content-visible when-format="pdf"}
+| **Anna Kreshuk**
+| *European Molecular Biology Laboratory*
+| 
+:::
 
 With this book, we hope to have set you on a journey of exploration into the use of AI methods in microscopy. In this final chapter, we reflect on several early examples in which AI has already changed what can be observed, measured and inferred from microscopy data, and then look ahead to the questions and capabilities now coming into view. Finally, we turn to the path before you — how you can build on what you have learned to not only answer specific biological questions, but contribute to the broader advancement of this rapidly evolving domain.
 
