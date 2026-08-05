@@ -1,172 +1,317 @@
 ---
 author: 
-  - name: Wesley Legant
-    orcid: 0000-0003-1827-5371
+  - name: Victoria Augoustides
+    orcid: 0000-0003-0061-9471
     affiliations:
-      - name: University of North Carolina at Chapel Hill
+      - name: Biochemistry and Biophysics Department, University of North Carolina at Chapel Hill
+        city: Chapel Hill
         state: NC
         country: USA
-        postal-code: 27514
+        postal-code: 27599
+    attributes:
+      corresponding: false
+      equal-contributor: true
+    note: Equal contribution
+  - name: Giorgio Tortarolo
+    orcid: 0000-0002-1182-2478
+    affiliations:
+      - name: Institute of Physics, École Polytechnique Fédérale de Lausanne
+        city: Lausanne
+        country: Switzerland
+    attributes:
+      corresponding: false
+      equal-contributor: true
+    note: Equal contribution
+  - name: Alara Kiris
+    orcid: 0000-0003-3428-0445
+    affiliations:
+      - name: Institute of Physics, École Polytechnique Fédérale de Lausanne
+        city: Lausanne
+        country: Switzerland
+    attributes:
+      corresponding: false
+      equal-contributor: true
+    note: Equal contribution
   - name: Suliana Manley
     orcid: 0000-0002-4755-4778
     affiliations:
-      - name: École Polytechnique Fédérale de Lausanne
+      - name: Institute of Physics, École Polytechnique Fédérale de Lausanne
+        city: Lausanne
         country: Switzerland
+    attributes:
+      corresponding: true
+      equal-contributor: false
+    note: Co-corresponding
+  - name: Wesley Legant
+    orcid: 0000-0003-1827-5371
+    affiliations:
+      - name: Joint Department of Biomedical Engineering, University of North Carolina at Chapel Hill
+        city: Chapel Hill
+        state: NC
+        country: USA
+        postal-code: 27599
+    attributes:
+      corresponding: true
+      equal-contributor: false
+    note: Co-corresponding
 subtitle: An Introduction to Smart Microscopy
+language:
+  crossref-tip-prefix: "Case Study"
+  crossref-tip-title: "Case Study"
 ---
 
 # Adding AI to Your Hardware {#sec-hardware}
-<!--Your first header will be the chapter's upper-level table of contents title.-->
-<!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
-* Introduction
-  * Define and motivate the "problem" 
-    * What is a Biological "Event"?
-      * Why is it important to study these?
-      * How is it distinct from an "Object"?
-
-* Setting the bounds
-  * What kinds of signals are we looking to extract events from?
-  * What spatiotemporal scales are relevant?
-  * What types of microscopes/imaging assays are in the scope of this chapter?
-    * Limiting the scope
-
-* Brief history/evolution of automated event/object detection in general
-  * Offer some background to current methods
-    * Including classical up to SVM
-      * e.g micropilot and limitations
-      * Case Study #1 : CellProfiler
-      * Case Study #2 : Micropilot
-
-* The need for new methods
-  * Deep learning based and ML approaches
-    * Where the algorithm learns what is important
-    * What are the advantages of these methods?
-      * What has been done recently in the literature?
-    * What is required to label, train and implement these methods?
-      * Special considerations for event detection modesl
-      * Specifics of event detection in contast the other ML tasks
-
-* Real-time vs a posteriori inference
-  * Challenges, opportunities
-  * Event detection as the first step in the microscopy workflow
-
-* Limitations and notes of caution related to inference
-  * "Trusting the algorithms"
-
-* Conclusion
-
-<!-- Under your first header, include a brief introduction to your chapter.
-
-Starting prompt for this chapter: Chapter 7 motivates how AI can be used to control hardware. This chapter should focus on event-driven microscopy, but other smart microscopy topics can be included at the author's discretion.
-
-Notes from the authors' meeting: This chapter does not have to be extensively technical or include code snippets to be useful to the audience. An overview of smart microscopy as a concept is useful. Even though there are limited instances of event-driven microscopy so far, discussing what those instances accomplished, and why an experiment may consider investing in their use, will benefit readers of this book.
-
-## Include section headers as appropriate
-
-Use markdown heading level two for section headers. You can use standard markdown formatting, for example _emphasize the end of this sentence_.
-
-This is a new paragraph with more text. Your paragraphs can cross reference other items, such as @fig-simple. Use `fig` to reference figures, and `eq` to reference equations, such as @eq-stddev.
-
-###  Sub-subsection headers are also available
-
-To make your sections cross reference-able throughout the book, include a section reference, as shown in the header for @sec-equation.
-
-## Bibliography and Citations
-
-To cite a research article, add it to references.bib and then refer to the citation key. For example, reference @stringer2021 refers to CellPose and reference @von_chamier2021 refers to ZeroCostDL4Mic.
-
-## Adding to the Glossary
-
-We are using the extension [Quarto-glossary](https://debruine.github.io/quarto-glossary/#styles) to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from {{< glossary hallucinations >}}. It is important to understand the underlying {{< glossary "training data" >}} to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the [Glossary](glossary.qmd).
-
-## Code and Equations {#sec-equation}
-
-This is an example of including a python snippet that generates a figure
-
-```{python}
-#| label: fig-simple
-#| fig-cap: "Simple Plot"
-import matplotlib.pyplot as plt
-plt.plot([1,23,2,4])
-plt.show()
-```
-
-
-In some cases, you may want to include a code-block that is not executed when the book is compiled. Use the `eval: false` option for this.
-
-```{python}
-#| eval: false
-import matplotlib.pyplot as plt
-plt.plot([1,23,2,4])
-plt.show()
-```
-
-
-Figures can also be generated that do not show the code by using the option for `code-fold: true`.
-
-```{python}
-#| code-fold: true
-#| label: fig-polar
-#| fig-cap: "A spiral on a polar axis"
-#| fig-alt: "A line plot on a polar axis. The line spirals out from a value of zero to a value of 2."
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
-
-Here is an example equation.
-
-$$
-s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}
-$$ {#eq-stddev}
-
-### Embedding Figures
-
-You can also embed figures from other notebooks in the repo as shown in the following embed example.
-
-
-{{< embed ../notebooks/test.ipynb#fig-test-fig echo-true >}}
-
-When embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, `chapter4_example_u-net.ipynb`. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code--but not for rendering the book at large--will be installed there. That way, we will not need to handle a global environment across the book.
-
-## Quarto has additional features.
-
-You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
-
-::: {.callout-note}
-Note that there are five types of callouts, including:
-`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
+::: {.content-visible when-format="pdf"}
+| **Victoria Augoustides^1^, Giorgio Tortarolo^2^, Alara Kiris^2^, Suliana Manley^2^, & Wesley Legant^1^**
+| *^1^University of North Carolina at Chapel Hill, ^2^École Polytechnique Fédérale de Lausanne*
+| *Victoria Augoustides, Giorgio Tortarolo, and Alara Kiris contributed equally to this chapter. Suliana Manley and Wesley Legant are co-corresponding authors*
+| 
+:::
+::: {.content-visible when-format="html"}
+![Victoria Augoustides, Giorgio Tortarolo, and Alara Kiris contributed equally to this chapter. Suliana Manley and Wesley Legant are co-corresponding authors](7-smart-microscopy_files/equalContribution.png)
 :::
 
-::: {.callout-tip collapse="true"}
-These could be good for extra material or exercises.
+## Imaging the Events of Biological Systems
+
+Microscopy experiments answer biological questions by measuring structures and dynamic processes in living systems. To collect useful data, the microscopist must decide where, when, how fast, and how long to image based on features and processes in the specimen. Traditionally, the microscopist identifies regions of interest ([ROIs](glossary.qmd#region-of-interest-roi)), monitors sample behavior, and adjusts acquisition settings using domain expertise and visual inspection. While effective for small-scale experiments, this manual workflow limits throughput, introduces operator-dependent variability, and can miss rare or rapidly occurring biological phenomena.
+
+These challenges motivate the development of [smart microscopy](glossary.qmd#smart-microscopy) systems that can automatically recognize biologically relevant features and respond in real time. Automated decision-making can increase acquisition speed, improve reproducibility, and enable experiments that would be impractical for a human operator to perform manually. Recent advances in machine learning have substantially expanded the range of biological signatures that can be recognized during image acquisition, bringing microscopy closer to a paradigm in which imaging systems actively direct an experiment's trajectory rather than simply record data.
+
+In this chapter, we introduce the concepts, technologies, and challenges involved in developing AI to augment microscopy experiments in real-time. Our goals are to:
+
+* Define biological objects and events as targets for image acquisition and analysis
+* Describe the evolution of automated object detection from classical image processing to modern machine learning
+* Explain the unique data, labeling, and modeling considerations associated with event detection and real-time performance
+* Evaluate the opportunities, limitations, and reliability of AI-driven microscopy workflows
+
+## Framing the Event Detection Landscape
+
+For an imaging system to recognize and respond to biological activity, it must first distinguish between objects and events:
+
+* An [object](glossary.qmd#object) is an identifiable feature located within a two-dimensional image or three-dimensional volume, such as a cell, organelle, or protein assembly. Objects are primarily defined by spatial characteristics including size, shape, intensity, and location.
+* An [event](glossary.qmd#event), by contrast, represents a change or transition that unfolds over time with distinct start and end points. Examples include cell division, mitochondrial fission, receptor clustering, or transient calcium signaling. 
+
+Whereas object detection relies primarily on spatial information, event detection requires both spatial and temporal information because the defining characteristic of an event is its evolution over time (@fig-objects-vs-events). This distinction has important consequences for image acquisition. To detect an object, the microscope must resolve the object's relevant spatial features. To detect an event, the microscope must additionally sample the event at sufficient temporal resolution and for sufficient duration to capture its dynamics.
+
+![**Objects versus events, illustrated with mitochondria.** *Left*: objects, individual mitochondria, are identified and color-coded. *Right*: an event, fission of the cyan mitochondrion. Arrowheads (3 s) mark the constriction preceding scission; the dashed box (4 s) highlights the event site. Capturing objects requires sufficient spatial resolution; capturing events additionally requires sufficient temporal resolution and duration to resolve their dynamics. Scale bar, 2 µm. Figure credit: raw image acquired by Tatjana Kleele.](7-smart-microscopy_files/Fig1_event_vs_object_mitochondria-01.png){#fig-objects-vs-events}
+
+The spatial scales relevant to event detection span many orders of magnitude, ranging from millimeter-scale tissue remodeling, through tens-of-micrometer whole-cell movements, down to nanometer-scale reorganization of protein complexes. Temporal scales are similarly diverse, extending from days for embryonic development, to hours for processes such as cell division and differentiation, and down to milliseconds for rapid phenomena such as calcium transients, ion-channel activity, and single-molecule receptor binding. Importantly, many biological events encompass multiple spatial and temporal scales. For example, molecular-scale signaling events may occur rapidly and subsequently give rise to slower changes in cell morphology (@fig-spatial-and-temporal-scale). Such complexity underscores the advantages of tailoring image acquisition parameters to the biological process under investigation, a central objective of smart microscopy.
+
+![**Spatial and temporal scales of biological events.** Processes are positioned by characteristic feature size (nm–mm) and timescale (µs–days), spanning ion-channel opening, endocytosis, cell division, apoptosis, and zebrafish development. Created with BioRender. Figure credit: inspired by Fig. 2 of Daetwyler & Fiolka [@Daetwyler2023].](7-smart-microscopy_files/Fig2_multiscale_biology.png){#fig-spatial-and-temporal-scale}
+
+Once the relevant spatiotemporal scales of an event have been identified, an appropriate microscopy modality can be selected. Different imaging methods provide distinct trade-offs between spatial resolution, temporal resolution, imaging depth, and phototoxicity. Widefield, spinning-disk confocal, and light-sheet microscopy generally offer high temporal resolution suitable for capturing fast dynamics, while providing varying levels of volumetric imaging capability and moderate spatial resolution. In contrast, super-resolution techniques such as stimulated emission depletion (STED) microscopy achieve exceptional spatial detail, often at the expense of acquisition speed and increased phototoxicity [@Wu2022]. Label-free imaging approaches, although not discussed in detail here, provide complementary contrast based on intrinsic sample properties while minimizing photobleaching and phototoxicity [@Shaked2023].
+
+Regardless of the imaging modality used, biological events must produce detectable and consistent changes within the acquired data. Some events manifest as morphological transformations, including cell migration, membrane remodeling, organelle reorganization, or changes in protein-complex architecture. Other events are more readily observed using fluorescent biosensors that report biochemical states such as enzyme activity, ion concentrations, metabolite levels, or membrane potential. These processes can be measured through image-derived signals including changes in fluorescence intensity or fluorescence lifetime. In each case, the measured signal serves as a proxy that provides an indirect but interpretable readout of the underlying biological event.
+
+By selecting imaging strategies that align with the spatial and temporal scales of interest, researchers can ensure that the essential features of biological objects and events are faithfully represented in the acquired data. The next challenge is to determine when and where specific events occur. In the following sections, we discuss how this challenge is addressed through computational approaches to object and [event detection](glossary.qmd#event-detection).
+
+## Foundations of Automated Object Detection in Smart Microscopy
+
+Before modern deep-learning methods, object detection in microscopy was typically performed using a combination of image-processing and machine-learning operations. Although the specific algorithms varied, most approaches followed a common workflow: first, objects were isolated from the background [@Meijering2012], second, quantitative features were extracted from each object, and third, these features were used to classify objects into biologically meaningful categories [@carpenter2006cellprofiler;@Berg2019].
+
+The goal of an object detection algorithm is to identify objects within an image and describe their spatial location and extent. @fig-feature-vector A illustrates representative biological objects that vary widely in their spatial distribution, size, and morphology, including nuclei, cytoplasmic RNA and nucleoli, mitochondria, and other cellular structures. Object detection pipelines generally characterize each detected object by reporting:
+
+1. the [centroid coordinates](glossary.qmd#centroid-coordinate) of each object,
+2. the coordinates of a [bounding region](glossary.qmd#bounding-region), and
+3. a [class label](glossary.qmd#class-label) describing the object's identity [@neha2024classicaltechniquesconvolutionbasedmodels]. 
+
+The first step in many classical detection pipelines is image segmentation, in which pixels are separated into objects and background (@fig-feature-vector B). A common approach is thresholding, in which pixels above a certain intensity are assigned to the foreground and all others to the background, producing a _binary mask_. Intensity alone is rarely sufficient to cleanly separate objects, so additional morphological operations (e.g., erosion, dilation or watershed) can then be applied to refine object boundaries. These operations, among others, can help distinguish neighboring objects that may otherwise appear to be merged. For an extended discussion of object segmentation, please see [Chapter 9](#sec-9).
+
+Once objects have been segmented, quantitative measurements can be extracted from the individual objects in the masked raw image or from the mask itself, often using tools such as CellProfiler [@carpenter2006cellprofiler]. Common features include intensity, area, perimeter, [shape descriptors](glossary.qmd#shape-descriptors), [texture measurements](glossary.qmd#texture), and spatial relationships to surrounding structures [@huang2004]. Together, these measurements are aggregated into a **[feature vector](glossary.qmd#feature-vector)** that provides a numerical description of each object (@fig-feature-vector B).
+
+![**The process of creating a feature vector from image data.** (A) Representative fluorescence images are acquired illustrating five different cellular compartments and structures: nucleus (DNA), cytoplasmic RNA/nucleoli (RNA), endoplasmic reticulum (ER), mitochondria, and the actin, Golgi apparatus, and plasma membrane (AGP). (B) Following image acquisition, individual cells and nuclei are segmented to define cellular boundaries, enabling extraction of quantitative features of the objects in (A). These measurements are assembled into high-dimensional morphological profiles, which can be processed using dimensionality reduction and clustering methods to compare cellular responses across experimental conditions and support downstream biological inference. Reproduced from Fig. 1 of Rohban, et al. [@rohban2017] under a CC BY license.](7-smart-microscopy_files/Fig3_feature_vector_from_raw_image_data.jpg){#fig-feature-vector}
+
+The final stage is [classification](glossary.qmd#classification), in which feature vectors are assigned to biologically meaningful categories [@boland2001; @murphy2022 ; @chen2006]. In simple applications, classification can be performed using manually defined rules. For example, objects exceeding a particular size threshold might be classified differently from smaller objects. However, manually setting cutoffs for each feature becomes increasingly difficult as the number of measured features grows. To address this challenge, machine-learning methods were adopted to learn classification rules directly from data. Algorithms, such as [perceptrons](glossary.qmd#perceptron) [@rosenblatt1958], support vector machines ([SVMs](glossary.qmd#support-vector-machine-svm)) [@cortes1995], and other classifiers [@yuan2012], learn decision boundaries that separate groups of feature vectors within a multidimensional feature space. For example, a classifier may learn to distinguish normal cells from cancer cells based on combinations of morphological and intensity-based measurements in feature vectors (@fig-supervised-learning-schematic). Compared with manually-specified rules, these learned decision boundaries can more effectively exploit high-dimensional feature sets and often generalize better to new data [@bishop2006pattern].
+
+![**Schematic of supervised learning with a classifier** As additional labeled examples of normal (blue) and cancer (orange) cells are introduced during new training iterations, the classifier adjusts its decision boundary to improve class separation. Inspired by Rosenblatt @rosenblatt1958. Cell illustrations from NIAID NIH BioArt Source (items 358, 508, 376, and 82 at [https://bioart.niaid.nih.gov/bioart/](https://bioart.niaid.nih.gov/bioart/))](7-smart-microscopy_files/Fig4_SupervisedLearning.png){#fig-supervised-learning-schematic}
+
+The incorporation of machine learning into classical object detection pipelines marked an important transition from automated image processing to automated decision-making. The initial use for machine-learning classifiers was primarily to categorize objects during post-acquisition analysis [@jones2008; @shariff2010; @dao2016]. As computational capabilities advanced, these same classification approaches began to inform microscope control in real time, enabling imaging systems to react to the objects they detected [@mahecic2022; @alvelid2022; @morgado2024].
+
+*CellProfiler Analyst* (@tip-cell-profiler-analyst) exemplifies the first stage of this progression. The platform automated segmentation, feature extraction, and classification, allowing large populations of cells to be quantitatively characterized using high-dimensional [cytoprofiles](glossary.qmd#cytoprofile). Machine learning improved the accuracy and scalability of object classification, but the resulting decisions remained confined to downstream data analysis after images had been acquired.
+
+*MicroPilot* (@tip-micropilot) illustrates the next stage, in which object detection was integrated directly into the acquisition process [@conrad2011micropilot]. Rather than simply classifying objects after imaging, *MicroPilot* used detection results to guide data acquisition in real time. In a benchmark study, the system autonomously identified and imaged 232 mitotic cells during four nights of unattended operation. Achieving a comparable dataset through manual screening would have required more than a month of effort by an experienced microscopist. @tip-micropilot demonstrated how automated object detection could move beyond analysis to actively control image acquisition, a key step toward modern smart microscopy.
+
+A common feature of both case studies, and of most object detection approaches of the time, was that machine-learning algorithms operated and learned from feature vectors rather than image pixels. Consequently, their performance depended on the quality of the upstream segmentation and feature-extraction steps, processes that may discard biologically relevant information present in the native image structure. Furthermore, object [localization](glossary.qmd#localization) and classification were treated as separate stages, reinforcing a distinction between identifying where an object is and determining what it is.
+
+Advances in model architectures and computational power eventually enabled [end-to-end learning](glossary.qmd#end-to-end-learning), in which object localization and classification could be optimized jointly [@girshick2014rich]. By learning directly from image data, these approaches allowed spatial and semantic information to be captured simultaneously. Combined with the emergence of larger imaging datasets, these developments greatly expanded the capabilities of object detection and laid the foundation for modern deep-learning approaches, discussed in the next section.
+
+::: { .callout-tip #tip-cell-profiler-analyst}
+## Cell Profiler Analyst
+*Semi-Automation using ML for Post-Acquisition “Cytoprofiling”*
+
+CellProfiler [@carpenter2006cellprofiler] is a post-acquisition software for automated image segmentation, feature extraction, and downstream analysis of biological images. While there are many different versions of CellProfiler, this study presented an example of a semi-automated machine learning approach to object detection using CellProfiler Analyst [@jones2008; @dao2016; @jones2009scoring]. Feature vectors, here called [cytoprofiles](glossary.qmd#cytoprofile), were automatically extracted from raw image data during the detection step (@fig-cellprofiler-analyst A). Next, a human identified phenotypes of interest from the data that the software used to create classification rules for scoring cytoprofiles. To automate classification, the user trained a supervised machine learning model (specifically a [boosting algorithm](glossary.qmd#boosting-algorithm) applied to an [ensemble](glossary.qmd#ensemble) of [shallow decision trees](glossary.qmd#shallow-decision-trees) [@friedman2000additive]) for each imaging experiment (@fig-cellprofiler-analyst B). Once trained, the model could be applied to feature vectors from new experiments to score wells in high throughput experiments (@fig-cellprofiler-analyst C). Using this approach, the authors processed 40,000 fluorescence images capturing 8.3 million cells from which they detected and classified 14 distinct phenotypes, such as diverse distributions of actin and cell cycle states (@fig-cellprofiler-analyst D).
+
+![**Overview of the semi-automated CellProfiler Analyst workflow for high-content image analysis** (A) Following automated image segmentation and feature extraction in CellProfiler, each detected cell is represented by a high-dimensional feature vector, a cytoprofile. (B) A user interactively labels example cells, which are used to train a supervised machine learning classifier to recognize phenotypes of interest. (C) The trained classifier is then applied to score cells across large imaging datasets. (D) Representative examples of automatically classified phenotypes, including actin organization and mitotic cell-cycle states. Reproduced from Jones, et al. [@jones2009scoring] with permission from PNAS: Panels A–C are from Fig. 1, and panel D is from Figs. 3 and 4.](7-smart-microscopy_files/Fig5_CaseStudy_CellProfiler.png){#fig-cellprofiler-analyst}
+
 :::
 
-::: {.callout-caution}
-There are caveats when applying these tools. Expand the code below to learn more.
+::: { .callout-tip #tip-micropilot}
+## MicroPilot
+*Integration of Object Detection with Automated Assays*
 
-```{python}
-#| code-fold: true
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-```
-:::
+Rather than analyzing data after imaging was complete, MicroPilot used ML models to classify structures from low-resolution preview scans in real time (@fig-micropilot A). First, the low-resolution preview scan was segmented, and a feature vector was generated (@fig-micropilot B). Once a structure of interest was classified by the ML model, the software automatically triggered a predefined imaging assay (@fig-micropilot B). This could range from acquiring high-resolution time-lapse videos to initiating complex laser-based perturbations, such as photobleaching or protein ablation, all without user intervention.
 
-::: {.callout-warning}
-Be careful to avoid hallucinations.
+![**Machine learning-guided autonomous microscopy using MicroPilot** (A) Overview of the MicroPilot workflow: Low-resolution prescans are automatically analyzed to detect and classify cells of interest. When a target phenotype is identified, the software autonomously triggers a predefined imaging assay, such as high-resolution imaging or laser-based perturbation, before returning to the prescreening loop. (B) *Left*: A low-resolution preview image is segmented to identify individual cells. *Middle*: Quantitative morphological features are extracted from each segmented object. *Right*: A support vector machine (SVM) classifier assigns each cell to a phenotype class. These classifications are then used to make real-time decisions that control subsequent microscope acquisition. Reproduced from Fig. 1 of Conrad et al. @conrad2011micropilot.](7-smart-microscopy_files/equalContribution.png){#fig-micropilot}
 :::
 
 ::: {.callout-important}
-This is key information.
-::: -->
+Images for @fig-micropilot will be added after confirming figure licensing requirements.
+:::
+
+## Deep Learning for Object and Event Detection
+
+The transition toward end-to-end learning began with networks capable of learning features directly from images, starting with convolutional neural networks ([CNNs](glossary.qmd#convolutional-neural-networks-cnns)) and more recently featuring [transformer architectures](glossary.qmd#transformer-models). Although CNNs were originally developed in the 1980s, their widespread adoption was catalyzed by the ImageNet Large Scale Visual Recognition Challenge in 2010, which introduced a large, standardized dataset and robust evaluation metrics [@deng2009imagenet; @russakovsky2015imagenet].
+
+Early datasets like *ImageNet* typically included a single centered object per image, and over time, they evolved to include multiple objects per image. Therefore, models such as *AlexNet* [@krizhevsky2012] and *ResNet* [@he2016deep] were first only applied to single-object classification and localization tasks (@fig-object-detection A). Later, these frameworks were extended to classify and localize many objects to perform object detection.
+
+![**Progression of object detection architectures** (A) Single object tasks such as image classification and localization. (B) Multi-object, multi-step detection pipelines, including sliding-window and region-proposal approaches, which separate object localization from classification. (C) Multi-object, single-shot detectors that jointly predict object locations, confidence scores, and class labels in a single end-to-end model. Figure credit: Panels A-B images sourced from Pexels under CC0; Panel C was reproduced from Fig. 2 of [@redmon2016you].](7-smart-microscopy_files/equalContribution.png){#fig-object-detection}
+
+::: {.callout-important}
+Images for @fig-object-detection will be added after confirming figure licensing requirements.
+:::
+
+### Evolution of Object Detection 
+
+Multi-object, multi-step detection comprises three key steps: candidate region proposal, classification, and refining classified regions. The simplest way to profile an image for candidates is to iteratively scan the image with a sliding window [@sung1998examplebased; @rowley1998neural; @violandrapid; @ciresan2013mitosis], and then evaluate each window with a classifier (@fig-object-detection B). A more efficient approach came from the *R-CNN* series of models (2014-2017) that instead proposed regions in an image for classification (@fig-object-detection B) [@girshick2014rich; @girshick2015fast; @ren2017faster].
+
+Sliding window and region-based models were succeeded by [single-shot detection](glossary.qmd#single-shot-detection) approaches, where detection and classification occur together in a single forward pass (@fig-object-detection C). Some of the most widely used algorithms are the *You Only Look Once* (YOLO) models, which treat object localization and classification as an optimization problem across a fixed grid [@redmon2016you; @redmon2018yolov3; @bochkovskiy2020yolov4; @tian2025yolov12; @jocher2026yolo26]. Although YOLO performs classification and localization jointly, the rate limiting steps of YOLO models occur in post-processing the proposed bounding boxes [@wang2024yolov10].
+
+These CNN-based models are well-suited for detecting small, well-separated features, such as puncta, nuclei, or other localized signals in biological images. However, CNNs can struggle to capture broader spatial relationships such as multicellular phenotypes within a tissue. [Transformer-based models](glossary.qmd#transformer-models) [@vaswani2017attention], including natural language processing models, process entire inputs at once via self-attention. For images, the *Vision Transformer* (ViT) [@Dosovitskiy2021], can process an entire image at once unlike CNNs. Similarly to extending early classification networks, detection models like *DEtection TRansformer* (DETR) [@carion2020endtoend] and *RT-DETR* [@zhao2024detrs] adapted the transformer architecture for object detection allowing these models to infer complex spatial relationships without relying on region-proposals, grids, or post-processing steps. 
+
+::: {.callout-note collapse="true"} 
+## Transformers
+Due to the complexity of transformers, we direct the interested reader to the following video resources: 
+
+* [Transformer Neural Networks, ChatGPT's foundation, Clearly Explained!!!](https://www.youtube.com/watch?v=zxQyTK8quyY)
+* [Vision Transformers - The big picture of how and why it works so well](https://www.youtube.com/watch?v=l4KitGnDXxo)
+:::
+
+### Extending Object Detection to Events
+
+Most object detection models, whether region-based, one-shot, or transformer-based, are designed to operate on individual two-dimensional (2D) images, treating each frame independently. In contrast, events unfold over time and require models that can reason across input sequences of images, such as a 2D image + time (2D+t) stack, rather than individual frames. Broadly, there are several strategies for detecting events from sequential image formats:
+
+1.	[Decoupled Object Detection and Temporal Linking]{.underline}: Apply an ML object detector to each frame of a time stack independently, then use post-processing or a feedback loop to link detections over time into events [@shi2024smart]. 
+2. [Sequential Detection and Temporal ML Model]{.underline}: Detect objects in each frame and incorporate a sequence model (such as a [recurrent neural network](glossary.qmd#recurrent-neural-networks-rnns) or [long short-term memory](glossary.qmd#long-short-term-memory-lstm) ) to capture temporal dependencies and classify dynamic transitions [@hochreiter1997long; @stepp2026smart].
+3.	[Simultaneous Spatiotemporal Detection]{.underline}: Feed multiple frames of a 2D+t series into the model simultaneously allowing the network to directly output temporally aware predictions such as 2D+t bounding boxes or event labels [@nie20163d].
+
+It can be challenging to adapt ML approaches that are optimized around natural image data which is fundamentally different from microscopy images [@meijering2020birdseye]. Biological signals, especially fluorescent signals, are often very sparse against a homogeneous background. Additionally, biological processes are often rare, asynchronous, and non-repetitive, unlike typical videos such as cars moving through traffic. In the next section, we delineate considerations for implementing event detection from other ML-based image algorithms in microscopy.
+
+## Building Object and Event Detection Models
+
+### Ground Truth and Labeling
+
+The performance of a machine-learning model depends fundamentally on the quality of the examples used during training. Before a model can learn to detect biological objects or events, the experimental objective must be translated into a set of labeled examples, commonly referred to as [ground truth](glossary.qmd#ground-truth). These annotations define the outputs that the model should predict from the input imaging data, such as the location of an object, its identity, the occurrence of an event, or the timing of a biological transition. For more information on designing model outputs, see Chapter 2 and @sec4.
+
+In object detection tasks, labels typically describe the spatial position and identity of structures of interest. For example, annotations may indicate the location of a centrosome, or a cell or organelle boundary. Event detection introduces an additional temporal dimension: annotations must specify when an event begins and ends in addition to identifying what and where the object is. For example, labeling mitochondrial fission requires determining the precise frame at which a single mitochondrion divides into two daughter structures (@fig-objects-vs-events) [@mahecic2022; @stepp2026smart].
+
+Creating ground-truth annotations is often the most time-consuming stage of model development. High-quality datasets may require hundreds or thousands of manually annotated examples, and it's important that within that volume, there is sufficient phenotypic diversity. For object detection, the annotator needs to capture diverse object appearances and experimental conditions. In contrast, event detection is often limited by the scarcity of events themselves and so the challenge is frequently obtaining sufficient examples of rare events. Biological imaging further complicates creating labeled data because annotations frequently require unbiased expert interpretation. Annotators must distinguish signal from noise, recognize subtle morphological features, and apply consistent criteria across diverse experimental conditions.
+
+Furthermore, biological ground truth is rarely absolute and variability in the ground truth is multifaceted. Object boundaries may be diffuse, and event definitions may vary between experts. Differences in imaging conditions, sample preparation, fluorophore expression, and biological variability can further reduce annotation consistency. As a result, training datasets often contain a degree of uncertainty that ultimately influences both model performance and evaluation.
+
+### Unique Challenges of Event Detection 
+
+Many of these general challenges are amplified in event detection. Because events unfold over time, annotators must identify not only whether an event occurred, but also its precise temporal boundaries. This requirement introduces ambiguity when biological transitions are gradual or poorly defined. For example, in mitochondrial fission, multiple experts may disagree on the exact timestep when constriction becomes visible or when membrane scission occurs. Temporal sampling also plays a critical role; if imaging is performed too slowly, key transitions may be missed entirely.
+
+Event detection datasets can exhibit severe class imbalance because biologically relevant events may occupy only a small fraction of the recorded frames. In addition, event annotations frequently depend on information distributed across multiple imaging channels or modalities, requiring annotators to interpret spatial, temporal, and molecular context simultaneously. These challenges make event labeling substantially more demanding than object labeling and often motivate the use of interactive annotation tools [@carpenter2006cellprofiler; @Berg2019; @sofroniew2026; @Bankhead2017], weak supervision [@zhou2018brief], or human-in-the-loop workflows [@griebel2023deep] to improve efficiency and consistency.
+
+### Training Models
+
+Once a ground-truth dataset has been established, the next step is to train a model that can accurately predict object locations, identities, or event occurrences (see also @sec-4 and @sec-9). Training proceeds as an iterative loop: the model makes a prediction on the image, compares that prediction to the corresponding ground truth annotation and adjusts its internal parameters to minimize the discrepancy between them. These updates are performed through backpropagation [@rumelhart1986learning], an algorithm that calculates how much each individual parameter of the model contributes to the prediction error and updates the value(s) accordingly. Model optimization is guided by one or more loss functions, which quantify prediction errors in tasks such as object localization, classification, or object presence (@tbl-loss-functions). 
+
+To evaluate how well the model generalizes beyond its training data, the ground truth dataset pool is typically divided into separate training, validation, and test sets. The training set is used to optimize the model parameters, while the validation set is used periodically after each pass through the training dataset to assess performance on unseen data. Validation results can help guide decisions such as when to stop training or how to adjust model settings between training runs. Because these decisions are influenced by the validation dataset's performance, a third, independent test set is reserved for a final evaluation. Model performance is then evaluated using metrics such as precision and recall that measure how well the predictions match ground-truth labels on the test data [@bishop2006pattern].
+
+::: {#tbl-loss-functions .list-table aligns="l,l,l" tbl-colwidths="[20,45,35]"}
+Examples of loss functions in object detection models
+
+- - Type
+  - Description
+  - Examples
+
+- - Localization Losses
+  - Measure how close the predicted bounding box is to the ground truth box
+  - 
+    - L1 Loss
+    - L2 Loss
+    - IoU Loss [@yu2016unitbox; @rezatofighi2019generalized]
+
+- - Classification Losses
+  - Classify each detected object into the correct class
+  - 
+    - Cross Entropy Loss
+    - Focal Loss [@lin2020focal]
+
+- - Objectness Losses
+  - Predict whether an object exists in a box 
+  - 
+    - Binary Cross Entropy
+    - Focal Binary Cross Entropy
+:::
+
+Model development typically proceeds in two phases: exploration and optimization. During the exploration phase, the goal is to determine whether the model can learn to solve the biological problem using the available data. Researchers often begin with a small representative dataset and a well-established architecture, such as *U-Net* [@Ronneberger2015], *Mask R-CNN* [@he2017mask], or *YOLO* [@redmon2016you]. Short training runs on limited datasets can reveal whether the model converges, produces biologically meaningful predictions, or exhibits obvious signs of overfitting, where the model fits the training data but is unable to generalize to an unseen dataset. These early experiments help identify potential obstacles before substantial effort is invested in optimization.
+
+### Refining and Optimizing Models
+
+Once feasibility has been established, attention shifts toward improving model performance and robustness. In many cases, the most effective strategy is to expand and improve the annotated dataset, as model performance is fundamentally constrained by the quality and diversity of the training examples. Additional annotations, refined labels, and data collected under different experimental conditions can all improve generalization. When annotated data are scarce, simulated datasets, data augmentation, or pre-trained models may also be used to bootstrap learning and reduce annotation requirements.
+
+As model development progresses, increasingly sophisticated architectures may be introduced. Three-dimensional convolutional networks can better exploit volumetric image data, while recurrent or transformer-based architectures can incorporate temporal information required for event detection. These approaches enable models to capture complex spatial and temporal relationships that are difficult to represent using classical object detection pipelines.
+
+Model optimization is often constrained by computational resources. Training deep-learning models on high-resolution, volumetric, or time-lapse microscopy datasets can require hours or days of computation, limiting the speed at which new hypotheses can be tested. Consequently, model development is typically an iterative process in which improvements to data quality, model architecture, and training strategy are evaluated over multiple training cycles. As datasets and models increase in scale, researchers may transition from single-workstation training to high-performance computing or cloud-based resources capable of supporting large-scale experiments. 
+
+Ultimately, successful model development depends on balancing biological relevance, annotation quality, model complexity, and computational cost. These considerations become particularly important for event detection, where temporal dynamics, class imbalance, and annotation uncertainty introduce additional challenges beyond those encountered in conventional object detection tasks.
+
+## Real-Time Event Detection in Smart Microscopy
+
+In smart microscopy workflows, event detection can be performed either after image acquisition or during image acquisition. These two approaches, often referred to as *a-posteriori* and *real-time* analysis respectively, differ not only in when inference occurs but also in how detection influences the experiment itself.
+
+In [a-posteriori analysis](glossary.qmd#a-posteriori-analysis), events are identified after the complete dataset has been acquired and stored. This approach allows computationally intensive algorithms to be applied without constraints imposed by the instrument's acquisition speed and is well suited for retrospective analysis, hypothesis generation, and machine learning model development. However, because detection occurs after the experiment is complete, the results cannot influence image acquisition or experimental conditions.
+
+[Real-time analysis](glossary.qmd#real-time-analysis), in contrast, processes image data as it is acquired. Rather than serving solely as a downstream analysis tool, event detection becomes part of the imaging workflow itself. This approach is particularly valuable when phototoxicity, storage requirements, or instrument throughput limit the feasibility of continuous high-resolution imaging. Real-time inference has strict time constraints and therefore requires efficient algorithms capable of producing reliable predictions from incomplete and continuously evolving datasets.
+
+The principal advantage of real-time event detection is that it enables adaptive microscopy. By identifying biologically relevant events as they occur, imaging parameters can be adjusted dynamically to focus acquisition effort on the most informative regions, objects, or time periods. This strategy reduces unnecessary sample exposure, minimizes photobleaching and photodamage, and decreases the collection of uninformative data. As a result, experiments can often be performed for longer durations while generating smaller, more information-rich datasets.
+
+*Hybrid event-driven acquisition* (@tip-hybrid-event-driven) illustrates the benefits of adaptive microscopy for capturing rare and transient events while minimizing unnecessary fluorescence exposure [@stepp2026smart]. This framework monitored samples using a low-phototoxicity imaging modality and selectively triggered fluorescence imaging only when an event was detected, substantially increasing the number of cells that survived long-term imaging compared with continuous fluorescence acquisition.
+
+Real-time detection also enables closed-loop experimentation. Detected events can trigger downstream actions such as object tracking, high-resolution imaging, experimental perturbations, or automated classification. More broadly, the microscope can use incoming observations to guide future acquisition decisions, transforming image acquisition from a passive recording process into an active, information-driven measurement strategy. This capability is central to the concept of smart microscopy.
+
+Real-time event detection remains challenging because models must balance detection accuracy against computational latency, often while operating under limited hardware resources and in the presence of noisy biological data. Strategies that perform well for one imaging modality or biological system may not generalize readily to others, making robust deployment difficult. Furthermore, uncertainty estimates are rarely incorporated into acquisition decisions, despite their potential value for reducing false positives and missed events. Addressing these challenges will require continued advances in machine learning, microscope control software, and hardware–software integration.
+
+*Automated Early Generalizing Protein Aggregation ONset* (@tip-AEGON) addresses two important barriers to broader adoption of real-time smart microscopy: computational efficiency and generalizability. The authors showed that deep learning models could maintain high event detection accuracy using substantially fewer temporal and spatial inputs, making real-time inference feasible on more modest computational hardware. They also demonstrated that the framework generalized across different microscope platforms and imaging modalities without transfer learning, illustrating how event-driven microscopy can become more accessible beyond highly specialized experimental systems.
+
+Together, these developments and challenges illustrate the evolution of event detection from a retrospective analytical tool to a mechanism for real-time experimental control. By enabling microscopes to respond autonomously to biological processes as they unfold, event-driven microscopy represents a major step toward intelligent and adaptive imaging systems.
+
+::: { .callout-tip #tip-hybrid-event-driven}
+## Hybrid Event Driven Acquisition (EDA)
+*Smart hybrid microscopy for cell-friendly detection of rare events*
+
+Hybrid-EDA [@stepp2026smart] is a real-time event detection and acquisition tool that addresses a fundamental trade-off in fluorescence microscopy: obtaining sufficient signal while minimizing photodamage caused by prolonged accumulation. This framework separates surveillance from event capture by monitoring the sample continuously under phase-contrast, a label-free imaging modality with minimal phototoxicity. When a neural network detects an event from subtle structural cues in the phase-contrast images, fluorescence imaging is triggered (@fig-hybrid-eda A). This approach dramatically reduces phototoxic burden relative to continuous fluorescence surveillance (@fig-hybrid-eda B). 
+
+The authors demonstrate this strategy by detecting mitochondrial division and organelle contacts. Mitochondrial division presents a detection challenge because phase contrast is a label-free modality that captures the whole cellular landscape alongside mitochondria, so the subtle structural cues preceding a fission event can easily be lost among unrelated features. To address this, the authors equipped a U-Net with temporal memory across frames, allowing it to track the evolution of a candidate site rather than evaluating each frame in isolation. Hybrid-EDA captured fast, fragile physiological signals that continuous fluorescence imaging would struggle to resolve without accelerating photodamage. As one example, membrane potential dynamics were visualized at a site of mitochondrial constriction using the potentiometric dye TMRE (@fig-correlative-imaging).
+
+![**Hybrid-EDA balances phototoxicity and event capture in live-cell imaging.** (a) Logic of hybrid-EDA: a neural network continuously evaluates phase-contrast frames and triggers a switch to combined phase/fluorescence imaging only when it detects an event, then reverts to phase-only monitoring. (b) Cell viability over ~30 minutes under continuous fluorescence, phase-contrast, and no illumination. Fluorescence causes rapid loss of viability, while phase-contrast remains comparable to the unilluminated control. Taken from Fig. 1 of [@stepp2026smart] under a CC BY license.](7-smart-microscopy_files/Figures_case_study3_Hybrid_EDA.png){#fig-hybrid-eda}
+
+![**Correlative imaging reveals a localized membrane potential drop at a mitochondrial constriction** *Top*: phase-contrast time series showing a constriction site (arrowhead) that precedes division. *Middle*: neural network event score, which exceeds threshold at the constriction and triggers fluorescence acquisition (active period, magenta). *Bottom*: TMRE fluorescence over the same period, showing a transient, spatially confined loss of membrane potential (outlined in cyan) that remains restricted to one side of the constriction before recovering. Reproduced from Fig. 3 of [@stepp2026smart] under a CC BY license. ](7-smart-microscopy_files/Figures_case_study3_Hybrid_EDA_mitochondria.png){#fig-correlative-imaging}
+
+:::
+
+::: { .callout-tip #tip-AEGON}
+## Automated Early Generalizing Protein Aggregation ONset (AEGON) 
+*Performing longitudinal protein aggregation detection with AEGON*
+
+The AEGON framework [@ibrahim2025selfdriving] uses fast fluorescence imaging to identify candidate biological events for a slower and more experimentally demanding Brillouin microscopy assay, a scattering-based technique for measuring the mechanical properties of biological specimens [@hockenberry2022cells]. The authors demonstrate the framework by identifying the onset of Httex1 protein aggregation in a well-characterized cellular model of Huntington’s disease. Early detection of these events is a challenge for conventional Brillouin microscopy due to its limited throughput. First, the microscope rapidly acquires fluorescence images across a predefined grid of stage positions (@fig-self-driving A), and a deep learning model classifies each image as either an aggregation event or a non-event (@fig-self-driving B). Locations predicted to contain an event are then revisited using optimized Brillouin acquisition settings for longitudinal monitoring (@fig-self-driving C).
+
+A major contribution of this work was demonstrating that accurate real-time event detection could be achieved with substantially less input data, reducing the computational demands of closed-loop microscopy. First, the authors trained models on 4D image stacks and systematically reduced the dimensionality of input data by testing fewer timepoints (@fig-aegon a). Next, they reduced the number of z-planes input to the ViViT model (@fig-aegon b). With only a single time point and single z plane, it maintained 86% accuracy as compared to the 91% accuracy it achieved when provided with a single time point and eight z-planes. These results show that high-performance event detection can be maintained under a lower computational budget. The optimized model was then used for real-time event detection of fluorescently tagged Httex1 aggregation (@fig-aegon c). This adaptive strategy enabled longitudinal monitoring of Httex1 aggregation using brightfield and Brillouin microscopy triggered after the initial detection event (@fig-aegon d).
+
+![**Self-driving microscopy workflow for Automated Early Generalizing Protein Aggregation ONset (AEGON) detection** (A) The microscope performs low-cost imaging while scanning a spatial grid of stage positions. (B) Each acquired image is analyzed in real time by a previously trained neural network and classified as either an aggregation onset event or a non-event. Candidate event locations are added to a list and immediately trigger optimized acquisition. (C) The microscope automatically revisits detected events using optimized imaging parameters, including imaging modality, exposure time, laser power, z-stack settings, and timelapse frequency, to capture protein aggregation dynamics. Reproduced from Fig. 1 of [@ibrahim2025selfdriving] under a CC BY license.](7-smart-microscopy_files/Fig10_CaseStudy4_Aegon.png){#fig-self-driving}
+
+![**Reducing the computational requirements of AEGON while preserving real-time event detection performance.** a) Classification accuracy of the two deep learning architectures as the number of temporal frames used for training and prediction is varied (b) Classification accuracy of the ViViT model using a single time point with either one or eight z-planes (c) Illustration of the AEGON framework using real-time event detection to trigger optimized microscope acquisition. (d) Representative longitudinal imaging experiment. Following event detection (red arrow), the microscope automatically switches to optimized acquisition settings to monitor protein aggregation dynamics using fluorescence, brightfield, and Brillouin microscopy over time (yellow and black arrows). Reproduced from Fig. 3 of [@ibrahim2025selfdriving] under a CC BY license.](7-smart-microscopy_files/Fig11_CaseStudy4_Aegon.png){#fig-aegon}
+
+:::
+
+## Challenges and Future Directions in Smart Microscopy
+
+Despite its promise, smart microscopy remains subject to important limitations. The performance of object and event detection models depends strongly on the quality and representativeness of their training data. Models may fail when presented with unfamiliar biological conditions, imaging modalities, or rare phenotypes, and biases in annotated datasets can influence both detection outcomes and subsequent acquisition decisions. Furthermore, adaptive imaging strategies can alter experimental conditions themselves, for example, by exposing different samples to different cumulative light doses, requiring careful experimental controls and validation.
+
+Practical challenges also remain. Event detection often requires large, expertly annotated datasets. Integrating machine-learning models with microscope hardware and control software introduces additional complexity, while increasingly capable microscopes generate data volumes that can be difficult to store, process, and interpret.
+
+At the same time, the opportunities afforded by smart microscopy are substantial. By coupling biological event recognition directly to image acquisition, microscopes can focus on the most informative regions, objects, and time periods while reducing data collection. Advanced instruments already combine multiple imaging modalities, adaptive acquisition strategies, or increasingly generalizable machine-learning models to detect a broader range of biological phenomena [@Daetwyler2023; @mahecic2022; @shi2024smart; @stepp2026smart; @ibrahim2025selfdriving; @daetwyler2025imaging]. More broadly, smart microscopy represents a shift from passive image collection toward active, information-driven experimentation, in which microscopes not only record biological processes but also respond to them in real time.
