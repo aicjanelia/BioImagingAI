@@ -139,7 +139,7 @@ Aberration: |
 Zernike Modes: |
   A set of orthogonal polynomials used to describe and correct wavefront aberrations in optical systems.
 
-FIJI: |
+Fiji: |
   An image processing platform that comes bundled with many plugins for scientific image analysis. See https://imagej.net/software/fiji/ for more information.
 
 Convolution: |
@@ -298,7 +298,7 @@ Model Context Protocol (MCP) : |
 Context Window : |
   A context window is the size of the largest input that a model can consider at once. Making the context window larger allows the model to incorporate more information into the output.
 
-logprobs : |
+Logprobs : |
   Logprobs is short for log probabilities. Taking the logarithm of a probability has practical computational advantages. In the AI context, logprobs refers to the probability of each token, given the previous token, and can be used as a measure of model confidence.
 
 Visual Question Answering : |
@@ -394,7 +394,7 @@ Support vector machine (SVM) : |
 Texture : |
   A quantitative descriptor of the spatial pattern of intensity variation within a region of interest, capturing properties like smoothness or granularity.
 
-a-posteriori Analysis : |
+A-posteriori Analysis : |
   An approach in which iamges are processed after the complete dataset has been acquired and stored.
 
 Real-time analysis : |
