@@ -220,6 +220,54 @@ For boundary point sets $A$ and $B$:
 $$d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)$$
 
 A small Hausdorff distance means every point on one boundary has a close counterpart on the other.
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+navy, orange, red = "#1a35e0", "#e47a10", "#cc2222"
+
+fig, ax = plt.subplots(figsize=(3, 4))
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 5)
+ax.set_xticks(np.arange(0, 6, 0.5))
+ax.set_yticks(np.arange(0, 6, 0.5))
+ax.grid(True, color="lightgray", lw=0.8)
+ax.tick_params(labelbottom=False, labelleft=False, length=0)
+
+theta_f = np.linspace(0, 2 * np.pi, 300)
+theta_c = np.linspace(0, 2 * np.pi, 20, endpoint=False)
+
+# A: ground truth boundary (circle)
+A_line = np.stack([2.5 + 1.5 * np.cos(theta_f), 2.5 + 1.5 * np.sin(theta_f)], axis=1)
+A_pts  = np.stack([2.5 + 1.5 * np.cos(theta_c), 2.5 + 1.5 * np.sin(theta_c)], axis=1)
+
+# B: predicted boundary — slightly larger and offset
+B_line = np.stack([2.9 + 1.8 * np.cos(theta_f), 2.7 + 1.8 * np.sin(theta_f)], axis=1)
+B_pts  = np.stack([2.9 + 1.8 * np.cos(theta_c), 2.7 + 1.8 * np.sin(theta_c)], axis=1)
+
+ax.plot(A_line[:, 0], A_line[:, 1], color=navy, lw=2, label="A")
+ax.plot(B_line[:, 0], B_line[:, 1], color=orange, lw=2, label="B")
+
+# Draw nearest-neighbour lines from each point in A to its closest point in B
+dists = np.linalg.norm(A_pts[:, None] - B_pts[None], axis=2)
+nn = np.argmin(dists, axis=1)
+for i in range(len(A_pts)):
+    ax.plot([A_pts[i, 0], B_pts[nn[i], 0]], [A_pts[i, 1], B_pts[nn[i], 1]],
+            color="lightgray", lw=0.7, zorder=1)
+
+# Highlight the worst-case pair (the Hausdorff point)
+w = np.argmax(dists[np.arange(len(A_pts)), nn])
+ax.annotate("", xy=(B_pts[nn[w], 0], B_pts[nn[w], 1]),
+            xytext=(A_pts[w, 0], A_pts[w, 1]),
+            arrowprops=dict(arrowstyle="<->", color=red, lw=2.0), zorder=3)
+mid = (A_pts[w] + B_pts[nn[w]]) / 2
+ax.text(mid[0] + 0.1, mid[1], "$d_H$", color=red, fontsize=13, va="center")
+
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=2, frameon=False, fontsize=14)
+```
+
 :::
 
 
@@ -233,6 +281,37 @@ $$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
 
 where $P_k$ and $R_k$ are precision and recall at the $k$-th confidence threshold after matching predictions to ground-truth at IoU $\geq x$.
 Higher $x$ demands more precise localization.
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+navy, orange = "#1a35e0", "#e47a10"
+
+# Synthetic precision-recall curve
+recall = np.array([0.0, 0.15, 0.35, 0.55, 0.70, 0.82, 0.92, 1.0])
+prec   = np.array([1.0, 0.92, 0.82, 0.70, 0.58, 0.44, 0.28, 0.0])
+
+fig, ax = plt.subplots(figsize=(3, 4))
+ax.set_xlim(-0.05, 1.1)
+ax.set_ylim(-0.05, 1.15)
+ax.set_xlabel("Recall ($R$)", fontsize=11)
+ax.set_ylabel("Precision ($P$)", fontsize=11)
+ax.set_xticks([0.0, 0.5, 1.0])
+ax.set_yticks([0.0, 0.5, 1.0])
+ax.grid(True, color="lightgray", lw=0.8)
+
+# Step function and shaded area under the curve = AP
+ax.step(recall, prec, where="post", color=navy, lw=2)
+ax.fill_between(recall, prec, step="post", alpha=0.25, color=navy, label="AP")
+
+# Mark the individual (R_k, P_k) threshold points
+ax.scatter(recall[1:-1], prec[1:-1], color=orange, s=45, zorder=5,
+           label="$(R_k, P_k)$")
+
+ax.legend(loc="upper right", frameon=False, fontsize=11)
+```
+
 :::
 
 Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
