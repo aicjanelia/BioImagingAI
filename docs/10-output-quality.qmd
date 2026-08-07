@@ -55,25 +55,7 @@ Starting prompt for this chapter: Chapter 10 addresses how to assess the quality
 * Interpretation of different metrics with guidance on how to balance/trade-off priorities
   * E.g. segmentation for counting (segmentation as object detection) vs. segmentation for size estimation 
 
-## Examples
-
-Note: We are considering picking one example to place in call out boxes throughout the chapter to facilitate an ongoing discussion with a concrete example. For examples, we will use real data/GT, but synthetically generate the predictions in order to better highlight specific issues.
-
-### Segmentation Metrics
-
-* show on examples:
-  * dice
-  * Hausdorff
-  * AP_x (and required matching)
-* mention MetricsReloaded
-
 ### Cell Tracking Metrics
-
-* usually not a single number: topological correctness vs. positional correctness
-* show traccuracy and discuss some of their metrics
-* Need for selecting metrics based on the biological priority
-* chota ref[@kaiser2024chota]
-* TRA ref[@mavska2014benchmark]
 
 Cell tracking is typically approached as a multi-stage task. The first stage is detection where cells in each frame of the time series are detected using point detections, bounding boxes or segmentation masks. In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
 
@@ -419,7 +401,7 @@ plot_figure()
 
 There is a common inclination to use a single metric that is intended to capture overall performance on the task. In cell tracking, there are two common single metrics. The first is the TRA[@mavska2014benchmark] score defined by the Cell Tracking Challenge. This score is a weighted sum of node and edge errors that is normalized between 0 and 1. A second common unified metric is CHOTA[@kaiser2024chota] (Cell-specific Higher Order Tracking Accuracy). This metric captures local correctness, global coherence and aspects of lineage tracking. Single metrics can be convenient; however, they are uninformative when the intention is to evaluate and then improve a tracking solution. A unified metric does not indicate what types of errors are present. 
 
-@fig-sparse-edges illustrates three tracking failure modes and the metric scores for each solution. In each example, the small tree is extended over 30 frames and there are 10 trees in each solution. In (b), every third edge is dropped from the ground truth solution representing intermittent missed edges. 
+@fig-sparse-edges illustrates three tracking failure modes and the metric scores for each solution. As the discussion below shows, solutions that fail in very different ways can end up with similar overall scores, and the two unified metrics can even disagree with each other about which solution is preferable.
 
 <!-- Generate lineage trees with regular divisions -->
 ```{python}
@@ -514,6 +496,7 @@ def remove_nodes(g, mod=4):
 gt = build_lineage_tree(n_starting_nodes=10, n_frames=30, division_every=5)
 ```
 
+<!-- Plotting utilities -->
 ```{python}
 #| echo: false
 
@@ -566,10 +549,10 @@ def plot_graph(g, ax, color=BLUE):
     ax.axis("off")
 ```
 
-
+<!-- Metric computation -->
 ```{python}
 #| code-fold: true
-#| code-summary: Show code to compute metrics on tracking solutions
+#| code-summary: Show code to compute metrics on tracking solutions using [`traccuracy`](https://github.com/live-image-tracking-tools/traccuracy)
 
 
 from traccuracy.matchers import Matched
@@ -593,15 +576,16 @@ def compute_metrics(solution):
     return results
 ```
 
+<!-- Solution figure -->
 ```{python}
 #| label: fig-sparse-edges
 #| fig-cap: "Tracking solutions with common failure modes, each scored with a
 #|   panel of tracking metrics. Trees show a single representative lineage
 #|   truncated to 10 frames; the metric tables are computed over the full
 #|   dataset (10 lineages, 30 frames).
-#|   Panel b shows a solution where every third edge is missing. Panel c shows
-#|   a solution where no divisions were predicted. Panel d shows a solution
-#|   where every fourth node (detection) is missing. Division precision/F1 are
+#|   Panel b shows a solution where every fourth node (detection) is missing.
+#|   Panel c shows a solution where every third edge is missing. Panel d shows
+#|   a solution where no divisions were predicted. Division precision/F1 are
 #|   undefined (n/a) for the no-division solution because it predicts no divisions."
 #| warning: false
 #| echo: false
@@ -667,9 +651,9 @@ gs = fig.add_gridspec(2, 4, height_ratios=[2.3, 1.0])
 tree_axes = [fig.add_subplot(gs[0, i]) for i in range(4)]
 panels = [
     (plot_gt, "a) Ground Truth", None),
-    (plot_no_edge, "b) Sparse Edge\nSolution", res_no_edge),
-    (plot_no_div, "c) No Division\nSolution", res_no_div),
-    (plot_no_node, "d) Missing Node\nSolution", res_no_node),
+    (plot_no_node, "b) Missing Node\nSolution", res_no_node),
+    (plot_no_edge, "c) Sparse Edge\nSolution", res_no_edge),
+    (plot_no_div, "d) No Division\nSolution", res_no_div),
 ]
 for axis, (g, title, _res) in zip(tree_axes, panels):
     plot_graph(g, axis)
@@ -695,5 +679,19 @@ fig.subplots_adjust(left=0.03, right=0.99, top=0.88, bottom=0.04,
 ```
 
 
+Consider the three failure modes in @fig-sparse-edges. The two unified metrics produce very different rankings of solutions. The TRA score ranks no divisions (0.957) similarly to sparse edges (0.947) and far above missing nodes (0.732). In contrast, while all solutions score relatively low on CHOTA, the missing node solution ranks highest (0.560) followed by no divisions (0.333) and sparse edges (0.297). Because TRA and CHOTA weight node, edge and lineage errors differently, two established "single number" metrics can disagree about which solution is preferable. Neither score reveals whether the underlying problem is due to missed detections, broken links, or failure to find divisions. To identify the specific failure modes, we need to examine metrics  for that we need to look at the node, edge and division metrics reported alongside them.
 
-[TODO] discussion and wrap up on the need to look at more individualized metrics even though summary metrics are convenient. Need for selecting metrics based on the biological priority
+The per-component metrics reveal the distinct failure mode in each solution. The missing node solution (b) has the lowest node F1 (0.858) of the three because a quarter of detections are dropped; since each dropped node also severs the edges that pass through it, this single error mode depresses edge F1 (0.798) and division F1 (0.399) as well. The sparse edge (c) and no-division (d) solutions both keep every detection (node F1 = 1.000) and lose the same fraction of edges (edge F1 = 0.800), yet they are far from equivalent: sparse edges still recovers roughly half of the true divisions (division F1 = 0.505) because the deleted edges are scattered at random, while the no-division solution deterministically removes every division edge, so no division is ever proposed and division F1 is undefined.
+
+Whether an error is acceptable depends entirely on what the tracking result will be used for. If the downstream analysis measures single-cell metrics such as migration speed, the no-division solution is nearly as good as ground truth: every cell is detected, most links are correct, and the fact that no lineage relationships were ever proposed is irrelevant to the task. If instead the goal is to study clonal relationships or developmental lineages the no-division solution is worthless despite its high TRA, because it recovers zero divisions and can never support a lineage-based analysis. The missing node solution sits at the opposite end of this trade-off: it has the worst TRA of the three, but a downstream analysis focused on lineage structure might tolerate it better than that score suggests. Choosing a metric, or a small panel of metrics, should therefore start from the biological question at hand rather than from convenience.
+
+A second, independent axis is how easy an error is to catch and fix once a human is proofreading the result, and it does not always line up with how tolerable the error is for the downstream analysis. Missing nodes and sparse edges leave a visible gap or an orphaned track segment, and the fix is local: add the missing node or edge back and reconnect two pieces that are otherwise correct. A systematically missed division is much harder to catch, because neither daughter track looks wrong on its own; the cells are simply tracked as if they had always been independent, so a curator scanning tracks has no local cue that a division was ever missed. The more tolerable error is therefore not necessarily the one with the better score on a given metric, but the one that is cheap to find and correct, particularly if missing detections are easy to flag and cheap to review manually.
+
+## Conclusion [TODO]
+
+
+## AI Disclosure {.unnumbered}
+
+[TODO] Diane, check if this needs to be modified
+
+AI language models (Anthropic’s Claude, specifically Claude Sonnet 5) were used during the preparation of this chapter. Their roles included drafting prose, generating code examples, and producing demonstration figures. All content was reviewed, revised, and verified by the human authors, who take full responsibility for the accuracy and scientific integrity of the final text. Selection of references was the work of the human authors.
