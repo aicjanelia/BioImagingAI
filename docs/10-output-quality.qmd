@@ -19,15 +19,24 @@ subtitle: How to pick a model?
 
 # Output Quality {#sec-output_quality}
 
-Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
+<!-- Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
 
 * why do we need metrics? to pick models from different training iterations
   (avoid overfitting) and to select models with different hyperparameters
-* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5
+* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5 -->
 
-## Metrics and Losses
+You have trained a model. 
+How do you know if it is any good?
+This is rarely a simple question.
+A model that looks convincing on a handful of images can quietly fail on the rest of your dataset, and a model that scores well on one measure of quality can perform poorly on another.
+Choosing the right way to measure quality is therefore just as important as the training itself.
+
+In this chapter we will look at how metrics and losses differ, how to pick measures that actually reflect your scientific goal, and how to use held-out test data to get an honest estimate of how your model will behave on new images.
+We will focus on a *segmentation* as a concrete example, but the principles apply broadly.
 
 > Goodhart's law: When a metric becomes a target, it ceases to be a good metric.
+
+## Metrics and Losses
 
 ```{python}
 #| code-fold: true 
@@ -70,13 +79,17 @@ plt.axis("off")
 plt.show()
 ```
 
-In chapter (TODO: Add chapter), you've learned about how to train a machine learning model. 
-One essential part of training the model is which loss you choose. 
-This is the differentiable function that is used to fit the parameters of the model to a given task. 
+In chapter (TODO: Add chapter), you've learned about how to train a machine learning model.
+One essential part of training the model is which loss you choose.
+This is the differentiable function that is used to fit the parameters of the model to a given task.
+A loss function tells the model how wrong its current predictions are — training adjusts the model's parameters to make this number as small as possible.
+Because training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
 
 
 Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
-For example, look at the segmentation outputs in @fig-segmentations. 
+A metric is any function that scores your predictions.
+Unlike a loss, it does not have to be differentiable, because it is only ever used for measurement, not for optimisation.
+For example, look at the segmentation outputs in @fig-segmentations.
 At first glance, it is difficult to judge which of these is the most appropriate.
 
 ```{python}
@@ -139,18 +152,25 @@ Let's look at a semantic segmentation task as an example.
 Suppose you have fluorescence data as in the image above, and you'd like to train a model to return a mask that differentiates cells from background. 
 
 Two standard losses for this task are binary cross entropy, and mean squared error.
-While both of these are differentiable functions, they have very different pros and cons when it comes to training a model. 
+While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
 
 * Binary cross-entropy: penalizes the model based on how confident it is in the wrong answer. For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
 $$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
+BCE requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
 * MSE: penalizes the model proportionally to the squared difference between its prediction and the ground truth:
 $$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
+MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
+Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
 
-Luckily, you can keep track of both of these things by using one of these functions as a metric. 
-For instance, as your model is being trained with Binary cross-entropy, you can compute the mean-squared error of your model's predictions on validation data as you train. 
+Luckily, you can keep track of both of these things by using one of these functions as a metric.
+For instance, as your model is being trained with Binary cross-entropy, you can compute the mean-squared error of your model's predictions on validation data as you train.
+Watching multiple numbers evolve during training gives a fuller picture than any single number alone.
 
-You can imagine other functions, however, that might more closely match what you'd think of as "good performance". 
-Let's look at a few of these here for our segmentation task.
+You can imagine other functions, however, that might more closely match what you'd think of as "good performance".
+For instance, a biologist counting cells cares whether each individual cell was detected, not about the total number of wrong pixels. 
+A metric that captures this will look very different from BCE or MSE.
+Different downstream uses call for different metrics.
+Let's look at a few that are commonly used in bioimage analysis.
 
 ::: {.callout-note appearance="simple" icon=false collapse="true"}
 # The DICE coefficient is an overlap metric.
@@ -215,10 +235,16 @@ where $P_k$ and $R_k$ are precision and recall at the $k$-th confidence threshol
 Higher $x$ demands more precise localization.
 :::
 
-You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
-
 Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
+For example, AP involves sorting predictions by confidence. 
 However, just like previously with MSE, we can measure them.
+The practical workflow is therefore: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.
+
+
+You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
+As you'll see, there are many different metrics available for every task.
+Each will be more or less useful depending on what types of errors you can or cannot accept in your final predictions. 
+So, how do you choose which metrics to measure and which ones to pay attention to?
 
 ## What Metric to Pick?
 
