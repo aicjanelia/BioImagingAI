@@ -10,10 +10,10 @@ author:
   - name: Diane Adjavon
     orcid: 0009-0001-4702-0776
     affiliations:
-      - name: 
-        state: 
-        country: 
-        postal-code: 
+      - name: biohub 
+        state: NY
+        country: USA
+        postal-code:  
 subtitle: How to pick a model?
 ---
 
@@ -80,15 +80,58 @@ For example, look at the segmentation outputs in @fig-segmentations.
 At first glance, it is difficult to judge which of these is the most appropriate.
 
 ```{python}
-#| code-fold: true 
+#| code-fold: true
 #| label: fig-segmentations
-#| fig-cap: Four examples of segmentations, obtained by different models. The quality of the segmentations is difficult to immediately determine. What do we actually want the model to be good at?
+#| fig-cap: "Four examples of segmentations from different models. Each has a distinct failure mode that is hard to spot at a glance."
+#| fig-subcap:
+#|   - "Undersegmented: masks shrink away from cell borders"
+#|   - "Oversegmented: masks are too large, adjacent cells merge"
+#|   - "Missing cells: borders are correct but several cells are absent"
+#|   - "Holes: segmentation has gaps inside cells"
+#| layout-ncol: 2
 
-fig, axes = plt.subplots(2, 2)
+from skimage.morphology import erosion, dilation, disk
+from scipy.ndimage import shift as ndimage_shift
 
-for ax in axes.ravel():
-  ax.imshow(image_label_overlay)
-  ax.axis("off")
+h, w = image.shape
+
+# 1. Undersegmented: erode each cell then jitter it by a small random offset
+eroded_label = label(erosion(filled, disk(10)))
+rng_jitter = np.random.default_rng(7)
+underseg_label = np.zeros_like(eroded_label)
+for lbl in np.unique(eroded_label)[1:]:           # skip background (0)
+    mask = (eroded_label == lbl).astype(float)
+    dy, dx = rng_jitter.integers(-6, 7, size=2)
+    shifted = ndimage_shift(mask, (dy, dx), order=0)
+    underseg_label[shifted > 0] = lbl
+underseg_overlay = label2rgb(underseg_label, image=image, bg_label=0)
+
+# 2. Oversegmented: dilate just enough so some neighbouring cells merge
+overseg_label = label(dilation(filled, disk(5)))
+overseg_overlay = label2rgb(overseg_label, image=image, bg_label=0)
+
+# 3. Missing cells: correct borders, but border cells and ~1/3 of interior cells removed
+missing_label = label_image.copy()
+props = regionprops(label_image)
+border_lbl = {p.label for p in props
+              if p.bbox[0] == 0 or p.bbox[1] == 0 or p.bbox[2] == h or p.bbox[3] == w}
+interior_lbl = [p.label for p in props if p.label not in border_lbl]
+for lbl in border_lbl:
+    missing_label[missing_label == lbl] = 0
+rng = np.random.default_rng(42)
+for lbl in rng.choice(interior_lbl, size=max(1, len(interior_lbl) // 3), replace=False):
+    missing_label[missing_label == lbl] = 0
+missing_overlay = label2rgb(missing_label, image=image, bg_label=0)
+
+# 4. Holes: erode the pre-fill-holes mask to thin the rings and enlarge the gaps
+holes_label = label(erosion(bw, disk(2)))
+holes_overlay = label2rgb(holes_label, image=image, bg_label=0)
+
+for overlay in [underseg_overlay, overseg_overlay, missing_overlay, holes_overlay]:
+    fig, ax = plt.subplots(figsize=(4, 4))
+    ax.imshow(overlay)
+    ax.axis("off")
+    plt.show()
 ```
 
 
