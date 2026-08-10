@@ -47,13 +47,16 @@ Starting prompt for this chapter: Chapter 10 addresses how to assess the quality
   * otherwise, find a loss that is a good proxy or chose your model based on
     the metric on the validation dataset
 
-## What Metric to Pick? (Morgan)
+## What Metric to Pick?
 
-* ideally: metric reflects *time/cost needed to clean up* for a *particular application*
-* this can mean different things, and sometimes there is no single number (see Cell Tracking below)
-* Discuss tradeoffs in metrics choice
-* Interpretation of different metrics with guidance on how to balance/trade-off priorities
-  * E.g. segmentation for counting (segmentation as object detection) vs. segmentation for size estimation 
+When selecting a metric or metrics to use for evaluating a model, there are two key axes to consider. The first is the downstream analysis task that the data will be used for. The second is the time/cost needed to correct errors prior to that analysis task. In many cases the downstream analysis task will influence which types of errors can be tolerated. 
+
+Consider the case of nuclear segmentation. If we are interested in counting the number of nuclei, a model which under or over segments a nuclei and therefor changes the size of the nucleus will not impact the analysis. However a model that misses nuclei, merges multiple nuclei into one, or splits a single nucleus into multiple would introduce errors into the final counts. In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the the false positives and false negatives would need correction.
+
+Alternatively if we are interested in measuring the size of each nucleus, the first model described which under or over segments nuclei would create erroneous measurements of size. Instead a model that misses some detections might be preferable as long as the detections that exist correctly reflect the size of the nucleus. In this case a more appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
+
+This is why there is rarely one "correct" metric for a task like segmentation; the same set of predicted masks can look excellent by one measure and mediocre by another, and the right choice depends on tracing through how errors in the output propagate into errors in the analysis you actually care about. In some cases no single number can capture this tradeoff, and getting a picture of quality you can act on requires reporting several complementary metrics side by side, or splitting evaluation into stages that reflect distinct sources of error. This tension is especially visible in cell tracking, where a solution can be scored separately on how well it detects cells in each frame and on how well it links them across frames, and both pieces have to be weighed together to judge whether the result is fit for the application at hand.
+
 
 ### Cell Tracking Metrics
 
