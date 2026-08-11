@@ -10,10 +10,10 @@ author:
   - name: Diane Adjavon
     orcid: 0009-0001-4702-0776
     affiliations:
-      - name: 
-        state: 
-        country: 
-        postal-code: 
+      - name: biohub 
+        state: NY
+        country: USA
+        postal-code:  
 subtitle: How to pick a model?
 jupyter: 10-output-quality
 execute:
@@ -21,31 +21,313 @@ execute:
 bibliography: references.bib
 ---
 
-# Output Quality
+# Output Quality {#sec-output_quality}
 
-Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
+<!-- Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
 
 * why do we need metrics? to pick models from different training iterations
   (avoid overfitting) and to select models with different hyperparameters
-* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5
+* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5 -->
+
+You have trained a model. 
+How do you know if it is any good?
+This is rarely a simple question.
+A model that looks convincing on a handful of images can quietly fail on the rest of your dataset, and a model that scores well on one measure of quality can perform poorly on another.
+Choosing the right way to measure quality is therefore just as important as the training itself.
+
+In this chapter we will look at how metrics and losses differ, how to pick measures that actually reflect your scientific goal, and how to use held-out test data to get an honest estimate of how your model will behave on new images.
+We will focus on a *segmentation* as a concrete example, but the principles apply broadly.
+
+> Goodhart's law: When a metric becomes a target, it ceases to be a good metric.
 
 ## Metrics and Losses
 
-* difference between "metric" and "loss"
+```{python}
+#| code-fold: true 
+#| label: fig-image
+#| fig-cap: Our cells, with the ground truth overlaid.
 
-* loss:
-  * has to be "differentiable"
-  * used to train the network
-  * should already be close to the metric you want to use
-  * can be used to assess model quality on validation data (but a custom metric might be more insightful)
+import skimage as ski
+import numpy as np
+import matplotlib.pyplot as plt
+from skimage.filters import threshold_otsu
+from skimage.segmentation import clear_border
+from skimage.measure import label, regionprops
+from skimage.morphology import closing, footprint_rectangle
+from skimage.color import label2rgb
+from scipy.ndimage import binary_fill_holes
+import numpy as np
+import matplotlib.pyplot as plt
 
-* metric:
-  * an application specific measure of how close you are to the ground truth
-  * used to select a model and to measure progress
-  * does not need to be "differentiable"
-  * but if it is, that's great, you can use it as a loss
-  * otherwise, find a loss that is a good proxy or chose your model based on
-    the metric on the validation dataset
+img = ski.data.cells3d()[20:]
+
+# omit some slices that are partially empty
+image = img[6][1]
+
+# apply threshold
+thresh = threshold_otsu(image)
+bw = closing(image > thresh, footprint_rectangle((3, 3)))
+# remove artifacts connected to image border
+# cleared = clear_border(bw)
+# fill holes
+filled = binary_fill_holes(bw)
+# label image regions
+label_image = label(filled)
+
+# to make the background transparent, pass the value of `bg_label`,
+# and leave `bg_color` as `None` and `kind` as `overlay`
+image_label_overlay = label2rgb(label_image, image=image, bg_label=0)
+
+plt.imshow(image_label_overlay)
+plt.axis("off")
+plt.show()
+```
+
+In chapter (TODO: Add chapter), you've learned about how to train a machine learning model.
+One essential part of training the model is which loss you choose.
+This is the differentiable function that is used to fit the parameters of the model to a given task.
+A loss function tells the model how wrong its current predictions are — training adjusts the model's parameters to make this number as small as possible.
+Because training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+
+
+Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
+A metric is any function that scores your predictions.
+Unlike a loss, it does not have to be differentiable, because it is only ever used for measurement, not for optimisation.
+For example, look at the segmentation outputs in @fig-segmentations.
+At first glance, it is difficult to judge which of these is the most appropriate.
+
+```{python}
+#| code-fold: true
+#| label: fig-segmentations
+#| fig-cap: "Four examples of segmentations from different models. Each has a distinct failure mode that is hard to spot at a glance."
+#| fig-subcap:
+#|   - "Undersegmented: masks shrink away from cell borders"
+#|   - "Oversegmented: masks are too large, adjacent cells merge"
+#|   - "Missing cells: borders are correct but several cells are absent"
+#|   - "Holes: segmentation has gaps inside cells"
+#| layout-ncol: 2
+
+from skimage.morphology import erosion, dilation, disk
+from scipy.ndimage import shift as ndimage_shift
+
+h, w = image.shape
+
+# 1. Undersegmented: erode each cell then jitter it by a small random offset
+eroded_label = label(erosion(filled, disk(10)))
+rng_jitter = np.random.default_rng(7)
+underseg_label = np.zeros_like(eroded_label)
+for lbl in np.unique(eroded_label)[1:]:           # skip background (0)
+    mask = (eroded_label == lbl).astype(float)
+    dy, dx = rng_jitter.integers(-6, 7, size=2)
+    shifted = ndimage_shift(mask, (dy, dx), order=0)
+    underseg_label[shifted > 0] = lbl
+underseg_overlay = label2rgb(underseg_label, image=image, bg_label=0)
+
+# 2. Oversegmented: dilate just enough so some neighbouring cells merge
+overseg_label = label(dilation(filled, disk(5)))
+overseg_overlay = label2rgb(overseg_label, image=image, bg_label=0)
+
+# 3. Missing cells: correct borders, but border cells and ~1/3 of interior cells removed
+missing_label = label_image.copy()
+props = regionprops(label_image)
+border_lbl = {p.label for p in props
+              if p.bbox[0] == 0 or p.bbox[1] == 0 or p.bbox[2] == h or p.bbox[3] == w}
+interior_lbl = [p.label for p in props if p.label not in border_lbl]
+for lbl in border_lbl:
+    missing_label[missing_label == lbl] = 0
+rng = np.random.default_rng(42)
+for lbl in rng.choice(interior_lbl, size=max(1, len(interior_lbl) // 3), replace=False):
+    missing_label[missing_label == lbl] = 0
+missing_overlay = label2rgb(missing_label, image=image, bg_label=0)
+
+# 4. Holes: erode the pre-fill-holes mask to thin the rings and enlarge the gaps
+holes_label = label(erosion(bw, disk(2)))
+holes_overlay = label2rgb(holes_label, image=image, bg_label=0)
+
+for overlay in [underseg_overlay, overseg_overlay, missing_overlay, holes_overlay]:
+    fig, ax = plt.subplots(figsize=(4, 4))
+    ax.imshow(overlay)
+    ax.axis("off")
+    plt.show()
+```
+
+
+Let's look at a semantic segmentation task as an example. 
+Suppose you have fluorescence data as in the image above, and you'd like to train a model to return a mask that differentiates cells from background. 
+
+Two standard losses for this task are binary cross entropy, and mean squared error.
+While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
+
+* Binary cross-entropy: penalizes the model based on how confident it is in the wrong answer. For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
+$$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
+BCE requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+* MSE: penalizes the model proportionally to the squared difference between its prediction and the ground truth:
+$$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
+MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
+Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
+
+Luckily, you can keep track of both of these things by using one of these functions as a metric.
+For instance, as your model is being trained with Binary cross-entropy, you can compute the mean-squared error of your model's predictions on validation data as you train.
+Watching multiple numbers evolve during training gives a fuller picture than any single number alone.
+
+You can imagine other functions, however, that might more closely match what you'd think of as "good performance".
+For instance, a biologist counting cells cares whether each individual cell was detected, not about the total number of wrong pixels. 
+A metric that captures this will look very different from BCE or MSE.
+Different downstream uses call for different metrics.
+Let's look at a few that are commonly used in bioimage analysis.
+
+::: {.callout-note appearance="simple" icon=false collapse="true"}
+# The DICE coefficient is an overlap metric.
+
+DICE: $\frac{2 |A \cap B|}{|A|+|B|}$
+```{python}
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle
+import numpy as np
+
+navy, orange = "#1a35e0", "#e47a10"
+
+fig, ax = plt.subplots(figsize=(3, 4))
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 5)
+ax.set_xticks(np.arange(0, 6, 0.5))
+ax.set_yticks(np.arange(0, 6, 0.5))
+ax.grid(True, color="lightgray", lw=0.8)
+ax.tick_params(labelbottom=False, labelleft=False, length=0)
+
+# Rectangle A and B (overlapping)
+A = (0.5, 1, 2, 4)      # x, y, width, height
+B = (1.5, 1.5, 3, 3)
+
+ax.add_patch(Rectangle(A[:2], A[2], A[3], facecolor=navy, alpha=0.85, label="A"))
+ax.add_patch(Rectangle(B[:2], B[2], B[3], facecolor=orange, alpha=0.85, label="B"))
+
+# Intersection, hatched
+ix0, iy0 = max(A[0], B[0]), max(A[1], B[1])
+ix1, iy1 = min(A[0]+A[2], B[0]+B[2]), min(A[1]+A[3], B[1]+B[3])
+ax.add_patch(Rectangle((ix0, iy0), ix1-ix0, iy1-iy0,
+                        facecolor=orange, edgecolor=navy, hatch="////", label="A ∩ B"))
+
+# Legend
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=3, frameon=False, fontsize=14)
+```
+
+:::
+
+::: {.callout-note appearance="simple" icon=false collapse="true"}
+# The Hausdorff distance focuses on boundaries.
+
+The Hausdorff distance measures how far apart two sets of boundary points are at their worst-case point.
+For boundary point sets $A$ and $B$:
+
+$$d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)$$
+
+A small Hausdorff distance means every point on one boundary has a close counterpart on the other.
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+navy, orange, red = "#1a35e0", "#e47a10", "#cc2222"
+
+fig, ax = plt.subplots(figsize=(3, 4))
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 5)
+ax.set_xticks(np.arange(0, 6, 0.5))
+ax.set_yticks(np.arange(0, 6, 0.5))
+ax.grid(True, color="lightgray", lw=0.8)
+ax.tick_params(labelbottom=False, labelleft=False, length=0)
+
+theta_f = np.linspace(0, 2 * np.pi, 300)
+theta_c = np.linspace(0, 2 * np.pi, 20, endpoint=False)
+
+# A: ground truth boundary (circle)
+A_line = np.stack([2.5 + 1.5 * np.cos(theta_f), 2.5 + 1.5 * np.sin(theta_f)], axis=1)
+A_pts  = np.stack([2.5 + 1.5 * np.cos(theta_c), 2.5 + 1.5 * np.sin(theta_c)], axis=1)
+
+# B: predicted boundary — slightly larger and offset
+B_line = np.stack([2.9 + 1.8 * np.cos(theta_f), 2.7 + 1.8 * np.sin(theta_f)], axis=1)
+B_pts  = np.stack([2.9 + 1.8 * np.cos(theta_c), 2.7 + 1.8 * np.sin(theta_c)], axis=1)
+
+ax.plot(A_line[:, 0], A_line[:, 1], color=navy, lw=2, label="A")
+ax.plot(B_line[:, 0], B_line[:, 1], color=orange, lw=2, label="B")
+
+# Draw nearest-neighbour lines from each point in A to its closest point in B
+dists = np.linalg.norm(A_pts[:, None] - B_pts[None], axis=2)
+nn = np.argmin(dists, axis=1)
+for i in range(len(A_pts)):
+    ax.plot([A_pts[i, 0], B_pts[nn[i], 0]], [A_pts[i, 1], B_pts[nn[i], 1]],
+            color="lightgray", lw=0.7, zorder=1)
+
+# Highlight the worst-case pair (the Hausdorff point)
+w = np.argmax(dists[np.arange(len(A_pts)), nn])
+ax.annotate("", xy=(B_pts[nn[w], 0], B_pts[nn[w], 1]),
+            xytext=(A_pts[w, 0], A_pts[w, 1]),
+            arrowprops=dict(arrowstyle="<->", color=red, lw=2.0), zorder=3)
+mid = (A_pts[w] + B_pts[nn[w]]) / 2
+ax.text(mid[0] + 0.1, mid[1], "$d_H$", color=red, fontsize=13, va="center")
+
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=2, frameon=False, fontsize=14)
+```
+
+:::
+
+
+::: {.callout-note appearance="simple" icon=false collapse="true"}
+# Average precision
+
+Average Precision (AP) summarizes the precision–recall trade-off across confidence thresholds.
+A predicted instance counts as a true positive only if its overlap with a ground-truth instance exceeds a threshold $x$ (typically measured by Intersection over Union, IoU):
+
+$$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
+
+where $P_k$ and $R_k$ are precision and recall at the $k$-th confidence threshold after matching predictions to ground-truth at IoU $\geq x$.
+Higher $x$ demands more precise localization.
+
+```{python}
+import matplotlib.pyplot as plt
+import numpy as np
+
+navy, orange = "#1a35e0", "#e47a10"
+
+# Synthetic precision-recall curve
+recall = np.array([0.0, 0.15, 0.35, 0.55, 0.70, 0.82, 0.92, 1.0])
+prec   = np.array([1.0, 0.92, 0.82, 0.70, 0.58, 0.44, 0.28, 0.0])
+
+fig, ax = plt.subplots(figsize=(3, 4))
+ax.set_xlim(-0.05, 1.1)
+ax.set_ylim(-0.05, 1.15)
+ax.set_xlabel("Recall ($R$)", fontsize=11)
+ax.set_ylabel("Precision ($P$)", fontsize=11)
+ax.set_xticks([0.0, 0.5, 1.0])
+ax.set_yticks([0.0, 0.5, 1.0])
+ax.grid(True, color="lightgray", lw=0.8)
+
+# Step function and shaded area under the curve = AP
+ax.step(recall, prec, where="post", color=navy, lw=2)
+ax.fill_between(recall, prec, step="post", alpha=0.25, color=navy, label="AP")
+
+# Mark the individual (R_k, P_k) threshold points
+ax.scatter(recall[1:-1], prec[1:-1], color=orange, s=45, zorder=5,
+           label="$(R_k, P_k)$")
+
+ax.legend(loc="upper right", frameon=False, fontsize=11)
+```
+
+:::
+
+Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
+For example, AP involves sorting predictions by confidence. 
+However, just like previously with MSE, we can measure them.
+The practical workflow is therefore: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.
+
+
+You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
+As you'll see, there are many different metrics available for every task.
+Each will be more or less useful depending on what types of errors you can or cannot accept in your final predictions. 
+So, how do you choose which metrics to measure and which ones to pay attention to?
 
 ## What Metric to Pick?
 
