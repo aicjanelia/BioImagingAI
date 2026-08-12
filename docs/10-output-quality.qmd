@@ -1012,13 +1012,23 @@ A second, independent axis is how easy an error is to catch and fix once a human
 
 ## Conclusion [TODO]
 
+Conclusion: (Repeats, should also be in the text elsewhere)
+- TODO: You need ANNOTATED DATA in order to compute metrics -- they are computed wrt a ground truth
+- TODO: Metrics don't replace looking at your data
+- OK: Look at more than one metric
+
+Discussion: (More open, can be mentioned here for the first time)
+- Some metrics (e.g. ones that require matching) may be too computationally intensive to compute during training on validation
+- Separation between the metrics you compute on validation (to choose your model/checkpoint) and the metrics you compute on tests (to understand the limitations of your pipeline)
+- Segue into uncertainty: some metrics will give caveats about what the model can and cannot do. Uncertainty would be nice to have. Still an unsolved problem. Briefly touch on test-time augmentation in the callout below.
+
 :::{.callout-note appearance="simple" icon=false collapse="false"}
-# Uncertainty
+# Test-time augmentation
 
-- [TODO] Mention that this is hard
-- [TODO] Talk about test-time augmentation
+Test-time augmentation is one way of quantifying the uncertainty of a model, by estimating the robustness of its outputs with regards to noise. 
+
+[TODO] Describe
 :::
-
 
 ## AI Disclosure {.unnumbered}
 
