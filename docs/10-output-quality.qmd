@@ -83,7 +83,7 @@ plt.axis("off")
 plt.show()
 ```
 
-In chapter (TODO: Add chapter), you've learned about how to train a machine learning model.
+In @sec-9, you've learned about how to train a machine learning model.
 One essential part of training the model is which loss you choose.
 This is the differentiable function that is used to fit the parameters of the model to a given task.
 A loss function tells the model how wrong its current predictions are — training adjusts the model's parameters to make this number as small as possible.
@@ -329,11 +329,12 @@ As you'll see, there are many different metrics available for every task.
 Each will be more or less useful depending on what types of errors you can or cannot accept in your final predictions. 
 So, how do you choose which metrics to measure and which ones to pay attention to?
 
+
 ## What Metric to Pick?
 
 When selecting a metric or metrics to use for evaluating a model, there are two key axes to consider. The first is the downstream analysis task that the data will be used for. The second is the time/cost needed to correct errors prior to that analysis task. In many cases the downstream analysis task will influence which types of errors can be tolerated. 
 
-Consider the case of nuclear segmentation. If we are interested in counting the number of nuclei, a model which under or over segments a nuclei and therefor changes the size of the nucleus will not impact the analysis. However a model that misses nuclei, merges multiple nuclei into one, or splits a single nucleus into multiple would introduce errors into the final counts. In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the the false positives and false negatives would need correction.
+Consider the case of nuclear segmentation. If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple (Fig TODO) would introduce errors into the final counts. In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives would need correction.
 
 Alternatively if we are interested in measuring the size of each nucleus, the first model described which under or over segments nuclei would create erroneous measurements of size. Instead a model that misses some detections might be preferable as long as the detections that exist correctly reflect the size of the nucleus. In this case a more appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
 
