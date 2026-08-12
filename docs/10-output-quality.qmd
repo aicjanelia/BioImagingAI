@@ -93,8 +93,10 @@ Because training relies on gradient descent, the loss must be differentiable: th
 Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
 A metric is any function that scores your predictions.
 Unlike a loss, it does not have to be differentiable, because it is only ever used for measurement, not for optimisation.
-For example, look at the segmentation outputs in @fig-segmentations.
-At first glance, it is difficult to judge which of these is the most appropriate.
+
+<!-- For example, look at the segmentation outputs in @fig-segmentations.
+At first glance, it is difficult to judge which of these is the most appropriate. -->
+
 
 ```{python}
 #| code-fold: true
@@ -181,15 +183,26 @@ Watching multiple numbers evolve during training gives a fuller picture than any
 
 You can imagine other functions, however, that might more closely match what you'd think of as "good performance".
 For instance, a biologist counting cells cares whether each individual cell was detected, not about the total number of wrong pixels. 
+
+Consider the case of nuclear segmentation. If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple (Fig TODO) would introduce errors into the final counts. In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives would need correction.
+
+Alternatively if we are interested in measuring the size of each nucleus, the first model described which under or over segments nuclei would create erroneous measurements of size. Instead a model that misses some detections might be preferable as long as the detections that exist correctly reflect the size of the nucleus. In this case a more appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
 A metric that captures this will look very different from BCE or MSE.
 Different downstream uses call for different metrics.
 Let's look at a few that are commonly used in bioimage analysis.
+
+:::{.callout-note appearance="simple" icon=false collapse="false"}
+# Intersection over Union
+
+- [TODO] Introduce
+:::
 
 ::: {.callout-note appearance="simple" icon=false collapse="true"}
 # The DICE coefficient is an overlap metric.
 
 DICE: $\frac{2 |A \cap B|}{|A|+|B|}$
 ```{python}
+# TODO DIANE Can this plot be centered?
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 import numpy as np
@@ -343,9 +356,6 @@ So, how do you choose which metrics to measure and which ones to pay attention t
 
 When selecting a metric or metrics to use for evaluating a model, there are two key axes to consider. The first is the downstream analysis task that the data will be used for. The second is the time/cost needed to correct errors prior to that analysis task. In many cases the downstream analysis task will influence which types of errors can be tolerated. 
 
-Consider the case of nuclear segmentation. If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple (Fig TODO) would introduce errors into the final counts. In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives would need correction.
-
-Alternatively if we are interested in measuring the size of each nucleus, the first model described which under or over segments nuclei would create erroneous measurements of size. Instead a model that misses some detections might be preferable as long as the detections that exist correctly reflect the size of the nucleus. In this case a more appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
 
 This is why there is rarely one "correct" metric for a task like segmentation; the same set of predicted masks can look excellent by one measure and mediocre by another, and the right choice depends on tracing through how errors in the output propagate into errors in the analysis you actually care about. In some cases no single number can capture this tradeoff, and getting a picture of quality you can act on requires reporting several complementary metrics side by side, or splitting evaluation into stages that reflect distinct sources of error. This tension is especially visible in cell tracking, where a solution can be scored separately on how well it detects cells in each frame and on how well it links them across frames, and both pieces have to be weighed together to judge whether the result is fit for the application at hand.
 
@@ -1001,6 +1011,13 @@ Whether an error is acceptable depends entirely on what the tracking result will
 A second, independent axis is how easy an error is to catch and fix once a human is proofreading the result, and it does not always line up with how tolerable the error is for the downstream analysis. Missing nodes and sparse edges leave a visible gap or an orphaned track segment, and the fix is local: add the missing node or edge back and reconnect two pieces that are otherwise correct. A systematically missed division is much harder to catch, because neither daughter track looks wrong on its own; the cells are simply tracked as if they had always been independent, so a curator scanning tracks has no local cue that a division was ever missed. The more tolerable error is therefore not necessarily the one with the better score on a given metric, but the one that is cheap to find and correct, particularly if missing detections are easy to flag and cheap to review manually.
 
 ## Conclusion [TODO]
+
+:::{.callout-note appearance="simple" icon=false collapse="false"}
+# Uncertainty
+
+- [TODO] Mention that this is hard
+- [TODO] Talk about test-time augmentation
+:::
 
 
 ## AI Disclosure {.unnumbered}
