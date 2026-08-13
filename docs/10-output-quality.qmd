@@ -361,7 +361,7 @@ When selecting a metric or metrics to use for evaluating a model, there are two 
 This is why there is rarely one "correct" metric for a task like segmentation; the same set of predicted masks can look excellent by one measure and mediocre by another, and the right choice depends on tracing through how errors in the output propagate into errors in the analysis you actually care about. In some cases no single number can capture this tradeoff, and getting a picture of quality you can act on requires reporting several complementary metrics side by side, or splitting evaluation into stages that reflect distinct sources of error. This tension is especially visible in cell tracking, where a solution can be scored separately on how well it detects cells in each frame and on how well it links them across frames, and both pieces have to be weighed together to judge whether the result is fit for the application at hand.
 
 
-### Cell Tracking Metrics
+### Cell Tracking Metrics {#sec-cell-tracking-metrics}
 
 Cell tracking is typically approached as a multi-stage task. The first stage is detection where cells in each frame of the time series are detected using point detections, bounding boxes or segmentation masks. In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
 
@@ -1019,9 +1019,49 @@ Conclusion: (Repeats, should also be in the text elsewhere)
 - OK: Look at more than one metric
 
 Discussion: (More open, can be mentioned here for the first time)
-- Some metrics (e.g. ones that require matching) may be too computationally intensive to compute during training on validation
-- Separation between the metrics you compute on validation (to choose your model/checkpoint) and the metrics you compute on tests (to understand the limitations of your pipeline)
+- DONE: Some metrics (e.g. ones that require matching) may be too computationally intensive to compute during training on validation
+- DONE: Separation between the metrics you compute on validation (to choose your model/checkpoint) and the metrics you compute on tests (to understand the limitations of your pipeline)
 - Segue into uncertainty: some metrics will give caveats about what the model can and cannot do. Uncertainty would be nice to have. Still an unsolved problem. Briefly touch on test-time augmentation in the callout below.
+
+A single metric is rarely sufficient to fully evaluate a models performance as illustrated by @sec-cell-tracking-metrics. If multiple metrics are needed to fully evaluate a model, when do you run these metrics and on what data? As discussed in @sec-9.3.5.4, you will minimally compute a loss both on your training and validation sets during the course of training. Some metrics can be easily computed on the validation dataset and used to select a checkpoint for further testing. These metrics should be computationally inexpensive to compute in order to avoid slowing down the training process. Typically these would be metrics that are computed on a pixel-pixel level. In contrast, consider metrics that are computed on an object level such as those discussed in @sec-cell-tracking-metrics. Each cell tracking metric requires a preliminary stage in which each ground truth cell is matched to a predicted cell prior to evaluation. While there are many different ways to perform the matching step, it is ultimately a slow and expensive process. Metrics that rely on a matching stage are best reserved for running on the final test data split. @tbl-metric-stages elaborates on the stages of model evaluation and illustrates how metrics might be selected for a segmentation model.
+
+::: {#tbl-metric-stages .list-table}
+Stages of model evaluation
+
+- - Stage
+  - Speed
+  - Data Split
+  - Utility
+  - Segmentation Example
+
+- - Training loss
+  - Fast
+  - Train
+  - Guides gradient descent during training
+  - BCE
+
+- - Validation loss
+  - Fast
+  - Val
+  - Enables monitoring of over/under fitting during training
+  - BCE
+
+- - Validation metrics
+  - Fast
+  - Val
+  - Additional metrics can provide more insight into training progress outside the loss function and assist in checkpoint selection
+  - MSE
+
+- - Test metrics
+  - Slow
+  - Test
+  - Final metrics that are run on test data in order to critically evaluate model performance and failure modes
+  - Object-based recall and precision
+
+:::
+
+<!-- Splitting your training data: training, validation, and test sets {#sec-9.3.5.1} -->
+<!-- monitoring training and val losses #sec-9.3.5.4 -->
 
 :::{.callout-note appearance="simple" icon=false collapse="false"}
 # Test-time augmentation
