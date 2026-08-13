@@ -42,6 +42,7 @@ We will focus on a *segmentation* as a concrete example, but the principles appl
 
 ## Metrics and Losses
 
+<!-- Basic segmentation label figure -->
 ```{python}
 #| code-fold: true 
 #| label: fig-image
@@ -97,7 +98,38 @@ Unlike a loss, it does not have to be differentiable, because it is only ever us
 <!-- For example, look at the segmentation outputs in @fig-segmentations.
 At first glance, it is difficult to judge which of these is the most appropriate. -->
 
+Let's look at a semantic segmentation task as an example. 
+Suppose you have fluorescence data as in the image above, and you'd like to train a model to return a mask that differentiates cells from background. 
 
+Two standard losses for this task are binary cross entropy (BCE), and mean squared error (MSE).
+While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
+
+::: {.callout-note appearance="simple" icon=false}
+# BCE
+
+This loss penalizes the model based on how confident it is in the wrong answer. For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
+$$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
+BCE requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+:::
+
+::: {.callout-note appearance="simple" icon=false}
+# MSE
+
+This loss penalizes the model proportionally to the squared difference between its prediction and the ground truth:
+$$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
+MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
+Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
+:::
+
+Luckily, you can keep track of both of these things by using one of these functions as a metric.
+For instance, as your model is being trained with binary cross-entropy, you can compute the mean-squared error of your model's predictions on validation data as you train.
+Watching multiple numbers evolve during training gives a fuller picture than any single number alone.
+
+You can imagine other functions, however, that might more closely match what you'd think of as "good performance".
+For instance, a biologist counting cells cares whether each individual cell was detected, not about the total number of wrong pixels. 
+
+
+<!-- Segmentation error types figure -->
 ```{python}
 #| code-fold: true
 #| label: fig-segmentations
@@ -152,37 +184,6 @@ for overlay in [underseg_overlay, overseg_overlay, missing_overlay, holes_overla
     ax.axis("off")
     plt.show()
 ```
-
-
-Let's look at a semantic segmentation task as an example. 
-Suppose you have fluorescence data as in the image above, and you'd like to train a model to return a mask that differentiates cells from background. 
-
-Two standard losses for this task are binary cross entropy (BCE), and mean squared error (MSE).
-While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
-
-::: {.callout-note appearance="simple" icon=false collapse="false"}
-# BCE
-
-This loss penalizes the model based on how confident it is in the wrong answer. For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
-$$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
-BCE requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
-:::
-
-::: {.callout-note appearance="simple" icon=false collapse="false"}
-# MSE
-
-This loss penalizes the model proportionally to the squared difference between its prediction and the ground truth:
-$$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
-MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
-Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
-:::
-
-Luckily, you can keep track of both of these things by using one of these functions as a metric.
-For instance, as your model is being trained with Binary cross-entropy, you can compute the mean-squared error of your model's predictions on validation data as you train.
-Watching multiple numbers evolve during training gives a fuller picture than any single number alone.
-
-You can imagine other functions, however, that might more closely match what you'd think of as "good performance".
-For instance, a biologist counting cells cares whether each individual cell was detected, not about the total number of wrong pixels. 
 
 Consider the case of nuclear segmentation. If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple (Fig TODO) would introduce errors into the final counts. In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives would need correction.
 
@@ -706,7 +707,7 @@ plot_figure()
 
 There is a common inclination to use a single metric that is intended to capture overall performance on the task. In cell tracking, there are two common single metrics. The first is the TRA[@mavska2014benchmark] score defined by the Cell Tracking Challenge. A second unified metric is CHOTA[@kaiser2024chota] (Cell-specific Higher Order Tracking Accuracy). Single metrics can be convenient; however, they are uninformative when the intention is to evaluate and then improve a tracking solution. A unified metric does not indicate what types of errors are present. 
 
-:::{.callout-note appearance="simple" icon=false collapse="false"}
+:::{.callout-note appearance="simple" icon=false}
 # TRA[@mavska2014benchmark]
 
 This score is a weighted sum of node and edge errors that is normalized between 0 and 1. It is derived from the Acyclic Oriented Graph Matching[@matula2015cell] (AOGM) measure which reflects the number of changes needed to turn the reference graph into the target graph.
@@ -715,7 +716,7 @@ $$\textrm{TRA} = 1 - \frac{\textrm{min}(\textrm{AOGM},\textrm{AOGM}_0)}{\textrm{
 
 :::
 
-:::{.callout-note appearance="simple" icon=false collapse="false"}
+:::{.callout-note appearance="simple" icon=false}
 # CHOTA[@kaiser2024chota]
 This metric captures local correctness, global coherence and aspects of lineage tracking. CHOTA is computed as
 $$\textrm{CHOTA} = \sqrt{\frac{\sum_{c \in \textrm{TP}} A^\sigma(c)}{|\textrm{TP}| + |\text{FN}| + |\text{FP}|}}$$
