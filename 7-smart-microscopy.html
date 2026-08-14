@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Wesley Legant">
+<meta name="author" content="Victoria Augoustides">
+<meta name="author" content="Giorgio Tortarolo">
+<meta name="author" content="Alara Kiris">
 <meta name="author" content="Suliana Manley">
+<meta name="author" content="Wesley Legant">
 
 <title>7&nbsp; Adding AI to Your Hardware – AI in Microscopy: A BioImaging Guide</title>
 <style>
@@ -28,7 +31,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -55,7 +78,6 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/bootstrap/bootstrap-f07248834697d125d844cdaf4174b45d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/bootstrap/bootstrap-dark-a64f2b92d8b4b45ab5f5d9261e8b8c9d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <link href="site_libs/bootstrap/bootstrap-f07248834697d125d844cdaf4174b45d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/quarto-contrib/glossary/glossary.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -436,8 +458,30 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#imaging-the-events-of-biological-systems" id="toc-imaging-the-events-of-biological-systems" class="nav-link active" data-scroll-target="#imaging-the-events-of-biological-systems"><span class="header-section-number">7.1</span> Imaging the Events of Biological Systems</a></li>
+  <li><a href="#framing-the-event-detection-landscape" id="toc-framing-the-event-detection-landscape" class="nav-link" data-scroll-target="#framing-the-event-detection-landscape"><span class="header-section-number">7.2</span> Framing the Event Detection Landscape</a></li>
+  <li><a href="#foundations-of-automated-object-detection-in-smart-microscopy" id="toc-foundations-of-automated-object-detection-in-smart-microscopy" class="nav-link" data-scroll-target="#foundations-of-automated-object-detection-in-smart-microscopy"><span class="header-section-number">7.3</span> Foundations of Automated Object Detection in Smart Microscopy</a></li>
+  <li><a href="#deep-learning-for-object-and-event-detection" id="toc-deep-learning-for-object-and-event-detection" class="nav-link" data-scroll-target="#deep-learning-for-object-and-event-detection"><span class="header-section-number">7.4</span> Deep Learning for Object and Event Detection</a>
+  <ul class="collapse">
+  <li><a href="#evolution-of-object-detection" id="toc-evolution-of-object-detection" class="nav-link" data-scroll-target="#evolution-of-object-detection"><span class="header-section-number">7.4.1</span> Evolution of Object Detection</a></li>
+  <li><a href="#extending-object-detection-to-events" id="toc-extending-object-detection-to-events" class="nav-link" data-scroll-target="#extending-object-detection-to-events"><span class="header-section-number">7.4.2</span> Extending Object Detection to Events</a></li>
+  </ul></li>
+  <li><a href="#building-object-and-event-detection-models" id="toc-building-object-and-event-detection-models" class="nav-link" data-scroll-target="#building-object-and-event-detection-models"><span class="header-section-number">7.5</span> Building Object and Event Detection Models</a>
+  <ul class="collapse">
+  <li><a href="#ground-truth-and-labeling" id="toc-ground-truth-and-labeling" class="nav-link" data-scroll-target="#ground-truth-and-labeling"><span class="header-section-number">7.5.1</span> Ground Truth and Labeling</a></li>
+  <li><a href="#unique-challenges-of-event-detection" id="toc-unique-challenges-of-event-detection" class="nav-link" data-scroll-target="#unique-challenges-of-event-detection"><span class="header-section-number">7.5.2</span> Unique Challenges of Event Detection</a></li>
+  <li><a href="#training-models" id="toc-training-models" class="nav-link" data-scroll-target="#training-models"><span class="header-section-number">7.5.3</span> Training Models</a></li>
+  <li><a href="#refining-and-optimizing-models" id="toc-refining-and-optimizing-models" class="nav-link" data-scroll-target="#refining-and-optimizing-models"><span class="header-section-number">7.5.4</span> Refining and Optimizing Models</a></li>
+  </ul></li>
+  <li><a href="#real-time-event-detection-in-smart-microscopy" id="toc-real-time-event-detection-in-smart-microscopy" class="nav-link" data-scroll-target="#real-time-event-detection-in-smart-microscopy"><span class="header-section-number">7.6</span> Real-Time Event Detection in Smart Microscopy</a></li>
+  <li><a href="#challenges-and-future-directions-in-smart-microscopy" id="toc-challenges-and-future-directions-in-smart-microscopy" class="nav-link" data-scroll-target="#challenges-and-future-directions-in-smart-microscopy"><span class="header-section-number">7.7</span> Challenges and Future Directions in Smart Microscopy</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -455,11 +499,27 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <div class="quarto-title-meta-heading">Affiliations</div>
   
     <div class="quarto-title-meta-contents">
-    <p class="author">Wesley Legant <a href="https://orcid.org/0000-0003-1827-5371" class="quarto-title-author-orcid" aria-label="ORCID profile for Wesley Legant"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+    <p class="author">Victoria Augoustides <a href="https://orcid.org/0000-0003-0061-9471" class="quarto-title-author-orcid" aria-label="ORCID profile for Victoria Augoustides"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            University of North Carolina at Chapel Hill
+            Biochemistry and Biophysics Department, University of North Carolina at Chapel Hill
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Giorgio Tortarolo <a href="https://orcid.org/0000-0002-1182-2478" class="quarto-title-author-orcid" aria-label="ORCID profile for Giorgio Tortarolo"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Institute of Physics, École Polytechnique Fédérale de Lausanne
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Alara Kiris <a href="https://orcid.org/0000-0003-3428-0445" class="quarto-title-author-orcid" aria-label="ORCID profile for Alara Kiris"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Institute of Physics, École Polytechnique Fédérale de Lausanne
           </p>
       </div>
     <div class="quarto-title-meta-contents">
@@ -467,7 +527,15 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            École Polytechnique Fédérale de Lausanne
+            Institute of Physics, École Polytechnique Fédérale de Lausanne
+          </p>
+      </div>
+    <div class="quarto-title-meta-contents">
+    <p class="author">Wesley Legant <a href="https://orcid.org/0000-0003-1827-5371" class="quarto-title-author-orcid" aria-label="ORCID profile for Wesley Legant"> <img alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA2ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1N0NEMjA4MDI1MjA2ODExOTk0QzkzNTEzRjZEQTg1NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDozM0NDOEJGNEZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDozM0NDOEJGM0ZGNTcxMUUxODdBOEVCODg2RjdCQ0QwOSIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M1IE1hY2ludG9zaCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZDN0YxMTc0MDcyMDY4MTE5NUZFRDc5MUM2MUUwNEREIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU3Q0QyMDgwMjUyMDY4MTE5OTRDOTM1MTNGNkRBODU3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+84NovQAAAR1JREFUeNpiZEADy85ZJgCpeCB2QJM6AMQLo4yOL0AWZETSqACk1gOxAQN+cAGIA4EGPQBxmJA0nwdpjjQ8xqArmczw5tMHXAaALDgP1QMxAGqzAAPxQACqh4ER6uf5MBlkm0X4EGayMfMw/Pr7Bd2gRBZogMFBrv01hisv5jLsv9nLAPIOMnjy8RDDyYctyAbFM2EJbRQw+aAWw/LzVgx7b+cwCHKqMhjJFCBLOzAR6+lXX84xnHjYyqAo5IUizkRCwIENQQckGSDGY4TVgAPEaraQr2a4/24bSuoExcJCfAEJihXkWDj3ZAKy9EJGaEo8T0QSxkjSwORsCAuDQCD+QILmD1A9kECEZgxDaEZhICIzGcIyEyOl2RkgwAAhkmC+eAm0TAAAAABJRU5ErkJggg=="></a></p>
+  </div>
+  <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Joint Department of Biomedical Engineering, University of North Carolina at Chapel Hill
           </p>
       </div>
   </div>
@@ -484,207 +552,556 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </header>
 
 
-<!--Your first header will be the chapter's upper-level table of contents title.-->
-<!--If you'd like to have a subtitle, include it in the Quarto header above -->
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="7-smart-microscopy_files/equalContribution.png" class="img-fluid figure-img"></p>
+<figcaption>Victoria Augoustides, Giorgio Tortarolo, and Alara Kiris contributed equally to this chapter. Suliana Manley and Wesley Legant are co-corresponding authors.</figcaption>
+</figure>
+</div>
+<section id="imaging-the-events-of-biological-systems" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="imaging-the-events-of-biological-systems"><span class="header-section-number">7.1</span> Imaging the Events of Biological Systems</h2>
+<p>Microscopy experiments answer biological questions by measuring structures and dynamic processes in living systems. To collect useful data, the microscopist must decide where, when, how fast, and how long to image based on features and processes in the specimen. Traditionally, the microscopist identifies regions of interest (<a href="./glossary.html#region-of-interest-roi">ROIs</a>), monitors sample behavior, and adjusts acquisition settings using domain expertise and visual inspection. While effective for small-scale experiments, this manual workflow limits throughput, introduces operator-dependent variability, and can miss rare or rapidly occurring biological phenomena.</p>
+<p>These challenges motivate the development of <a href="./glossary.html#smart-microscopy">smart microscopy</a> systems that can automatically recognize biologically relevant features and respond in real time. Automated decision-making can increase acquisition speed, improve reproducibility, and enable experiments that would be impractical for a human operator to perform manually. Recent advances in machine learning have substantially expanded the range of biological signatures that can be recognized during image acquisition, bringing microscopy closer to a paradigm in which imaging systems actively direct an experiment’s trajectory rather than simply record data.</p>
+<p>In this chapter, we introduce the concepts, technologies, and challenges involved in developing AI to augment microscopy experiments in real-time. Our goals are to:</p>
 <ul>
-<li>Introduction
-<ul>
-<li>Define and motivate the “problem”
-<ul>
-<li>What is a Biological “Event”?
-<ul>
-<li>Why is it important to study these?</li>
-<li>How is it distinct from an “Object”?</li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li>Setting the bounds
-<ul>
-<li>What kinds of signals are we looking to extract events from?</li>
-<li>What spatiotemporal scales are relevant?</li>
-<li>What types of microscopes/imaging assays are in the scope of this chapter?
-<ul>
-<li>Limiting the scope</li>
-</ul></li>
-</ul></li>
-<li>Brief history/evolution of automated event/object detection in general
-<ul>
-<li>Offer some background to current methods
-<ul>
-<li>Including classical up to SVM
-<ul>
-<li>e.g micropilot and limitations</li>
-<li>Case Study #1 : CellProfiler</li>
-<li>Case Study #2 : Micropilot</li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li>The need for new methods
-<ul>
-<li>Deep learning based and ML approaches
-<ul>
-<li>Where the algorithm learns what is important</li>
-<li>What are the advantages of these methods?
-<ul>
-<li>What has been done recently in the literature?</li>
-</ul></li>
-<li>What is required to label, train and implement these methods?
-<ul>
-<li>Special considerations for event detection modesl</li>
-<li>Specifics of event detection in contast the other ML tasks</li>
-</ul></li>
-</ul></li>
-</ul></li>
-<li>Real-time vs a posteriori inference
-<ul>
-<li>Challenges, opportunities</li>
-<li>Event detection as the first step in the microscopy workflow</li>
-</ul></li>
-<li>Limitations and notes of caution related to inference
-<ul>
-<li>“Trusting the algorithms”</li>
-</ul></li>
-<li>Conclusion</li>
+<li>Define biological objects and events as targets for image acquisition and analysis</li>
+<li>Describe the evolution of automated object detection from classical image processing to modern machine learning</li>
+<li>Explain the unique data, labeling, and modeling considerations associated with event detection and real-time performance</li>
+<li>Evaluate the opportunities, limitations, and reliability of AI-driven microscopy workflows</li>
 </ul>
-<!-- Under your first header, include a brief introduction to your chapter.
+</section>
+<section id="framing-the-event-detection-landscape" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="framing-the-event-detection-landscape"><span class="header-section-number">7.2</span> Framing the Event Detection Landscape</h2>
+<p>For an imaging system to recognize and respond to biological activity, it must first distinguish between objects and events:</p>
+<ul>
+<li>An <a href="./glossary.html#object">object</a> is an identifiable feature located within a two-dimensional image or three-dimensional volume, such as a cell, organelle, or protein assembly. Objects are primarily defined by spatial characteristics including size, shape, intensity, and location.</li>
+<li>An <a href="./glossary.html#event">event</a>, by contrast, represents a change or transition that unfolds over time with distinct start and end points. Examples include cell division, mitochondrial fission, receptor clustering, or transient calcium signaling.</li>
+</ul>
+<p>Whereas object detection relies primarily on spatial information, event detection requires both spatial and temporal information because the defining characteristic of an event is its evolution over time (<a href="#fig-objects-vs-events" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>). This distinction has important consequences for image acquisition. To detect an object, the microscope must resolve the object’s relevant spatial features. To detect an event, the microscope must additionally sample the event at sufficient temporal resolution and for sufficient duration to capture its dynamics.</p>
+<div id="fig-objects-vs-events" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-objects-vs-events-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig1_event_vs_object_mitochondria-01.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-objects-vs-events-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.1: <strong>Objects versus events, illustrated with mitochondria.</strong> <em>Left</em>: objects, individual mitochondria, are identified and color-coded. <em>Right</em>: an event, fission of the cyan mitochondrion. Arrowheads (3 s) mark the constriction preceding scission; the dashed box (4 s) highlights the event site. Capturing objects requires sufficient spatial resolution; capturing events additionally requires sufficient temporal resolution and duration to resolve their dynamics. Scale bar, 2 µm. Figure credit: raw image acquired by Tatjana Kleele.
+</figcaption>
+</figure>
+</div>
+<p>The spatial scales relevant to event detection span many orders of magnitude, ranging from millimeter-scale tissue remodeling, through tens-of-micrometer whole-cell movements, down to nanometer-scale reorganization of protein complexes. Temporal scales are similarly diverse, extending from days for embryonic development, to hours for processes such as cell division and differentiation, and down to milliseconds for rapid phenomena such as calcium transients, ion-channel activity, and single-molecule receptor binding. Importantly, many biological events encompass multiple spatial and temporal scales. For example, molecular-scale signaling events may occur rapidly and subsequently give rise to slower changes in cell morphology (<a href="#fig-spatial-and-temporal-scale" class="quarto-xref">Figure&nbsp;<span>7.2</span></a>). Such complexity underscores the advantages of tailoring image acquisition parameters to the biological process under investigation, a central objective of smart microscopy.</p>
+<div id="fig-spatial-and-temporal-scale" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-spatial-and-temporal-scale-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig2_multiscale_biology.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-spatial-and-temporal-scale-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.2: <strong>Spatial and temporal scales of biological events.</strong> Processes are positioned by characteristic feature size (nm–mm) and timescale (µs–days), spanning ion-channel opening, endocytosis, cell division, apoptosis, and zebrafish development. Created with BioRender. Figure credit: inspired by Fig. 2 of Daetwyler &amp; Fiolka<span class="citation" data-cites="Daetwyler2023"><sup><a href="references.html#ref-Daetwyler2023" role="doc-biblioref">1</a></sup></span>.
+</figcaption>
+</figure>
+</div>
+<p>Once the relevant spatiotemporal scales of an event have been identified, an appropriate microscopy modality can be selected. Different imaging methods provide distinct trade-offs between spatial resolution, temporal resolution, imaging depth, and phototoxicity. Widefield, spinning-disk confocal, and light-sheet microscopy generally offer high temporal resolution suitable for capturing fast dynamics, while providing varying levels of volumetric imaging capability and moderate spatial resolution. In contrast, super-resolution techniques such as stimulated emission depletion (STED) microscopy achieve exceptional spatial detail, often at the expense of acquisition speed and increased phototoxicity<span class="citation" data-cites="Wu2022"><sup><a href="references.html#ref-Wu2022" role="doc-biblioref">2</a></sup></span>. Label-free imaging approaches, although not discussed in detail here, provide complementary contrast based on intrinsic sample properties while minimizing photobleaching and phototoxicity<span class="citation" data-cites="Shaked2023"><sup><a href="references.html#ref-Shaked2023" role="doc-biblioref">3</a></sup></span>.</p>
+<p>Regardless of the imaging modality used, biological events must produce detectable and consistent changes within the acquired data. Some events manifest as morphological transformations, including cell migration, membrane remodeling, organelle reorganization, or changes in protein-complex architecture. Other events are more readily observed using fluorescent biosensors that report biochemical states such as enzyme activity, ion concentrations, metabolite levels, or membrane potential. These processes can be measured through image-derived signals including changes in fluorescence intensity or fluorescence lifetime. In each case, the measured signal serves as a proxy that provides an indirect but interpretable readout of the underlying biological event.</p>
+<p>By selecting imaging strategies that align with the spatial and temporal scales of interest, researchers can ensure that the essential features of biological objects and events are faithfully represented in the acquired data. The next challenge is to determine when and where specific events occur. In the following sections, we discuss how this challenge is addressed through computational approaches to <a href="./glossary.html#object-detection">object</a> and <a href="./glossary.html#event-detection">event detection</a>.</p>
+</section>
+<section id="foundations-of-automated-object-detection-in-smart-microscopy" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="foundations-of-automated-object-detection-in-smart-microscopy"><span class="header-section-number">7.3</span> Foundations of Automated Object Detection in Smart Microscopy</h2>
+<p>Before modern deep-learning methods, object detection in microscopy was typically performed using a combination of image-processing and machine-learning operations. Although the specific algorithms varied, most approaches followed a common workflow: first, objects were isolated from the background<span class="citation" data-cites="Meijering2012"><sup><a href="references.html#ref-Meijering2012" role="doc-biblioref">4</a></sup></span>, second, quantitative features were extracted from each object, and third, these features were used to classify objects into biologically meaningful categories<span class="citation" data-cites="carpenter2006cellprofiler Berg2019"><sup><a href="references.html#ref-carpenter2006cellprofiler" role="doc-biblioref">5</a>,<a href="references.html#ref-Berg2019" role="doc-biblioref">6</a></sup></span>.</p>
+<p>The goal of an object detection algorithm is to identify objects within an image and describe their spatial location and extent. <a href="#fig-feature-vector" class="quarto-xref">Figure&nbsp;<span>7.3</span></a> A illustrates representative biological objects that vary widely in their spatial distribution, size, and morphology, including nuclei, cytoplasmic RNA and nucleoli, mitochondria, and other cellular structures. Object detection pipelines generally characterize each detected object by reporting:</p>
+<ol type="1">
+<li>the <a href="./glossary.html#centroid-coordinate">centroid coordinates</a> of each object,</li>
+<li>the coordinates of a <a href="./glossary.html#bounding-region">bounding region</a>, and/or</li>
+<li>a <a href="./glossary.html#class-label">class label</a> describing the object’s identity<span class="citation" data-cites="neha2024classicaltechniquesconvolutionbasedmodels"><sup><a href="references.html#ref-neha2024classicaltechniquesconvolutionbasedmodels" role="doc-biblioref">7</a></sup></span>.</li>
+</ol>
+<p>The first step in many classical detection pipelines is image segmentation, in which pixels are separated into objects and background (<a href="#fig-feature-vector" class="quarto-xref">Figure&nbsp;<span>7.3</span></a> B). A common approach is thresholding, in which pixels above a certain intensity are assigned to the foreground and all others to the background, producing a <em>binary mask</em>. Intensity alone is rarely sufficient to cleanly separate objects, so additional morphological operations (e.g., erosion, dilation, or watershed) can then be applied to refine object boundaries. These operations, among others, can help distinguish neighboring objects that may otherwise appear to be merged. For an extended discussion of object segmentation, please see <a href="9-train-models.html">Chapter 9</a>.</p>
+<p>Once objects have been segmented, quantitative measurements can be extracted from the individual objects in the masked raw image or from the mask itself, often using tools such as CellProfiler<span class="citation" data-cites="carpenter2006cellprofiler"><sup><a href="references.html#ref-carpenter2006cellprofiler" role="doc-biblioref">5</a></sup></span>. Common features include intensity, area, perimeter, <a href="./glossary.html#shape-descriptors">shape descriptors</a>, <a href="./glossary.html#texture">texture measurements</a>, and spatial relationships to surrounding structures<span class="citation" data-cites="huang2004"><sup><a href="references.html#ref-huang2004" role="doc-biblioref">8</a></sup></span>. Together, these measurements are aggregated into a <strong><a href="./glossary.html#feature-vector">feature vector</a></strong> that provides a numerical description of each object (<a href="#fig-feature-vector" class="quarto-xref">Figure&nbsp;<span>7.3</span></a> B).</p>
+<div id="fig-feature-vector" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-feature-vector-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig3_feature_vector_from_raw_image_data.jpg" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-feature-vector-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.3: <strong>The process of creating a feature vector from image data.</strong> (A) Representative fluorescence images are acquired illustrating five different cellular compartments and structures: nucleus (DNA), cytoplasmic RNA/nucleoli (RNA), endoplasmic reticulum (ER), mitochondria, and the actin, Golgi apparatus, and plasma membrane (AGP). (B) Following image acquisition, individual cells and nuclei are segmented to define cellular boundaries, enabling extraction of quantitative features of the objects in (A). These measurements are assembled into high-dimensional morphological profiles, which can be processed using dimensionality reduction and clustering methods to compare cellular responses across experimental conditions and support downstream biological inference. Reproduced from Fig. 1 of Rohban, et al.<span class="citation" data-cites="rohban2017"><sup><a href="references.html#ref-rohban2017" role="doc-biblioref">9</a></sup></span> under a CC BY license.
+</figcaption>
+</figure>
+</div>
+<p>The final stage is <a href="./glossary.html#classification">classification</a>, in which feature vectors are assigned to biologically meaningful categories<span class="citation" data-cites="boland2001 murphy2022 chen2006"><sup><a href="references.html#ref-boland2001" role="doc-biblioref">10</a>–<a href="references.html#ref-chen2006" role="doc-biblioref">12</a></sup></span>. In simple applications, classification can be performed using manually defined rules. For example, objects exceeding a particular size threshold might be classified differently from smaller objects. However, manually setting cutoffs for each feature becomes increasingly difficult as the number of measured features grows. To address this challenge, machine-learning methods were adopted to learn classification rules directly from data. Algorithms, such as <a href="./glossary.html#perceptron">perceptrons</a><span class="citation" data-cites="rosenblatt1958"><sup><a href="references.html#ref-rosenblatt1958" role="doc-biblioref">13</a></sup></span>, support vector machines (<a href="./glossary.html#support-vector-machine-svm">SVMs</a>)<span class="citation" data-cites="cortes1995"><sup><a href="references.html#ref-cortes1995" role="doc-biblioref">14</a></sup></span>, and other classifiers<span class="citation" data-cites="yuan2012"><sup><a href="references.html#ref-yuan2012" role="doc-biblioref">15</a></sup></span>, learn decision boundaries that separate groups of feature vectors within a multidimensional feature space. For example, a classifier may learn to distinguish normal cells from cancer cells based on combinations of morphological and intensity-based measurements in feature vectors (<a href="#fig-supervised-learning-schematic" class="quarto-xref">Figure&nbsp;<span>7.4</span></a>). Compared with manually-specified rules, these learned decision boundaries can more effectively exploit high-dimensional feature sets and often generalize better to new data<span class="citation" data-cites="bishop2006pattern"><sup><a href="references.html#ref-bishop2006pattern" role="doc-biblioref">16</a></sup></span>.</p>
+<div id="fig-supervised-learning-schematic" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-supervised-learning-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig4_SupervisedLearning.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-supervised-learning-schematic-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.4: <strong>Schematic of supervised learning with a classifier</strong> As additional labeled examples of normal (blue) and cancer (orange) cells are introduced during new training iterations, the classifier adjusts its decision boundary to improve class separation. Inspired by Rosenblatt<span class="citation" data-cites="rosenblatt1958"><sup><a href="references.html#ref-rosenblatt1958" role="doc-biblioref">13</a></sup></span>. Cell illustrations from NIAID NIH BioArt Source (items 358, 508, 376, and 82 at <a href="https://bioart.niaid.nih.gov/bioart/">https://bioart.niaid.nih.gov/bioart/</a>)
+</figcaption>
+</figure>
+</div>
+<p>The incorporation of machine learning into classical object detection pipelines marked an important transition from automated image processing to automated decision-making. The initial use for machine-learning classifiers was primarily to categorize objects during post-acquisition analysis<span class="citation" data-cites="jones2008 shariff2010 dao2016"><sup><a href="references.html#ref-jones2008" role="doc-biblioref">17</a>–<a href="references.html#ref-dao2016" role="doc-biblioref">19</a></sup></span>. As computational capabilities advanced, these same classification approaches began to inform microscope control in real time, enabling imaging systems to react to the objects they detected<span class="citation" data-cites="mahecic2022 alvelid2022 morgado2024"><sup><a href="references.html#ref-mahecic2022" role="doc-biblioref">20</a>–<a href="references.html#ref-morgado2024" role="doc-biblioref">22</a></sup></span>.</p>
+<p><em>CellProfiler Analyst</em> (<a href="#tip-cell-profiler-analyst" class="quarto-xref">Case Study&nbsp;<span>7.1</span></a>) exemplifies the first stage of this progression. The platform automated segmentation, feature extraction, and classification, allowing large populations of cells to be quantitatively characterized using high-dimensional <a href="./glossary.html#cytoprofile">cytoprofiles</a>. Machine learning improved the accuracy and scalability of object classification, but the resulting decisions remained confined to downstream data analysis after images had been acquired.</p>
+<p><em>MicroPilot</em> (<a href="#tip-micropilot" class="quarto-xref">Case Study&nbsp;<span>7.2</span></a>) illustrates the next stage, in which object detection was integrated directly into the acquisition process<span class="citation" data-cites="conrad2011micropilot"><sup><a href="references.html#ref-conrad2011micropilot" role="doc-biblioref">23</a></sup></span>. Rather than simply classifying objects after imaging, <em>MicroPilot</em> used detection results to guide data acquisition in real time. In a benchmark study, the system autonomously identified and imaged 232 mitotic cells during four nights of unattended operation. Achieving a comparable dataset through manual screening would have required more than a month of effort by an experienced microscopist. <a href="#tip-micropilot" class="quarto-xref">Case Study&nbsp;<span>7.2</span></a> demonstrated how automated object detection could move beyond analysis to actively control image acquisition, a key step toward modern smart microscopy.</p>
+<p>A common feature of both case studies, and of most object detection approaches of the time, was that machine-learning algorithms operated and learned from feature vectors rather than image pixels. Consequently, their performance depended on the quality of the upstream segmentation and feature-extraction steps, processes that may discard biologically relevant information present in the native image structure. Furthermore, object <a href="./glossary.html#localization">localization</a> and <a href="./glossary.html#classification">classification</a> were treated as separate stages, reinforcing a distinction between identifying where an object is and determining what it is.</p>
+<p>Advances in model architectures and computational power eventually enabled <a href="./glossary.html#end-to-end-learning">end-to-end learning</a>, in which object localization and classification could be optimized jointly<span class="citation" data-cites="girshick2014rich"><sup><a href="references.html#ref-girshick2014rich" role="doc-biblioref">24</a></sup></span>. By learning directly from image data, these approaches allowed spatial and semantic information to be captured simultaneously. Combined with the emergence of larger imaging datasets, these developments greatly expanded the capabilities of object detection and laid the foundation for modern deep-learning approaches, discussed in the next section.</p>
+<div id="tip-cell-profiler-analyst" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Case Study&nbsp;7.1: Cell Profiler Analyst
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Semi-Automation using ML for Post-Acquisition “Cytoprofiling”</em></p>
+<p>CellProfiler<span class="citation" data-cites="carpenter2006cellprofiler"><sup><a href="references.html#ref-carpenter2006cellprofiler" role="doc-biblioref">5</a></sup></span> is a post-acquisition software for automated image segmentation, feature extraction, and downstream analysis of biological images. While there are many different versions of CellProfiler, this study presented an example of a semi-automated machine learning approach to object detection using CellProfiler Analyst<span class="citation" data-cites="jones2008 dao2016 jones2009scoring"><sup><a href="references.html#ref-jones2008" role="doc-biblioref">17</a>,<a href="references.html#ref-dao2016" role="doc-biblioref">19</a>,<a href="references.html#ref-jones2009scoring" role="doc-biblioref">25</a></sup></span>. Feature vectors, here called <a href="./glossary.html#cytoprofile">cytoprofiles</a>, were automatically extracted from raw image data during the detection step (<a href="#fig-cellprofiler-analyst" class="quarto-xref">Figure&nbsp;<span>7.5</span></a> A). Next, a human identified phenotypes of interest from the data that the software used to create classification rules for scoring cytoprofiles. To automate classification, the user trained a supervised machine learning model (specifically a <a href="./glossary.html#boosting-algorithm">boosting algorithm</a> applied to an <a href="./glossary.html#ensemble">ensemble</a> of <a href="./glossary.html#shallow-decision-trees">shallow decision trees</a><span class="citation" data-cites="friedman2000additive"><sup><a href="references.html#ref-friedman2000additive" role="doc-biblioref">26</a></sup></span>) for each imaging experiment (<a href="#fig-cellprofiler-analyst" class="quarto-xref">Figure&nbsp;<span>7.5</span></a> B). Once trained, the model could be applied to feature vectors from new experiments to score wells in high throughput experiments (<a href="#fig-cellprofiler-analyst" class="quarto-xref">Figure&nbsp;<span>7.5</span></a> C). Using this approach, the authors processed 40,000 fluorescence images capturing 8.3 million cells from which they detected and classified 14 distinct phenotypes, such as diverse distributions of actin and cell cycle states (<a href="#fig-cellprofiler-analyst" class="quarto-xref">Figure&nbsp;<span>7.5</span></a> D).</p>
+<div id="fig-cellprofiler-analyst" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cellprofiler-analyst-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig5_CaseStudy_CellProfiler.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cellprofiler-analyst-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.5: <strong>Overview of the semi-automated CellProfiler Analyst workflow for high-content image analysis</strong> (A) Following automated image segmentation and feature extraction in CellProfiler, each detected cell is represented by a high-dimensional feature vector, a cytoprofile. (B) A user interactively labels example cells, which are used to train a supervised machine learning classifier to recognize phenotypes of interest. (C) The trained classifier is then applied to score cells across large imaging datasets. (D) Representative examples of automatically classified phenotypes, including actin organization and mitotic cell-cycle states. Reproduced from Jones, et al.<span class="citation" data-cites="jones2009scoring"><sup><a href="references.html#ref-jones2009scoring" role="doc-biblioref">25</a></sup></span> with permission from PNAS: Panels A–C are from Fig. 1, and panel D is from Figs. 3 and 4.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="tip-micropilot" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Case Study&nbsp;7.2: MicroPilot
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Integration of Object Detection with Automated Assays</em></p>
+<p>Rather than analyzing data after imaging was complete, MicroPilot used ML models to classify structures from low-resolution preview scans in real time (<a href="#fig-micropilot" class="quarto-xref">Figure&nbsp;<span>7.6</span></a> A). First, the low-resolution preview scan was segmented, and a feature vector was generated (<a href="#fig-micropilot" class="quarto-xref">Figure&nbsp;<span>7.6</span></a> B). Once a structure of interest was classified by the ML model, the software automatically triggered a predefined imaging assay (<a href="#fig-micropilot" class="quarto-xref">Figure&nbsp;<span>7.6</span></a> B). This could range from acquiring high-resolution time-lapse videos to initiating complex laser-based perturbations, such as photobleaching or protein ablation, all without user intervention.</p>
+<div id="fig-micropilot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-micropilot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig6_Micropilot.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-micropilot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.6: <strong>Machine learning-guided autonomous microscopy using MicroPilot</strong> (A) Overview of the MicroPilot workflow: Low-resolution prescans are automatically analyzed to detect and classify cells of interest. When a target phenotype is identified, the software autonomously triggers a predefined imaging assay, such as high-resolution imaging or laser-based perturbation, before returning to the prescreening loop. (B) <em>Left</em>: A low-resolution preview image is segmented to identify individual cells. <em>Middle</em>: Quantitative morphological features are extracted from each segmented object. <em>Right</em>: A support vector machine (SVM) classifier assigns each cell to a phenotype class. These classifications are then used to make real-time decisions that control subsequent microscope acquisition. Reproduced from Fig. 1 of Conrad et al.<span class="citation" data-cites="conrad2011micropilot"><sup><a href="references.html#ref-conrad2011micropilot" role="doc-biblioref">23</a></sup></span> reproduced with <a href="7-smart-microscopy_files/Licensing/RightsLink Printable License - Conrad et al.pdf">permission from SNCSC</a>.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="deep-learning-for-object-and-event-detection" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="deep-learning-for-object-and-event-detection"><span class="header-section-number">7.4</span> Deep Learning for Object and Event Detection</h2>
+<p>The transition toward end-to-end learning began with networks capable of learning features directly from images, starting with convolutional neural networks (<a href="./glossary.html#convolutional-neural-networks-cnns">CNNs</a>) and more recently featuring <a href="./glossary.html#transformer-models">transformer architectures</a>. Although CNNs were originally developed in the 1980s, their widespread adoption was catalyzed by the ImageNet Large Scale Visual Recognition Challenge in 2010, which introduced a large, standardized dataset and robust evaluation metrics<span class="citation" data-cites="deng2009imagenet russakovsky2015imagenet"><sup><a href="references.html#ref-deng2009imagenet" role="doc-biblioref">27</a>,<a href="references.html#ref-russakovsky2015imagenet" role="doc-biblioref">28</a></sup></span>.</p>
+<p>Early datasets like <em>ImageNet</em> typically included a single centered object per image, and over time, they evolved to include multiple objects per image. Therefore, models such as <em>AlexNet</em><span class="citation" data-cites="krizhevsky2012"><sup><a href="references.html#ref-krizhevsky2012" role="doc-biblioref">29</a></sup></span> and <em>ResNet</em><span class="citation" data-cites="he2016deep"><sup><a href="references.html#ref-he2016deep" role="doc-biblioref">30</a></sup></span> were first only applied to single-object classification and localization tasks (<a href="#fig-object-detection" class="quarto-xref">Figure&nbsp;<span>7.7</span></a> A). Later, these frameworks were extended to classify and localize many objects to perform object detection.</p>
+<div id="fig-object-detection" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-object-detection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig7_Landscape.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-object-detection-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.7: <strong>Progression of object detection architectures</strong> (A) Single object tasks such as image classification and localization. (B) Multi-object, multi-step detection pipelines, including sliding-window and region-proposal approaches, which separate object localization from classification. (C) Multi-object, single-shot detectors that jointly predict object locations, confidence scores, and class labels in a single end-to-end model. Figure credit: Panels A-B images sourced from Pexels under CC0; Panel C was reprinted from Fig. 2 of<span class="citation" data-cites="redmon2016you"><sup><a href="references.html#ref-redmon2016you" role="doc-biblioref">31</a></sup></span> with <a href="7-smart-microscopy_files/Licensing/RightsLink Printable License - Redmon et al.pdf">permission from IEEE Proceedings</a>.
+</figcaption>
+</figure>
+</div>
+<section id="evolution-of-object-detection" class="level3" data-number="7.4.1">
+<h3 data-number="7.4.1" class="anchored" data-anchor-id="evolution-of-object-detection"><span class="header-section-number">7.4.1</span> Evolution of Object Detection</h3>
+<p>Multi-object, multi-step detection comprises three key steps: candidate region proposal, classification, and refining classified regions. The simplest way to profile an image for candidates is to iteratively scan the image with a sliding window<span class="citation" data-cites="sung1998examplebased rowley1998neural violandrapid ciresan2013mitosis"><sup><a href="references.html#ref-sung1998examplebased" role="doc-biblioref">32</a>–<a href="references.html#ref-ciresan2013mitosis" role="doc-biblioref">35</a></sup></span>, and then evaluate each window with a classifier (<a href="#fig-object-detection" class="quarto-xref">Figure&nbsp;<span>7.7</span></a> B). A more efficient approach came from the <em>R-CNN</em> series of models (2014-2017) that instead proposed regions in an image for classification (<a href="#fig-object-detection" class="quarto-xref">Figure&nbsp;<span>7.7</span></a> B)<span class="citation" data-cites="girshick2014rich girshick2015fast ren2017faster"><sup><a href="references.html#ref-girshick2014rich" role="doc-biblioref">24</a>,<a href="references.html#ref-girshick2015fast" role="doc-biblioref">36</a>,<a href="references.html#ref-ren2017faster" role="doc-biblioref">37</a></sup></span>.</p>
+<p>Sliding window and region-based models were succeeded by <a href="./glossary.html#single-shot-detection">single-shot detection</a> approaches, where detection and classification occur together in a single forward pass (<a href="#fig-object-detection" class="quarto-xref">Figure&nbsp;<span>7.7</span></a> C). Some of the most widely used algorithms are the <em>You Only Look Once</em> (YOLO) models, which treat object localization and classification as an optimization problem across a fixed grid<span class="citation" data-cites="redmon2016you redmon2018yolov3 bochkovskiy2020yolov4 tian2025yolov12 jocher2026yolo26"><sup><a href="references.html#ref-redmon2016you" role="doc-biblioref">31</a>,<a href="references.html#ref-redmon2018yolov3" role="doc-biblioref">38</a>–<a href="references.html#ref-jocher2026yolo26" role="doc-biblioref">41</a></sup></span>. Although YOLO performs classification and localization jointly, the rate limiting steps of YOLO models occur in post-processing the proposed bounding boxes<span class="citation" data-cites="wang2024yolov10"><sup><a href="references.html#ref-wang2024yolov10" role="doc-biblioref">42</a></sup></span>.</p>
+<p>These CNN-based models are well-suited for detecting small, well-separated features, such as puncta, nuclei, or other localized signals in biological images. However, CNNs can struggle to capture broader spatial relationships such as multicellular phenotypes within a tissue. <a href="./glossary.html#transformer-models">Transformer-based models</a><span class="citation" data-cites="vaswani2017attention"><sup><a href="references.html#ref-vaswani2017attention" role="doc-biblioref">43</a></sup></span>, including natural language processing models, process entire inputs at once via self-attention. For images, the <em>Vision Transformer</em> (ViT)<span class="citation" data-cites="Dosovitskiy2021"><sup><a href="references.html#ref-Dosovitskiy2021" role="doc-biblioref">44</a></sup></span>, can process an entire image at once unlike CNNs. Similarly to extending early classification networks, detection models like <em>DEtection TRansformer</em> (DETR)<span class="citation" data-cites="carion2020endtoend"><sup><a href="references.html#ref-carion2020endtoend" role="doc-biblioref">45</a></sup></span> and <em>RT-DETR</em><span class="citation" data-cites="zhao2024detrs"><sup><a href="references.html#ref-zhao2024detrs" role="doc-biblioref">46</a></sup></span> adapted the transformer architecture for object detection allowing these models to infer complex spatial relationships without relying on region-proposals, grids, or post-processing steps.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Transformers
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Due to the complexity of transformers, we direct the interested reader to the following video resources:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=zxQyTK8quyY">Transformer Neural Networks, ChatGPT’s foundation, Clearly Explained!!!</a></li>
+<li><a href="https://www.youtube.com/watch?v=l4KitGnDXxo">Vision Transformers - The big picture of how and why it works so well</a></li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+<section id="extending-object-detection-to-events" class="level3" data-number="7.4.2">
+<h3 data-number="7.4.2" class="anchored" data-anchor-id="extending-object-detection-to-events"><span class="header-section-number">7.4.2</span> Extending Object Detection to Events</h3>
+<p>Most object detection models, whether region-based, one-shot, or transformer-based, are designed to operate on individual two-dimensional (2D) images, treating each frame independently. In contrast, events unfold over time and require models that can reason across input sequences of images, such as a 2D image + time (2D+t) stack, rather than individual frames. Broadly, there are several strategies for detecting events from sequential image formats:</p>
+<ol type="1">
+<li><u>Decoupled Object Detection and Temporal Linking</u>: Apply an ML object detector to each frame of a time stack independently, then use post-processing or a feedback loop to link detections over time into events<span class="citation" data-cites="shi2024smart"><sup><a href="references.html#ref-shi2024smart" role="doc-biblioref">47</a></sup></span>.</li>
+<li><u>Sequential Detection and Temporal ML Model</u>: Detect objects in each frame and incorporate a sequence model (such as a <a href="./glossary.html#recurrent-neural-networks-rnns">recurrent neural network</a> or <a href="./glossary.html#long-short-term-memory-lstm">long short-term memory</a> ) to capture temporal dependencies and classify dynamic transitions<span class="citation" data-cites="hochreiter1997long stepp2026smart"><sup><a href="references.html#ref-hochreiter1997long" role="doc-biblioref">48</a>,<a href="references.html#ref-stepp2026smart" role="doc-biblioref">49</a></sup></span>.</li>
+<li><u>Simultaneous Spatiotemporal Detection</u>: Feed multiple frames of a 2D+t series into the model simultaneously allowing the network to directly output temporally aware predictions such as 2D+t bounding boxes or event labels<span class="citation" data-cites="nie20163d"><sup><a href="references.html#ref-nie20163d" role="doc-biblioref">50</a></sup></span>.</li>
+</ol>
+<p>It can be challenging to adapt ML approaches that are optimized around natural image data which is fundamentally different from microscopy images<span class="citation" data-cites="meijering2020birdseye"><sup><a href="references.html#ref-meijering2020birdseye" role="doc-biblioref">51</a></sup></span>. Biological signals, especially fluorescent signals, are often very sparse against a homogeneous background. Additionally, biological processes are often rare, asynchronous, and non-repetitive, unlike typical videos such as cars moving through traffic. In the next section, we delineate considerations for implementing event detection from other ML-based image algorithms in microscopy.</p>
+</section>
+</section>
+<section id="building-object-and-event-detection-models" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="building-object-and-event-detection-models"><span class="header-section-number">7.5</span> Building Object and Event Detection Models</h2>
+<section id="ground-truth-and-labeling" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="ground-truth-and-labeling"><span class="header-section-number">7.5.1</span> Ground Truth and Labeling</h3>
+<p>The performance of a machine-learning model depends fundamentally on the quality of the examples used during training. Before a model can learn to detect biological objects or events, the experimental objective must be translated into a set of labeled examples, commonly referred to as <a href="./glossary.html#ground-truth">ground truth</a>. These annotations define the outputs that the model should predict from the input imaging data, such as the location of an object, its identity, the occurrence of an event, or the timing of a biological transition. For more information on designing model outputs, see Chapter 2 and <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a>.</p>
+<p>In object detection tasks, labels typically describe the spatial position and identity of structures of interest. For example, annotations may indicate the location of a centrosome, or a cell or organelle boundary. Event detection introduces an additional temporal dimension: annotations must specify when an event begins and ends in addition to identifying what and where the object is. For example, labeling mitochondrial fission requires determining the precise frame at which a single mitochondrion divides into two daughter structures (<a href="#fig-objects-vs-events" class="quarto-xref">Figure&nbsp;<span>7.1</span></a>)<span class="citation" data-cites="mahecic2022 stepp2026smart"><sup><a href="references.html#ref-mahecic2022" role="doc-biblioref">20</a>,<a href="references.html#ref-stepp2026smart" role="doc-biblioref">49</a></sup></span>.</p>
+<p>Creating ground-truth annotations is often the most time-consuming stage of model development. High-quality datasets may require hundreds or thousands of manually annotated examples, and it’s important that within that volume, there is sufficient phenotypic diversity. For object detection, the annotator needs to capture diverse object appearances and experimental conditions. In contrast, event detection is often limited by the scarcity of events themselves and so the challenge is frequently obtaining sufficient examples of rare events. Biological imaging further complicates creating labeled data because annotations frequently require unbiased expert interpretation. Annotators must distinguish signal from noise, recognize subtle morphological features, and apply consistent criteria across diverse experimental conditions.</p>
+<p>Furthermore, biological ground truth is rarely absolute and variability in the ground truth is multifaceted. Object boundaries may be diffuse, and event definitions may vary between experts. Differences in imaging conditions, sample preparation, fluorophore expression, and biological variability can further reduce annotation consistency. As a result, training datasets often contain a degree of uncertainty that ultimately influences both model performance and evaluation.</p>
+</section>
+<section id="unique-challenges-of-event-detection" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="unique-challenges-of-event-detection"><span class="header-section-number">7.5.2</span> Unique Challenges of Event Detection</h3>
+<p>Many of these general challenges are amplified in event detection. Because events unfold over time, annotators must identify not only whether an event occurred, but also its precise temporal boundaries. This requirement introduces ambiguity when biological transitions are gradual or poorly defined. For example, in mitochondrial fission, multiple experts may disagree on the exact timestep when constriction becomes visible or when membrane scission occurs. Temporal sampling also plays a critical role; if imaging is performed too slowly, key transitions may be missed entirely.</p>
+<p>Event detection datasets can exhibit severe class imbalance because biologically relevant events may occupy only a small fraction of the recorded frames. In addition, event annotations frequently depend on information distributed across multiple imaging channels or modalities, requiring annotators to interpret spatial, temporal, and molecular context simultaneously. These challenges make event labeling substantially more demanding than object labeling and often motivate the use of interactive annotation tools<span class="citation" data-cites="carpenter2006cellprofiler Berg2019 sofroniew2026 Bankhead2017"><sup><a href="references.html#ref-carpenter2006cellprofiler" role="doc-biblioref">5</a>,<a href="references.html#ref-Berg2019" role="doc-biblioref">6</a>,<a href="references.html#ref-sofroniew2026" role="doc-biblioref">52</a>,<a href="references.html#ref-Bankhead2017" role="doc-biblioref">53</a></sup></span>, weak supervision<span class="citation" data-cites="zhou2018brief"><sup><a href="references.html#ref-zhou2018brief" role="doc-biblioref">54</a></sup></span>, or human-in-the-loop workflows<span class="citation" data-cites="griebel2023deep"><sup><a href="references.html#ref-griebel2023deep" role="doc-biblioref">55</a></sup></span> to improve efficiency and consistency.</p>
+</section>
+<section id="training-models" class="level3" data-number="7.5.3">
+<h3 data-number="7.5.3" class="anchored" data-anchor-id="training-models"><span class="header-section-number">7.5.3</span> Training Models</h3>
+<p>Once a ground-truth dataset has been established, the next step is to train a model that can accurately predict object locations, identities, or event occurrences (see also <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a>). Training proceeds as an iterative loop: the model makes a prediction on the image, compares that prediction to the corresponding ground truth annotation and adjusts its internal parameters to minimize the discrepancy between them. These updates are performed through backpropagation<span class="citation" data-cites="rumelhart1986learning"><sup><a href="references.html#ref-rumelhart1986learning" role="doc-biblioref">56</a></sup></span>, an algorithm that calculates how much each individual parameter of the model contributes to the prediction error and updates the value(s) accordingly. Model optimization is guided by one or more loss functions, which quantify prediction errors in tasks such as object localization, classification, or object presence (<a href="#tbl-loss-functions" class="quarto-xref">Table&nbsp;<span>7.1</span></a>).</p>
+<p>To evaluate how well the model generalizes beyond its training data, the ground truth dataset pool is typically divided into separate training, validation, and test sets. The training set is used to optimize the model parameters, while the validation set is used periodically after each pass through the training dataset to assess performance on unseen data. Validation results can help guide decisions such as when to stop training or how to adjust model settings between training runs. Because these decisions are influenced by the validation dataset’s performance, a third, independent test set is reserved for a final evaluation. Model performance is then evaluated using metrics such as precision and recall that measure how well the predictions match ground-truth labels on the test data<span class="citation" data-cites="bishop2006pattern"><sup><a href="references.html#ref-bishop2006pattern" role="doc-biblioref">16</a></sup></span>.</p>
+<div id="tbl-loss-functions" class="quarto-float quarto-figure quarto-figure-center anchored" data-tbl-colwidths="[20,45,35]">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-loss-functions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;7.1: Examples of loss functions in object detection models
+</figcaption>
+<div aria-describedby="tbl-loss-functions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table class="caption-top table">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 45%">
+<col style="width: 35%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Type</th>
+<th style="text-align: left;">Description</th>
+<th style="text-align: left;">Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Localization Losses</td>
+<td style="text-align: left;">Measure how close the predicted bounding box is to the ground truth box</td>
+<td style="text-align: left;"><ul>
+<li>L1 Loss</li>
+<li>L2 Loss</li>
+<li>IoU Loss<span class="citation" data-cites="yu2016unitbox rezatofighi2019generalized"><sup><a href="references.html#ref-yu2016unitbox" role="doc-biblioref">57</a>,<a href="references.html#ref-rezatofighi2019generalized" role="doc-biblioref">58</a></sup></span></li>
+</ul></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Classification Losses</td>
+<td style="text-align: left;">Classify each detected object into the correct class</td>
+<td style="text-align: left;"><ul>
+<li>Cross Entropy Loss</li>
+<li>Focal Loss<span class="citation" data-cites="lin2020focal"><sup><a href="references.html#ref-lin2020focal" role="doc-biblioref">59</a></sup></span></li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Objectness Losses</td>
+<td style="text-align: left;">Predict whether an object exists in a box</td>
+<td style="text-align: left;"><ul>
+<li>Binary Cross Entropy</li>
+<li>Focal Binary Cross Entropy</li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<p>Model development typically proceeds in two phases: exploration and optimization. During the exploration phase, the goal is to determine whether the model can learn to solve the biological problem using the available data. Researchers often begin with a small representative dataset and a well-established architecture, such as <em>U-Net</em><span class="citation" data-cites="Ronneberger2015"><sup><a href="references.html#ref-Ronneberger2015" role="doc-biblioref">60</a></sup></span>, <em>Mask R-CNN</em><span class="citation" data-cites="he2017mask"><sup><a href="references.html#ref-he2017mask" role="doc-biblioref">61</a></sup></span>, or <em>YOLO</em><span class="citation" data-cites="redmon2016you"><sup><a href="references.html#ref-redmon2016you" role="doc-biblioref">31</a></sup></span>. Short training runs on limited datasets can reveal whether the model converges, produces biologically meaningful predictions, or exhibits obvious signs of overfitting, where the model fits the training data but is unable to generalize to an unseen dataset. These early experiments help identify potential obstacles before substantial effort is invested in optimization.</p>
+</section>
+<section id="refining-and-optimizing-models" class="level3" data-number="7.5.4">
+<h3 data-number="7.5.4" class="anchored" data-anchor-id="refining-and-optimizing-models"><span class="header-section-number">7.5.4</span> Refining and Optimizing Models</h3>
+<p>Once feasibility has been established, attention shifts toward improving model performance and robustness. In many cases, the most effective strategy is to expand and improve the annotated dataset, as model performance is fundamentally constrained by the quality and diversity of the training examples. Additional annotations, refined labels, and data collected under different experimental conditions can all improve generalization. When annotated data are scarce, simulated datasets, data augmentation, or pre-trained models may also be used to bootstrap learning and reduce annotation requirements.</p>
+<p>As model development progresses, increasingly sophisticated architectures may be introduced. Three-dimensional convolutional networks can better exploit volumetric image data, while recurrent or transformer-based architectures can incorporate temporal information required for event detection. These approaches enable models to capture complex spatial and temporal relationships that are difficult to represent using classical object detection pipelines.</p>
+<p>Model optimization is often constrained by computational resources. Training deep-learning models on high-resolution, volumetric, or time-lapse microscopy datasets can require hours or days of computation, limiting the speed at which new hypotheses can be tested. Consequently, model development is typically an iterative process in which improvements to data quality, model architecture, and training strategy are evaluated over multiple training cycles. As datasets and models increase in scale, researchers may transition from single-workstation training to high-performance computing or cloud-based resources capable of supporting large-scale experiments.</p>
+<p>Ultimately, successful model development depends on balancing biological relevance, annotation quality, model complexity, and computational cost. These considerations become particularly important for event detection, where temporal dynamics, class imbalance, and annotation uncertainty introduce additional challenges beyond those encountered in conventional object detection tasks.</p>
+</section>
+</section>
+<section id="real-time-event-detection-in-smart-microscopy" class="level2" data-number="7.6">
+<h2 data-number="7.6" class="anchored" data-anchor-id="real-time-event-detection-in-smart-microscopy"><span class="header-section-number">7.6</span> Real-Time Event Detection in Smart Microscopy</h2>
+<p>In smart microscopy workflows, event detection can be performed either after image acquisition or during image acquisition. These two approaches, often referred to as <em>a-posteriori</em> and <em>real-time</em> analysis respectively, differ not only in when inference occurs but also in how detection influences the experiment itself.</p>
+<p>In <a href="./glossary.html#a-posteriori-analysis">a-posteriori analysis</a>, events are identified after the complete dataset has been acquired and stored. This approach allows computationally intensive algorithms to be applied without constraints imposed by the instrument’s acquisition speed and is well suited for retrospective analysis, hypothesis generation, and machine learning model development. However, because detection occurs after the experiment is complete, the results cannot influence image acquisition or experimental conditions.</p>
+<p><a href="./glossary.html#real-time-analysis">Real-time analysis</a>, in contrast, processes image data as it is acquired. Rather than serving solely as a downstream analysis tool, event detection becomes part of the imaging workflow itself. This approach is particularly valuable when phototoxicity, storage requirements, or instrument throughput limit the feasibility of continuous high-resolution imaging. Real-time inference has strict time constraints and therefore requires efficient algorithms capable of producing reliable predictions from incomplete and continuously evolving datasets.</p>
+<p>The principal advantage of real-time event detection is that it enables adaptive microscopy. By identifying biologically relevant events as they occur, imaging parameters can be adjusted dynamically to focus acquisition effort on the most informative regions, objects, or time periods. This strategy reduces unnecessary sample exposure, minimizes photobleaching and photodamage, and decreases the collection of uninformative data. As a result, experiments can often be performed for longer durations while generating smaller, more information-rich datasets.</p>
+<p><em>Hybrid event-driven acquisition</em> (<a href="#tip-hybrid-event-driven" class="quarto-xref">Case Study&nbsp;<span>7.3</span></a>) illustrates the benefits of adaptive microscopy for capturing rare and transient events while minimizing unnecessary fluorescence exposure<span class="citation" data-cites="stepp2026smart"><sup><a href="references.html#ref-stepp2026smart" role="doc-biblioref">49</a></sup></span>. This framework monitored samples using a low-phototoxicity imaging modality and selectively triggered fluorescence imaging only when an event was detected, substantially increasing the number of cells that survived long-term imaging compared with continuous fluorescence acquisition.</p>
+<p>Real-time detection also enables closed-loop experimentation. Detected events can trigger downstream actions such as object tracking, high-resolution imaging, experimental perturbations, or automated classification. More broadly, the microscope can use incoming observations to guide future acquisition decisions, transforming image acquisition from a passive recording process into an active, information-driven measurement strategy. This capability is central to the concept of smart microscopy.</p>
+<p>Real-time event detection remains challenging because models must balance detection accuracy against computational latency, often while operating under limited hardware resources and in the presence of noisy biological data. Strategies that perform well for one imaging modality or biological system may not generalize readily to others, making robust deployment difficult. Furthermore, uncertainty estimates are rarely incorporated into acquisition decisions, despite their potential value for reducing false positives and missed events. Addressing these challenges will require continued advances in machine learning, microscope control software, and hardware–software integration.</p>
+<p><em>Automated Early Generalizing Protein Aggregation ONset</em> (<a href="#tip-AEGON" class="quarto-xref">Case Study&nbsp;<span>7.4</span></a>) addresses two important barriers to broader adoption of real-time smart microscopy: computational efficiency and generalizability. The authors showed that deep learning models could maintain high event detection accuracy using substantially fewer temporal and spatial inputs, making real-time inference feasible on more modest computational hardware. They also demonstrated that the framework generalized across different microscope platforms and imaging modalities without transfer learning, illustrating how event-driven microscopy can become more accessible beyond highly specialized experimental systems.</p>
+<p>Together, these developments and challenges illustrate the evolution of event detection from a retrospective analytical tool to a mechanism for real-time experimental control. By enabling microscopes to respond autonomously to biological processes as they unfold, event-driven microscopy represents a major step toward intelligent and adaptive imaging systems.</p>
+<div id="tip-hybrid-event-driven" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Case Study&nbsp;7.3: Hybrid Event Driven Acquisition (EDA)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Smart hybrid microscopy for cell-friendly detection of rare events</em></p>
+<p>Hybrid-EDA<span class="citation" data-cites="stepp2026smart"><sup><a href="references.html#ref-stepp2026smart" role="doc-biblioref">49</a></sup></span> is a real-time event detection and acquisition tool that addresses a fundamental trade-off in fluorescence microscopy: obtaining sufficient signal while minimizing photodamage caused by prolonged accumulation. This framework separates surveillance from event capture by monitoring the sample continuously under phase-contrast, a label-free imaging modality with minimal phototoxicity. When a neural network detects an event from subtle structural cues in the phase-contrast images, fluorescence imaging is triggered (<a href="#fig-hybrid-eda" class="quarto-xref">Figure&nbsp;<span>7.8</span></a> A). This approach dramatically reduces phototoxic burden relative to continuous fluorescence surveillance (<a href="#fig-hybrid-eda" class="quarto-xref">Figure&nbsp;<span>7.8</span></a> B).</p>
+<p>The authors demonstrate this strategy by detecting mitochondrial division and organelle contacts. Mitochondrial division presents a detection challenge because phase contrast is a label-free modality that captures the whole cellular landscape alongside mitochondria, so the subtle structural cues preceding a fission event can easily be lost among unrelated features. To address this, the authors equipped a U-Net with temporal memory across frames, allowing it to track the evolution of a candidate site rather than evaluating each frame in isolation. Hybrid-EDA captured fast, fragile physiological signals that continuous fluorescence imaging would struggle to resolve without accelerating photodamage. As one example, membrane potential dynamics were visualized at a site of mitochondrial constriction using the potentiometric dye TMRE (<a href="#fig-correlative-imaging" class="quarto-xref">Figure&nbsp;<span>7.9</span></a>).</p>
+<div id="fig-hybrid-eda" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-hybrid-eda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig8_case_study3_Hybrid_EDA.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-hybrid-eda-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.8: <strong>Hybrid-EDA balances phototoxicity and event capture in live-cell imaging.</strong> (A) Logic of hybrid-EDA: a neural network continuously evaluates phase-contrast frames and triggers a switch to combined phase/fluorescence imaging only when it detects an event, then reverts to phase-only monitoring. (B) Cell viability over ~30 minutes under continuous fluorescence, phase-contrast, and no illumination. Fluorescence causes rapid loss of viability, while phase-contrast remains comparable to the unilluminated control. Taken from Fig. 1 of Stepp, et al.<span class="citation" data-cites="stepp2026smart"><sup><a href="references.html#ref-stepp2026smart" role="doc-biblioref">49</a></sup></span> under a CC BY license.
+</figcaption>
+</figure>
+</div>
+<div id="fig-correlative-imaging" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-correlative-imaging-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig9_case_study3_Hybrid_EDA_mitochondria.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-correlative-imaging-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.9: <strong>Correlative imaging reveals a localized membrane potential drop at a mitochondrial constriction</strong> <em>Top</em>: phase-contrast time series showing a constriction site (arrowhead) that precedes division. <em>Middle</em>: neural network event score, which exceeds threshold at the constriction and triggers fluorescence acquisition (active period, magenta). <em>Bottom</em>: TMRE fluorescence over the same period, showing a transient, spatially confined loss of membrane potential (outlined in cyan) that remains restricted to one side of the constriction before recovering. Reproduced from Fig. 3 of Stepp, et al.<span class="citation" data-cites="stepp2026smart"><sup><a href="references.html#ref-stepp2026smart" role="doc-biblioref">49</a></sup></span> under a CC BY license.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="tip-AEGON" class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Case Study&nbsp;7.4: Automated Early Generalizing Protein Aggregation ONset (AEGON)
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><em>Performing longitudinal protein aggregation detection with AEGON</em></p>
+<p>The AEGON framework<span class="citation" data-cites="ibrahim2025selfdriving"><sup><a href="references.html#ref-ibrahim2025selfdriving" role="doc-biblioref">62</a></sup></span> uses fast fluorescence imaging to identify candidate biological events for a slower and more experimentally demanding Brillouin microscopy assay, a scattering-based technique for measuring the mechanical properties of biological specimens<span class="citation" data-cites="hockenberry2022cells"><sup><a href="references.html#ref-hockenberry2022cells" role="doc-biblioref">63</a></sup></span>. The authors demonstrate the framework by identifying the onset of Httex1 protein aggregation in a well-characterized cellular model of Huntington’s disease. Early detection of these events is a challenge for conventional Brillouin microscopy due to its limited throughput. First, the microscope rapidly acquires fluorescence images across a predefined grid of stage positions (<a href="#fig-self-driving" class="quarto-xref">Figure&nbsp;<span>7.10</span></a> A), and a deep learning model classifies each image as either an aggregation event or a non-event (<a href="#fig-self-driving" class="quarto-xref">Figure&nbsp;<span>7.10</span></a> B). Locations predicted to contain an event are then revisited using optimized Brillouin acquisition settings for longitudinal monitoring (<a href="#fig-self-driving" class="quarto-xref">Figure&nbsp;<span>7.10</span></a> C).</p>
+<p>A major contribution of this work was demonstrating that accurate real-time event detection could be achieved with substantially less input data, reducing the computational demands of closed-loop microscopy. First, the authors trained models on 4D image stacks and systematically reduced the dimensionality of input data by testing fewer timepoints (<a href="#fig-aegon" class="quarto-xref">Figure&nbsp;<span>7.11</span></a> A). Next, they reduced the number of z-planes input to the ViViT model (<a href="#fig-aegon" class="quarto-xref">Figure&nbsp;<span>7.11</span></a> B). With only a single time point and single z plane, it maintained 86% accuracy as compared to the 91% accuracy it achieved when provided with a single time point and eight z-planes. These results show that high-performance event detection can be maintained under a lower computational budget. The optimized model was then used for real-time event detection of fluorescently tagged Httex1 aggregation (<a href="#fig-aegon" class="quarto-xref">Figure&nbsp;<span>7.11</span></a> C). This adaptive strategy enabled longitudinal monitoring of Httex1 aggregation using brightfield and Brillouin microscopy triggered after the initial detection event (<a href="#fig-aegon" class="quarto-xref">Figure&nbsp;<span>7.11</span></a> D).</p>
+<div id="fig-self-driving" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-self-driving-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig10_CaseStudy4_Aegon.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-self-driving-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.10: <strong>Self-driving microscopy workflow for Automated Early Generalizing Protein Aggregation ONset (AEGON) detection</strong> (A) The microscope performs low-cost imaging while scanning a spatial grid of stage positions. (B) Each acquired image is analyzed in real time by a previously trained neural network and classified as either an aggregation onset event or a non-event. Candidate event locations are added to a list and immediately trigger optimized acquisition. (C) The microscope automatically revisits detected events using optimized imaging parameters, including imaging modality, exposure time, laser power, z-stack settings, and timelapse frequency, to capture protein aggregation dynamics. Reproduced from Fig. 1 of Ibrahim, et. al<span class="citation" data-cites="ibrahim2025selfdriving"><sup><a href="references.html#ref-ibrahim2025selfdriving" role="doc-biblioref">62</a></sup></span> under a CC BY license.
+</figcaption>
+</figure>
+</div>
+<div id="fig-aegon" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-aegon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="7-smart-microscopy_files/Fig11_CaseStudy4_Aegon.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-aegon-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7.11: <strong>Reducing the computational requirements of AEGON while preserving real-time event detection performance.</strong> (A) Classification accuracy of the two deep learning architectures as the number of temporal frames used for training and prediction is varied (B) Classification accuracy of the ViViT model using a single time point with either one or eight z-planes (C) Illustration of the AEGON framework using real-time event detection to trigger optimized microscope acquisition. (D) Representative longitudinal imaging experiment. Following event detection (red arrow), the microscope automatically switches to optimized acquisition settings to monitor protein aggregation dynamics using fluorescence, brightfield, and Brillouin microscopy over time (yellow and black arrows). Reproduced from Fig. 3 of Ibrahim, et. al<span class="citation" data-cites="ibrahim2025selfdriving"><sup><a href="references.html#ref-ibrahim2025selfdriving" role="doc-biblioref">62</a></sup></span> under a CC BY license.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="challenges-and-future-directions-in-smart-microscopy" class="level2" data-number="7.7">
+<h2 data-number="7.7" class="anchored" data-anchor-id="challenges-and-future-directions-in-smart-microscopy"><span class="header-section-number">7.7</span> Challenges and Future Directions in Smart Microscopy</h2>
+<p>Despite its promise, smart microscopy remains subject to important limitations. The performance of object and event detection models depends strongly on the quality and representativeness of their training data. Models may fail when presented with unfamiliar biological conditions, imaging modalities, or rare phenotypes, and biases in annotated datasets can influence both detection outcomes and subsequent acquisition decisions. Furthermore, adaptive imaging strategies can alter experimental conditions themselves, for example, by exposing different samples to different cumulative light doses, requiring careful experimental controls and validation.</p>
+<p>Practical challenges also remain. Event detection often requires large, expertly annotated datasets. Integrating machine-learning models with microscope hardware and control software introduces additional complexity, while increasingly capable microscopes generate data volumes that can be difficult to store, process, and interpret.</p>
+<p>At the same time, the opportunities afforded by smart microscopy are substantial. By coupling biological event recognition directly to image acquisition, microscopes can focus on the most informative regions, objects, and time periods while reducing data collection. Advanced instruments already combine multiple imaging modalities, adaptive acquisition strategies, or increasingly generalizable machine-learning models to detect a broader range of biological phenomena<span class="citation" data-cites="Daetwyler2023 mahecic2022 shi2024smart stepp2026smart ibrahim2025selfdriving daetwyler2025imaging"><sup><a href="references.html#ref-Daetwyler2023" role="doc-biblioref">1</a>,<a href="references.html#ref-mahecic2022" role="doc-biblioref">20</a>,<a href="references.html#ref-shi2024smart" role="doc-biblioref">47</a>,<a href="references.html#ref-stepp2026smart" role="doc-biblioref">49</a>,<a href="references.html#ref-ibrahim2025selfdriving" role="doc-biblioref">62</a>,<a href="references.html#ref-daetwyler2025imaging" role="doc-biblioref">64</a></sup></span>. More broadly, smart microscopy represents a shift from passive image collection toward active, information-driven experimentation, in which microscopes not only record biological processes but also respond to them in real time.</p>
 
-Starting prompt for this chapter: Chapter 7 motivates how AI can be used to control hardware. This chapter should focus on event-driven microscopy, but other smart microscopy topics can be included at the author's discretion.
 
-Notes from the authors' meeting: This chapter does not have to be extensively technical or include code snippets to be useful to the audience. An overview of smart microscopy as a concept is useful. Even though there are limited instances of event-driven microscopy so far, discussing what those instances accomplished, and why an experiment may consider investing in their use, will benefit readers of this book.
-
-## Include section headers as appropriate
-
-Use markdown heading level two for section headers. You can use standard markdown formatting, for example _emphasize the end of this sentence_.
-
-This is a new paragraph with more text. Your paragraphs can cross reference other items, such as @fig-simple. Use `fig` to reference figures, and `eq` to reference equations, such as @eq-stddev.
-
-###  Sub-subsection headers are also available
-
-To make your sections cross reference-able throughout the book, include a section reference, as shown in the header for @sec-equation.
-
-## Bibliography and Citations
-
-To cite a research article, add it to references.bib and then refer to the citation key. For example, reference @stringer2021 refers to CellPose and reference @von_chamier2021 refers to ZeroCostDL4Mic.
-
-## Adding to the Glossary
-
-We are using the extension [Quarto-glossary](https://debruine.github.io/quarto-glossary/#styles) to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from . It is important to understand the underlying  to interpret your results. Clicking on the word will reveal its definition. The complete glossary for the book will be listed in the [Glossary](glossary.qmd).
-
-## Code and Equations {#sec-equation}
-
-This is an example of including a python snippet that generates a figure
-
-::: {#cell-fig-simple .cell execution_count=1}
-``` {.python .cell-code}
-import matplotlib.pyplot as plt
-plt.plot([1,23,2,4])
-plt.show()
-```
-
-::: {.cell-output .cell-output-display}
-![Simple Plot](7-smart-microscopy_files/figure-html/fig-simple-output-1.png){#fig-simple width=566 height=411}
-:::
-:::
-
-
-In some cases, you may want to include a code-block that is not executed when the book is compiled. Use the `eval: false` option for this.
-
-::: {#5f1426b8 .cell execution_count=2}
-``` {.python .cell-code}
-import matplotlib.pyplot as plt
-plt.plot([1,23,2,4])
-plt.show()
-```
-:::
-
-
-Figures can also be generated that do not show the code by using the option for `code-fold: true`.
-
-::: {#cell-fig-polar .cell execution_count=3}
-``` {.python .cell-code code-fold="true"}
-import numpy as np
-import matplotlib.pyplot as plt
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
-
-::: {.cell-output .cell-output-display}
-![A spiral on a polar axis](7-smart-microscopy_files/figure-html/fig-polar-output-1.png){#fig-polar width=450 height=439 fig-alt='A line plot on a polar axis. The line spirals out from a value of zero to a value of 2.'}
-:::
-:::
-
-
-Here is an example equation.
-
-$$
-s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}
-$$ {#eq-stddev}
-
-### Embedding Figures
-
-You can also embed figures from other notebooks in the repo as shown in the following embed example.
-
-
-
-:::{.quarto-embed-nb-cell notebook="D:\a\BioImagingAI\BioImagingAI\notebooks\test.ipynb"  notebook-cellId="cell-fig-test-fig"}
-
-::: {#cell-fig-test-fig .cell tags='["test-fig"]' execution_count=2}
-
-::: {.cell-output .cell-output-display}
-![Polar plot of circles of random areas at random coords](7-smart-microscopy_files/figure-html/..-notebooks-test-fig-test-fig-output-1.png){#fig-test-fig fig-alt='a demo figure to be embedded in a template chapter'}
-:::
-:::
-
-
-
-
-:::
-
-When embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, `chapter4_example_u-net.ipynb`. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code--but not for rendering the book at large--will be installed there. That way, we will not need to handle a global environment across the book.
-
-## Quarto has additional features.
-
-You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
-
-::: {.callout-note}
-Note that there are five types of callouts, including:
-`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
-:::
-
-::: {.callout-tip collapse="true"}
-These could be good for extra material or exercises.
-:::
-
-::: {.callout-caution}
-There are caveats when applying these tools. Expand the code below to learn more.
-
-::: {#c2d98d4e .cell execution_count=4}
-``` {.python .cell-code code-fold="true"}
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-```
-:::
-
-
-:::
-
-::: {.callout-warning}
-Be careful to avoid hallucinations.
-:::
-
-::: {.callout-important}
-This is key information.
-::: -->
-
-
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-Daetwyler2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Daetwyler, S. &amp; Fiolka, R. P. <a href="https://doi.org/10.1038/s42003-023-04857-4">Light-sheets and smart microscopy, an exciting future is dawning</a>. <em>Communications Biology</em> <strong>6</strong>, (2023).</div>
+</div>
+<div id="ref-Wu2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Wu, Y. &amp; Shroff, H. <a href="https://doi.org/10.1007/s00418-022-02147-4">Multiscale fluorescence imaging of living samples</a>. <em>Histochemistry and Cell Biology</em> <strong>158</strong>, 301–323 (2022).</div>
+</div>
+<div id="ref-Shaked2023" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Shaked, N. T., Boppart, S. A., Wang, L. V. &amp; Popp, J. <a href="https://doi.org/10.1038/s41566-023-01299-6">Label-free biomedical optical imaging</a>. <em>Nature Photonics</em> <strong>17</strong>, 1031–1041 (2023).</div>
+</div>
+<div id="ref-Meijering2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Meijering, E. <a href="https://doi.org/10.1109/msp.2012.2204190">Cell segmentation: 50 years down the road [life sciences]</a>. <em>IEEE Signal Processing Magazine</em> <strong>29</strong>, 140–145 (2012).</div>
+</div>
+<div id="ref-carpenter2006cellprofiler" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Carpenter, A. E. <em>et al.</em> <a href="https://doi.org/10.1186/gb-2006-7-10-r100">CellProfiler: Image analysis software for identifying and quantifying cell phenotypes</a>. <em>Genome Biology</em> <strong>7</strong>, (2006).</div>
+</div>
+<div id="ref-Berg2019" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Berg, S. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-019-0582-9">Ilastik: Interactive machine learning for (bio)image analysis</a>. <em>Nat. Methods</em> <strong>16</strong>, 1226–1232 (2019).</div>
+</div>
+<div id="ref-neha2024classicaltechniquesconvolutionbasedmodels" class="csl-entry" role="listitem">
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Neha, F., Bhati, D., Shukla, D. K. &amp; Amiruzzaman, M. <a href="https://arxiv.org/abs/2412.05252">From classical techniques to convolution-based models: A review of object detection algorithms</a>. (2024).</div>
+</div>
+<div id="ref-huang2004" class="csl-entry" role="listitem">
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Huang, K. &amp; Murphy, R. F. <a href="https://doi.org/10.1117/1.1779233">From quantitative microscopy to automated image understanding</a>. <em>Journal of Biomedical Optics</em> <strong>9</strong>, 893 (2004).</div>
+</div>
+<div id="ref-rohban2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Rohban, M. H. <em>et al.</em> <a href="https://doi.org/10.7554/elife.24060">Systematic morphological profiling of human gene and allele function via cell painting</a>. <em>eLife</em> <strong>6</strong>, (2017).</div>
+</div>
+<div id="ref-boland2001" class="csl-entry" role="listitem">
+<div class="csl-left-margin">10. </div><div class="csl-right-inline">Boland, M. V. &amp; Murphy, R. F. <a href="https://doi.org/10.1093/bioinformatics/17.12.1213">A neural network classifier capable of recognizing the patterns of all major subcellular structures in fluorescence microscope images of HeLa cells</a>. <em>Bioinformatics</em> <strong>17</strong>, 1213–1223 (2001).</div>
+</div>
+<div id="ref-murphy2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Murphy, R. F., Velliste, M. &amp; Porreca, G. Robust classification of subcellular location patterns in fluorescence microscope images. in <em>Proceedings of the 12th IEEE workshop on neural networks for signal processing</em> 67–76 (2022). doi:<a href="https://doi.org/10.1109/nnsp.2002.1030018">10.1109/nnsp.2002.1030018</a>.</div>
+</div>
+<div id="ref-chen2006" class="csl-entry" role="listitem">
+<div class="csl-left-margin">12. </div><div class="csl-right-inline">Chen, X., Velliste, M. &amp; Murphy, R. F. <a href="https://doi.org/10.1002/cyto.a.20280">Automated interpretation of subcellular patterns in fluorescence microscope images for location proteomics</a>. <em>Cytometry Part A</em> <strong>69A</strong>, 631–640 (2006).</div>
+</div>
+<div id="ref-rosenblatt1958" class="csl-entry" role="listitem">
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Rosenblatt, F. <a href="https://doi.org/10.1037/h0042519">The perceptron: A probabilistic model for information storage and organization in the brain</a>. <em>Psychological Review</em> <strong>65</strong>, 386–408 (1958).</div>
+</div>
+<div id="ref-cortes1995" class="csl-entry" role="listitem">
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Cortes, C. &amp; Vapnik, V. <a href="https://doi.org/10.1007/bf00994018">Support-vector networks</a>. <em>Machine Learning</em> <strong>20</strong>, 273–297 (1995).</div>
+</div>
+<div id="ref-yuan2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Yuan, G.-X., Ho, C.-H. &amp; Lin, C.-J. <a href="https://doi.org/10.1109/jproc.2012.2188013">Recent advances of large-scale linear classification</a>. <em>Proceedings of the IEEE</em> <strong>100</strong>, 2584–2603 (2012).</div>
+</div>
+<div id="ref-bishop2006pattern" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Bishop, C. <em><a href="https://www.microsoft.com/en-us/research/publication/pattern-recognition-machine-learning/">Pattern Recognition and Machine Learning</a></em>. (Springer, 2006).</div>
+</div>
+<div id="ref-jones2008" class="csl-entry" role="listitem">
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Jones, T. R. <em>et al.</em> <a href="https://doi.org/10.1186/1471-2105-9-482">CellProfiler analyst: Data exploration and analysis software for complex image-based screens</a>. <em>BMC Bioinformatics</em> <strong>9</strong>, (2008).</div>
+</div>
+<div id="ref-shariff2010" class="csl-entry" role="listitem">
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Shariff, A., Kangas, J., Coelho, L. P., Quinn, S. &amp; Murphy, R. F. <a href="https://doi.org/10.1177/1087057110370894">Automated image analysis for high-content screening and analysis</a>. <em>SLAS Discovery</em> <strong>15</strong>, 726–734 (2010).</div>
+</div>
+<div id="ref-dao2016" class="csl-entry" role="listitem">
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Dao, D. <em>et al.</em> <a href="https://doi.org/10.1093/bioinformatics/btw390">CellProfiler analyst: Interactive data exploration, analysis and classification of large biological image sets</a>. <em>Bioinformatics</em> <strong>32</strong>, 3210–3212 (2016).</div>
+</div>
+<div id="ref-mahecic2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Mahecic, D. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-022-01589-x">Event-driven acquisition for content-enriched microscopy</a>. <em>Nature Methods</em> <strong>19</strong>, 1262–1267 (2022).</div>
+</div>
+<div id="ref-alvelid2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">21. </div><div class="csl-right-inline">Alvelid, J., Damenti, M., Sgattoni, C. &amp; Testa, I. <a href="https://doi.org/10.1038/s41592-022-01588-y">Event-triggered <span>STED</span> imaging</a>. <em>Nature Methods</em> <strong>19</strong>, 1268–1275 (2022).</div>
+</div>
+<div id="ref-morgado2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Morgado, L., Gómez-de-Mariscal, E., Heil, H. S. &amp; Henriques, R. <a href="https://doi.org/10.1111/jmi.13282">The rise of data-driven microscopy powered by machine learning</a>. <em>Journal of Microscopy</em> <strong>295</strong>, 85–92 (2024).</div>
+</div>
+<div id="ref-conrad2011micropilot" class="csl-entry" role="listitem">
+<div class="csl-left-margin">23. </div><div class="csl-right-inline">Conrad, C. <em>et al.</em> <a href="https://doi.org/10.1038/nmeth.1558">Micropilot: Automation of fluorescence microscopy–based imaging for systems biology</a>. <em>Nature Methods</em> <strong>8</strong>, 246–249 (2011).</div>
+</div>
+<div id="ref-girshick2014rich" class="csl-entry" role="listitem">
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Girshick, R., Donahue, J., Darrell, T. &amp; Malik, J. Rich feature hierarchies for accurate object detection and semantic segmentation. in <em>2014 IEEE conference on computer vision and pattern recognition</em> 580–587 (2014). doi:<a href="https://doi.org/10.1109/cvpr.2014.81">10.1109/cvpr.2014.81</a>.</div>
+</div>
+<div id="ref-jones2009scoring" class="csl-entry" role="listitem">
+<div class="csl-left-margin">25. </div><div class="csl-right-inline">Jones, T. R. <em>et al.</em> <a href="https://doi.org/10.1073/pnas.0808843106">Scoring diverse cellular morphologies in image-based screens with iterative feedback and machine learning</a>. <em>Proceedings of the National Academy of Sciences</em> <strong>106</strong>, 1826–1831 (2009).</div>
+</div>
+<div id="ref-friedman2000additive" class="csl-entry" role="listitem">
+<div class="csl-left-margin">26. </div><div class="csl-right-inline">Friedman, J., Hastie, T. &amp; Tibshirani, R. <a href="https://doi.org/10.1214/aos/1016218223">Additive logistic regression: A statistical view of boosting (with discussion and a rejoinder by the authors)</a>. <em>The Annals of Statistics</em> <strong>28</strong>, (2000).</div>
+</div>
+<div id="ref-deng2009imagenet" class="csl-entry" role="listitem">
+<div class="csl-left-margin">27. </div><div class="csl-right-inline">Deng, J. <em>et al.</em> ImageNet: A large-scale hierarchical image database. in <em>2009 IEEE conference on computer vision and pattern recognition</em> 248–255 (2009). doi:<a href="https://doi.org/10.1109/cvpr.2009.5206848">10.1109/cvpr.2009.5206848</a>.</div>
+</div>
+<div id="ref-russakovsky2015imagenet" class="csl-entry" role="listitem">
+<div class="csl-left-margin">28. </div><div class="csl-right-inline">Russakovsky, O. <em>et al.</em> <a href="https://doi.org/10.1007/s11263-015-0816-y">ImageNet large scale visual recognition challenge</a>. <em>International Journal of Computer Vision</em> <strong>115</strong>, 211–252 (2015).</div>
+</div>
+<div id="ref-krizhevsky2012" class="csl-entry" role="listitem">
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Krizhevsky, A., Sutskever, I. &amp; Hinton, G. E. <a href="https://doi.org/10.1145/3065386"><span>ImageNet</span> <span>Classification</span> with <span>Deep</span> <span>Convolutional</span> <span>Neural</span> <span>Networks</span></a>. in <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em> vol. 25 (Curran Associates, Inc., 2012).</div>
+</div>
+<div id="ref-he2016deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">30. </div><div class="csl-right-inline">He, K., Zhang, X., Ren, S. &amp; Sun, J. Deep residual learning for image recognition. in <em>2016 IEEE conference on computer vision and pattern recognition (CVPR)</em> 770–778 (2016). doi:<a href="https://doi.org/10.1109/cvpr.2016.90">10.1109/cvpr.2016.90</a>.</div>
+</div>
+<div id="ref-redmon2016you" class="csl-entry" role="listitem">
+<div class="csl-left-margin">31. </div><div class="csl-right-inline">Redmon, J., Divvala, S., Girshick, R. &amp; Farhadi, A. You only look once: Unified, real-time object detection. in <em>2016 IEEE conference on computer vision and pattern recognition (CVPR)</em> 779–788 (2016). doi:<a href="https://doi.org/10.1109/cvpr.2016.91">10.1109/cvpr.2016.91</a>.</div>
+</div>
+<div id="ref-sung1998examplebased" class="csl-entry" role="listitem">
+<div class="csl-left-margin">32. </div><div class="csl-right-inline">Sung, K.-K. &amp; Poggio, T. <a href="https://doi.org/10.1109/34.655648">Example-based learning for view-based human face detection</a>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em> <strong>20</strong>, 39–51 (1998).</div>
+</div>
+<div id="ref-rowley1998neural" class="csl-entry" role="listitem">
+<div class="csl-left-margin">33. </div><div class="csl-right-inline">Rowley, H. A., Baluja, S. &amp; Kanade, T. <a href="https://doi.org/10.1109/34.655647">Neural network-based face detection</a>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em> <strong>20</strong>, 23–38 (1998).</div>
+</div>
+<div id="ref-violandrapid" class="csl-entry" role="listitem">
+<div class="csl-left-margin">34. </div><div class="csl-right-inline">Viola, P. &amp; Jones, M. <a href="https://doi.org/10.1109/cvpr.2001.990517">Rapid object detection using a boosted cascade of simple features</a>. in <em>Proceedings of the 2001 IEEE computer society conference on computer vision and pattern recognition. CVPR 2001</em> vol. 1 I-511-I-518.</div>
+</div>
+<div id="ref-ciresan2013mitosis" class="csl-entry" role="listitem">
+<div class="csl-left-margin">35. </div><div class="csl-right-inline">Cireşan, D. C., Giusti, A., Gambardella, L. M. &amp; Schmidhuber, J. Mitosis detection in breast cancer histology images with deep neural networks. in <em>Lecture notes in computer science</em> 411–418 (Springer Berlin Heidelberg, Berlin, Heidelberg, 2013). doi:<a href="https://doi.org/10.1007/978-3-642-40763-5_51">10.1007/978-3-642-40763-5_51</a>.</div>
+</div>
+<div id="ref-girshick2015fast" class="csl-entry" role="listitem">
+<div class="csl-left-margin">36. </div><div class="csl-right-inline">Girshick, R. Fast r-<span>CNN</span>. in <em>2015 IEEE international conference on computer vision (ICCV)</em> 1440–1448 (2015). doi:<a href="https://doi.org/10.1109/iccv.2015.169">10.1109/iccv.2015.169</a>.</div>
+</div>
+<div id="ref-ren2017faster" class="csl-entry" role="listitem">
+<div class="csl-left-margin">37. </div><div class="csl-right-inline">Ren, S., He, K., Girshick, R. &amp; Sun, J. <a href="https://doi.org/10.1109/tpami.2016.2577031">Faster r-<span>CNN</span>: Towards real-time object detection with region proposal networks</a>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em> <strong>39</strong>, 1137–1149 (2017).</div>
+</div>
+<div id="ref-redmon2018yolov3" class="csl-entry" role="listitem">
+<div class="csl-left-margin">38. </div><div class="csl-right-inline">Redmon, J. &amp; Farhadi, A. <a href="https://arxiv.org/abs/1804.02767">YOLOv3: An incremental improvement</a>. (2018).</div>
+</div>
+<div id="ref-bochkovskiy2020yolov4" class="csl-entry" role="listitem">
+<div class="csl-left-margin">39. </div><div class="csl-right-inline">Bochkovskiy, A., Wang, C.-Y. &amp; Liao, H.-Y. M. <a href="https://arxiv.org/abs/2004.10934">YOLOv4: Optimal speed and accuracy of object detection</a>. (2020).</div>
+</div>
+<div id="ref-tian2025yolov12" class="csl-entry" role="listitem">
+<div class="csl-left-margin">40. </div><div class="csl-right-inline">Tian, Y., Ye, Q. &amp; Doermann, D. <a href="https://arxiv.org/abs/2502.12524">YOLOv12: Attention-centric real-time object detectors</a>. (2025).</div>
+</div>
+<div id="ref-jocher2026yolo26" class="csl-entry" role="listitem">
+<div class="csl-left-margin">41. </div><div class="csl-right-inline">Jocher, G. <em>et al.</em> <a href="https://arxiv.org/abs/2606.03748">Ultralytics YOLO26: Unified real-time end-to-end vision models</a>. (2026).</div>
+</div>
+<div id="ref-wang2024yolov10" class="csl-entry" role="listitem">
+<div class="csl-left-margin">42. </div><div class="csl-right-inline">Wang, A. <em>et al.</em> YOLOv10: Real-time end-to-end object detection. in <em>Advances in neural information processing systems 37</em> 107984–108011 (2024). doi:<a href="https://doi.org/10.52202/079017-3429">10.52202/079017-3429</a>.</div>
+</div>
+<div id="ref-vaswani2017attention" class="csl-entry" role="listitem">
+<div class="csl-left-margin">43. </div><div class="csl-right-inline">Vaswani, A. <em>et al.</em> <a href="https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">Attention is <span>All</span> you <span>Need</span></a>. in <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em> vol. 30 (Curran Associates, Inc., 2017).</div>
+</div>
+<div id="ref-Dosovitskiy2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">44. </div><div class="csl-right-inline">Kolesnikov, A. <em>et al.</em> An image is worth 16x16 words: Transformers for image recognition at scale. in <em>International conference on learning representations (ICLR)</em> (2021).</div>
+</div>
+<div id="ref-carion2020endtoend" class="csl-entry" role="listitem">
+<div class="csl-left-margin">45. </div><div class="csl-right-inline">Carion, N. <em>et al.</em> End-to-end object detection with transformers. in <em>Lecture notes in computer science</em> 213–229 (Springer International Publishing, Cham, 2020). doi:<a href="https://doi.org/10.1007/978-3-030-58452-8_13">10.1007/978-3-030-58452-8_13</a>.</div>
+</div>
+<div id="ref-zhao2024detrs" class="csl-entry" role="listitem">
+<div class="csl-left-margin">46. </div><div class="csl-right-inline">Zhao, Y. <em>et al.</em> DETRs beat YOLOs on real-time object detection. in <em>2024 IEEE/CVF conference on computer vision and pattern recognition (CVPR)</em> 16965–16974 (2024). doi:<a href="https://doi.org/10.1109/cvpr52733.2024.01605">10.1109/cvpr52733.2024.01605</a>.</div>
+</div>
+<div id="ref-shi2024smart" class="csl-entry" role="listitem">
+<div class="csl-left-margin">47. </div><div class="csl-right-inline">Shi, Y. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-023-02126-0">Smart lattice light-sheet microscopy for imaging rare and complex cellular events</a>. <em>Nature Methods</em> <strong>21</strong>, 301–310 (2024).</div>
+</div>
+<div id="ref-hochreiter1997long" class="csl-entry" role="listitem">
+<div class="csl-left-margin">48. </div><div class="csl-right-inline">Hochreiter, S. &amp; Schmidhuber, J. <a href="https://doi.org/10.1162/neco.1997.9.8.1735">Long short-term memory</a>. <em>Neural Computation</em> <strong>9</strong>, 1735–1780 (1997).</div>
+</div>
+<div id="ref-stepp2026smart" class="csl-entry" role="listitem">
+<div class="csl-left-margin">49. </div><div class="csl-right-inline">Stepp, W. L. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-025-68168-4">Smart hybrid microscopy for cell-friendly detection of rare events</a>. <em>Nature Communications</em> <strong>17</strong>, (2026).</div>
+</div>
+<div id="ref-nie20163d" class="csl-entry" role="listitem">
+<div class="csl-left-margin">50. </div><div class="csl-right-inline">Nie, W.-Z., Li, W.-H., Liu, A.-A., Hao, T. &amp; Su, Y.-T. 3D convolutional networks-based mitotic event detection in time-lapse phase contrast microscopy image sequences of stem cell populations. in <em>2016 IEEE conference on computer vision and pattern recognition workshops (CVPRW)</em> 1359–1366 (2016). doi:<a href="https://doi.org/10.1109/cvprw.2016.171">10.1109/cvprw.2016.171</a>.</div>
+</div>
+<div id="ref-meijering2020birdseye" class="csl-entry" role="listitem">
+<div class="csl-left-margin">51. </div><div class="csl-right-inline">Meijering, E. <a href="https://doi.org/10.1016/j.csbj.2020.08.003">A bird’s-eye view of deep learning in bioimage analysis</a>. <em>Computational and Structural Biotechnology Journal</em> <strong>18</strong>, 2312–2325 (2020).</div>
+</div>
+<div id="ref-sofroniew2026" class="csl-entry" role="listitem">
+<div class="csl-left-margin">52. </div><div class="csl-right-inline">Sofroniew, N. <em>et al.</em> Napari: A multi-dimensional image viewer for python. Zenodo <a href="https://doi.org/10.5281/zenodo.21361474">https://doi.org/10.5281/zenodo.21361474</a> (2026).</div>
+</div>
+<div id="ref-Bankhead2017" class="csl-entry" role="listitem">
+<div class="csl-left-margin">53. </div><div class="csl-right-inline">Bankhead, P. <em>et al.</em> <a href="https://doi.org/10.1038/s41598-017-17204-5"><span>QuPath</span>: Open source software for digital pathology image analysis</a>. <em>Sci. Rep.</em> <strong>7</strong>, 16878 (2017).</div>
+</div>
+<div id="ref-zhou2018brief" class="csl-entry" role="listitem">
+<div class="csl-left-margin">54. </div><div class="csl-right-inline">Zhou, Z.-H. <a href="https://doi.org/10.1093/nsr/nwx106">A brief introduction to weakly supervised learning</a>. <em>National Science Review</em> <strong>5</strong>, 44–53 (2018).</div>
+</div>
+<div id="ref-griebel2023deep" class="csl-entry" role="listitem">
+<div class="csl-left-margin">55. </div><div class="csl-right-inline">Griebel, M. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-023-36960-9">Deep learning-enabled segmentation of ambiguous bioimages with deepflash2</a>. <em>Nature Communications</em> <strong>14</strong>, (2023).</div>
+</div>
+<div id="ref-rumelhart1986learning" class="csl-entry" role="listitem">
+<div class="csl-left-margin">56. </div><div class="csl-right-inline">Rumelhart, D. E., Hinton, G. E. &amp; Williams, R. J. <a href="https://doi.org/10.1038/323533a0">Learning representations by back-propagating errors</a>. <em>Nature</em> <strong>323</strong>, 533–536 (1986).</div>
+</div>
+<div id="ref-yu2016unitbox" class="csl-entry" role="listitem">
+<div class="csl-left-margin">57. </div><div class="csl-right-inline">Yu, J., Jiang, Y., Wang, Z., Cao, Z. &amp; Huang, T. UnitBox: An advanced object detection network. in <em>Proceedings of the 24th ACM international conference on multimedia</em> 516–520 (2016). doi:<a href="https://doi.org/10.1145/2964284.2967274">10.1145/2964284.2967274</a>.</div>
+</div>
+<div id="ref-rezatofighi2019generalized" class="csl-entry" role="listitem">
+<div class="csl-left-margin">58. </div><div class="csl-right-inline">Rezatofighi, H. <em>et al.</em> Generalized intersection over union: A metric and a loss for bounding box regression. in <em>2019 IEEE/CVF conference on computer vision and pattern recognition (CVPR)</em> 658–666 (2019). doi:<a href="https://doi.org/10.1109/cvpr.2019.00075">10.1109/cvpr.2019.00075</a>.</div>
+</div>
+<div id="ref-lin2020focal" class="csl-entry" role="listitem">
+<div class="csl-left-margin">59. </div><div class="csl-right-inline">Lin, T.-Y., Goyal, P., Girshick, R., He, K. &amp; Dollar, P. <a href="https://doi.org/10.1109/tpami.2018.2858826">Focal loss for dense object detection</a>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em> <strong>42</strong>, 318–327 (2020).</div>
+</div>
+<div id="ref-Ronneberger2015" class="csl-entry" role="listitem">
+<div class="csl-left-margin">60. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-net: Convolutional networks for biomedical image segmentation. in <em>Medical image computing and computer-assisted intervention – MICCAI 2015</em> (eds. Navab, N., Hornegger, J., Wells, W. M. &amp; Frangi, A. F.) 234–241 (Springer International Publishing, Cham, 2015). doi:<a href="https://doi.org/10.1007/978-3-319-24574-4_28">10.1007/978-3-319-24574-4_28</a>.</div>
+</div>
+<div id="ref-he2017mask" class="csl-entry" role="listitem">
+<div class="csl-left-margin">61. </div><div class="csl-right-inline">He, K., Gkioxari, G., Dollar, P. &amp; Girshick, R. Mask r-<span>CNN</span>. in <em>2017 IEEE international conference on computer vision (ICCV)</em> 2980–2988 (2017). doi:<a href="https://doi.org/10.1109/iccv.2017.322">10.1109/iccv.2017.322</a>.</div>
+</div>
+<div id="ref-ibrahim2025selfdriving" class="csl-entry" role="listitem">
+<div class="csl-left-margin">62. </div><div class="csl-right-inline">Ibrahim, K. A. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-025-60912-0">Self-driving microscopy detects the onset of protein aggregation and enables intelligent brillouin imaging</a>. <em>Nature Communications</em> <strong>16</strong>, (2025).</div>
+</div>
+<div id="ref-hockenberry2022cells" class="csl-entry" role="listitem">
+<div class="csl-left-margin">63. </div><div class="csl-right-inline">Hockenberry, M. A. &amp; Legant, W. R. <a href="https://doi.org/10.1016/j.bpj.2022.09.003">Cells in the mechanical spotlight</a>. <em>Biophysical Journal</em> <strong>121</strong>, 3571–3572 (2022).</div>
+</div>
+<div id="ref-daetwyler2025imaging" class="csl-entry" role="listitem">
+<div class="csl-left-margin">64. </div><div class="csl-right-inline">Daetwyler, S. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-025-02598-2">Imaging of cellular dynamics from a whole organism to subcellular scale with self-driving, multiscale microscopy</a>. <em>Nature Methods</em> <strong>22</strong>, 569–578 (2025).</div>
+</div>
+</div>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
