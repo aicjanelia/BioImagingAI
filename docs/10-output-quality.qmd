@@ -15,9 +15,10 @@ author:
         country: USA
         postal-code:  
 subtitle: How to pick a model?
-jupyter: 10-output-quality
-execute:
-    cache: true
+# jupyter: 10-output-quality
+# execute:
+#     cache: true
+jupyter: python3
 bibliography: references.bib
 ---
 
@@ -31,51 +32,107 @@ bibliography: references.bib
 
 You have trained a model. 
 How do you know if it is any good?
-This is rarely a simple question.
 A model that looks convincing on a handful of images can quietly fail on the rest of your dataset, and a model that scores well on one measure of quality can perform poorly on another.
 Choosing the right way to measure quality is therefore just as important as the training itself.
 
 In this chapter we will look at how metrics and losses differ, how to pick measures that actually reflect your scientific goal, and how to use held-out test data to get an honest estimate of how your model will behave on new images.
 We will focus on a *segmentation* as a concrete example, but the principles apply broadly.
 
-> Goodhart's law: When a metric becomes a target, it ceases to be a good metric.
-
 ## Metrics and Losses
 
 ```{python}
-#| code-fold: true 
-#| label: fig-image
-#| fig-cap: Our cells, with the ground truth overlaid.
+#| echo: false
 
 import skimage as ski
 import numpy as np
 import matplotlib.pyplot as plt
-from skimage.filters import threshold_otsu
-from skimage.segmentation import clear_border
+from skimage.filters import threshold_otsu, gaussian
 from skimage.measure import label, regionprops
-from skimage.morphology import closing, footprint_rectangle
+from skimage.morphology import closing, footprint_rectangle, erosion, dilation, disk, remove_small_objects
 from skimage.color import label2rgb
-from scipy.ndimage import binary_fill_holes
-import numpy as np
-import matplotlib.pyplot as plt
+from skimage.segmentation import watershed
+from skimage.feature import peak_local_max
+from scipy.ndimage import binary_fill_holes, shift as ndimage_shift, distance_transform_edt
 
-img = ski.data.cells3d()[20:]
 
-# omit some slices that are partially empty
-image = img[6][1]
+def make_ground_truth(image, sigma=2, min_distance=10, min_size=500):
+    """Segment DAPI-stained nuclei using Gaussian smoothing + Otsu + watershed.
 
-# apply threshold
-thresh = threshold_otsu(image)
-bw = closing(image > thresh, footprint_rectangle((3, 3)))
-# remove artifacts connected to image border
-# cleared = clear_border(bw)
-# fill holes
-filled = binary_fill_holes(bw)
-# label image regions
-label_image = label(filled)
+    Returns
+    -------
+    bw : ndarray  binary foreground mask (after smoothing, thresholding, size filter)
+    filled : ndarray  binary mask of watershed regions (same as bw for solid nuclei)
+    label_image : ndarray  integer label image, one label per nucleus
+    """
+    smoothed = gaussian(image, sigma=sigma)
+    bw = closing(smoothed > threshold_otsu(smoothed), footprint_rectangle((3, 3)))
+    bw = remove_small_objects(bw, min_size=min_size)
+    dist = distance_transform_edt(bw)
+    peaks = peak_local_max(dist, min_distance=min_distance, labels=bw)
+    markers = np.zeros_like(bw, dtype=np.int32)
+    markers[tuple(peaks.T)] = np.arange(1, len(peaks) + 1)
+    label_image = watershed(-dist, markers, mask=bw)
+    return bw, (label_image > 0), label_image
 
-# to make the background transparent, pass the value of `bg_label`,
-# and leave `bg_color` as `None` and `kind` as `overlay`
+
+def make_undersegmented(filled, erode_radius=10, jitter=6, seed=7):
+    """Erode each cell mask inward and nudge it by a small random offset."""
+    eroded = label(erosion(filled, disk(erode_radius)))
+    rng = np.random.default_rng(seed)
+    out = np.zeros_like(eroded)
+    for lbl in np.unique(eroded)[1:]:
+        mask = (eroded == lbl).astype(float)
+        dy, dx = rng.integers(-jitter, jitter + 1, size=2)
+        shifted = ndimage_shift(mask, (dy, dx), order=0)
+        out[shifted > 0] = lbl
+    return out
+
+
+def make_oversegmented(filled, max_dilate_radius=5, seed=1):
+    """Dilate each cell by a different random amount (0 to max_dilate_radius)."""
+    cell_labels = label(filled)
+    rng = np.random.default_rng(seed)
+    out = np.zeros_like(cell_labels)
+    for lbl in np.unique(cell_labels)[1:]:  # skip background
+        mask = cell_labels == lbl
+        radius = int(rng.integers(0, max_dilate_radius + 1))
+        dilated = dilation(mask, disk(radius)) if radius > 0 else mask
+        out[dilated] = lbl
+    return out
+
+
+def make_missing_cells(label_image, interior_fraction=1/3, seed=42):
+    """Remove all border cells and a random fraction of interior cells."""
+    h, w = label_image.shape
+    out = label_image.copy()
+    props = regionprops(label_image)
+    border_lbl = {p.label for p in props
+                  if p.bbox[0] == 0 or p.bbox[1] == 0
+                  or p.bbox[2] == h or p.bbox[3] == w}
+    interior_lbl = [p.label for p in props if p.label not in border_lbl]
+    rng = np.random.default_rng(seed)
+    drop = rng.choice(interior_lbl,
+                      size=max(1, int(len(interior_lbl) * interior_fraction)),
+                      replace=False)
+    for lbl in border_lbl | set(drop):
+        out[out == lbl] = 0
+    return out
+
+
+def make_holey(bw, erode_radius=2):
+    """Thin the membrane rings so the central holes become larger."""
+    return label(erosion(bw, disk(erode_radius)))
+```
+
+```{python}
+#| code-fold: true
+#| label: fig-image
+#| fig-cap: Our cells, with the ground truth overlaid.
+
+img = ski.data.cells3d()[21:]
+image = img[18][1]  # nucleus channel, omitting partially-empty slices
+
+bw, filled, label_image = make_ground_truth(image)
 image_label_overlay = label2rgb(label_image, image=image, bg_label=0)
 
 plt.imshow(image_label_overlay)
@@ -88,7 +145,6 @@ One essential part of training the model is which loss you choose.
 This is the differentiable function that is used to fit the parameters of the model to a given task.
 A loss function tells the model how wrong its current predictions are — training adjusts the model's parameters to make this number as small as possible.
 Because training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
-
 
 Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
 A metric is any function that scores your predictions.
@@ -109,46 +165,16 @@ At first glance, it is difficult to judge which of these is the most appropriate
 #|   - "Holes: segmentation has gaps inside cells"
 #| layout-ncol: 2
 
-from skimage.morphology import erosion, dilation, disk
-from scipy.ndimage import shift as ndimage_shift
+predictions = [
+    make_undersegmented(filled),
+    make_oversegmented(filled),
+    make_missing_cells(label_image),
+    make_holey(bw),
+]
 
-h, w = image.shape
-
-# 1. Undersegmented: erode each cell then jitter it by a small random offset
-eroded_label = label(erosion(filled, disk(10)))
-rng_jitter = np.random.default_rng(7)
-underseg_label = np.zeros_like(eroded_label)
-for lbl in np.unique(eroded_label)[1:]:           # skip background (0)
-    mask = (eroded_label == lbl).astype(float)
-    dy, dx = rng_jitter.integers(-6, 7, size=2)
-    shifted = ndimage_shift(mask, (dy, dx), order=0)
-    underseg_label[shifted > 0] = lbl
-underseg_overlay = label2rgb(underseg_label, image=image, bg_label=0)
-
-# 2. Oversegmented: dilate just enough so some neighbouring cells merge
-overseg_label = label(dilation(filled, disk(5)))
-overseg_overlay = label2rgb(overseg_label, image=image, bg_label=0)
-
-# 3. Missing cells: correct borders, but border cells and ~1/3 of interior cells removed
-missing_label = label_image.copy()
-props = regionprops(label_image)
-border_lbl = {p.label for p in props
-              if p.bbox[0] == 0 or p.bbox[1] == 0 or p.bbox[2] == h or p.bbox[3] == w}
-interior_lbl = [p.label for p in props if p.label not in border_lbl]
-for lbl in border_lbl:
-    missing_label[missing_label == lbl] = 0
-rng = np.random.default_rng(42)
-for lbl in rng.choice(interior_lbl, size=max(1, len(interior_lbl) // 3), replace=False):
-    missing_label[missing_label == lbl] = 0
-missing_overlay = label2rgb(missing_label, image=image, bg_label=0)
-
-# 4. Holes: erode the pre-fill-holes mask to thin the rings and enlarge the gaps
-holes_label = label(erosion(bw, disk(2)))
-holes_overlay = label2rgb(holes_label, image=image, bg_label=0)
-
-for overlay in [underseg_overlay, overseg_overlay, missing_overlay, holes_overlay]:
+for pred in predictions:
     fig, ax = plt.subplots(figsize=(4, 4))
-    ax.imshow(overlay)
+    ax.imshow(label2rgb(pred, image=image, bg_label=0))
     ax.axis("off")
     plt.show()
 ```
