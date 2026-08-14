@@ -40,6 +40,27 @@ We will focus on a *segmentation* as a concrete example, but the principles appl
 
 ## Metrics and Losses
 
+In @sec-9, you learned about how to train a machine learning model.
+This required selecting a loss function: a differentiable function that represents how far the model's output is from your desired ground truth. 
+The model's parameters were optimized to minimize the loss on a training dataset, and you evaluated the same loss on a held-out validation dataset to get an idea of how well your model would perform on new data.
+As training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+
+Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
+A metric is any function that scores your predictions.
+Unlike a loss, it does not have to be differentiable because it is not used for optimization. 
+This means that you can get more specific which how you evaluate the quality of your model output, as we'll see below.
+
+<!-- For example, look at the segmentation outputs in @fig-segmentations.
+At first glance, it is difficult to judge which of these is the most appropriate. -->
+
+
+
+Consider the case of nuclear segmentation. 
+Suppose you have fluorescently labelled nuclei, as in ([@fig-todo]), that you want to segment for downstream analysis.
+Two standard losses for this task are binary cross entropy (BCE), and mean squared error (MSE).
+These functions are often optimized for the task of semantic segmentation, separating foreground from background.
+While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
+
 ```{python}
 #| echo: false
 
@@ -140,51 +161,6 @@ plt.axis("off")
 plt.show()
 ```
 
-In @sec-9, you learned about how to train a machine learning model.
-This required selecting a loss function: a differentiable function that represents how far the model's output is from your desired ground truth. 
-The model's parameters were optimized to minimize the loss on a training dataset, and you evaluated the same loss on a held-out validation dataset to get an idea of how well your model would perform on new data.
-As training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
-
-Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
-A metric is any function that scores your predictions.
-Unlike a loss, it does not have to be differentiable because it is not used for optimization. 
-This means that you can get more specific which how you evaluate the quality of your model output, as we'll see below.
-
-<!-- For example, look at the segmentation outputs in @fig-segmentations.
-At first glance, it is difficult to judge which of these is the most appropriate. -->
-
-
-```{python}
-#| code-fold: true
-#| label: fig-segmentations
-#| fig-cap: "Four examples of segmentations from different models. Each has a distinct failure mode that is hard to spot at a glance."
-#| fig-subcap:
-#|   - "Undersegmented: masks shrink away from cell borders"
-#|   - "Oversegmented: masks are too large, adjacent cells merge"
-#|   - "Missing cells: borders are correct but several cells are absent"
-#|   - "Holes: segmentation has gaps inside cells"
-#| layout-ncol: 2
-
-predictions = [
-    make_undersegmented(filled),
-    make_oversegmented(filled),
-    make_missing_cells(label_image),
-    make_holey(bw),
-]
-
-for pred in predictions:
-    fig, ax = plt.subplots(figsize=(4, 4))
-    ax.imshow(label2rgb(pred, image=image, bg_label=0))
-    ax.axis("off")
-    plt.show()
-```
-
-
-Consider the case of nuclear segmentation. 
-Suppose you have fluorescently labelled nuclei, as in ([@fig-todo]), that you want to segment for downstream analysis.
-Two standard losses for this task are binary cross entropy (BCE), and mean squared error (MSE).
-These functions are often optimized for the task of semantic segmentation, separating foreground from background.
-While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
 
 ::: {.callout-note appearance="simple" icon=false collapse="false"}
 # BCE
@@ -210,6 +186,31 @@ Watching multiple numbers evolve during training gives a fuller picture than any
 After training a model for segmantic, or foreground/background, segmentation, it is common to use a method such as watershed to obtain instance segmentations: segmentation masks for each individual nucleus. 
 How well we can do this task, followed by what downstream analysis we intend for our instance segmentations, cannot be easily measured with BCE or MSE.
 One can imagine other functions, however, that could more accurately describe "good performance".
+
+```{python}
+#| code-fold: true
+#| label: fig-segmentations
+#| fig-cap: "Four examples of segmentations from different models. Each has a distinct failure mode that is hard to spot at a glance."
+#| fig-subcap:
+#|   - "Undersegmented: masks shrink away from cell borders"
+#|   - "Oversegmented: masks are too large, adjacent cells merge"
+#|   - "Missing cells: borders are correct but several cells are absent"
+#|   - "Holes: segmentation has gaps inside cells"
+#| layout-ncol: 2
+
+predictions = [
+    make_undersegmented(filled),
+    make_oversegmented(filled),
+    make_missing_cells(label_image),
+    make_holey(bw),
+]
+
+for pred in predictions:
+    fig, ax = plt.subplots(figsize=(4, 4))
+    ax.imshow(label2rgb(pred, image=image, bg_label=0))
+    ax.axis("off")
+    plt.show()
+```
 
 If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. 
 However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple (Fig TODO) would introduce errors into the final counts. 
