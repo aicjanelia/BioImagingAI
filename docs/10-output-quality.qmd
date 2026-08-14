@@ -140,15 +140,15 @@ plt.axis("off")
 plt.show()
 ```
 
-In @sec-9, you've learned about how to train a machine learning model.
-One essential part of training the model is which loss you choose.
-This is the differentiable function that is used to fit the parameters of the model to a given task.
-A loss function tells the model how wrong its current predictions are — training adjusts the model's parameters to make this number as small as possible.
-Because training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+In @sec-9, you learned about how to train a machine learning model.
+This required selecting a loss function: a differentiable function that represents how far the model's output is from your desired ground truth. 
+The model's parameters were optimized to minimize the loss on a training dataset, and you evaluated the same loss on a held-out validation dataset to get an idea of how well your model would perform on new data.
+As training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
 
 Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
 A metric is any function that scores your predictions.
-Unlike a loss, it does not have to be differentiable, because it is only ever used for measurement, not for optimisation.
+Unlike a loss, it does not have to be differentiable because it is not used for optimization. 
+This means that you can get more specific which how you evaluate the quality of your model output, as we'll see below.
 
 <!-- For example, look at the segmentation outputs in @fig-segmentations.
 At first glance, it is difficult to judge which of these is the most appropriate. -->
@@ -180,10 +180,10 @@ for pred in predictions:
 ```
 
 
-Let's look at a semantic segmentation task as an example. 
-Suppose you have fluorescence data as in the image above, and you'd like to train a model to return a mask that differentiates cells from background. 
-
+Consider the case of nuclear segmentation. 
+Suppose you have fluorescently labelled nuclei, as in ([@fig-todo]), that you want to segment for downstream analysis.
 Two standard losses for this task are binary cross entropy (BCE), and mean squared error (MSE).
+These functions are often optimized for the task of semantic segmentation, separating foreground from background.
 While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
 
 ::: {.callout-note appearance="simple" icon=false collapse="false"}
@@ -203,16 +203,21 @@ MSE measures *how far* the prediction is from the target value, and does not req
 Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
 :::
 
-Luckily, you can keep track of both of these things by using one of these functions as a metric.
-For instance, as your model is being trained with Binary cross-entropy, you can compute the mean-squared error of your model's predictions on validation data as you train.
+Luckily, we can keep track of both of these things by using one of these functions as a metric.
+For example, as we optimize binary cross-entropy, we can compute the mean-squared error on the validation data.
 Watching multiple numbers evolve during training gives a fuller picture than any single number alone.
 
-You can imagine other functions, however, that might more closely match what you'd think of as "good performance".
-For instance, a biologist counting cells cares whether each individual cell was detected, not about the total number of wrong pixels. 
+After training a model for segmantic, or foreground/background, segmentation, it is common to use a method such as watershed to obtain instance segmentations: segmentation masks for each individual nucleus. 
+How well we can do this task, followed by what downstream analysis we intend for our instance segmentations, cannot be easily measured with BCE or MSE.
+One can imagine other functions, however, that could more accurately describe "good performance".
 
-Consider the case of nuclear segmentation. If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple (Fig TODO) would introduce errors into the final counts. In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives would need correction.
+If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. 
+However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple (Fig TODO) would introduce errors into the final counts. 
+In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives would need correction.
 
-Alternatively if we are interested in measuring the size of each nucleus, the first model described which under or over segments nuclei would create erroneous measurements of size. Instead a model that misses some detections might be preferable as long as the detections that exist correctly reflect the size of the nucleus. In this case a more appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
+Alternatively if we are interested in measuring the size of each nucleus, the first model described which under or over segments nuclei would create erroneous measurements of size. 
+Instead a model that misses some detections might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
+In this case a more appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
 A metric that captures this will look very different from BCE or MSE.
 Different downstream uses call for different metrics.
 Let's look at a few that are commonly used in bioimage analysis.
@@ -367,10 +372,7 @@ ax.legend(loc="upper right", frameon=False, fontsize=11)
 :::
 
 Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
-For example, AP involves sorting predictions by confidence. 
-However, just like previously with MSE, we can measure them.
 The practical workflow is therefore: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.
-
 
 You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
 As you'll see, there are many different metrics available for every task.
@@ -1048,13 +1050,25 @@ Discussion: (More open, can be mentioned here for the first time)
 - Separation between the metrics you compute on validation (to choose your model/checkpoint) and the metrics you compute on tests (to understand the limitations of your pipeline)
 - Segue into uncertainty: some metrics will give caveats about what the model can and cannot do. Uncertainty would be nice to have. Still an unsolved problem. Briefly touch on test-time augmentation in the callout below.
 
+We compute metrics to get a reasonable description of how well our model is expected to perform in the future, on unseen data. 
+Biological data varies from experiment to experiment, however, and whether the model will be robust to these variations remains somewhat of an open question. 
+In the ideal case, we would like the models to be able to output a level of certainty along with its predicted segmentations or tracks. 
+Unfortunately, uncertainty estimation remains an unsolved problem, methods such as test-time augmentation [@(reference)] can give you an estimate if you have a good model of your data's sources of noise.
+
 :::{.callout-note appearance="simple" icon=false collapse="false"}
-# Test-time augmentation
+# Test-time augmentation as a measure of uncertainty
 
 Test-time augmentation is one way of quantifying the uncertainty of a model, by estimating the robustness of its outputs with regards to noise. 
 
 [TODO] Describe
 :::
+
+The best measure of your model's output, current and future, still remains a good testing dataset. 
+Make sure to fully annotate a testing set that is diverse enough to be representative of future experiments.
+Compute a variety of metrics to understand the different types of failures you can expect, and to what extent.
+And finally, make sure to look at your model outputs in conjunction with your data! 
+For most tasks, the best judge of quality is you.
+
 
 ## AI Disclosure {.unnumbered}
 
