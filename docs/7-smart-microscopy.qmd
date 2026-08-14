@@ -152,11 +152,7 @@ CellProfiler [@carpenter2006cellprofiler] is a post-acquisition software for aut
 
 Rather than analyzing data after imaging was complete, MicroPilot used ML models to classify structures from low-resolution preview scans in real time (@fig-micropilot A). First, the low-resolution preview scan was segmented, and a feature vector was generated (@fig-micropilot B). Once a structure of interest was classified by the ML model, the software automatically triggered a predefined imaging assay (@fig-micropilot B). This could range from acquiring high-resolution time-lapse videos to initiating complex laser-based perturbations, such as photobleaching or protein ablation, all without user intervention.
 
-![**Machine learning-guided autonomous microscopy using MicroPilot** (A) Overview of the MicroPilot workflow: Low-resolution prescans are automatically analyzed to detect and classify cells of interest. When a target phenotype is identified, the software autonomously triggers a predefined imaging assay, such as high-resolution imaging or laser-based perturbation, before returning to the prescreening loop. (B) *Left*: A low-resolution preview image is segmented to identify individual cells. *Middle*: Quantitative morphological features are extracted from each segmented object. *Right*: A support vector machine (SVM) classifier assigns each cell to a phenotype class. These classifications are then used to make real-time decisions that control subsequent microscope acquisition. Reproduced from Fig. 1 of Conrad et al. @conrad2011micropilot.](7-smart-microscopy_files/equalContribution.png){#fig-micropilot}
-:::
-
-::: {.callout-important}
-Images for @fig-micropilot will be added after confirming figure licensing requirements.
+![**Machine learning-guided autonomous microscopy using MicroPilot** (A) Overview of the MicroPilot workflow: Low-resolution prescans are automatically analyzed to detect and classify cells of interest. When a target phenotype is identified, the software autonomously triggers a predefined imaging assay, such as high-resolution imaging or laser-based perturbation, before returning to the prescreening loop. (B) *Left*: A low-resolution preview image is segmented to identify individual cells. *Middle*: Quantitative morphological features are extracted from each segmented object. *Right*: A support vector machine (SVM) classifier assigns each cell to a phenotype class. These classifications are then used to make real-time decisions that control subsequent microscope acquisition. Reproduced from Fig. 1 of Conrad et al. @conrad2011micropilot reproduced with [permission from SNCSC](7-smart-microscopy_files/Licensing/RightsLink%20Printable%20License%20-%20Conrad%20et%20al.pdf).](7-smart-microscopy_files/Fig6_Micropilot.png){#fig-micropilot}
 :::
 
 ## Deep Learning for Object and Event Detection
@@ -165,11 +161,7 @@ The transition toward end-to-end learning began with networks capable of learnin
 
 Early datasets like *ImageNet* typically included a single centered object per image, and over time, they evolved to include multiple objects per image. Therefore, models such as *AlexNet* [@krizhevsky2012] and *ResNet* [@he2016deep] were first only applied to single-object classification and localization tasks (@fig-object-detection A). Later, these frameworks were extended to classify and localize many objects to perform object detection.
 
-![**Progression of object detection architectures** (A) Single object tasks such as image classification and localization. (B) Multi-object, multi-step detection pipelines, including sliding-window and region-proposal approaches, which separate object localization from classification. (C) Multi-object, single-shot detectors that jointly predict object locations, confidence scores, and class labels in a single end-to-end model. Figure credit: Panels A-B images sourced from Pexels under CC0; Panel C was reproduced from Fig. 2 of [@redmon2016you].](7-smart-microscopy_files/equalContribution.png){#fig-object-detection}
-
-::: {.callout-important}
-Images for @fig-object-detection will be added after confirming figure licensing requirements.
-:::
+![**Progression of object detection architectures** (A) Single object tasks such as image classification and localization. (B) Multi-object, multi-step detection pipelines, including sliding-window and region-proposal approaches, which separate object localization from classification. (C) Multi-object, single-shot detectors that jointly predict object locations, confidence scores, and class labels in a single end-to-end model. Figure credit: Panels A-B images sourced from Pexels under CC0; Panel C was reprinted from Fig. 2 of [@redmon2016you] with [permission from IEEE Proceedings](7-smart-microscopy_files/Licensing/RightsLink%20Printable%20License%20-%20Redmon%20et%20al.pdf).](7-smart-microscopy_files/Fig7_Landscape.png){#fig-object-detection}
 
 ### Evolution of Object Detection 
 
