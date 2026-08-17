@@ -15,10 +15,9 @@ author:
         country: USA
         postal-code:  
 subtitle: How to pick a model?
-# jupyter: 10-output-quality
-# execute:
-#     cache: true
-jupyter: python3
+jupyter: 10-output-quality
+execute:
+    cache: true
 bibliography: references.bib
 ---
 
@@ -148,14 +147,25 @@ def make_holey(bw, erode_radius=2):
 ```{python}
 #| code-fold: true
 #| label: fig-image
-#| fig-cap: Our cells, with the ground truth overlaid.
+#| fig-cap: Our cells, with the ground truth overlaid. This ground truth is the output of a Cellpose model, but in practice it should be manually annotated.
+
+import contextlib, io, logging
+from cellpose import models
 
 img = ski.data.cells3d()[21:]
-image = img[18][1]  # nucleus channel, omitting partially-empty slices
+image = img[18][1]  # nucleus channel
 
+# Run Cellpose quietly for display
+logging.getLogger('cellpose').setLevel(logging.ERROR)
+with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+    _model = models.CellposeModel(gpu=False, model_type='nuclei')
+    _cp_labels, _, _ = _model.eval(image, diameter=None, channels=[0, 0])
+
+# Use make_ground_truth for bw/filled/label_image so that failure modes
+# (holes, split nuclei) are visible in the downstream figures
 bw, filled, label_image = make_ground_truth(image)
-image_label_overlay = label2rgb(label_image, image=image, bg_label=0)
 
+image_label_overlay = label2rgb(_cp_labels, image=image, bg_label=0, alpha=0.2)
 plt.imshow(image_label_overlay)
 plt.axis("off")
 plt.show()
