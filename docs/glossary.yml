@@ -65,7 +65,7 @@ F1 Score: |
   A classification metric that gives the harmonic mean of precision (proportion of correct true positive predictions across all predicted positive cases) and recall (proportion of true positive predictions against the total positive cases). The harmonic mean is a method to balance both metrics equally. This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.
 
 Image Classification: |
-  A computer vision task where each image is associated with one class and the goal of this task is to correctly predict that class.
+  A computer vision task where each image is associated with one class and the goal of this task is to correctly predict that class. 
 
 Hyperparameters: |
   The options you choose when training a machine learning model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss, etc.) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.
@@ -139,7 +139,7 @@ Aberration: |
 Zernike Modes: |
   A set of orthogonal polynomials used to describe and correct wavefront aberrations in optical systems.
 
-FIJI: |
+Fiji: |
   An image processing platform that comes bundled with many plugins for scientific image analysis. See https://imagej.net/software/fiji/ for more information.
 
 Convolution: |
@@ -298,7 +298,7 @@ Model Context Protocol (MCP) : |
 Context Window : |
   A context window is the size of the largest input that a model can consider at once. Making the context window larger allows the model to incorporate more information into the output.
 
-logprobs : |
+Logprobs : |
   Logprobs is short for log probabilities. Taking the logarithm of a probability has practical computational advantages. In the AI context, logprobs refers to the probability of each token, given the previous token, and can be used as a measure of model confidence.
 
 Visual Question Answering : |
@@ -324,3 +324,78 @@ ResNet : |
 
 Image Translation : |
   Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g. brightfield) into a different modality (e.g. DAPI staining of nuclei) in the same field of view.
+
+Boosting algorithm : |
+  An ensemble learning method that builds a strong classifier by training many weak learners sequentially, with each new learner trained to correct the errors of the previous ones.
+
+Bounding region : |
+  A geometric shape, typically a box, drawn around an object in an image to indicate its spatial extent.
+
+Centroid coordinate : |
+  An object's geometric center point, used as a simple way to describe its location in an image.
+
+Class label : |
+  A descriptive name selected from a predefined list of categories, assigned to a detected object or event to describe its identity. 
+
+Classification : |
+  The process of assigning a data point to one of a set of predefined categories, based on its measured features.
+
+Cytoprofile : |
+  A numerical feature vector describing a biological cell's phenotype, derived from measurements of shape, intensity, and texture extracted from microscopy images.
+
+End-to-end learning : |
+  A deep learning approach in which all stages of a task (e.g., locating and identifying objects) are optimized jointly within a single model, rather than being handled as separate, independent steps.
+
+Ensemble : |
+  A machine-learning approach that combines predictions from multiple individual models to produce a single result that can be more robust than any single model alone.
+
+Event : |
+  A set of spatial features that change or transitions over time, temporally defined by a beginning and an end.
+
+Event detection : |
+  The algorithmic identification of temporal changes or transitions in a system, requiring analysis of data across time.
+
+Feature vector : |
+  A set of numerical measurements (such as size, shape, intensity, or texture) that together provide a quantitative description of an object.
+
+Localization : |
+  The task of determining the spatial position of an object or event within an image.
+
+Long-short term memory (LSTM) : |
+  A type of recurrent neural network designed to retain information over longer sequences, addressing limitations of standard RNNs in capturing long-range temporal dependencies.
+
+Object : |
+  A discrete spatial feature within an image, spatially defined by properties such as size, shape, intensity, and location.
+
+Recurrent neural networks (RNNs) : |
+  Neural network architectures designed to process sequential data by maintaining an internal memory of previous inputs, used to model temporal dependencies.
+
+Region of interest (ROI) : |
+  A defined area within an image or specimen selected for closer analysis, imaging, or targeted intervention.
+
+Shallow decision trees : |
+  Simple, low-complexity decision tree models that make classification decisions using only a few splits, often used as building blocks within ensemble methods.
+
+Decision tree : |
+  Decision trees are flow-chart-like models that make simple yes/no decisions in a series of conditional steps. The first root node splits the entire dataset into two groups, after which internal nodes and branches continue to split the data through conditional questions, finally terminating in a leaf node that provides the answer, class, or prediction.
+
+Shape descriptors : |
+  A set of quantitative measurements that characterize the geometric form of an object, such as circularity, elongation, or perimeter.
+
+Single-shot detection : |
+  An object detection approach in which localization and classification are performed simultaneously in a single pass through the model, rather than through separate sequential stages.
+
+Smart microscopy : |
+  An imaging approach in which acquisition parameters are automatically adjusted based on features or events recognized in the data, rather than relying solely on manual operator control.
+
+Support vector machine (SVM) : |
+  A supervised machine-learning algorithm that learns the decision boundary that best separates data points of different classes by maximizing the margin between them.
+
+Texture : |
+  A quantitative descriptor of the spatial pattern of intensity variation within a region of interest, capturing properties like smoothness or granularity.
+
+A-posteriori Analysis : |
+  An approach in which iamges are processed after the complete dataset has been acquired and stored.
+
+Real-time analysis : |
+  An approach in which images are processed as the data is acquired. This is in contrast to a-posterior analysis, where the data is acquired before processing.
