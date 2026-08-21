@@ -46,6 +46,14 @@ subtitle: Practical considerations through the lens of segmentation
 <!--Your first header will be the chapter's upper-level table of contents title.-->
 <!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
+::: {.content-visible when-format="pdf"}
+| **Joanna W. Pylvänäinen, Iván Hidalgo-Cenalmor, & Guillaume Jacquemet**
+| *Turku Bioscience Centre, University of Turku and Åbo Akademi University*
+| *Faculty of Science and Engineering, Cell Biology, Åbo Akademi University*
+| *InFLAMES Research Flagship Center, University of Turku*
+| 
+:::
+
 
 ## Introduction {#sec-9.1}
 
