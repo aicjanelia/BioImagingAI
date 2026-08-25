@@ -1059,12 +1059,12 @@ We compute metrics to get a reasonable description of how well our model is expe
 A single metric is rarely sufficient to fully evaluate a models performance as illustrated by @sec-cell-tracking-metrics. If multiple metrics are needed to fully evaluate a model, when do you run these metrics and on what data? As discussed in @sec-9.3.5.4, you will minimally compute a loss both on your training and validation sets during the course of training. Some metrics can be easily computed on the validation dataset and used to select a checkpoint for further testing. These metrics should be computationally inexpensive to compute in order to avoid slowing down the training process. Typically these would be metrics that are computed on a pixel-pixel level. In contrast, consider metrics that are computed on an object level such as those discussed in @sec-cell-tracking-metrics. Each cell tracking metric requires a preliminary stage in which each ground truth cell is matched to a predicted cell prior to evaluation. While there are many different ways to perform the matching step, it is ultimately a slow and expensive process. Metrics that rely on a matching stage are best reserved for running on the final test data split. @tbl-metric-stages elaborates on the stages of model evaluation and illustrates how metrics might be selected for a segmentation model.
 
 ::: {#tbl-metric-stages .list-table}
-Stages of model evaluation
+**A comparison of stages of model evaluation.** The segmentation example highlights specific metrics that would be used in each of these stages in a segmentation pipeline.
 
 - - Stage
-  - Speed
+  - Speed of Computation
   - Data Split
-  - Utility
+  - Purpose
   - Segmentation Example
 
 - - Training loss
@@ -1082,7 +1082,7 @@ Stages of model evaluation
 - - Validation metrics
   - Fast
   - Val
-  - Additional metrics can provide more insight into training progress outside the loss function and assist in checkpoint selection
+  - Additional metrics that provide more insight into training progress outside the loss function and assist in checkpoint selection
   - MSE
 
 - - Test metrics
