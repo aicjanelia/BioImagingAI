@@ -617,7 +617,7 @@ def panel_node_edge(ax, gap):
 
     # Pred: frame-2 node missing (FN gap), an extra detection at frame 0 (FP)
     pn = {i: (0, i, BLUE) for i in [0, 1, 3, 4]}
-    pn["fp"] = (0.7, 0, RED)
+    pn["fp"] = (0.7, 0, ORANGE)
     pe = [(0, 1), (3, 4)]
     plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
     return title, tn, pn
@@ -628,7 +628,7 @@ def panel_missed_division(ax, gap):
     title = "Missed\ndivision"
     # True: red parent 0-2, divides into green + blue at frame 3
     tn = {
-        0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
+        0: (0.5, 0, ORANGE), 1: (0.5, 1, ORANGE), 2: (0.5, 2, ORANGE),
         3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
         5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
     }
@@ -640,7 +640,7 @@ def panel_missed_division(ax, gap):
     # the spurious parent->green link shows as a color change along the track;
     # the disconnected blue daughter is orphaned.
     pn = {
-        0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
+        0: (0.5, 0, ORANGE), 1: (0.5, 1, ORANGE), 2: (0.5, 2, ORANGE),
         3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
         5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
     }
@@ -653,17 +653,17 @@ def panel_wrong_daughter(ax, gap):
     """Correct parent, one correct daughter, one incorrect daughter (I)."""
     title = "Incorrect\ndaughter"
     tn = {
-        0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
+        0: (0.5, 0, ORANGE), 1: (0.5, 1, ORANGE), 2: (0.5, 2, ORANGE),
         3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
         5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
     }
     te = [(0, 1), (1, 2), (2, 3), (3, 4), (2, 5), (5, 6)]
     plot_tree(ax, tn, te)
 
-    # Pred: parent divides into the correct green daughter and a wrong cell
+    # PRED: parent divides into the correct green daughter and a wrong cell
     # (orange); the true blue daughter still exists but is now an orphan track
     pn = {
-        0: (0.5, 0, RED), 1: (0.5, 1, RED), 2: (0.5, 2, RED),
+        0: (0.5, 0, ORANGE), 1: (0.5, 1, ORANGE), 2: (0.5, 2, ORANGE),
         3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
         "w1": (1.0, 3, ORANGE), "w2": (1.0, 4, ORANGE),
         5: (1.8, 3, BLUE), 6: (1.8, 4, BLUE),
