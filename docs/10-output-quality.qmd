@@ -41,9 +41,9 @@ We will focus on a *segmentation* as a concrete example, but the principles appl
 ## Metrics and Losses
 
 In @sec-9, you learned about how to train a machine learning model.
-This required selecting a loss function: a differentiable function that represents how far the model's output is from your desired ground truth. 
-The model's parameters were optimized to minimize the loss on a training dataset, and you evaluated the same loss on a held-out validation dataset to get an idea of how well your model would perform on new data.
-As training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+Recall that, this requires selecting a loss function: a function that represents how far the model's output is from your desired ground truth. 
+As training relies on gradient descent, the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+The model's parameters are optimized to minimize the loss on a training dataset, and you evaluate the same loss on a held-out validation dataset to get an idea of how well your model would perform on new data.
 
 Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
 A metric is any function that scores your predictions.
