@@ -445,7 +445,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./7-smart-microscopy.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Your Hardware</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Hardware</span></span></a>
   </div>
 </li>
       </ul>
@@ -681,7 +681,7 @@ Figure&nbsp;4.5: Illustration of a multilayer perceptron (MLP) with two hidden l
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a multi-layer perceptron with 30,000 input values, a hidden layer with 30,000 units, and an output layer with one output. The code is run on an example of 8 input images, and outputs the sizes of the input, output, weights matrix (W), and bias vector (b).</p>
-<div id="29b97a2b" class="cell" data-execution_count="1">
+<div id="41a54130" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch </span>
@@ -802,7 +802,7 @@ Figure&nbsp;4.7: Convolutional operation with padding from this <a href="https:/
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a convolutional layer with 3 input channels, 6 output channels and a kernel size of 9.</p>
-<div id="bd01b675" class="cell" data-execution_count="3">
+<div id="e7c19bff" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConvolutionalLayer(nn.Module):</span>
@@ -885,7 +885,7 @@ Figure&nbsp;4.8: Illustration of max-pooling with a kernel size of 2 and stride 
 </div>
 <div class="callout-body-container callout-body">
 <p>This example code implements max-pooling with a kernel size of 2 and a stride of 2.</p>
-<div id="2d6ecff8" class="cell" data-execution_count="5">
+<div id="c607737d" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># max pooling operation</span></span>
@@ -981,7 +981,7 @@ Figure&nbsp;4.12: An image (upper left) is input to a u-net trained to predict c
 </div>
 <div class="callout-body-container callout-body">
 <p>Here is example code with cell/not-cell prediction with one convolutional layer.</p>
-<div id="b6dd4e97" class="cell" data-execution_count="6">
+<div id="93660084" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare layer</span></span>
@@ -1016,7 +1016,7 @@ shape of b:  torch.Size([1])
 input shape:  torch.Size([8, 3, 50, 50])
 output shape:  torch.Size([8, 1, 50, 50])
 target shape:  torch.Size([8, 1, 50, 50])
-loss =  0.7010622620582581</code></pre>
+loss =  0.6998196840286255</code></pre>
 </div>
 </div>
 </div>
@@ -1125,7 +1125,7 @@ Figure&nbsp;4.16: Example training loss and validation loss across epochs.
 <div class="csl-left-margin">1. </div><div class="csl-right-inline">Krizhevsky, A., Sutskever, I. &amp; Hinton, G. E. <a href="https://doi.org/10.1145/3065386"><span>ImageNet</span> <span>Classification</span> with <span>Deep</span> <span>Convolutional</span> <span>Neural</span> <span>Networks</span></a>. in <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em> vol. 25 (Curran Associates, Inc., 2012).</div>
 </div>
 <div id="ref-Ronneberger2015" class="csl-entry" role="listitem">
-<div class="csl-left-margin">2. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-net: Convolutional networks for biomedical image segmentation. in <em>Medical image computing and computer-assisted intervention – MICCAI 2015</em> (eds. Navab, N., Hornegger, J., Wells, W. M. &amp; Frangi, A. F.) 234–241 (Springer International Publishing, Cham, 2015). doi:<a href="https://doi.org/10.1007/978-3-319-24574-4_28">10.1007/978-3-319-24574-4_28</a>.</div>
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-<span>Net</span>: Convolutional networks for biomedical image segmentation. in <em>Medical image computing and computer-assisted intervention – MICCAI 2015</em> (eds. Navab, N., Hornegger, J., Wells, W. M. &amp; Frangi, A. F.) 234–241 (Springer International Publishing, Cham, 2015). doi:<a href="https://doi.org/10.1007/978-3-319-24574-4_28">10.1007/978-3-319-24574-4_28</a>.</div>
 </div>
 <div id="ref-rumelhart1986learning" class="csl-entry" role="listitem">
 <div class="csl-left-margin">3. </div><div class="csl-right-inline">Rumelhart, D. E., Hinton, G. E. &amp; Williams, R. J. <a href="https://doi.org/10.1038/323533a0">Learning representations by back-propagating errors</a>. <em>Nature</em> <strong>323</strong>, 533–536 (1986).</div>

@@ -12,7 +12,7 @@
 <meta name="author" content="Suliana Manley">
 <meta name="author" content="Wesley Legant">
 
-<title>7&nbsp; Adding AI to Your Hardware – AI in Microscopy: A BioImaging Guide</title>
+<title>7&nbsp; Adding AI to Hardware – AI in Microscopy: A BioImaging Guide</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -289,7 +289,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./7-smart-microscopy.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Your Hardware</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./7-smart-microscopy.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Hardware</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -384,7 +384,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./7-smart-microscopy.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Your Hardware</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Hardware</span></span></a>
   </div>
 </li>
       </ul>
@@ -487,9 +487,9 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./7-smart-microscopy.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Your Hardware</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./7-smart-microscopy.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Hardware</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span id="sec-hardware" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Your Hardware</span></span></h1>
+<h1 class="title"><span id="sec-hardware" class="quarto-section-identifier"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Adding AI to Hardware</span></span></h1>
 <p class="subtitle lead">An Introduction to Smart Microscopy</p>
 </div>
 
@@ -612,7 +612,7 @@ Figure&nbsp;7.2: <strong>Spatial and temporal scales of biological events.</stro
 <li>the coordinates of a <a href="./glossary.html#bounding-region">bounding region</a>, and/or</li>
 <li>a <a href="./glossary.html#class-label">class label</a> describing the object’s identity<span class="citation" data-cites="neha2024classicaltechniquesconvolutionbasedmodels"><sup><a href="references.html#ref-neha2024classicaltechniquesconvolutionbasedmodels" role="doc-biblioref">7</a></sup></span>.</li>
 </ol>
-<p>The first step in many classical detection pipelines is image segmentation, in which pixels are separated into objects and background (<a href="#fig-feature-vector" class="quarto-xref">Figure&nbsp;<span>7.3</span></a> B). A common approach is thresholding, in which pixels above a certain intensity are assigned to the foreground and all others to the background, producing a <em>binary mask</em>. Intensity alone is rarely sufficient to cleanly separate objects, so additional morphological operations (e.g., erosion, dilation, or watershed) can then be applied to refine object boundaries. These operations, among others, can help distinguish neighboring objects that may otherwise appear to be merged. For an extended discussion of object segmentation, please see <a href="9-train-models.html">Chapter 9</a>.</p>
+<p>The first step in many classical detection pipelines is image segmentation, in which pixels are separated into objects and background (<a href="#fig-feature-vector" class="quarto-xref">Figure&nbsp;<span>7.3</span></a> B). A common approach is thresholding, in which pixels above a certain intensity are assigned to the foreground and all others to the background, producing a <a href="./glossary.html#binary-segmentation">binary mask</a>. Intensity alone is rarely sufficient to cleanly separate objects, so additional morphological operations (e.g., erosion, dilation, or watershed) can then be applied to refine object boundaries. These operations, among others, can help distinguish neighboring objects that may otherwise appear to be merged. For an extended discussion of object segmentation, please see <a href="9-train-models.html">Chapter 9</a>.</p>
 <p>Once objects have been segmented, quantitative measurements can be extracted from the individual objects in the masked raw image or from the mask itself, often using tools such as CellProfiler<span class="citation" data-cites="carpenter2006cellprofiler"><sup><a href="references.html#ref-carpenter2006cellprofiler" role="doc-biblioref">5</a></sup></span>. Common features include intensity, area, perimeter, <a href="./glossary.html#shape-descriptors">shape descriptors</a>, <a href="./glossary.html#texture">texture measurements</a>, and spatial relationships to surrounding structures<span class="citation" data-cites="huang2004"><sup><a href="references.html#ref-huang2004" role="doc-biblioref">8</a></sup></span>. Together, these measurements are aggregated into a <strong><a href="./glossary.html#feature-vector">feature vector</a></strong> that provides a numerical description of each object (<a href="#fig-feature-vector" class="quarto-xref">Figure&nbsp;<span>7.3</span></a> B).</p>
 <div id="fig-feature-vector" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
@@ -1014,10 +1014,10 @@ Figure&nbsp;7.11: <strong>Reducing the computational requirements of AEGON while
 <div class="csl-left-margin">35. </div><div class="csl-right-inline">Cireşan, D. C., Giusti, A., Gambardella, L. M. &amp; Schmidhuber, J. Mitosis detection in breast cancer histology images with deep neural networks. in <em>Lecture notes in computer science</em> 411–418 (Springer Berlin Heidelberg, Berlin, Heidelberg, 2013). doi:<a href="https://doi.org/10.1007/978-3-642-40763-5_51">10.1007/978-3-642-40763-5_51</a>.</div>
 </div>
 <div id="ref-girshick2015fast" class="csl-entry" role="listitem">
-<div class="csl-left-margin">36. </div><div class="csl-right-inline">Girshick, R. Fast r-<span>CNN</span>. in <em>2015 IEEE international conference on computer vision (ICCV)</em> 1440–1448 (2015). doi:<a href="https://doi.org/10.1109/iccv.2015.169">10.1109/iccv.2015.169</a>.</div>
+<div class="csl-left-margin">36. </div><div class="csl-right-inline">Girshick, R. Fast <span>R</span>-<span>CNN</span>. in <em>2015 IEEE international conference on computer vision (ICCV)</em> 1440–1448 (2015). doi:<a href="https://doi.org/10.1109/iccv.2015.169">10.1109/iccv.2015.169</a>.</div>
 </div>
 <div id="ref-ren2017faster" class="csl-entry" role="listitem">
-<div class="csl-left-margin">37. </div><div class="csl-right-inline">Ren, S., He, K., Girshick, R. &amp; Sun, J. <a href="https://doi.org/10.1109/tpami.2016.2577031">Faster r-<span>CNN</span>: Towards real-time object detection with region proposal networks</a>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em> <strong>39</strong>, 1137–1149 (2017).</div>
+<div class="csl-left-margin">37. </div><div class="csl-right-inline">Ren, S., He, K., Girshick, R. &amp; Sun, J. <a href="https://doi.org/10.1109/tpami.2016.2577031">Faster <span>R</span>-<span>CNN</span>: Towards real-time object detection with region proposal networks</a>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em> <strong>39</strong>, 1137–1149 (2017).</div>
 </div>
 <div id="ref-redmon2018yolov3" class="csl-entry" role="listitem">
 <div class="csl-left-margin">38. </div><div class="csl-right-inline">Redmon, J. &amp; Farhadi, A. <a href="https://arxiv.org/abs/1804.02767">YOLOv3: An incremental improvement</a>. (2018).</div>
@@ -1038,7 +1038,7 @@ Figure&nbsp;7.11: <strong>Reducing the computational requirements of AEGON while
 <div class="csl-left-margin">43. </div><div class="csl-right-inline">Vaswani, A. <em>et al.</em> <a href="https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">Attention is <span>All</span> you <span>Need</span></a>. in <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em> vol. 30 (Curran Associates, Inc., 2017).</div>
 </div>
 <div id="ref-Dosovitskiy2021" class="csl-entry" role="listitem">
-<div class="csl-left-margin">44. </div><div class="csl-right-inline">Kolesnikov, A. <em>et al.</em> An image is worth 16x16 words: Transformers for image recognition at scale. in <em>International conference on learning representations (ICLR)</em> (2021).</div>
+<div class="csl-left-margin">44. </div><div class="csl-right-inline">Alexey Dosovitskiy <em>et al.</em> An image is worth 16x16 words: Transformers for image recognition at scale. in <em>International conference on learning representations (ICLR)</em> (2021).</div>
 </div>
 <div id="ref-carion2020endtoend" class="csl-entry" role="listitem">
 <div class="csl-left-margin">45. </div><div class="csl-right-inline">Carion, N. <em>et al.</em> End-to-end object detection with transformers. in <em>Lecture notes in computer science</em> 213–229 (Springer International Publishing, Cham, 2020). doi:<a href="https://doi.org/10.1007/978-3-030-58452-8_13">10.1007/978-3-030-58452-8_13</a>.</div>
@@ -1086,10 +1086,10 @@ Figure&nbsp;7.11: <strong>Reducing the computational requirements of AEGON while
 <div class="csl-left-margin">59. </div><div class="csl-right-inline">Lin, T.-Y., Goyal, P., Girshick, R., He, K. &amp; Dollar, P. <a href="https://doi.org/10.1109/tpami.2018.2858826">Focal loss for dense object detection</a>. <em>IEEE Transactions on Pattern Analysis and Machine Intelligence</em> <strong>42</strong>, 318–327 (2020).</div>
 </div>
 <div id="ref-Ronneberger2015" class="csl-entry" role="listitem">
-<div class="csl-left-margin">60. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-net: Convolutional networks for biomedical image segmentation. in <em>Medical image computing and computer-assisted intervention – MICCAI 2015</em> (eds. Navab, N., Hornegger, J., Wells, W. M. &amp; Frangi, A. F.) 234–241 (Springer International Publishing, Cham, 2015). doi:<a href="https://doi.org/10.1007/978-3-319-24574-4_28">10.1007/978-3-319-24574-4_28</a>.</div>
+<div class="csl-left-margin">60. </div><div class="csl-right-inline">Ronneberger, O., Fischer, P. &amp; Brox, T. U-<span>Net</span>: Convolutional networks for biomedical image segmentation. in <em>Medical image computing and computer-assisted intervention – MICCAI 2015</em> (eds. Navab, N., Hornegger, J., Wells, W. M. &amp; Frangi, A. F.) 234–241 (Springer International Publishing, Cham, 2015). doi:<a href="https://doi.org/10.1007/978-3-319-24574-4_28">10.1007/978-3-319-24574-4_28</a>.</div>
 </div>
 <div id="ref-he2017mask" class="csl-entry" role="listitem">
-<div class="csl-left-margin">61. </div><div class="csl-right-inline">He, K., Gkioxari, G., Dollar, P. &amp; Girshick, R. Mask r-<span>CNN</span>. in <em>2017 IEEE international conference on computer vision (ICCV)</em> 2980–2988 (2017). doi:<a href="https://doi.org/10.1109/iccv.2017.322">10.1109/iccv.2017.322</a>.</div>
+<div class="csl-left-margin">61. </div><div class="csl-right-inline">He, K., Gkioxari, G., Dollar, P. &amp; Girshick, R. Mask <span>R</span>-<span>CNN</span>. in <em>2017 IEEE international conference on computer vision (ICCV)</em> 2980–2988 (2017). doi:<a href="https://doi.org/10.1109/iccv.2017.322">10.1109/iccv.2017.322</a>.</div>
 </div>
 <div id="ref-ibrahim2025selfdriving" class="csl-entry" role="listitem">
 <div class="csl-left-margin">62. </div><div class="csl-right-inline">Ibrahim, K. A. <em>et al.</em> <a href="https://doi.org/10.1038/s41467-025-60912-0">Self-driving microscopy detects the onset of protein aggregation and enables intelligent brillouin imaging</a>. <em>Nature Communications</em> <strong>16</strong>, (2025).</div>
