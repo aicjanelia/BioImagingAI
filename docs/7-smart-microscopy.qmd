@@ -60,7 +60,7 @@ language:
   crossref-tip-title: "Case Study"
 ---
 
-# Adding AI to Your Hardware {#sec-hardware}
+# Adding AI to Hardware {#sec-hardware}
 
 ::: {.content-visible when-format="pdf"}
 | **Victoria Augoustides^1^, Giorgio Tortarolo^2^, Alara Kiris^2^, Suliana Manley^2^, & Wesley Legant^1^**
@@ -116,7 +116,7 @@ The goal of an object detection algorithm is to identify objects within an image
 2. the coordinates of a [bounding region](glossary.qmd#bounding-region), and/or
 3. a [class label](glossary.qmd#class-label) describing the object's identity [@neha2024classicaltechniquesconvolutionbasedmodels]. 
 
-The first step in many classical detection pipelines is image segmentation, in which pixels are separated into objects and background (@fig-feature-vector B). A common approach is thresholding, in which pixels above a certain intensity are assigned to the foreground and all others to the background, producing a _binary mask_. Intensity alone is rarely sufficient to cleanly separate objects, so additional morphological operations (e.g., erosion, dilation, or watershed) can then be applied to refine object boundaries. These operations, among others, can help distinguish neighboring objects that may otherwise appear to be merged. For an extended discussion of object segmentation, please see [Chapter 9](#sec-9).
+The first step in many classical detection pipelines is image segmentation, in which pixels are separated into objects and background (@fig-feature-vector B). A common approach is thresholding, in which pixels above a certain intensity are assigned to the foreground and all others to the background, producing a [binary mask](glossary.qmd#binary-segmentation). Intensity alone is rarely sufficient to cleanly separate objects, so additional morphological operations (e.g., erosion, dilation, or watershed) can then be applied to refine object boundaries. These operations, among others, can help distinguish neighboring objects that may otherwise appear to be merged. For an extended discussion of object segmentation, please see [Chapter 9](#sec-9).
 
 Once objects have been segmented, quantitative measurements can be extracted from the individual objects in the masked raw image or from the mask itself, often using tools such as CellProfiler [@carpenter2006cellprofiler]. Common features include intensity, area, perimeter, [shape descriptors](glossary.qmd#shape-descriptors), [texture measurements](glossary.qmd#texture), and spatial relationships to surrounding structures [@huang2004]. Together, these measurements are aggregated into a **[feature vector](glossary.qmd#feature-vector)** that provides a numerical description of each object (@fig-feature-vector B).
 
