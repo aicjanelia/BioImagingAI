@@ -1098,7 +1098,7 @@ A single metric is rarely sufficient to fully evaluate a models performance as i
 
 Biological data varies from experiment to experiment, however, and whether the model will be robust to these variations remains somewhat of an open question. 
 In the ideal case, we would like the models to be able to output a level of certainty along with its predicted segmentations or tracks. 
-Unfortunately, uncertainty estimation remains an unsolved problem, methods such as test-time augmentation [@(reference)] can give you an estimate if you have a good model of your data's sources of noise.
+Unfortunately, uncertainty estimation remains an unsolved problem, methods such as test-time augmentation [@moshkov2020test;@wang2019aleatoric] can give you an estimate if you have a good model of your data's sources of noise.
 
 :::{.callout-note appearance="simple" icon=false collapse="false"}
 # Test-time augmentation as a measure of uncertainty
