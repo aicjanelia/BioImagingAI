@@ -389,6 +389,10 @@ ax.legend(loc="upper right", frameon=False, fontsize=11)
 Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
 The practical workflow is therefore: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.
 
+::: {.callout-tip}
+Explore this [demo](https://metrics-reloaded.dkfz.de/metric-demo/segmentation) to see the direct impact of different segmentation errors on a variety of metrics.
+:::
+
 You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
 As you'll see, there are many different metrics available for every task.
 Each will be more or less useful depending on what types of errors you can or cannot accept in your final predictions. 
