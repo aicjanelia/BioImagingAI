@@ -174,17 +174,18 @@ plt.show()
 
 
 ::: {.callout-note appearance="simple" icon=false collapse="false"}
-# BCE
+# Binary Cross-Entropy (BCE)
 
-This loss penalizes the model based on how confident it is in the wrong answer. For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
+Binary cross-entropy penalizes the model based on how confident it is in the wrong answer. 
+This loss requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
 $$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
-BCE requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
 :::
 
 ::: {.callout-note appearance="simple" icon=false collapse="false"}
-# MSE
+# Mean Squared Error (MSE)
 
-This loss penalizes the model proportionally to the squared difference between its prediction and the ground truth:
+The mean squared error penalizes the model proportionally to the squared difference between its prediction and the ground truth:
 $$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
 MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
 Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
