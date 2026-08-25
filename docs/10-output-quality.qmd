@@ -15,9 +15,10 @@ author:
         country: USA
         postal-code:  
 subtitle: How to pick a model?
-jupyter: 10-output-quality
-execute:
-    cache: true
+jupyter: python3
+# jupyter: 10-output-quality
+# execute:
+#     cache: true
 bibliography: references.bib
 ---
 
@@ -75,7 +76,7 @@ from skimage.feature import peak_local_max
 from scipy.ndimage import binary_fill_holes, shift as ndimage_shift, distance_transform_edt
 
 
-def make_ground_truth(image, sigma=2, min_distance=10, min_size=500):
+def make_ground_truth(image, sigma=2, min_distance=10, max_size=500):
     """Segment DAPI-stained nuclei using Gaussian smoothing + Otsu + watershed.
 
     Returns
@@ -86,7 +87,7 @@ def make_ground_truth(image, sigma=2, min_distance=10, min_size=500):
     """
     smoothed = gaussian(image, sigma=sigma)
     bw = closing(smoothed > threshold_otsu(smoothed), footprint_rectangle((3, 3)))
-    bw = remove_small_objects(bw, min_size=min_size)
+    bw = remove_small_objects(bw, max_size=max_size)
     dist = distance_transform_edt(bw)
     peaks = peak_local_max(dist, min_distance=min_distance, labels=bw)
     markers = np.zeros_like(bw, dtype=np.int32)
