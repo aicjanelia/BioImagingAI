@@ -247,27 +247,21 @@ for pred in predictions:
     plt.show()
 ```
 
-If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. 
-However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
-In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives would need correction.
-
-Alternatively if we are interested in measuring the size of each nucleus, the first model described which under or over segments nuclei would create erroneous measurements of size. 
-Instead a model that misses some detections might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
-In this case a more appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
+If we are interested in measuring the size of each nucleus, a model which under ([@fig-segmentations]a) or over segments nuclei ([@fig-segmentations]b) would create erroneous measurements of size. 
+Instead a model that misses some detections ([@fig-segmentations]c) might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
+In this case an appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
 A metric that captures this will look very different from BCE or MSE.
-Different downstream uses call for different metrics.
-Let's look at a few that are commonly used in bioimage analysis.
 
-:::{.callout-note appearance="simple" icon=false collapse="true"}
-# IoU and F1 are overlap metrics.
+:::{.callout-note appearance="simple" icon=false collapse="false"}
+# IoU and DICE are overlap metrics.
 
 Both metrics quantify the overlap between a predicted region $B$ and the ground truth $A$, by comparing the intersection of the two regions ($\cap$) and their union ($\cup$). Both metrics range from 0 (no overlap) to 1 (perfect overlap).
 
-$$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{F1}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}$$
+$$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{DICE}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}$$
 
-F1 is the harmonic mean of precision and recall: it balances false positives (predicted pixels outside $A$) and false negatives (pixels in $A$ missed by $B$) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.
+DICE is the harmonic mean of precision and recall: it balances false positives (predicted pixels outside $A$) and false negatives (pixels in $A$ missed by $B$) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.
 
-> **Note:** F1 applied to pixel-level segmentation masks is equivalent to the DICE coefficient, and the two names are used interchangeably in the biomedical imaging literature.
+> **Note:** The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.
 
 ```{python}
 #| fig-align: center
@@ -320,6 +314,85 @@ ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.0
           ncol=2, frameon=False, fontsize=14)
 ```
 :::
+
+
+Alternatively, if we are interested in counting the number of nuclei, a model which changes the size of the nuclei should not impact the analysis.
+However a model that misses nuclei ([@fig-segmentations]c), detects artifacts as nuclei ([@fig-segmentations]d), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
+In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives that would need correction.
+Different downstream uses call for different metrics.
+
+::: {.callout-note appearance="simple" icon=false collapse="false"}
+# Precision, recall, and F1-score are instance-level metrics.
+
+A predicted instance is a true positive (TP) if it sufficiently overlaps a ground-truth instance (e.g. IoU $\geq 0.5$), a false positive (FP) if it has no matching ground truth, and a false negative (FN) if a ground-truth instance was never detected.
+
+$$\text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}} \qquad \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}$$
+$$ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}$$
+
+Precision answers "of all predicted instances, how many were correct?"; recall answers "of all real instances, how many were found?"; F1 is their harmonic mean.
+
+```{python}
+#| fig-align: center
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+from matplotlib.colors import ListedColormap
+import numpy as np
+
+navy, orange, green = "#1a35e0", "#e47a10", "#2a9d2a"
+
+H, W = 300, 500  # raster grid
+
+def ellipse_mask(cx, cy, rx, ry):
+    """Boolean mask for an ellipse in axis coordinates [0,10] x [0,6]."""
+    x = np.linspace(0, 10, W)
+    y = np.linspace(0, 6,  H)
+    xx, yy = np.meshgrid(x, y)
+    return ((xx - cx) / rx)**2 + ((yy - cy) / ry)**2 <= 1
+
+# Label image: 0=bg, 1=GT only (orange), 2=pred only (blue), 3=overlap (green)
+img = np.zeros((H, W), dtype=int)
+
+# True positives: GT and prediction ellipses slightly offset
+tps = [  # gt_x, gt_y, gt_rx, gt_ry,  dx, dy  (prediction offset)
+    (2.0, 3.0, 1.0, 0.8,   0.4,  0.3),
+    (5.0, 3.8, 0.9, 1.0,  -0.3,  0.4),
+    (7.5, 2.0, 1.0, 0.85,  0.35,-0.3),
+    (4.5, 1.2, 0.8, 0.7,  -0.25, 0.3),
+]
+for cx, cy, rx, ry, dx, dy in tps:
+    gt   = ellipse_mask(cx,    cy,    rx,   ry)
+    pred = ellipse_mask(cx+dx, cy+dy, rx,   ry)
+    img[gt   & ~pred] = 1
+    img[pred & ~gt  ] = 2
+    img[gt   &  pred] = 3
+
+# False negatives — ground truth only (orange)
+for cx, cy, rx, ry in [(3.0, 5.0, 0.85, 0.7), (8.5, 4.5, 0.9, 0.8)]:
+    img[ellipse_mask(cx, cy, rx, ry)] = 1
+
+# False positives — prediction only (blue)
+for cx, cy, rx, ry in [(1.0, 1.0, 0.8, 0.9), (6.5, 5.0, 0.9, 0.75)]:
+    img[ellipse_mask(cx, cy, rx, ry)] = 2
+
+cmap = ListedColormap(["#ffffff", orange, navy, green])
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.imshow(img, cmap=cmap, vmin=0, vmax=3,
+          extent=[0, 10, 0, 6], origin="lower", aspect="auto")
+ax.axis("off")
+
+legend_elements = [
+    Patch(facecolor=green,  label="Matched (TP)"),
+    Patch(facecolor=orange, label="Ground truth only (FN)"),
+    Patch(facecolor=navy,   label="Prediction only (FP)"),
+]
+ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=3, frameon=False, fontsize=9)
+```
+
+:::
+
+Open the callouts below for more metrics that are common in image analysis.
+You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
 
 ::: {.callout-note appearance="simple" icon=false collapse="true"}
 # The Hausdorff distance focuses on boundaries.
@@ -429,8 +502,7 @@ ax.legend(loc="upper right", frameon=False, fontsize=11)
 Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
 The practical workflow is therefore: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.
 
-You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
-As you'll see, there are many different metrics available for every task.
+As you've seen, there are many different metrics available for every task.
 Each will be more or less useful depending on what types of errors you can or cannot accept in your final predictions. 
 So, how do you choose which metrics to measure and which ones to pay attention to?
 
