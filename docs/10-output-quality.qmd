@@ -35,14 +35,14 @@ A model that looks convincing on a handful of images can quietly fail on the res
 Choosing the right way to measure quality is therefore just as important as the training itself.
 
 In this chapter we will look at how metrics and losses differ, how to pick measures that actually reflect your scientific goal, and how to use held-out test data to get an honest estimate of how your model will behave on new images.
-We will focus on a *segmentation* as a concrete example, but the principles apply broadly.
+We will focus on *segmentation* and *cell tracking* as concrete examples, but the principles apply broadly.
 
 ## Metrics and Losses
 
 In @sec-9, you learned about how to train a machine learning model.
-This required selecting a loss function: a differentiable function that represents how far the model's output is from your desired ground truth. 
-The model's parameters were optimized to minimize the loss on a training dataset, and you evaluated the same loss on a held-out validation dataset to get an idea of how well your model would perform on new data.
-As training relies on gradient descent, the loss must be differentiable: the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+Recall that, this requires selecting a loss function: a function that represents how far the model's output is from your desired ground truth. 
+As training relies on gradient descent, the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+The model's parameters are optimized to minimize the loss on a training dataset, and you evaluate the same loss on a held-out validation dataset to get an idea of how well your model would perform on new data.
 
 Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
 A metric is any function that scores your predictions.
@@ -51,7 +51,6 @@ This means that you can get more specific which how you evaluate the quality of 
 
 <!-- For example, look at the segmentation outputs in @fig-segmentations.
 At first glance, it is difficult to judge which of these is the most appropriate. -->
-
 
 
 Consider the case of nuclear segmentation. 
@@ -65,6 +64,7 @@ While both of these are differentiable functions, they have very different pros 
 
 import skimage as ski
 import numpy as np
+from skimage.draw import ellipse as draw_ellipse
 import matplotlib.pyplot as plt
 from skimage.filters import threshold_otsu, gaussian
 from skimage.measure import label, regionprops
@@ -75,7 +75,7 @@ from skimage.feature import peak_local_max
 from scipy.ndimage import binary_fill_holes, shift as ndimage_shift, distance_transform_edt
 
 
-def make_ground_truth(image, sigma=2, min_distance=10, min_size=500):
+def make_ground_truth(image, sigma=2, min_distance=10, max_size=500):
     """Segment DAPI-stained nuclei using Gaussian smoothing + Otsu + watershed.
 
     Returns
@@ -86,7 +86,7 @@ def make_ground_truth(image, sigma=2, min_distance=10, min_size=500):
     """
     smoothed = gaussian(image, sigma=sigma)
     bw = closing(smoothed > threshold_otsu(smoothed), footprint_rectangle((3, 3)))
-    bw = remove_small_objects(bw, min_size=min_size)
+    bw = remove_small_objects(bw, max_size=max_size)
     dist = distance_transform_edt(bw)
     peaks = peak_local_max(dist, min_distance=min_distance, labels=bw)
     markers = np.zeros_like(bw, dtype=np.int32)
@@ -95,7 +95,7 @@ def make_ground_truth(image, sigma=2, min_distance=10, min_size=500):
     return bw, (label_image > 0), label_image
 
 
-def make_undersegmented(filled, erode_radius=10, jitter=6, seed=7):
+def make_undersegmented(filled, erode_radius=8, jitter=6, seed=7):
     """Erode each cell mask inward and nudge it by a small random offset."""
     eroded = label(erosion(filled, disk(erode_radius)))
     rng = np.random.default_rng(seed)
@@ -121,7 +121,7 @@ def make_oversegmented(filled, max_dilate_radius=5, seed=1):
     return out
 
 
-def make_missing_cells(label_image, interior_fraction=1/3, seed=42):
+def make_missing_cells(label_image, interior_fraction=1/6, seed=42):
     """Remove all border cells and a random fraction of interior cells."""
     h, w = label_image.shape
     out = label_image.copy()
@@ -139,9 +139,25 @@ def make_missing_cells(label_image, interior_fraction=1/3, seed=42):
     return out
 
 
-def make_holey(bw, erode_radius=2):
-    """Thin the membrane rings so the central holes become larger."""
-    return label(erosion(bw, disk(erode_radius)))
+def make_holey(bw, erode_radius=2, fp_radius=18, seed=42):
+    """Thin the membrane rings so the central holes become larger,
+    and seed a few false-positive detections in the background."""
+    out = label(erosion(bw, disk(erode_radius)))
+    h, w = out.shape
+    rng = np.random.default_rng(seed)
+    next_lbl = out.max() + 1
+    positions = [(int(h * 0.88), int(w * 0.08)),   # bottom left corner
+                 (int(h * 0.25), int(w * 0.08))]    # 75% up the left side
+    for cy, cx in positions:
+        r_rad = int(rng.uniform(fp_radius * 0.8, fp_radius * 1.2))
+        c_rad = int(rng.uniform(fp_radius * 0.5, fp_radius * 0.9))
+        rotation = rng.uniform(0, np.pi)
+        rr, cc = draw_ellipse(cy, cx, r_rad, c_rad, shape=(h, w), rotation=rotation)
+        fp = np.zeros((h, w), dtype=bool)
+        fp[rr, cc] = True
+        out[fp & (out == 0)] = next_lbl
+        next_lbl += 1
+    return out
 ```
 
 ```{python}
@@ -173,17 +189,18 @@ plt.show()
 
 
 ::: {.callout-note appearance="simple" icon=false collapse="false"}
-# BCE
+# Binary Cross-Entropy (BCE)
 
-This loss penalizes the model based on how confident it is in the wrong answer. For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
+Binary cross-entropy penalizes the model based on how confident it is in the wrong answer. 
+This loss requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
 $$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
-BCE requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
 :::
 
 ::: {.callout-note appearance="simple" icon=false collapse="false"}
-# MSE
+# Mean Squared Error (MSE)
 
-This loss penalizes the model proportionally to the squared difference between its prediction and the ground truth:
+The mean squared error penalizes the model proportionally to the squared difference between its prediction and the ground truth:
 $$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
 MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
 Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
@@ -204,8 +221,8 @@ One can imagine other functions, however, that could more accurately describe "g
 #| fig-subcap:
 #|   - "Undersegmented: masks shrink away from cell borders"
 #|   - "Oversegmented: masks are too large, adjacent cells merge"
-#|   - "Missing cells: borders are correct but several cells are absent"
-#|   - "Holes: segmentation has gaps inside cells"
+#|   - "False negatives: missing cells and split nuclei."
+#|   - "Holes and false positives: gaps inside cells and spurious detections."
 #| layout-ncol: 2
 
 predictions = [
@@ -222,32 +239,26 @@ for pred in predictions:
     plt.show()
 ```
 
-If we are interested in counting the number of nuclei, a model which under ([@fig-segmentations]a) or over segments a nucleus ([@fig-segmentations]b) and therefore changes the size of the nucleus will not impact the analysis. 
-However a model that misses nuclei ([@fig-segmentations]c), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
-In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives would need correction.
-
-Alternatively if we are interested in measuring the size of each nucleus, the first model described which under or over segments nuclei would create erroneous measurements of size. 
-Instead a model that misses some detections might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
-In this case a more appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
+If we are interested in measuring the size of each nucleus, a model which under ([@fig-segmentations]a) or over segments nuclei ([@fig-segmentations]b) would create erroneous measurements of size. 
+Instead a model that misses some detections ([@fig-segmentations]c) might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
+In this case an appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
 A metric that captures this will look very different from BCE or MSE.
-Different downstream uses call for different metrics.
-Let's look at a few that are commonly used in bioimage analysis.
 
-:::{.callout-note appearance="simple" icon=false collapse="true"}
-# IoU and F1 are overlap metrics.
+:::{.callout-note appearance="simple" icon=false collapse="false"}
+# IoU and DICE are overlap metrics.
 
-Both metrics quantify the overlap between a predicted region $B$ and the ground truth $A$, and range from 0 (no overlap) to 1 (perfect overlap):
+Both metrics quantify the overlap between a predicted region $B$ and the ground truth $A$, by comparing the intersection of the two regions ($\cap$) and their union ($\cup$). Both metrics range from 0 (no overlap) to 1 (perfect overlap).
 
-$$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{F1}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}$$
+$$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{DICE}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}$$
 
-F1 is the harmonic mean of precision and recall: it balances false positives (predicted pixels outside $A$) and false negatives (pixels in $A$ missed by $B$) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.
+DICE is the harmonic mean of precision and recall: it balances false positives (predicted pixels outside $A$) and false negatives (pixels in $A$ missed by $B$) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.
 
-> **Note:** F1 applied to pixel-level segmentation masks is equivalent to the DICE coefficient, and the two names are used interchangeably in the biomedical imaging literature.
+> **Note:** The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.
 
 ```{python}
 #| fig-align: center
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle, Patch
+from matplotlib.patches import Rectangle, Patch, Polygon as MplPolygon
 import numpy as np
 
 navy, orange, green = "#1a35e0", "#e47a10", "#2a9d2a"
@@ -266,6 +277,20 @@ B = (1.5, 1.5, 3, 3)
 ax.add_patch(Rectangle(A[:2], A[2], A[3], facecolor=navy, alpha=0.5))
 ax.add_patch(Rectangle(B[:2], B[2], B[3], facecolor=orange, alpha=0.5))
 
+# Union: outline that follows the actual shape of A ∪ B
+union_verts = [
+    (A[0],      A[1]),           # bottom-left of A
+    (A[0]+A[2], A[1]),           # bottom-right of A
+    (A[0]+A[2], B[1]),           # down to bottom of B
+    (B[0]+B[2], B[1]),           # bottom-right of B
+    (B[0]+B[2], B[1]+B[3]),      # top-right of B
+    (A[0]+A[2], B[1]+B[3]),      # back to A's right edge at top of B
+    (A[0]+A[2], A[1]+A[3]),      # top-right of A
+    (A[0],      A[1]+A[3]),      # top-left of A
+]
+ax.add_patch(MplPolygon(union_verts, closed=True,
+                        facecolor="none", edgecolor="black", lw=2, linestyle="--"))
+
 ix0, iy0 = max(A[0], B[0]), max(A[1], B[1])
 ix1, iy1 = min(A[0]+A[2], B[0]+B[2]), min(A[1]+A[3], B[1]+B[3])
 ax.add_patch(Rectangle((ix0, iy0), ix1-ix0, iy1-iy0,
@@ -275,11 +300,90 @@ legend_elements = [
     Patch(facecolor=navy, alpha=0.5, label="A"),
     Patch(facecolor=orange, alpha=0.5, label="B"),
     Patch(facecolor=green, alpha=0.85, hatch="////", label="A ∩ B"),
+    Patch(facecolor="none", edgecolor="black", lw=2, linestyle="--", label="A ∪ B"),
 ]
 ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.02),
-          ncol=3, frameon=False, fontsize=14)
+          ncol=2, frameon=False, fontsize=14)
 ```
 :::
+
+Alternatively, if we are interested in counting the number of nuclei, a model which changes the size of the nuclei should not impact the analysis.
+However a model that misses nuclei ([@fig-segmentations]c), detects artifacts as nuclei ([@fig-segmentations]d), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
+In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives that would need correction.
+Different downstream uses call for different metrics.
+
+::: {.callout-note appearance="simple" icon=false collapse="false"}
+# Precision, recall, and F1-score are instance-level metrics.
+
+A predicted instance is a true positive (TP) if it sufficiently overlaps a ground-truth instance (e.g. IoU $\geq 0.5$), a false positive (FP) if it has no matching ground truth, and a false negative (FN) if a ground-truth instance was never detected.
+
+$$\text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}} \qquad \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}$$
+$$ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}$$
+
+Precision answers "of all predicted instances, how many were correct?"; recall answers "of all real instances, how many were found?"; F1 is their harmonic mean.
+
+```{python}
+#| fig-align: center
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+from matplotlib.colors import ListedColormap
+import numpy as np
+
+navy, orange, green = "#1a35e0", "#e47a10", "#2a9d2a"
+
+H, W = 300, 500  # raster grid
+
+def ellipse_mask(cx, cy, rx, ry):
+    """Boolean mask for an ellipse in axis coordinates [0,10] x [0,6]."""
+    x = np.linspace(0, 10, W)
+    y = np.linspace(0, 6,  H)
+    xx, yy = np.meshgrid(x, y)
+    return ((xx - cx) / rx)**2 + ((yy - cy) / ry)**2 <= 1
+
+# Label image: 0=bg, 1=GT only (orange), 2=pred only (blue), 3=overlap (green)
+img = np.zeros((H, W), dtype=int)
+
+# True positives: GT and prediction ellipses slightly offset
+tps = [  # gt_x, gt_y, gt_rx, gt_ry,  dx, dy  (prediction offset)
+    (2.0, 3.0, 1.0, 0.8,   0.4,  0.3),
+    (5.0, 3.8, 0.9, 1.0,  -0.3,  0.4),
+    (7.5, 2.0, 1.0, 0.85,  0.35,-0.3),
+    (4.5, 1.2, 0.8, 0.7,  -0.25, 0.3),
+]
+for cx, cy, rx, ry, dx, dy in tps:
+    gt   = ellipse_mask(cx,    cy,    rx,   ry)
+    pred = ellipse_mask(cx+dx, cy+dy, rx,   ry)
+    img[gt   & ~pred] = 1
+    img[pred & ~gt  ] = 2
+    img[gt   &  pred] = 3
+
+# False negatives — ground truth only (orange)
+for cx, cy, rx, ry in [(3.0, 5.0, 0.85, 0.7), (8.5, 4.5, 0.9, 0.8)]:
+    img[ellipse_mask(cx, cy, rx, ry)] = 1
+
+# False positives — prediction only (blue)
+for cx, cy, rx, ry in [(1.0, 1.0, 0.8, 0.9), (6.5, 5.0, 0.9, 0.75)]:
+    img[ellipse_mask(cx, cy, rx, ry)] = 2
+
+cmap = ListedColormap(["#ffffff", orange, navy, green])
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.imshow(img, cmap=cmap, vmin=0, vmax=3,
+          extent=[0, 10, 0, 6], origin="lower", aspect="auto")
+ax.axis("off")
+
+legend_elements = [
+    Patch(facecolor=green,  label="Matched (TP)"),
+    Patch(facecolor=orange, label="Ground truth only (FN)"),
+    Patch(facecolor=navy,   label="Prediction only (FP)"),
+]
+ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=3, frameon=False, fontsize=9)
+```
+
+:::
+
+Open the callouts below for more metrics that are common in image analysis.
+You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
 
 ::: {.callout-note appearance="simple" icon=false collapse="true"}
 # The Hausdorff distance focuses on boundaries.
@@ -333,7 +437,7 @@ ax.annotate("", xy=(B_pts[nn[w], 0], B_pts[nn[w], 1]),
             xytext=(A_pts[w, 0], A_pts[w, 1]),
             arrowprops=dict(arrowstyle="<->", color=green, lw=2.0), zorder=3)
 mid = (A_pts[w] + B_pts[nn[w]]) / 2
-ax.text(mid[0] + 0.1, mid[1], "$d_H$", color=green, fontsize=13, va="center")
+ax.text(mid[0] - 0.1, mid[1] - 0.3, "$d_H$", color=green, fontsize=13, va="center")
 
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
           ncol=2, frameon=False, fontsize=14)
@@ -393,8 +497,7 @@ The practical workflow is therefore: choose a differentiable loss to train the m
 Explore this [demo](https://metrics-reloaded.dkfz.de/metric-demo/segmentation) to see the direct impact of different segmentation errors on a variety of metrics.
 :::
 
-You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
-As you'll see, there are many different metrics available for every task.
+As you've seen, there are many different metrics available for every task.
 Each will be more or less useful depending on what types of errors you can or cannot accept in your final predictions. 
 So, how do you choose which metrics to measure and which ones to pay attention to?
 
