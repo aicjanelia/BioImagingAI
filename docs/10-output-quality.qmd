@@ -123,9 +123,8 @@ def make_oversegmented(filled, max_dilate_radius=5, seed=1):
     return out
 
 
-def make_missing_cells(label_image, interior_fraction=1/6, n_false_positives=3, fp_radius=18, seed=42):
-    """Remove all border cells and a random fraction of interior cells,
-    then seed a few false-positive detections in the background."""
+def make_missing_cells(label_image, interior_fraction=1/6, seed=42):
+    """Remove all border cells and a random fraction of interior cells."""
     h, w = label_image.shape
     out = label_image.copy()
     props = regionprops(label_image)
@@ -139,19 +138,19 @@ def make_missing_cells(label_image, interior_fraction=1/6, n_false_positives=3, 
                       replace=False)
     for lbl in border_lbl | set(drop):
         out[out == lbl] = 0
+    return out
 
-    # Add false positives: larger irregular blobs in the background
-    next_lbl = label_image.max() + 1
-    margin = fp_radius + 2
-    valid = np.argwhere(
-        (out == 0) &
-        (np.arange(h)[:, None] > margin) & (np.arange(h)[:, None] < h - margin) &
-        (np.arange(w)[None, :] > margin) & (np.arange(w)[None, :] < w - margin)
-    )
+
+def make_holey(bw, erode_radius=2, fp_radius=18, seed=42):
+    """Thin the membrane rings so the central holes become larger,
+    and seed a few false-positive detections in the background."""
+    out = label(erosion(bw, disk(erode_radius)))
+    h, w = out.shape
+    rng = np.random.default_rng(seed)
+    next_lbl = out.max() + 1
     positions = [(int(h * 0.88), int(w * 0.08)),   # bottom left corner
                  (int(h * 0.25), int(w * 0.08))]    # 75% up the left side
     for cy, cx in positions:
-        # Random ellipse with varying radii and rotation
         r_rad = int(rng.uniform(fp_radius * 0.8, fp_radius * 1.2))
         c_rad = int(rng.uniform(fp_radius * 0.5, fp_radius * 0.9))
         rotation = rng.uniform(0, np.pi)
@@ -161,11 +160,6 @@ def make_missing_cells(label_image, interior_fraction=1/6, n_false_positives=3, 
         out[fp & (out == 0)] = next_lbl
         next_lbl += 1
     return out
-
-
-def make_holey(bw, erode_radius=2):
-    """Thin the membrane rings so the central holes become larger."""
-    return label(erosion(bw, disk(erode_radius)))
 ```
 
 ```{python}
@@ -229,8 +223,8 @@ One can imagine other functions, however, that could more accurately describe "g
 #| fig-subcap:
 #|   - "Undersegmented: masks shrink away from cell borders"
 #|   - "Oversegmented: masks are too large, adjacent cells merge"
-#|   - "False positives, false negatives, and split nuclei."
-#|   - "Holes: segmentation has gaps inside cells"
+#|   - "False negatives: missing cells and split nuclei."
+#|   - "Holes and false positives: gaps inside cells and spurious detections."
 #| layout-ncol: 2
 
 predictions = [
@@ -314,7 +308,6 @@ ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.0
           ncol=2, frameon=False, fontsize=14)
 ```
 :::
-
 
 Alternatively, if we are interested in counting the number of nuclei, a model which changes the size of the nuclei should not impact the analysis.
 However a model that misses nuclei ([@fig-segmentations]c), detects artifacts as nuclei ([@fig-segmentations]d), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
