@@ -163,7 +163,7 @@ def make_holey(bw, erode_radius=2, fp_radius=18, seed=42):
 ```{python}
 #| code-fold: true
 #| label: fig-image
-#| fig-cap: Our cells, with the ground truth overlaid. This ground truth is the output of a Cellpose model, but in practice it should be manually annotated.
+#| fig-cap: Our cells, with the ground truth overlaid. This ground truth is the output of a Cellpose[@stringer2021] model, but in practice it should be manually annotated.
 
 import contextlib, io, logging
 from cellpose import models
@@ -253,7 +253,9 @@ $$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{DICE}(A, B) = \f
 
 DICE is the harmonic mean of precision and recall: it balances false positives (predicted pixels outside $A$) and false negatives (pixels in $A$ missed by $B$) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.
 
-> **Note:** The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.
+:::{.callout-note}
+The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.
+:::
 
 ```{python}
 #| fig-align: center
