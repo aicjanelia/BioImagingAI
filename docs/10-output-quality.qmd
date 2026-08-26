@@ -36,7 +36,7 @@ A model that looks convincing on a handful of images can quietly fail on the res
 Choosing the right way to measure quality is therefore just as important as the training itself.
 
 In this chapter we will look at how metrics and losses differ, how to pick measures that actually reflect your scientific goal, and how to use held-out test data to get an honest estimate of how your model will behave on new images.
-We will focus on a *segmentation* as a concrete example, but the principles apply broadly.
+We will focus on *segmentation* and *cell tracking* as concrete examples, but the principles apply broadly.
 
 ## Metrics and Losses
 
