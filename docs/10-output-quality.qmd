@@ -261,7 +261,7 @@ Let's look at a few that are commonly used in bioimage analysis.
 :::{.callout-note appearance="simple" icon=false collapse="true"}
 # IoU and F1 are overlap metrics.
 
-Both metrics quantify the overlap between a predicted region $B$ and the ground truth $A$, and range from 0 (no overlap) to 1 (perfect overlap):
+Both metrics quantify the overlap between a predicted region $B$ and the ground truth $A$, by comparing the intersection of the two regions ($\cap$) and their union ($\cup$). Both metrics range from 0 (no overlap) to 1 (perfect overlap).
 
 $$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{F1}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}$$
 
@@ -317,7 +317,7 @@ legend_elements = [
     Patch(facecolor="none", edgecolor="black", lw=2, linestyle="--", label="A ∪ B"),
 ]
 ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.02),
-          ncol=4, frameon=False, fontsize=14)
+          ncol=2, frameon=False, fontsize=14)
 ```
 :::
 
