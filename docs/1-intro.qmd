@@ -15,6 +15,12 @@ subtitle: AI at Every Stage of the Microscopy Workflow
 
 # Preface
 
+::: {.content-visible when-format="pdf"}
+| **Teng-Leong Chew**
+| *HHMI Janelia Research Campus*
+| 
+:::
+
 ## Introduction
 The rapid advancement of microscopy, further fueled by parallel development in other related technologies such as probe chemistry, molecular biology, image analysis methods, has propelled bioimaging to the forefront of life science studies @balasubramanian_imagining_2023. In fact, many life scientists now fully expect to visualize intricate biological processes in the context of a whole, living organism – a prospect deemed impossible just a mere decade ago.
 
