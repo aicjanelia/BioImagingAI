@@ -272,7 +272,7 @@ F1 is the harmonic mean of precision and recall: it balances false positives (pr
 ```{python}
 #| fig-align: center
 import matplotlib.pyplot as plt
-from matplotlib.patches import Rectangle, Patch
+from matplotlib.patches import Rectangle, Patch, Polygon as MplPolygon
 import numpy as np
 
 navy, orange, green = "#1a35e0", "#e47a10", "#2a9d2a"
@@ -291,6 +291,20 @@ B = (1.5, 1.5, 3, 3)
 ax.add_patch(Rectangle(A[:2], A[2], A[3], facecolor=navy, alpha=0.5))
 ax.add_patch(Rectangle(B[:2], B[2], B[3], facecolor=orange, alpha=0.5))
 
+# Union: outline that follows the actual shape of A ∪ B
+union_verts = [
+    (A[0],      A[1]),           # bottom-left of A
+    (A[0]+A[2], A[1]),           # bottom-right of A
+    (A[0]+A[2], B[1]),           # down to bottom of B
+    (B[0]+B[2], B[1]),           # bottom-right of B
+    (B[0]+B[2], B[1]+B[3]),      # top-right of B
+    (A[0]+A[2], B[1]+B[3]),      # back to A's right edge at top of B
+    (A[0]+A[2], A[1]+A[3]),      # top-right of A
+    (A[0],      A[1]+A[3]),      # top-left of A
+]
+ax.add_patch(MplPolygon(union_verts, closed=True,
+                        facecolor="none", edgecolor="black", lw=2, linestyle="--"))
+
 ix0, iy0 = max(A[0], B[0]), max(A[1], B[1])
 ix1, iy1 = min(A[0]+A[2], B[0]+B[2]), min(A[1]+A[3], B[1]+B[3])
 ax.add_patch(Rectangle((ix0, iy0), ix1-ix0, iy1-iy0,
@@ -300,9 +314,10 @@ legend_elements = [
     Patch(facecolor=navy, alpha=0.5, label="A"),
     Patch(facecolor=orange, alpha=0.5, label="B"),
     Patch(facecolor=green, alpha=0.85, hatch="////", label="A ∩ B"),
+    Patch(facecolor="none", edgecolor="black", lw=2, linestyle="--", label="A ∪ B"),
 ]
 ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.02),
-          ncol=3, frameon=False, fontsize=14)
+          ncol=4, frameon=False, fontsize=14)
 ```
 :::
 
