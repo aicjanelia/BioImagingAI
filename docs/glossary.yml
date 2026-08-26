@@ -14,7 +14,7 @@ True Positives: |
   In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.
 
 True Negatives: |
-  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as negative and were really negative.
+  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.
 
 Manual Annotation: |
   The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.
@@ -47,7 +47,7 @@ Bayesian Optimization: |
   A strategy that allows the optimization of black-box functions such as deep neural networks. It creates a surrogate model, which is a probabilistic representation of the objective function, using only a few example points.
 
 Gaussian Process: |
-  A common surrogate model for optimization strategies such as Bayesian Optimization. Gaussian Processes are non-parametric a case that models a conditional probability function. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.
+  A common surrogate model for optimization strategies such as Bayesian Optimization. A Gaussian Process is a non-parametric model that represents a probability distribution over possible functions. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.
 
 Genetic Algorithms: |
   An optimisation method inspired by the principles of natural selection and genetics. It starts with a population of solutions. These solutions are combined through a process called crossover to produce new solutions (offspring). During this process, random changes or mutations may occur to introduce diversity. After crossover and mutation, a selection step chooses the best solutions from both the parent and offspring populations to form the next generation. This cycle repeats for a set number of generations or until a predefined goal or stopping criterion is met.
@@ -59,7 +59,7 @@ Star-convex Polygon: |
   A geometric shape used in segmentation algorithms like StarDist. Imagine drawing straight lines (rays) from the centre of an object out toward its edges—if you can see the edge from the centre in all directions, the object is considered star-convex. This method works well for blob-like structures such as nuclei, because their general shape can be captured by measuring how far each ray travels from the centre to the boundary.
 
 IoU: |
-  "Intersection over Union". A segmentation metric that calculates the difference between the area of overlap between two segmentation masks divided by the area of union.
+  "Intersection over Union". A segmentation metric that calculates the area of overlap between two segmentation masks divided by the area of their union.
 
 F1 Score: |
   A classification metric that gives the harmonic mean of precision (proportion of correct true positive predictions across all predicted positive cases) and recall (proportion of true positive predictions against the total positive cases). The harmonic mean is a method to balance both metrics equally. This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.
@@ -107,7 +107,7 @@ Spatial Domain: |
   The representation of an image as a function of spatial coordinates.
 
 Frequency Domain: |
-  The representation of an image as a function of spatial frequency, obtained by transforming an image into the spatial domain using the Fourier transform.
+  The representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using the Fourier transform.
 
 Adaptive Optics: |
   Technology that senses distortions in the wavefront of light and cancels them, thereby suppressing optical aberrations to enhance image clarity.
