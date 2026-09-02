@@ -90,6 +90,35 @@ gtag('js', new Date());
 gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -447,10 +476,12 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#agentic-workflow" id="toc-agentic-workflow" class="nav-link" data-scroll-target="#agentic-workflow">Agentic Workflow</a></li>
   <li><a href="#autoencoder" id="toc-autoencoder" class="nav-link" data-scroll-target="#autoencoder">Autoencoder</a></li>
   <li><a href="#auxiliary-variables" id="toc-auxiliary-variables" class="nav-link" data-scroll-target="#auxiliary-variables">Auxiliary Variables</a></li>
+  <li><a href="#average-precision" id="toc-average-precision" class="nav-link" data-scroll-target="#average-precision">Average Precision</a></li>
   <li><a href="#backpropagation" id="toc-backpropagation" class="nav-link" data-scroll-target="#backpropagation">Backpropagation</a></li>
   <li><a href="#batch" id="toc-batch" class="nav-link" data-scroll-target="#batch">Batch</a></li>
   <li><a href="#bayesian-optimization" id="toc-bayesian-optimization" class="nav-link" data-scroll-target="#bayesian-optimization">Bayesian Optimization</a></li>
   <li><a href="#bias-vector" id="toc-bias-vector" class="nav-link" data-scroll-target="#bias-vector">Bias Vector</a></li>
+  <li><a href="#binary-cross-entropy" id="toc-binary-cross-entropy" class="nav-link" data-scroll-target="#binary-cross-entropy">Binary Cross-Entropy</a></li>
   <li><a href="#binary-segmentation" id="toc-binary-segmentation" class="nav-link" data-scroll-target="#binary-segmentation">Binary Segmentation</a></li>
   <li><a href="#boosting-algorithm" id="toc-boosting-algorithm" class="nav-link" data-scroll-target="#boosting-algorithm">Boosting algorithm</a></li>
   <li><a href="#bounding-region" id="toc-bounding-region" class="nav-link" data-scroll-target="#bounding-region">Bounding region</a></li>
@@ -462,6 +493,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#classification" id="toc-classification" class="nav-link" data-scroll-target="#classification">Classification</a></li>
   <li><a href="#coding-agent" id="toc-coding-agent" class="nav-link" data-scroll-target="#coding-agent">Coding Agent</a></li>
   <li><a href="#computer-vision" id="toc-computer-vision" class="nav-link" data-scroll-target="#computer-vision">Computer Vision</a></li>
+  <li><a href="#confidence-score" id="toc-confidence-score" class="nav-link" data-scroll-target="#confidence-score">Confidence Score</a></li>
   <li><a href="#context-window" id="toc-context-window" class="nav-link" data-scroll-target="#context-window">Context Window</a></li>
   <li><a href="#convolution" id="toc-convolution" class="nav-link" data-scroll-target="#convolution">Convolution</a></li>
   <li><a href="#convolutional-neural-networks-cnns" id="toc-convolutional-neural-networks-cnns" class="nav-link" data-scroll-target="#convolutional-neural-networks-cnns">Convolutional Neural Networks (CNNs)</a></li>
@@ -469,6 +501,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#data-augmentation" id="toc-data-augmentation" class="nav-link" data-scroll-target="#data-augmentation">Data Augmentation</a></li>
   <li><a href="#decision-tree" id="toc-decision-tree" class="nav-link" data-scroll-target="#decision-tree">Decision tree</a></li>
   <li><a href="#deconvolution" id="toc-deconvolution" class="nav-link" data-scroll-target="#deconvolution">Deconvolution</a></li>
+  <li><a href="#distance-transform" id="toc-distance-transform" class="nav-link" data-scroll-target="#distance-transform">Distance Transform</a></li>
   <li><a href="#domain-randomization" id="toc-domain-randomization" class="nav-link" data-scroll-target="#domain-randomization">Domain Randomization</a></li>
   <li><a href="#downsampling" id="toc-downsampling" class="nav-link" data-scroll-target="#downsampling">Downsampling</a></li>
   <li><a href="#effect-size" id="toc-effect-size" class="nav-link" data-scroll-target="#effect-size">Effect Size</a></li>
@@ -495,6 +528,8 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#gradient-descent" id="toc-gradient-descent" class="nav-link" data-scroll-target="#gradient-descent">Gradient Descent</a></li>
   <li><a href="#ground-truth" id="toc-ground-truth" class="nav-link" data-scroll-target="#ground-truth">Ground Truth</a></li>
   <li><a href="#hallucinations" id="toc-hallucinations" class="nav-link" data-scroll-target="#hallucinations">Hallucinations</a></li>
+  <li><a href="#harmonic-mean" id="toc-harmonic-mean" class="nav-link" data-scroll-target="#harmonic-mean">Harmonic Mean</a></li>
+  <li><a href="#hausdorff-distance" id="toc-hausdorff-distance" class="nav-link" data-scroll-target="#hausdorff-distance">Hausdorff Distance</a></li>
   <li><a href="#human-in-the-loop" id="toc-human-in-the-loop" class="nav-link" data-scroll-target="#human-in-the-loop">Human-in-the-loop</a></li>
   <li><a href="#hyperparameters" id="toc-hyperparameters" class="nav-link" data-scroll-target="#hyperparameters">Hyperparameters</a></li>
   <li><a href="#image-classification" id="toc-image-classification" class="nav-link" data-scroll-target="#image-classification">Image Classification</a></li>
@@ -510,6 +545,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#long-short-term-memory-lstm" id="toc-long-short-term-memory-lstm" class="nav-link" data-scroll-target="#long-short-term-memory-lstm">Long-short term memory (LSTM)</a></li>
   <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function">Loss function</a></li>
   <li><a href="#manual-annotation" id="toc-manual-annotation" class="nav-link" data-scroll-target="#manual-annotation">Manual Annotation</a></li>
+  <li><a href="#mean-squared-error" id="toc-mean-squared-error" class="nav-link" data-scroll-target="#mean-squared-error">Mean Squared Error</a></li>
   <li><a href="#metadata" id="toc-metadata" class="nav-link" data-scroll-target="#metadata">Metadata</a></li>
   <li><a href="#model-context-protocol-mcp" id="toc-model-context-protocol-mcp" class="nav-link" data-scroll-target="#model-context-protocol-mcp">Model Context Protocol (MCP)</a></li>
   <li><a href="#momentum" id="toc-momentum" class="nav-link" data-scroll-target="#momentum">Momentum</a></li>
@@ -533,11 +569,13 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#pixel-classifiers" id="toc-pixel-classifiers" class="nav-link" data-scroll-target="#pixel-classifiers">Pixel Classifiers</a></li>
   <li><a href="#point-spread-function-psf" id="toc-point-spread-function-psf" class="nav-link" data-scroll-target="#point-spread-function-psf">Point Spread Function (PSF)</a></li>
   <li><a href="#pooling-layer" id="toc-pooling-layer" class="nav-link" data-scroll-target="#pooling-layer">Pooling Layer</a></li>
+  <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision">Precision</a></li>
   <li><a href="#probability-vector" id="toc-probability-vector" class="nav-link" data-scroll-target="#probability-vector">Probability Vector</a></li>
   <li><a href="#quality-control-metric" id="toc-quality-control-metric" class="nav-link" data-scroll-target="#quality-control-metric">Quality Control Metric</a></li>
   <li><a href="#rcan-residual-channel-attention-network" id="toc-rcan-residual-channel-attention-network" class="nav-link" data-scroll-target="#rcan-residual-channel-attention-network">RCAN (residual channel attention network)</a></li>
   <li><a href="#relu" id="toc-relu" class="nav-link" data-scroll-target="#relu">ReLU</a></li>
   <li><a href="#real-time-analysis" id="toc-real-time-analysis" class="nav-link" data-scroll-target="#real-time-analysis">Real-time analysis</a></li>
+  <li><a href="#recall" id="toc-recall" class="nav-link" data-scroll-target="#recall">Recall</a></li>
   <li><a href="#receptive-field" id="toc-receptive-field" class="nav-link" data-scroll-target="#receptive-field">Receptive Field</a></li>
   <li><a href="#recurrent-neural-networks-rnns" id="toc-recurrent-neural-networks-rnns" class="nav-link" data-scroll-target="#recurrent-neural-networks-rnns">Recurrent neural networks (RNNs)</a></li>
   <li><a href="#region-of-interest-roi" id="toc-region-of-interest-roi" class="nav-link" data-scroll-target="#region-of-interest-roi">Region of interest (ROI)</a></li>
@@ -558,6 +596,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#stride" id="toc-stride" class="nav-link" data-scroll-target="#stride">Stride</a></li>
   <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning">Supervised learning</a></li>
   <li><a href="#support-vector-machine-svm" id="toc-support-vector-machine-svm" class="nav-link" data-scroll-target="#support-vector-machine-svm">Support vector machine (SVM)</a></li>
+  <li><a href="#test-data" id="toc-test-data" class="nav-link" data-scroll-target="#test-data">Test Data</a></li>
   <li><a href="#texture" id="toc-texture" class="nav-link" data-scroll-target="#texture">Texture</a></li>
   <li><a href="#tokens" id="toc-tokens" class="nav-link" data-scroll-target="#tokens">Tokens</a></li>
   <li><a href="#tool-definitions" id="toc-tool-definitions" class="nav-link" data-scroll-target="#tool-definitions">Tool Definitions</a></li>
@@ -568,6 +607,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <li><a href="#true-positives" id="toc-true-positives" class="nav-link" data-scroll-target="#true-positives">True Positives</a></li>
   <li><a href="#u-net" id="toc-u-net" class="nav-link" data-scroll-target="#u-net">U-Net</a></li>
   <li><a href="#upsampling" id="toc-upsampling" class="nav-link" data-scroll-target="#upsampling">Upsampling</a></li>
+  <li><a href="#validation-data" id="toc-validation-data" class="nav-link" data-scroll-target="#validation-data">Validation Data</a></li>
   <li><a href="#virtual-machine" id="toc-virtual-machine" class="nav-link" data-scroll-target="#virtual-machine">Virtual Machine</a></li>
   <li><a href="#vision-language-model-vlm" id="toc-vision-language-model-vlm" class="nav-link" data-scroll-target="#vision-language-model-vlm">Vision-Language Model (VLM)</a></li>
   <li><a href="#visual-question-answering" id="toc-visual-question-answering" class="nav-link" data-scroll-target="#visual-question-answering">Visual Question Answering</a></li>
@@ -634,11 +674,17 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="autoencoder" class="level2">
 <h2 class="anchored" data-anchor-id="autoencoder">Autoencoder</h2>
-<p>A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsuperivsed learning version of the more general encoder-decoder architecture.</p>
+<p>A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsupervised learning version of the more general encoder-decoder architecture.</p>
 </section>
 <section id="auxiliary-variables" class="level2">
 <h2 class="anchored" data-anchor-id="auxiliary-variables">Auxiliary Variables</h2>
-<p>Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precison, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other shape descriptors can be used as part of of a loss function.</p>
+<p>Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precision, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other shape descriptors can be used as part of of a loss function.</p>
+</section>
+<section id="average-precision" class="level2">
+<h2 class="anchored" data-anchor-id="average-precision">Average Precision</h2>
+<p>Average Precision (AP) summarizes the precisionâ€“recall trade-off across confidence thresholds. A predicted instance counts as a true positive only if its <a href="./glossary.html#IoU">IoU</a> with a ground-truth instance exceeds a threshold <span class="math inline">\(x\)</span>:</p>
+<p><span class="math display">\[\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k\]</span></p>
+<p>where <span class="math inline">\(P_k\)</span> and <span class="math inline">\(R_k\)</span> are precision and recall at the <span class="math inline">\(k\)</span>-th confidence threshold after matching predictions to ground-truth at IoU <span class="math inline">\(\geq x\)</span>. Higher <span class="math inline">\(x\)</span> demands more precise localization.</p>
 </section>
 <section id="backpropagation" class="level2">
 <h2 class="anchored" data-anchor-id="backpropagation">Backpropagation</h2>
@@ -656,6 +702,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="bias-vector">Bias Vector</h2>
 <p>The bias vector is a set of values (one for each node in the layer) that is added to the weighted input of the layer before the activation function is calculated. Note that the use of “bias” here is mathematical and not related to any potential biases in the model’s decision making.</p>
 </section>
+<section id="binary-cross-entropy" class="level2">
+<h2 class="anchored" data-anchor-id="binary-cross-entropy">Binary Cross-Entropy</h2>
+<p>Binary cross-entropy (BCE) penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability — it asks “is this pixel foreground or background?” and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell. For ground truth label <span class="math inline">\(y_i \in \{0,1\}\)</span> and predicted probability <span class="math inline">\(\hat{y}_i \in [0,1]\)</span>: <span class="math display">\[\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]\]</span></p>
+</section>
 <section id="binary-segmentation" class="level2">
 <h2 class="anchored" data-anchor-id="binary-segmentation">Binary Segmentation</h2>
 <p>A type of image segmentation where each pixel is classified into one of two categories — typically “foreground” (e.g., cell) or “background.” The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).</p>
@@ -670,7 +720,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="care-content-aware-image-restoration" class="level2">
 <h2 class="anchored" data-anchor-id="care-content-aware-image-restoration">CARE (Content-aware image restoration)</h2>
-<p>A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See https://github.com/CSBDeep/CSBDeep for more information.</p>
+<p>A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See <a href="https://github.com/CSBDeep/CSBDeep">https://github.com/CSBDeep/CSBDeep</a> for more information.</p>
 </section>
 <section id="capacity" class="level2">
 <h2 class="anchored" data-anchor-id="capacity">Capacity</h2>
@@ -700,6 +750,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="computer-vision">Computer Vision</h2>
 <p>A field of computer science wherein computers extract information from images. It often involves object detection within images and can involve classification of the images and/or objects.</p>
 </section>
+<section id="confidence-score" class="level2">
+<h2 class="anchored" data-anchor-id="confidence-score">Confidence Score</h2>
+<p>A continuous value, often between 0 and 1, that reflects how certain a model is about a given prediction. Unlike a <a href="./glossary.html#distance-transform">distance transform</a>, which encodes geometric information such as position within an object, a confidence score expresses the model’s belief that a prediction is correct — for example, that a pixel belongs to the foreground class or that a detected object was correctly identified during <a href="./glossary.html#object-detection">object detection</a>. Confidence scores are useful for filtering predictions, such as discarding low-confidence detections, but a high confidence score does not guarantee a correct prediction, particularly when a model is poorly calibrated.</p>
+</section>
 <section id="context-window" class="level2">
 <h2 class="anchored" data-anchor-id="context-window">Context Window</h2>
 <p>A context window is the size of the largest input that a model can consider at once. Making the context window larger allows the model to incorporate more information into the output.</p>
@@ -727,6 +781,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <section id="deconvolution" class="level2">
 <h2 class="anchored" data-anchor-id="deconvolution">Deconvolution</h2>
 <p>A mathematical process to partially reverse the blurring effect caused by the microscope’s PSF, increasing contrast and resolution over the raw image data if performed carefully.</p>
+</section>
+<section id="distance-transform" class="level2">
+<h2 class="anchored" data-anchor-id="distance-transform">Distance Transform</h2>
+<p>A transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In <a href="./glossary.html#instance-segmentation">instance segmentation</a>, distance transforms are commonly used to help separate touching or overlapping objectsâ€”for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a binary mask into individual instances.</p>
 </section>
 <section id="domain-randomization" class="level2">
 <h2 class="anchored" data-anchor-id="domain-randomization">Domain Randomization</h2>
@@ -770,7 +828,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="f1-score" class="level2">
 <h2 class="anchored" data-anchor-id="f1-score">F1 Score</h2>
-<p>A classification metric that gives the harmonic mean of precision (proportion of correct true positive predictions across all predicted positive cases) and recall (proportion of true positive predictions against the total positive cases). The harmonic mean is a method to balance both metrics equally. This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.</p>
+<p>A classification metric that gives the <a href="./glossary.html#harmonic-mean">harmonic mean</a> of <a href="./glossary.html#precision">precision</a> and <a href="./glossary.html#recall">recall</a>. This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class. <span class="math display">\[ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}\]</span> This metric is also known as the DICE coefficient.</p>
 </section>
 <section id="false-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="false-negatives">False Negatives</h2>
@@ -786,11 +844,11 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="fiji" class="level2">
 <h2 class="anchored" data-anchor-id="fiji">Fiji</h2>
-<p>An image processing platform that comes bundled with many plugins for scientific image analysis. See https://imagej.net/software/fiji/ for more information.</p>
+<p>An image processing platform that comes bundled with many plugins for scientific image analysis. See <a href="https://imagej.net/software/fiji/">https://imagej.net/software/fiji/</a> for more information.</p>
 </section>
 <section id="fine-tuning" class="level2">
 <h2 class="anchored" data-anchor-id="fine-tuning">Fine-Tuning</h2>
-<p>Fine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific traning data. In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.</p>
+<p>Fine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific training data. In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.</p>
 </section>
 <section id="foundation-model" class="level2">
 <h2 class="anchored" data-anchor-id="foundation-model">Foundation Model</h2>
@@ -798,7 +856,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="frequency-domain" class="level2">
 <h2 class="anchored" data-anchor-id="frequency-domain">Frequency Domain</h2>
-<p>The representation of an image as a function of spatial frequency, obtained by transforming an image into the spatial domain using the Fourier transform.</p>
+<p>The representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using the Fourier transform.</p>
 </section>
 <section id="function-calling" class="level2">
 <h2 class="anchored" data-anchor-id="function-calling">Function Calling</h2>
@@ -806,7 +864,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="gaussian-process" class="level2">
 <h2 class="anchored" data-anchor-id="gaussian-process">Gaussian Process</h2>
-<p>A common surrogate model for optimization strategies such as Bayesian Optimization. Gaussian Processes are non-parametric a case that models a conditional probability function. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.</p>
+<p>A common surrogate model for optimization strategies such as Bayesian Optimization. A Gaussian Process is a non-parametric model that represents a probability distribution over possible functions. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.</p>
 </section>
 <section id="general-agency" class="level2">
 <h2 class="anchored" data-anchor-id="general-agency">General Agency</h2>
@@ -832,9 +890,19 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="hallucinations">Hallucinations</h2>
 <p>Outputs from a model that do not have a basis in the input data and may contain false or misleading information.</p>
 </section>
+<section id="harmonic-mean" class="level2">
+<h2 class="anchored" data-anchor-id="harmonic-mean">Harmonic Mean</h2>
+<p>A type of average of a set of numbers, calculated as the number of values divided by the sum of their reciprocals. Unlike the arithmetic mean, the harmonic mean is closer to the smaller of the values being averaged, so it penalizes cases where one value is much lower than the other. This makes it useful for combining two metrics, such as <a href="./glossary.html#precision">precision</a> and <a href="./glossary.html#recall">recall</a>, into a single score that only looks good when both metrics are good.</p>
+</section>
+<section id="hausdorff-distance" class="level2">
+<h2 class="anchored" data-anchor-id="hausdorff-distance">Hausdorff Distance</h2>
+<p>The Hausdorff distance measures how far apart two sets of boundary points are at their worst-case point. For boundary point sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>:</p>
+<p><span class="math display">\[d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)\]</span></p>
+<p>A small Hausdorff distance means every point on one boundary has a close counterpart on the other.</p>
+</section>
 <section id="human-in-the-loop" class="level2">
 <h2 class="anchored" data-anchor-id="human-in-the-loop">Human-in-the-loop</h2>
-<p>Human-in-the-loop workflows use model predictions that are manually corrected for retraining. This iterative approach can be used to superivise the model output and improve accuracy.</p>
+<p>Human-in-the-loop workflows use model predictions that are manually corrected for retraining. This iterative approach can be used to supervise the model output and improve accuracy.</p>
 </section>
 <section id="hyperparameters" class="level2">
 <h2 class="anchored" data-anchor-id="hyperparameters">Hyperparameters</h2>
@@ -858,7 +926,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="iou" class="level2">
 <h2 class="anchored" data-anchor-id="iou">IoU</h2>
-<p>“Intersection over Union”. A segmentation metric that calculates the difference between the area of overlap between two segmentation masks divided by the area of union.</p>
+<p>“Intersection over Union”. A segmentation metric that calculates the area of overlap between two segmentation masks divided by the area of their union.</p>
 </section>
 <section id="kernel" class="level2">
 <h2 class="anchored" data-anchor-id="kernel">Kernel</h2>
@@ -886,11 +954,15 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="loss-function" class="level2">
 <h2 class="anchored" data-anchor-id="loss-function">Loss function</h2>
-<p>A loss function (or cost function) is a formula for quantifying how much a model’s predication deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss.</p>
+<p>A loss function (or cost function) is a formula for quantifying how much a model’s prediction deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss. As training relies on <a href="./glossary.html#gradient-descent">gradient descent</a>, the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.</p>
 </section>
 <section id="manual-annotation" class="level2">
 <h2 class="anchored" data-anchor-id="manual-annotation">Manual Annotation</h2>
-<p>The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.</p>
+<p>The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like <a href="./glossary.html#fiji">Fiji</a> or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.</p>
+</section>
+<section id="mean-squared-error" class="level2">
+<h2 class="anchored" data-anchor-id="mean-squared-error">Mean Squared Error</h2>
+<p>Mean-squared error (MSE) penalizes the model proportionally to the squared difference between its prediction and the ground truth: <span class="math display">\[\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2\]</span> MSE measures <em>how far</em> the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score. Because it sums squared errors over all pixels, it is sensitive to the total <em>extent</em> of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.</p>
 </section>
 <section id="metadata" class="level2">
 <h2 class="anchored" data-anchor-id="metadata">Metadata</h2>
@@ -910,15 +982,15 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="n2n-noise2noise" class="level2">
 <h2 class="anchored" data-anchor-id="n2n-noise2noise">N2N (Noise2Noise)</h2>
-<p>A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See https://github.com/NVlabs/noise2noise for more information.</p>
+<p>A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See <a href="https://github.com/NVlabs/noise2noise">https://github.com/NVlabs/noise2noise</a> for more information.</p>
 </section>
 <section id="n2s-noise2self" class="level2">
 <h2 class="anchored" data-anchor-id="n2s-noise2self">N2S (Noise2Self)</h2>
-<p>A self-supervised denoising method that trains a neural network assuming statistically independent noise across the image, requiring only single noisy images without paired clean data. See https://github.com/czbiohub-sf/noise2self for more information.</p>
+<p>A self-supervised denoising method that trains a neural network assuming statistically independent noise across the image, requiring only single noisy images without paired clean data. See <a href="https://github.com/czbiohub-sf/noise2self">https://github.com/czbiohub-sf/noise2self</a> for more information.</p>
 </section>
 <section id="n2v-noise2void" class="level2">
 <h2 class="anchored" data-anchor-id="n2v-noise2void">N2V (Noise2Void)</h2>
-<p>A self-supervised denoising method that trains a neural network to predict pixel values from noisy images by masking input pixels, requiring only single noisy images without paired clean data. See https://github.com/juglab/n2v for more information.</p>
+<p>A self-supervised denoising method that trains a neural network to predict pixel values from noisy images by masking input pixels, requiring only single noisy images without paired clean data. See <a href="https://github.com/juglab/n2v">https://github.com/juglab/n2v</a> for more information.</p>
 </section>
 <section id="natural-image" class="level2">
 <h2 class="anchored" data-anchor-id="natural-image">Natural Image</h2>
@@ -930,7 +1002,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="neural-network" class="level2">
 <h2 class="anchored" data-anchor-id="neural-network">Neural Network</h2>
-<p>Neural networks are a type of computational model that were inspired by the way that biological neural networks are structured.</p>
+<p>Neural networks are a type of computational model that was inspired by the way that biological neural networks are structured.</p>
 </section>
 <section id="neural-network-unit" class="level2">
 <h2 class="anchored" data-anchor-id="neural-network-unit">Neural Network Unit</h2>
@@ -950,7 +1022,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="object-detection" class="level2">
 <h2 class="anchored" data-anchor-id="object-detection">Object Detection</h2>
-<p>A computer vision task that identifies and locates individual objects within an image, typically by drawing bounding boxes around them. It provides both the category (what) and position (where) of each object.</p>
+<p>A computer vision task that identifies and locates individual objects within an image, typically by drawing <a href="./glossary.html#bounding-region">bounding boxes</a> around them. It provides both the category (what) and position (where) of each object.</p>
 </section>
 <section id="optimizer" class="level2">
 <h2 class="anchored" data-anchor-id="optimizer">Optimizer</h2>
@@ -970,7 +1042,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="perceptron" class="level2">
 <h2 class="anchored" data-anchor-id="perceptron">Perceptron</h2>
-<p>Perceptrons are linear weighted sums of inputs followed by a nonlinear activation function. They are used for binary classification, and can be combined to create more complex network archictures. Perceptrons are a specific type of an artificial neuron or node.</p>
+<p>Perceptrons are linear weighted sums of inputs followed by a nonlinear activation function. They are used for binary classification, and can be combined to create more complex network architectures. Perceptrons are a specific type of an artificial neuron or node.</p>
 </section>
 <section id="pixel-classifiers" class="level2">
 <h2 class="anchored" data-anchor-id="pixel-classifiers">Pixel Classifiers</h2>
@@ -984,6 +1056,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="pooling-layer">Pooling Layer</h2>
 <p>A pooling layer aggregates information from many vectors into fewer vectors, i.e., it downsamples the image. The pooling layer does this using sliding windows across the image of maximum or average operations. This removes redundant information and reduces the size of the image for the following calculations.</p>
 </section>
+<section id="precision" class="level2">
+<h2 class="anchored" data-anchor-id="precision">Precision</h2>
+<p>A classification metric that measures the proportion of predicted positives that are correct: <a href="./glossary.html#true-positives">true positives</a> divided by the sum of true positives and <a href="./glossary.html#false-positives">false positives</a>. Precision answers “of everything the model called positive, how much actually was?” A model can achieve high precision by only making positive predictions it is very confident about, at the cost of missing some true positives (i.e., lower <a href="./glossary.html#recall">recall</a>). <span class="math display">\[ \text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}}\]</span></p>
+</section>
 <section id="probability-vector" class="level2">
 <h2 class="anchored" data-anchor-id="probability-vector">Probability Vector</h2>
 <p>A probability vector is composed of values that indicate the probability of a particular variable (e.g., the probability that an image is a dog or cat). The values of a probability vector sum to one.</p>
@@ -994,7 +1070,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="rcan-residual-channel-attention-network" class="level2">
 <h2 class="anchored" data-anchor-id="rcan-residual-channel-attention-network">RCAN (residual channel attention network)</h2>
-<p>A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See https://github.com/AiviaCommunity/3D-RCAN for more information.</p>
+<p>A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See <a href="https://github.com/AiviaCommunity/3D-RCAN">https://github.com/AiviaCommunity/3D-RCAN</a> for more information.</p>
 </section>
 <section id="relu" class="level2">
 <h2 class="anchored" data-anchor-id="relu">ReLU</h2>
@@ -1003,6 +1079,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <section id="real-time-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="real-time-analysis">Real-time analysis</h2>
 <p>An approach in which images are processed as the data is acquired. This is in contrast to a-posterior analysis, where the data is acquired before processing.</p>
+</section>
+<section id="recall" class="level2">
+<h2 class="anchored" data-anchor-id="recall">Recall</h2>
+<p>A classification metric that measures the proportion of actual positives that were correctly identified: <a href="./glossary.html#true-positives">true positives</a> divided by the sum of true positives and <a href="./glossary.html#false-negatives">false negatives</a>. Recall answers “of everything that was actually positive, how much did the model find?” A model can achieve high recall by predicting positive more liberally, at the cost of more false positives (i.e., lower <a href="./glossary.html#precision">precision</a>). Also known as sensitivity or the true positive rate. <span class="math display">\[ \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}\]</span></p>
 </section>
 <section id="receptive-field" class="level2">
 <h2 class="anchored" data-anchor-id="receptive-field">Receptive Field</h2>
@@ -1084,6 +1164,10 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <h2 class="anchored" data-anchor-id="support-vector-machine-svm">Support vector machine (SVM)</h2>
 <p>A supervised machine-learning algorithm that learns the decision boundary that best separates data points of different classes by maximizing the margin between them.</p>
 </section>
+<section id="test-data" class="level2">
+<h2 class="anchored" data-anchor-id="test-data">Test Data</h2>
+<p>Data held out from both the <a href="./glossary.html#training-data">training data</a> and <a href="./glossary.html#validation-data">validation data</a>, used only after training is complete to give an unbiased estimate of how a model will perform on new, unseen data. Because it plays no role in training or hyperparameter tuning, test data should only be used once a model is finalized.</p>
+</section>
 <section id="texture" class="level2">
 <h2 class="anchored" data-anchor-id="texture">Texture</h2>
 <p>A quantitative descriptor of the spatial pattern of intensity variation within a region of interest, capturing properties like smoothness or granularity.</p>
@@ -1098,7 +1182,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="training-data" class="level2">
 <h2 class="anchored" data-anchor-id="training-data">Training Data</h2>
-<p>Data used to train an algorithm to make predictions.</p>
+<p>Data used to teach a machine learning model to perform a task, such as classification, segmentation, <a href="./glossary.html#image-restoration">restoration</a>, or generation. Depending on the method, training data may be paired with target labels or ground truth (as in <a href="./glossary.html#supervised-learning">supervised learning</a>) or used on its own without labels (as in <a href="./glossary.html#self-supervised-learning">self-supervised</a> or unsupervised learning).</p>
 </section>
 <section id="transfer-learning" class="level2">
 <h2 class="anchored" data-anchor-id="transfer-learning">Transfer Learning</h2>
@@ -1110,7 +1194,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="true-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="true-negatives">True Negatives</h2>
-<p>In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as negative and were really negative.</p>
+<p>In a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.</p>
 </section>
 <section id="true-positives" class="level2">
 <h2 class="anchored" data-anchor-id="true-positives">True Positives</h2>
@@ -1118,11 +1202,15 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="u-net" class="level2">
 <h2 class="anchored" data-anchor-id="u-net">U-Net</h2>
-<p>A U-Net is a type of convolutional neural network that was specifically developed for the task of image segmentation. It has since been used for a variety of tasks. The model is so named because downsampling layers are followed by upsampling layers, which are each connected by skip connections, and togther this gives diagrams of the network a U shape.</p>
+<p>A U-Net is a type of convolutional neural network that was specifically developed for the task of image segmentation. It has since been used for a variety of tasks. The model is so named because downsampling layers are followed by upsampling layers, which are each connected by skip connections, and together this gives diagrams of the network a U shape.</p>
 </section>
 <section id="upsampling" class="level2">
 <h2 class="anchored" data-anchor-id="upsampling">Upsampling</h2>
 <p>Upsampling is a technique to increase the sampling of input data. For an image, this involves increasing the number of pixels and interpolating values for the newly sampled pixels.</p>
+</section>
+<section id="validation-data" class="level2">
+<h2 class="anchored" data-anchor-id="validation-data">Validation Data</h2>
+<p>Data set aside from the <a href="./glossary.html#training-data">training data</a> and used to evaluate a model’s performance during training, without being used to update the model’s weights. It is typically used to tune <a href="./glossary.html#hyperparameters">hyperparameters</a> and monitor for overfitting, for example by deciding when to stop training.</p>
 </section>
 <section id="virtual-machine" class="level2">
 <h2 class="anchored" data-anchor-id="virtual-machine">Virtual Machine</h2>
@@ -1130,7 +1218,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </section>
 <section id="vision-language-model-vlm" class="level2">
 <h2 class="anchored" data-anchor-id="vision-language-model-vlm">Vision-Language Model (VLM)</h2>
-<p>A Vision-language Model (VLM) are a type of model that can process both images and text with a single architecture. Because they can accept both natual language and visual inputs, they can include context in their analysis.</p>
+<p>A Vision-language Model (VLM) is a type of model that can process both images and text with a single architecture. Because they can accept both natural language and visual inputs, they can include context in their analysis.</p>
 </section>
 <section id="visual-question-answering" class="level2">
 <h2 class="anchored" data-anchor-id="visual-question-answering">Visual Question Answering</h2>

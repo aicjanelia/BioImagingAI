@@ -28,7 +28,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -92,6 +147,35 @@ gtag('js', new Date());
 gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -441,12 +525,12 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#metrics-and-losses" id="toc-metrics-and-losses" class="nav-link active" data-scroll-target="#metrics-and-losses"><span class="header-section-number">10.1</span> Metrics and Losses</a></li>
-  <li><a href="#what-metric-to-pick" id="toc-what-metric-to-pick" class="nav-link" data-scroll-target="#what-metric-to-pick"><span class="header-section-number">10.2</span> What Metric to Pick?</a></li>
-  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples"><span class="header-section-number">10.3</span> Examples</a>
+  <li><a href="#what-metric-to-pick" id="toc-what-metric-to-pick" class="nav-link" data-scroll-target="#what-metric-to-pick"><span class="header-section-number">10.2</span> What Metric to Pick?</a>
   <ul class="collapse">
-  <li><a href="#segmentation-metrics" id="toc-segmentation-metrics" class="nav-link" data-scroll-target="#segmentation-metrics"><span class="header-section-number">10.3.1</span> Segmentation Metrics</a></li>
-  <li><a href="#cell-tracking-metrics" id="toc-cell-tracking-metrics" class="nav-link" data-scroll-target="#cell-tracking-metrics"><span class="header-section-number">10.3.2</span> Cell Tracking Metrics</a></li>
+  <li><a href="#sec-cell-tracking-metrics" id="toc-sec-cell-tracking-metrics" class="nav-link" data-scroll-target="#sec-cell-tracking-metrics"><span class="header-section-number">10.2.1</span> Cell Tracking Metrics</a></li>
   </ul></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion"><span class="header-section-number">10.3</span> Conclusion</a></li>
+  <li><a href="#ai-disclosure" id="toc-ai-disclosure" class="nav-link" data-scroll-target="#ai-disclosure">AI Disclosure</a></li>
   </ul>
 </nav>
     </div>
@@ -478,7 +562,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            
+            biohub
           </p>
       </div>
   </div>
@@ -495,68 +579,804 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </header>
 
 
-<p>Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.</p>
-<ul>
-<li>why do we need metrics? to pick models from different training iterations (avoid overfitting) and to select models with different hyperparameters</li>
-<li>mention train/validate/test, discuss the need for “ground truth” data, can callback to chapter 5</li>
-</ul>
+<!-- Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
+
+* why do we need metrics? to pick models from different training iterations
+  (avoid overfitting) and to select models with different hyperparameters
+* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5 -->
+<p>You have trained a model. How do you know if it is any good? A model that looks convincing on a handful of images can quietly fail on the rest of your dataset, and a model that scores well on one measure of quality can perform poorly on another. Choosing the right way to measure quality is therefore just as important as the training itself.</p>
+<p>In this chapter we will look at how metrics and losses differ, how to pick measures that actually reflect your scientific goal, and how to use held-out test data to get an honest estimate of how your model will behave on new images. We will focus on <em>segmentation</em> and <em>cell tracking</em> as concrete examples, but the principles apply broadly.</p>
 <section id="metrics-and-losses" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="metrics-and-losses"><span class="header-section-number">10.1</span> Metrics and Losses</h2>
-<ul>
-<li><p>difference between “metric” and “loss”</p></li>
-<li><p>loss:</p>
-<ul>
-<li>has to be “differentiable”</li>
-<li>used to train the network</li>
-<li>should already be close to the metric you want to use</li>
-<li>can be used to assess model quality on validation data (but a custom metric might be more insightful)</li>
-</ul></li>
-<li><p>metric:</p>
-<ul>
-<li>an application specific measure of how close you are to the ground truth</li>
-<li>used to select a model and to measure progress</li>
-<li>does not need to be “differentiable”</li>
-<li>but if it is, that’s great, you can use it as a loss</li>
-<li>otherwise, find a loss that is a good proxy or chose your model based on the metric on the validation dataset</li>
-</ul></li>
-</ul>
+<p>In <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a>, you learned about how to train a machine learning model. Recall that, this requires selecting a <a href="./glossary.html#loss-function">loss function</a>: a function that represents how far the model’s output is from your desired ground truth. As training relies on <a href="./glossary.html#gradient-descent">gradient descent</a>, the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step. The model’s parameters are optimized to minimize the loss on a <a href="./glossary.html#training-data">training dataset</a>, and you evaluate the same loss on a held-out <a href="./glossary.html#validation-data">validation dataset</a> to get an idea of how well your model would perform on new data.</p>
+<p>Once you’ve trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model. A <a href="./glossary.html#quality-control-metric">metric</a> is any function that scores your predictions. Unlike a loss, it does not have to be differentiable because it is not used for optimization. This means that you can get more specific which how you evaluate the quality of your model output, as we’ll see below.</p>
+<!-- For example, look at the segmentation outputs in @fig-segmentations.
+At first glance, it is difficult to judge which of these is the most appropriate. -->
+<p>Consider the case of nuclear segmentation. Suppose you have fluorescently labelled nuclei, as in (<a href="#fig-image" class="quarto-xref">Figure&nbsp;<span>10.1</span></a>), that you want to segment for downstream analysis. Two standard losses for this task are <a href="./glossary.html#binary-cross-entropy">binary cross entropy (BCE)</a>, and <a href="./glossary.html#mean-squared-error">mean squared error (MSE)</a>. These functions are often optimized for the task of <a href="./glossary.html#semantic-segmentation">semantic segmentation</a>, separating foreground from background. While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.</p>
+<div id="cell-fig-image" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> contextlib, io, logging</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> cellpose <span class="im">import</span> models</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> ski.data.cells3d()[<span class="dv">21</span>:]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> img[<span class="dv">18</span>][<span class="dv">1</span>]  <span class="co"># nucleus channel</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Run Cellpose quietly for display</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>logging.getLogger(<span class="st">'cellpose'</span>).setLevel(logging.ERROR)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    _model <span class="op">=</span> models.CellposeModel(gpu<span class="op">=</span><span class="va">False</span>, model_type<span class="op">=</span><span class="st">'nuclei'</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    _cp_labels, _, _ <span class="op">=</span> _model.<span class="bu">eval</span>(image, diameter<span class="op">=</span><span class="va">None</span>, channels<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">0</span>])</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Use make_ground_truth for bw/filled/label_image so that failure modes</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co"># (holes, split nuclei) are visible in the downstream figures</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>bw, filled, label_image <span class="op">=</span> make_ground_truth(image)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>image_label_overlay <span class="op">=</span> label2rgb(_cp_labels, image<span class="op">=</span>image, bg_label<span class="op">=</span><span class="dv">0</span>, alpha<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>plt.imshow(image_label_overlay)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>plt.axis(<span class="st">"off"</span>)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Downloading file 'data/cells3d.tif' from 'https://gitlab.com/scikit-image/data/-/raw/2cdc5ce89b334d28f06a58c9f0ca21aa6992a5ba/cells3d.tif' to 'C:\Users\runneradmin\AppData\Local\scikit-image\scikit-image\Cache\0.26.0'.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div id="fig-image" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-output-quality_files/figure-html/fig-image-output-2.png" width="389" height="389" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-image-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.1: Our cells, with the ground truth overlaid. This ground truth is the output of a Cellpose<span class="citation" data-cites="stringer2021"><sup><a href="references.html#ref-stringer2021" role="doc-biblioref">1</a></sup></span> model, but in practice it should be manually annotated.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Binary Cross-Entropy (BCE)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Binary cross-entropy penalizes the model based on how confident it is in the wrong answer. This loss requires the output to be interpretable as a probability — it asks “is this pixel foreground or background?” and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell. For ground truth label <span class="math inline">\(y_i \in \{0,1\}\)</span> and predicted probability <span class="math inline">\(\hat{y}_i \in [0,1]\)</span>: <span class="math display">\[\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]\]</span></p>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Mean Squared Error (MSE)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>The mean squared error penalizes the model proportionally to the squared difference between its prediction and the ground truth: <span class="math display">\[\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2\]</span> MSE measures <em>how far</em> the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a <a href="./glossary.html#distance-transform">distance transform</a> or a <a href="./glossary.html#confidence-score">confidence score</a>. Because it sums squared errors over all pixels, it is sensitive to the total <em>extent</em> of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.</p>
+</div>
+</div>
+</div>
+<p>Luckily, we can keep track of both of these things by using one of these functions as a metric. For example, as we optimize binary cross-entropy, we can compute the mean-squared error on the validation data. Watching multiple numbers evolve during training gives a fuller picture than any single number alone.</p>
+<p>After training a model for segmantic, or foreground/background, segmentation, it is common to use a method such as watershed to obtain instance segmentations: segmentation masks for each individual nucleus. How well we can do this task, followed by what downstream analysis we intend for our instance segmentations, cannot be easily measured with BCE or MSE. One can imagine other functions, however, that could more accurately describe “good performance”.</p>
+<details class="code-fold">
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> [</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    make_undersegmented(filled),</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>    make_oversegmented(filled),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    make_missing_cells(label_image),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    make_holey(bw),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> pred <span class="kw">in</span> predictions:</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    ax.imshow(label2rgb(pred, image<span class="op">=</span>image, bg_label<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div id="fig-segmentations" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-segmentations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-segmentations" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-segmentations-1" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-segmentations-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-output-quality_files/figure-html/fig-segmentations-output-1.png" data-ref-parent="fig-segmentations" width="315" height="315" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-segmentations-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Undersegmented: masks shrink away from cell borders
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-segmentations" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-segmentations-2" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-segmentations-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-output-quality_files/figure-html/fig-segmentations-output-2.png" data-ref-parent="fig-segmentations" width="315" height="315" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-segmentations-2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) Oversegmented: masks are too large, adjacent cells merge
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="quarto-layout-row">
+<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-segmentations" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-segmentations-3" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-segmentations-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-output-quality_files/figure-html/fig-segmentations-output-3.png" data-ref-parent="fig-segmentations" width="315" height="315" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-segmentations-3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) False negatives: missing cells and split nuclei.
+</figcaption>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-display quarto-layout-cell-subref quarto-layout-cell" data-ref-parent="fig-segmentations" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div id="fig-segmentations-4" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-segmentations-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-output-quality_files/figure-html/fig-segmentations-output-4.png" data-ref-parent="fig-segmentations" width="315" height="315" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-segmentations-4-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(d) Holes and false positives: gaps inside cells and spurious detections.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-segmentations-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.2: Four examples of segmentations from different models. Each has a distinct failure mode that is hard to spot at a glance.
+</figcaption>
+</figure>
+</div>
+<p>If we are interested in measuring the size of each nucleus, a model which under (<a href="#fig-segmentations" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>a) or over segments nuclei (<a href="#fig-segmentations" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>b) would create erroneous measurements of size. Instead a model that misses some detections (<a href="#fig-segmentations" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>c) might be preferable as long as the detections that exist correctly reflect the size of the nucleus. In this case an appropriate metric would be pixel-overlap metrics like <a href="./glossary.html#iou">Intersection over Union (IoU)</a> or the <a href="./glossary.html#f1-score">Dice coefficient</a>. A metric that captures this will look very different from BCE or MSE.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-4-contents" aria-controls="callout-4" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>IoU and DICE are overlap metrics.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-4" class="callout-4-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Both metrics quantify the overlap between a predicted region <span class="math inline">\(B\)</span> and the ground truth <span class="math inline">\(A\)</span>, by comparing the intersection of the two regions (<span class="math inline">\(\cap\)</span>) and their union (<span class="math inline">\(\cup\)</span>). Both metrics range from 0 (no overlap) to 1 (perfect overlap).</p>
+<p><span class="math display">\[\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{DICE}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}\]</span></p>
+<p>DICE is the <a href="./glossary.html#harmonic-mean">harmonic mean</a> of <a href="./glossary.html#precision">precision</a> and <a href="./glossary.html#recall">recall</a>: it balances <a href="./glossary.html#false-positives">false positives</a> (predicted pixels outside <span class="math inline">\(A\)</span>) and <a href="./glossary.html#false-negatives">false negatives</a> (pixels in <span class="math inline">\(A\)</span> missed by <span class="math inline">\(B\)</span>) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.</p>
+</div>
+</div>
+<div id="970ed61c" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Rectangle, Patch, Polygon <span class="im">as</span> MplPolygon</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>navy, orange, green <span class="op">=</span> <span class="st">"#1a35e0"</span>, <span class="st">"#e47a10"</span>, <span class="st">"#2a9d2a"</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(np.arange(<span class="dv">0</span>, <span class="dv">6</span>, <span class="fl">0.5</span>))</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(np.arange(<span class="dv">0</span>, <span class="dv">6</span>, <span class="fl">0.5</span>))</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>, color<span class="op">=</span><span class="st">"lightgray"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>ax.tick_params(labelbottom<span class="op">=</span><span class="va">False</span>, labelleft<span class="op">=</span><span class="va">False</span>, length<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>A <span class="op">=</span> (<span class="fl">0.5</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">4</span>)      <span class="co"># x, y, width, height</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>B <span class="op">=</span> (<span class="fl">1.5</span>, <span class="fl">1.5</span>, <span class="dv">3</span>, <span class="dv">3</span>)</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>ax.add_patch(Rectangle(A[:<span class="dv">2</span>], A[<span class="dv">2</span>], A[<span class="dv">3</span>], facecolor<span class="op">=</span>navy, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>ax.add_patch(Rectangle(B[:<span class="dv">2</span>], B[<span class="dv">2</span>], B[<span class="dv">3</span>], facecolor<span class="op">=</span>orange, alpha<span class="op">=</span><span class="fl">0.5</span>))</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Union: outline that follows the actual shape of A ∪ B</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>union_verts <span class="op">=</span> [</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    (A[<span class="dv">0</span>],      A[<span class="dv">1</span>]),           <span class="co"># bottom-left of A</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    (A[<span class="dv">0</span>]<span class="op">+</span>A[<span class="dv">2</span>], A[<span class="dv">1</span>]),           <span class="co"># bottom-right of A</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    (A[<span class="dv">0</span>]<span class="op">+</span>A[<span class="dv">2</span>], B[<span class="dv">1</span>]),           <span class="co"># down to bottom of B</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    (B[<span class="dv">0</span>]<span class="op">+</span>B[<span class="dv">2</span>], B[<span class="dv">1</span>]),           <span class="co"># bottom-right of B</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    (B[<span class="dv">0</span>]<span class="op">+</span>B[<span class="dv">2</span>], B[<span class="dv">1</span>]<span class="op">+</span>B[<span class="dv">3</span>]),      <span class="co"># top-right of B</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    (A[<span class="dv">0</span>]<span class="op">+</span>A[<span class="dv">2</span>], B[<span class="dv">1</span>]<span class="op">+</span>B[<span class="dv">3</span>]),      <span class="co"># back to A's right edge at top of B</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    (A[<span class="dv">0</span>]<span class="op">+</span>A[<span class="dv">2</span>], A[<span class="dv">1</span>]<span class="op">+</span>A[<span class="dv">3</span>]),      <span class="co"># top-right of A</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    (A[<span class="dv">0</span>],      A[<span class="dv">1</span>]<span class="op">+</span>A[<span class="dv">3</span>]),      <span class="co"># top-left of A</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>ax.add_patch(MplPolygon(union_verts, closed<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                        facecolor<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, lw<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">"--"</span>))</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>ix0, iy0 <span class="op">=</span> <span class="bu">max</span>(A[<span class="dv">0</span>], B[<span class="dv">0</span>]), <span class="bu">max</span>(A[<span class="dv">1</span>], B[<span class="dv">1</span>])</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>ix1, iy1 <span class="op">=</span> <span class="bu">min</span>(A[<span class="dv">0</span>]<span class="op">+</span>A[<span class="dv">2</span>], B[<span class="dv">0</span>]<span class="op">+</span>B[<span class="dv">2</span>]), <span class="bu">min</span>(A[<span class="dv">1</span>]<span class="op">+</span>A[<span class="dv">3</span>], B[<span class="dv">1</span>]<span class="op">+</span>B[<span class="dv">3</span>])</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>ax.add_patch(Rectangle((ix0, iy0), ix1<span class="op">-</span>ix0, iy1<span class="op">-</span>iy0,</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>                        facecolor<span class="op">=</span>green, alpha<span class="op">=</span><span class="fl">0.85</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>, hatch<span class="op">=</span><span class="st">"////"</span>))</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>legend_elements <span class="op">=</span> [</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span>navy, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"A"</span>),</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span>orange, alpha<span class="op">=</span><span class="fl">0.5</span>, label<span class="op">=</span><span class="st">"B"</span>),</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span>green, alpha<span class="op">=</span><span class="fl">0.85</span>, hatch<span class="op">=</span><span class="st">"////"</span>, label<span class="op">=</span><span class="st">"A ∩ B"</span>),</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span><span class="st">"none"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>, lw<span class="op">=</span><span class="dv">2</span>, linestyle<span class="op">=</span><span class="st">"--"</span>, label<span class="op">=</span><span class="st">"A ∪ B"</span>),</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>ax.legend(handles<span class="op">=</span>legend_elements, loc<span class="op">=</span><span class="st">"upper center"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.02</span>),</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>          ncol<span class="op">=</span><span class="dv">2</span>, frameon<span class="op">=</span><span class="va">False</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-output-quality_files/figure-html/cell-5-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="391" height="316"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Alternatively, if we are interested in counting the number of nuclei, a model which changes the size of the nuclei should not impact the analysis. However a model that misses nuclei (<a href="#fig-segmentations" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>c), detects artifacts as nuclei (<a href="#fig-segmentations" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>d), merges multiple nuclei into one (<a href="#fig-segmentations" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>b), or splits a single nucleus into multiple (<a href="#fig-segmentations" class="quarto-xref">Figure&nbsp;<span>10.2</span></a>c) would introduce errors into the final counts. In this case, a metric built around per-instance detection, such as <a href="./glossary.html#precision">precision</a> and <a href="./glossary.html#recall">recall</a> (or <a href="./glossary.html#f1-score">F1-score</a>) after matching predicted masks to <a href="./glossary.html#ground-truth">ground truth</a>, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives that would need correction. Different downstream uses call for different metrics.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Precision, recall, and F1-score are instance-level metrics.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>A predicted instance is a true positive (TP) if it sufficiently overlaps a ground-truth instance (e.g.&nbsp;IoU <span class="math inline">\(\geq 0.5\)</span>), a false positive (FP) if it has no matching ground truth, and a false negative (FN) if a ground-truth instance was never detected.</p>
+<p><span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}} \qquad \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}\]</span> <span class="math display">\[ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}\]</span></p>
+<p>Precision answers “of all predicted instances, how many were correct?”; recall answers “of all real instances, how many were found?”; F1 is their harmonic mean.</p>
+<div id="8fc67de2" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.patches <span class="im">import</span> Patch</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>navy, orange, green <span class="op">=</span> <span class="st">"#1a35e0"</span>, <span class="st">"#e47a10"</span>, <span class="st">"#2a9d2a"</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>H, W <span class="op">=</span> <span class="dv">300</span>, <span class="dv">500</span>  <span class="co"># raster grid</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> ellipse_mask(cx, cy, rx, ry):</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Boolean mask for an ellipse in axis coordinates [0,10] x [0,6]."""</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">10</span>, W)</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">6</span>,  H)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    xx, yy <span class="op">=</span> np.meshgrid(x, y)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> ((xx <span class="op">-</span> cx) <span class="op">/</span> rx)<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> ((yy <span class="op">-</span> cy) <span class="op">/</span> ry)<span class="op">**</span><span class="dv">2</span> <span class="op">&lt;=</span> <span class="dv">1</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Label image: 0=bg, 1=GT only (orange), 2=pred only (blue), 3=overlap (green)</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> np.zeros((H, W), dtype<span class="op">=</span><span class="bu">int</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co"># True positives: GT and prediction ellipses slightly offset</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>tps <span class="op">=</span> [  <span class="co"># gt_x, gt_y, gt_rx, gt_ry,  dx, dy  (prediction offset)</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">2.0</span>, <span class="fl">3.0</span>, <span class="fl">1.0</span>, <span class="fl">0.8</span>,   <span class="fl">0.4</span>,  <span class="fl">0.3</span>),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">5.0</span>, <span class="fl">3.8</span>, <span class="fl">0.9</span>, <span class="fl">1.0</span>,  <span class="op">-</span><span class="fl">0.3</span>,  <span class="fl">0.4</span>),</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">7.5</span>, <span class="fl">2.0</span>, <span class="fl">1.0</span>, <span class="fl">0.85</span>,  <span class="fl">0.35</span>,<span class="op">-</span><span class="fl">0.3</span>),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>    (<span class="fl">4.5</span>, <span class="fl">1.2</span>, <span class="fl">0.8</span>, <span class="fl">0.7</span>,  <span class="op">-</span><span class="fl">0.25</span>, <span class="fl">0.3</span>),</span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cx, cy, rx, ry, dx, dy <span class="kw">in</span> tps:</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>    gt   <span class="op">=</span> ellipse_mask(cx,    cy,    rx,   ry)</span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>    pred <span class="op">=</span> ellipse_mask(cx<span class="op">+</span>dx, cy<span class="op">+</span>dy, rx,   ry)</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>    img[gt   <span class="op">&amp;</span> <span class="op">~</span>pred] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>    img[pred <span class="op">&amp;</span> <span class="op">~</span>gt  ] <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>    img[gt   <span class="op">&amp;</span>  pred] <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a><span class="co"># False negatives — ground truth only (orange)</span></span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cx, cy, rx, ry <span class="kw">in</span> [(<span class="fl">3.0</span>, <span class="fl">5.0</span>, <span class="fl">0.85</span>, <span class="fl">0.7</span>), (<span class="fl">8.5</span>, <span class="fl">4.5</span>, <span class="fl">0.9</span>, <span class="fl">0.8</span>)]:</span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>    img[ellipse_mask(cx, cy, rx, ry)] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a><span class="co"># False positives — prediction only (blue)</span></span>
+<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cx, cy, rx, ry <span class="kw">in</span> [(<span class="fl">1.0</span>, <span class="fl">1.0</span>, <span class="fl">0.8</span>, <span class="fl">0.9</span>), (<span class="fl">6.5</span>, <span class="fl">5.0</span>, <span class="fl">0.9</span>, <span class="fl">0.75</span>)]:</span>
+<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>    img[ellipse_mask(cx, cy, rx, ry)] <span class="op">=</span> <span class="dv">2</span></span>
+<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> ListedColormap([<span class="st">"#ffffff"</span>, orange, navy, green])</span>
+<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>ax.imshow(img, cmap<span class="op">=</span>cmap, vmin<span class="op">=</span><span class="dv">0</span>, vmax<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a>          extent<span class="op">=</span>[<span class="dv">0</span>, <span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">6</span>], origin<span class="op">=</span><span class="st">"lower"</span>, aspect<span class="op">=</span><span class="st">"auto"</span>)</span>
+<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>ax.axis(<span class="st">"off"</span>)</span>
+<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a>legend_elements <span class="op">=</span> [</span>
+<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span>green,  label<span class="op">=</span><span class="st">"Matched (TP)"</span>),</span>
+<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span>orange, label<span class="op">=</span><span class="st">"Ground truth only (FN)"</span>),</span>
+<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>    Patch(facecolor<span class="op">=</span>navy,   label<span class="op">=</span><span class="st">"Prediction only (FP)"</span>),</span>
+<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>ax.legend(handles<span class="op">=</span>legend_elements, loc<span class="op">=</span><span class="st">"upper center"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.02</span>),</span>
+<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>          ncol<span class="op">=</span><span class="dv">1</span>, frameon<span class="op">=</span><span class="va">False</span>, fontsize<span class="op">=</span><span class="dv">9</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-output-quality_files/figure-html/cell-6-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="391" height="309"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Open the callouts below for more metrics that are common in image analysis. You can find many other examples of metrics for various tasks, along with their pitfalls at <a href="https://metrics-reloaded.dkfz.de/">MetricsReloaded</a>.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-6-contents" aria-controls="callout-6" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The Hausdorff distance focuses on boundaries.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-6" class="callout-6-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>The <a href="./glossary.html#hausdorff-distance">Hausdorff distance</a> measures how far apart two sets of boundary points are at their worst-case point. For boundary point sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>:</p>
+<p><span class="math display">\[d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)\]</span></p>
+<p>A small Hausdorff distance means every point on one boundary has a close counterpart on the other.</p>
+<div id="b9b8d2ca" class="cell" data-execution_count="6">
+<details class="code-fold">
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>navy, orange, green <span class="op">=</span> <span class="st">"#1a35e0"</span>, <span class="st">"#e47a10"</span>, <span class="st">"#2a9d2a"</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="dv">0</span>, <span class="dv">5</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(np.arange(<span class="dv">0</span>, <span class="dv">6</span>, <span class="fl">0.5</span>))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>ax.set_yticks(np.arange(<span class="dv">0</span>, <span class="dv">6</span>, <span class="fl">0.5</span>))</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>, color<span class="op">=</span><span class="st">"lightgray"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ax.tick_params(labelbottom<span class="op">=</span><span class="va">False</span>, labelleft<span class="op">=</span><span class="va">False</span>, length<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>theta_f <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">300</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>theta_c <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">2</span> <span class="op">*</span> np.pi, <span class="dv">20</span>, endpoint<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># A: ground truth boundary (circle)</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>A_line <span class="op">=</span> np.stack([<span class="fl">2.5</span> <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> np.cos(theta_f), <span class="fl">2.5</span> <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> np.sin(theta_f)], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>A_pts  <span class="op">=</span> np.stack([<span class="fl">2.5</span> <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> np.cos(theta_c), <span class="fl">2.5</span> <span class="op">+</span> <span class="fl">1.5</span> <span class="op">*</span> np.sin(theta_c)], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co"># B: predicted boundary — slightly larger and offset</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>B_line <span class="op">=</span> np.stack([<span class="fl">2.9</span> <span class="op">+</span> <span class="fl">1.8</span> <span class="op">*</span> np.cos(theta_f), <span class="fl">2.7</span> <span class="op">+</span> <span class="fl">1.8</span> <span class="op">*</span> np.sin(theta_f)], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>B_pts  <span class="op">=</span> np.stack([<span class="fl">2.9</span> <span class="op">+</span> <span class="fl">1.8</span> <span class="op">*</span> np.cos(theta_c), <span class="fl">2.7</span> <span class="op">+</span> <span class="fl">1.8</span> <span class="op">*</span> np.sin(theta_c)], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>ax.plot(A_line[:, <span class="dv">0</span>], A_line[:, <span class="dv">1</span>], color<span class="op">=</span>navy, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"A"</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>ax.plot(B_line[:, <span class="dv">0</span>], B_line[:, <span class="dv">1</span>], color<span class="op">=</span>orange, lw<span class="op">=</span><span class="dv">2</span>, label<span class="op">=</span><span class="st">"B"</span>)</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Draw nearest-neighbour lines from each point in A to its closest point in B</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>dists <span class="op">=</span> np.linalg.norm(A_pts[:, <span class="va">None</span>] <span class="op">-</span> B_pts[<span class="va">None</span>], axis<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>nn <span class="op">=</span> np.argmin(dists, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(A_pts)):</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>    ax.plot([A_pts[i, <span class="dv">0</span>], B_pts[nn[i], <span class="dv">0</span>]], [A_pts[i, <span class="dv">1</span>], B_pts[nn[i], <span class="dv">1</span>]],</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span><span class="st">"lightgray"</span>, lw<span class="op">=</span><span class="fl">0.7</span>, zorder<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Highlight the worst-case pair (the Hausdorff point)</span></span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>w <span class="op">=</span> np.argmax(dists[np.arange(<span class="bu">len</span>(A_pts)), nn])</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>ax.annotate(<span class="st">""</span>, xy<span class="op">=</span>(B_pts[nn[w], <span class="dv">0</span>], B_pts[nn[w], <span class="dv">1</span>]),</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>            xytext<span class="op">=</span>(A_pts[w, <span class="dv">0</span>], A_pts[w, <span class="dv">1</span>]),</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>            arrowprops<span class="op">=</span><span class="bu">dict</span>(arrowstyle<span class="op">=</span><span class="st">"&lt;-&gt;"</span>, color<span class="op">=</span>green, lw<span class="op">=</span><span class="fl">2.0</span>), zorder<span class="op">=</span><span class="dv">3</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>mid <span class="op">=</span> (A_pts[w] <span class="op">+</span> B_pts[nn[w]]) <span class="op">/</span> <span class="dv">2</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>ax.text(mid[<span class="dv">0</span>] <span class="op">-</span> <span class="fl">0.1</span>, mid[<span class="dv">1</span>] <span class="op">-</span> <span class="fl">0.3</span>, <span class="st">"$d_H$"</span>, color<span class="op">=</span>green, fontsize<span class="op">=</span><span class="dv">13</span>, va<span class="op">=</span><span class="st">"center"</span>)</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">"upper center"</span>, bbox_to_anchor<span class="op">=</span>(<span class="fl">0.5</span>, <span class="op">-</span><span class="fl">0.02</span>),</span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>          ncol<span class="op">=</span><span class="dv">2</span>, frameon<span class="op">=</span><span class="va">False</span>, fontsize<span class="op">=</span><span class="dv">14</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-output-quality_files/figure-html/cell-7-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="391" height="288"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center collapsed" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Average precision rewards finding the right instances.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><a href="./glossary.html#average-precision">Average Precision (AP)</a> summarizes the precision–recall trade-off across confidence thresholds. A predicted instance counts as a true positive only if its IoU with a ground-truth instance exceeds a threshold <span class="math inline">\(x\)</span>:</p>
+<p><span class="math display">\[\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k\]</span></p>
+<p>where <span class="math inline">\(P_k\)</span> and <span class="math inline">\(R_k\)</span> are precision and recall at the <span class="math inline">\(k\)</span>-th confidence threshold after matching predictions to ground-truth at IoU <span class="math inline">\(\geq x\)</span>. Higher <span class="math inline">\(x\)</span> demands more precise localization.</p>
+<div id="55294e9d" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>navy, orange <span class="op">=</span> <span class="st">"#1a35e0"</span>, <span class="st">"#e47a10"</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Synthetic precision-recall curve</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>recall <span class="op">=</span> np.array([<span class="fl">0.0</span>, <span class="fl">0.15</span>, <span class="fl">0.35</span>, <span class="fl">0.55</span>, <span class="fl">0.70</span>, <span class="fl">0.82</span>, <span class="fl">0.92</span>, <span class="fl">1.0</span>])</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>prec   <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">0.92</span>, <span class="fl">0.82</span>, <span class="fl">0.70</span>, <span class="fl">0.58</span>, <span class="fl">0.44</span>, <span class="fl">0.28</span>, <span class="fl">0.0</span>])</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">5</span>, <span class="dv">3</span>))</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>ax.set_xlim(<span class="op">-</span><span class="fl">0.05</span>, <span class="fl">1.1</span>)</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>ax.set_ylim(<span class="op">-</span><span class="fl">0.05</span>, <span class="fl">1.15</span>)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"Recall ($R$)"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Precision ($P$)"</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>ax.set_xticks([<span class="fl">0.0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>])</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>ax.set_yticks([<span class="fl">0.0</span>, <span class="fl">0.5</span>, <span class="fl">1.0</span>])</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>ax.grid(<span class="va">True</span>, color<span class="op">=</span><span class="st">"lightgray"</span>, lw<span class="op">=</span><span class="fl">0.8</span>)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Step function and shaded area under the curve = AP</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>ax.step(recall, prec, where<span class="op">=</span><span class="st">"post"</span>, color<span class="op">=</span>navy, lw<span class="op">=</span><span class="dv">2</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>ax.fill_between(recall, prec, step<span class="op">=</span><span class="st">"post"</span>, alpha<span class="op">=</span><span class="fl">0.25</span>, color<span class="op">=</span>navy, label<span class="op">=</span><span class="st">"AP"</span>)</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Mark the individual (R_k, P_k) threshold points</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>ax.scatter(recall[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], prec[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>], color<span class="op">=</span>orange, s<span class="op">=</span><span class="dv">45</span>, zorder<span class="op">=</span><span class="dv">5</span>,</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>           label<span class="op">=</span><span class="st">"$(R_k, P_k)$"</span>)</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>ax.legend(loc<span class="op">=</span><span class="st">"upper right"</span>, frameon<span class="op">=</span><span class="va">False</span>, fontsize<span class="op">=</span><span class="dv">11</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="10-output-quality_files/figure-html/cell-8-output-1.png" class="quarto-figure quarto-figure-center figure-img" width="442" height="283"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses. The practical workflow is therefore: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Explore this <a href="https://metrics-reloaded.dkfz.de/metric-demo/segmentation">demo</a> to see the direct impact of different segmentation errors on a variety of metrics.</p>
+</div>
+</div>
+<p>As you’ve seen, there are many different metrics available for every task. Each will be more or less useful depending on what types of errors you can or cannot accept in your final predictions. So, how do you choose which metrics to measure and which ones to pay attention to?</p>
 </section>
 <section id="what-metric-to-pick" class="level2" data-number="10.2">
 <h2 data-number="10.2" class="anchored" data-anchor-id="what-metric-to-pick"><span class="header-section-number">10.2</span> What Metric to Pick?</h2>
-<ul>
-<li>ideally: metric reflects <em>time/cost needed to clean up</em> for a <em>particular application</em></li>
-<li>this can mean different things, and sometimes there is no single number (see Cell Tracking below)</li>
-<li>Discuss tradeoffs in metrics choice</li>
-<li>Interpretation of different metrics with guidance on how to balance/trade-off priorities
-<ul>
-<li>E.g. segmentation for counting (segmentation as object detection) vs.&nbsp;segmentation for size estimation</li>
-</ul></li>
-</ul>
+<p>When selecting a metric or metrics to use for evaluating a model, there are two key axes to consider. The first is the downstream analysis task that the data will be used for. The second is the time/cost needed to correct errors prior to that analysis task. In many cases the downstream analysis task will influence which types of errors can be tolerated.</p>
+<p>This is why there is rarely one “correct” metric for a task like segmentation; the same set of predicted masks can look excellent by one measure and mediocre by another, and the right choice depends on tracing through how errors in the output propagate into errors in the analysis you actually care about. In some cases no single number can capture this tradeoff, and getting a picture of quality you can act on requires reporting several complementary metrics side by side, or splitting evaluation into stages that reflect distinct sources of error. This tension is especially visible in cell tracking, where a solution can be scored separately on how well it detects cells in each frame and on how well it links them across frames, and both pieces have to be weighed together to judge whether the result is fit for the application at hand.</p>
+<section id="sec-cell-tracking-metrics" class="level3" data-number="10.2.1">
+<h3 data-number="10.2.1" class="anchored" data-anchor-id="sec-cell-tracking-metrics"><span class="header-section-number">10.2.1</span> Cell Tracking Metrics</h3>
+<p>Cell tracking is typically approached as a multi-stage task. The first stage is detection where cells in each frame of the time series are detected using <a href="./glossary.html#centroid-coordinates">point detections</a>, <a href="./glossary.html#bounding-region">bounding boxes</a> or <a href="./glossary.html#binary-segmentation">segmentation masks</a>. In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (<a href="#fig-tracking-graph" class="quarto-xref">Figure&nbsp;<span>10.3</span></a>). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges).</p>
+<!-- Intro to tracking figure -->
+<div id="cell-fig-tracking-graph" class="cell" data-execution_count="8">
+<div class="cell-output cell-output-display">
+<div id="fig-tracking-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-tracking-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-output-quality_files/figure-html/fig-tracking-graph-output-1.png" width="478" height="349" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-tracking-graph-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.3: Cell tracking represented as a graph. (Top) Segmentation masks detect a few cells in each of three time points; the blue cell persists across all three frames while the orange cell divides into two daughters (green and purple) at <span class="math inline">\(t = 2\)</span>. (Bottom) The corresponding tracking graph places one node per detected cell, with edges linking the same cell across frames. Node columns and colors align with the masks above, and the division appears as a node with two outgoing edges.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>With this framework, we can consider some of the common errors that appear in tracking solutions. <a href="#fig-track-errors" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>a illustrates basic node errors of a false positive detection (shown in red) and a missing blue detection. The missing node also leads to two missing edges. Often in biology when we are interested in cell tracking, there is a particular value placed an the detection of cell divisions so that cell lineages can be reconstructed over several rounds of divisions. As such we need to consider the specific types of errors that occur involving cell divisions. <a href="#fig-track-errors" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>b illustrates a missing edge that results in a missed division detection. <a href="#fig-track-errors" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>c instead shows a case where a division is detected, but one daughter is incorrectly assigned to the division leading to an incorrect lineage tree. Finally, <a href="#fig-track-errors" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>d illustrates an identity switch where edges are incorrectly assigned in a single frame leading to a swap of lineage identity.</p>
+<!-- Tracking error types -->
+<div id="cell-fig-track-errors" class="cell" data-execution_count="9">
+<div class="cell-output cell-output-display">
+<div id="fig-track-errors" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-track-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-output-quality_files/figure-html/fig-track-errors-output-1.png" width="470" height="470" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-track-errors-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.4: Common types of tracking errors. (a) This example prediction demonstrates multiple types of node and edge errors: false negative node, false negative edges and false positive node. (b) This example shows a missed division as the result of a missed edge between a parent and a daughter. (c) This example shows a division where the parent was correctly identified, but one of the daughters was incorrectly assigned to a different node. (d) This is an example of an identity switch where two nodes are swapped and assigned to the incorrect lineage part way through the lineage.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>There is a common inclination to use a single metric that is intended to capture overall performance on the task. In cell tracking, there are two common single metrics. The first is the TRA<span class="citation" data-cites="mavska2014benchmark"><sup><a href="references.html#ref-mavska2014benchmark" role="doc-biblioref">2</a></sup></span> score defined by the Cell Tracking Challenge. A second unified metric is CHOTA<span class="citation" data-cites="kaiser2024chota"><sup><a href="references.html#ref-kaiser2024chota" role="doc-biblioref">3</a></sup></span> (Cell-specific Higher Order Tracking Accuracy). Single metrics can be convenient; however, they are uninformative when the intention is to evaluate and then improve a tracking solution. A unified metric does not indicate what types of errors are present.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>TRA<span class="citation" data-cites="mavska2014benchmark"><sup><a href="references.html#ref-mavska2014benchmark" role="doc-biblioref">2</a></sup></span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This score is a weighted sum of node and edge errors that is normalized between 0 and 1. It is derived from the Acyclic Oriented Graph Matching<span class="citation" data-cites="matula2015cell"><sup><a href="references.html#ref-matula2015cell" role="doc-biblioref">4</a></sup></span> (AOGM) measure which reflects the number of changes needed to turn the reference graph into the target graph.</p>
+<p><span class="math display">\[\textrm{TRA} = 1 - \frac{\textrm{min}(\textrm{AOGM},\textrm{AOGM}_0)}{\textrm{AOGM}_0}\]</span></p>
+</div>
+</div>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>CHOTA<span class="citation" data-cites="kaiser2024chota"><sup><a href="references.html#ref-kaiser2024chota" role="doc-biblioref">3</a></sup></span>
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This metric captures local correctness, global coherence and aspects of lineage tracking. CHOTA is computed as <span class="math display">\[\textrm{CHOTA} = \sqrt{\frac{\sum_{c \in \textrm{TP}} A^\sigma(c)}{|\textrm{TP}| + |\text{FN}| + |\text{FP}|}}\]</span></p>
+<p>where <span class="math inline">\(A^\sigma(c)\)</span> is a lineage-oriented association score that measures how well predicted trajectories overlap with ground truth trajectories, accounting for all cells connected by lineage.</p>
+</div>
+</div>
+<p><a href="#fig-sparse-edges" class="quarto-xref">Figure&nbsp;<span>10.5</span></a> illustrates three tracking failure modes and the metric scores for each solution. As the discussion below shows, solutions that fail in very different ways can end up with similar overall scores, and the two unified metrics can even disagree with each other about which solution is preferable.</p>
+<p>Consider the three failure modes in <a href="#fig-sparse-edges" class="quarto-xref">Figure&nbsp;<span>10.5</span></a>. The two unified metrics produce very different rankings of solutions. The TRA score ranks no divisions (0.957) similarly to sparse edges (0.947) and far above missing nodes (0.732). In contrast, while all solutions score relatively low on CHOTA, the missing node solution ranks highest (0.560) followed by no divisions (0.333) and sparse edges (0.297). Because TRA and CHOTA weight node, edge and lineage errors differently, two established “single number” metrics can disagree about which solution is preferable. Neither score reveals whether the underlying problem is due to missed detections, broken links, or failure to find divisions. To identify the specific failure modes, we need to examine metrics for that we need to look at the node, edge and division metrics reported alongside them.</p>
+<p>The per-component metrics reveal the distinct failure mode in each solution. The missing node solution (b) has the lowest node F1 (0.858) of the three because a quarter of detections are dropped; since each dropped node also severs the edges that pass through it, this single error mode depresses edge F1 (0.798) and division F1 (0.399) as well. The sparse edge (c) and no-division (d) solutions both keep every detection (node F1 = 1.000) and lose the same fraction of edges (edge F1 = 0.800), yet they are far from equivalent: sparse edges still recovers roughly half of the true divisions (division F1 = 0.505) because the deleted edges are scattered at random, while the no-division solution deterministically removes every division edge, so no division is ever proposed and division F1 is undefined.</p>
+<!-- Generate lineage trees with regular divisions -->
+<div id="bad1f44f" class="cell" data-execution_count="10">
+<details class="code-fold">
+<summary>Show code to generate a set of lineage trees with regular divisions</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> build_lineage_tree(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    n_starting_nodes: <span class="bu">int</span> <span class="op">=</span> <span class="dv">10</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    n_frames: <span class="bu">int</span> <span class="op">=</span> <span class="dv">30</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    division_every: <span class="bu">int</span> <span class="op">=</span> <span class="dv">5</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>) <span class="op">-&gt;</span> nx.DiGraph:</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">    Build a lineage tree as a directed graph.</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">    - Starts with `n_starting_nodes` roots at frame 0</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">    - Every `division_every` frames, each live cell divides into 2 daughters</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">    - Between division frames, cells persist as a single descendant</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">    Nodes are labeled like:</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">        cell_id = "c0", "c1", ...</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">    and store:</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">        - frame</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">        - root</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>    G <span class="op">=</span> nx.DiGraph()</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>    cell_counter <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>    live_cells <span class="op">=</span> []</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create starting nodes at frame 0</span></span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> root <span class="kw">in</span> <span class="bu">range</span>(n_starting_nodes):</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>        node <span class="op">=</span> cell_counter</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>        cell_counter <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>        G.add_node(node, frame<span class="op">=</span><span class="dv">0</span>, root<span class="op">=</span>root)</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>        live_cells.append(node)</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Advance through frames</span></span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> frame <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, n_frames <span class="op">+</span> <span class="dv">1</span>):</span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>        next_live_cells <span class="op">=</span> []</span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>        is_division_frame <span class="op">=</span> (frame <span class="op">%</span> division_every <span class="op">==</span> <span class="dv">0</span>)</span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> parent <span class="kw">in</span> live_cells:</span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>            root <span class="op">=</span> G.nodes[parent][<span class="st">"root"</span>]</span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> is_division_frame:</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Parent divides into two daughters</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>                <span class="cf">for</span> _ <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">2</span>):</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>                    child <span class="op">=</span> cell_counter</span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>                    cell_counter <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>                    G.add_node(child, frame<span class="op">=</span>frame, root<span class="op">=</span>root)</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>                    G.add_edge(parent, child)</span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>                    next_live_cells.append(child)</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Parent continues as one descendant</span></span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>                child <span class="op">=</span> cell_counter</span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>                cell_counter <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>                G.add_node(child, frame<span class="op">=</span>frame, root<span class="op">=</span>root)</span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>                G.add_edge(parent, child)</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>                next_live_cells.append(child)</span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>        live_cells <span class="op">=</span> next_live_cells</span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> G</span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> sparsify_edges(g, mod<span class="op">=</span><span class="dv">3</span>):</span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>    del_edges <span class="op">=</span> []</span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, edge <span class="kw">in</span> <span class="bu">enumerate</span>(g.edges()):</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> i <span class="op">%</span> mod <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>            del_edges.append(edge)</span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>    g.remove_edges_from(del_edges)</span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> remove_divs(g):</span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>    div_edges <span class="op">=</span> []</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> node <span class="kw">in</span> g.nodes:</span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> g.out_degree(node) <span class="op">==</span> <span class="dv">2</span>:</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a>            div_edges.extend(g.edges(node))</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>    g.remove_edges_from(div_edges)</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> remove_nodes(g, mod<span class="op">=</span><span class="dv">4</span>):</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>    del_nodes <span class="op">=</span> []</span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, node <span class="kw">in</span> <span class="bu">enumerate</span>(<span class="bu">sorted</span>(g.nodes)):</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> g.nodes[node][<span class="st">'frame'</span>] <span class="op">&gt;</span> <span class="dv">0</span> <span class="kw">and</span> i <span class="op">%</span> mod <span class="op">==</span> <span class="dv">0</span>:</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>            del_nodes.append(node)</span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>    g.remove_nodes_from(del_nodes)</span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>gt <span class="op">=</span> build_lineage_tree(n_starting_nodes<span class="op">=</span><span class="dv">10</span>, n_frames<span class="op">=</span><span class="dv">30</span>, division_every<span class="op">=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<!-- Plotting utilities -->
+<!-- Metric computation -->
+<div id="9c7eda0f" class="cell" data-execution_count="12">
+<details class="code-fold">
+<summary>Show code to compute metrics on tracking solutions using <a href="https://github.com/live-image-tracking-tools/traccuracy"><code>traccuracy</code></a></summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> traccuracy.matchers <span class="im">import</span> Matched</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> traccuracy <span class="im">import</span> TrackingGraph</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> traccuracy.metrics <span class="im">import</span> CTCMetrics, DivisionMetrics, BasicMetrics, CHOTAMetric</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> compute_metrics(solution):</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Score a solution against the full ground-truth tree with traccuracy."""</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    matched <span class="op">=</span> Matched(</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        TrackingGraph(gt.copy(), frame_key<span class="op">=</span><span class="st">'frame'</span>),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        TrackingGraph(solution, frame_key<span class="op">=</span><span class="st">'frame'</span>),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>        mapping<span class="op">=</span>[(nid, nid) <span class="cf">for</span> nid <span class="kw">in</span> gt.nodes <span class="cf">if</span> nid <span class="kw">in</span> solution.nodes],</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        matcher_info<span class="op">=</span>{},</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    results <span class="op">=</span> {</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>CTCMetrics().compute(matched).results,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>DivisionMetrics().compute(matched).results[<span class="st">'Frame Buffer 0'</span>],</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>BasicMetrics().compute(matched).results,</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        <span class="op">**</span>CHOTAMetric().compute(matched).results</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<!-- Solution figure -->
+<div id="cell-fig-sparse-edges" class="cell" data-execution_count="13">
+<div class="cell-output cell-output-display">
+<div id="fig-sparse-edges" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sparse-edges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="10-output-quality_files/figure-html/fig-sparse-edges-output-1.png" width="480" height="621" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sparse-edges-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10.5: Tracking solutions with common failure modes, each scored with a panel of tracking metrics. Trees show a single representative lineage truncated to 10 frames; the metric tables are computed over the full dataset (10 lineages, 30 frames). Panel b shows a solution where every fourth node (detection) is missing. Panel c shows a solution where every third edge is missing. Panel d shows a solution where no divisions were predicted. Division precision/F1 are undefined (n/a) for the no-division solution because it predicts no divisions.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Whether an error is acceptable depends entirely on what the tracking result will be used for. If the downstream analysis measures single-cell metrics such as migration speed, the no-division solution is nearly as good as ground truth: every cell is detected, most links are correct, and the fact that no lineage relationships were ever proposed is irrelevant to the task. If instead the goal is to study clonal relationships or developmental lineages the no-division solution is worthless despite its high TRA, because it recovers zero divisions and can never support a lineage-based analysis. The missing node solution sits at the opposite end of this trade-off: it has the worst TRA of the three, but a downstream analysis focused on lineage structure might tolerate it better than that score suggests. Choosing a metric, or a small panel of metrics, should therefore start from the biological question at hand rather than from convenience.</p>
+<p>A second, independent axis is how easy an error is to catch and fix once a human is proofreading the result, and it does not always line up with how tolerable the error is for the downstream analysis. Missing nodes and sparse edges leave a visible gap or an orphaned track segment, and the fix is local: add the missing node or edge back and reconnect two pieces that are otherwise correct. A systematically missed division is much harder to catch, because neither daughter track looks wrong on its own; the cells are simply tracked as if they had always been independent, so a curator scanning tracks has no local cue that a division was ever missed. The more tolerable error is therefore not necessarily the one with the better score on a given metric, but the one that is cheap to find and correct, particularly if missing detections are easy to flag and cheap to review manually.</p>
 </section>
-<section id="examples" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="examples"><span class="header-section-number">10.3</span> Examples</h2>
-<p>Note: We are considering picking one example to place in call out boxes throughout the chapter to facilitate an ongoing discussion with a concrete example. For examples, we will use real data/GT, but synthetically generate the predictions in order to better highlight specific issues.</p>
-<section id="segmentation-metrics" class="level3" data-number="10.3.1">
-<h3 data-number="10.3.1" class="anchored" data-anchor-id="segmentation-metrics"><span class="header-section-number">10.3.1</span> Segmentation Metrics</h3>
-<ul>
-<li>show on examples:
-<ul>
-<li>dice</li>
-<li>Hausdorff</li>
-<li>AP_x (and required matching)</li>
-</ul></li>
-<li>mention MetricsReloaded</li>
-</ul>
 </section>
-<section id="cell-tracking-metrics" class="level3" data-number="10.3.2">
-<h3 data-number="10.3.2" class="anchored" data-anchor-id="cell-tracking-metrics"><span class="header-section-number">10.3.2</span> Cell Tracking Metrics</h3>
-<ul>
-<li>usually not a single number: topological correctness vs.&nbsp;positional correctness</li>
-<li>show traccuracy and discuss some of their metrics</li>
-</ul>
+<section id="conclusion" class="level2" data-number="10.3">
+<h2 data-number="10.3" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">10.3</span> Conclusion</h2>
+<p>We compute metrics to get a reasonable description of how well our model is expected to perform in the future, on unseen data. A single metric is rarely sufficient to fully evaluate a models performance as illustrated by <a href="#sec-cell-tracking-metrics" class="quarto-xref"><span>Section 10.2.1</span></a>. If multiple metrics are needed to fully evaluate a model, when do you run these metrics and on what data? As discussed in <a href="9-train-models.html#sec-9.3.5.4" class="quarto-xref"><span>Section 9.3.5.4</span></a>, you will minimally compute a loss both on your training and validation sets during the course of training. Some metrics can be easily computed on the validation dataset and used to select a checkpoint for further testing. These metrics should be computationally inexpensive to compute in order to avoid slowing down the training process. Typically these would be metrics that are computed on a pixel-pixel level. In contrast, consider metrics that are computed on an object level such as those discussed in <a href="#sec-cell-tracking-metrics" class="quarto-xref"><span>Section 10.2.1</span></a>. Each cell tracking metric requires a preliminary stage in which each ground truth cell is matched to a predicted cell prior to evaluation. While there are many different ways to perform the matching step, it is ultimately a slow and expensive process. Metrics that rely on a matching stage are best reserved for running on the final test data split. <a href="#tbl-metric-stages" class="quarto-xref">Table&nbsp;<span>10.1</span></a> elaborates on the stages of model evaluation and illustrates how metrics might be selected for a segmentation model.</p>
+<div id="tbl-metric-stages" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-metric-stages-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;10.1: <strong>A comparison of stages of model evaluation.</strong> The segmentation example highlights specific metrics that would be used in each of these stages in a segmentation pipeline.
+</figcaption>
+<div aria-describedby="tbl-metric-stages-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<table id="tbl-metric-stages" class="caption-top table">
+<thead>
+<tr class="header">
+<th>Stage</th>
+<th>Speed of Computation</th>
+<th>Data Split</th>
+<th>Purpose</th>
+<th>Segmentation Example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Training loss</td>
+<td>Fast</td>
+<td>Train</td>
+<td>Guides gradient descent during training</td>
+<td>BCE</td>
+</tr>
+<tr class="even">
+<td>Validation loss</td>
+<td>Fast</td>
+<td>Val</td>
+<td>Enables monitoring of over/under fitting during training</td>
+<td>BCE</td>
+</tr>
+<tr class="odd">
+<td>Validation metrics</td>
+<td>Fast</td>
+<td>Val</td>
+<td>Additional metrics that provide more insight into training progress outside the loss function and assist in checkpoint selection</td>
+<td>MSE</td>
+</tr>
+<tr class="even">
+<td>Test metrics</td>
+<td>Slow</td>
+<td>Test</td>
+<td>Final metrics that are run on test data in order to critically evaluate model performance and failure modes</td>
+<td>Object-based recall and precision</td>
+</tr>
+</tbody>
+</table>
+</div>
+</figure>
+</div>
+<!-- Splitting your training data: training, validation, and test sets {#sec-9.3.5.1} -->
+<!-- monitoring training and val losses #sec-9.3.5.4 -->
+<p>Biological data varies from experiment to experiment, however, and whether the model will be robust to these variations remains somewhat of an open question. In the ideal case, we would like the models to be able to output a level of certainty along with its predicted segmentations or tracks. Unfortunately, uncertainty estimation remains an unsolved problem, methods such as test-time augmentation<span class="citation" data-cites="moshkov2020test wang2019aleatoric"><sup><a href="references.html#ref-moshkov2020test" role="doc-biblioref">5</a>,<a href="references.html#ref-wang2019aleatoric" role="doc-biblioref">6</a></sup></span> can give you an estimate if you have a good model of your data’s sources of noise.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Test-time augmentation as a measure of uncertainty
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Test-time augmentation is one way of quantifying the uncertainty of a model, by estimating the robustness of its outputs with regards to noise.</p>
+<p>To apply TTA, you run the model multiple times on the same image, each time with a perturbation that reflects a realistic source of variation in your imaging system. For fluorescence microscopy, this might include: adding Poisson or Gaussian noise to simulate photon shot noise or detector read noise, shifting the intensity or contrast to mimic staining variability between experiments, or applying a slight blur to simulate focus drift. You then aggregate the predictions to get your final output.</p>
+<p>The spread across the individual predictions acts as a proxy for uncertainty. Where every perturbed version produces nearly the same thing, we can be confident in the model is output. Regions Where the predictions disagree, however, may warrant manual review.</p>
+<p>Note that TTA only captures uncertainty relative to the noise sources you have modelled. It will not detect failure modes shared by all augmentations, such as a systematic bias introduced during training.</p>
+</div>
+</div>
+</div>
+<p>The best measure of your model’s output, current and future, still remains a good testing dataset. Make sure to fully annotate a testing set that is diverse enough to be representative of future experiments. Compute a variety of metrics to understand the different types of failures you can expect, and to what extent. And finally, make sure to look at your model outputs in conjunction with your data! For most tasks, the best judge of quality is you.</p>
+</section>
+<section id="ai-disclosure" class="level2 unnumbered">
+<h2 class="unnumbered anchored" data-anchor-id="ai-disclosure">AI Disclosure</h2>
+<p>AI language models (Anthropic’s Claude, specifically Claude Sonnet 5) were used during the preparation of this chapter. Their roles included drafting prose, generating code examples, and producing demonstration figures. All content was reviewed, revised, and verified by the human authors, who take full responsibility for the accuracy and scientific integrity of the final text. Selection of references was the work of the human authors.</p>
 
 
-</section>
+<div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-stringer2021" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Stringer, C., Wang, T., Michaelos, M. &amp; Pachitariu, M. <a href="https://doi.org/10.1038/s41592-020-01018-x">Cellpose: A generalist algorithm for cellular segmentation</a>. <em>Nature Methods</em> <strong>18</strong>, 100–106 (2021).</div>
+</div>
+<div id="ref-mavska2014benchmark" class="csl-entry" role="listitem">
+<div class="csl-left-margin">2. </div><div class="csl-right-inline"><span class="nocase">Maška, M. <em>et al.</em></span> A benchmark for comparison of cell tracking algorithms. <em>Bioinformatics</em> <strong>30</strong>, 1609–1617 (2014).</div>
+</div>
+<div id="ref-kaiser2024chota" class="csl-entry" role="listitem">
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Kaiser, T., Ulman, V. &amp; Rosenhahn, B. Chota: A higher order accuracy metric for cell tracking. in <em>European conference on computer vision</em> 122–138 (Springer, 2024).</div>
+</div>
+<div id="ref-matula2015cell" class="csl-entry" role="listitem">
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Matula, P. <em>et al.</em> Cell tracking accuracy measurement based on comparison of acyclic oriented graphs. <em>PloS one</em> <strong>10</strong>, e0144959 (2015).</div>
+</div>
+<div id="ref-moshkov2020test" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Moshkov, N., Mathe, B., Kertesz-Farkas, A., Hollandi, R. &amp; Horvath, P. Test-time augmentation for deep learning-based cell segmentation on microscopy images. <em>Scientific reports</em> <strong>10</strong>, 5068 (2020).</div>
+</div>
+<div id="ref-wang2019aleatoric" class="csl-entry" role="listitem">
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Wang, G. <em>et al.</em> Aleatoric uncertainty estimation with test-time augmentation for medical image segmentation with convolutional neural networks. <em>Neurocomputing</em> <strong>338</strong>, 34–45 (2019).</div>
+</div>
+</div>
 </section>
 
 </main> <!-- /main -->
