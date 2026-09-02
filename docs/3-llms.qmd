@@ -55,7 +55,7 @@ A major trend in bioimage analysis has been the shift from narrow, task-specific
 
 - **micro-SAM** @Archit2025 fine-tuned SAM specifically for light and electron microscopy, extending it to support 3D segmentation and cell tracking. micro-SAM provides interactive segmentation tools through a napari plugin, making foundation model capabilities directly accessible to microscopists.
 - **CellSAM** @cellsam2025 combined SAM with a custom cell detection module (CellFinder) to achieve expert-level segmentation performance across mammalian cells, yeast, and bacteria — all with a single unified model.
-- **Cellpose-SAM** @pachitariu2025cellposesam adapted SAM's pretrained transformer backbone to the Cellpose framework, achieving what the authors describe as superhuman generalization for cellular segmentation across diverse imaging conditions.
+- **Cellpose-SAM** @pachitariu2025cellpose adapted SAM's pretrained transformer backbone to the Cellpose framework, achieving what the authors describe as superhuman generalization for cellular segmentation across diverse imaging conditions.
 
 The key insight is that models trained on vast, diverse datasets can learn transferable visual features that generalize well to microscopy. A model that has processed billions of natural images learns representations of edges, textures, boundaries, and object structure that transfer effectively, even to fluorescent cells it has never encountered. This is the same principle underlying [transfer learning](glossary.qmd#transfer-learning), but operating at a much larger scale.
 
