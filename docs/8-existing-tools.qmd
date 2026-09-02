@@ -43,9 +43,10 @@ Before finding and selecting an AI tool, you first need to decide on the type of
 Your tool selection will be influenced by a number of factors and you should first honestly answer the questions that follow.
 
 ::: {.callout-note icon=false id=Figure1}
-## Figure 1: Workflows contain modular components
-![Workflows contain modular components](8-existing-tools_files/workflows.png "Workflows contain modular components")
-**Figure 1.**
+## Workflows contain modular components
+
+![Adapted from @Haase2024.](8-existing-tools_files/workflows.png){#fig-workflows}
+
 When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left of image) typically consists of multiple, modular subcomponents (right of image).
 You may be able to replace your whole workflow with an appropriate AI tool or you may be able to replace only a subcomponent while still keeping many of the original workflow subcomponents the same.
 Replacing a single subcomponent with an AI tool may force you to change surrounding subcomponents in your workflow - either with new tools or new configurations of existing tools - as the AI tool may require different inputs and produce different outputs.
@@ -53,7 +54,6 @@ Replacing a single subcomponent with an AI tool may force you to change surround
 Though you may have built a workflow across multiple softwares, it is worth considering whether a single software (or a reduced number of softwares) can run your workflow and part of this consideration includes assessing how well your desired AI tool can run from within other software.
 Some examples of softwares that can be used to run other softwares include CellProfiler @Stirling2021, Fiji @Schindelin2012, Bilayers @Shah, ZeroCostDL4Mic @von_chamier2021 or DL4MicEverywhere @Hidalgo-Cenalmor2024, and Jupyter notebooks @jupyter.
 
-Figure adapted from @Haase2024.
 :::
 
 ### Questions about your overall workflow:
@@ -61,7 +61,7 @@ Figure adapted from @Haase2024.
 - **What is your desired output?**   
   You must be able to concisely and specifically state what you would like output by your workflow.
   Do you need to segment objects?
-  If so, do you need [semantic](glossary.qmd#semantic-segmentation), [instance](glossary.qmd#instance-segmentation), or [panoptic segmentation](glossary.qmd#panoptic-segmentation) ([Box 1](#Box1))? (see @sec-4 and @sec-9 for more information)
+  If so, do you need [semantic](glossary.qmd#semantic-segmentation), [instance](glossary.qmd#instance-segmentation), or [panoptic segmentation](glossary.qmd#panoptic-segmentation) ([Box 8.1](#Box1))? (see @sec-4 and @sec-9 for more information)
   Do you need measurements and if so should they be made on individual objects or on images?   
 - **How will you assess your outputs?**  
   Will your assessment be qualitative or quantitative?
@@ -135,7 +135,7 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
   Some examples of preprocessing include stitching or cropping of images, denoising, background subtraction, or flat field correction.
 
 ::: {.callout-note icon=false id=Box1}
-## Box 1: Segmentation methods
+## Box 8.1: Segmentation methods
 In computer vision, there are several discrete kinds of segmentation, although in the field of bioimaging we often refer to all kinds of segmentation under the single blanket term of "segmentation".
 **Semantic segmentation** divides an image into classes.
 Ilastik is an example of a popular image analysis software that performs semantic segmentation.
@@ -186,8 +186,9 @@ Simple, easily distinguished phenotypes (e.g. GFP is either in the nucleus or cy
 
 ::: {.callout-note icon=false}
 ## Research progress is rarely linear
-![Research progress is rarely linear](8-existing-tools_files/research_progress.png "Research progress is rarely linear")
-**Figure 2.**
+
+![Research progress is rarely linear](8-existing-tools_files/research_progress.png "Research progress is rarely linear"){#fig-research-progress}
+
 As scientists who care about the quality of our work, it's tempting to always try to maximize the accuracy of our analysis.
 But it's worth considering that "accuracy" vs "time spent" is often an asymptotic curve - you can keep pushing the accuracy higher and higher, but the gains may be marginal past a particular point.
 Time and effort spent on a project can have very different relationships with the output quality.
@@ -206,7 +207,7 @@ Those heuristics are:
 
 ## Choosing the kind of tool to use
 
-Let's consider the use case of instance segmentation (see [Box 1](#Box1)), which is often a critical step in image analysis workflows.
+Let's consider the use case of instance segmentation (see [Box 8.1](#Box1)), which is often a critical step in image analysis workflows.
 We have defined 6 categories of segmentation methods, each of which has its valid use cases.
 Ordered by increasing levels of computation comfort required they are:
 
@@ -258,7 +259,7 @@ There is a whole discipline of people who specialize in figuring out workflows f
 
 ## Case Studies
 
-### Case Study 1:
+### Case Study 8.1:
 
 #### Introduction
 
@@ -305,7 +306,7 @@ The image above shows her new CellProfiler pipeline with the RunCellpose module 
 This case study starts with a scientist trying to use her standard classical image processing methodds for object identification but finding that she gets better results with a new challenging segmentation task by moving to an AI tool.
 It shows iterative improvements using the same tool in different ways and highlights some of the simple changes she needed to make to her overall workflow to use the new tool.
 
-### Case Study 2:  
+### Case Study 8.2:  
 
 #### Introduction
 
