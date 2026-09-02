@@ -1,5 +1,5 @@
 ---
-author: 
+author:
   - name: Stephan Saalfeld
     orcid: 0000-0002-4106-1761
     affiliations:
@@ -7,70 +7,274 @@ author:
         state: VA
         country: USA
         postal-code: 20147
-  - name: Add any co-authors as appropriate
-    orcid: 
-    affiliations:
-      - name: 
-        state: 
-        country: 
-        postal-code: 
 subtitle: An Introduction to Artificial Intelligence
 ---
 
-# AI Primer {#sec-primer}
-<!--Your first header will be the chapter's upper-level table of contents title.-->
-<!--If you'd like to have a subtitle, include it in the Quarto header above -->
+# AI in a nutshell {#sec-primer}
 
-Starting prompt for this chapter: Chapter 2 demystifies Artificial Intelligence for microscopy users. It should define terms (e.g., machine/deep learning, supervised/unsupervised learning) without programming details such that an educated scientist without AI experience can understand how these concepts apply to microscopy in life sciences. The use-cases and strengths of different approaches for different applications should be discussed (e.g., contrasting unsupervised clustering vs supervised segmentation). This chapter should broadly introduce image restoration and segmentation, as they will be themes throughout.
+Empirical science relies on the analysis and interpretation of large amounts of diverse raw data. In the life sciences, microscopy has become one of the largest sources of such data. A single light-sheet experiment can produce terabytes of volumetric time-lapse data; high-content screening campaigns image millions of cells across thousands of conditions; electron microscopy reconstructs tissue at nanometer resolution across volumes approaching a cubic millimeter, yielding more than a petabyte of images from a single sample.[@shapsoncoe2024; @microns2025]
 
-Suggestion from authors' meetings: This chapter can draw on the outlines from other chapters to introduce key topics for the following chapters.
+A human expert might trace a few hundred neurons or label several thousand cells, but biological questions increasingly demand analysis that is both orders of magnitude larger and more complete. Even where each individual decision is easy, the sheer number of decisions puts manual analysis out of reach.
 
-## Demystifying AI
-* What is AI? What is ML?
-  * Distinguish different subcategories of AI
+Artificial Intelligence (AI) methods promise to address this challenge, and they offer three distinct things. The first is speed: where a trained annotator might outline the cells in a hundred images per day, a well-designed AI model does the same in seconds, and can label intracellular structures along the way. The second is consistency: human observers vary in their judgments and tire over long sessions, whereas a model applies the same criteria uniformly. The third is sensitivity to structure that escapes human perception. Given only transmitted-light images, for instance, a model can predict where fluorescently labeled organelles would appear, reading information from an unstained sample as if it had been stained.[@ounkomol_label-free_2018]
 
-## Broadstrokes "definitions" of various AI/ML techniques
+But uniform is not the same as correct. Every AI method rests on two things: a computational structure that somebody designed, and a set of examples it learned from. Choices on either side shape what the system does, and mistakes on either side produce failures that are distinctly non-human---systematic rather than sporadic, confident rather than hesitant, and capable of misleading a scientist in ways no tiring annotator would.
 
-* Contrast [supervised](glossary.qmd#supervised-learning) vs unsupervised learning
-* What are Neural Networks and Deep Learning?
-  * Introduce backpropagation and error metrics
-  * How do Convolutional Neural Networks fit in?
-* Tie examples back to biology and microscopy, where possible
-* Provide explanations/cases of when one approach would work better than others
+This chapter builds the vocabulary needed to tell the two apart: what terms like *machine learning*, *deep learning*, and *supervised* actually denote, what each family of methods asks of you in return for what it does, and which failure modes each one is prone to. Two tasks recur here and throughout the book, because a great many microscopy applications reduce to one or the other: restoring images that the microscope could not record cleanly (@sec-Image-Restoration), and segmenting them into the objects you want to measure (@sec-9).
 
-## The importance of Training Data (set the stage for Chapter 5)
+## What is Artificial Intelligence? {#sec-ai-families}
 
-* What doest training data look like? 
-  * Inputs and ground truth
-  * Microscopy training data
-    * Pairs of images
-* What does a "good" training set look like?
-  * Define balanced training sets
-  * Explain why this is necessary
+The term Artificial Intelligence has been attached to systems as different as a chess engine, a spam filter, and a chatbot. For someone choosing a method, the most useful thing that separates them is where the division of labor falls: which parts of the solution a person designs, and which parts the machine derives from data. In the seventy years since the term was coined,[@mccarthy1955] that boundary has moved steadily in one direction---away from the designer and into the learned system. The three families below are stops along that path. Each hands over one more layer of design, and each gives up some of what you can know about the system before you run it.
 
-## Introduce image restoration (set the stage for Chapter 6)
-* Unsupervised e.g. Noise2Void
-* Supervised e.g. CARE
-* This is important for microscopy because you can restore data quality or compensate for suboptimal imaging conditions
-* This is an example of AI/ML adding to existing microscopy workflows
+1.  **Rule-based systems: you design everything.** The quantities to measure, the algorithm that acts on them, and every parameter value are chosen by a person, and re-tuning them for a new sample is that person's job. This class includes conversational systems like ELIZA,[@weizenbaum1966] expert systems for medical diagnosis like MYCIN,[@shortliffe1975] web search ranked by PageRank,[@brin1998] the behavior of non-player characters in video games, image features designed to match views of the same scene across viewpoint changes,[@lowe2004] and---closest to home---the thresholding, morphological operations, and watershed transforms that carried quantitative microscopy for decades.[@Gonzalez2008] Nothing about such a system is mysterious: every decision follows from a known rule, so a failure can be traced to the rule that produced it and repaired by editing that rule. The price is that an expert has to anticipate every scenario in advance. Cells that touch, illumination that drifts, a new mounting medium---each is a new case, and nothing in the design makes the program degrade gracefully when it meets one.
 
-## Introduce segmentation (set the stage for Chapters 4, 8 and 9)
-* Compare and contrast use cases
-  * Unsupervised clustering for H&E
-  * Supervised segmentation for analyzing developing embryos
-* This is an opportunity to discuss choosing the correct technique for a given task
+2.  **Machine learning: you design the structure, and examples fix the parameters.** Rather than defining everything, you specify a family of functions with free parameters and let an optimization procedure choose the parameters that best reproduce a set of examples. That is all the term **machine learning** means---the rules are fitted to data rather than written down by hand. Early methods relied on human-designed features and learned only the decision on top of them: boosted cascades over Haar-like features made face detection real-time,[@viola2001] support vector machines[@cortes1995] were widely used to classify cells from engineered shape descriptors, and random forests averaged many decorrelated decision trees into robust predictors.[@breiman2001] Deep learning pushed the boundary one level deeper. If every step from pixels to output is differentiable, the gradient of the error can be propagated back through all of them, so the features are learned together with the decision that uses them, end to end. The principle was demonstrated on handwritten digits in the 1990s,[@lecun1998] but only in 2012, when labeled data and GPUs caught up, did it decisively outperform hand-designed pipelines on large-scale image recognition.[@krizhevsky2012]
 
-## What AI is not (set the stage for Chapter 10)
-* A replacement for sound scientific and biological reasoning
-* Infallible
-  * Introduce the concepts of errors, hallunications, etc.
-    * Where/why they arise
-    * How to diagnose them
-    * Remedies
-* Any other caveats 
+    What stays on the designer's side is the architecture, the training objective, and the examples---annotated by hand, produced by a second measurement, as when one imaging modality is used to predict another,[@ounkomol_label-free_2018] or supplied by the data itself, as when a model learns to reconstruct image regions that were masked out.[@he2022] Interpretability erodes along the same step. As long as the features are engineered, you can easily ask which measurement drove a call, because the measurements have names: area, eccentricity, mean intensity in the second channel. Once the features are learned, they do not trivially decompose into something a person would recognize. The practical way to find out what the model does is to watch what it does.^[This is not as hopeless as it sounds---a growing body of work on interpretability, discussed in @sec-black-box, recovers a good deal---but it holds in principle.]
 
-## Conclusion
-* Acknowledge that this is a lot of content
-  * Point to the glossary as a reference
-  * Other references and resources
-* The following chapters will provide concrete examples of using these techniques
+3.  **Foundation models: much of the design has already been learned---by somebody else, on data that is too large for anyone to inspect.** These are machine learning models too; what sets them apart is scale and how you use them. A foundation model is pre-trained on an enormous corpus, usually at a task that needs no annotation because the data supplies its own targets: the next word of a sentence, a masked image patch.[@he2022] Doing that well requires capturing how the data is structured, and what the model retains is a general-purpose *representation* rather than the answer to any particular question. That representation takes over work that used to be the architect's.[@dosovitskiy_image_2021] Adapting the model to a real task---fine-tuning on a modest set of labeled examples, or training it to follow instructions[@ouyang_training_2022]---reuses all of that instead of rebuilding it, which is why a problem that would otherwise demand tens of thousands of annotations can be solved with a few hundred. A single pre-training run therefore serves a diversity of downstream tasks: Segment Anything (SAM) segments structures it was never explicitly taught, prompted with a few clicks or an example mask,[@kirillov2023] carried across the frames of a video,[@ravi_sam_2025] or named by a short text.[@carion_sam_2026]
+
+    The catch is that a model can only absorb the structure of the corpus it was given, and because that corpus is typically vast, proprietary, or both, its biases and gaps are inherited unseen. This is what can make foundation models wrong in ways that are hard to anticipate. How these models are pre-trained, adapted, and potentially mis-applied is the subject of @sec-no-labels and @sec-llms.
+
+The three systems we started with scatter across these families, which is the point: a chess engine has been both, hand-written evaluation rules for Deep Blue and a learned position estimate for the engines that now beat it. The label tells you almost nothing. The division of labor tells you what to expect.
+
+The further along this path, the less of the solution you have to build---and the less of it you can inspect (@tbl-ai-families).
+
+|  | **Rule-based** | **Machine learning** | **Foundation models** |
+|------------------|------------------|------------------|------------------|
+| **You supply** | features, algorithm, parameter values | architecture, objective, and many examples | a prompt, or a small fine-tuning set |
+| **Derived from data** | nothing | the parameters; with deep learning, the features as well | also the representation: what images or sentences are like in general |
+| **Diagnosing a failure** | read the rule that fired | probe the trained model, inspect the training set | behavior only; the pre-training corpus is usually out of reach |
+
+: The boundary between what a person designs and what a system derives from data has moved in one direction, and so has the effort required to find out why a system did what it did. {#tbl-ai-families}
+
+The gradient is a tendency, not a law: a thousand-tree ensemble is no more readable than a small network. What does change reliably is how much of a system's behavior you can anticipate without testing it. So prefer the earliest stop that solves your problem---needing fewer examples is not the same as being more trustworthy, and you know in advance when a threshold will break. Past that stop, trust has to be earned empirically, on ground truth the model never saw (@sec-output_quality). Much of what follows is about telling "works" from "mostly works".
+
+### Deep learning: differentiable programs {#sec-differentiable}
+
+**Deep learning** builds **differentiable functions**: long compositions of simple operations---additions, matrix multiplications, convolutions, element-wise nonlinearities---governed by millions of parameters that start out random. A **loss function** scores how far the output is from the desired one, the chain rule applied backwards through the composition---*backpropagation*---gives the sensitivity of that score to every parameter, and **gradient descent** nudges each one in the direction that lowers it. Repeat until the loss stops falling.[@lecun1998]
+
+Such functions are called **artificial neural networks** by historical analogy: many simple units, each combining several inputs into one nonlinear response, wired into a network whose collective behavior is far richer than any unit's.
+
+Differentiability is the only hard constraint, which leaves great freedom in how the operations are arranged. These **architecture** choices are where knowledge about the data re-enters a system that can otherwise learn anything. Convolutional neural networks leverage spatial structure in images. Transformer architectures, originally developed for language, model long-range dependencies---across a volume, or across the frames of a time-lapse. @sec-4 treats architectures and loss functions in detail.
+
+The same freedom lets known physics be written into a model rather than learned from examples. If the point spread function of the microscope has been measured, a network need not rediscover the blur: the image formation model can be embedded in the architecture or the loss, so that learning is spent only on what the optics do not explain.[@Hu2021] Such hybrids need fewer training images, can be trained on data simulated from the optics, and keep intermediate quantities that mean something physically---and are therefore easier to check. @sec-Image-Restoration develops them for deconvolution and aberration correction.
+
+## Learning from Examples {#sec-learning}
+
+The promise of machine learning is that it can *infer the rules from examples*. Two conditions have to hold:
+
+1.  The system must be capable of representing the rules.
+2.  The examples must be sufficient to pin them down.
+
+Both fail quietly. A model that sees image patches too small to contain a whole cell cannot learn anything that depends on cell shape or size, however many patches it is shown. A model shown only healthy cells cannot learn to recognize a diseased one. And the more a system has to discover for itself, the more examples it needs: learning a decision on top of a few well-chosen measurements takes fewer cells than learning what to measure in the first place.
+
+The paradigms below differ in where the training signal comes from---a person who annotated the data, the structure of the data itself, or the consequences of an action. That choice defines what annotation is required and it determines what kind of answer comes back; it does not by itself determine how accurate that answer is. It is also independent of the division of labor in @sec-ai-families, and the two axes cross: a deep learning model can be trained with labels or without them, and clustering---the archetypal method that needs none---works on hand-engineered measurements as well as on learned representations.
+
+### Supervised learning: someone drew the answer {#sec-supervised}
+
+In **supervised learning**, every training input arrives paired with the answer a person considered correct, and the model is fitted to reproduce that mapping. The recipe is indifferent to what the answer is: the same machinery classifies cells, outlines them, or predicts one channel from another. What changes is the form of the target.
+
+That form deserves attention, because in microscopy a "label" can be any of several quite different objects. It can be a category: one word for an entire image or for one object---*treated* or *control*, *mitotic* or *interphase*. It can be a position: a point per cell, or a box around it, saying where things are without saying where they end. It can be a class for every pixel---nucleus, cytoplasm, background---which is what *semantic segmentation* asks for.[@Ronneberger2015] It can go one step further and give each object its own identity, so that two touching nuclei are two things rather than one region; that is *instance segmentation*, and it is what counting and per-cell measurement need. Or the label can be another image entirely: a high-signal acquisition of the same field paired with a noisy one,[@Weigert2018] or a fluorescence channel paired with the transmitted-light image it is to be predicted from (@sec-restoration-intro).[@ounkomol_label-free_2018] Those last cases are still supervision, even though nobody annotated anything: the target came from a second measurement.
+
+The shape of the label is the shape of the answer you get back, so a model trained on one class per image will never hand you cell boundaries, however many images it has seen. What the label does not tell you is how the model arrives at it. Instance labels in particular are almost never predicted as such: most methods learn some intermediate per-pixel quantity and assemble objects from it in a second step, which is worth understanding before comparing tools (@sec-segmentation).
+
+Supervision has the virtue of directness. What you want the model to do is what the loss function measures, so accuracy can be quantified on labeled examples the model never saw, and a failure can at least be named: these nuclei were merged, those were missed. None of the label-free methods below offer that.
+
+The cost is that somebody has to draw all of it---and that the labels are not merely training material, they *are* the definition of the task. Systematic annotator habits become model behavior: if your annotators consistently skip dim nuclei at the edge of the field, so will the model, silently and everywhere. Where two experts disagree, the model learns the average of a disagreement rather than a fact, which sets a ceiling on any accuracy you can later claim. Building and curating such a set is the subject of @sec-training.
+
+How much drawing is involved varies over orders of magnitude, and two rules of thumb cover most of it. Adapting a pre-trained model to your data takes far fewer labels than training one from scratch (@sec-9). And label shapes differ enormously in price: one class per image or one click per cell is quick, a dense mask of a crowded field is the most expensive annotation in routine use. When a count is all you need, buy the label shape that gives you counts.
+
+### Learning without labels {#sec-no-labels}
+
+Two families of methods ask nothing of an annotator. Neither needs a person to supply the right answer, which is why both scale to as much data as a microscope can generate---and why neither can tell you whether what it found means anything biologically.
+
+**Unsupervised learning** is the older and stricter of the two: it receives the images, or measurements derived from them, and nothing else. Its objective is a property of the data rather than agreement with a target---how compactly a group of points can be described, how well a compressed version reconstructs the original. *Dimensionality reduction* re-expresses the hundreds of numbers measured per cell in two or three, by a linear projection that preserves variance or a nonlinear embedding that preserves neighbors,[@mcinnes_umap_2018] turning a screen into a scatter plot a person can look at. *Clustering* goes further and partitions the objects into groups without being told what the groups mean. Together they are the standard machinery for morphological profiling: measure a broad panel of features on every cell in every well and ask what structure the profiles have,[@bray_cell_2016] so that compounds with indistinguishable profiles become candidates for a shared mechanism.
+
+The limitation is easy to state and easy to forget: the algorithm separates points in the feature space it was handed, and nothing constrains that space to line up with a biological category. Change the features and the groups change with them. The assumptions have moved out of the labels and into the features; a cluster is a hypothesis about your data, and becomes a finding only when something independent says so.
+
+**Self-supervised learning** goes one step further: rather than finding structure directly, it manufactures a supervised problem out of unlabeled data. The usual recipe is to withhold part of the data and train the model to restore it---mask out image patches and reconstruct them,[@he2022] mask words in a sentence and predict them,[@devlin_bert_2019] blank out single pixels of a noisy image and predict them from their neighbors, which trains a denoiser that has never seen a clean image,[@Krull2019] or withhold patches across space and time in a movie, where the redundancy between neighboring frames is such that 90% or more of the content can be removed and still recovered.[@tong_videomae_2022]
+
+The task sounds circular, but it cannot be solved from surface statistics. Filling a hole convincingly demands some account of what put the pixels there---that surfaces continue behind occluders, that objects have characteristic shapes and textures, that illumination falls off in particular ways. A network trained this way at sufficient scale comes to represent much of the structure that generated its images, without ever being told what that structure is.
+
+A self-supervised denoiser is trained for its output: the restored pixel is the product, and the representation only the means by which the network arrives at it (@sec-Image-Restoration). In pre-training it is the other way around---the reconstruction is discarded and the representation is what you take away, and this is what separates self-supervision from clustering. Clustering hands you groups to interpret; a representation is not yet an answer to anything. A second stage makes it addressable, and that stage determines how the model can be used: fine-tuning on a few hundred annotated images turns a generic visual representation into a segmentation model for your specimen, while **semi-supervised** training combines a small labeled set with a large pool of unlabeled images.[@chen_big_2020] What neither redoes is the pre-training; the perception the task relies on has already been paid for. On ImageNet, pre-training without labels and then fine-tuning on one percent of them recovers close to the accuracy of a network trained on the entire labeled set, a tenfold gain in label efficiency over earlier approaches.[@chen_big_2020]
+
+Not every model that behaves like a generalist arrived there this way, and promptability in particular is built rather than found. The Segment Anything series was pre-trained on roughly a billion masks across eleven million images, generated with the model itself in the annotation loop, and its architecture carries a dedicated encoder for prompts; it segments structures it was never explicitly taught, but only through the openings its designers provided. Either way, the corpus is the ceiling. What a model absorbs is the structure of the images it was shown, together with their biases and artifacts, not the structure of the world. Fine-tuning such a model on dedicated microscopy data has been done,[@Archit2025; @pachitariu_cellpose-sam_2025] but whether it helps on your images is an empirical question rather than a foregone conclusion: @sec-9 covers how to do it, @sec-output_quality how to tell whether it worked.
+
+::: {.callout-tip collapse="true"}
+## How self-supervision is actually done
+
+Reconstructing masked-out data is only the most direct recipe. Others learn embeddings that are insensitive to irrelevant variation but expressive in distinguishing meaningful classes. This is often achieved with a *contrastive loss* that pulls together two distorted views of the same image and pushes apart views of different ones,[@chen_simple_2020] or by asking a network to agree with a slowly updated copy of itself across such views, with no labels and no negative examples.[@caron_emerging_2021] The result can be more structured than the objective suggests: the attention maps of a transformer trained this way delineate object boundaries, although nothing in the training ever asked for a segmentation.[@caron_emerging_2021] Scaled to large and carefully curated image collections, the same recipe yields features general enough that many downstream tasks need no more than a simple classifier trained on top of them.[@oquab_dinov2_2024; @simeoni_dinov3_2026]
+
+The same logic applies to text, where a model maps a passage to an embedding vector so that passages about the same thing land close together.[@devlin_bert_2019; @zhang_qwen3_2025]
+
+A third variant combines the two: withhold part of the input as before, but train the network to predict the *representation* of what was withheld rather than its pixels, with the target supplied by a slowly updated copy of the encoder.[@bardes_revisiting_2024] The argument is that fine detail is largely unpredictable and capacity spent reproducing it is wasted. Unlike the view-agreement objectives above, the relation is directed---predict the embedding of *that* region from this one, rather than demanding that two views coincide. All of these recipes propose complicated safeguards against *collapse*.  Without those, a network asked only to agree with itself can succeed by mapping every image to the same vector and learning nothing.  Recent work replaces them with just one requirement on how the embeddings should be spread out.[@balestriero_lejepa_2025]
+:::
+
+::: {.callout-note}
+## Clustering or segmentation? Choosing by the question, not the method
+
+Take one compound screen: a few thousand fields, three channels, a few hundred conditions. Two questions a biologist might reasonably ask of it need entirely different methods.
+
+*How many cells are dying in each condition?* The category already exists---you can say what a dying cell looks like---and the answer is a number per condition, so every cell has to be outlined and judged one by one: supervised segmentation, then supervised classification. You provide annotations, and what you get back is a measurement, a count you can put an error bar on, because images the model never saw tell you how many cells it missed or invented.
+
+*Are there phenotypes in this screen I have not thought of?* Here there is nothing to supervise, because naming the classes is the result you are after. So you measure many features per cell and group the cells whose measurements look alike. Without annotation, you get a hypothesis: a set of conditions that behave similarly, which needs an independent experiment before it means anything.
+
+The rule generalizes. Supervised methods answer questions you can already phrase; label-free methods help you find the question. Most projects run the second kind of analysis once, to decide what is worth counting, and the first kind forever after.
+
+The two also combine more often than they compete: those features are usually measured on cells that a segmentation model found first, so an exploratory analysis inherits every bias of that model---a reason to check it even when the result is only a hypothesis.
+:::
+
+### Learning from consequences: reinforcement learning {#sec-reinforcement}
+
+A third source of training signal needs no examples at all. In **reinforcement learning** an agent acts, the environment responds, and a *reward* scores how well that went; the agent adjusts its behavior to collect more reward, generating its own training data as it goes.[@mnih_human-level_2015] The reward can be sparse and arrive late---a game won twenty moves after the decisive one---which is both what makes the approach powerful and what makes it expensive.
+
+Image analysis gives it little to work with, because there is no action to take on an image that has already been recorded: the pixels do not respond. Microscopy does offer one natural fit, and it is at the instrument. In closed-loop acquisition the model chooses where to look next, at what magnification, and for how long, and those choices have consequences that can be scored---an event captured or missed, a sample bleached or spared. @sec-hardware takes up event-driven imaging and what has actually been demonstrated there.
+
+The term will also be familiar from **reinforcement learning from human feedback**, the stage in which a language model is tuned toward responses that people rated highly.[@ouyang_training_2022] The mechanics are the same, with a learned stand-in for human preference supplying the reward (@sec-llms).
+
+## The Tasks {#sec-tasks}
+
+The paradigms above sort methods by where their training signal comes from. The tasks below sort them by what comes out, which is the choice you actually face.
+
+### Segmentation: turning pixels into objects {#sec-segmentation}
+
+Segmentation converts an image into a list of things you can measure. Counts, sizes, per-cell intensities, colocalization, morphology---almost every quantitative claim made from a microscopy image passes through it, which is why the rest of this book keeps returning to it.
+
+The literature uses three terms, not always consistently. *Semantic segmentation* assigns each pixel a class---nucleus, cytoplasm, background---without separating objects of the same class. *Instance segmentation* gives each object its own identity, so two touching nuclei are two things rather than one region. *Panoptic segmentation* does both at once. [Box 1](8-existing-tools.qmd#Box1) works the distinction through on a real image.
+
+What makes an annotation expensive is not the number of pixels but how precisely the shape has to be drawn. Semantic segmentation is forgiving: a pixel classifier can be trained from a few brush strokes per class on a handful of images, which interactive tools did well before deep learning and still do.[@Berg2019] Instance segmentation is not, because every object needs its own identity, and most methods want its boundary accurately enough to learn from---slow, careful work rather than a lot of clicking.
+
+How much of that care is genuinely necessary depends on the method rather than the task. A network that predicts an embedding per pixel needs the pixels of one object to agree, not its boundary to be right, so sparse labels ought to suffice, even though the published implementations use dense ones.[@lalit_embedseg_2022; @Goldsborough2024] One that only has to place a box tolerates rough outlines entirely, which is what makes counting cheap to annotate for. Dimensionality is the part that is not negotiable: a 3D annotation has to stay consistent from section to section, so it is one decision carried through a volume rather than one drawing per slice, and adding time compounds it again. @sec-training is largely about how to need less of all of it.
+
+How a segmentation is produced is rarely what the label suggests. Object identity has no canonical output: which integer a given cell receives is arbitrary, and swapping two of them changes nothing about the answer, so there is nothing stable for a per-pixel classifier to predict. Almost every method therefore predicts a quantity that *is* well defined per pixel and assembles objects from it in a second step.
+
+::: {.callout-tip collapse="true"}
+## What segmentation methods actually predict
+
+Methods differ mainly in what the network is asked to output per pixel, and each choice implies its own way of recovering objects.
+
+**Boundaries and affinities.** The network predicts, for each pair of neighboring pixels, whether they belong to the same object.[@turaga_convolutional_2010] Objects are then grown by watershed or by agglomerative merging. Including pairs that are further apart than one pixel makes thin gaps detectable and supplies positive evidence that two pixels belong to *different* objects, which lets the mutex watershed separate them without seeds or a threshold.[@funke_large_2019; @wolf_mutex_2021]
+
+**A description of the shape the pixel belongs to.** StarDist predicts the distance from each pixel to the object boundary along a fixed set of rays and keeps the best non-overlapping polygons.[@Schmidt2018] Local shape descriptors predict summary statistics of the surrounding object---its size, elongation, and offset to its center---as an auxiliary target that makes the accompanying affinity prediction markedly better.[@sheridan_local_2023] PatchPerPix goes furthest and predicts an entire small binary mask of the object around each pixel, then assembles objects from the patches that agree.[@mais_patchperpix_2020]
+
+**A direction toward the object's center.** Cellpose predicts a vector field; following it from each pixel makes the pixels of one cell converge on a single point, and those that arrive together become an object.[@stringer2021] Nothing here assumes a shape, which is why it copes with irregular and elongated cells.
+
+**An embedding per pixel.** The network learns a vector that should be identical for pixels of the same object and different across objects, and the objects fall out by clustering.[@lalit_embedseg_2022; @Goldsborough2024]
+
+**One object at a time.** Flood-filling networks start from a seed and iteratively extend a single mask until it stops growing, then move on to the next seed.[@januszewski_high-precision_2018] This sidesteps the identity problem rather than solving it, and it is the approach of choice where objects are enormous and branching, as in reconstructing neurons from electron microscopy.
+
+The grouping step deserves as much attention as the network. It is where most false splits and false merges are made, and where most of the parameters a user still has to set actually live. It is also the knob that trades the two errors against each other, and which one you want depends on the question: a false split is usually easy to see and quick to repair, whereas a false merge quietly averages two cells into one measurement and looks like a fact.
+:::
+
+@sec-4 covers the architectures behind these predictions, @sec-8 how to find a tool that already makes them, @sec-9 how to train or fine-tune one on your own data, and @sec-output_quality how to tell whether it worked.
+
+### Restoration: recovering what the microscope could not record {#sec-restoration-intro}
+
+Every image is a degraded observation. The microscope blurs the specimen by its point spread function, the detector records a finite number of photons and so returns a noisy count, and the sampling grid is coarser than the detail you would like to resolve. Restoration estimates the underlying signal from what was recorded. It is an inverse problem, and an ill-posed one, because many different specimens are consistent with the same measurement.
+
+Supervised restoration fits the template of @sec-supervised exactly, with an image as the target instead of a label. Which image defines the sub-task: a high-signal acquisition of the same field for *denoising*, a sharper one for *deconvolution* and *aberration correction*, a higher-resolution or differently acquired one for *resolution enhancement*, and a different channel entirely for *modality translation*, where a fluorescence signal is predicted from transmitted light.[@ounkomol_label-free_2018] @sec-Image-Restoration develops all of these.
+
+The reason to care is not that the images look better. Noise, blur, and limited resolution are all paid for in photons, and photons are what a living sample cannot spare. A denoiser that recovers a usable image from a tenth of the illumination converts directly into a tenth of the phototoxicity, or ten times the frame rate, or a time-lapse that runs ten times longer before the specimen gives out. Restoration is an acquisition technique that happens to run after acquisition.
+
+The caveat takes one sentence and matters enormously: restoration is not measurement, and wherever the data was uninformative the estimate comes from the training set rather than from the specimen. @sec-generative names the mechanism and @sec-Image-Restoration collects the consequences.
+
+Denoising needs no clean reference at all: self-supervision (@sec-no-labels) trains a denoiser on noisy images alone.
+
+::: {.callout-tip collapse="true"}
+## Denoising without a clean image
+
+Deep learning based denoising methods rest on one asymmetry: the signal in an image is predictable from its surroundings, and the noise, by definition, is not. Put a network in a position where it can only reproduce the predictable part, and it denoises.
+
+The direct approach supplies both halves---a noisy acquisition and a high-signal one of the same field---and learns the map between them.[@Weigert2018] Acquiring that pair is easy on a fixed sample and often impossible on a living one.
+
+Noise2Noise removes half the requirement. Two independent noisy exposures of the same field are enough, because the network cannot predict the particular noise in the target from the noise in the input; the best it can do is the signal the two share.[@Lehtinen2018]
+
+Noise2Void removes the other half. A single noisy image suffices: hide one pixel, ask the network to predict it from its neighbors, repeat.[@Krull2019] The network never sees the value it is trying to reproduce, so it cannot copy the noise. What it does require is that the noise be independent between pixels---true of photon shot noise, false of line artifacts and fixed-pattern noise, where the fix is to hide whole lines instead of single pixels.[@broaddus_removing_2020]
+
+A noisy image is consistent with many clean ones, and a network trained to minimize average error returns their blend. Diversity denoising instead learns the distribution of clean images consistent with the input and draws samples from it, making the ambiguity visible rather than smoothing it away.[@prakash_fully_2021] It is a generative model in the sense of @sec-generative.
+
+The same machinery can be pointed at a different asymmetry. If two labeled structures are deliberately imaged into a single channel, a network trained on separately acquired examples can pull them apart again, so fewer channels have to be acquired in the first place.[@ashesh_microsplit_2026]
+
+One assumption is shared by all of them: whatever cannot be predicted is treated as noise. Structure that is genuinely rare and genuinely unpredictable is therefore exactly what they are most likely to erase.
+:::
+
+### Classification, detection, and tracking {#sec-classification-detection}
+
+**Classification** attaches one label to an image, or to an object already found in it: cell type, cell cycle stage, treated or control, healthy or diseased. Tagging an image with a few class labels is simple and is correspondingly the cheapest way of annotation to find out whether a signal is present in your data at all.
+
+**Detection** finds where the objects are without saying where they end. The annotation is a point or a box per object, dramatically simpler than a detailed boundary mask, and the output is sufficient whenever the answer is a count, a position, or a trigger.
+
+**Tracking** links objects across frames, which is where most of the interesting biology is---division, migration, differentiation, events that a single timepoint cannot show. It stacks two problems. The first is finding the objects in each frame, which is segmentation or detection as above. The second is association: deciding which object in this frame is which object in the next, a matching problem rather than a perception problem.
+
+Division makes it harder than matching, because one object legitimately becomes two, so the answer is a lineage tree rather than a set of paths---and a dividing cell rounds up and changes appearance precisely when the association is most delicate. Association errors also compound, since a single swap corrupts every measurement downstream of it in that lineage. A method can therefore score well on the fraction of correct links and still recover almost no complete tracks,[@maska_cell_2023] which is why tracking has no single accuracy number (@sec-output_quality).
+
+::: {.callout-tip collapse="true"}
+## How tracking is actually done
+
+Most trackers in use separates the two problems: segment or detect each frame independently, then link. The separation is convenient, because detector and linker can be swapped independently, and it is the structure the standard benchmarks assume.[@maska_cell_2023]
+
+The classical linker has not been displaced. Linear assignment solves frame-to-frame matching as an optimal assignment problem, then makes a second global pass that stitches track fragments together and repairs gaps, merges, and splits.[@jaqaman_robust_2008] This is the engine inside TrackMate, the tool most microscopists will actually open, which now accepts modern segmentation models as its detector.[@ershov_trackmate_2022] An important finding from a decade of benchmarking is that segmentation quality dominates: a simple linker on good detections beats a sophisticated linker on poor ones.[@maska_cell_2023]
+
+Deep learning has changed the linker in three ways. It can learn the association itself, with a transformer scoring candidate matches from position and appearance across a window of frames, which works across bacteria, cell culture, and particles without per-dataset tuning.[@gallusser_trackastra_2024] It can fold detection and linking into one network, predicting for each pixel the offset to where its object was in the previous frame.[@loffler_embedtrack_2022] Or it can generate many candidate segmentations, from several algorithms and parameter settings, and let temporal consistency choose among them, which is what makes terabyte-scale embryo recordings tractable.[@bragantini_ultrack_2025] Video foundation models are beginning to appear here as well: the memory mechanism that lets SAM 2 carry a mask through a video has been applied to microscopy with no training at all.[@ravi_sam_2025]
+
+What remains hard is well documented. Pre-trained trackers generalize poorly to morphologies and modalities they have not seen; densely annotated, fully tracked datasets are scarce, which limits what more supervision can fix; and recovery of complete lineages lags well behind the local link-accuracy scores that are usually reported.[@maska_cell_2023]
+:::
+
+**Rare-event screening** is where these tasks change what is feasible rather than merely what is fast. Finding the one cell in ten thousand that does something interesting rewards consistency more than peak accuracy, and a model fast enough to run during acquisition can decide to look closer while the event is still happening (@sec-hardware).
+
+### Generative models: sampling instead of predicting {#sec-generative}
+
+Each of these tasks can be approached in two fundamentally different ways, and the difference is visible in the output. A *predictive* model denoises an image by returning a single result, trained to minimize the average discrepancy from the truth. When the input is ambiguous, the output that minimizes that average is a blend of everything the input could have been. Blends are smooth, which is why aggressively denoised images often look plausible and slightly waxy. A *generative* model is trained instead to represent the whole set of images consistent with the input, and to draw *a sample* from it. A sample is not a blend, so it carries the texture and edge contrast of real data. Running the model twice on the same input yields two different answers, each as consistent with the measurement as the other.
+
+Four families are in current use: Variational autoencoders compress an image into a small code and decode it back, with the code a distribution rather than a single point, so sampling it yields different plausible reconstructions.[@kingma_auto-encoding_2014] Adversarial training pits the generator against a second network whose job is to tell generated output from real data.[@goodfellow_generative_2014] Diffusion models learn to reverse a gradual corruption of data by noise, and generate by denoising pure noise in many small steps.[@ho_denoising_2020] Flow matching learns a direct path from noise to data, which makes sampling cheaper.[@lipman_flow_2023] @sec-4 covers how they are built and trained.
+
+In microscopy, generative models turn up wherever the answer is underdetermined: restoration and modality translation (@sec-Image-Restoration), synthesizing annotated images when real annotations are scarce (@sec-training), and predicting how a specimen will look at a later timepoint.
+
+The characteristic risk follows directly from what sampling means. A generative model is built to produce output indistinguishable from real data, and it will do that whether or not the input supports the particular detail it draws---a vesicle that is sharp, plausible, correctly textured, and never measured. This inverts the usual relation between image quality and trust: the restored image is *more* convincing than the raw data, so judging it by eye selects for exactly the failures you need to catch.[@lee_believing_2024] A structure that appears only after restoration must never be quantified. @sec-Image-Restoration collects the documented cases and how to guard against them; @sec-output_quality is about measuring what the guarding is worth.
+
+## Why It Fails, and How You Find Out {#sec-failure}
+
+### Overfitting, and the discipline of splitting data {#sec-splits}
+
+It is reasonably easy to say what kind of label, field of view, or resolution a task requires. It is much harder to know whether a set of examples is *sufficient*, precisely because we do not know in advance what rules the system needs to infer or what features are relevant. Worse, the system may find a shortcut that gives perfect performance on the training examples while completely failing at the intended question. The only way to find out is to quantify performance on a separate **test dataset** that was never used for training.
+
+But there is another problem: training with gradient descent will drive the loss ever lower, e.g. by memorizing the training examples rather than learning generalizable rules. Since no training dataset is ever fully representative of the real world, this **overfitting** is inevitable if training continues long enough. How do we know when to stop?
+
+The solution is a **validation dataset**, a set of examples withheld from gradient descent but used to monitor performance during training. When validation performance stops improving or begins to degrade, training should stop.
+
+Crucially, the validation dataset must remain distinct from the test dataset. Although validation examples are not used for gradient descent, they still influence the final model: we select the training iteration, architecture, or hyperparameters that perform best on validation data. This means the solution can overfit to the validation set as well. Only the test dataset, touched exactly once at the very end, provides an unbiased estimate of how the model will perform on truly unseen data.
+
+Both splits only work if the withheld examples are genuinely separate. Neighboring patches from the same stack are nearly identical, so splitting patches at random scatters near-copies across all three sets, and the score that comes back measures memory rather than performance. @sec-training covers how to build and split a dataset in practice, @sec-output_quality what to measure on it.
+
+### Domain shift and shortcut learning {#sec-domain-shift}
+
+A model can pass both checks and still do worse on images acquired a few months later. Training and test data came from the same experiment; the new images did not. This is **domain shift**. The causes are mundane: a different objective, a realigned laser, a new batch of mounting medium, the same cell line at a higher passage number. The result is rarely outright failure. It is a slow degradation---slightly worse masks, a few more missed cells, a shifted effect size.
+
+Microscopy is more exposed to this than most of computer vision. A model trained on hundreds of millions of photographs has already seen most of the variation it will meet. Here the domain is one laboratory's protocol on one instrument, and that protocol changes routinely, often without anyone noticing.
+
+The same narrowness allows a second failure. One experiment's images cannot separate the regularities of the biology from those of the protocol. If something incidental correlates with the label, gradient descent will use it, because it optimizes the loss and not the biology. This is **shortcut learning**.[@geirhos_shortcut_2020] Cells in the outer wells of a plate evaporate and look different,[@caicedo_data-analysis_2017] so a classifier whose controls sit in column 1 may be reading well position rather than phenotype. The confound need not be biological. Training crops that are mostly background teach a segmentation model to predict background everywhere, which minimizes the loss and finds nothing ([Case Study 2](8-existing-tools.qmd#sec-case-study-2)).
+
+Neither failure shows up as a poor validation score, because the confound is in the validation data too. A pneumonia classifier trained on chest radiographs could tell which hospital had acquired an image in 99.95% of cases, and lost accuracy at a new one.[@zech_variable_2018]
+
+One defense belongs here, and it sharpens the rule of the previous section: split at the level of whatever will vary in practice---whole plates, whole sessions, whole cell lines, not random crops from a common pool. That does not prevent domain shift, but it makes it visible before you rely on the model. The rest belongs elsewhere: a training set that spans the variation you expect, and augmentation to extend it (@sec-training); fine-tuning when a published model does not transfer (@sec-9); and choosing appropriate measures of success (@sec-output_quality). A reported accuracy describes the data it was measured on, and says little about yours.[@laine2021]
+
+### The black box: a correct answer is not an explanation {#sec-black-box}
+
+Nothing inside a trained network is hidden---every weight and activation can be printed---but the resulting features do not trivially decompose into interpretable quantities (@sec-ai-families). That is what the black box actually is: not secrecy, but the absence of any description of the model short enough to reason with.
+
+Two consequences matter. The first is that behavior cannot be predicted by inspection. A rule-based pipeline states where it will fail, because the rules are written down; for a network, the failures of @sec-splits and @sec-domain-shift can only be found by measurement. The second is that a correct prediction carries no reason with it. A classifier may separate treated cells from controls on every plate for something other than the phenotype, and no held-out test will reveal it, because the prediction is not wrong. That the network distinguishes the conditions is a measurement; that the treatment changes mitochondrial morphology is a claim the network never made.
+
+The confidence score the model reports is not a check on this. It comes out of the same computation as the prediction, and current networks routinely report confidence above their measured accuracy,[@guo_calibration_2017] most severely under the shift where a warning would be most useful.[@ovadia_can_2019] Whether a given score can be trusted is itself measurable (@sec-output_quality).
+
+What remains is evaluation on data resembling what you will run, and interpretability methods that have been validated. That qualifier does real work. The common tool is an **attribution map**, a per-pixel image of how much each part of the input contributed to the output; several widely used variants produce nearly the same map after the network's weights are randomized, so they were never reporting on the trained model at all.[@adebayo_sanity_2018] Methods that survive such checks do deliver: a network that identifies which of six neurotransmitters a *Drosophila* synapse releases from electron micrographs, 87% of the time, defeated ordinary attribution, but comparing each synapse against a generated counterfactual of another transmitter type isolated ultrastructural differences a person could name and nobody had described before.[@eckstein_neurotransmitter_2024]
+
+A network nobody can explain can still be a good instrument, provided it has been characterized like one.
+
+## What Comes Next {#sec-next}
+
+A model can be put to two uses. In *measurement*, you already know what to count and the model counts it. It is part of the instrument, and its output is a number in your results.[@wait_hypothesis-driven_2020] In *exploration*, you do not yet know what to look for, and the output is a suggestion about what to measure next. The two are not separate methods: the same segmentation model can count the phenotype you asked for and then reveal one you did not. What matters is saying which you were doing.
+
+Using a model as an instrument means characterizing it like one: an accuracy, the metric it was computed with, and the data it was measured on. The last is the easiest to leave out and the most important, because the number describes those images and not yours.[@laine2021] The model, its version, whether you fine-tuned it and on what, and the score on held-out data belong in the methods, as specifically as an objective or an exposure time.
+
+Three chapters build on what this one has only named: @sec-4 covers architectures and loss functions, @sec-training the examples everything depends on, and @sec-llms the models whose output is language. Both uses carry on from there: @sec-hardware is where a model acts on the specimen instead of reporting on it, @sec-output_quality is how accuracy is actually measured, and @sec-outlook is where exploration is already producing new biology.
