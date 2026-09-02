@@ -23,10 +23,10 @@ True Negatives: |
   In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.
 
 Manual Annotation: |
-  The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.
+  The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like [Fiji](glossary.qmd#fiji) or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.
 
 Object Detection: |
-  A computer vision task that identifies and locates individual objects within an image, typically by drawing bounding boxes around them. It provides both the category (what) and position (where) of each object.
+  A computer vision task that identifies and locates individual objects within an image, typically by drawing [bounding boxes](glossary.qmd#bounding-region) around them. It provides both the category (what) and position (where) of each object.
 
 Binary Segmentation: |
   A type of image segmentation where each pixel is classified into one of two categories --- typically "foreground" (e.g., cell) or "background." The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).
@@ -38,7 +38,7 @@ Distance Transform: |
   A transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In [instance segmentation](glossary.qmd#instance-segmentation), distance transforms are commonly used to help separate touching or overlapping objects—for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a binary mask into individual instances.
 
 Confidence Score: |
-  A continuous value, often between 0 and 1, that reflects how certain a model is about a given prediction. Unlike a [distance transform](glossary.qmd#distance-transform), which encodes geometric information such as position within an object, a confidence score expresses the model's belief that a prediction is correct—for example, that a pixel belongs to the foreground class or that a detected object was correctly identified during [object detection](glossary.qmd#object-detection). Confidence scores are useful for filtering predictions, such as discarding low-confidence detections, but a high confidence score does not guarantee a correct prediction, particularly when a model is poorly calibrated.
+  A continuous value, often between 0 and 1, that reflects how certain a model is about a given prediction. Unlike a [distance transform](glossary.qmd#distance-transform), which encodes geometric information such as position within an object, a confidence score expresses the model's belief that a prediction is correct --- for example, that a pixel belongs to the foreground class or that a detected object was correctly identified during [object detection](glossary.qmd#object-detection). Confidence scores are useful for filtering predictions, such as discarding low-confidence detections, but a high confidence score does not guarantee a correct prediction, particularly when a model is poorly calibrated.
 
 Semantic Segmentation: |
   A form of segmentation where each pixel in an image is assigned to a class (e.g., nucleus, cytoplasm, background), but it does not distinguish between separate instances of the same class.
@@ -87,6 +87,7 @@ Harmonic Mean: |
 F1 Score: |
   A classification metric that gives the [harmonic mean](glossary.qmd#harmonic-mean) of [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall). This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.
   $$ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}$$
+  This metric is also known as the DICE coefficient.
 
 Image Classification: |
   A computer vision task where each image is associated with one class and the goal of this task is to correctly predict that class. 
@@ -140,19 +141,19 @@ Nonlinear Problem: |
   A mathematical problem where the governing equations or operations are nonlinear, meaning outputs are not linearly proportional to inputs.
 
 CARE (Content-aware image restoration): |
-  A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See https://github.com/CSBDeep/CSBDeep for more information.
+  A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See [https://github.com/CSBDeep/CSBDeep](https://github.com/CSBDeep/CSBDeep) for more information.
 
 RCAN (residual channel attention network): |
-  A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See https://github.com/AiviaCommunity/3D-RCAN for more information.
+  A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See [https://github.com/AiviaCommunity/3D-RCAN](https://github.com/AiviaCommunity/3D-RCAN) for more information.
 
 N2V (Noise2Void): |
-  A self-supervised denoising method that trains a neural network to predict pixel values from noisy images by masking input pixels, requiring only single noisy images without paired clean data. See https://github.com/juglab/n2v for more information. 
+  A self-supervised denoising method that trains a neural network to predict pixel values from noisy images by masking input pixels, requiring only single noisy images without paired clean data. See [https://github.com/juglab/n2v](https://github.com/juglab/n2v) for more information. 
 
 N2S (Noise2Self): |
-  A self-supervised denoising method that trains a neural network assuming statistically independent noise across the image, requiring only single noisy images without paired clean data. See https://github.com/czbiohub-sf/noise2self for more information. 
+  A self-supervised denoising method that trains a neural network assuming statistically independent noise across the image, requiring only single noisy images without paired clean data. See [https://github.com/czbiohub-sf/noise2self](https://github.com/czbiohub-sf/noise2self) for more information. 
 
 N2N (Noise2Noise): |
-  A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See https://github.com/NVlabs/noise2noise for more information. 
+  A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See [https://github.com/NVlabs/noise2noise](https://github.com/NVlabs/noise2noise) for more information. 
 
 Deconvolution: |
   A mathematical process to partially reverse the blurring effect caused by the microscope's PSF, increasing contrast and resolution over the raw image data if performed carefully.
@@ -164,7 +165,7 @@ Zernike Modes: |
   A set of orthogonal polynomials used to describe and correct wavefront aberrations in optical systems.
 
 Fiji: |
-  An image processing platform that comes bundled with many plugins for scientific image analysis. See https://imagej.net/software/fiji/ for more information.
+  An image processing platform that comes bundled with many plugins for scientific image analysis. See [https://imagej.net/software/fiji/](https://imagej.net/software/fiji/) for more information.
 
 Convolution: |
   A mathematical process where a kernel (small matrix) slides over input data (e.g., images) to compute feature maps, highlighting patterns like edges or textures.
@@ -263,7 +264,7 @@ Auxiliary Variables  : |
   Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precision, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other shape descriptors can be used as part of of a loss function. 
 
 Loss function : |
-  A loss function (or cost function) is a formula for quantifying how much a model's prediction deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss. As training relies on gradient descent, the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+  A loss function (or cost function) is a formula for quantifying how much a model's prediction deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss. As training relies on [gradient descent](glossary.qmd#gradient-descent), the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
 
 Optimizer  : |
   An optimizer is a function that is used to adjust model parameters during training. By adjusting weights and biases, the optimizer attempts to minimize the loss function and thus make the model more accurate.
@@ -349,15 +350,15 @@ ResNet : |
 Image Translation : |
   Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g. brightfield) into a different modality (e.g. DAPI staining of nuclei) in the same field of view.
 
-Binary Cross-Entropy (BCE) : |
-  Binary cross-entropy penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+Binary Cross-Entropy : |
+  Binary cross-entropy (BCE) penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability --- it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
   For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
   $$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
 
-Mean Squared Error (MSE) : |
-  MSE penalizes the model proportionally to the squared difference between its prediction and the ground truth:
+Mean Squared Error : |
+  Mean-squared error (MSE) penalizes the model proportionally to the squared difference between its prediction and the ground truth:
   $$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
-  MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
+  MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability --- it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
   Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
 
 Hausdorff Distance : |

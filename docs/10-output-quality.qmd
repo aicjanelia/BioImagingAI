@@ -15,9 +15,9 @@ author:
         country: USA
         postal-code:  
 subtitle: How to pick a model?
-jupyter: 10-output-quality
-execute:
-    cache: true
+# jupyter: python3
+# execute:
+#     cache: true
 bibliography: references.bib
 ---
 
@@ -40,12 +40,12 @@ We will focus on *segmentation* and *cell tracking* as concrete examples, but th
 ## Metrics and Losses
 
 In @sec-9, you learned about how to train a machine learning model.
-Recall that, this requires selecting a loss function: a function that represents how far the model's output is from your desired ground truth. 
-As training relies on gradient descent, the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
-The model's parameters are optimized to minimize the loss on a training dataset, and you evaluate the same loss on a held-out validation dataset to get an idea of how well your model would perform on new data.
+Recall that, this requires selecting a [loss function](glossary.qmd#loss-function): a function that represents how far the model's output is from your desired ground truth. 
+As training relies on [gradient descent](glossary.qmd#gradient-descent), the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+The model's parameters are optimized to minimize the loss on a [training dataset](glossary.qmd#training-data), and you evaluate the same loss on a held-out [validation dataset](glossary.qmd#validation-data) to get an idea of how well your model would perform on new data.
 
 Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
-A metric is any function that scores your predictions.
+A [metric](glossary.qmd#quality-control-metric) is any function that scores your predictions.
 Unlike a loss, it does not have to be differentiable because it is not used for optimization. 
 This means that you can get more specific which how you evaluate the quality of your model output, as we'll see below.
 
@@ -55,8 +55,8 @@ At first glance, it is difficult to judge which of these is the most appropriate
 
 Consider the case of nuclear segmentation. 
 Suppose you have fluorescently labelled nuclei, as in ([@fig-image]), that you want to segment for downstream analysis.
-Two standard losses for this task are binary cross entropy (BCE), and mean squared error (MSE).
-These functions are often optimized for the task of semantic segmentation, separating foreground from background.
+Two standard losses for this task are [binary cross entropy (BCE)](glossary.qmd#binary-cross-entropy), and [mean squared error (MSE)](glossary.qmd#mean-squared-error).
+These functions are often optimized for the task of [semantic segmentation](glossary.qmd#semantic-segmentation), separating foreground from background.
 While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
 
 ```{python}
@@ -202,7 +202,7 @@ $$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\
 
 The mean squared error penalizes the model proportionally to the squared difference between its prediction and the ground truth:
 $$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
-MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
+MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a [distance transform](glossary.qmd#distance-transform) or a [confidence score](glossary.qmd#confidence-score).
 Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
 :::
 
@@ -241,7 +241,7 @@ for pred in predictions:
 
 If we are interested in measuring the size of each nucleus, a model which under ([@fig-segmentations]a) or over segments nuclei ([@fig-segmentations]b) would create erroneous measurements of size. 
 Instead a model that misses some detections ([@fig-segmentations]c) might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
-In this case an appropriate metric would be  pixel-overlap metrics like Intersection over Union (IoU) or the Dice coefficient. 
+In this case an appropriate metric would be  pixel-overlap metrics like [Intersection over Union (IoU)](glossary.qmd#iou) or the [Dice coefficient](glossary.qmd#f1-score). 
 A metric that captures this will look very different from BCE or MSE.
 
 :::{.callout-note appearance="simple" icon=false collapse="false"}
@@ -251,7 +251,7 @@ Both metrics quantify the overlap between a predicted region $B$ and the ground 
 
 $$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{DICE}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}$$
 
-DICE is the harmonic mean of precision and recall: it balances false positives (predicted pixels outside $A$) and false negatives (pixels in $A$ missed by $B$) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.
+DICE is the [harmonic mean](glossary.qmd#harmonic-mean) of [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall): it balances [false positives](glossary.qmd#false-positives) (predicted pixels outside $A$) and [false negatives](glossary.qmd#false-negatives) (pixels in $A$ missed by $B$) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.
 
 :::{.callout-note}
 The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.
@@ -311,7 +311,7 @@ ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.0
 
 Alternatively, if we are interested in counting the number of nuclei, a model which changes the size of the nuclei should not impact the analysis.
 However a model that misses nuclei ([@fig-segmentations]c), detects artifacts as nuclei ([@fig-segmentations]d), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
-In this case, a metric built around per-instance detection, such as precision and recall (or F1-score) after matching predicted masks to ground truth, captures the problems that matter to the analysis. It will also reveal the false positives and false negatives that would need correction.
+In this case, a metric built around per-instance detection, such as [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall) (or [F1-score](glossary.qmd#f1-score)) after matching predicted masks to [ground truth](glossary.qmd#ground-truth), captures the problems that matter to the analysis. It will also reveal the false positives and false negatives that would need correction.
 Different downstream uses call for different metrics.
 
 ::: {.callout-note appearance="simple" icon=false collapse="false"}
@@ -379,7 +379,7 @@ legend_elements = [
     Patch(facecolor=navy,   label="Prediction only (FP)"),
 ]
 ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.02),
-          ncol=3, frameon=False, fontsize=9)
+          ncol=1, frameon=False, fontsize=9)
 ```
 
 :::
@@ -390,7 +390,7 @@ You can find many other examples of metrics for various tasks, along with their 
 ::: {.callout-note appearance="simple" icon=false collapse="true"}
 # The Hausdorff distance focuses on boundaries.
 
-The Hausdorff distance measures how far apart two sets of boundary points are at their worst-case point.
+The [Hausdorff distance](glossary.qmd#hausdorff-distance) measures how far apart two sets of boundary points are at their worst-case point.
 For boundary point sets $A$ and $B$:
 
 $$d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)$$
@@ -451,7 +451,7 @@ ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
 ::: {.callout-note appearance="simple" icon=false collapse="true"}
 # Average precision rewards finding the right instances.
 
-Average Precision (AP) summarizes the precision–recall trade-off across confidence thresholds.
+[Average Precision (AP)](glossary.qmd#average-precision) summarizes the precision–recall trade-off across confidence thresholds.
 A predicted instance counts as a true positive only if its IoU with a ground-truth instance exceeds a threshold $x$:
 
 $$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
@@ -514,7 +514,7 @@ This is why there is rarely one "correct" metric for a task like segmentation; t
 
 ### Cell Tracking Metrics {#sec-cell-tracking-metrics}
 
-Cell tracking is typically approached as a multi-stage task. The first stage is detection where cells in each frame of the time series are detected using point detections, bounding boxes or segmentation masks. In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
+Cell tracking is typically approached as a multi-stage task. The first stage is detection where cells in each frame of the time series are detected using [point detections](glossary.qmd#centroid-coordinates), [bounding boxes](glossary.qmd#bounding-region) or [segmentation masks](glossary.qmd#binary-segmentation). In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
 
 <!-- Intro to tracking figure -->
 ```{python}
@@ -589,7 +589,7 @@ def draw_blob(ax, cell):
     ax.plot(x, y, color=cell["color"], lw=1.8, zorder=2)
 
 
-fig = plt.figure(figsize=(7, 5.0))
+fig = plt.figure(figsize=(5,5*(5/7)))
 gs = fig.add_gridspec(2, N_FRAMES, height_ratios=[1.0, 1.15],
                       hspace=0.28, wspace=0.12)
 
@@ -822,11 +822,12 @@ def plot_figure():
     ]
     gap = 3.6  # horizontal offset of the Pred tree from the True tree
 
-    fig, axes = plt.subplots(1, len(panels), figsize=(7, 2.8))
+    # fig, axes = plt.subplots(1, len(panels), figsize=(5, 5*(2.8/7)))
+    fig, axes = plt.subplots(2, 2, figsize=(5, 5))
     labels = ["a)", "b)", "c)", "d)"]
     pad_x, label_y = 1.0, -1.05  # box padding and True/Pred label height
     box_top, box_bot = -1.3, 4.6  # vertical box extent (frames run 0..4)
-    for ax, builder, lab in zip(axes, panels, labels):
+    for ax, builder, lab in zip(axes.ravel(), panels, labels):
         title, tn, pn = builder(ax, gap)
         true_xs = [x for x, _, _ in tn.values()]
         pred_xs = [x + gap for x, _, _ in pn.values()]
@@ -1126,9 +1127,11 @@ def add_metric_table(ax, res):
 
 
 # Top row: lineage trees. Bottom row: a metric table under each solution.
-fig = plt.figure(figsize=(7.2, 5.2))
-gs = fig.add_gridspec(2, 4, height_ratios=[2.3, 1.0])
-tree_axes = [fig.add_subplot(gs[0, i]) for i in range(4)]
+# fig = plt.figure(figsize=(7.2, 5.2))
+fig = plt.figure(figsize=(5.0, 7.0))
+gs = fig.add_gridspec(3, 3, height_ratios=[2.3, 2.3,1.0])
+# tree_axes = [fig.add_subplot(gs[0, i]) for i in range(4)]
+tree_axes = [fig.add_subplot(gs[0, 1]),fig.add_subplot(gs[1, 0]),fig.add_subplot(gs[1,1]),fig.add_subplot(gs[1,2])]
 panels = [
     (plot_gt, "a) Ground Truth", None),
     (plot_no_node, "b) Missing Node\nSolution", res_no_node),
@@ -1146,8 +1149,8 @@ for axis, (g, title, _res) in zip(tree_axes, panels):
     axis.set_xlim(-1.0, 4.0)
 
 # Ground truth has no error table; solutions get one each.
-for col, (_g, _title, res) in enumerate(panels):
-    table_ax = fig.add_subplot(gs[1, col])
+for col, (_g, _title, res) in enumerate(panels[1:]):
+    table_ax = fig.add_subplot(gs[-1, col])
     if res is None:
         table_ax.axis("off")
     else:
