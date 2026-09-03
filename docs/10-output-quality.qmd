@@ -10,61 +10,1229 @@ author:
   - name: Diane Adjavon
     orcid: 0009-0001-4702-0776
     affiliations:
-      - name: 
-        state: 
-        country: 
-        postal-code: 
+      - name: biohub 
+        state: NY
+        country: USA
+        postal-code:  
 subtitle: How to pick a model?
+# jupyter: python3
+# execute:
+#     cache: true
+bibliography: references.bib
 ---
 
 # Output Quality {#sec-output_quality}
 
-Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
+<!-- Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
 
 * why do we need metrics? to pick models from different training iterations
   (avoid overfitting) and to select models with different hyperparameters
-* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5
+* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5 -->
+
+You have trained a model. 
+How do you know if it is any good?
+A model that looks convincing on a handful of images can quietly fail on the rest of your dataset, and a model that scores well on one measure of quality can perform poorly on another.
+Choosing the right way to measure quality is therefore just as important as the training itself.
+
+In this chapter we will look at how metrics and losses differ, how to pick measures that actually reflect your scientific goal, and how to use held-out test data to get an honest estimate of how your model will behave on new images.
+We will focus on *segmentation* and *cell tracking* as concrete examples, but the principles apply broadly.
 
 ## Metrics and Losses
 
-* difference between "metric" and "loss"
+In @sec-9, you learned about how to train a machine learning model.
+Recall that, this requires selecting a [loss function](glossary.qmd#loss-function): a function that represents how far the model's output is from your desired ground truth. 
+As training relies on [gradient descent](glossary.qmd#gradient-descent), the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+The model's parameters are optimized to minimize the loss on a [training dataset](glossary.qmd#training-data), and you evaluate the same loss on a held-out [validation dataset](glossary.qmd#validation-data) to get an idea of how well your model would perform on new data.
 
-* loss:
-  * has to be "differentiable"
-  * used to train the network
-  * should already be close to the metric you want to use
-  * can be used to assess model quality on validation data (but a custom metric might be more insightful)
+Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
+A [metric](glossary.qmd#quality-control-metric) is any function that scores your predictions.
+Unlike a loss, it does not have to be differentiable because it is not used for optimization. 
+This means that you can get more specific which how you evaluate the quality of your model output, as we'll see below.
 
-* metric:
-  * an application specific measure of how close you are to the ground truth
-  * used to select a model and to measure progress
-  * does not need to be "differentiable"
-  * but if it is, that's great, you can use it as a loss
-  * otherwise, find a loss that is a good proxy or chose your model based on
-    the metric on the validation dataset
+<!-- For example, look at the segmentation outputs in @fig-segmentations.
+At first glance, it is difficult to judge which of these is the most appropriate. -->
+
+
+Consider the case of nuclear segmentation. 
+Suppose you have fluorescently labelled nuclei, as in ([@fig-image]), that you want to segment for downstream analysis.
+Two standard losses for this task are [binary cross entropy (BCE)](glossary.qmd#binary-cross-entropy), and [mean squared error (MSE)](glossary.qmd#mean-squared-error).
+These functions are often optimized for the task of [semantic segmentation](glossary.qmd#semantic-segmentation), separating foreground from background.
+While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
+
+```{python}
+#| echo: false
+
+import skimage as ski
+import numpy as np
+from skimage.draw import ellipse as draw_ellipse
+import matplotlib.pyplot as plt
+from skimage.filters import threshold_otsu, gaussian
+from skimage.measure import label, regionprops
+from skimage.morphology import closing, footprint_rectangle, erosion, dilation, disk, remove_small_objects
+from skimage.color import label2rgb
+from skimage.segmentation import watershed
+from skimage.feature import peak_local_max
+from scipy.ndimage import binary_fill_holes, shift as ndimage_shift, distance_transform_edt
+
+
+def make_ground_truth(image, sigma=2, min_distance=10, max_size=500):
+    """Segment DAPI-stained nuclei using Gaussian smoothing + Otsu + watershed.
+
+    Returns
+    -------
+    bw : ndarray  binary foreground mask (after smoothing, thresholding, size filter)
+    filled : ndarray  binary mask of watershed regions (same as bw for solid nuclei)
+    label_image : ndarray  integer label image, one label per nucleus
+    """
+    smoothed = gaussian(image, sigma=sigma)
+    bw = closing(smoothed > threshold_otsu(smoothed), footprint_rectangle((3, 3)))
+    bw = remove_small_objects(bw, max_size=max_size)
+    dist = distance_transform_edt(bw)
+    peaks = peak_local_max(dist, min_distance=min_distance, labels=bw)
+    markers = np.zeros_like(bw, dtype=np.int32)
+    markers[tuple(peaks.T)] = np.arange(1, len(peaks) + 1)
+    label_image = watershed(-dist, markers, mask=bw)
+    return bw, (label_image > 0), label_image
+
+
+def make_undersegmented(filled, erode_radius=8, jitter=6, seed=7):
+    """Erode each cell mask inward and nudge it by a small random offset."""
+    eroded = label(erosion(filled, disk(erode_radius)))
+    rng = np.random.default_rng(seed)
+    out = np.zeros_like(eroded)
+    for lbl in np.unique(eroded)[1:]:
+        mask = (eroded == lbl).astype(float)
+        dy, dx = rng.integers(-jitter, jitter + 1, size=2)
+        shifted = ndimage_shift(mask, (dy, dx), order=0)
+        out[shifted > 0] = lbl
+    return out
+
+
+def make_oversegmented(filled, max_dilate_radius=5, seed=1):
+    """Dilate each cell by a different random amount (0 to max_dilate_radius)."""
+    cell_labels = label(filled)
+    rng = np.random.default_rng(seed)
+    out = np.zeros_like(cell_labels)
+    for lbl in np.unique(cell_labels)[1:]:  # skip background
+        mask = cell_labels == lbl
+        radius = int(rng.integers(0, max_dilate_radius + 1))
+        dilated = dilation(mask, disk(radius)) if radius > 0 else mask
+        out[dilated] = lbl
+    return out
+
+
+def make_missing_cells(label_image, interior_fraction=1/6, seed=42):
+    """Remove all border cells and a random fraction of interior cells."""
+    h, w = label_image.shape
+    out = label_image.copy()
+    props = regionprops(label_image)
+    border_lbl = {p.label for p in props
+                  if p.bbox[0] == 0 or p.bbox[1] == 0
+                  or p.bbox[2] == h or p.bbox[3] == w}
+    interior_lbl = [p.label for p in props if p.label not in border_lbl]
+    rng = np.random.default_rng(seed)
+    drop = rng.choice(interior_lbl,
+                      size=max(1, int(len(interior_lbl) * interior_fraction)),
+                      replace=False)
+    for lbl in border_lbl | set(drop):
+        out[out == lbl] = 0
+    return out
+
+
+def make_holey(bw, erode_radius=2, fp_radius=18, seed=42):
+    """Thin the membrane rings so the central holes become larger,
+    and seed a few false-positive detections in the background."""
+    out = label(erosion(bw, disk(erode_radius)))
+    h, w = out.shape
+    rng = np.random.default_rng(seed)
+    next_lbl = out.max() + 1
+    positions = [(int(h * 0.88), int(w * 0.08)),   # bottom left corner
+                 (int(h * 0.25), int(w * 0.08))]    # 75% up the left side
+    for cy, cx in positions:
+        r_rad = int(rng.uniform(fp_radius * 0.8, fp_radius * 1.2))
+        c_rad = int(rng.uniform(fp_radius * 0.5, fp_radius * 0.9))
+        rotation = rng.uniform(0, np.pi)
+        rr, cc = draw_ellipse(cy, cx, r_rad, c_rad, shape=(h, w), rotation=rotation)
+        fp = np.zeros((h, w), dtype=bool)
+        fp[rr, cc] = True
+        out[fp & (out == 0)] = next_lbl
+        next_lbl += 1
+    return out
+```
+
+```{python}
+#| code-fold: true
+#| label: fig-image
+#| fig-cap: Our cells, with the ground truth overlaid. This ground truth is the output of a Cellpose[@stringer2021] model, but in practice it should be manually annotated.
+
+import contextlib, io, logging
+from cellpose import models
+
+img = ski.data.cells3d()[21:]
+image = img[18][1]  # nucleus channel
+
+# Run Cellpose quietly for display
+logging.getLogger('cellpose').setLevel(logging.ERROR)
+with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+    _model = models.CellposeModel(gpu=False, model_type='nuclei')
+    _cp_labels, _, _ = _model.eval(image, diameter=None, channels=[0, 0])
+
+# Use make_ground_truth for bw/filled/label_image so that failure modes
+# (holes, split nuclei) are visible in the downstream figures
+bw, filled, label_image = make_ground_truth(image)
+
+image_label_overlay = label2rgb(_cp_labels, image=image, bg_label=0, alpha=0.2)
+plt.imshow(image_label_overlay)
+plt.axis("off")
+plt.show()
+```
+
+
+::: {.callout-note appearance="simple" icon=false collapse="false"}
+# Binary Cross-Entropy (BCE)
+
+Binary cross-entropy penalizes the model based on how confident it is in the wrong answer. 
+This loss requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
+$$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
+:::
+
+::: {.callout-note appearance="simple" icon=false collapse="false"}
+# Mean Squared Error (MSE)
+
+The mean squared error penalizes the model proportionally to the squared difference between its prediction and the ground truth:
+$$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
+MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a [distance transform](glossary.qmd#distance-transform) or a [confidence score](glossary.qmd#confidence-score).
+Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
+:::
+
+Luckily, we can keep track of both of these things by using one of these functions as a metric.
+For example, as we optimize binary cross-entropy, we can compute the mean-squared error on the validation data.
+Watching multiple numbers evolve during training gives a fuller picture than any single number alone.
+
+After training a model for segmantic, or foreground/background, segmentation, it is common to use a method such as watershed to obtain instance segmentations: segmentation masks for each individual nucleus. 
+How well we can do this task, followed by what downstream analysis we intend for our instance segmentations, cannot be easily measured with BCE or MSE.
+One can imagine other functions, however, that could more accurately describe "good performance".
+
+```{python}
+#| code-fold: true
+#| label: fig-segmentations
+#| fig-cap: "Four examples of segmentations from different models. Each has a distinct failure mode that is hard to spot at a glance."
+#| fig-subcap:
+#|   - "Undersegmented: masks shrink away from cell borders"
+#|   - "Oversegmented: masks are too large, adjacent cells merge"
+#|   - "False negatives: missing cells and split nuclei."
+#|   - "Holes and false positives: gaps inside cells and spurious detections."
+#| layout-ncol: 2
+
+predictions = [
+    make_undersegmented(filled),
+    make_oversegmented(filled),
+    make_missing_cells(label_image),
+    make_holey(bw),
+]
+
+for pred in predictions:
+    fig, ax = plt.subplots(figsize=(4, 4))
+    ax.imshow(label2rgb(pred, image=image, bg_label=0))
+    ax.axis("off")
+    plt.show()
+```
+
+If we are interested in measuring the size of each nucleus, a model which under ([@fig-segmentations]a) or over segments nuclei ([@fig-segmentations]b) would create erroneous measurements of size. 
+Instead a model that misses some detections ([@fig-segmentations]c) might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
+In this case an appropriate metric would be  pixel-overlap metrics like [Intersection over Union (IoU)](glossary.qmd#iou) or the [Dice coefficient](glossary.qmd#f1-score). 
+A metric that captures this will look very different from BCE or MSE.
+
+:::{.callout-note appearance="simple" icon=false collapse="false"}
+# IoU and DICE are overlap metrics.
+
+Both metrics quantify the overlap between a predicted region $B$ and the ground truth $A$, by comparing the intersection of the two regions ($\cap$) and their union ($\cup$). Both metrics range from 0 (no overlap) to 1 (perfect overlap).
+
+$$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{DICE}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}$$
+
+DICE is the [harmonic mean](glossary.qmd#harmonic-mean) of [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall): it balances [false positives](glossary.qmd#false-positives) (predicted pixels outside $A$) and [false negatives](glossary.qmd#false-negatives) (pixels in $A$ missed by $B$) equally. IoU is slightly stricter, because every falsely predicted pixel inflates the union without affecting the sum of the two areas. In practice the two metrics rank models in the same order.
+
+:::{.callout-note}
+The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.
+:::
+
+```{python}
+#| fig-align: center
+import matplotlib.pyplot as plt
+from matplotlib.patches import Rectangle, Patch, Polygon as MplPolygon
+import numpy as np
+
+navy, orange, green = "#1a35e0", "#e47a10", "#2a9d2a"
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 5)
+ax.set_xticks(np.arange(0, 6, 0.5))
+ax.set_yticks(np.arange(0, 6, 0.5))
+ax.grid(True, color="lightgray", lw=0.8)
+ax.tick_params(labelbottom=False, labelleft=False, length=0)
+
+A = (0.5, 1, 2, 4)      # x, y, width, height
+B = (1.5, 1.5, 3, 3)
+
+ax.add_patch(Rectangle(A[:2], A[2], A[3], facecolor=navy, alpha=0.5))
+ax.add_patch(Rectangle(B[:2], B[2], B[3], facecolor=orange, alpha=0.5))
+
+# Union: outline that follows the actual shape of A ∪ B
+union_verts = [
+    (A[0],      A[1]),           # bottom-left of A
+    (A[0]+A[2], A[1]),           # bottom-right of A
+    (A[0]+A[2], B[1]),           # down to bottom of B
+    (B[0]+B[2], B[1]),           # bottom-right of B
+    (B[0]+B[2], B[1]+B[3]),      # top-right of B
+    (A[0]+A[2], B[1]+B[3]),      # back to A's right edge at top of B
+    (A[0]+A[2], A[1]+A[3]),      # top-right of A
+    (A[0],      A[1]+A[3]),      # top-left of A
+]
+ax.add_patch(MplPolygon(union_verts, closed=True,
+                        facecolor="none", edgecolor="black", lw=2, linestyle="--"))
+
+ix0, iy0 = max(A[0], B[0]), max(A[1], B[1])
+ix1, iy1 = min(A[0]+A[2], B[0]+B[2]), min(A[1]+A[3], B[1]+B[3])
+ax.add_patch(Rectangle((ix0, iy0), ix1-ix0, iy1-iy0,
+                        facecolor=green, alpha=0.85, edgecolor="white", hatch="////"))
+
+legend_elements = [
+    Patch(facecolor=navy, alpha=0.5, label="A"),
+    Patch(facecolor=orange, alpha=0.5, label="B"),
+    Patch(facecolor=green, alpha=0.85, hatch="////", label="A ∩ B"),
+    Patch(facecolor="none", edgecolor="black", lw=2, linestyle="--", label="A ∪ B"),
+]
+ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=2, frameon=False, fontsize=14)
+```
+:::
+
+Alternatively, if we are interested in counting the number of nuclei, a model which changes the size of the nuclei should not impact the analysis.
+However a model that misses nuclei ([@fig-segmentations]c), detects artifacts as nuclei ([@fig-segmentations]d), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
+In this case, a metric built around per-instance detection, such as [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall) (or [F1-score](glossary.qmd#f1-score)) after matching predicted masks to [ground truth](glossary.qmd#ground-truth), captures the problems that matter to the analysis. It will also reveal the false positives and false negatives that would need correction.
+Different downstream uses call for different metrics.
+
+::: {.callout-note appearance="simple" icon=false collapse="false"}
+# Precision, recall, and F1-score are instance-level metrics.
+
+A predicted instance is a true positive (TP) if it sufficiently overlaps a ground-truth instance (e.g. IoU $\geq 0.5$), a false positive (FP) if it has no matching ground truth, and a false negative (FN) if a ground-truth instance was never detected.
+
+$$\text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}} \qquad \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}$$
+$$ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}$$
+
+Precision answers "of all predicted instances, how many were correct?"; recall answers "of all real instances, how many were found?"; F1 is their harmonic mean.
+
+```{python}
+#| fig-align: center
+import matplotlib.pyplot as plt
+from matplotlib.patches import Patch
+from matplotlib.colors import ListedColormap
+import numpy as np
+
+navy, orange, green = "#1a35e0", "#e47a10", "#2a9d2a"
+
+H, W = 300, 500  # raster grid
+
+def ellipse_mask(cx, cy, rx, ry):
+    """Boolean mask for an ellipse in axis coordinates [0,10] x [0,6]."""
+    x = np.linspace(0, 10, W)
+    y = np.linspace(0, 6,  H)
+    xx, yy = np.meshgrid(x, y)
+    return ((xx - cx) / rx)**2 + ((yy - cy) / ry)**2 <= 1
+
+# Label image: 0=bg, 1=GT only (orange), 2=pred only (blue), 3=overlap (green)
+img = np.zeros((H, W), dtype=int)
+
+# True positives: GT and prediction ellipses slightly offset
+tps = [  # gt_x, gt_y, gt_rx, gt_ry,  dx, dy  (prediction offset)
+    (2.0, 3.0, 1.0, 0.8,   0.4,  0.3),
+    (5.0, 3.8, 0.9, 1.0,  -0.3,  0.4),
+    (7.5, 2.0, 1.0, 0.85,  0.35,-0.3),
+    (4.5, 1.2, 0.8, 0.7,  -0.25, 0.3),
+]
+for cx, cy, rx, ry, dx, dy in tps:
+    gt   = ellipse_mask(cx,    cy,    rx,   ry)
+    pred = ellipse_mask(cx+dx, cy+dy, rx,   ry)
+    img[gt   & ~pred] = 1
+    img[pred & ~gt  ] = 2
+    img[gt   &  pred] = 3
+
+# False negatives — ground truth only (orange)
+for cx, cy, rx, ry in [(3.0, 5.0, 0.85, 0.7), (8.5, 4.5, 0.9, 0.8)]:
+    img[ellipse_mask(cx, cy, rx, ry)] = 1
+
+# False positives — prediction only (blue)
+for cx, cy, rx, ry in [(1.0, 1.0, 0.8, 0.9), (6.5, 5.0, 0.9, 0.75)]:
+    img[ellipse_mask(cx, cy, rx, ry)] = 2
+
+cmap = ListedColormap(["#ffffff", orange, navy, green])
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.imshow(img, cmap=cmap, vmin=0, vmax=3,
+          extent=[0, 10, 0, 6], origin="lower", aspect="auto")
+ax.axis("off")
+
+legend_elements = [
+    Patch(facecolor=green,  label="Matched (TP)"),
+    Patch(facecolor=orange, label="Ground truth only (FN)"),
+    Patch(facecolor=navy,   label="Prediction only (FP)"),
+]
+ax.legend(handles=legend_elements, loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=1, frameon=False, fontsize=9)
+```
+
+:::
+
+Open the callouts below for more metrics that are common in image analysis.
+You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
+
+::: {.callout-note appearance="simple" icon=false collapse="true"}
+# The Hausdorff distance focuses on boundaries.
+
+The [Hausdorff distance](glossary.qmd#hausdorff-distance) measures how far apart two sets of boundary points are at their worst-case point.
+For boundary point sets $A$ and $B$:
+
+$$d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)$$
+
+A small Hausdorff distance means every point on one boundary has a close counterpart on the other.
+
+```{python}
+#| fig-align: center
+import matplotlib.pyplot as plt
+import numpy as np
+
+navy, orange, green = "#1a35e0", "#e47a10", "#2a9d2a"
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.set_xlim(0, 5)
+ax.set_ylim(0, 5)
+ax.set_xticks(np.arange(0, 6, 0.5))
+ax.set_yticks(np.arange(0, 6, 0.5))
+ax.grid(True, color="lightgray", lw=0.8)
+ax.tick_params(labelbottom=False, labelleft=False, length=0)
+
+theta_f = np.linspace(0, 2 * np.pi, 300)
+theta_c = np.linspace(0, 2 * np.pi, 20, endpoint=False)
+
+# A: ground truth boundary (circle)
+A_line = np.stack([2.5 + 1.5 * np.cos(theta_f), 2.5 + 1.5 * np.sin(theta_f)], axis=1)
+A_pts  = np.stack([2.5 + 1.5 * np.cos(theta_c), 2.5 + 1.5 * np.sin(theta_c)], axis=1)
+
+# B: predicted boundary — slightly larger and offset
+B_line = np.stack([2.9 + 1.8 * np.cos(theta_f), 2.7 + 1.8 * np.sin(theta_f)], axis=1)
+B_pts  = np.stack([2.9 + 1.8 * np.cos(theta_c), 2.7 + 1.8 * np.sin(theta_c)], axis=1)
+
+ax.plot(A_line[:, 0], A_line[:, 1], color=navy, lw=2, label="A")
+ax.plot(B_line[:, 0], B_line[:, 1], color=orange, lw=2, label="B")
+
+# Draw nearest-neighbour lines from each point in A to its closest point in B
+dists = np.linalg.norm(A_pts[:, None] - B_pts[None], axis=2)
+nn = np.argmin(dists, axis=1)
+for i in range(len(A_pts)):
+    ax.plot([A_pts[i, 0], B_pts[nn[i], 0]], [A_pts[i, 1], B_pts[nn[i], 1]],
+            color="lightgray", lw=0.7, zorder=1)
+
+# Highlight the worst-case pair (the Hausdorff point)
+w = np.argmax(dists[np.arange(len(A_pts)), nn])
+ax.annotate("", xy=(B_pts[nn[w], 0], B_pts[nn[w], 1]),
+            xytext=(A_pts[w, 0], A_pts[w, 1]),
+            arrowprops=dict(arrowstyle="<->", color=green, lw=2.0), zorder=3)
+mid = (A_pts[w] + B_pts[nn[w]]) / 2
+ax.text(mid[0] - 0.1, mid[1] - 0.3, "$d_H$", color=green, fontsize=13, va="center")
+
+ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
+          ncol=2, frameon=False, fontsize=14)
+```
+
+:::
+
+
+::: {.callout-note appearance="simple" icon=false collapse="true"}
+# Average precision rewards finding the right instances.
+
+[Average Precision (AP)](glossary.qmd#average-precision) summarizes the precision–recall trade-off across confidence thresholds.
+A predicted instance counts as a true positive only if its IoU with a ground-truth instance exceeds a threshold $x$:
+
+$$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
+
+where $P_k$ and $R_k$ are precision and recall at the $k$-th confidence threshold after matching predictions to ground-truth at IoU $\geq x$.
+Higher $x$ demands more precise localization.
+
+```{python}
+#| fig-align: center
+import matplotlib.pyplot as plt
+import numpy as np
+
+navy, orange = "#1a35e0", "#e47a10"
+
+# Synthetic precision-recall curve
+recall = np.array([0.0, 0.15, 0.35, 0.55, 0.70, 0.82, 0.92, 1.0])
+prec   = np.array([1.0, 0.92, 0.82, 0.70, 0.58, 0.44, 0.28, 0.0])
+
+fig, ax = plt.subplots(figsize=(5, 3))
+ax.set_xlim(-0.05, 1.1)
+ax.set_ylim(-0.05, 1.15)
+ax.set_xlabel("Recall ($R$)", fontsize=11)
+ax.set_ylabel("Precision ($P$)", fontsize=11)
+ax.set_xticks([0.0, 0.5, 1.0])
+ax.set_yticks([0.0, 0.5, 1.0])
+ax.grid(True, color="lightgray", lw=0.8)
+
+# Step function and shaded area under the curve = AP
+ax.step(recall, prec, where="post", color=navy, lw=2)
+ax.fill_between(recall, prec, step="post", alpha=0.25, color=navy, label="AP")
+
+# Mark the individual (R_k, P_k) threshold points
+ax.scatter(recall[1:-1], prec[1:-1], color=orange, s=45, zorder=5,
+           label="$(R_k, P_k)$")
+
+ax.legend(loc="upper right", frameon=False, fontsize=11)
+```
+
+:::
+
+Some of these may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
+The practical workflow is therefore: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.
+
+::: {.callout-tip}
+Explore this [demo](https://metrics-reloaded.dkfz.de/metric-demo/segmentation) to see the direct impact of different segmentation errors on a variety of metrics.
+:::
+
+As you've seen, there are many different metrics available for every task.
+Each will be more or less useful depending on what types of errors you can or cannot accept in your final predictions. 
+So, how do you choose which metrics to measure and which ones to pay attention to?
+
 
 ## What Metric to Pick?
 
-* ideally: metric reflects *time/cost needed to clean up* for a *particular application*
-* this can mean different things, and sometimes there is no single number (see Cell Tracking below)
-* Discuss tradeoffs in metrics choice
-* Interpretation of different metrics with guidance on how to balance/trade-off priorities
-  * E.g. segmentation for counting (segmentation as object detection) vs. segmentation for size estimation 
+When selecting a metric or metrics to use for evaluating a model, there are two key axes to consider. The first is the downstream analysis task that the data will be used for. The second is the time/cost needed to correct errors prior to that analysis task. In many cases the downstream analysis task will influence which types of errors can be tolerated. 
 
-## Examples
 
-Note: We are considering picking one example to place in call out boxes throughout the chapter to facilitate an ongoing discussion with a concrete example. For examples, we will use real data/GT, but synthetically generate the predictions in order to better highlight specific issues.
+This is why there is rarely one "correct" metric for a task like segmentation; the same set of predicted masks can look excellent by one measure and mediocre by another, and the right choice depends on tracing through how errors in the output propagate into errors in the analysis you actually care about. In some cases no single number can capture this tradeoff, and getting a picture of quality you can act on requires reporting several complementary metrics side by side, or splitting evaluation into stages that reflect distinct sources of error. This tension is especially visible in cell tracking, where a solution can be scored separately on how well it detects cells in each frame and on how well it links them across frames, and both pieces have to be weighed together to judge whether the result is fit for the application at hand.
 
-### Segmentation Metrics
 
-* show on examples:
-  * dice
-  * Hausdorff
-  * AP_x (and required matching)
-* mention MetricsReloaded
+### Cell Tracking Metrics {#sec-cell-tracking-metrics}
 
-### Cell Tracking Metrics
+Cell tracking is typically approached as a multi-stage task. The first stage is detection where cells in each frame of the time series are detected using [point detections](glossary.qmd#centroid-coordinates), [bounding boxes](glossary.qmd#bounding-region) or [segmentation masks](glossary.qmd#binary-segmentation). In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
 
-* usually not a single number: topological correctness vs. positional correctness
-* show traccuracy and discuss some of their metrics
+<!-- Intro to tracking figure -->
+```{python}
+#| label: fig-tracking-graph
+#| fig-cap: "Cell tracking represented as a graph. (Top) Segmentation masks
+#|   detect a few cells in each of three time points; the blue cell persists
+#|   across all three frames while the orange cell divides into two daughters
+#|   (green and purple) at $t = 2$. (Bottom) The corresponding tracking graph places one
+#|   node per detected cell, with edges linking the same cell across frames.
+#|   Node columns and colors align with the masks above, and the division
+#|   appears as a node with two outgoing edges."
+#| echo: false
 
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from matplotlib.patches import Rectangle
+
+# Palette consistent with the rest of the chapter
+BLUE = "#1f77b4"
+ORANGE = "#ff7f0e"
+GREEN = "#2ca02c"
+PURPLE = "#9467bd"
+
+LABEL_FONT_SIZE = 9
+TITLE_FONT_SIZE = 10
+NODE_SIZE = 220
+EDGE_WIDTH = 2
+N_FRAMES = 3
+
+# Scene: a few cells tracked across three time points.
+#   Cell A (blue):   present in all 3 frames, drifting horizontally but holding
+#                    a fixed vertical position so its lineage is a straight line.
+#   Cell B (orange): present in frames 0 and 1, divides at frame 2 into two
+#                    daughters (green and purple) -> introduces a branch.
+# Each occurrence stores its position (x, y) inside a unit frame; the y value
+# is reused as the vertical position of the matching graph node so that each
+# blob lines up with its node below.
+CELLS = {
+    "A0": dict(frame=0, pos=(0.30, 0.70), color=BLUE,   seed=1, r=(0.15, 0.10)),
+    "A1": dict(frame=1, pos=(0.42, 0.70), color=BLUE,   seed=2, r=(0.15, 0.10)),
+    "A2": dict(frame=2, pos=(0.52, 0.70), color=BLUE,   seed=3, r=(0.15, 0.10)),
+    "B0": dict(frame=0, pos=(0.62, 0.30), color=ORANGE, seed=4, r=(0.16, 0.11)),
+    "B1": dict(frame=1, pos=(0.58, 0.32), color=ORANGE, seed=5, r=(0.11, 0.08)),
+    "C2": dict(frame=2, pos=(0.40, 0.22), color=GREEN,  seed=6, r=(0.13, 0.09)),
+    "D2": dict(frame=2, pos=(0.70, 0.40), color=PURPLE, seed=7, r=(0.13, 0.09)),
+}
+EDGES = [
+    ("A0", "A1"), ("A1", "A2"),
+    ("B0", "B1"),
+    ("B1", "C2"), ("B1", "D2"),  # division
+]
+
+
+def blob_outline(cx, cy, rx, ry, seed):
+    """x, y arrays for a nucleus-like outline: an ellipse with a slight,
+    low-frequency wobble so it reads as an organic shape rather than a circle."""
+    theta = np.linspace(0, 2 * np.pi, 80)
+    rng = np.random.default_rng(seed)
+    a, b = rng.uniform(-1, 1, 2)
+    r = 1 + 0.04 * np.sin(2 * theta + 2 * a) + 0.025 * np.cos(3 * theta + 3 * b)
+    return cx + rx * r * np.cos(theta), cy + ry * r * np.sin(theta)
+
+
+def draw_blob(ax, cell):
+    cx, cy = cell["pos"]
+    rx, ry = cell["r"]
+    x, y = blob_outline(cx, cy, rx, ry, cell["seed"])
+    base = mcolors.to_rgb(cell["color"])
+    fill = tuple(0.55 * c + 0.45 for c in base)  # lightened fill
+    ax.fill(x, y, color=fill, zorder=1)
+    ax.plot(x, y, color=cell["color"], lw=1.8, zorder=2)
+
+
+fig = plt.figure(figsize=(5,5*(5/7)))
+gs = fig.add_gridspec(2, N_FRAMES, height_ratios=[1.0, 1.15],
+                      hspace=0.28, wspace=0.12)
+
+# Top row: segmentation masks at each time point
+for t in range(N_FRAMES):
+    ax = fig.add_subplot(gs[0, t])
+    ax.set_facecolor("white")
+    for cell in CELLS.values():
+        if cell["frame"] == t:
+            draw_blob(ax, cell)
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.set_aspect("equal")
+    ax.set_xticks([])
+    ax.set_yticks([])
+    ax.set_title(f"$t = {t}$", fontsize=TITLE_FONT_SIZE)
+    # solid black frame of even weight on all four sides
+    for s in ax.spines.values():
+        s.set_visible(True)
+        s.set_color("black")
+        s.set_linewidth(1.2)
+
+# Bottom row: the tracking graph spanning all frames
+gax = fig.add_subplot(gs[1, :])
+pos = {cid: (c["frame"], c["pos"][1]) for cid, c in CELLS.items()}
+# edges drawn as solid lines colored by the child node, matching the other
+# lineage figures in this chapter
+for u, v in EDGES:
+    (xu, yu), (xv, yv) = pos[u], pos[v]
+    gax.plot([xu, xv], [yu, yv], color=CELLS[v]["color"], lw=EDGE_WIDTH,
+             zorder=1)
+for cid, (x, y) in pos.items():
+    gax.scatter([x], [y], s=NODE_SIZE, color=CELLS[cid]["color"],
+                edgecolors="white", linewidths=1.5, zorder=2)
+for t in range(N_FRAMES):
+    gax.plot([t, t], [0, 1.0], color="0.85", lw=1.0, zorder=0)
+    gax.text(t, 1.04, f"$t = {t}$", ha="center", va="bottom",
+             fontsize=LABEL_FONT_SIZE, color="0.4")
+gax.set_xlim(-0.4, N_FRAMES - 1 + 0.4)
+gax.set_ylim(0, 1.14)
+gax.set_xlabel("Time", fontsize=LABEL_FONT_SIZE)
+gax.set_ylabel("Tracking graph", fontsize=LABEL_FONT_SIZE)
+gax.set_xticks([])
+gax.set_yticks([])
+for s in gax.spines.values():
+    s.set_visible(False)
+
+fig.subplots_adjust(left=0.05, right=0.97, top=0.92, bottom=0.06)
+```
+
+With this framework, we can consider some of the common errors that appear in tracking solutions. [@fig-track-errors]a illustrates basic node errors of a false positive detection (shown in red) and a missing blue detection. The missing node also leads to two missing edges. Often in biology when we are interested in cell tracking, there is a particular value placed an the detection of cell divisions so that cell lineages can be reconstructed over several rounds of divisions. As such we need to consider the specific types of errors that occur involving cell divisions. [@fig-track-errors]b illustrates a missing edge that results in a missed division detection. [@fig-track-errors]c instead shows a case where a division is detected, but one daughter is incorrectly assigned to the division leading to an incorrect lineage tree. Finally, [@fig-track-errors]d illustrates an identity switch where edges are incorrectly assigned in a single frame leading to a swap of lineage identity. 
+
+<!-- Tracking error types -->
+```{python}
+#| label: fig-track-errors
+#| fig-cap: "Common types of tracking errors. (a) This example prediction demonstrates multiple types of 
+#|   node and edge errors: false negative node, false negative edges and false positive node. (b) This example 
+#|   shows a missed division as the result of a missed edge between a parent and a daughter. (c) This example 
+#|   shows a division where the parent was correctly identified, but one of the daughters was incorrectly assigned 
+#|   to a different node. (d) This is an example of an identity switch where two nodes are swapped and assigned to 
+#|   the incorrect lineage part way through the lineage."
+#| echo: false
+
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from matplotlib.patches import Rectangle
+
+# Palette mimicking the reference figure
+RED = "#d62728"
+GREEN = "#2ca02c"
+BLUE = "#1f77b4"
+PURPLE = "#9467bd"
+ORANGE = "#ff7f0e"
+GRAY = "0.6"
+
+# How much darker the predicted tracks are relative to ground truth (1.0 = same)
+PRED_SHADE = 0.6
+
+LABEL_FONT_SIZE = 8
+TITLE_FONT_SIZE = 10
+NODE_SIZE = 50
+EDGE_WIDTH = 2
+
+
+def darken(color, factor=PRED_SHADE):
+    """Return a darker shade of `color` by scaling toward black in RGB."""
+    r, g, b = mcolors.to_rgb(color)
+    return (r * factor, g * factor, b * factor)
+
+
+def plot_tree(ax, nodes, edges, missing_edges=None, x_offset=0.0,
+              shade=1.0):
+    """Draw one lineage tree.
+
+    nodes:         {id: (x, frame, color)}
+    edges:         [(u, v), ...]  drawn as solid lines, colored by child node
+    missing_edges: [(u, v), ...]  drawn as faint dashed lines (false negatives)
+    shade:         scale node/edge colors toward black (use < 1 for Pred trees)
+    """
+    pos = {n: (x + x_offset, f) for n, (x, f, _) in nodes.items()}
+
+    def shaded(c):
+        return darken(c, shade) if shade != 1.0 else c
+
+    for u, v in (missing_edges or []):
+        (xu, yu), (xv, yv) = pos[u], pos[v]
+        ax.plot([xu, xv], [yu, yv], color=GRAY, lw=edge_width,
+                ls=(0, (2, 2)), zorder=1)
+
+    for u, v in edges:
+        (xu, yu), (xv, yv) = pos[u], pos[v]
+        ax.plot([xu, xv], [yu, yv], color=shaded(nodes[v][2]), lw=EDGE_WIDTH,
+                zorder=1)
+
+    for n, (x, f, color) in nodes.items():
+        ax.scatter([x + x_offset], [f], s=NODE_SIZE, color=shaded(color),
+                   zorder=2, edgecolors="none")
+    return pos
+
+
+# --------------------------------------------------------------------------
+# Panel builders. Each returns (true_nodes, true_edges, pred_nodes,
+# pred_edges, pred_missing) and draws its own annotations.
+# Convention: frame increases downward (y axis inverted at the end).
+# --------------------------------------------------------------------------
+
+def panel_node_edge(ax, gap):
+    """FP node + FN node/edge on a single track."""
+    title = "Node & edge\nerrors"
+    # True: straight track, frames 0-4
+    tn = {i: (0, i, BLUE) for i in range(5)}
+    te = [(i, i + 1) for i in range(4)]
+    plot_tree(ax, tn, te)
+
+    # Pred: frame-2 node missing (FN gap), an extra detection at frame 0 (FP)
+    pn = {i: (0, i, BLUE) for i in [0, 1, 3, 4]}
+    pn["fp"] = (0.7, 0, ORANGE)
+    pe = [(0, 1), (3, 4)]
+    plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
+    return title, tn, pn
+
+
+def panel_missed_division(ax, gap):
+    """Division present in True, missing in Pred (FN edge)."""
+    title = "Missed\ndivision"
+    # True: red parent 0-2, divides into green + blue at frame 3
+    tn = {
+        0: (0.5, 0, ORANGE), 1: (0.5, 1, ORANGE), 2: (0.5, 2, ORANGE),
+        3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
+        5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
+    }
+    te = [(0, 1), (1, 2), (2, 3), (3, 4), (2, 5), (5, 6)]
+    plot_tree(ax, tn, te)
+
+    # Pred: the division is missed, so the parent links linearly into one
+    # daughter (no branch). Nodes keep their correct (true) lineage colors, so
+    # the spurious parent->green link shows as a color change along the track;
+    # the disconnected blue daughter is orphaned.
+    pn = {
+        0: (0.5, 0, ORANGE), 1: (0.5, 1, ORANGE), 2: (0.5, 2, ORANGE),
+        3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
+        5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
+    }
+    pe = [(0, 1), (1, 2), (2, 3), (3, 4), (5, 6)]
+    plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
+    return title, tn, pn
+
+
+def panel_wrong_daughter(ax, gap):
+    """Correct parent, one correct daughter, one incorrect daughter (I)."""
+    title = "Incorrect\ndaughter"
+    tn = {
+        0: (0.5, 0, ORANGE), 1: (0.5, 1, ORANGE), 2: (0.5, 2, ORANGE),
+        3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
+        5: (1.0, 3, BLUE), 6: (1.0, 4, BLUE),
+    }
+    te = [(0, 1), (1, 2), (2, 3), (3, 4), (2, 5), (5, 6)]
+    plot_tree(ax, tn, te)
+
+    # PRED: parent divides into the correct green daughter and a wrong cell
+    # (orange); the true blue daughter still exists but is now an orphan track
+    pn = {
+        0: (0.5, 0, ORANGE), 1: (0.5, 1, ORANGE), 2: (0.5, 2, ORANGE),
+        3: (0.0, 3, GREEN), 4: (0.0, 4, GREEN),
+        "w1": (1.0, 3, ORANGE), "w2": (1.0, 4, ORANGE),
+        5: (1.8, 3, BLUE), 6: (1.8, 4, BLUE),
+    }
+    pe = [(0, 1), (1, 2), (2, 3), (3, 4), (2, "w1"), ("w1", "w2"), (5, 6)]
+    plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
+    return title, tn, pn
+
+
+def panel_identity_switch(ax, gap):
+    """Two lineages whose identities swap partway through (I)."""
+    title = "Identity\nswitch"
+    # True: two parallel tracks
+    tn = {
+        ("a", i): (0.0, i, BLUE) for i in range(5)
+    }
+    tn.update({("b", i): (1.0, i, ORANGE) for i in range(5)})
+    te = [(("a", i), ("a", i + 1)) for i in range(4)]
+    te += [(("b", i), ("b", i + 1)) for i in range(4)]
+    plot_tree(ax, tn, te)
+
+    # Pred: nodes keep their correct (true) lineage colors; the identity switch
+    # is shown by the linking edges crossing columns at frame 2->3, so each
+    # predicted track follows the wrong cell after the swap.
+    pn = {
+        ("a", 0): (0.0, 0, BLUE), ("a", 1): (0.0, 1, BLUE),
+        ("a", 2): (0.0, 2, BLUE),
+        ("a", 3): (0.0, 3, BLUE), ("a", 4): (0.0, 4, BLUE),
+        ("b", 0): (1.0, 0, ORANGE), ("b", 1): (1.0, 1, ORANGE),
+        ("b", 2): (1.0, 2, ORANGE),
+        ("b", 3): (1.0, 3, ORANGE), ("b", 4): (1.0, 4, ORANGE),
+    }
+    pe = [(("a", 0), ("a", 1)), (("a", 1), ("a", 2)),
+          (("b", 0), ("b", 1)), (("b", 1), ("b", 2)),
+          (("a", 3), ("a", 4)), (("b", 3), ("b", 4)),
+          # crossing links
+          (("a", 2), ("b", 3)), (("b", 2), ("a", 3))]
+    plot_tree(ax, pn, pe, x_offset=gap, shade=PRED_SHADE)
+    return title, tn, pn
+
+def plot_figure():
+    panels = [
+        panel_node_edge,
+        panel_missed_division,
+        panel_wrong_daughter,
+        panel_identity_switch,
+    ]
+    gap = 3.6  # horizontal offset of the Pred tree from the True tree
+
+    # fig, axes = plt.subplots(1, len(panels), figsize=(5, 5*(2.8/7)))
+    fig, axes = plt.subplots(2, 2, figsize=(5, 5))
+    labels = ["a)", "b)", "c)", "d)"]
+    pad_x, label_y = 1.0, -1.05  # box padding and True/Pred label height
+    box_top, box_bot = -1.3, 4.6  # vertical box extent (frames run 0..4)
+    for ax, builder, lab in zip(axes.ravel(), panels, labels):
+        title, tn, pn = builder(ax, gap)
+        true_xs = [x for x, _, _ in tn.values()]
+        pred_xs = [x + gap for x, _, _ in pn.values()]
+
+        # center each label over the horizontal extent of its lineage
+        ax.text((min(true_xs) + max(true_xs)) / 2, label_y, "Ground\nTruth",
+                ha="center", va="top", linespacing=0.9,
+                fontsize=LABEL_FONT_SIZE)
+        ax.text((min(pred_xs) + max(pred_xs)) / 2, label_y, "Predicted",
+                ha="center", va="top", fontsize=LABEL_FONT_SIZE)
+
+        # square box hugging the panel content
+        xmin = min(true_xs + pred_xs) - pad_x
+        xmax = max(true_xs + pred_xs) + pad_x
+        ax.add_patch(Rectangle(
+            (xmin, box_top), xmax - xmin, box_bot - box_top,
+            fill=False, edgecolor="black", linewidth=1.0))
+
+        ax.set_title(f"{lab} {title}", fontsize=TITLE_FONT_SIZE,
+                     fontweight="bold", pad=6)
+        ax.set_ylim(box_bot + 0.15, box_top - 0.15)  # inverted y
+        ax.set_xlim(xmin - 0.1, xmax + 0.1)
+        ax.axis("off")
+
+    fig.tight_layout(w_pad=0.4)
+
+plot_figure()
+```
+
+There is a common inclination to use a single metric that is intended to capture overall performance on the task. In cell tracking, there are two common single metrics. The first is the TRA[@mavska2014benchmark] score defined by the Cell Tracking Challenge. A second unified metric is CHOTA[@kaiser2024chota] (Cell-specific Higher Order Tracking Accuracy). Single metrics can be convenient; however, they are uninformative when the intention is to evaluate and then improve a tracking solution. A unified metric does not indicate what types of errors are present. 
+
+:::{.callout-note appearance="simple" icon=false}
+# TRA[@mavska2014benchmark]
+
+This score is a weighted sum of node and edge errors that is normalized between 0 and 1. It is derived from the Acyclic Oriented Graph Matching[@matula2015cell] (AOGM) measure which reflects the number of changes needed to turn the reference graph into the target graph.
+
+$$\textrm{TRA} = 1 - \frac{\textrm{min}(\textrm{AOGM},\textrm{AOGM}_0)}{\textrm{AOGM}_0}$$
+
+:::
+
+:::{.callout-note appearance="simple" icon=false}
+# CHOTA[@kaiser2024chota]
+This metric captures local correctness, global coherence and aspects of lineage tracking. CHOTA is computed as
+$$\textrm{CHOTA} = \sqrt{\frac{\sum_{c \in \textrm{TP}} A^\sigma(c)}{|\textrm{TP}| + |\text{FN}| + |\text{FP}|}}$$
+
+where $A^\sigma(c)$ is a lineage-oriented association score that measures how well predicted trajectories overlap with ground truth trajectories, accounting for all cells connected by lineage.
+
+:::
+
+@fig-sparse-edges illustrates three tracking failure modes and the metric scores for each solution. As the discussion below shows, solutions that fail in very different ways can end up with similar overall scores, and the two unified metrics can even disagree with each other about which solution is preferable.
+
+Consider the three failure modes in @fig-sparse-edges. The two unified metrics produce very different rankings of solutions. The TRA score ranks no divisions (0.957) similarly to sparse edges (0.947) and far above missing nodes (0.732). In contrast, while all solutions score relatively low on CHOTA, the missing node solution ranks highest (0.560) followed by no divisions (0.333) and sparse edges (0.297). Because TRA and CHOTA weight node, edge and lineage errors differently, two established "single number" metrics can disagree about which solution is preferable. Neither score reveals whether the underlying problem is due to missed detections, broken links, or failure to find divisions. To identify the specific failure modes, we need to examine metrics  for that we need to look at the node, edge and division metrics reported alongside them.
+
+The per-component metrics reveal the distinct failure mode in each solution. The missing node solution (b) has the lowest node F1 (0.858) of the three because a quarter of detections are dropped; since each dropped node also severs the edges that pass through it, this single error mode depresses edge F1 (0.798) and division F1 (0.399) as well. The sparse edge (c) and no-division (d) solutions both keep every detection (node F1 = 1.000) and lose the same fraction of edges (edge F1 = 0.800), yet they are far from equivalent: sparse edges still recovers roughly half of the true divisions (division F1 = 0.505) because the deleted edges are scattered at random, while the no-division solution deterministically removes every division edge, so no division is ever proposed and division F1 is undefined.
+
+
+<!-- Generate lineage trees with regular divisions -->
+```{python}
+#| code-fold: true
+#| code-summary: Show code to generate a set of lineage trees with regular divisions
+import networkx as nx
+
+def build_lineage_tree(
+    n_starting_nodes: int = 10,
+    n_frames: int = 30,
+    division_every: int = 5,
+) -> nx.DiGraph:
+    """
+    Build a lineage tree as a directed graph.
+
+    - Starts with `n_starting_nodes` roots at frame 0
+    - Every `division_every` frames, each live cell divides into 2 daughters
+    - Between division frames, cells persist as a single descendant
+
+    Nodes are labeled like:
+        cell_id = "c0", "c1", ...
+    and store:
+        - frame
+        - root
+    """
+    G = nx.DiGraph()
+
+    cell_counter = 0
+    live_cells = []
+
+    # Create starting nodes at frame 0
+    for root in range(n_starting_nodes):
+        node = cell_counter
+        cell_counter += 1
+        G.add_node(node, frame=0, root=root)
+        live_cells.append(node)
+
+    # Advance through frames
+    for frame in range(1, n_frames + 1):
+        next_live_cells = []
+        is_division_frame = (frame % division_every == 0)
+
+        for parent in live_cells:
+            root = G.nodes[parent]["root"]
+
+            if is_division_frame:
+                # Parent divides into two daughters
+                for _ in range(2):
+                    child = cell_counter
+                    cell_counter += 1
+                    G.add_node(child, frame=frame, root=root)
+                    G.add_edge(parent, child)
+                    next_live_cells.append(child)
+            else:
+                # Parent continues as one descendant
+                child = cell_counter
+                cell_counter += 1
+                G.add_node(child, frame=frame, root=root)
+                G.add_edge(parent, child)
+                next_live_cells.append(child)
+
+        live_cells = next_live_cells
+
+    return G
+
+
+def sparsify_edges(g, mod=3):
+    del_edges = []
+    for i, edge in enumerate(g.edges()):
+        if i % mod == 0:
+            del_edges.append(edge)
+    g.remove_edges_from(del_edges)
+
+
+def remove_divs(g):
+    div_edges = []
+    for node in g.nodes:
+        if g.out_degree(node) == 2:
+            div_edges.extend(g.edges(node))
+
+    g.remove_edges_from(div_edges)
+
+
+def remove_nodes(g, mod=4):
+    del_nodes = []
+    for i, node in enumerate(sorted(g.nodes)):
+        if g.nodes[node]['frame'] > 0 and i % mod == 0:
+            del_nodes.append(node)
+    g.remove_nodes_from(del_nodes)
+
+
+gt = build_lineage_tree(n_starting_nodes=10, n_frames=30, division_every=5)
+```
+
+<!-- Plotting utilities -->
+```{python}
+#| echo: false
+
+# Plotting utilities
+
+def annotate_positions(g, spacing=1.0, offset=0.0):
+    # Assign x coordinates to each node for plotting.
+    # Last-frame daughter leaves are spaced by `spacing`.
+    if len(g.nodes) == 0:
+        return
+
+    last_frame_leaves = [n for n in g.nodes if g.out_degree(n) == 0]
+
+    last_frame_leaves.sort()
+    for i, node in enumerate(last_frame_leaves):
+        g.nodes[node]['x'] = offset + i * spacing
+
+    for node in sorted(g.nodes, key=lambda n: g.nodes[n]['frame'], reverse=True):
+        if 'x' in g.nodes[node]:
+            continue
+        children = list(g.successors(node))
+        if children:
+            g.nodes[node]['x'] = sum(g.nodes[c]['x'] for c in children) / len(children)
+        else:
+            g.nodes[node]['x'] = offset
+
+
+def get_single_tree(g, root=0, max_frame=None):
+    del_nodes = []
+    for n, attrs in g.nodes.items():
+        if attrs['root'] != root:
+            del_nodes.append(n)
+        if max_frame and attrs['frame'] > max_frame:
+            del_nodes.append(n)
+    g_out = g.copy()
+    g_out.remove_nodes_from(set(del_nodes))
+    return g_out
+
+
+def plot_graph(g, ax, color=BLUE):
+    """Draw a lineage tree in the reference style: single-color nodes,
+    arrow-free edges, no axis spines."""
+    pos = {n: (data['x'], data['frame']) for n, data in g.nodes.items()}
+    for u, v in g.edges():
+        (xu, yu), (xv, yv) = pos[u], pos[v]
+        ax.plot([xu, xv], [yu, yv], color=color, lw=EDGE_WIDTH, zorder=1)
+    for n, (x, y) in pos.items():
+        ax.scatter([x], [y], s=NODE_SIZE, color=color,
+                   zorder=2, edgecolors="none")
+    ax.axis("off")
+```
+
+<!-- Metric computation -->
+```{python}
+#| code-fold: true
+#| code-summary: Show code to compute metrics on tracking solutions using [`traccuracy`](https://github.com/live-image-tracking-tools/traccuracy)
+
+
+from traccuracy.matchers import Matched
+from traccuracy import TrackingGraph
+from traccuracy.metrics import CTCMetrics, DivisionMetrics, BasicMetrics, CHOTAMetric
+
+def compute_metrics(solution):
+    """Score a solution against the full ground-truth tree with traccuracy."""
+    matched = Matched(
+        TrackingGraph(gt.copy(), frame_key='frame'),
+        TrackingGraph(solution, frame_key='frame'),
+        mapping=[(nid, nid) for nid in gt.nodes if nid in solution.nodes],
+        matcher_info={},
+    )
+    results = {
+        **CTCMetrics().compute(matched).results,
+        **DivisionMetrics().compute(matched).results['Frame Buffer 0'],
+        **BasicMetrics().compute(matched).results,
+        **CHOTAMetric().compute(matched).results
+    }
+    return results
+```
+
+<!-- Solution figure -->
+```{python}
+#| label: fig-sparse-edges
+#| fig-cap: "Tracking solutions with common failure modes, each scored with a
+#|   panel of tracking metrics. Trees show a single representative lineage
+#|   truncated to 10 frames; the metric tables are computed over the full
+#|   dataset (10 lineages, 30 frames).
+#|   Panel b shows a solution where every fourth node (detection) is missing.
+#|   Panel c shows a solution where every third edge is missing. Panel d shows
+#|   a solution where no divisions were predicted. Division precision/F1 are
+#|   undefined (n/a) for the no-division solution because it predicts no divisions."
+#| warning: false
+#| echo: false
+
+# Generate single trees for plotting
+plot_gt = get_single_tree(gt, max_frame=10)
+annotate_positions(plot_gt)
+
+plot_no_edge = plot_gt.copy()
+sparsify_edges(plot_no_edge)
+
+plot_no_div = plot_gt.copy()
+remove_divs(plot_no_div)
+
+plot_no_node = plot_gt.copy()
+remove_nodes(plot_no_node)
+
+# Tables report metrics on the full dataset, not the truncated tree drawn above
+no_edge_full = gt.copy()
+sparsify_edges(no_edge_full)
+no_div_full = gt.copy()
+remove_divs(no_div_full)
+no_node_full = gt.copy()
+remove_nodes(no_node_full)
+res_no_edge = compute_metrics(no_edge_full)
+res_no_div = compute_metrics(no_div_full)
+res_no_node = compute_metrics(no_node_full)
+
+# (display label, traccuracy results key) for each row of the metric tables
+TABLE_METRICS = [
+    ("TRA", "TRA"),
+    ("CHOTA", "CHOTA"),
+    ("Node F1", "Node F1"),
+    ("Edge F1", "Edge F1"),
+    ("Div. F1", "Division F1"),
+]
+
+def fmt_metric(key, value):
+    if value != value:  # NaN, e.g. division precision with no predicted divisions
+        return "n/a"
+    if key in ("False Negative Edges", "Total GT Edges"):
+        return f"{int(value)}"
+    return f"{value:.3f}"
+
+
+def add_metric_table(ax, res):
+    ax.axis("off")
+    rows = [[label, fmt_metric(key, res[key])] for label, key in TABLE_METRICS]
+    tbl = ax.table(cellText=rows, colLabels=["Metric", "Value"],
+                   cellLoc="left", colWidths=[0.6, 0.4], loc="center")
+    tbl.auto_set_font_size(False)
+    tbl.set_fontsize(LABEL_FONT_SIZE)
+    tbl.scale(1, 1.25)
+    for (row, _col), cell in tbl.get_celld().items():
+        cell.set_edgecolor("0.8")
+        if row == 0:  # header
+            cell.set_text_props(fontweight="bold")
+
+
+# Top row: lineage trees. Bottom row: a metric table under each solution.
+# fig = plt.figure(figsize=(7.2, 5.2))
+fig = plt.figure(figsize=(5.0, 7.0))
+gs = fig.add_gridspec(3, 3, height_ratios=[2.3, 2.3,1.0])
+# tree_axes = [fig.add_subplot(gs[0, i]) for i in range(4)]
+tree_axes = [fig.add_subplot(gs[0, 1]),fig.add_subplot(gs[1, 0]),fig.add_subplot(gs[1,1]),fig.add_subplot(gs[1,2])]
+panels = [
+    (plot_gt, "a) Ground Truth", None),
+    (plot_no_node, "b) Missing Node\nSolution", res_no_node),
+    (plot_no_edge, "c) Sparse Edge\nSolution", res_no_edge),
+    (plot_no_div, "d) No Division\nSolution", res_no_div),
+]
+for axis, (g, title, _res) in zip(tree_axes, panels):
+    plot_graph(g, axis)
+    axis.set_title(title, fontsize=TITLE_FONT_SIZE, fontweight="bold", pad=6)
+    # thin boundary box hugging the panel content
+    axis.add_patch(Rectangle(
+        (-0.6, -0.7), 4.2, 11.4,
+        fill=False, edgecolor="black", linewidth=1.0))
+    axis.set_ylim(11.2, -1.2)  # inverted y (frame increases downward)
+    axis.set_xlim(-1.0, 4.0)
+
+# Ground truth has no error table; solutions get one each.
+for col, (_g, _title, res) in enumerate(panels[1:]):
+    table_ax = fig.add_subplot(gs[-1, col])
+    if res is None:
+        table_ax.axis("off")
+    else:
+        add_metric_table(table_ax, res)
+
+# tight_layout cannot lay out matplotlib tables, so position panels manually
+fig.subplots_adjust(left=0.03, right=0.99, top=0.88, bottom=0.04,
+                    wspace=0.05, hspace=0.3)
+```
+
+Whether an error is acceptable depends entirely on what the tracking result will be used for. If the downstream analysis measures single-cell metrics such as migration speed, the no-division solution is nearly as good as ground truth: every cell is detected, most links are correct, and the fact that no lineage relationships were ever proposed is irrelevant to the task. If instead the goal is to study clonal relationships or developmental lineages the no-division solution is worthless despite its high TRA, because it recovers zero divisions and can never support a lineage-based analysis. The missing node solution sits at the opposite end of this trade-off: it has the worst TRA of the three, but a downstream analysis focused on lineage structure might tolerate it better than that score suggests. Choosing a metric, or a small panel of metrics, should therefore start from the biological question at hand rather than from convenience.
+
+A second, independent axis is how easy an error is to catch and fix once a human is proofreading the result, and it does not always line up with how tolerable the error is for the downstream analysis. Missing nodes and sparse edges leave a visible gap or an orphaned track segment, and the fix is local: add the missing node or edge back and reconnect two pieces that are otherwise correct. A systematically missed division is much harder to catch, because neither daughter track looks wrong on its own; the cells are simply tracked as if they had always been independent, so a curator scanning tracks has no local cue that a division was ever missed. The more tolerable error is therefore not necessarily the one with the better score on a given metric, but the one that is cheap to find and correct, particularly if missing detections are easy to flag and cheap to review manually.
+
+## Conclusion 
+
+We compute metrics to get a reasonable description of how well our model is expected to perform in the future, on unseen data. 
+A single metric is rarely sufficient to fully evaluate a models performance as illustrated by @sec-cell-tracking-metrics. If multiple metrics are needed to fully evaluate a model, when do you run these metrics and on what data? As discussed in @sec-9.3.5.4, you will minimally compute a loss both on your training and validation sets during the course of training. Some metrics can be easily computed on the validation dataset and used to select a checkpoint for further testing. These metrics should be computationally inexpensive to compute in order to avoid slowing down the training process. Typically these would be metrics that are computed on a pixel-pixel level. In contrast, consider metrics that are computed on an object level such as those discussed in @sec-cell-tracking-metrics. Each cell tracking metric requires a preliminary stage in which each ground truth cell is matched to a predicted cell prior to evaluation. While there are many different ways to perform the matching step, it is ultimately a slow and expensive process. Metrics that rely on a matching stage are best reserved for running on the final test data split. @tbl-metric-stages elaborates on the stages of model evaluation and illustrates how metrics might be selected for a segmentation model.
+
+::: {#tbl-metric-stages .list-table}
+**A comparison of stages of model evaluation.** The segmentation example highlights specific metrics that would be used in each of these stages in a segmentation pipeline.
+
+- - Stage
+  - Speed of Computation
+  - Data Split
+  - Purpose
+  - Segmentation Example
+
+- - Training loss
+  - Fast
+  - Train
+  - Guides gradient descent during training
+  - BCE
+
+- - Validation loss
+  - Fast
+  - Val
+  - Enables monitoring of over/under fitting during training
+  - BCE
+
+- - Validation metrics
+  - Fast
+  - Val
+  - Additional metrics that provide more insight into training progress outside the loss function and assist in checkpoint selection
+  - MSE
+
+- - Test metrics
+  - Slow
+  - Test
+  - Final metrics that are run on test data in order to critically evaluate model performance and failure modes
+  - Object-based recall and precision
+
+:::
+
+<!-- Splitting your training data: training, validation, and test sets {#sec-9.3.5.1} -->
+<!-- monitoring training and val losses #sec-9.3.5.4 -->
+
+Biological data varies from experiment to experiment, however, and whether the model will be robust to these variations remains somewhat of an open question. 
+In the ideal case, we would like the models to be able to output a level of certainty along with its predicted segmentations or tracks. 
+Unfortunately, uncertainty estimation remains an unsolved problem, methods such as test-time augmentation [@moshkov2020test;@wang2019aleatoric] can give you an estimate if you have a good model of your data's sources of noise.
+
+:::{.callout-note appearance="simple" icon=false collapse="false"}
+# Test-time augmentation as a measure of uncertainty
+
+Test-time augmentation is one way of quantifying the uncertainty of a model, by estimating the robustness of its outputs with regards to noise.
+
+To apply TTA, you run the model multiple times on the same image, each time with a perturbation that reflects a realistic source of variation in your imaging system. For fluorescence microscopy, this might include: adding Poisson or Gaussian noise to simulate photon shot noise or detector read noise, shifting the intensity or contrast to mimic staining variability between experiments, or applying a slight blur to simulate focus drift. You then aggregate the predictions to get your final output.
+
+The spread across the individual predictions acts as a proxy for uncertainty. 
+Where every perturbed version produces nearly the same thing, we can be confident in the model is output.
+Regions Where the predictions disagree, however, may warrant manual review.
+
+Note that TTA only captures uncertainty relative to the noise sources you have modelled. It will not detect failure modes shared by all augmentations, such as a systematic bias introduced during training.
+:::
+
+The best measure of your model's output, current and future, still remains a good testing dataset. 
+Make sure to fully annotate a testing set that is diverse enough to be representative of future experiments.
+Compute a variety of metrics to understand the different types of failures you can expect, and to what extent.
+And finally, make sure to look at your model outputs in conjunction with your data! 
+For most tasks, the best judge of quality is you.
+
+
+## AI Disclosure {.unnumbered}
+
+AI language models (Anthropic’s Claude, specifically Claude Sonnet 5) were used during the preparation of this chapter. Their roles included drafting prose, generating code examples, and producing demonstration figures. All content was reviewed, revised, and verified by the human authors, who take full responsibility for the accuracy and scientific integrity of the final text. Selection of references was the work of the human authors.

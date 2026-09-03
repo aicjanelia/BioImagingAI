@@ -2,7 +2,13 @@ Hallucinations: |
   Outputs from a model that do not have a basis in the input data and may contain false or misleading information.
 
 Training Data: |
-  Data used to train an algorithm to make predictions.
+  Data used to teach a machine learning model to perform a task, such as classification, segmentation, [restoration](glossary.qmd#image-restoration), or generation. Depending on the method, training data may be paired with target labels or ground truth (as in [supervised learning](glossary.qmd#supervised-learning)) or used on its own without labels (as in [self-supervised](glossary.qmd#self-supervised-learning) or unsupervised learning).
+
+Validation Data: |
+  Data set aside from the [training data](glossary.qmd#training-data) and used to evaluate a model's performance during training, without being used to update the model's weights. It is typically used to tune [hyperparameters](glossary.qmd#hyperparameters) and monitor for overfitting, for example by deciding when to stop training.
+
+Test Data: |
+  Data held out from both the [training data](glossary.qmd#training-data) and [validation data](glossary.qmd#validation-data), used only after training is complete to give an unbiased estimate of how a model will perform on new, unseen data. Because it plays no role in training or hyperparameter tuning, test data should only be used once a model is finalized.
 
 False Positives: |
   In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.
@@ -14,19 +20,25 @@ True Positives: |
   In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.
 
 True Negatives: |
-  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as negative and were really negative.
+  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.
 
 Manual Annotation: |
-  The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.
+  The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like [Fiji](glossary.qmd#fiji) or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.
 
 Object Detection: |
-  A computer vision task that identifies and locates individual objects within an image, typically by drawing bounding boxes around them. It provides both the category (what) and position (where) of each object.
+  A computer vision task that identifies and locates individual objects within an image, typically by drawing [bounding boxes](glossary.qmd#bounding-region) around them. It provides both the category (what) and position (where) of each object.
 
 Binary Segmentation: |
-  A type of image segmentation where each pixel is classified into one of two categories—typically "foreground" (e.g., cell) or "background." The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).
+  A type of image segmentation where each pixel is classified into one of two categories --- typically "foreground" (e.g., cell) or "background." The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).
 
 Instance Segmentation: |
   A segmentation task that not only separates objects from the background but also distinguishes between individual objects of the same type (e.g., separating touching cells one by one).
+
+Distance Transform: |
+  A transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In [instance segmentation](glossary.qmd#instance-segmentation), distance transforms are commonly used to help separate touching or overlapping objects—for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a binary mask into individual instances.
+
+Confidence Score: |
+  A continuous value, often between 0 and 1, that reflects how certain a model is about a given prediction. Unlike a [distance transform](glossary.qmd#distance-transform), which encodes geometric information such as position within an object, a confidence score expresses the model's belief that a prediction is correct --- for example, that a pixel belongs to the foreground class or that a detected object was correctly identified during [object detection](glossary.qmd#object-detection). Confidence scores are useful for filtering predictions, such as discarding low-confidence detections, but a high confidence score does not guarantee a correct prediction, particularly when a model is poorly calibrated.
 
 Semantic Segmentation: |
   A form of segmentation where each pixel in an image is assigned to a class (e.g., nucleus, cytoplasm, background), but it does not distinguish between separate instances of the same class.
@@ -47,7 +59,7 @@ Bayesian Optimization: |
   A strategy that allows the optimization of black-box functions such as deep neural networks. It creates a surrogate model, which is a probabilistic representation of the objective function, using only a few example points.
 
 Gaussian Process: |
-  A common surrogate model for optimization strategies such as Bayesian Optimization. Gaussian Processes are non-parametric a case that models a conditional probability function. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.
+  A common surrogate model for optimization strategies such as Bayesian Optimization. A Gaussian Process is a non-parametric model that represents a probability distribution over possible functions. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.
 
 Genetic Algorithms: |
   An optimisation method inspired by the principles of natural selection and genetics. It starts with a population of solutions. These solutions are combined through a process called crossover to produce new solutions (offspring). During this process, random changes or mutations may occur to introduce diversity. After crossover and mutation, a selection step chooses the best solutions from both the parent and offspring populations to form the next generation. This cycle repeats for a set number of generations or until a predefined goal or stopping criterion is met.
@@ -56,13 +68,26 @@ Virtual Machine: |
   On a physical computer, you install an operating system (e.g., Windows or Ubuntu) that you interact with. A virtual machine is a program that simulates a complete computer with its own operating system. This lets you run a "computer inside your computer" (e.g., using Linux inside Windows or the other way around). As this simulated computer is separate from your physical one, it adds an extra layer of security, because unless the user specifically allows it, the virtual machine cannot access or connect to your real computer.
 
 Star-convex Polygon: |
-  A geometric shape used in segmentation algorithms like StarDist. Imagine drawing straight lines (rays) from the centre of an object out toward its edges—if you can see the edge from the centre in all directions, the object is considered star-convex. This method works well for blob-like structures such as nuclei, because their general shape can be captured by measuring how far each ray travels from the centre to the boundary.
+  A geometric shape used in segmentation algorithms like StarDist. Imagine drawing straight lines (rays) from the centre of an object out toward its edges --- if you can see the edge from the centre in all directions, the object is considered star-convex. This method works well for blob-like structures such as nuclei, because their general shape can be captured by measuring how far each ray travels from the centre to the boundary.
 
 IoU: |
-  "Intersection over Union". A segmentation metric that calculates the difference between the area of overlap between two segmentation masks divided by the area of union.
+  "Intersection over Union". A segmentation metric that calculates the area of overlap between two segmentation masks divided by the area of their union.
+
+Precision: |
+  A classification metric that measures the proportion of predicted positives that are correct: [true positives](glossary.qmd#true-positives) divided by the sum of true positives and [false positives](glossary.qmd#false-positives). Precision answers "of everything the model called positive, how much actually was?" A model can achieve high precision by only making positive predictions it is very confident about, at the cost of missing some true positives (i.e., lower [recall](glossary.qmd#recall)).
+  $$ \text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}}$$
+
+Recall: |
+  A classification metric that measures the proportion of actual positives that were correctly identified: [true positives](glossary.qmd#true-positives) divided by the sum of true positives and [false negatives](glossary.qmd#false-negatives). Recall answers "of everything that was actually positive, how much did the model find?" A model can achieve high recall by predicting positive more liberally, at the cost of more false positives (i.e., lower [precision](glossary.qmd#precision)). Also known as sensitivity or the true positive rate.
+  $$ \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}$$
+
+Harmonic Mean: |
+  A type of average of a set of numbers, calculated as the number of values divided by the sum of their reciprocals. Unlike the arithmetic mean, the harmonic mean is closer to the smaller of the values being averaged, so it penalizes cases where one value is much lower than the other. This makes it useful for combining two metrics, such as [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall), into a single score that only looks good when both metrics are good.
 
 F1 Score: |
-  A classification metric that gives the harmonic mean of precision (proportion of correct true positive predictions across all predicted positive cases) and recall (proportion of true positive predictions against the total positive cases). The harmonic mean is a method to balance both metrics equally. This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.
+  A classification metric that gives the [harmonic mean](glossary.qmd#harmonic-mean) of [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall). This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.
+  $$ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}$$
+  This metric is also known as the DICE coefficient.
 
 Image Classification: |
   A computer vision task where each image is associated with one class and the goal of this task is to correctly predict that class. 
@@ -107,7 +132,7 @@ Spatial Domain: |
   The representation of an image as a function of spatial coordinates.
 
 Frequency Domain: |
-  The representation of an image as a function of spatial frequency, obtained by transforming an image into the spatial domain using the Fourier transform.
+  The representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using the Fourier transform.
 
 Adaptive Optics: |
   Technology that senses distortions in the wavefront of light and cancels them, thereby suppressing optical aberrations to enhance image clarity.
@@ -116,19 +141,19 @@ Nonlinear Problem: |
   A mathematical problem where the governing equations or operations are nonlinear, meaning outputs are not linearly proportional to inputs.
 
 CARE (Content-aware image restoration): |
-  A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See https://github.com/CSBDeep/CSBDeep for more information.
+  A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See [https://github.com/CSBDeep/CSBDeep](https://github.com/CSBDeep/CSBDeep) for more information.
 
 RCAN (residual channel attention network): |
-  A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See https://github.com/AiviaCommunity/3D-RCAN for more information.
+  A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See [https://github.com/AiviaCommunity/3D-RCAN](https://github.com/AiviaCommunity/3D-RCAN) for more information.
 
 N2V (Noise2Void): |
-  A self-supervised denoising method that trains a neural network to predict pixel values from noisy images by masking input pixels, requiring only single noisy images without paired clean data. See https://github.com/juglab/n2v for more information. 
+  A self-supervised denoising method that trains a neural network to predict pixel values from noisy images by masking input pixels, requiring only single noisy images without paired clean data. See [https://github.com/juglab/n2v](https://github.com/juglab/n2v) for more information. 
 
 N2S (Noise2Self): |
-  A self-supervised denoising method that trains a neural network assuming statistically independent noise across the image, requiring only single noisy images without paired clean data. See https://github.com/czbiohub-sf/noise2self for more information. 
+  A self-supervised denoising method that trains a neural network assuming statistically independent noise across the image, requiring only single noisy images without paired clean data. See [https://github.com/czbiohub-sf/noise2self](https://github.com/czbiohub-sf/noise2self) for more information. 
 
 N2N (Noise2Noise): |
-  A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See https://github.com/NVlabs/noise2noise for more information. 
+  A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See [https://github.com/NVlabs/noise2noise](https://github.com/NVlabs/noise2noise) for more information. 
 
 Deconvolution: |
   A mathematical process to partially reverse the blurring effect caused by the microscope's PSF, increasing contrast and resolution over the raw image data if performed carefully.
@@ -140,7 +165,7 @@ Zernike Modes: |
   A set of orthogonal polynomials used to describe and correct wavefront aberrations in optical systems.
 
 Fiji: |
-  An image processing platform that comes bundled with many plugins for scientific image analysis. See https://imagej.net/software/fiji/ for more information.
+  An image processing platform that comes bundled with many plugins for scientific image analysis. See [https://imagej.net/software/fiji/](https://imagej.net/software/fiji/) for more information.
 
 Convolution: |
   A mathematical process where a kernel (small matrix) slides over input data (e.g., images) to compute feature maps, highlighting patterns like edges or textures.
@@ -152,7 +177,7 @@ Generative Adversarial Networks (GANs): |
   A deep learning architecture where two neural networks, a generator and a discriminator, are trained in an adversarial process, enabling the generator to create synthetic data, such as realistic images, by learning to deceive the discriminator.
 
 Autoencoder: |
-  A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsuperivsed learning version of the more general encoder-decoder architecture.
+  A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsupervised learning version of the more general encoder-decoder architecture.
 
 ReLU: |
   An activation function common in deep learning that outputs the input directly if it is positive, and outputs zero otherwise. That is, it is the ramp function where it equals x if x>0 and 0 if x<=0. This characteristic helps introduce non-linearity into the model and mitigate the vanishing gradient problem. ReLU stands for rectified linear unit.  
@@ -173,7 +198,7 @@ Neural Network Unit: |
   A neural unit is the processing element of a neural network. It also sometimes called a node or artificial neuron.
 
 Neural Network : |
-  Neural networks are a type of computational model that were inspired by the way that biological neural networks are structured.
+  Neural networks are a type of computational model that was inspired by the way that biological neural networks are structured.
 
 Network Architecture : |
   The architecture of a machine learning model refers to the design and structure of the model, including choices in how individual components (such as preprocessing or feature extraction) are connected to each other.
@@ -194,7 +219,7 @@ Upsampling  : |
   Upsampling is a technique to increase the sampling of input data. For an image, this involves increasing the number of pixels and interpolating values for the newly sampled pixels.
 
 Perceptron  : |
-  Perceptrons are linear weighted sums of inputs followed by a nonlinear activation function. They are used for binary classification, and can be combined to create more complex network archictures. Perceptrons are a specific type of an artificial neuron or node.
+  Perceptrons are linear weighted sums of inputs followed by a nonlinear activation function. They are used for binary classification, and can be combined to create more complex network architectures. Perceptrons are a specific type of an artificial neuron or node.
 
 Activation Function  : |
   An activation function is a mathematical formula that calculates the output of a node. These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," an analogy to the way in which biological neurons can be activated.
@@ -236,10 +261,10 @@ Embedding Space  : |
   Embedding space is also know as a latent space or latent feature space. This space is a set of variables that describe items such that similar items are positioned closer together in the space.
 
 Auxiliary Variables  : |
-  Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precison, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other shape descriptors can be used as part of of a loss function. 
+  Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precision, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other shape descriptors can be used as part of of a loss function. 
 
 Loss function : |
-  A loss function (or cost function) is a formula for quantifying how much a model's predication deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss.
+  A loss function (or cost function) is a formula for quantifying how much a model's prediction deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss. As training relies on [gradient descent](glossary.qmd#gradient-descent), the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
 
 Optimizer  : |
   An optimizer is a function that is used to adjust model parameters during training. By adjusting weights and biases, the optimizer attempts to minimize the loss function and thus make the model more accurate.
@@ -272,13 +297,13 @@ Large Language Model (LLM) : |
   Large Language Models (LLMs) are a type of AI model that was trained on a vast amount of data. Users interact with LLMs using natural language to accomplish a variety of tasks.
 
 U-Net : |
-  A U-Net is a type of convolutional neural network that was specifically developed for the task of image segmentation. It has since been used for a variety of tasks. The model is so named because downsampling layers are followed by upsampling layers, which are each connected by skip connections, and togther this gives diagrams of the network a U shape.
+  A U-Net is a type of convolutional neural network that was specifically developed for the task of image segmentation. It has since been used for a variety of tasks. The model is so named because downsampling layers are followed by upsampling layers, which are each connected by skip connections, and together this gives diagrams of the network a U shape.
 
 Vision-Language Model (VLM) : |
-  A Vision-language Model (VLM) are a type of model that can process both images and text with a single architecture. Because they can accept both natual language and visual inputs, they can include context in their analysis.
+  A Vision-language Model (VLM) is a type of model that can process both images and text with a single architecture. Because they can accept both natural language and visual inputs, they can include context in their analysis.
 
 AI agent : |
-  AI agents extend models into systems that can take actions (running code, calling APIs, controlling hardware), observe the results, and adapt their approach iteratively. At its core, an AI agent is a system built around a language model that operates in a loop: it observes the current state (an image, a dataset, an error message), reasons about what to do next, acts by invoking tools or executing code, and then observes the outcome — repeating until the task is complete. This observe-reason-act cycle is what distinguishes an agent from a chatbot.
+  AI agents extend models into systems that can take actions (running code, calling APIs, controlling hardware), observe the results, and adapt their approach iteratively. At its core, an AI agent is a system built around a language model that operates in a loop: it observes the current state (an image, a dataset, an error message), reasons about what to do next, acts by invoking tools or executing code, and then observes the outcome --- repeating until the task is complete. This observe-reason-act cycle is what distinguishes an agent from a chatbot.
 
 Function Calling : |
   Function calling is also called tool use. This is the ability for LLMs to invoke external tools, APIs, and software through structured interfaces rather than generating plain text. 
@@ -287,13 +312,13 @@ Tokens : |
   Tokens are units of data processed by an AI model. For an LLM, these tokens are chunks that may be whole words or subword pieces. For instance, "microscope" might be a single token, while "fluorescence" might be split into "fluor" + "escence."
 
 Fine-Tuning : |
-  Fine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific traning data. In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
+  Fine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific training data. In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
 
 Tool Definitions : |
   Tool definitions are structured descriptions of available functions, their parameters, and expected inputs. When a user makes a request, the model reasons about which tools are needed, generates structured calls with correct parameters, receives results, and decides whether to take further action or report findings.
 
 Model Context Protocol (MCP) : |
-  The Model Context Protocol (MCP) is a standardized way for AI systems to connect to external tools and data sources. MCP gives any AI model a universal way to discover and use any compatible tool — analogous to how USB standardized device connectivity. For microscopy, MCP means that a single agent could potentially access a microscope control system, an image analysis library, a literature database, and a model repository through the same protocol. 
+  The Model Context Protocol (MCP) is a standardized way for AI systems to connect to external tools and data sources. MCP gives any AI model a universal way to discover and use any compatible tool --- analogous to how USB standardized device connectivity. For microscopy, MCP means that a single agent could potentially access a microscope control system, an image analysis library, a literature database, and a model repository through the same protocol. 
 
 Context Window : |
   A context window is the size of the largest input that a model can consider at once. Making the context window larger allows the model to incorporate more information into the output.
@@ -305,13 +330,13 @@ Visual Question Answering : |
   Visual Question Answering (VQA) is when a model is asked an open-ended question based on an image input. The result is a natural language response to a natural language question associated with an image.
 
 Human-in-the-loop: |
-  Human-in-the-loop workflows use model predictions that are manually corrected for retraining. This iterative approach can be used to superivise the model output and improve accuracy.
+  Human-in-the-loop workflows use model predictions that are manually corrected for retraining. This iterative approach can be used to supervise the model output and improve accuracy.
 
 Agentic Workflow : |
   Agentic workflows are hand-designed sequences of tool calls with human-specified decision points. A developer would define: "first call the segmentation tool, then if the count is above 100 switch to algorithm B." These workflows are effective but rigid: every decision point must be anticipated in advance.
 
 General Agency : |
-  General agency gives AI agents access to broad capabilities — a terminal, a file system, APIs, analysis libraries — and lets them determine the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal ("segment and count the nuclei in this dataset") and works out what tools to use, in what order, handling errors as they arise.
+  General agency gives AI agents access to broad capabilities --- a terminal, a file system, APIs, analysis libraries --- and lets them determine the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal ("segment and count the nuclei in this dataset") and works out what tools to use, in what order, handling errors as they arise.
 
 Coding Agent : |
   Coding agents are AI systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier LLM assistants that could only suggest code snippets.
@@ -324,6 +349,34 @@ ResNet : |
 
 Image Translation : |
   Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g. brightfield) into a different modality (e.g. DAPI staining of nuclei) in the same field of view.
+
+Binary Cross-Entropy : |
+  Binary cross-entropy (BCE) penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability --- it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+  For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
+  $$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
+
+Mean Squared Error : |
+  Mean-squared error (MSE) penalizes the model proportionally to the squared difference between its prediction and the ground truth:
+  $$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
+  MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability --- it works equally well when the model produces a continuous map such as a distance transform or a confidence score.
+  Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
+
+Hausdorff Distance : |
+  The Hausdorff distance measures how far apart two sets of boundary points are at their worst-case point.
+  For boundary point sets $A$ and $B$:
+
+  $$d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)$$
+
+  A small Hausdorff distance means every point on one boundary has a close counterpart on the other.
+
+Average Precision : |
+  Average Precision (AP) summarizes the precision–recall trade-off across confidence thresholds.
+  A predicted instance counts as a true positive only if its [IoU](glossary.qmd#IoU) with a ground-truth instance exceeds a threshold $x$:
+
+  $$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
+
+  where $P_k$ and $R_k$ are precision and recall at the $k$-th confidence threshold after matching predictions to ground-truth at IoU $\geq x$.
+  Higher $x$ demands more precise localization.
 
 Boosting algorithm : |
   An ensemble learning method that builds a strong classifier by training many weak learners sequentially, with each new learner trained to correct the errors of the previous ones.
