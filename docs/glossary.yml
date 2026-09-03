@@ -194,6 +194,9 @@ Self-supervised learning: |
 Supervised learning: |
   A deep learning method where models learn from labeled data (input-output pairs), enabling them to learn a mapping function for making predictions or decisions on unseen inputs.
 
+Unsupervised learning: |
+  A machine-learning setting in which an algorithm identifies structure in data without explicit target labels. Examples include clustering samples by similarity and learning lower-dimensional representations.
+
 Neural Network Unit: |
   A neural unit is the processing element of a neural network. It also sometimes called a node or artificial neuron.
 
