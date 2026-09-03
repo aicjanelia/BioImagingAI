@@ -459,7 +459,7 @@ Deep learning : |
   Deep learning is a type of [machine learning](glossary.qmd#machine-learning) that uses multi-layer [neural network](glossary.qmd#nueral-network) to peform tasks. The term "deep" refers to the use of many layers in the network.
 
 Differentiable Function : |
-  A differentiable function is a function whose derivitate exists at every point within the function's domain.
+  A differentiable function is a function whose derivative exists at every point within the function's domain.
 
 Unsupervised learning : |
   Unsupervised learning is a type of [machine learning](glossary.qmd#machine-leanring) in which the machine works only with the raw, unlabeled data. It uses algorithms to find structure or patterns in the data without user guidance or predetermined categories.
@@ -480,7 +480,7 @@ Representation : |
   A representation takes raw data (e.g., the pixels in an image or words in this textbook) and puts it into a structured format that the network can process.
 
 Model collapse : |
-  Model collapse occurs when performance degrades due to training on uncurated or synthetic data, especially training on data from another model (including the same model at prior training versions).
+  Model collapse occurs when performance degrades due to training on uncurated or synthetic data, especially training on data from another model (including the same model at prior training steps).
 
 Reinforcement learning : |
   In reinforcement learning, [AI agents](glossary.qmd#ai-agent) learn how to make decisions by peforming tasks, after which they receive awards and/or penalties to improve decision making.
@@ -492,7 +492,7 @@ Resolution enhancement : |
   Deep learning methods that attempt to predict higher resolution images given lower resolution input data.
 
 Detection: |
-  Detection finds where the objects are without defining their full shape. This requires simpler annotations than full segmentation, such as a point or box per object.
+  Detection finds where the objects are without defining their full shape. This requires simpler annotations (e.g., a point or box) than full segmentation.
 
 Tracking : |
   Tracking links objects over time. It requires both finding objects and determining how they are associated over time.
@@ -501,7 +501,7 @@ Predictive Model: |
   A predictive model returns a single result, which is based on the average of everything the input could have been. This often results in a smoothed result, in contrast to the results from a [generative model](glossary.qmd#generative-model)
 
 Generative Model : |
-  A generative model is trained to create a distribution of responses, and to pull a sample from it as output. Because of this, running the model wice on the same input can lead to two different answers, each of which is as consistent with the training as the other. The sampled image or data will contain texture and noise like a real image, in contrast to the smoothed results of a [predictive model](glossary.qmd#predictive-model).
+  A generative model is trained to create a distribution of responses, and to pull a sample from it as output. Because of this, running the model twice on the same input can lead to two different answers, each of which is as consistent with the training as the other. The sampled image or data will contain texture and noise like a real image, in contrast to the smoothed results of a [predictive model](glossary.qmd#predictive-model).
 
 Overfitting : |
   When a model learns its training data too well it will no longer generalize well to new data, instead focusing on random noise and details that were present in the training data.
