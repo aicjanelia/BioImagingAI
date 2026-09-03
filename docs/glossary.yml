@@ -4,6 +4,15 @@ Hallucinations: |
 Training Data: |
   Data used to teach a machine learning model to perform a task, such as classification, segmentation, [restoration](glossary.qmd#image-restoration), or generation. Depending on the method, training data may be paired with target labels or ground truth (as in [supervised learning](glossary.qmd#supervised-learning)) or used on its own without labels (as in [self-supervised](glossary.qmd#self-supervised-learning) or unsupervised learning).
 
+Batch Effects: |
+  Systematic technical differences between groups of samples that arise from preparation, handling, acquisition, or processing rather than from the biological variable of interest.
+
+Domain Shift: |
+  A systematic difference between the data used to train a model and the data to which it is later applied, for example because specimens, preparation protocols, microscopes, or acquisition settings differ.
+
+Data Leakage: |
+  Information from validation or test examples that influences model training or selection, often because related samples, duplicates, or preprocessing statistics cross dataset splits.
+
 Validation Data: |
   Data set aside from the [training data](glossary.qmd#training-data) and used to evaluate a model's performance during training, without being used to update the model's weights. It is typically used to tune [hyperparameters](glossary.qmd#hyperparameters) and monitor for overfitting, for example by deciding when to stop training.
 

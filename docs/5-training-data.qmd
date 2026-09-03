@@ -34,36 +34,130 @@ What counts as representative depends on how broadly the model should generalize
 
 The raw number of images can overstate how much independent information a dataset contains. Experiments contain specimens, specimens contain fields of view, and fields contain planes, frames, or patches. Because observations from the same specimen are correlated, repeated acquisitions are technical rather than additional biological replicates and should not be counted as independent biological observations. The sampling unit should therefore match the level of the intended biological inference and model generalization. Additional independent units and relevant conditions usually provide more information than additional crops from the same source, a distinction that should also inform dataset-size estimates (cf. @sec-9.3.4.5). Independent sampling is still insufficient if biological conditions are confounded with acquisition batches.
 
-For example, control specimens may be processed in one experimental session and treated specimens in another, perhaps by different people or with slightly different protocols. Any resulting differences in sample handling, staining, illumination, or detector calibration are then confounded with treatment and can become model shortcuts. Such systematic technical differences between groups of samples are called **batch effects**. Biological conditions should therefore be distributed across preparation days, slides, acquisition sessions, and instruments, with acquisition order randomized where possible [@bertramDataSetCreation2026]. Stable batch identifiers are needed for later inspection and splitting. (Note that acquisition batches differ from training [batches](glossary.qmd#batch), which are groups of examples processed together during optimization.)
+For example, control specimens may be processed in one experimental session and treated specimens in another, perhaps by different people or with slightly different protocols. Any resulting differences in sample handling, staining, illumination, or detector calibration are then confounded with treatment and can become model shortcuts. Such systematic technical differences between groups of samples are called [**batch effects**](glossary.qmd#batch-effects). Biological conditions should therefore be distributed across preparation days, slides, acquisition sessions, and instruments, with acquisition order randomized where possible [@bertramDataSetCreation2026]. Stable batch identifiers are needed for later inspection and splitting. (Note that acquisition batches differ from training [batches](glossary.qmd#batch), which are groups of examples processed together during optimization.)
 
 Together, the expected conditions of use, sampling unit, and batch structure determine what must be collected. The microscope and target-generation procedure then determine whether these measurements form valid training examples.
 
-## Microscope-based acquisition and target generation
+## Collecting and preparing inputs and targets
 
-- microscope and acquisition process as sources of signal, sampling, noise, and artifacts
-- imaging domain defined by specimen, microscope, acquisition geometry, and preprocessing
-- acquisition settings and metadata needed to interpret and reproduce the measurements
-- direct paired acquisitions, informative channels, manual annotations, proxy labels, and synthetic targets
-- correspondence and target-quality checks appropriate for the intended task
+Microscopy training data are produced through a physical measurement process. Each image records how the specimen, sample preparation, contrast mechanism, optical system, detector, and acquisition settings interact, after which file conversion and preprocessing may alter the values further. Suitable input measurements alone are therefore not enough: the target must also represent the intended output, and paired inputs and targets must correspond to one another.
 
-As mentioned in the introduction, a decreasing training loss does not guarantee that the input and target images form valid training pairs. This can be illustrated with a simple denoising task @fig-training-data-mismatches where we compare denoising models trained with aligned low- and high-SNR membrane images, spatially shifted targets, or nucleus images from a different imaging domain. The aligned pairs produce a membrane reconstruction that follows the clean target. Random shifts make the correspondence inconsistent and blur the prediction. Training on nuclei and then applying the model to membranes produces a prediction dominated by structures learned from the training domain.
+### Understanding the imaging domain
 
-![**Training-data mismatches in a denoising task.** Rows compare aligned membrane pairs (top), spatially shifted membrane targets (middle), and train/test domain-shift (bottom). Columns show representative training pairs, loss curves, and predictions for the same membrane test image.](5-figures/figure2.png){#fig-training-data-mismatches}
+An **imaging domain** is the combination of the biological specimen and the complete process used to create its images, including preparation, staining or labeling, microscope, detector, acquisition settings, and preprocessing [@bertramDataSetCreation2026]. Images of the same cell type can belong to different domains when they were recorded with different objectives, detectors, stains, or sampling intervals. Conversely, images of different specimens may share the acquisition properties relevant to a particular task. Which differences define a new domain therefore depends on the task and on which variation the model should ignore or preserve.
 
-## Dataset coverage and quality control
+Metadata should make these sources of variation traceable. Relevant records commonly include the specimen and preparation, channel identity, objective and numerical aperture, pixel or voxel size, exposure, illumination, detector settings, acquisition time, and any processing already applied [@laine2021]. Stable identifiers should connect fields of view to their specimens and paired measurements to each other. These records make it possible to decide whether two collections are compatible and to trace an unexpected model failure back to its acquisition conditions.
 
-- deliberate coverage of biological and technical variation, rare cases, and class imbalance
-- distinction between difficult but valid experimental conditions and acquisition failures
-- visual and quantitative inspection of raw data, targets, processed samples, and data-loader batches
-- pairing and integrity checks for identifiers, dimensions, data types, intensity ranges, and labels
-- batch effects, confounding, shortcut learning, and shifts between training data and data encountered in the intended application
-- raw data, metadata, provenance, dataset versions, and verified file conversion
+Physical and acquisition factors affect both what the microscope records and how those values should be handled during dataset construction. @tbl-microscopy-acquisition summarizes the main effects relevant here (cf. Chapter 6's [Considerations for Dataset Preparation](6-image-restoration.qmd#considerations-for-dataset-preparation) for restoration-specific choices).
 
-## Dataset splitting and validation
+| Physical or acquisition factor | Effect on the measurement | Practical collection response |
+|---|---|---|
+| Sampling and optical resolution | Pixel or voxel spacing samples the image formed by the optics; numerical aperture, wavelength, and the [point spread function](glossary.qmd#point-spread-function-psf) limit which structures are resolved | Match sampling and resolution to the structures of interest, record physical scale and optical settings, and do not treat interpolation as recovered detail |
+| Intensity and dynamic range | Illumination, exposure, detector gain and offset, bit depth, and saturation determine the recorded numerical values | Inspect raw value distributions, avoid clipping, record acquisition settings, and preserve intensity differences that carry biological meaning |
+| Noise and background | Photon noise, detector read noise, dark offset, autofluorescence, uneven illumination, and out-of-focus signal change contrast and apparent structure | Collect the expected range of signal-to-noise ratios and backgrounds, include relevant controls, and distinguish difficult measurements from acquisition failures |
+| Exposure and acquisition timing | Longer exposure collects more photons but can increase bleaching, motion blur, and phototoxicity; delays between paired acquisitions can change the specimen | Balance signal against temporal and biological disturbance, control acquisition order and interval, and verify correspondence between paired images |
+| Experimental and acquisition batch | Preparation day, staining run, instrument alignment, calibration, and acquisition session can introduce systematic differences unrelated to biology | Distribute biological conditions across batches, randomize acquisition order where possible, include reference samples where useful, and record batch identifiers |
 
-- distinct roles for training, validation, and test data
-- grouping by the biological or experimental unit at which the model should generalize
-- prevention of leakage between neighboring patches, planes, frames, or repeated measurements
-- representative test data for the intended application
-- held-out experiments, microscopes, or laboratories for explicit domain-shift tests
-- frozen split assignments and a practical pre-training dataset audit
+: Microscopy acquisition effects and practical responses {#tbl-microscopy-acquisition}
+
+These factors often interact. A longer fluorescence exposure may increase the signal-to-noise ratio while also increasing motion blur, bleaching, or phototoxicity. The appropriate setting depends on which structures and dynamics the model must recover, not on a single notion of image quality. Raw measurements and acquisition metadata should therefore be retained even when only processed images enter the model. Once the inputs are characterized, the same scrutiny must be applied to their targets.
+
+### Creating trustworthy targets
+
+A target encodes the output that the model should learn; it is not automatically ground truth. Depending on the task, targets may be class labels, points, masks, tracks, paired experimental measurements, informative channels, or outputs from simulations and image-processing methods. Their validity depends first on whether their definition matches the biological question. Annotation criteria should specify how ambiguous boundaries, dividing cells, partially visible objects, and unlabeled regions are handled, because otherwise consistent-looking files can encode inconsistent decisions.
+
+Paired targets introduce the additional requirement of correspondence. Input and target must refer to the same specimen, position, and time point whenever the task assumes pixel-wise or object-wise alignment. Sample motion between low- and high-signal acquisitions, bleaching between sequential images, focus drift, channel-dependent offsets, or an incorrect registration transform can violate this assumption. Stable pair identifiers and recorded coordinate transformations make these relationships traceable, but representative overlays or difference views are still needed to verify them.
+
+The consequences are visible in the denoising example in @fig-training-data-mismatches. Models are trained with aligned low- and high-SNR membrane images, spatially shifted membrane targets, or nucleus images from a different imaging domain. Only the aligned pairs support a membrane reconstruction that follows the reference. Random shifts make the correspondence inconsistent and blur the prediction, whereas the domain-mismatched training data bias the prediction toward structures learned from nuclei. In all three cases, the training loss can decrease, so the loss curve alone does not establish that the pairs are valid.
+
+![**Training-data mismatches in a denoising task.** Rows compare aligned membrane pairs (top), spatially shifted membrane targets (middle), and train/test domain shift (bottom). Columns show representative training pairs, loss curves, and predictions for the same membrane test image.](5-figures/figure2.png){#fig-training-data-mismatches}
+
+Even perfect alignment is insufficient if the desired target is not constrained by information in the input. In [deconvolution](glossary.qmd#deconvolution), for example, optical blur and sampling suppress spatial detail, and information outside the recorded passband cannot be uniquely recovered from a single image. A learned model may then insert a plausible structure based on its training data rather than specimen-specific evidence. Such unsupported output structure is commonly described as a [hallucination](glossary.qmd#hallucinations). This does not imply that every learned estimate of fine detail is false, but it does require validation against independent measurements and metrics tied to the downstream analysis (cf. @sec-Image-Restoration and @sec-output_quality).
+
+### Creating supervised targets at scale
+
+Direct paired acquisition provides supervised targets when a suitable reference measurement can be recorded from the same specimen. Examples include low- and high-signal fluorescence images, low- and high-resolution images, or a noisy image paired with an average of repeated exposures. The reference acquisition may itself perturb the specimen: collecting more photons takes time and can increase bleaching, motion, or phototoxicity. Pairs should therefore be acquired close enough in space and time to preserve correspondence, while their order and interval should be recorded and checked.
+
+An informative channel can provide targets more efficiently than drawing every annotation by hand. Spatially synchronized transmitted-light and fluorescence images, for example, can train a model to predict a fluorescent marker from transmitted light [@moen2019]. Similarly, a special stain or registered imaging modality can make structures easier to extract and transfer into the coordinate system of the intended input [@bertramDataSetCreation2026]. Registration accuracy must be verified, and easy extraction from the auxiliary image does not guarantee that the target is inferable from the input. A marker may reveal molecular information that morphology alone does not contain.
+
+Conventional image processing and pretrained models can also propose masks, points, or tracks for human review. This can reduce annotation effort, as in the model-assisted annotation workflows described in @sec-9.3.4.3, but unverified predictions are pseudo-labels rather than independent reference data. If annotators mainly accept model suggestions, confirmation bias can preserve the model's characteristic errors. Manual and assisted annotations should therefore follow the same written criteria, and proxy targets should be compared with a smaller, independently verified subset that includes difficult cases (cf. @sec-9.3.4.2 and @sec-9.3.6.3).
+
+Regardless of how targets are created, their provenance should remain attached to them. Useful records include the source image, target-generation method, coordinate transformation, annotation criteria, reviewer, annotated coverage, and dataset version. These links allow a corrected registration or annotation rule to be propagated without silently mixing old and new targets.
+
+### Preprocessing and normalization
+
+Preprocessing becomes part of the dataset definition because it changes the values and sometimes the geometry presented to the model. Conversion, registration, resampling, cropping, background subtraction, and compression should be recorded with their order and parameters, while the original measurements remain available. Spatial operations must preserve physical scale and should be applied consistently to paired inputs and targets. Comparing examples before and after processing can reveal swapped axes, clipping, interpolation artifacts, or lost correspondence before these errors spread through a derived dataset.
+
+Normalization can reduce nuisance variation caused by illumination, detector gain, or staining, but it can also remove biological information. Per-image scaling, for example, is inappropriate when absolute intensity or relative intensity between samples is part of the biological signal. If normalization uses dataset-level percentiles, means, or variances, these parameters should be estimated from the training split and then applied unchanged to validation, test, and future images. This prevents information from the held-out data from influencing the transformation and ensures that evaluation reproduces the intended workflow.
+
+Data augmentation addresses a different problem. Rotations, flips, intensity changes, or simulated noise can increase variation during training, but only when those transformations are physically and biologically plausible for the task (cf. @sec-9.3.4.4). Spatial transformations must be applied identically to paired inputs and targets. Augmentation also does not replace collecting real specimens, microscopes, or acquisition conditions when the model is expected to generalize across them.
+
+Finally, storage should make routine inspection possible rather than turning every check into a data-engineering project. For large multidimensional datasets, a chunked multiscale format such as OME-Zarr can support partial access to local or remote data, while reproducible thumbnails, maximum-intensity projections, orthogonal slices, or downsampled movies provide fast overviews [@bertramDataSetCreation2026]. Each overview should retain a stable link to its source and serve as a triage aid rather than a replacement for inspecting the original data. Because format choice constrains which software can preserve axes, metadata, and scale, the same compatibility considerations used to select analysis tools also apply here (cf. @sec-8).
+
+Careful acquisition and preprocessing can produce technically valid files that are still incomplete, biased, or internally inconsistent. The next step is therefore to inspect the dataset as a whole before it is divided for training and evaluation.
+
+## Checking the dataset before training
+
+A dataset can be readable by the training software and still be unsuitable for learning. A target volume may be shifted by one plane, a time point may silently repeat, or a biological condition may occur only in one acquisition batch. Inspection before training should therefore establish whether the dataset covers the intended use, whether its files and input-target relationships are valid, and whether its evaluation splits are independent. Visual inspection, summary statistics, and automated integrity checks address different parts of this problem and should be used together.
+
+### Coverage, imbalance, batches, and domain shift
+
+Coverage should be assessed in terms of independent specimens and experiments, not only images, planes, frames, or patches. Counts should be compared across biological conditions, target classes, preparation batches, microscopes, and operators. Cross-tabulating these variables reveals missing combinations and confounding that pooled sample counts conceal. A dataset can contain equal numbers of control and treated images yet still be unable to distinguish treatment from batch if each condition comes from a different preparation batch. Rare classes, empty images, and hard negatives should also be counted separately so that they are not obscured by aggregate totals [@bertramDataSetCreation2026].
+
+The collected imaging domains should then be compared with the situations in which the model will be used. A different microscope, staining protocol, laboratory, or specimen population may introduce a [**domain shift**](glossary.qmd#domain-shift), meaning a systematic difference between the training data and later inputs. Similar-looking example images do not establish that two domains are equivalent; acquisition metadata and stratified measurements may reveal differences in sampling, noise, intensity, or artifacts.
+
+Not every difficult image should be removed. Difficult but valid examples belong in a representative [test set](glossary.qmd#test-data) when the model is expected to handle them. Severely corrupted inputs, inputs that do not contain enough information for the task, and explicitly out-of-scope inputs instead serve a different purpose and should be identified as a separate stress or rejection set. Reporting these groups separately distinguishes performance on the intended use from behavior beyond it [@laine2021].
+
+### Visual inspection, exploratory analysis, and integrity checks
+
+Coverage tables cannot reveal a shifted target, swapped channel, or frozen time point, whereas visual inspection alone cannot establish how often such problems occur. Representative examples should connect the raw input, overlaid target, processed sample, and exact array produced by the data loader. These linked views expose changes in axes, scale, alignment, and value range that are otherwise difficult to infer from file metadata.
+
+This comparison is particularly difficult for volumetric time-lapse data because temporal failures are harder to see than errors in a static image or segmentation overlay. An exact copy of the preceding volume can look plausible in isolation but break motion estimates and cell tracks. Consecutive-frame differences, timestamps, or hashes can flag such frozen frames, after which neighboring time points and metadata should be checked to distinguish corruption from a genuinely stationary specimen.
+
+Problems found in individual examples must then be quantified across the dataset, including its targets. Depending on the task, useful summaries include class frequencies, object counts and sizes, mask coverage, track lengths, annotation density, and input-target correspondence. The same measurements should be compared before and after conversion, registration, resampling, cropping, normalization, or compression. Changes in dimensions, bit depth, dynamic range, physical scale, spatial correspondence, or sample count indicate that a technically successful conversion may still have altered the dataset.
+
+Exact and near-duplicates require a separate check because they can inflate the apparent dataset size and later cross split boundaries. Relevant cases include repeated acquisitions, overlapping crops or tiles, neighboring planes or frames, and differently processed exports of the same source image. Their relationships should be recorded even when both versions are legitimate, so that downstream grouping can keep related content together.
+
+Global summaries can also hide systematic differences between specimens, conditions, microscopes, or batches. Histograms, box plots, cross-tabulations, and contact sheets should therefore be examined both for the complete dataset and within meaningful groups. For data stored on a cluster or object store, scripted checks can run close to the data and return lightweight reports, projections, and flagged identifiers. Each result should provide a direct link to the corresponding raw image, target, processed version, and metadata.
+
+Interactive viewers and scripted checks complement one another: viewers reveal spatial and temporal context, while scripts apply the same measurements across the dataset. @tbl-qc-tools lists a selective set of examples; the appropriate choice depends on dimensionality, scale, storage location, and annotation type, which are also relevant when selecting analysis software (cf. @sec-8).
+
+| Tool | Typical data or workflow | Useful QC tasks |
+|---|---|---|
+| Fiji/ImageJ [@Schindelin2012] | Local 2D images and moderate-sized multichannel, z-stack, or time-lapse data | Inspect intensities, channels, histograms, overlays, and input-target alignment |
+| napari [@ahlers2023] | N-dimensional images with labels, points, shapes, or tracks | Compare raw, processed, and target layers; navigate 3D and time-lapse data |
+| QuPath [@Bankhead2017] | Histopathology and large 2D whole-slide images | Inspect stains, tissue regions, annotations, detections, metadata, and slide-level heterogeneity |
+| TrackMate [@ershovTrackMate7Integrating2022b] and Mastodon [@girstmairMastodonCommandCenter2025a] | Time-lapse tracking and lineage data, including large 3D+t datasets | Inspect detections, links, divisions, track gaps, and lineage consistency against source images |
+| Vizarr/Viv [@manzVivMultiscaleVisualization2022] | Remotely hosted multiscale OME-Zarr or Zarr images | Inspect channels and spatial context in a browser without downloading the full-resolution dataset |
+| Neuroglancer [@GoogleNeuroglancerWebGLbased] and webKnossos [@WEBKNOSSOSVisualizeSharea] | Large multiscale 3D volumes, particularly electron microscopy | Navigate image volumes and segmentations; use webKnossos for collaborative annotation and proofreading |
+| kitty `icat` [@Icat] | Generated thumbnails, projections, and plots in a compatible local or SSH terminal | Perform quick visual spot checks without moving previews to a desktop viewer |
+| Python QC scripts | Dataset-wide, repeated, or automated checks | Check dimensions, ranges, pairing, duplicates, frozen frames, and batch-stratified summaries |
+
+: Example tools for dataset inspection and quality control {#tbl-qc-tools}
+
+Coding agents can help write and run such QC scripts and combine metadata, measurements, logs, and previews into a ranked list of suspicious items (cf. @sec-coding-agents). This triage should favor high [recall](glossary.qmd#recall), so that most problematic items are surfaced even at the cost of false alarms. Agent outputs remain flags for review rather than evidence for automatic exclusion, and a random sample of unflagged data should also be inspected.
+
+### Splitting, independence, and leakage
+
+Dataset splitting defines which observations may influence model development. [Training data](glossary.qmd#training-data) fit the model, [validation data](glossary.qmd#validation-data) guide choices such as model selection, and [test data](glossary.qmd#test-data) remain untouched until final evaluation (cf. @sec-9.3.5.1). [**Data leakage**](glossary.qmd#data-leakage) occurs when information from validation or test examples enters training, giving an overly optimistic estimate of performance on independent data.
+
+For microscopy, independence usually requires grouping before individual images or patches are assigned. Entire specimens, experiments, patients, slides, volumes, or acquisition sessions should be assigned to one split whenever that is the level at which the model should generalize. Related fields of view, repeated acquisitions, neighboring planes or frames, overlapping crops, and augmented versions must remain with their source. Otherwise, random patch splitting can place nearly identical content in training and test data. The correct grouping is more important than adhering to a generic percentage such as 80:10:10.
+
+After grouping, biological conditions and acquisition batches can be balanced across splits where feasible. A complete microscope, laboratory, or batch should be held out only when performance under that specific domain shift is part of the claim, and such an external test should remain distinct from the primary representative test set. The final assignments should be checked for overlapping identifiers, source paths, hashes, and near-duplicates, then saved in a versioned metadata table or manifest rather than regenerated from an undocumented random seed.
+
+Once the data loader and training pipeline exist, fitting a very small, manually verified subset can provide an additional sanity check. Failure to fit these examples can expose target, loader, or configuration errors, although successful fitting does not establish generalization (cf. @sec-9.3.5.2).
+
+::: {.callout-note title="Pre-training dataset check"}
+
+- intended biological and acquisition conditions represented by independent samples
+- biological conditions distributed across preparation and acquisition batches
+- rare cases, hard negatives, difficult valid examples, and stress cases identified and inspected
+- image and target summaries checked globally and within relevant groups
+- raw inputs, targets, processed samples, and loader outputs consistent in axes, values, alignment, and count
+- exact and near-duplicates identified and accounted for
+- training, validation, and test assignments grouped by the correct independent unit
+- split assignments, exclusions, and QC results saved in an auditable form
+
+:::
+
+After these checks, training begins with an explicit account of the dataset's scope, limitations, transformations, and evaluation boundaries.
