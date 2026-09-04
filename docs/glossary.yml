@@ -2,7 +2,7 @@ Hallucinations: |
   Outputs from a model that do not have a basis in the input data and may contain false or misleading information.
 
 Training Data: |
-  Data used to teach a machine learning model to perform a task, such as classification, segmentation, [restoration](glossary.qmd#image-restoration), or generation. Depending on the method, training data may be paired with target labels or ground truth (as in [supervised learning](glossary.qmd#supervised-learning)) or used on its own without labels (as in [self-supervised](glossary.qmd#self-supervised-learning) or unsupervised learning).
+  Data used to teach a machine learning model to perform a task, such as classification, segmentation, [restoration](glossary.qmd#image-restoration), or generation. Depending on the method, training data may be paired with target labels or ground truth (as in [supervised learning](glossary.qmd#supervised-learning)) or used on its own without labels (as in [self-supervised](glossary.qmd#self-supervised-learning) or [unsupervised learning](glossary.qmd#unsupervised-learning)).
 
 Validation Data: |
   Data set aside from the [training data](glossary.qmd#training-data) and used to evaluate a model's performance during training, without being used to update the model's weights. It is typically used to tune [hyperparameters](glossary.qmd#hyperparameters) and monitor for overfitting, for example by deciding when to stop training.
@@ -249,7 +249,7 @@ Padding  : |
   Padding involves adding extra layers of pixels around an image to avoid edge effects. Padding can be performed by simply setting the extra pixels to zero, or it can take into account the image itself (such as in mirror padding or replicate padding).
 
 Encoder-Decoder : |
-  An encoder-decoder architecture refers to a network with two parts. The "encoder" component of the network is a series of layers that take the input and map it to an abstract representation. The second "decoder" component of the network is trained to recreate input data from the abstract representation. This type of architecture learns an efficient way to represent the input data and is often used for dimensionality reduction.
+  An encoder-decoder architecture refers to a network with two parts. The "encoder" component of the network is a series of layers that take the input and map it to an abstract representation. The second "decoder" component of the network is trained to recreate input data from the abstract representation. This type of architecture learns an efficient way to represent the input data and is often used for [dimensionality reduction](glossary.qmd#dimensionality-reduction).
 
 Self-attention  : |
   Attention allows a model to determine the importance of each component of an input sequence. Self-attention is a type of attention mechanism that is commonly used in transformer architectures.
@@ -452,3 +452,70 @@ A-posteriori Analysis : |
 
 Real-time analysis : |
   An approach in which images are processed as the data is acquired. This is in contrast to a-posterior analysis, where the data is acquired before processing.
+
+Machine learning : |
+  Machine learning is a type of artificial intelligence that focuses on learning from patterns in data and generalizing to new data. This allows the machine to take advantage of statistical algorithms to perform tasks without explicit instructions.
+
+Deep learning : |
+  Deep learning is a type of [machine learning](glossary.qmd#machine-learning) that uses multi-layer [neural network](glossary.qmd#nueral-network) to peform tasks. The term "deep" refers to the use of many layers in the network.
+
+Differentiable Function : |
+  A differentiable function is a function whose derivative exists at every point within the function's domain.
+
+Unsupervised learning : |
+  Unsupervised learning is a type of [machine learning](glossary.qmd#machine-leanring) in which the machine works only with the raw, unlabeled data. It uses algorithms to find structure or patterns in the data without user guidance or predetermined categories.
+
+Dimensionality reduction : |
+  Taking a dataset that is in a high-dimensional space and reducing it to a lower-dimensional representation that tries to retain as much of the important information and underlying properties of the high-dimensional data as possible.
+
+Clustering : |
+  Clustering groups unlabeled points within a dataset based on similarities or patterns in the data.   
+
+Semi-Supervised Learning : |
+  Semi-supervised learning, also known as weak supervision, trains using a relatively small amount of labeled data combined with a large amount of unlabeled data. This combines techniques used in supervised learning with techniques from unsupervised learning.
+
+Contrastive loss : |
+  A contrastive loss function attempts to minimize the distance between input pairs that are similar while simultaneously maximizing the distance between input pairs that are dissimilar.
+
+Representation : |
+  A representation takes raw data (e.g., the pixels in an image or words in this textbook) and puts it into a structured format that the network can process.
+
+Model collapse : |
+  Model collapse occurs when performance degrades due to training on uncurated or synthetic data, especially training on data from another model (including the same model at prior training steps).
+
+Reinforcement learning : |
+  In reinforcement learning, [AI agents](glossary.qmd#ai-agent) learn how to make decisions by peforming tasks, after which they receive awards and/or penalties to improve decision making.
+
+Denoising : |
+  Denoising is a process in which unwanted noise or distortions are removed from an image or dataset. The goal of denoising is preserve the key underlying information during the process.
+
+Resolution enhancement : |
+  Deep learning methods that attempt to predict higher resolution images given lower resolution input data.
+
+Detection: |
+  Detection finds where the objects are without defining their full shape. This requires simpler annotations (e.g., a point or box) than full segmentation.
+
+Tracking : |
+  Tracking links objects over time. It requires both finding objects and determining how they are associated over time.
+
+Predictive Model: |
+  A predictive model returns a single result, which is based on the average of everything the input could have been. This often results in a smoothed result, in contrast to the results from a [generative model](glossary.qmd#generative-model)
+
+Generative Model : |
+  A generative model is trained to create a distribution of responses, and to pull a sample from it as output. Because of this, running the model twice on the same input can lead to two different answers, each of which is as consistent with the training as the other. The sampled image or data will contain texture and noise like a real image, in contrast to the smoothed results of a [predictive model](glossary.qmd#predictive-model).
+
+Overfitting : |
+  When a model learns its training data too well it will no longer generalize well to new data, instead focusing on random noise and details that were present in the training data.
+
+Domain shift : | 
+  Domain shift occurs when a model is trained and tested on one type of data, but later applied to a related but different data distribution. In microscopy, an example of this is training a model on data from one microscope, but then applying it to data acquired using a different system or technique.
+
+Shortcut learning : |
+  Shortcut learning occurs when a network learns about superficial or trivial features in the data rather than learning the important underlying concepts. For example, a network may learn that cancer patient datasets came from a different hospital than the healthy patients, rather than learning anything different about the structure of the MRI scans.
+
+Attribution map : |
+  An attribution map is a pixel-wise image of how much each part of the input image contributed to the output image.
+
+Artificial intelligence : |
+  Artificial intelligence (AI) refers to a computational system that is capable of performing a task that would normally require human intelligence.
+

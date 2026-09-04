@@ -1,11 +1,3 @@
-@article{pachitariu2025cellposesam,
-	title        = {Cellpose-{SAM}: superhuman generalization for cellular segmentation},
-	author       = {Pachitariu, Marius and Rariden, Michael and Stringer, Carsen},
-	year         = 2025,
-	journal      = {bioRxiv},
-	doi          = {10.1101/2025.04.28.651001},
-	url          = {https://doi.org/10.1101/2025.04.28.651001}
-}
 @misc{allal2024smollm2,
 	title        = {{SmolLM2}},
 	author       = {Ben Allal, Loubna and Lozhkov, Anton and Bakouch, Elie and Martín Blázquez, Gabriel and Penedo, Guilherme and Tunstall, Lewis and others},
@@ -87,16 +79,6 @@
 	pages        = {1368--1370},
 	doi          = {10.1038/s41592-024-02370-y},
 	url          = {https://www.nature.com/articles/s41592-024-02370-y}
-}
-@article{cellsam2025,
-	title        = {{CellSAM}: a foundation model for cell segmentation},
-	author       = {Marks, Markus and Israel, Uriah and Dilip, Rohit and Li, Qilin and Yu, Changhua and Laubscher, Emily and Ates, Ahmet Can and Abt, Martin and Brown, Elora and Schwartz, Morgan and others},
-	year         = 2025,
-	journal      = {Nature Methods},
-	volume       = 22,
-	pages        = {2585--2593},
-	doi          = {10.1038/s41592-025-02879-w},
-	url          = {https://www.nature.com/articles/s41592-025-02879-w}
 }
 @article{Archit2025,
 	title        = {Segment Anything for Microscopy},
@@ -220,6 +202,7 @@
 	author       = {von Chamier, Lucas and Laine, Romain F. and Jukkala, Johanna and Spahn, Christoph and Krentzel, Daniel and Nehme, Elias and Lerche, Martina and Hernández-Pérez, Sara and Mattila, Pieta K. and Karinou, Eleni and Holden, Séamus and Solak, Ahmet Can and Krull, Alexander and Buchholz, Tim-Oliver and Jones, Martin L. and Royer, Loïc A. and Leterrier, Christophe and Shechtman, Yoav and Jug, Florian and Heilemann, Mike and Jacquemet, Guillaume and Henriques, Ricardo},
 	year         = 2021,
 	journal      = {Nature Communications},
+	publisher    = {Nature Publishing Group},
 	volume       = 12,
 	number       = 1,
 	pages        = 2276,
@@ -228,7 +211,7 @@
 	url          = {https://www.nature.com/articles/s41467-021-22518-0},
 	urldate      = {2022-06-24},
 	language     = {en},
-	publisher     = {Nature Publishing Group}
+	ublisher     = {Nature Publishing Group}
 }
 @article{yao2022react,
 	title        = {ReAct: Synergizing Reasoning and Acting in Language Models},
@@ -1892,50 +1875,25 @@
 	url          = {https://ojs.aaai.org/index.php/AAAI/article/view/10647},
 	abstractnote = {&lt;p&gt; Automatically searching for optimal hyperparameter configurations is of crucial importance for applying deep learning algorithms in practice. Recently, Bayesian optimization has been proposed for optimizing hyperparameters of various machine learning algorithms. Those methods adopt probabilistic surrogate models like Gaussian processes to approximate and minimize the validation error function of hyperparameter values. However, probabilistic surrogates require accurate estimates of sufficient statistics (e.g., covariance) of the error distribution and thus need many function evaluations with a sizeable number of hyperparameters. This makes them inefficient for optimizing hyperparameters of deep learning algorithms, which are highly expensive to evaluate. In this work, we propose a new deterministic and efficient hyperparameter optimization method that employs radial basis functions as error surrogates. The proposed mixed integer algorithm, called HORD, searches the surrogate for the most promising hyperparameter values through dynamic coordinate search and requires many fewer function evaluations. HORD does well in low dimensions but it is exceptionally better in higher dimensions. Extensive evaluations on MNIST and CIFAR-10 for four deep neural networks demonstrate HORD significantly outperforms the well-established Bayesian optimization methods such as GP, SMAC, and TPE. For instance, on average, HORD is more than 6 times faster than GP-EI in obtaining the best configuration of 19 hyperparameters. &lt;/p&gt;}
 }
-
 @article{mavska2014benchmark,
-  title={A benchmark for comparison of cell tracking algorithms},
-  author={Ma{\v{s}}ka, Martin and Ulman, Vladim{\'\i}r and Svoboda, David and Matula, Pavel and Matula, Petr and Ederra, Cristina and Urbiola, Ainhoa and Espa{\~n}a, Tom{\'a}s and Venkatesan, Subramanian and Balak, Deepak MW and others},
-  journal={Bioinformatics},
-  volume={30},
-  number={11},
-  pages={1609--1617},
-  year={2014},
-  publisher={Oxford University Press}
+	title        = {A benchmark for comparison of cell tracking algorithms},
+	author       = {Ma{\v{s}}ka, Martin and Ulman, Vladim{\'\i}r and Svoboda, David and Matula, Pavel and Matula, Petr and Ederra, Cristina and Urbiola, Ainhoa and Espa{\~n}a, Tom{\'a}s and Venkatesan, Subramanian and Balak, Deepak MW and others},
+	year         = 2014,
+	journal      = {Bioinformatics},
+	publisher    = {Oxford University Press},
+	volume       = 30,
+	number       = 11,
+	pages        = {1609--1617},
+	doi          = {10.1093/bioinformatics/btu080}
 }
-
 @inproceedings{kaiser2024chota,
-  title={Chota: A higher order accuracy metric for cell tracking},
-  author={Kaiser, Timo and Ulman, Vladim{\'\i}r and Rosenhahn, Bodo},
-  booktitle={European Conference on Computer Vision},
-  pages={122--138},
-  year={2024},
-  organization={Springer}
-}
-@article{krizhevsky2012imagenet,
-	title        = {Imagenet classification with deep convolutional neural networks},
-	author       = {Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E},
-	year         = 2012,
-	journal      = {Advances in neural information processing systems},
-	volume       = 25
-}
-@inproceedings{ronneberger2015u,
-	title        = {U-net: Convolutional networks for biomedical image segmentation},
-	author       = {Ronneberger, Olaf and Fischer, Philipp and Brox, Thomas},
-	year         = 2015,
-	booktitle    = {International Conference on Medical image computing and computer-assisted intervention},
-	pages        = {234--241},
+	title        = {Chota: A higher order accuracy metric for cell tracking},
+	author       = {Kaiser, Timo and Ulman, Vladim{\'\i}r and Rosenhahn, Bodo},
+	year         = 2024,
+	booktitle    = {European Conference on Computer Vision},
+	pages        = {122--138},
+	doi          = {10.1007/978-3-031-91721-9_8},
 	organization = {Springer}
-}
-@article{rumelhart1986learning,
-	title        = {Learning representations by back-propagating errors},
-	author       = {Rumelhart, David E and Hinton, Geoffrey E and Williams, Ronald J},
-	year         = 1986,
-	journal      = {nature},
-	publisher    = {Nature Publishing Group UK London},
-	volume       = 323,
-	number       = 6088,
-	pages        = {533--536}
 }
 @article{cybenko1989approximation,
 	title        = {Approximation by superpositions of a sigmoidal function},
@@ -1945,7 +1903,8 @@
 	publisher    = {Springer},
 	volume       = 2,
 	number       = 4,
-	pages        = {303--314}
+	pages        = {303--314},
+	doi          = {10.1007/BF02551274}
 }
 @article{lecun1995convolutional,
 	title        = {Convolutional networks for images, speech, and time series},
@@ -1955,13 +1914,15 @@
 	publisher    = {Cambridge, MA USA},
 	volume       = 3361,
 	number       = 10,
-	pages        = 1995
+	pages        = {255--258},
+	doi          = {10.5555/303568.303704}
 }
 @article{lecun1998mnist,
 	title        = {The MNIST database of handwritten digits},
 	author       = {LeCun, Yann},
 	year         = 1998,
-	journal      = {http://yann. lecun. com/exdb/mnist/}
+	journal      = {http://yann.lecun.com/exdb/mnist/},
+	url          = {https://huggingface.co/datasets/ylecun/mnist}
 }
 @inproceedings{spanhol2016breast,
 	title        = {Breast cancer histopathological image classification using convolutional neural networks},
@@ -1969,37 +1930,47 @@
 	year         = 2016,
 	booktitle    = {2016 international joint conference on neural networks (IJCNN)},
 	pages        = {2560--2567},
+	doi          = {10.1109/IJCNN.2016.7727519},
 	organization = {IEEE}
 }
 @article{dosovitskiy2020image,
 	title        = {An image is worth 16x16 words: Transformers for image recognition at scale},
 	author       = {Dosovitskiy, Alexey and Beyer, Lucas and Kolesnikov, Alexander and Weissenborn, Dirk and Zhai, Xiaohua and Unterthiner, Thomas and Dehghani, Mostafa and Minderer, Matthias and Heigold, Georg and Gelly, Sylvain and others},
 	year         = 2020,
-	journal      = {arXiv preprint arXiv:2010.11929}
+	journal      = {arXiv preprint arXiv:2010.11929},
+	doi          = {10.48550/arXiv.2010.11929}
 }
 @article{hinton2006reducing,
 	title        = {Reducing the dimensionality of data with neural networks},
 	author       = {Hinton, Geoffrey E and Salakhutdinov, Ruslan R},
 	year         = 2006,
-	journal      = {science},
+	journal      = {Science},
 	publisher    = {American Association for the Advancement of Science},
 	volume       = 313,
 	number       = 5786,
-	pages        = {504--507}
+	pages        = {504--507},
+	doi          = {10.1126/science.1127647}
 }
 @article{israel2025cellsam,
 	title        = {CellSAM: a foundation model for cell segmentation},
-	author       = {Israel, Uriah and Marks, Markus and Dilip, Rohit and Li, Qilin and Yu, Changhua and Laubscher, Emily and Iqbal, Ahamed and Pradhan, Elora and Ates, Ada and Abt, Martin and others},
+	author       = {Marks,  Markus and Israel,  Uriah and Dilip,  Rohit and Li,  Qilin and Yu,  Changhua and Laubscher,  Emily and Iqbal,  Ahamed and Pradhan,  Elora and Ates,  Ada and Abt,  Martin and Brown,  Caitlin and Pao,  Edward and Li,  Shenyi and Pearson-Goulart,  Alexander and Perona,  Pietro and Gkioxari,  Georgia and Barnowski,  Ross and Yue,  Yisong and Van Valen,  David},
 	year         = 2025,
-	journal      = {BioRxiv},
-	pages        = {2023--11}
+	journal      = {Nature Methods},
+	publisher    = {Springer Science and Business Media LLC},
+	volume       = 22,
+	number       = 12,
+	pages        = {2585--2593},
+	doi          = {10.1038/s41592-025-02879-w},
+	issn         = {1548-7105},
+	url          = {http://dx.doi.org/10.1038/s41592-025-02879-w}
 }
 @inproceedings{kirillov2023segment,
-	title        = {Segment anything},
-	author       = {Kirillov, Alexander and Mintun, Eric and Ravi, Nikhila and Mao, Hanzi and Rolland, Chloe and Gustafson, Laura and Xiao, Tete and Whitehead, Spencer and Berg, Alexander C and Lo, Wan-Yen and others},
+	title        = {Segment Anything},
+	author       = {Kirillov, Alexander and Mintun, Eric and Ravi, Nikhila and Mao, Hanzi and Rolland, Chloe and Gustafson, Laura and Xiao, Tete and Whitehead, Spencer and Berg, Alexander C. and Lo, Wan-Yen and Dollár, Piotr and Girshick, Ross},
 	year         = 2023,
-	booktitle    = {Proceedings of the IEEE/CVF international conference on computer vision},
-	pages        = {4015--4026}
+	booktitle    = {2023 IEEE/CVF International Conference on Computer Vision (ICCV)},
+	pages        = {3992--4003},
+	doi          = {10.1109/ICCV51070.2023.00371}
 }
 @article{pachitariu2025cellpose,
 	title        = {Cellpose-SAM: superhuman generalization for cellular segmentation},
@@ -2007,14 +1978,16 @@
 	year         = 2025,
 	journal      = {bioRxiv},
 	publisher    = {Cold Spring Harbor Laboratory},
-	pages        = {2025--04}
+	pages        = {2025--04},
+	doi          = {10.1101/2025.04.28.651001}
 }
 @inproceedings{liu2021swin,
 	title        = {Swin transformer: Hierarchical vision transformer using shifted windows},
 	author       = {Liu, Ze and Lin, Yutong and Cao, Yue and Hu, Han and Wei, Yixuan and Zhang, Zheng and Lin, Stephen and Guo, Baining},
 	year         = 2021,
 	booktitle    = {Proceedings of the IEEE/CVF international conference on computer vision},
-	pages        = {10012--10022}
+	pages        = {10012--10022},
+	doi          = {10.1109/ICCV48922.2021.00986}
 }
 @article{zhang2025swincell,
 	title        = {SwinCell: a 3D transformer and flow-based framework for improved cell segmentation},
@@ -2024,7 +1997,8 @@
 	publisher    = {Nature Publishing Group UK London},
 	volume       = 8,
 	number       = 1,
-	pages        = 962
+	pages        = 962,
+	doi          = {10.1038/s42003-025-08397-x}
 }
 @article{achard2025cellseg3d,
 	title        = {CellSeg3D, Self-supervised 3D cell segmentation for fluorescence microscopy},
@@ -2033,7 +2007,8 @@
 	journal      = {eLife},
 	publisher    = {eLife Sciences Publications Limited},
 	volume       = 13,
-	pages        = {RP99848}
+	pages        = {RP99848},
+	doi          = {10.7554/eLife.99848.4}
 }
 @inproceedings{mao2023cross,
 	title        = {Cross-entropy loss functions: Theoretical analysis and applications},
@@ -2048,38 +2023,51 @@
 	author       = {Sheridan, Arlo and Nguyen, Tri M and Deb, Diptodip and Lee, Wei-Chung Allen and Saalfeld, Stephan and Turaga, Srinivas C and Manor, Uri and Funke, Jan},
 	year         = 2023,
 	journal      = {Nature methods},
-	publisher    = {Nature Publishing Group US New York},
 	volume       = 20,
 	number       = 2,
-	pages        = {295--303}
+	pages        = {295--303},
+	doi          = {10.1038/s41592-022-01711-z}
 }
 @article{kingma2014adam,
-	title        = {Adam: A method for stochastic optimization},
-	author       = {Kingma, Diederik P and Ba, Jimmy},
-	year         = 2014,
-	journal      = {arXiv preprint arXiv:1412.6980}
+	title        = {Adam: A Method for Stochastic Optimization},
+	author       = {Diederik P. Kingma and Jimmy Ba},
+	year         = 2017,
+	doi          = {10.48550/arXiv.1412.6980},
+	url          = {https://arxiv.org/abs/1412.6980},
+	eprint       = {1412.6980},
+	archiveprefix = {arXiv},
+	primaryclass = {cs.LG}
 }
 @article{loshchilov2016sgdr,
-	title        = {Sgdr: Stochastic gradient descent with warm restarts},
-	author       = {Loshchilov, Ilya and Hutter, Frank},
-	year         = 2016,
-	journal      = {arXiv preprint arXiv:1608.03983}
+	title        = {SGDR: Stochastic Gradient Descent with Warm Restarts},
+	author       = {Ilya Loshchilov and Frank Hutter},
+	year         = 2017,
+	doi          = {10.48550/arXiv.1608.03983},
+	url          = {https://arxiv.org/abs/1608.03983},
+	eprint       = {1608.03983},
+	archiveprefix = {arXiv},
+	primaryclass = {cs.LG}
 }
 @article{prechelt1998automatic,
 	title        = {Automatic early stopping using cross validation: quantifying the criteria},
 	author       = {Prechelt, Lutz},
 	year         = 1998,
-	journal      = {Neural networks},
+	journal      = {Neural Networks},
 	publisher    = {Elsevier},
 	volume       = 11,
 	number       = 4,
-	pages        = {761--767}
+	pages        = {761--767},
+	doi          = {10.1016/S0893-6080(98)00010-0}
 }
 @article{hinton2012improving,
 	title        = {Improving neural networks by preventing co-adaptation of feature detectors},
-	author       = {Hinton, Geoffrey E and Srivastava, Nitish and Krizhevsky, Alex and Sutskever, Ilya and Salakhutdinov, Ruslan R},
+	author       = {Geoffrey E. Hinton and Nitish Srivastava and Alex Krizhevsky and Ilya Sutskever and Ruslan R. Salakhutdinov},
 	year         = 2012,
-	journal      = {arXiv preprint arXiv:1207.0580}
+	doi          = {10.48550/arXiv.1207.0580},
+	url          = {https://arxiv.org/abs/1207.0580},
+	eprint       = {1207.0580},
+	archiveprefix = {arXiv},
+	primaryclass = {cs.NE}
 }
 @inproceedings{huang2016deep,
 	title        = {Deep networks with stochastic depth},
@@ -2087,46 +2075,64 @@
 	year         = 2016,
 	booktitle    = {European conference on computer vision},
 	pages        = {646--661},
+	doi          = {10.1007/978-3-319-46493-0_39},
 	organization = {Springer}
 }
 @inproceedings{ioffe2015batch,
-	title        = {Batch normalization: Accelerating deep network training by reducing internal covariate shift},
+	title        = {Batch normalization: accelerating deep network training by reducing internal covariate shift},
 	author       = {Ioffe, Sergey and Szegedy, Christian},
 	year         = 2015,
-	booktitle    = {International conference on machine learning},
+	booktitle    = {Proceedings of the 32nd International Conference on Machine Learning - Volume 37},
+	location     = {Lille, France},
+	publisher    = {JMLR.org},
+	series       = {ICML'15},
 	pages        = {448--456},
-	organization = {pmlr}
+	doi          = {10.5555/3045118.3045167},
+	numpages     = 9
 }
 @article{ba2016layer,
-	title        = {Layer normalization},
-	author       = {Ba, Jimmy Lei and Kiros, Jamie Ryan and Hinton, Geoffrey E},
+	title        = {Layer Normalization},
+	author       = {Jimmy Lei Ba and Jamie Ryan Kiros and Geoffrey E. Hinton},
 	year         = 2016,
-	journal      = {arXiv preprint arXiv:1607.06450}
+	doi          = {/10.48550/arXiv.1607.06450},
+	url          = {https://arxiv.org/abs/1607.06450},
+	eprint       = {1607.06450},
+	archiveprefix = {arXiv},
+	primaryclass = {stat.ML}
 }
 @inproceedings{lin2017feature,
-	title        = {Feature pyramid networks for object detection},
-	author       = {Lin, Tsung-Yi and Doll{\'a}r, Piotr and Girshick, Ross and He, Kaiming and Hariharan, Bharath and Belongie, Serge},
+	title        = {Feature Pyramid Networks for Object Detection},
+	author       = {Lin, Tsung-Yi and Dollár, Piotr and Girshick, Ross and He, Kaiming and Hariharan, Bharath and Belongie, Serge},
 	year         = 2017,
-	booktitle    = {Proceedings of the IEEE conference on computer vision and pattern recognition},
-	pages        = {2117--2125}
+	booktitle    = {2017 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)},
+	pages        = {936--944},
+	doi          = {10.1109/CVPR.2017.106}
 }
 @inproceedings{heinrich2018synaptic,
-	title        = {Synaptic cleft segmentation in non-isotropic volume electron microscopy of the complete drosophila brain},
+	title        = {Synaptic Cleft Segmentation in Non-isotropic Volume Electron Microscopy of the Complete Drosophila Brain},
 	author       = {Heinrich, Larissa and Funke, Jan and Pape, Constantin and Nunez-Iglesias, Juan and Saalfeld, Stephan},
 	year         = 2018,
-	booktitle    = {International Conference on Medical Image Computing and Computer-Assisted Intervention},
+	booktitle    = {Medical Image Computing and Computer Assisted Intervention - MICCAI 2018: 21st International Conference, Granada, Spain, September 16-20, 2018, Proceedings, Part II},
+	location     = {Granada, Spain},
+	publisher    = {Springer-Verlag},
+	address      = {Berlin, Heidelberg},
 	pages        = {317--325},
-	organization = {Springer}
+	doi          = {10.1007/978-3-030-00934-2_36},
+	isbn         = {978-3-030-00933-5},
+	url          = {https://doi.org/10.1007/978-3-030-00934-2_36},
+	abstract     = {Neural circuit reconstruction at single synapse resolution is increasingly recognized as crucially important to decipher the function of biological nervous systems. Volume electron microscopy in serial transmission or scanning mode has been demonstrated to provide the necessary resolution to segment or trace all neurites and to annotate all synaptic connections.Automatic annotation of synaptic connections has been done successfully in near isotropic electron microscopy of vertebrate model organisms. Results on non-isotropic data in insect models, however, are not yet on par with human annotation.We designed a new 3D-U-Net architecture to optimally represent isotropic fields of view in non-isotropic data. We used regression on a signed distance transform of manually annotated synaptic clefts of the CREMI challenge dataset to train this model and observed significant improvement over the state of the art.We developed open source software for optimized parallel prediction on very large volumetric datasets and applied our model to predict synaptic clefts in a 50 tera-voxels dataset of the complete Drosophila brain. Our model generalizes well to areas far away from where training data was available.},
+	numpages     = 9
 }
 @article{wang2020cnn,
-	title        = {CNN explainer: learning convolutional neural networks with interactive visualization},
-	author       = {Wang, Zijie J and Turko, Robert and Shaikh, Omar and Park, Haekyu and Das, Nilaksh and Hohman, Fred and Kahng, Minsuk and Chau, Duen Horng Polo},
-	year         = 2020,
+	title        = {CNN Explainer: Learning Convolutional Neural Networks with Interactive Visualization},
+	author       = {Wang, Zijie J. and Turko, Robert and Shaikh, Omar and Park, Haekyu and Das, Nilaksh and Hohman, Fred and Kahng, Minsuk and Polo Chau, Duen Horng},
+	year         = 2021,
 	journal      = {IEEE Transactions on Visualization and Computer Graphics},
-	publisher    = {IEEE},
 	volume       = 27,
 	number       = 2,
-	pages        = {1396--1406}
+	pages        = {1396--1406},
+	doi          = {10.1109/TVCG.2020.3030418},
+	keywords     = {Deep learning;Tools;Visualization;Mathematical model;Neurons;Convolutional neural networks;Deep learning;machine learning;convolutional neural networks;visual analytics}
 }
 @article{chelli2024hallucination,
 	title        = {Hallucination Rates and Reference Accuracy of {ChatGPT} and {Bard} for Systematic Reviews: Comparative Analysis},
@@ -2185,45 +2191,47 @@
 	doi          = {10.1038/s41551-025-01463-z},
 	url          = {https://www.nature.com/articles/s41551-025-01463-z}
 }
-
 @article{matula2015cell,
-  title={Cell tracking accuracy measurement based on comparison of acyclic oriented graphs},
-  author={Matula, Pavel and Ma{\v{s}}ka, Martin and Sorokin, Dmitry V and Matula, Petr and Ortiz-de-Sol{\'o}rzano, Carlos and Kozubek, Michal},
-  journal={PloS one},
-  volume={10},
-  number={12},
-  pages={e0144959},
-  year={2015},
-  publisher={Public Library of Science San Francisco, CA USA}
+	title        = {Cell tracking accuracy measurement based on comparison of acyclic oriented graphs},
+	author       = {Matula, Pavel and Ma{\v{s}}ka, Martin and Sorokin, Dmitry V and Matula, Petr and Ortiz-de-Sol{\'o}rzano, Carlos and Kozubek, Michal},
+	year         = 2015,
+	journal      = {PloS one},
+	publisher    = {Public Library of Science San Francisco, CA USA},
+	volume       = 10,
+	number       = 12,
+	pages        = {e0144959},
+	doi          = {10.1371/journal.pone.0144959}
 }
-
 @article{moshkov2020test,
-  title={Test-time augmentation for deep learning-based cell segmentation on microscopy images},
-  author={Moshkov, Nikita and Mathe, Botond and Kertesz-Farkas, Attila and Hollandi, Reka and Horvath, Peter},
-  journal={Scientific reports},
-  volume={10},
-  number={1},
-  pages={5068},
-  year={2020},
-  publisher={Nature Publishing Group UK London}
+	title        = {Test-time augmentation for deep learning-based cell segmentation on microscopy images},
+	author       = {Moshkov, Nikita and Mathe, Botond and Kertesz-Farkas, Attila and Hollandi, Reka and Horvath, Peter},
+	year         = 2020,
+	journal      = {Scientific reports},
+	publisher    = {Nature Publishing Group UK London},
+	volume       = 10,
+	number       = 1,
+	pages        = 5068,
+	doi          = {10.1038/s41598-020-61808-3}
 }
-
 @article{wang2019aleatoric,
-  title={Aleatoric uncertainty estimation with test-time augmentation for medical image segmentation with convolutional neural networks},
-  author={Wang, Guotai and Li, Wenqi and Aertsen, Michael and Deprest, Jan and Ourselin, S{\'e}bastien and Vercauteren, Tom},
-  journal={Neurocomputing},
-  volume={338},
-  pages={34--45},
-  year={2019},
-  publisher={Elsevier}
+	title        = {Aleatoric uncertainty estimation with test-time augmentation for medical image segmentation with convolutional neural networks},
+	author       = {Wang, Guotai and Li, Wenqi and Aertsen, Michael and Deprest, Jan and Ourselin, S{\'e}bastien and Vercauteren, Tom},
+	year         = 2019,
+	journal      = {Neurocomputing},
+	publisher    = {Elsevier},
+	volume       = 338,
+	pages        = {34--45},
+	doi          = {10.1016/j.neucom.2019.01.103}
 }
 @inproceedings{gallusser2024trackastra,
 	title        = {Trackastra: Transformer-based cell tracking for live-cell microscopy},
 	author       = {Gallusser, Benjamin and Weigert, Martin},
 	year         = 2024,
-	booktitle    = {European conference on computer vision},
-	pages        = {467--484},
-	organization = {Springer}
+	booktitle    = {Computer Vision -- {ECCV} 2024},
+	publisher    = {Springer Nature Switzerland},
+	address      = {Cham},
+	series       = {Lecture Notes in Computer Science},
+	doi          = {10.1007/978-3-031-73116-7_27}
 }
 @article{ashesh_bfmicromathbbsbfplit_2026,
 	title        = {Micro𝕊plit: : semantic unmixing of fluorescent microscopy data},
@@ -2258,17 +2266,6 @@
 	number       = 1,
 	doi          = {10.1038/s41467-020-18659-3},
 	issn         = {2041-1723}
-}
-@article{microns2025functional,
-	title        = {Functional connectomics spanning multiple areas of mouse visual cortex},
-	author       = {{The MICrONS Consortium} and Bae, J. Alexander and Baptiste, Mahaly and Baptiste, Maya R. and Bishop, Caitlyn A. and Bodor, Agnes L. and Brittain, Derrick and Brooks, Victoria and Buchanan, JoAnn and Bumbarger, Daniel J. and Castro, Manuel A. and Celii, Brendan and Cobos, Erick and Collman, Forrest and da Costa, Nuno Maçarico and Danskin, Bethanny and Dorkenwald, Sven and Elabbady, Leila and Fahey, Paul G. and Fliss, Tim and Froudarakis, Emmanouil and Gager, Jay and Gamlin, Clare and Gray-Roncal, William and Halageri, Akhilesh and Hebditch, James and Jia, Zhen and Joyce, Emily and Ellis-Joyce, Justin and Jordan, Chris and Kapner, Daniel and Kemnitz, Nico and Kinn, Sam and Kitchell, Lindsey M. and Koolman, Selden and Kuehner, Kai and Lee, Kisuk and Li, Kai and Lu, Ran and Macrina, Thomas and Mahalingam, Gayathri and Matelsky, Jordan and McReynolds, Sarah and Miranda, Elanine and Mitchell, Eric and Mondal, Shanka Subhra and Moore, Merlin and Mu, Shang and Muhammad, Taliah and Nehoran, Barak and Neace, Erika and Ogedengbe, Oluwaseun and Papadopoulos, Christos and Papadopoulos, Stelios and Patel, Saumil and Vega, Guadalupe Jovita Yasmin Perez and Pitkow, Xaq and Popovych, Sergiy and Ramos, Anthony and Reid, R. Clay and Reimer, Jacob and Rivlin, Patricia K. and Rose, Victoria and Sauter, Zachary M. and Schneider-Mizell, Casey M. and Seung, H. Sebastian and Silverman, Ben and Silversmith, William and Sterling, Amy and Sinz, Fabian H. and Smith, Cameron L. and Swanstrom, Rachael and Suckow, Shelby and Takeno, Marc and Tan, Zheng H. and Tolias, Andreas S. and Torres, Russel and Turner, Nicholas L. and Walker, Edgar Y. and Wang, Tianyu and Wanner, Adrian and Wester, Brock A. and Williams, Grace and Williams, Sarah and Willie, Kyle and Willie, Ryan and Wong, William and Wu, Jingpeng and Xu, Chris and Yang, Runzhe and Yatsenko, Dimitri and Ye, Fei and Yin, Wenjing and Young, Rob and Yu, Szi-chieh and Xenes, Daniel and Zhang, Chi},
-	year         = 2025,
-	journal      = {Nature},
-	volume       = 640,
-	number       = 8058,
-	pages        = {435--447},
-	doi          = {10.1038/s41586-025-08790-w},
-	issn         = {0028-0836}
 }
 @article{white1986structure,
 	title        = {The structure of the nervous system of the nematode Caenorhabditis elegans},
@@ -2689,11 +2686,13 @@
 	title        = {Label-free prediction of three-dimensional fluorescence images from transmitted-light microscopy},
 	author       = {Ounkomol, Chawin and Seshamani, Sharmishtaa and Maleckar, Mary M. and Collman, Forrest and Johnson, Gregory R.},
 	year         = 2018,
+	day          = {01},
 	journal      = {Nature Methods},
 	volume       = 15,
 	number       = 11,
 	pages        = {917--920},
-	doi          = {10.1038/s41592-018-0111-2}
+	doi          = {10.1038/s41592-018-0111-2},
+	issn         = {1548-7105}
 }
 @article{Christiansen2018InSilicoLabeling,
 	title        = {In silico labeling: Predicting fluorescent labels in unlabeled images},
@@ -2929,15 +2928,6 @@
 	number       = 7,
 	pages        = {1101--1115},
 	doi          = {10.1038/s41587-024-02386-x}
-}
-@article{Moshkov2024ImageBasedProfiling,
-	title        = {Learning representations for image-based profiling of perturbations},
-	author       = {Moshkov, Nikita and Bornholdt, Michael and Benoit, Santiago and Smith, Matthew and McQuin, Claire and Goodman, Allen and Senft, Rebecca A. and Han, Yu and Babadi, Mehrtasht and Horvath, Peter and Cimini, Beth A. and Carpenter, Anne E. and Singh, Shantanu and Caicedo, Juan C.},
-	year         = 2024,
-	journal      = {Nature Communications},
-	volume       = 15,
-	pages        = 1594,
-	doi          = {10.1038/s41467-024-45999-1}
 }
 @article{Wang2025MorphDiff,
 	title        = {Prediction of cellular morphology changes under perturbations with a transcriptome-guided diffusion model},
@@ -3418,12 +3408,6 @@
 	url          = {https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html},
 	urldate      = {2026-08-05}
 }
-@inproceedings{Dosovitskiy2021,
-	title        = {An Image is Worth 16x16 Words: Transformers for Image Recognition at Scale},
-	author       = {Alexey Dosovitskiy, and Alexander Kolesnikov, and Alexey Dosovitskiy, and Dirk Weissenborn, and Georg Heigold, and Jakob Uszkoreit, and Lucas Beyer, and Matthias Minderer, and Mostafa Dehghani, and Neil Houlsby, and Sylvain Gelly, and Thomas Unterthiner, and Xiaohua Zhai},
-	year         = 2021,
-	booktitle    = {International Conference on Learning Representations (ICLR)}
-}
 @incollection{carion2020endtoend,
 	title        = {End-to-End Object Detection with Transformers},
 	author       = {Carion, Nicolas and Massa, Francisco and Synnaeve, Gabriel and Usunier, Nicolas and Kirillov, Alexander and Zagoruyko, Sergey},
@@ -3611,4 +3595,427 @@
 	number       = 2,
 	doi          = {10.1214/aos/1016218223},
 	issn         = {0090-5364}
+}
+@article{weizenbaum1966,
+	title        = {{ELIZA}---a computer program for the study of natural language communication between man and machine},
+	author       = {Weizenbaum, Joseph},
+	year         = 1966,
+	journal      = {Communications of the ACM},
+	volume       = 9,
+	number       = 1,
+	pages        = {36--45},
+	doi          = {10.1145/365153.365168}
+}
+@article{shortliffe1975,
+	title        = {A model of inexact reasoning in medicine},
+	author       = {Shortliffe, Edward H. and Buchanan, Bruce G.},
+	year         = 1975,
+	journal      = {Mathematical Biosciences},
+	volume       = 23,
+	number       = {3-4},
+	pages        = {351--379},
+	doi          = {10.1016/0025-5564(75)90047-4}
+}
+@article{lowe2004,
+	title        = {Distinctive image features from scale-invariant keypoints},
+	author       = {Lowe, David G.},
+	year         = 2004,
+	journal      = {International Journal of Computer Vision},
+	volume       = 60,
+	number       = 2,
+	pages        = {91--110},
+	doi          = {10.1023/B:VISI.0000029664.99615.94}
+}
+@article{brin1998,
+	title        = {The anatomy of a large-scale hypertextual web search engine},
+	author       = {Brin, Sergey and Page, Lawrence},
+	year         = 1998,
+	journal      = {Computer Networks and ISDN Systems},
+	volume       = 30,
+	number       = {1-7},
+	pages        = {107--117},
+	doi          = {10.1016/S0169-7552(98)00110-X}
+}
+@inproceedings{he2022,
+	title        = {Masked autoencoders are scalable vision learners},
+	author       = {He, Kaiming and Chen, Xinlei and Xie, Saining and Li, Yanghao and Dollár, Piotr and Girshick, Ross},
+	year         = 2022,
+	booktitle    = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+	pages        = {16000--16009},
+	doi          = {10.1109/CVPR52688.2022.01553}
+}
+@article{breiman2001,
+	title        = {Random Forests},
+	author       = {Breiman, Leo},
+	year         = 2001,
+	journal      = {Machine Learning},
+	volume       = 45,
+	number       = 1,
+	pages        = {5--32},
+	doi          = {10.1023/A:1010933404324}
+}
+@article{ouyang_training_2022,
+	title        = {Training language models to follow instructions with human feedback},
+	author       = {Ouyang, Long and Wu, Jeffrey and Jiang, Xu and Almeida, Diogo and Wainwright, Carroll and Mishkin, Pamela and Zhang, Chong and Agarwal, Sandhini and Slama, Katarina and Ray, Alex and Schulman, John and Hilton, Jacob and Kelton, Fraser and Miller, Luke and Simens, Maddie and Askell, Amanda and Welinder, Peter and Christiano, Paul F. and Leike, Jan and Lowe, Ryan},
+	year         = 2022,
+	journal      = {Advances in Neural Information Processing Systems},
+	volume       = 35,
+	pages        = {27730--27744}
+}
+@article{microns2025functional,
+	title        = {Functional connectomics spanning multiple areas of mouse visual cortex},
+	author       = {{The MICrONS Consortium} and Bae, J. Alexander and Baptiste, Mahaly and Baptiste, Maya R. and Bishop, Caitlyn A. and Bodor, Agnes L. and Brittain, Derrick and Brooks, Victoria and Buchanan, JoAnn and Bumbarger, Daniel J. and Castro, Manuel A. and Celii, Brendan and Cobos, Erick and Collman, Forrest and da Costa, Nuno Maçarico and Danskin, Bethanny and Dorkenwald, Sven and Elabbady, Leila and Fahey, Paul G. and Fliss, Tim and Froudarakis, Emmanouil and Gager, Jay and Gamlin, Clare and Gray-Roncal, William and Halageri, Akhilesh and Hebditch, James and Jia, Zhen and Joyce, Emily and Ellis-Joyce, Justin and Jordan, Chris and Kapner, Daniel and Kemnitz, Nico and Kinn, Sam and Kitchell, Lindsey M. and Koolman, Selden and Kuehner, Kai and Lee, Kisuk and Li, Kai and Lu, Ran and Macrina, Thomas and Mahalingam, Gayathri and Matelsky, Jordan and McReynolds, Sarah and Miranda, Elanine and Mitchell, Eric and Mondal, Shanka Subhra and Moore, Merlin and Mu, Shang and Muhammad, Taliah and Nehoran, Barak and Neace, Erika and Ogedengbe, Oluwaseun and Papadopoulos, Christos and Papadopoulos, Stelios and Patel, Saumil and Vega, Guadalupe Jovita Yasmin Perez and Pitkow, Xaq and Popovych, Sergiy and Ramos, Anthony and Reid, R. Clay and Reimer, Jacob and Rivlin, Patricia K. and Rose, Victoria and Sauter, Zachary M. and Schneider-Mizell, Casey M. and Seung, H. Sebastian and Silverman, Ben and Silversmith, William and Sterling, Amy and Sinz, Fabian H. and Smith, Cameron L. and Swanstrom, Rachael and Suckow, Shelby and Takeno, Marc and Tan, Zheng H. and Tolias, Andreas S. and Torres, Russel and Turner, Nicholas L. and Walker, Edgar Y. and Wang, Tianyu and Wanner, Adrian and Wester, Brock A. and Williams, Grace and Williams, Sarah and Willie, Kyle and Willie, Ryan and Wong, William and Wu, Jingpeng and Xu, Chris and Yang, Runzhe and Yatsenko, Dimitri and Ye, Fei and Yin, Wenjing and Young, Rob and Yu, Szi-chieh and Xenes, Daniel and Zhang, Chi},
+	year         = 2025,
+	journal      = {Nature},
+	volume       = 640,
+	number       = 8058,
+	pages        = {435--447},
+	doi          = {10.1038/s41586-025-08790-w},
+	issn         = {0028-0836}
+}
+@inproceedings{ravi_sam_2025,
+	title        = {SAM 2: Segment Anything in Images and Videos},
+	author       = {Ravi, Nikhila and Gabeur, Valentin and Hu, Yuan-Ting and Hu, Ronghang and Ryali, Chaitanya and Ma, Tengyu and Khedr, Haitham and R{\"a}dle, Roman and Rolland, Chlo{\'e} and Gustafson, Laura and Mintun, Eric and Pan, Junting and Alwala, Kalyan Vasudev and Carion, Nicolas and Wu, Chao-Yuan and Girshick, Ross and Doll{\'a}r, Piotr and Feichtenhofer, Christoph},
+	year         = 2025,
+	booktitle    = {International Conference on Learning Representations (ICLR)},
+	doi          = {10.48550/arXiv.2408.00714},
+	eprint       = {2408.00714},
+	archiveprefix = {arXiv}
+}
+@inproceedings{carion_sam_2026,
+	title        = {SAM 3: Segment Anything with Concepts},
+	author       = {Carion, Nicolas and Gustafson, Laura and Hu, Yuan-Ting and Debnath, Shoubhik and Hu, Ronghang and Sur{\'i}s, D{\'i}dac and Ryali, Chaitanya and Alwala, Kalyan Vasudev and Khedr, Haitham and Huang, Andrew and others},
+	year         = 2026,
+	booktitle    = {International Conference on Learning Representations (ICLR)},
+	doi          = {10.48550/arXiv.2511.16719},
+	eprint       = {2511.16719},
+	archiveprefix = {arXiv}
+}
+@inproceedings{chen_simple_2020,
+	title        = {A simple framework for contrastive learning of visual representations},
+	author       = {Chen, Ting and Kornblith, Simon and Norouzi, Mohammad and Hinton, Geoffrey},
+	year         = 2020,
+	booktitle    = {Proceedings of the 37th {International} {Conference} on {Machine} {Learning}},
+	publisher    = {JMLR.org},
+	series       = {{ICML}'20},
+	volume       = 119,
+	pages        = {1597--1607},
+	url          = {https://dl.acm.org/doi/10.5555/3524938.3525087}
+}
+@inproceedings{caron_emerging_2021,
+	title        = {Emerging {Properties} in {Self}-{Supervised} {Vision} {Transformers}},
+	author       = {Caron, Mathilde and Touvron, Hugo and Misra, Ishan and Jegou, Herv{\'e} and Mairal, Julien and Bojanowski, Piotr and Joulin, Armand},
+	year         = 2021,
+	booktitle    = {2021 {IEEE}/{CVF} {International} {Conference} on {Computer} {Vision} ({ICCV})},
+	pages        = {9630--9640},
+	doi          = {10.1109/ICCV48922.2021.00951},
+	issn         = {2380-7504},
+	url          = {https://ieeexplore.ieee.org/document/9709990}
+}
+@inproceedings{devlin_bert_2019,
+	title        = {{BERT}: {Pre}-training of {Deep} {Bidirectional} {Transformers} for {Language} {Understanding}},
+	author       = {Devlin, Jacob and Chang, Ming-Wei and Lee, Kenton and Toutanova, Kristina},
+	year         = 2019,
+	booktitle    = {Proceedings of the 2019 {Conference} of the {North} {American} {Chapter} of the {Association} for {Computational} {Linguistics}: {Human} {Language} {Technologies}, {Volume} 1 ({Long} and {Short} {Papers})},
+	publisher    = {Association for Computational Linguistics},
+	address      = {Minneapolis, Minnesota},
+	pages        = {4171--4186},
+	doi          = {10.18653/v1/N19-1423},
+	url          = {https://aclanthology.org/N19-1423/}
+}
+@misc{zhang_qwen3_2025,
+	title        = {Qwen3 {Embedding}: {Advancing} {Text} {Embedding} and {Reranking} {Through} {Foundation} {Models}},
+	author       = {Zhang, Yanzhao and Li, Mingxin and Long, Dingkun and Zhang, Xin and Lin, Huan and Yang, Baosong and Xie, Pengjun and Yang, An and Liu, Dayiheng and Lin, Junyang and Huang, Fei and Zhou, Jingren},
+	year         = 2025,
+	doi          = {10.48550/arXiv.2506.05176},
+	url          = {https://arxiv.org/abs/2506.05176},
+	eprint       = {2506.05176},
+	archiveprefix = {arXiv},
+	primaryclass = {cs.CL}
+}
+@inproceedings{tong_videomae_2022,
+	title        = {{VideoMAE}: masked autoencoders are data-efficient learners for self-supervised video pre-training},
+	author       = {Tong, Zhan and Song, Yibing and Wang, Jue and Wang, Limin},
+	year         = 2022,
+	booktitle    = {Proceedings of the 36th {International} {Conference} on {Neural} {Information} {Processing} {Systems}},
+	publisher    = {Curran Associates Inc.},
+	address      = {Red Hook, NY, USA},
+	series       = {{NIPS} '22},
+	pages        = {10078--10093},
+	isbn         = {978-1-7138-7108-8}
+}
+@article{bardes_revisiting_2024,
+	title        = {Revisiting {Feature} {Prediction} for {Learning} {Visual} {Representations} from {Video}},
+	author       = {Bardes, Adrien and Garrido, Quentin and Ponce, Jean and Chen, Xinlei and Rabbat, Michael and LeCun, Yann and Assran, Mahmoud and Ballas, Nicolas},
+	year         = 2024,
+	journal      = {Transactions on Machine Learning Research},
+	issn         = {2835-8856},
+	url          = {https://openreview.net/forum?id=QaCCuDfBk2}
+}
+@misc{balestriero_lejepa_2025,
+	title        = {{LeJEPA}: {Provable} and {Scalable} {Self}-{Supervised} {Learning} {Without} the {Heuristics}},
+	author       = {Balestriero, Randall and LeCun, Yann},
+	year         = 2025,
+	doi          = {10.48550/arXiv.2511.08544},
+	url          = {https://arxiv.org/abs/2511.08544},
+	eprint       = {2511.08544},
+	archiveprefix = {arXiv},
+	primaryclass = {cs.LG}
+}
+@inproceedings{chen_big_2020,
+	title        = {Big self-supervised models are strong semi-supervised learners},
+	author       = {Chen, Ting and Kornblith, Simon and Swersky, Kevin and Norouzi, Mohammad and Hinton, Geoffrey},
+	year         = 2020,
+	booktitle    = {Proceedings of the 34th {International} {Conference} on {Neural} {Information} {Processing} {Systems}},
+	publisher    = {Curran Associates Inc.},
+	address      = {Red Hook, NY, USA},
+	series       = {{NIPS} '20},
+	pages        = {22243--22255},
+	isbn         = {978-1-7138-2954-6},
+	url          = {https://dl.acm.org/doi/10.5555/3495724.3497589}
+}
+@article{mccarthy1955,
+	title        = {A {Proposal} for the {Dartmouth} {Summer} {Research} {Project} on {Artificial} {Intelligence}, {August} 31, 1955},
+	author       = {McCarthy, John and Minsky, Marvin L. and Rochester, Nathaniel and Shannon, Claude E.},
+	year         = 2006,
+	journal      = {AI Magazine},
+	volume       = 27,
+	number       = 4,
+	pages        = {12--14},
+	note         = {Original proposal written in 1955}
+}
+@article{bray_cell_2016,
+	title        = {Cell {Painting}, a high-content image-based assay for morphological profiling using multiplexed fluorescent dyes},
+	author       = {Bray, Mark-Anthony and Singh, Shantanu and Han, Han and Davis, Chadwick T. and Borgeson, Blake and Hartland, Cathy and Kost-Alimova, Maria and Gustafsdottir, Sigrun M. and Gibson, Christopher C. and Carpenter, Anne E.},
+	year         = 2016,
+	journal      = {Nature Protocols},
+	volume       = 11,
+	number       = 9,
+	pages        = {1757--1774},
+	doi          = {10.1038/nprot.2016.105}
+}
+@misc{mcinnes_umap_2018,
+	title        = {{UMAP}: {Uniform} {Manifold} {Approximation} and {Projection} for {Dimension} {Reduction}},
+	author       = {McInnes, Leland and Healy, John and Melville, James},
+	year         = 2018,
+	doi          = {10.48550/arXiv.1802.03426},
+	eprint       = {1802.03426},
+	archiveprefix = {arXiv}
+}
+@article{mnih_human-level_2015,
+	title        = {Human-level control through deep reinforcement learning},
+	author       = {Mnih, Volodymyr and Kavukcuoglu, Koray and Silver, David and Rusu, Andrei A. and Veness, Joel and Bellemare, Marc G. and Graves, Alex and Riedmiller, Martin and Fidjeland, Andreas K. and Ostrovski, Georg and others},
+	year         = 2015,
+	journal      = {Nature},
+	volume       = 518,
+	number       = 7540,
+	pages        = {529--533},
+	doi          = {10.1038/nature14236}
+}
+@inproceedings{goodfellow_generative_2014,
+	title        = {Generative {Adversarial} {Networks}},
+	author       = {Goodfellow, Ian J. and Pouget-Abadie, Jean and Mirza, Mehdi and Xu, Bing and Warde-Farley, David and Ozair, Sherjil and Courville, Aaron and Bengio, Yoshua},
+	year         = 2014,
+	booktitle    = {Advances in {Neural} {Information} {Processing} {Systems}},
+	volume       = 27,
+	doi          = {10.48550/arXiv.1406.2661},
+	eprint       = {1406.2661},
+	archiveprefix = {arXiv}
+}
+@inproceedings{ho_denoising_2020,
+	title        = {Denoising {Diffusion} {Probabilistic} {Models}},
+	author       = {Ho, Jonathan and Jain, Ajay and Abbeel, Pieter},
+	year         = 2020,
+	booktitle    = {Advances in {Neural} {Information} {Processing} {Systems}},
+	volume       = 33,
+	doi          = {10.48550/arXiv.2006.11239},
+	eprint       = {2006.11239},
+	archiveprefix = {arXiv}
+}
+@inproceedings{lipman_flow_2023,
+	title        = {Flow {Matching} for {Generative} {Modeling}},
+	author       = {Lipman, Yaron and Chen, Ricky T. Q. and Ben-Hamu, Heli and Nickel, Maximilian and Le, Matthew},
+	year         = 2023,
+	booktitle    = {International {Conference} on {Learning} {Representations} ({ICLR})},
+	doi          = {10.48550/arXiv.2210.02747},
+	eprint       = {2210.02747},
+	archiveprefix = {arXiv}
+}
+@article{turaga_convolutional_2010,
+	title        = {Convolutional Networks Can Learn to Generate Affinity Graphs for Image Segmentation},
+	author       = {Turaga, Srinivas C. and Murray, Joseph F. and Jain, Viren and Roth, Fabian and Helmstaedter, Moritz and Briggman, Kevin and Denk, Winfried and Seung, H. Sebastian},
+	year         = 2010,
+	journal      = {Neural Computation},
+	volume       = 22,
+	number       = 2,
+	pages        = {511--538},
+	doi          = {10.1162/neco.2009.10-08-881}
+}
+@article{funke_large_2019,
+	title        = {Large Scale Image Segmentation with Structured Loss Based Deep Learning for Connectome Reconstruction},
+	author       = {Funke, Jan and Tschopp, Fabian and Grisaitis, William and Sheridan, Arlo and Singh, Chandan and Saalfeld, Stephan and Turaga, Srinivas C.},
+	year         = 2019,
+	journal      = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+	volume       = 41,
+	number       = 7,
+	pages        = {1669--1680},
+	doi          = {10.1109/TPAMI.2018.2835450}
+}
+@article{wolf_mutex_2021,
+	title        = {The Mutex Watershed and its Objective: Efficient, Parameter-Free Graph Partitioning},
+	author       = {Wolf, Steffen and Bailoni, Alberto and Pape, Constantin and Rahaman, Nasim and Kreshuk, Anna and K{\"o}the, Ullrich and Hamprecht, Fred A.},
+	year         = 2021,
+	journal      = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+	volume       = 43,
+	number       = 10,
+	pages        = {3724--3738},
+	doi          = {10.1109/TPAMI.2020.2980827}
+}
+@inproceedings{mais_patchperpix_2020,
+	title        = {{PatchPerPix} for Instance Segmentation},
+	author       = {Mais, Lisa and Hirsch, Peter and Kainmueller, Dagmar},
+	year         = 2020,
+	booktitle    = {Computer Vision -- {ECCV} 2020},
+	publisher    = {Springer International Publishing},
+	address      = {Cham},
+	series       = {Lecture Notes in Computer Science},
+	pages        = {288--304},
+	doi          = {10.1007/978-3-030-58595-2_18}
+}
+@article{lalit_embedseg_2022,
+	title        = {{EmbedSeg}: Embedding-based Instance Segmentation for Biomedical Microscopy Data},
+	author       = {Lalit, Manan and Tomancak, Pavel and Jug, Florian},
+	year         = 2022,
+	journal      = {Medical Image Analysis},
+	volume       = 81,
+	pages        = 102523,
+	doi          = {10.1016/j.media.2022.102523}
+}
+@inproceedings{broaddus_removing_2020,
+	title        = {Removing Structured Noise with Self-Supervised Blind-Spot Networks},
+	author       = {Broaddus, Coleman and Krull, Alexander and Weigert, Martin and Schmidt, Uwe and Myers, Gene},
+	year         = 2020,
+	booktitle    = {2020 {IEEE} 17th International Symposium on Biomedical Imaging ({ISBI})},
+	pages        = {159--163},
+	doi          = {10.1109/ISBI45749.2020.9098336}
+}
+@inproceedings{prakash_fully_2021,
+	title        = {Fully Unsupervised Diversity Denoising with Convolutional Variational Autoencoders},
+	author       = {Prakash, Mangal and Krull, Alexander and Jug, Florian},
+	year         = 2021,
+	booktitle    = {International {Conference} on {Learning} {Representations} ({ICLR})},
+	doi          = {10.48550/arXiv.2006.06072},
+	eprint       = {2006.06072},
+	archiveprefix = {arXiv}
+}
+@article{maska_cell_2023,
+	title        = {The Cell Tracking Challenge: 10 years of objective benchmarking},
+	author       = {Ma{\v s}ka, Martin and Ulman, Vladim{\'i}r and Delgado-Rodriguez, Pablo and G{\'o}mez-de-Mariscal, Estibaliz and Ne{\v c}asov{\'a}, Tereza and Guerrero Pe{\~n}a, Fidel A. and Ren, Tsang Ing and Meyerowitz, Elliot M. and Scherr, Tim and L{\"o}ffler, Katharina and Mikut, Ralf and Guo, Tianqi and Wang, Yin and Allebach, Jan P. and Bao, Rina and Al-Shakarji, Noor M. and Rahmon, Gani and Toubal, Imad Eddine and Palaniappan, Kannappan and Lux, Filip and Matula, Petr and Sugawara, Ko and Magnusson, Klas E. G. and Aho, Layton and Cohen, Andrew R. and Arbelle, Assaf and Ben-Haim, Tal and Riklin Raviv, Tammy and Isensee, Fabian and J{\"a}ger, Paul F. and Maier-Hein, Klaus H. and Zhu, Yanming and Ederra, Cristina and Urbiola, Ainhoa and Meijering, Erik and Cunha, Alexandre and Mu{\~n}oz-Barrutia, Arrate and Kozubek, Michal and Ortiz-de-Sol{\'o}rzano, Carlos},
+	year         = 2023,
+	journal      = {Nature Methods},
+	volume       = 20,
+	number       = 7,
+	pages        = {1010--1020},
+	doi          = {10.1038/s41592-023-01879-y}
+}
+@article{jaqaman_robust_2008,
+	title        = {Robust single-particle tracking in live-cell time-lapse sequences},
+	author       = {Jaqaman, Khuloud and Loerke, Dinah and Mettlen, Marcel and Kuwata, Hirotaka and Grinstein, Sergio and Schmid, Sandra L. and Danuser, Gaudenz},
+	year         = 2008,
+	journal      = {Nature Methods},
+	volume       = 5,
+	number       = 8,
+	pages        = {695--702},
+	doi          = {10.1038/nmeth.1237}
+}
+@article{ershov_trackmate_2022,
+	title        = {{TrackMate} 7: integrating state-of-the-art segmentation algorithms into tracking pipelines},
+	author       = {Ershov, Dmitry and Phan, Minh-Son and Pylv{\"a}n{\"a}inen, Joanna W. and B{\"a}urle, St{\'e}phane and Perez-Sala, Pablo Gonzalez and Ariotti, Sara and Fernandez-Rodriguez, Ana and Sabata, Bruno and Vranken, Vincent and Kaskova Gheorghe, Andreea and Jacquemet, Guillaume and Tinevez, Jean-Yves},
+	year         = 2022,
+	journal      = {Nature Methods},
+	volume       = 19,
+	number       = 7,
+	pages        = {829--832},
+	doi          = {10.1038/s41592-022-01507-1}
+}
+@article{loffler_embedtrack_2022,
+	title        = {{EmbedTrack} -- Simultaneous Cell Segmentation and Tracking Through Learning Offsets and Clustering Bandwidths},
+	author       = {L{\"o}ffler, Katharina and Mikut, Ralf},
+	year         = 2022,
+	journal      = {IEEE Access},
+	volume       = 10,
+	pages        = {77147--77157},
+	doi          = {10.1109/ACCESS.2022.3192880}
+}
+@article{geirhos_shortcut_2020,
+	title        = {Shortcut learning in deep neural networks},
+	author       = {Geirhos, Robert and Jacobsen, J{\"o}rn-Henrik and Michaelis, Claudio and Zemel, Richard and Brendel, Wieland and Bethge, Matthias and Wichmann, Felix A.},
+	year         = 2020,
+	journal      = {Nature Machine Intelligence},
+	volume       = 2,
+	number       = 11,
+	pages        = {665--673},
+	doi          = {10.1038/s42256-020-00257-z}
+}
+@article{caicedo_data-analysis_2017,
+	title        = {Data-analysis strategies for image-based cell profiling},
+	author       = {Caicedo, Juan C. and Cooper, Sam and Heigwer, Florian and Warchal, Scott and Qiu, Peng and Molnar, Csaba and Vasilevich, Aliaksei S. and Barry, Joseph D. and Bansal, Harmanjit Singh and Kraus, Oren and Wawer, Mathias and Paavolainen, Lassi and Herrmann, Markus D. and Rohban, Mohammad and Hung, Jane and Hennig, Holger and Concannon, John and Smith, Ian and Clemons, Paul A. and Singh, Shantanu and Rees, Paul and Horvath, Peter and Linington, Roger G. and Carpenter, Anne E.},
+	year         = 2017,
+	journal      = {Nature Methods},
+	volume       = 14,
+	number       = 9,
+	pages        = {849--863},
+	doi          = {10.1038/nmeth.4397}
+}
+@article{zech_variable_2018,
+	title        = {Variable generalization performance of a deep learning model to detect pneumonia in chest radiographs: A cross-sectional study},
+	author       = {Zech, John R. and Badgeley, Marcus A. and Liu, Manway and Costa, Anthony B. and Titano, Joseph J. and Oermann, Eric Karl},
+	year         = 2018,
+	journal      = {PLOS Medicine},
+	volume       = 15,
+	number       = 11,
+	pages        = {e1002683},
+	doi          = {10.1371/journal.pmed.1002683}
+}
+@inproceedings{kingma_auto-encoding_2014,
+	title        = {Auto-Encoding Variational Bayes},
+	author       = {Kingma, Diederik P. and Welling, Max},
+	year         = 2014,
+	booktitle    = {International {Conference} on {Learning} {Representations} ({ICLR})},
+	doi          = {10.48550/arXiv.1312.6114},
+	eprint       = {1312.6114},
+	archiveprefix = {arXiv}
+}
+@inproceedings{adebayo_sanity_2018,
+	title        = {Sanity {Checks} for {Saliency} {Maps}},
+	author       = {Adebayo, Julius and Gilmer, Justin and Muelly, Michael and Goodfellow, Ian and Hardt, Moritz and Kim, Been},
+	year         = 2018,
+	booktitle    = {Advances in {Neural} {Information} {Processing} {Systems}},
+	volume       = 31,
+	doi          = {10.48550/arXiv.1810.03292},
+	eprint       = {1810.03292},
+	archiveprefix = {arXiv}
+}
+@inproceedings{guo_calibration_2017,
+	title        = {On {Calibration} of {Modern} {Neural} {Networks}},
+	author       = {Guo, Chuan and Pleiss, Geoff and Sun, Yu and Weinberger, Kilian Q.},
+	year         = 2017,
+	booktitle    = {Proceedings of the 34th International Conference on Machine Learning},
+	series       = {Proceedings of Machine Learning Research},
+	volume       = 70,
+	pages        = {1321--1330},
+	doi          = {10.48550/arXiv.1706.04599},
+	eprint       = {1706.04599},
+	archiveprefix = {arXiv}
+}
+@inproceedings{ovadia_can_2019,
+	title        = {Can {You} {Trust} {Your} {Model}'s {Uncertainty}? {Evaluating} {Predictive} {Uncertainty} {Under} {Dataset} {Shift}},
+	author       = {Ovadia, Yaniv and Fertig, Emily and Ren, Jie and Nado, Zachary and Sculley, D. and Nowozin, Sebastian and Dillon, Joshua V. and Lakshminarayanan, Balaji and Snoek, Jasper},
+	year         = 2019,
+	booktitle    = {Advances in {Neural} {Information} {Processing} {Systems}},
+	volume       = 32,
+	pages        = {13969--13980},
+	doi          = {10.48550/arXiv.1906.02530},
+	eprint       = {1906.02530},
+	archiveprefix = {arXiv}
 }
