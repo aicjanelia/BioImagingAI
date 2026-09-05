@@ -7,6 +7,9 @@ Training Data: |
 Batch Effects: |
   Systematic technical differences between groups of samples that arise from preparation, handling, acquisition, or processing rather than from the biological variable of interest.
 
+Shortcut Learning: |
+  A model solving a task by relying on an incidental correlation in the training data rather than on the intended signal, for example predicting a treatment from the acquisition batch that produced the images instead of from the biological effect.
+
 Domain Shift: |
   A systematic difference between the data used to train a model and the data to which it is later applied, for example because specimens, preparation protocols, microscopes, or acquisition settings differ.
 
@@ -44,7 +47,7 @@ Instance Segmentation: |
   A segmentation task that not only separates objects from the background but also distinguishes between individual objects of the same type (e.g., separating touching cells one by one).
 
 Distance Transform: |
-  A transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In [instance segmentation](glossary.qmd#instance-segmentation), distance transforms are commonly used to help separate touching or overlapping objects—for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a binary mask into individual instances.
+  A transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In [instance segmentation](glossary.qmd#instance-segmentation), distance transforms are commonly used to help separate touching or overlapping objects, for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a binary mask into individual instances.
 
 Confidence Score: |
   A continuous value, often between 0 and 1, that reflects how certain a model is about a given prediction. Unlike a [distance transform](glossary.qmd#distance-transform), which encodes geometric information such as position within an object, a confidence score expresses the model's belief that a prediction is correct --- for example, that a pixel belongs to the foreground class or that a detected object was correctly identified during [object detection](glossary.qmd#object-detection). Confidence scores are useful for filtering predictions, such as discarding low-confidence detections, but a high confidence score does not guarantee a correct prediction, particularly when a model is poorly calibrated.
@@ -121,6 +124,9 @@ Effect Size: |
 
 Ground Truth: |
   Accurate data against which a model can be evaluated. Ground truth data is often manually annotated. The data type itself will vary depending on the task and evaluation. e.g. instance segmentation may be compared to ground truth object counts or masks.
+
+Data Provenance: |
+  The record of how each file in a dataset came to be and what produced it, forming a graph in which every file is a node and every processing step an edge back to the files it was derived from. Acquisition is the first node, holding the specimen, instrument, and settings that produced the raw image. Later nodes cover processing steps with their order and parameters, targets with the annotator, model, or script that generated them and the review they received, and the assignment of examples to splits. Provenance is what allows a result to be traced back to the raw data, corrected, and reproduced.
 
 Metadata: |
   Any data that provides additional information about other data. In bioimaging, examples include information about sample preparation, the imaging instrument, and image acquisition parameters.
@@ -382,7 +388,7 @@ Hausdorff Distance : |
   A small Hausdorff distance means every point on one boundary has a close counterpart on the other.
 
 Average Precision : |
-  Average Precision (AP) summarizes the precision–recall trade-off across confidence thresholds.
+  Average Precision (AP) summarizes the precision-recall trade-off across confidence thresholds.
   A predicted instance counts as a true positive only if its [IoU](glossary.qmd#IoU) with a ground-truth instance exceeds a threshold $x$:
 
   $$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
