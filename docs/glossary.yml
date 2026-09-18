@@ -564,11 +564,8 @@ Balanced Dataset : |
 Class : |
   A class describes the group or category an image, pixel, or object falls into. This includes distinguishing dataset types such as "control" or "mutant," as well as distinguishing "foreground" and "background" pixels.
 
-Contact Sheet : |
-  In histopathology, a contact sheet is a document that records metadata such as patient information or clinical history in addition to specimen details.
-
 Computing Cluster : |
-  An computing cluster connects individual computers (nodes) into a fast network that allows them to act as a more powerful computer.
+  A computing cluster connects individual computers (nodes) into a fast network that allows them to act as a more powerful computer.
 
 Object storage : |
   Object stoarge is a computer storage architecture that views data as blobs or objects, rather than a traditional file system file hierarchy. This has advanatges for indexing and metadata management.
