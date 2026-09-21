@@ -16,8 +16,8 @@ author:
         postal-code:  
 subtitle: How to pick a model?
 # jupyter: python3
-# execute:
-#     cache: true
+execute:
+    cache: true
 bibliography: references.bib
 ---
 
