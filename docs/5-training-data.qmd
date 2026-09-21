@@ -1,173 +1,170 @@
 ---
-author: 
+author:
   - name: Martin Weigert
     orcid: 0000-0002-7780-9057
     affiliations:
-      - name: École Polytechnique Fédérale de Lausanne
-        country: Switzerland
-  - name: Add any co-authors as appropriate
-    orcid: 
-    affiliations:
-      - name: 
-        state: 
-        country: 
-        postal-code: 
+      - name: Center for Scalable Data Analytics and Artificial Intelligence (ScaDS.AI), Technische Universität Dresden
+        country: Germany
 subtitle: Image Collection and Considerations
 ---
 
 # Collecting Training Data {#sec-training}
-<!--Your first header will be the chapter's upper-level table of contents title.-->
-<!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
-Under your first header, include a brief introduction to your chapter.
+::: {.content-visible when-format="pdf"}
+| **Martin Weigert**
+| *Center for Scalable Data Analytics and Artificial Intelligence (ScaDS.AI), Technische Universität Dresden*
+| 
+:::
 
-Starting prompt for this chapter: Chapter 5 discusses collecting, annotating and validating training data. It should highlight potential pitfalls such as balanced data sets, out-of-distribution problems, etc. It should also address the question: how do you collect training data on your microscope? For example, this chapter should discuss collecting low/high-laser power pairs for the purpose of training an image restoration model.
+Imagine training a [denoising](glossary.qmd#denoising) model from paired fluorescence images with low and high [signal-to-noise ratios](glossary.qmd#signal-to-noise-ratio). Training proceeds normally and the [loss](glossary.qmd#loss-function) decreases, yet fine structures in the restored images look blurred. You later discover that the sample moved between acquisitions, misaligning the input and [target](glossary.qmd#training-target). Each image looked plausible in isolation, but the pair was inconsistent. Or consider a segmentation model whose [normalization](glossary.qmd#normalization) parameters (discussed in @sec-norm-intensity) were estimated from the training images. Later images acquired with a different detector gain are ten times brighter and fall outside the training range, leading to poor segmentations despite looking familiar in an automatically scaled display. A decreasing training loss alone does not show whether input-target pairs are aligned or whether later images match the training conditions. Model performance depends strongly on accurate and representative training examples [@moen2019; @Hagen2021], yet misaligned targets and mismatches between training and later images can remain hidden unless you inspect the data. These failures are examples of [silent data bugs](glossary.qmd#silent-error).
 
-## The importance of good training data
+Understanding how microscope images are formed and acquired helps you recognize and explain such data bugs. The optics, detector, acquisition settings, and specimen preparation determine which structures are visible and how their intensities are recorded, so knowing their effects helps you distinguish biological variation from artifacts and acquisition differences. The practical goal is to **become one with the data**: inspect it often enough that unusual images, artifacts, and mismatched pairs become apparent. The chapter begins with planning data collection and independent splits. It then follows the data through acquisition and preparation to checks of the images and targets that reach the model.
 
-Why training data quality and diversity are the main drivers of success in AI applications?
+## Planning what to collect
 
-- High-quality and diverse data often matter more than model architecture (“you are what you eat”).
-- More data is better—but only if it’s well-curated and representative.
-- Poor data silently harms performance; robust models require representative variability.
+### Defining the task and supervision
 
-## Data types, formats, and labeling strategies
+Fluorescence images of nuclei can be used to classify cells by phenotype or to outline individual nuclei, but these tasks require different [training targets](glossary.qmd#training-target). During training, predictions are compared with these targets to calculate the training error. For example, phenotype labels identify the class of each cell, whereas [segmentation masks](glossary.qmd#segmentation-mask) describe the extent of each nucleus. Before collecting images, you therefore need to specify both the intended output and the labels or reference measurements needed for training, as illustrated for common tasks in @tbl-task-data.
 
-What are the typical imaging tasks and modalities, and how to generate or obtain corresponding ground truth labels?
+| Task | Intended output | Typical training data |
+|---|---|---|
+| Classification | Class assigned to a cell, image, or specimen | Images or image regions paired with labels |
+| Segmentation | Pixel classes or individually outlined objects | Images paired with class or instance masks for full supervision, or sparse annotations such as points or scribbles for weak supervision |
+| Image restoration and translation | Image with less noise, blur, or scattering, or with a predicted staining pattern | Matched images of the same specimen, such as short- and long-exposure images, low- and high-NA images, or unstained and stained images |
+| Tracking | Object identities and links across time, including divisions where relevant | Image sequences with annotated object positions or masks and links between time points |
 
-- Common tasks include classification, restoration, segmentation; data are 2D/3D+t, multi-channel, 8/16-bit stacks.
-- Ground truth can come from manual annotation, dual acquisition (e.g., high/low power), or informative channels.
-- Synthetic or weak supervision is helpful, but often limited by oversimplified assumptions.
+: Task-specific training-data requirements {#tbl-task-data}
 
-## Collecting and curating data from the microscope
+Even after choosing the task, the supervision method can change what you need to acquire. For [denoising](glossary.qmd#denoising) (discussed in detail in @sec-Image-Restoration), a higher-signal reference must show the same structures as the noisy input, but acquiring it may introduce motion blur or bleaching. Two short, noisy exposures can instead serve as input and target, provided they capture the same underlying signal with independent noise [@Lehtinen2018]. When even paired acquisitions are not possible, [self-supervised learning](glossary.qmd#self-supervised-learning) offers an alternative using individual noisy images. For example, Noise2Void predicts hidden pixels from their surroundings, using their original noisy values as training targets. This relies on spatially independent noise and predictable image structure [@Krull2019]. Choose the supervision method before acquisition, because a missing reference channel or repeated exposure may be impossible to obtain later.
 
-What is the practical guidance on structured image acquisition and quality control before using data for training?
+### Choosing representative samples
 
-- Plan acquisitions to cover biological variability under consistent settings and with metadata retention.
-- Use automation (e.g., μManager) and open formats for systematic, reproducible collection.
-- Visual and automated checks (outliers, file consistency, label alignment) are critical to ensure usable datasets.
+Changes in staining, illumination, or detector settings can make images of the same biological structures look different and a model may fail on later acquisitions if its training data do not cover these differences. Such a systematic difference in the distribution of images, labels, or their relationship between training and later data is called [domain shift](glossary.qmd#domain-shift). The bottom row of @fig-training-data-mismatches illustrates an extreme example: a denoising model trained on nuclei is applied to membrane images and fails to preserve their thin boundaries. Another example is classifying control and treated samples that were stained using different protocols. Such a systematic influence of staining on image appearance, called a [batch effect](glossary.qmd#batch-effects), may let the model distinguish the groups by staining rather than by the biology [@geirhosShortcutLearningDeep2020]. If the staining protocol changes again in later acquisitions, the same batch effect can also cause domain shift.
 
-## Splitting data and building robust validation
+To address these problems, collect independent specimens from each condition you plan to analyze, rather than relying on many images from one experiment. Sampling different regions within each specimen captures variation in structure, object density, and signal level, but cannot show how these features change between experiments. Including control and treated samples in the same experiments and acquisition batches then helps separate biological differences from technical effects [@bertramDataSetCreation2026]. Having relevant variation in the training data provides a form of insurance against failures on later experiments, so filling gaps in coverage should take priority over acquiring more similar images. Rotations, flips, intensity changes, or simulated noise can introduce variation through [data augmentation](glossary.qmd#data-augmentation), provided they are physically and biologically plausible for the task. Spatial transformations must be identical for paired inputs and targets. Although augmentation can increase the nominal training-set size, it creates transformed versions of existing measurements and does not add independent specimens or experiments.
 
-What is the proper dataset splitting and how to ensure meaningful model evaluation?
+### Planning independent splits
 
-- Use train/validation/test splits: only the test set evaluates final model performance.
-- Validation must reflect the intended use case—ideally different experiments, microscopes, or conditions.
-- Avoid data leakage (e.g., adjacent slices in train/test) to ensure unbiased evaluation.
+If images from the same embryo appear in both the [training](glossary.qmd#training-data) and [test](glossary.qmd#test-data) data, a model may perform well on the test images without handling a new embryo equally well. Planning the split before acquisition helps ensure that evaluation includes specimens the model has not encountered during training. As explained in [Chapter 4](4-architectures.qmd#training-neural-networks), [training data](glossary.qmd#training-data) are used to fit the model, while [validation data](glossary.qmd#validation-data) help choose settings and decide when to stop training. Because these choices already use the validation results, a separate [test set](glossary.qmd#test-data) is needed for the final evaluation. For a model intended for new specimens, keep all images from each specimen in one split, including crops, neighboring frames, and augmented copies. Otherwise, related examples can cross the split and produce an overly optimistic evaluation, a form of [data leakage](glossary.qmd#data-leakage). If the model must also handle new experiments or acquisition batches, reserve complete experiments or batches for testing. Allow for these held-out samples when planning data collection, so that enough independent specimens remain for both training and evaluation.
 
-## Dealing with imbalance and data augmentation
+## Collecting and preparing data
 
-What are the common practical challenges and techniques to improve model generalization?
+### Understanding the image measurements
 
-- Class imbalance can skew learning—oversample minority classes or use weighting strategies.
-- Out-of-distribution issues arise with domain shifts; mitigate via diverse training data and testing.
-- Augmentation helps simulate variation or artifacts, but must respect biological plausibility.
+A microscope is a physical measurement device whose optical properties, detector response, and pixel size are often well characterized. Knowing these parameters helps relate pixel values to properties of the specimen, but doing so requires understanding how the optics and detector affect the measured signal. For example, a fluorescence image can become brighter because the specimen contains more fluorophores or because the exposure time or detector gain has increased. Similarly, whether two nearby structures appear distinct depends on optical resolution and spatial sampling. Understanding these relationships helps you distinguish biological differences from acquisition effects when selecting training images. @tbl-microscopy-acquisition summarizes how common acquisition factors affect training images.
 
-## Include section headers as appropriate
+| Factor | Effect on the image |
+|---|---|
+| Optical resolution/Numerical Aperture | Optical blur limits detail, pixel spacing determines sampling |
+| Intensity and dynamic range | Illumination and detector settings affect intensities, saturation clips bright signals |
+| Noise and background | Noise introduces fluctuations, background can obscure structures |
+| Exposure and laser power | Longer exposures can reduce noise but create blur, illumination can cause bleaching and phototoxicity [@laissueAssessingPhototoxicityLive2017a] |
 
-Use markdown heading level two for section headers. You can use standard markdown formatting, for example _emphasize the end of this sentence_.
+: Acquisition factors and their effects on microscopy images {#tbl-microscopy-acquisition}
 
-This is a new paragraph with more text. Your paragraphs can cross reference other items, such as @fig-simple. Use `fig` to reference figures, and `eq` to reference equations, such as @eq-stddev.
+For moving specimens, a longer exposure may reduce noise while blurring the boundaries you want the model to identify. In that case, shorter, noisier acquisitions may provide more useful training images. Acquisition settings should therefore preserve the structures or changes needed for the task, even when another setting produces a cleaner-looking image.
 
-###  Sub-subsection headers are also available
+### Checking images during acquisition
 
-To make your sections cross reference-able throughout the book, include a section reference, as shown in the header for @sec-equation.
+Use the acquisition software's saturation indicator to check whether bright structures are clipped. Automatic contrast adjustment can make an image look well exposed even when intensity differences in those regions have been lost. If structures needed for the analysis are saturated, adjust the acquisition settings before collecting more images. Check that the pixel size is small enough to sample the detail resolved by the optics ([Nyquist criterion](glossary.qmd#nyquist-sampling)) [@jonkmanTutorialGuidanceQuantitative2020]. Pixel size also determines how large those structures appear to the model. For example, doubling the pixel size makes the same cell span half as many pixels across, which can reduce performance unless the model has been designed to handle this variation. Verify the pixel size in the acquisition metadata, since the objective alone does not determine it. In 3D images, the axial spacing is often larger than the lateral pixel size. This matters for augmentation because rotations that exchange the z-axis with x or y also exchange differently sampled directions. For anisotropic stacks with equal x and y spacing, 90° rotations within the xy plane preserve the sampling geometry, provided the biological orientation permits them. Differences in axial spacing between training and later acquisitions can also change how structures appear across slices, even when the lateral pixel size is unchanged. Record the spacing along each axis so that later processing can account for these differences. For example, stacks acquired with a larger axial step can be resampled along z to match the training spacing before prediction, or training augmentations can rescale the z spacing such that the model is robust to them.
 
-## Bibliography and Citations
+### Keeping data traceable
 
-To cite a research article, add it to references.bib and then refer to the citation key. For example, reference @stringer2021 refers to CellPose and reference @von_chamier2021 refers to ZeroCostDL4Mic.
+If cells occupy fewer pixels in one image than another, acquisition metadata helps you check whether the pixel size changed. Each image should therefore remain linked to its specimen and acquisition settings, including the channels, exposure, and pixel size [@laine2021]. Resampling can also change how many pixels a cell occupies, so acquisition settings alone may not explain the difference. The record therefore needs to include the source image and the methods and settings used to produce each processed image or target. This history is called [data provenance](glossary.qmd#data-provenance). Acquisition settings can often be stored directly in the image metadata, while a versioned table or short README can document the subsequent processing. For annotations, this history includes the criteria used, who reviewed them, and which version belongs to the dataset. If a mask was annotated on a cropped or resampled image, the annotated region and [coordinate transformation](glossary.qmd#coordinate-transformation) are also needed to relate it to the source. Keeping these links makes it possible to trace a corrected annotation to the datasets that need updating. Shared identifiers in filenames help maintain these links, but pairing files by their sorted positions can silently break them (@wrn-filenames).
 
-## Adding to the Glossary
+::: {#wrn-filenames .callout-warning title="Sorting can silently misalign inputs and targets"}
 
-We are using R code to create a glossary for this book. To add a definition, edit the glossary.yml file. To reference the glossary, enclose the word as in these examples: LLMs suffer from [hallucinations](glossary.qmd#hallucinations). It is important to understand the underlying [training data](glossary.qmd#training-data), [validation data](glossary.qmd#validation-data) and [false positives](glossary.qmd#false-positives) to interpret your results. Clicking on the word will reveal its definition by taking you to the entry on the [Glossary](#sec-glossary) page. Pressing back in your browser will return you to your previous place in the textbook. 
+Include a unique identifier in filenames, such as a [UUID](glossary.qmd#uuid) or a timestamp combined with a sequence number, and share it between corresponding images and targets. To keep corresponding files in the same sort order, place the identifier consistently and zero-pad sequence numbers, as in `20300517T143052_0001_image.ome.tif`. Separating the fields with underscores or hyphens also simplifies scripted access. Without fixed-width numbers, sorting images and masks separately can produce different orders. For example,
 
-## Code and Equations {#sec-equation}
-
-This is an example of including a python snippet that generates a figure
-
-```{python}
-#| label: fig-simple
-#| fig-cap: "Simple Plot"
-import matplotlib.pyplot as plt
-plt.plot([1,23,2,4])
-plt.show()
+```
+file1.tif      file1_mask.tif
+file11.tif     file11_mask.tif
 ```
 
+becomes
 
-In some cases, you may want to include a code-block that is not executed when the book is compiled. Use the `eval: false` option for this.
-
-```{python}
-#| eval: false
-import matplotlib.pyplot as plt
-plt.plot([1,23,2,4])
-plt.show()
+```
+file1.tif      file11_mask.tif
+file11.tif     file1_mask.tif
 ```
 
+Pairing these sorted lists mismatches both targets. Match images and targets by their shared identifier, such as `file1`, rather than their positions in the lists, and check that every expected pair is present. This also prevents a missing file from shifting all subsequent pairs.
 
-Figures can also be generated that do not show the code by using the option for `code-fold: true`.
-
-```{python}
-#| code-fold: true
-#| label: fig-polar
-#| fig-cap: "A spiral on a polar axis"
-#| fig-alt: "A line plot on a polar axis. The line spirals out from a value of zero to a value of 2."
-
-import numpy as np
-import matplotlib.pyplot as plt
-
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-fig, ax = plt.subplots(
-  subplot_kw = {'projection': 'polar'} 
-)
-ax.plot(theta, r)
-ax.set_rticks([0.5, 1, 1.5, 2])
-ax.grid(True)
-plt.show()
-```
-
-Here is an example equation.
-
-$$
-s = \sqrt{\frac{1}{N-1} \sum_{i=1}^N (x_i - \overline{x})^2}
-$$ {#eq-stddev}
-
-### Embedding Figures
-
-You can also embed figures from other notebooks in the repo as shown in the following embed example.
-
-
-{{< embed ../notebooks/test.ipynb#fig-test-fig echo-true >}}
-
-When embedding notebooks, please store the .ipynb file in the notebook directory. Include the chapter in the name of your file. For example, `chapter4_example_u-net.ipynb`. This is how we will handle chapter- or example-specific environments. We will host notebooks on Google Colab so that any required packages for the code--but not for rendering the book at large--will be installed there. That way, we will not need to handle a global environment across the book.
-
-## Quarto has additional features.
-
-You can learn more about markdown options and additional Quarto features in the [Quarto documentation](https://quarto.org/docs/authoring/markdown-basics.html).  One example that you might find interesting is the option to include callouts in your text. These callouts can be used to highlight potential pitfalls or provide additional optional exercises that the reader might find helpful. Below are examples of the types of callouts available in Quarto.
-
-::: {.callout-note}
-Note that there are five types of callouts, including:
-`note`, `tip`, `warning`, `caution`, and `important`. They can default to open (like this example) or collapsed (example below).
 :::
 
-::: {.callout-tip collapse="true"}
-These could be good for extra material or exercises.
+### Acquiring and generating targets
+
+For segmentation, carefully reviewed manual annotations are often the best available [ground truth](glossary.qmd#ground-truth), a reference accepted as accurate for a particular task. However, annotating every object manually becomes time-consuming as datasets grow, particularly for 3D images and time-lapse sequences. To reduce this effort, you can start from masks proposed by traditional image processing or pretrained models and correct them, as described in @sec-9.3.4.3. Both manual and assisted annotation require clear criteria for ambiguous cases, such as faint nuclei or dividing cells, so that objects are annotated and counted consistently. Having a second person independently annotate a small subset can help identify criteria that need clarification. Because errors in model-generated labels, often called [pseudo-labels](glossary.qmd#pseudo-label), can be easy to overlook, review the suggested masks using the same criteria as manual annotations.
+
+For denoising, you can acquire a short-exposure input and a longer-exposure reference from the same field of view, or construct the reference by averaging repeated exposures. Acquiring the reference takes additional time and light exposure, which may increase bleaching, motion blur, or phototoxicity. Noise2Noise avoids the high-signal reference by using two noisy acquisitions instead [@Lehtinen2018]. Choose the acquisition sequence before collecting the dataset, and record the exposure settings, acquisition order, and interval between images so that the pairs can be checked afterward.
+
+An additional imaging channel can make target generation largely automatic when it reveals structures that are difficult to annotate in the intended input. For example, nuclei that are hard to annotate in brightfield may be easier to segment in fluorescence using a nuclear marker such as H2B-GFP. If you acquire both channels together, you can automatically segment the fluorescence images and use the resulting masks as targets for the corresponding brightfield inputs. You can then review and correct these masks instead of manually annotating each nucleus in brightfield, reducing the manual work needed to generate training pairs. In histopathology, a tissue section can similarly be restained with an antibody that labels a certain structure (e.g., epithelium) and then reimaged. After the two images are registered, simple thresholding of the antibody image can then generate masks for the original tissue image [@bertramDataSetCreation2026]. Likewise, if the intended output is a fluorescence image rather than a segmentation mask (i.e., [image translation](glossary.qmd#image-translation)), the acquired fluorescence image itself can serve as the target [@Christiansen2018InSilicoLabeling; @Ounkomol2018LabelFreeFluorescence]. In all these cases, the additional image or channel provides targets during training, while the trained model takes only the original image as input.
+
+### Checking paired acquisitions
+
+When targets come from paired acquisitions, corresponding structures need to occupy matching positions if training assumes alignment. Sequential acquisitions can provide valid pairs if the relevant structures remain unchanged between exposures, but sample motion, focus drift, and channel offsets can break spatial correspondence, while bleaching can change the recorded signal. Although pair identifiers and recorded transformations help trace which images were paired and how they were processed, they do not show whether the structures still match. You therefore need to inspect overlays to check alignment and compare intensities to identify signal changes. Misalignment can affect the prediction even when training appears to proceed normally. For example, the model trained with shifted membrane targets in @fig-training-data-mismatches produces blurred predictions despite a decreasing training loss.
+
+![**Examples of training-data mismatches in a denoising task.** Rows compare aligned membrane pairs (top), spatially shifted membrane targets (middle), and train/test domain shift (bottom). Columns show representative training pairs (left), loss curves (middle), and predictions (right) for the same membrane test image.](5-figures/figure2.png){#fig-training-data-mismatches}
+
+Even when input and target are aligned, the target may contain details that the input does not resolve. For example, a higher-resolution reference may separate two nearby structures that appear merged in a blurred input. A model may infer their separation from patterns learned during training, but the predicted detail can be unsupported by the acquired image, an error often described as a [hallucination](glossary.qmd#hallucinations) [@belthangady2019applications]. Because plausible detail in the output may not match the real specimen, use a small pilot dataset to compare predictions with independent reference measurements before collecting many such pairs. Check whether the agreement is sufficient for the intended biological analysis, such as counting the two structures separately.
+
+### Preserving data during preprocessing and storage {#sec-storage}
+
+Cropping an image without applying the corresponding crop to its target breaks their alignment. Spatial preprocessing therefore needs to preserve input-target correspondence, and [resampling](glossary.qmd#resampling) requires updating the pixel size metadata. Keep the original measurements and record processing steps with their order and parameters so that you can trace unexpected changes. Segmentation masks need particular care because their values identify classes or objects rather than intensities. For example, interpolating betwen object labels 4 and 7 can produce values such as 5 and 6, assigning pixels to unrelated object identities. Use nearest-neighbor interpolation for these masks, and compare images and targets before and after processing to check for shifted boundaries, swapped axes, clipping, or lost objects.
+
+Storage can also change the data if compression is lossy. Saving an image as JPEG changes pixel values and introduces artifacts, while saving a segmentation mask this way can corrupt object labels and background values. JPEG is therefore suitable for thumbnails, but source measurements and targets should be stored losslessly [@jonkmanTutorialGuidanceQuantitative2020]. Formats such as OME-Zarr can also retain axes, channels, and pixel size metadata. [OME-Zarr](glossary.qmd#ome-zarr) stores arrays in chunks, allowing tools to read selected regions of large local or remote datasets without loading the entire image [@mooreOMENGFFNextgenerationFile2021]. Check that the tools you use preserve both the array values and the metadata during conversion.
+
+### Normalizing image intensities {#sec-norm-intensity}
+
+Images acquired with different exposures or detector settings can span different intensity ranges, so normalization rescales their values before they are passed to a model. However, a few hot pixels can set the maximum intensity of an image, so scaling between its minimum and maximum can compress the remaining intensities into a narrow range. Percentile-based normalization reduces this sensitivity and is commonly used in microscopy workflows [@Weigert2018; @Schmidt2018]. It maps selected lower and upper percentiles, for example the 1st and 99.8th, to 0 and 1 without clipping values outside that interval. Values below 0 or above 1 therefore retain intensity differences at the extremes.
+
+Computing percentiles separately for each image can reduce brightness differences caused by illumination or detector settings, but it can also remove differences caused by biology. For segmentation, this may be acceptable when the intended output is an object mask. You can then use that mask to measure fluorescence on the original or appropriately calibrated image. If the model itself needs to use brightness differences between images, consider a shared scaling rule. Estimate any dataset-wide parameters from the training split alone and apply them unchanged to validation, test, and later images. For multichannel data, normalize each channel independently by default, unless intensity ratios between channels carry information that the model needs to retain (e.g., for natural RGB images). Record the percentile settings and the images and channels over which parameters are computed so that training and later prediction use the same procedure.
+
+## Checking dataset quality before training
+
+### Inspecting images and loader outputs
+
+An image may look correct on disk while the model receives a shifted target or swapped channels. Such mismatches can arise in the [data loader](glossary.qmd#data-loader), which turns stored images and targets into training [tensors](glossary.qmd#tensor) through operations such as cropping, normalization, augmentation, and type conversion. For example, applying a spatial augmentation only to the image breaks its alignment with the target, while converting labels to an integer type too small for the largest label id can change object identities. To detect these errors, compare the raw input, overlaid target, processed image, and loader output. Saving a few input-target pairs at the start of each run, together with their shapes, data types, and value ranges, makes this comparison easier.
+
+A repeated time point can look plausible when viewed in isolation yet disrupt a cell track. For volumetric time-lapse data, therefore, inspect neighboring time points as well as individual volumes. Consecutive-frame differences, timestamps, or hashes can flag possible frozen frames, which you can then examine alongside neighboring time points and acquisition metadata to distinguish repeated data from a stationary specimen. If the loaded samples appear correct, fitting a small, manually verified training subset can expose problems that remain after visual inspection. Failure can point to target, loader, or configuration errors, although successful fitting (see @sec-9.3.5.2) does not establish generalization. During this small run, also check whether data loading leaves the model waiting for batches. For datasets that do not fit in memory, efficient access to the chunks described in @sec-storage can reduce this waiting time.
+
+### Running dataset-wide checks
+
+Inspection of a few examples cannot show whether every file can be used by the training pipeline, so run scripted checks across the collection. These checks should confirm that image-target pairs are complete and that shapes, data types, and value ranges match the pipeline's requirements. For segmentation masks, this includes the expected background value and whether labels must be contiguous. A mask exported as an RGB visualization, for example, may contain three color channels instead of object identifiers, while merging all instance labels into one foreground class removes the distinction between objects. Flag such encoding problems for review, along with nonfinite values such as [NaN](glossary.qmd#nan) or infinity and suspiciously black frames. For targets that pass these file checks, summaries of object counts, sizes, track lengths, and annotation density can help locate unusual examples for closer inspection.
+
+Even when every image-target pair is valid, a biological condition may occur in only one acquisition batch or have very few examples (i.e., [an unbalanced training dataset](glossary.qmd#balanced-dataset)). To identify these gaps, count independent specimens and experiments across the biological and acquisition conditions you planned to cover. For example, cross-tabulating biological conditions against preparation days and acquisition batches reveals conditions confined to a single batch. Within these groups, count rare [classes](glossary.qmd#class) and empty images separately [@bertramDataSetCreation2026], since pooled counts can hide gaps in particular conditions or batches. Alongside class frequencies, record the foreground fraction per image to distinguish rare classes from images in which most pixels are background. These counts reveal gaps within the dataset, but do not show whether its images resemble those you will later analyze. In histopathology, for example, stain color can vary between laboratories and scanners [@jahanifar2025] so comparing brightness, background noise, and object sizes in pixels and physical units with the training images is important. For example, if cells of similar physical size occupy twice as many pixels in one collection, check whether the recorded pixel size accounts for the change. Differences you expect in the intended application should also be represented in the [test set](glossary.qmd#test-data), including difficult examples [@laine2021]. If you also want to test behavior beyond that use, keep inputs such as severely corrupted images or specimens outside the intended population in a separate stress set and report its results separately.
+
+Previews and reports help you locate examples that need closer inspection in large collections. For example, thumbnails, orthogonal slices, or downsampled movies provide overviews from which you can select regions for closer examination in an interactive viewer. To generate these overviews for data on a [cluster](glossary.qmd#computing-cluster) or [object store](glossary.qmd#object-storage), scripts can run close to the data and return reports, projections, and flagged ids without transferring the full images. Keep each result linked to its source image, target, and metadata so that you can investigate the flag. The image dimensions, dataset size, and storage location determine which tools in @tbl-qc-tools are suitable for this inspection.
+
+| Tool | Typical data or workflow | Useful checks |
+|---|---|---|
+| Fiji/ImageJ [@Schindelin2012] | Local 2D, multichannel, z-stack, or time-lapse images | Intensities, histograms, overlays, and pair alignment |
+| napari [@ahlers2023] | N-dimensional images, labels, points, shapes, or tracks | Layer comparison and 3D or time navigation |
+| QuPath [@Bankhead2017] | Histopathology and large 2D slides | Stains, tissue regions, annotations, metadata, and slide heterogeneity |
+| TrackMate [@ershovTrackMate7Integrating2022b] and Mastodon [@girstmairMastodonCommandCenter2025a] | Time-lapse tracking and lineage data | Detections, divisions, gaps, links, and lineage consistency |
+| Vizarr/Viv [@manzVivMultiscaleVisualization2022] | Remote multiscale OME-Zarr or Zarr images | Browser-based channel and spatial inspection |
+| Neuroglancer [@GoogleNeuroglancerWebGLbased] and webKnossos [@WEBKNOSSOSVisualizeSharea] | Large multiscale 3D volumes, especially electron microscopy | Volume navigation, segmentation, annotation, and proofreading |
+| Python check scripts | Dataset-wide automated checks | Dimensions, ranges, pairing, duplicates, frozen frames, and stratified summaries |
+
+: Example tools for dataset inspection and quality control {#tbl-qc-tools}
+
+Coding agents can help coordinate check scripts and viewers if the tools provide callable operations with readable outputs (see @sec-coding-agents). With this access, an agent can first run inexpensive checks across the collection, then use their results to decide which previews or detailed checks to request. Combining metadata, summary statistics, and previews can help identify cases where several observations together suggest a problem that none would identify alone. To reduce the risk of overlooking such cases, design the initial checks to prioritize [recall](glossary.qmd#recall), meaning that few actual problems are missed. The agent can then investigate flagged cases with additional tools and report the reasons for each flag, together with any checks it could not complete.
+
+## Dataset checklist
+
+::: {.callout-note title="Dataset checklist"}
+
+- include specimen types, treatments, and imaging conditions you expect to analyze, including rare and difficult cases
+- split (for training, validation, and test) by independent specimens, experiments, or batches, keeping related images together
+- check targets for errors and inconsistent annotations
+- check image-target pairing and alignment in loader outputs, then fit a small verified subset
+- record normalization settings and estimate shared parameters from training data alone
+- save images and targets losslessly, with their metadata, processing steps, split assignments, and inspection results
+
 :::
 
-::: {.callout-caution}
-There are caveats when applying these tools. Expand the code below to learn more.
+If a model later underperforms, these records help you investigate whether problems in the data contributed. The next chapters show what such datasets enable (@sec-Image-Restoration, @sec-hardware), how to select tools and train models (@sec-8, @sec-9), and how to judge whether the outputs are good enough for your analysis (@sec-output_quality).
 
-```{python}
-#| code-fold: true
-r = np.arange(0, 2, 0.01)
-theta = 2 * np.pi * r
-```
-:::
+## AI Disclosure {.unnumbered}
 
-::: {.callout-warning}
-Be careful to avoid hallucinations.
-:::
-
-::: {.callout-important}
-This is key information.
-:::
+AI language models (Claude Opus 5, Codex/GPT 5.6 Sol) were used during the preparation of this chapter. Their roles included revising prose and assisting in writing the training scripts for the training-data mismatch figure. All content was reviewed, revised, and verified by the human author, who takes full responsibility for the accuracy and scientific integrity of the final text. Selection of references was the work of the human author.
