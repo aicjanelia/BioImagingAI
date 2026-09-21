@@ -681,7 +681,7 @@ Figure&nbsp;4.5: Illustration of a multilayer perceptron (MLP) with two hidden l
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a multi-layer perceptron with 30,000 input values, a hidden layer with 30,000 units, and an output layer with one output. The code is run on an example of 8 input images, and outputs the sizes of the input, output, weights matrix (W), and bias vector (b).</p>
-<div id="6d4ae3b6" class="cell" data-execution_count="1">
+<div id="fd4bafed" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch </span>
@@ -802,7 +802,7 @@ Figure&nbsp;4.7: Convolutional operation with padding from this <a href="https:/
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a convolutional layer with 3 input channels, 6 output channels and a kernel size of 9.</p>
-<div id="fdd82360" class="cell" data-execution_count="3">
+<div id="7928130f" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConvolutionalLayer(nn.Module):</span>
@@ -885,7 +885,7 @@ Figure&nbsp;4.8: Illustration of max-pooling with a kernel size of 2 and stride 
 </div>
 <div class="callout-body-container callout-body">
 <p>This example code implements max-pooling with a kernel size of 2 and a stride of 2.</p>
-<div id="ec0d2fa1" class="cell" data-execution_count="5">
+<div id="f4383fed" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># max pooling operation</span></span>
@@ -944,7 +944,7 @@ Figure&nbsp;4.10: Vision transformer architecture. Originally invented for langu
 <img src="4-architectures/sam.PNG" class="img-fluid figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.11: Segment Anything model<span class="citation" data-cites="kirillov2023segment"><sup><a href="references.html#ref-kirillov2023segment" role="doc-biblioref">13</a></sup></span>; illustration from<span class="citation" data-cites="pachitariu2025cellpose"><sup><a href="references.html#ref-pachitariu2025cellpose" role="doc-biblioref">16</a></sup></span>. This architecture differs from a standard transformer in the decoding module, which is necessary for outputting segmentations of images. This model requires inputs in the form of point clicks, box outlines or textual instructions.
+Figure&nbsp;4.11: Segment Anything model<span class="citation" data-cites="kirillov2023segment"><sup><a href="references.html#ref-kirillov2023segment" role="doc-biblioref">13</a></sup></span>; illustration from<span class="citation" data-cites="pachitariu2025cellposesam"><sup><a href="references.html#ref-pachitariu2025cellposesam" role="doc-biblioref">16</a></sup></span>. This architecture differs from a standard transformer in the decoding module, which is necessary for outputting segmentations of images. This model requires inputs in the form of point clicks, box outlines or textual instructions.
 </figcaption>
 </figure>
 </div>
@@ -981,7 +981,7 @@ Figure&nbsp;4.12: An image (upper left) is input to a u-net trained to predict c
 </div>
 <div class="callout-body-container callout-body">
 <p>Here is example code with cell/not-cell prediction with one convolutional layer.</p>
-<div id="40eddc99" class="cell" data-execution_count="6">
+<div id="5a27b2b0" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare layer</span></span>
@@ -1016,7 +1016,7 @@ shape of b:  torch.Size([1])
 input shape:  torch.Size([8, 3, 50, 50])
 output shape:  torch.Size([8, 1, 50, 50])
 target shape:  torch.Size([8, 1, 50, 50])
-loss =  0.6855234503746033</code></pre>
+loss =  0.6915567517280579</code></pre>
 </div>
 </div>
 </div>
@@ -1166,8 +1166,8 @@ Figure&nbsp;4.16: Example training loss and validation loss across epochs.
 <div id="ref-israel2025cellsam" class="csl-entry" role="listitem">
 <div class="csl-left-margin">15. </div><div class="csl-right-inline"><span class="nocase">Israel, U. <em>et al.</em></span> CellSAM: A foundation model for cell segmentation. <em>BioRxiv</em> 2023–11 (2025).</div>
 </div>
-<div id="ref-pachitariu2025cellpose" class="csl-entry" role="listitem">
-<div class="csl-left-margin">16. </div><div class="csl-right-inline">Pachitariu, M., Rariden, M. &amp; Stringer, C. Cellpose-SAM: Superhuman generalization for cellular segmentation. <em>bioRxiv</em> 2025–04 (2025).</div>
+<div id="ref-pachitariu2025cellposesam" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Pachitariu, M., Rariden, M. &amp; Stringer, C. Cellpose-<span>SAM</span>: Superhuman generalization for cellular segmentation. <em>bioRxiv</em> (2025) doi:<a href="https://doi.org/10.1101/2025.04.28.651001">10.1101/2025.04.28.651001</a>.</div>
 </div>
 <div id="ref-liu2021swin" class="csl-entry" role="listitem">
 <div class="csl-left-margin">17. </div><div class="csl-right-inline">Liu, Z. <em>et al.</em> Swin transformer: Hierarchical vision transformer using shifted windows. in <em>Proceedings of the IEEE/CVF international conference on computer vision</em> 10012–10022 (2021).</div>
