@@ -463,7 +463,7 @@ Differentiable Function : |
   A differentiable function is a function whose derivative exists at every point within the function's domain.
 
 Unsupervised learning : |
-  Unsupervised learning is a type of [machine learning](glossary.qmd#machine-leanring) in which the machine works only with the raw, unlabeled data. It uses algorithms to find structure or patterns in the data without user guidance or predetermined categories.
+  Unsupervised learning is a type of [machine learning](glossary.qmd#machine-learning) in which the machine works only with the raw, unlabeled data. It uses algorithms to find structure or patterns in the data without user guidance or predetermined categories.
 
 Dimensionality reduction : |
   Taking a dataset that is in a high-dimensional space and reducing it to a lower-dimensional representation that tries to retain as much of the important information and underlying properties of the high-dimensional data as possible.
@@ -544,7 +544,7 @@ Pseudo-label : |
   Unlike a manually annotated label, a pseudo-label is created by a model. In [semi-supervised learning](glossary.qmd#semi-supervised-learning), this allows a model to learn from a few manually annotated labels and large amount of unsupervised data. However, pseudo-labels can be biased by mistakes in the model and should validated in the same manner as manual annotations.
 
 Resampling : |
-  In the context of [CNNs](glossary.qmd#convolutional-neural-networks-CNNs), resampling describes changing the spatial dimensions of the image or features maps through either downsampling or upsampling. For example, an input 2D image could be resampled to be half the size in x and y.
+  In the context of [CNNs](glossary.qmd#convolutional-neural-networks-cnns), resampling describes changing the spatial dimensions of the image or features maps through either downsampling or upsampling. For example, an input 2D image could be resampled to be half the size in x and y.
 
 OME-Zarr : |
   OME-Zarr is a next-generation file format (NGFF) developed by the [Open Microscopy Environment](https://www.openmicroscopy.org/ome-file-formats/). The Zarr format stores images in smaller chunked image arrays, which allows for efficient access, storage, and processing of large datasets, while OME provides standards for accessing microscopy metadata.
@@ -572,3 +572,12 @@ Object storage : |
 
 Segmentation mask : |
   A segmentation mask is an image where each pixel is given a corresponding [class](glossary.qmd#class). For example, this could be a black and white image where cells are white and the background is black.
+
+Batch Effects: |
+  Systematic technical differences between groups of samples that arise from preparation, handling, acquisition, or processing rather than from the biological variable of interest.
+
+Data Leakage: |
+  Information from validation or test examples that influences model training or selection, often because related samples, duplicates, or preprocessing statistics cross dataset splits.
+
+Data Provenance: |
+  The record of how each file in a dataset came to be and what produced it, forming a graph in which every file is a node and every processing step an edge back to the files it was derived from. Acquisition is the first node, holding the specimen, instrument, and settings that produced the raw image. Later nodes cover processing steps with their order and parameters, targets with the annotator, model, or script that generated them and the review they received, and the assignment of examples to splits. Provenance is what allows a result to be traced back to the raw data, corrected, and reproduced.
