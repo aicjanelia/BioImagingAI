@@ -48,7 +48,7 @@ The further along this path, the less of the solution you have to build---and th
 
 : The boundary between what a person designs and what a system derives from data has moved in one direction, and so has the effort required to find out why a system did what it did. {#tbl-ai-families}
 
-The gradient is a tendency, not a law: a thousand-tree ensemble is no more readable than a small network. What does change reliably is how much of a system's behavior you can anticipate without testing it. So prefer the earliest stop that solves your problem---needing fewer examples is not the same as being more trustworthy, and you know in advance when a threshold will break. Past that stop, trust has to be earned empirically, on ground truth the model never saw (@sec-output_quality). Much of what follows is about telling "works" from "mostly works".
+A thousand-tree ensemble is no more readable than a small network. What does change reliably is how much of a system's behavior you can anticipate without testing it. So prefer the earliest stop that solves your problem---needing fewer examples is not the same as being more trustworthy, and you know in advance when a threshold will break. Past that stop, trust has to be earned empirically, on ground truth the model never saw (@sec-output_quality). Much of what follows is about telling "works" from "mostly works".
 
 ### Deep learning: differentiable programs {#sec-differentiable}
 
