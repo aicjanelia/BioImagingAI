@@ -581,3 +581,6 @@ Data Leakage: |
 
 Data Provenance: |
   The record of how each file in a dataset came to be and what produced it, forming a graph in which every file is a node and every processing step an edge back to the files it was derived from. Acquisition is the first node, holding the specimen, instrument, and settings that produced the raw image. Later nodes cover processing steps with their order and parameters, targets with the annotator, model, or script that generated them and the review they received, and the assignment of examples to splits. Provenance is what allows a result to be traced back to the raw data, corrected, and reproduced.
+
+Retrieval-Augmented Generation: |
+  A technique that allows [LLMs](glossary.qmd#large-language-models) to incorporate new supplmental information from outside the training set. This increases the flexibility of LLMs to respond to domain-specific queries.
