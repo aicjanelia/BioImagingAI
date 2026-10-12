@@ -20,6 +20,10 @@ jobs:
 
       - name: Set up Quarto
         uses: quarto-dev/quarto-actions/setup@v2
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tinytex: true
 
       - name: Install Python and Dependencies
         uses: actions/setup-python@v5
@@ -27,7 +31,6 @@ jobs:
           python-version: '3.12.9'
       - run: pip install -r requirements.txt
       - run: where.exe python
-      - run: quarto install tinytex
 
       - name: Install R
         uses: r-lib/actions/setup-r@v2
