@@ -102,7 +102,7 @@ Batch: |
   A small group of data that is processed together at the same time. For example, when training a machine learning model, a batch is a group of data that is given to the model for learning. Batches are commonly used to make the processes more efficient.
 
 Backpropagation: |
-  The method used by neural networks to learn from its predictions. Once the prediction is done, it is compared with the ground truth through a training loss and the value of the comparison is used backwards to sequentially update the weights in the neural network, reward it when making a good prediction and punish it when making a bad prediction. 
+  The method that computes, for every parameter of a neural network, how a small change in that parameter would change the error measured by the [loss function](glossary.qmd#loss-function). It applies the chain rule of calculus backwards, from the error through all layers of the network. Backpropagation itself does not change the network; [gradient descent](glossary.qmd#gradient-descent) uses the values it computes to adjust the parameters so that the error decreases.
 
 Computer Vision: |
   A field of computer science wherein computers extract information from images. It often involves object detection within images and can involve classification of the images and/or objects.
@@ -153,13 +153,13 @@ N2S (Noise2Self): |
   A self-supervised denoising method that trains a neural network assuming statistically independent noise across the image, requiring only single noisy images without paired clean data. See [https://github.com/czbiohub-sf/noise2self](https://github.com/czbiohub-sf/noise2self) for more information. 
 
 N2N (Noise2Noise): |
-  A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See [https://github.com/NVlabs/noise2noise](https://github.com/NVlabs/noise2noise) for more information. 
+  A denoising method that trains a neural network on pairs of independently noisy images of the same scene, one as input and the other as target. It needs no clean reference image, but it needs the pairs. See [https://github.com/NVlabs/noise2noise](https://github.com/NVlabs/noise2noise) for more information. 
 
 Deconvolution: |
   A mathematical process to partially reverse the blurring effect caused by the microscope's PSF, increasing contrast and resolution over the raw image data if performed carefully.
 
 Aberration: |
-  The spreading of light (also called 'wavefront distortion') due to imperfections in the optical path or variations in refractive index at the sample, which results in images that are blurrier than the ideal diffraction-limited image we would expect were aberrations absent.
+  A distortion of the light's wavefront caused by imperfections in the optical path or by refractive-index variations in the sample. It spreads the light and makes images blurrier than the ideal diffraction-limited image.
 
 Zernike Modes: |
   A set of orthogonal polynomials used to describe and correct wavefront aberrations in optical systems.
@@ -186,19 +186,19 @@ Sigmoid Function: |
   An activation function common in deep learning that non-linearly maps real inputs to outputs between 0 and 1, being most sensitive to changes in inputs around zero and increasingly compressing extreme positive or negative inputs as they approach 1 or 0 respectively; this characteristic enables it to model probabilities for binary classification and introduce smooth non-linearity.
 
 Transformer Models: |
-  A deep learning architecture based on the multi-head attention mechanism; specifically referring to the 'vision transformer' architecture. A vision transformer (ViT) is a transformer designed for computer vision. A ViT decomposes an input image into a series of patches (rather than text into tokens), serializes each patch into a vector, and maps it to a smaller dimension with a single matrix multiplication. These vector embeddings are then processed by a transformer encoder as if they were token embeddings.
+  A deep learning architecture, originally developed for language, in which every part of the input is compared with every other part (attention), so that distant regions can inform each other. A vision transformer (ViT) cuts an image into small patches and treats them like the words of a sentence.
 
 Self-supervised learning: |
-  A deep learning method where models generate their own supervisory signals from unlabeled data, often by using pretext tasks, to learn useful representations that can be applied to various downstream tasks.
+  A form of [machine learning](glossary.qmd#machine-learning) that turns unlabeled data into a supervised problem, typically by hiding part of the data and training the model to fill it in. The model either is used directly, as in self-supervised denoising, or provides a [representation](glossary.qmd#representation) that is later adapted to other tasks.
 
 Supervised learning: |
-  A deep learning method where models learn from labeled data (input-output pairs), enabling them to learn a mapping function for making predictions or decisions on unseen inputs.
+  A form of [machine learning](glossary.qmd#machine-learning) in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a class, a position, a mask, or another image.
 
 Neural Network Unit: |
   A neural unit is the processing element of a neural network. It also sometimes called a node or artificial neuron.
 
 Neural Network : |
-  Neural networks are a type of computational model that was inspired by the way that biological neural networks are structured.
+  A function built from many simple units, each adding up weighted inputs and passing the result through a simple nonlinear response, arranged in layers. The weights are the parameters learned during training. The name is a historical analogy to networks of biological neurons.
 
 Network Architecture : |
   The architecture of a machine learning model refers to the design and structure of the model, including choices in how individual components (such as preprocessing or feature extraction) are connected to each other.
@@ -258,7 +258,7 @@ Patches  : |
   In image processing, a patch refers to a small region or subset of pixels that are extracted from the larger image.
 
 Embedding Space  : |
-  Embedding space is also know as a latent space or latent feature space. This space is a set of variables that describe items such that similar items are positioned closer together in the space.
+  The space of lists of numbers (embeddings) that a model uses to describe its inputs. Also known as latent space or latent feature space.
 
 Auxiliary Variables  : |
   Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precision, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other shape descriptors can be used as part of of a loss function. 
@@ -294,7 +294,7 @@ Momentum : |
   In the context of learning rate, momentum speeds up learning when the gradient is consistent over multiple iterations, which allows the training to avoid local minima.
 
 Large Language Model (LLM) : |
-  Large Language Models (LLMs) are a type of AI model that was trained on a vast amount of data. Users interact with LLMs using natural language to accomplish a variety of tasks.
+  A [foundation model](glossary.qmd#foundation-model) for text, pre-trained on a vast amount of text to predict the next word, and usually further trained to follow instructions. Users interact with LLMs in natural language to accomplish a variety of tasks.
 
 U-Net : |
   A U-Net is a type of convolutional neural network that was specifically developed for the task of image segmentation. It has since been used for a variety of tasks. The model is so named because downsampling layers are followed by upsampling layers, which are each connected by skip connections, and together this gives diagrams of the network a U shape.
@@ -379,7 +379,7 @@ Average Precision : |
   Higher $x$ demands more precise localization.
 
 Boosting algorithm : |
-  An ensemble learning method that builds a strong classifier by training many weak learners sequentially, with each new learner trained to correct the errors of the previous ones.
+  An [ensemble](glossary.qmd#ensemble) method that builds a strong classifier from many simple ones, typically small [decision trees](glossary.qmd#decision-tree), trained one after another so that each corrects the errors its predecessors left behind.
 
 Bounding region : |
   A geometric shape, typically a box, drawn around an object in an image to indicate its spatial extent.
@@ -432,6 +432,9 @@ Shallow decision trees : |
 Decision tree : |
   Decision trees are flow-chart-like models that make simple yes/no decisions in a series of conditional steps. The first root node splits the entire dataset into two groups, after which internal nodes and branches continue to split the data through conditional questions, finally terminating in a leaf node that provides the answer, class, or prediction.
 
+Random forest : |
+  An [ensemble](glossary.qmd#ensemble) of [decision trees](glossary.qmd#decision-tree), each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g. in ilastik and Labkit.
+
 Shape descriptors : |
   A set of quantitative measurements that characterize the geometric form of an object, such as circularity, elongation, or perimeter.
 
@@ -454,10 +457,10 @@ Real-time analysis : |
   An approach in which images are processed as the data is acquired. This is in contrast to a-posterior analysis, where the data is acquired before processing.
 
 Machine learning : |
-  Machine learning is a type of artificial intelligence that focuses on learning from patterns in data and generalizing to new data. This allows the machine to take advantage of statistical algorithms to perform tasks without explicit instructions.
+  A type of [artificial intelligence](glossary.qmd#artificial-intelligence) in which a person designs a family of functions with free parameters, and an optimization procedure fits the parameters to a set of examples. The rules are learned from data rather than written down by hand, and the goal is that they generalize to new data.
 
 Deep learning : |
-  Deep learning is a type of [machine learning](glossary.qmd#machine-learning) that uses multi-layer [neural network](glossary.qmd#nueral-network) to peform tasks. The term "deep" refers to the use of many layers in the network.
+  Deep learning is a type of [machine learning](glossary.qmd#machine-learning) that uses multi-layer [neural networks](glossary.qmd#neural-network) to perform tasks. The term "deep" refers to the use of many layers in the network.
 
 Differentiable Function : |
   A differentiable function is a function whose derivative exists at every point within the function's domain.
@@ -472,22 +475,28 @@ Clustering : |
   Clustering groups unlabeled points within a dataset based on similarities or patterns in the data.   
 
 Semi-Supervised Learning : |
-  Semi-supervised learning, also known as weak supervision, trains using a relatively small amount of labeled data combined with a large amount of unlabeled data. This combines techniques used in supervised learning with techniques from unsupervised learning.
+  Training on a small amount of labeled data combined with a large amount of unlabeled data, for example by letting the model label the unlabeled examples itself (pseudo-labels) and learning from those as well. It often starts from a model after [pre-training](glossary.qmd#pre-training) without labels. Not to be confused with weak supervision, which trains on coarse or noisy labels.
+
+Pre-training : |
+  The first and most expensive stage of training, in which a model learns a general-purpose [representation](glossary.qmd#representation) from a large dataset, usually without labels by [self-supervised learning](glossary.qmd#self-supervised-learning). The pre-trained model is then adapted to a specific task with far fewer labeled examples, by [fine-tuning](glossary.qmd#fine-tuning) or [semi-supervised learning](glossary.qmd#semi-supervised-learning). [Foundation models](glossary.qmd#foundation-model) are pre-trained models.
 
 Contrastive loss : |
   A contrastive loss function attempts to minimize the distance between input pairs that are similar while simultaneously maximizing the distance between input pairs that are dissimilar.
 
 Representation : |
-  A representation takes raw data (e.g., the pixels in an image or words in this textbook) and puts it into a structured format that the network can process.
+  The internal description of an input that a network computes on the way to its output: a list of numbers that summarizes what the network has learned to consider relevant about an image or a text. A good representation can be reused for tasks the network was not trained on, which is what makes [foundation models](glossary.qmd#foundation-model) useful.
 
 Model collapse : |
   Model collapse occurs when performance degrades due to training on uncurated or synthetic data, especially training on data from another model (including the same model at prior training steps).
 
+Representation collapse : |
+  A failure of [self-supervised learning](glossary.qmd#self-supervised-learning) in which the network describes every input with the same, or nearly the same, embedding. This trivially satisfies objectives that only reward agreement between views, but the network learns nothing. Not to be confused with [model collapse](glossary.qmd#model-collapse).
+
 Reinforcement learning : |
-  In reinforcement learning, [AI agents](glossary.qmd#ai-agent) learn how to make decisions by peforming tasks, after which they receive awards and/or penalties to improve decision making.
+  In reinforcement learning, [AI agents](glossary.qmd#ai-agent) learn how to make decisions by acting and receiving rewards or penalties for the consequences, adjusting their behavior to collect more reward. No examples of correct behavior are needed.
 
 Denoising : |
-  Denoising is a process in which unwanted noise or distortions are removed from an image or dataset. The goal of denoising is preserve the key underlying information during the process.
+  Denoising is a process in which unwanted noise or distortions are removed from an image or dataset. The goal of denoising is to preserve the underlying signal while doing so.
 
 Resolution enhancement : |
   Deep learning methods that attempt to predict higher resolution images given lower resolution input data.
@@ -498,23 +507,20 @@ Detection: |
 Tracking : |
   Tracking links objects over time. It requires both finding objects and determining how they are associated over time.
 
-Predictive Model: |
-  A predictive model returns a single result, which is based on the average of everything the input could have been. This often results in a smoothed result, in contrast to the results from a [generative model](glossary.qmd#generative-model)
-
 Generative Model : |
-  A generative model is trained to create a distribution of responses, and to pull a sample from it as output. Because of this, running the model twice on the same input can lead to two different answers, each of which is as consistent with the training as the other. The sampled image or data will contain texture and noise like a real image, in contrast to the smoothed results of a [predictive model](glossary.qmd#predictive-model).
+  A model trained to draw samples from the distribution of possible outputs, rather than to return their mean. Running it twice on the same input can give two different answers. Each sample has the texture and contrast of real data, unlike the smooth mean, but no single sample represents the whole distribution. Variational autoencoders, generative adversarial networks, diffusion models, and flow matching are common examples.
 
 Overfitting : |
-  When a model learns its training data too well it will no longer generalize well to new data, instead focusing on random noise and details that were present in the training data.
+  When a model fits its training data so closely that it memorizes noise and incidental details, and no longer generalizes well to new data.
 
 Domain shift : | 
   Domain shift occurs when a model is trained and tested on one type of data, but later applied to a related but different data distribution. In microscopy, an example of this is training a model on data from one microscope, but then applying it to data acquired using a different system or technique.
 
 Shortcut learning : |
-  Shortcut learning occurs when a network learns about superficial or trivial features in the data rather than learning the important underlying concepts. For example, a network may learn that cancer patient datasets came from a different hospital than the healthy patients, rather than learning anything different about the structure of the MRI scans.
+  Shortcut learning occurs when a network learns about superficial or trivial features in the data rather than learning the important underlying concepts. For example, a classifier whose control wells all sit at the edge of a plate may learn to recognize the edge position rather than the phenotype, and networks trained on chest radiographs can pick up which hospital acquired an image.
 
 Attribution map : |
-  An attribution map is a pixel-wise image of how much each part of the input image contributed to the output image.
+  A per-pixel image of how much each part of the input contributed to a model's output. Some widely used variants are insensitive to the trained model and should be checked before they are trusted.
 
 Artificial intelligence : |
   Artificial intelligence (AI) refers to a computational system that is capable of performing a task that would normally require human intelligence.
