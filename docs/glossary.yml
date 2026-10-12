@@ -212,6 +212,9 @@ Probability Vector  : |
 Skip Connection  : |
   Skip connections are also sometimes know as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a U-Net architecture connect across image resolutions.
 
+Residual Connection  : |
+  A specific instance of a skip connection, in which the input of a transformation block is added to the output.
+
 Downsampling  : |
   Downsampling is a technique to reduce the sampling of input data. For an image, this involves descreasing the number of pixels, and thus decreasing the resolution of the image.
 
@@ -272,6 +275,9 @@ Optimizer  : |
 Gradient Descent  : |
   Gradient descent computes the gradient of the loss with respect to each weight. Moving the weights in the negative direction of the gradient reduces the loss for the given images or data points over which the loss is computed.
 
+Stochastic Gradient Descent (SGD) : |
+  As most modern problems require large [training datasets](glossary.qmd#training-data) to effectively capture underlying signals, attempting to calculate the gradient over the entire dataset is often computationally prohibative. This is overcome by [batching](glossary.qmd#batch) the training data into smaller subsets. This naturally injects some stochasticty (randomness) into the gradient descent procedure based on how the batches are randomly determined.
+
 Regularization  : |
   Regularization adds a penalty term to the loss function to prevent overfitting. This term discourages overly complex models.
 
@@ -292,6 +298,12 @@ Foundation Model : |
 
 Momentum : |
   In the context of learning rate, momentum speeds up learning when the gradient is consistent over multiple iterations, which allows the training to avoid local minima.
+
+Learning Rate : |
+  The amount weights are updated at every iteration during [gradient descent](glossary.qmd#gradient-descent). Metaphorically, this represents how fast the network "learns" from the current state at each iteration.
+
+Learning Rate Schedule : |
+  A programmatic change in the learning rate over the course of an entire training run. This often involves reducing the learning rate near the end of training to enable smaller steps down the gradient, fine-tuning the weights near the loss minimum.
 
 Large Language Model (LLM) : |
   A [foundation model](glossary.qmd#foundation-model) for text, pre-trained on a vast amount of text to predict the next word, and usually further trained to follow instructions. Users interact with LLMs in natural language to accomplish a variety of tasks.
@@ -590,3 +602,12 @@ Data Provenance: |
 
 Retrieval-Augmented Generation: |
   A technique that allows [LLMs](glossary.qmd#large-language-models) to incorporate new supplmental information from outside the training set. This increases the flexibility of LLMs to respond to domain-specific queries.
+
+Transposed Convolution: |
+  As in a normal convolution, a transposed convolution involves an image and a kernel. However, in this case, the image slides over the kernel (as opposed to the other way around). This naturally results in a spatially upsampled output, relative to the input. The [stride](glossary.qmd#stride) and [padding](glossary.qmd#padding) determines the upsampling factor. In particular, if the input is of size $(I_h , I_w)$, then a transposed convolution with kernel size $(k_h , k_w)$, padding size $(p_h , p_w)$, and stride $(s_h , s_w)$ will result in an output of size $(O_h , O_w)$:
+  $$ \begin{aligned}
+    O_h &= (I_h - 1) s_h + k_h - 2 p_h \\
+    O_w &= (I_w - 1) s_w + k_w - 2 p_w
+  \end{aligned}
+  $$
+  This is often used in CNN architectures such as the [U-Net](glossary.qmd#u-net) to produce outputs at the correct spatial scale. See [this example](https://www.d2l.ai/chapter_computer-vision/transposed-conv.html) for more information.
