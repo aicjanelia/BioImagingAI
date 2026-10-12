@@ -404,7 +404,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2-primer.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI Primer</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI in a nutshell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -681,7 +681,7 @@ Figure&nbsp;4.5: Illustration of a multilayer perceptron (MLP) with two hidden l
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a multi-layer perceptron with 30,000 input values, a hidden layer with 30,000 units, and an output layer with one output. The code is run on an example of 8 input images, and outputs the sizes of the input, output, weights matrix (W), and bias vector (b).</p>
-<div id="81dcbf6b" class="cell" data-execution_count="1">
+<div id="dbb95013" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch </span>
@@ -802,7 +802,7 @@ Figure&nbsp;4.7: Convolutional operation with padding from this <a href="https:/
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a convolutional layer with 3 input channels, 6 output channels and a kernel size of 9.</p>
-<div id="f6f61e7f" class="cell" data-execution_count="3">
+<div id="49835d47" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConvolutionalLayer(nn.Module):</span>
@@ -885,7 +885,7 @@ Figure&nbsp;4.8: Illustration of max-pooling with a kernel size of 2 and stride 
 </div>
 <div class="callout-body-container callout-body">
 <p>This example code implements max-pooling with a kernel size of 2 and a stride of 2.</p>
-<div id="0181efda" class="cell" data-execution_count="5">
+<div id="a395aad3" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># max pooling operation</span></span>
@@ -944,7 +944,7 @@ Figure&nbsp;4.10: Vision transformer architecture. Originally invented for langu
 <img src="4-architectures/sam.PNG" class="img-fluid figure-img" style="width:60.0%">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4.11: Segment Anything model<span class="citation" data-cites="kirillov2023segment"><sup><a href="references.html#ref-kirillov2023segment" role="doc-biblioref">13</a></sup></span>; illustration from<span class="citation" data-cites="pachitariu2025cellposesam"><sup><a href="references.html#ref-pachitariu2025cellposesam" role="doc-biblioref">16</a></sup></span>. This architecture differs from a standard transformer in the decoding module, which is necessary for outputting segmentations of images. This model requires inputs in the form of point clicks, box outlines or textual instructions.
+Figure&nbsp;4.11: Segment Anything model<span class="citation" data-cites="kirillov2023segment"><sup><a href="references.html#ref-kirillov2023segment" role="doc-biblioref">13</a></sup></span>; illustration from<span class="citation" data-cites="pachitariu2025cellpose"><sup><a href="references.html#ref-pachitariu2025cellpose" role="doc-biblioref">16</a></sup></span>. This architecture differs from a standard transformer in the decoding module, which is necessary for outputting segmentations of images. This model requires inputs in the form of point clicks, box outlines or textual instructions.
 </figcaption>
 </figure>
 </div>
@@ -981,7 +981,7 @@ Figure&nbsp;4.12: An image (upper left) is input to a u-net trained to predict c
 </div>
 <div class="callout-body-container callout-body">
 <p>Here is example code with cell/not-cell prediction with one convolutional layer.</p>
-<div id="b3e6c6c9" class="cell" data-execution_count="6">
+<div id="3ab9f1fa" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare layer</span></span>
@@ -1016,7 +1016,7 @@ shape of b:  torch.Size([1])
 input shape:  torch.Size([8, 3, 50, 50])
 output shape:  torch.Size([8, 1, 50, 50])
 target shape:  torch.Size([8, 1, 50, 50])
-loss =  0.704005241394043</code></pre>
+loss =  0.6839218735694885</code></pre>
 </div>
 </div>
 </div>
@@ -1131,85 +1131,85 @@ Figure&nbsp;4.16: Example training loss and validation loss across epochs.
 <div class="csl-left-margin">3. </div><div class="csl-right-inline">Rumelhart, D. E., Hinton, G. E. &amp; Williams, R. J. <a href="https://doi.org/10.1038/323533a0">Learning representations by back-propagating errors</a>. <em>Nature</em> <strong>323</strong>, 533–536 (1986).</div>
 </div>
 <div id="ref-cybenko1989approximation" class="csl-entry" role="listitem">
-<div class="csl-left-margin">4. </div><div class="csl-right-inline">Cybenko, G. Approximation by superpositions of a sigmoidal function. <em>Mathematics of control, signals and systems</em> <strong>2</strong>, 303–314 (1989).</div>
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Cybenko, G. <a href="https://doi.org/10.1007/BF02551274">Approximation by superpositions of a sigmoidal function</a>. <em>Mathematics of control, signals and systems</em> <strong>2</strong>, 303–314 (1989).</div>
 </div>
 <div id="ref-lecun1995convolutional" class="csl-entry" role="listitem">
-<div class="csl-left-margin">5. </div><div class="csl-right-inline"><span class="nocase">LeCun, Y., Bengio, Y., <em>et al.</em></span> Convolutional networks for images, speech, and time series. <em>The handbook of brain theory and neural networks</em> <strong>3361</strong>, 1995 (1995).</div>
+<div class="csl-left-margin">5. </div><div class="csl-right-inline"><span class="nocase">LeCun, Y., Bengio, Y., <em>et al.</em></span> <a href="https://doi.org/10.5555/303568.303704">Convolutional networks for images, speech, and time series</a>. <em>The handbook of brain theory and neural networks</em> <strong>3361</strong>, 255–258 (1995).</div>
 </div>
 <div id="ref-lecun1998mnist" class="csl-entry" role="listitem">
-<div class="csl-left-margin">6. </div><div class="csl-right-inline">LeCun, Y. The MNIST database of handwritten digits. <em>http://yann. lecun. com/exdb/mnist/</em> (1998).</div>
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">LeCun, Y. <a href="https://huggingface.co/datasets/ylecun/mnist">The MNIST database of handwritten digits</a>. <em>http://yann.lecun.com/exdb/mnist/</em> (1998).</div>
 </div>
 <div id="ref-spanhol2016breast" class="csl-entry" role="listitem">
-<div class="csl-left-margin">7. </div><div class="csl-right-inline">Spanhol, F. A., Oliveira, L. S., Petitjean, C. &amp; Heutte, L. Breast cancer histopathological image classification using convolutional neural networks. in <em>2016 international joint conference on neural networks (IJCNN)</em> 2560–2567 (IEEE, 2016).</div>
+<div class="csl-left-margin">7. </div><div class="csl-right-inline">Spanhol, F. A., Oliveira, L. S., Petitjean, C. &amp; Heutte, L. Breast cancer histopathological image classification using convolutional neural networks. in <em>2016 international joint conference on neural networks (IJCNN)</em> 2560–2567 (IEEE, 2016). doi:<a href="https://doi.org/10.1109/IJCNN.2016.7727519">10.1109/IJCNN.2016.7727519</a>.</div>
 </div>
 <div id="ref-lin2017feature" class="csl-entry" role="listitem">
-<div class="csl-left-margin">8. </div><div class="csl-right-inline">Lin, T.-Y. <em>et al.</em> Feature pyramid networks for object detection. in <em>Proceedings of the IEEE conference on computer vision and pattern recognition</em> 2117–2125 (2017).</div>
+<div class="csl-left-margin">8. </div><div class="csl-right-inline">Lin, T.-Y. <em>et al.</em> Feature pyramid networks for object detection. in <em>2017 IEEE conference on computer vision and pattern recognition (CVPR)</em> 936–944 (2017). doi:<a href="https://doi.org/10.1109/CVPR.2017.106">10.1109/CVPR.2017.106</a>.</div>
 </div>
 <div id="ref-hinton2006reducing" class="csl-entry" role="listitem">
-<div class="csl-left-margin">9. </div><div class="csl-right-inline">Hinton, G. E. &amp; Salakhutdinov, R. R. Reducing the dimensionality of data with neural networks. <em>science</em> <strong>313</strong>, 504–507 (2006).</div>
+<div class="csl-left-margin">9. </div><div class="csl-right-inline">Hinton, G. E. &amp; Salakhutdinov, R. R. <a href="https://doi.org/10.1126/science.1127647">Reducing the dimensionality of data with neural networks</a>. <em>Science</em> <strong>313</strong>, 504–507 (2006).</div>
 </div>
 <div id="ref-stringer2021" class="csl-entry" role="listitem">
 <div class="csl-left-margin">10. </div><div class="csl-right-inline">Stringer, C., Wang, T., Michaelos, M. &amp; Pachitariu, M. <a href="https://doi.org/10.1038/s41592-020-01018-x">Cellpose: A generalist algorithm for cellular segmentation</a>. <em>Nature Methods</em> <strong>18</strong>, 100–106 (2021).</div>
 </div>
 <div id="ref-dosovitskiy2020image" class="csl-entry" role="listitem">
-<div class="csl-left-margin">11. </div><div class="csl-right-inline"><span class="nocase">Dosovitskiy, A. <em>et al.</em></span> An image is worth 16x16 words: Transformers for image recognition at scale. <em>arXiv preprint arXiv:2010.11929</em> (2020).</div>
+<div class="csl-left-margin">11. </div><div class="csl-right-inline">Dosovitskiy, A. <em>et al.</em> An image is worth 16x16 words: Transformers for image recognition at scale. in <em>International conference on learning representations (ICLR)</em> (2021). doi:<a href="https://doi.org/10.48550/arXiv.2010.11929">10.48550/arXiv.2010.11929</a>.</div>
 </div>
 <div id="ref-vaswani2017attention" class="csl-entry" role="listitem">
 <div class="csl-left-margin">12. </div><div class="csl-right-inline">Vaswani, A. <em>et al.</em> <a href="https://proceedings.neurips.cc/paper_files/paper/2017/hash/3f5ee243547dee91fbd053c1c4a845aa-Abstract.html">Attention is <span>All</span> you <span>Need</span></a>. in <em>Advances in <span>Neural</span> <span>Information</span> <span>Processing</span> <span>Systems</span></em> vol. 30 (Curran Associates, Inc., 2017).</div>
 </div>
 <div id="ref-kirillov2023segment" class="csl-entry" role="listitem">
-<div class="csl-left-margin">13. </div><div class="csl-right-inline"><span class="nocase">Kirillov, A. <em>et al.</em></span> Segment anything. in <em>Proceedings of the IEEE/CVF international conference on computer vision</em> 4015–4026 (2023).</div>
+<div class="csl-left-margin">13. </div><div class="csl-right-inline">Kirillov, A. <em>et al.</em> Segment anything. in <em>2023 IEEE/CVF international conference on computer vision (ICCV)</em> 3992–4003 (2023). doi:<a href="https://doi.org/10.1109/ICCV51070.2023.00371">10.1109/ICCV51070.2023.00371</a>.</div>
 </div>
 <div id="ref-Archit2025" class="csl-entry" role="listitem">
 <div class="csl-left-margin">14. </div><div class="csl-right-inline"><span class="nocase">Archit, A. <em>et al.</em></span> <a href="https://doi.org/10.1038/s41592-024-02580-4">Segment anything for microscopy</a>. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
 </div>
 <div id="ref-israel2025cellsam" class="csl-entry" role="listitem">
-<div class="csl-left-margin">15. </div><div class="csl-right-inline"><span class="nocase">Israel, U. <em>et al.</em></span> CellSAM: A foundation model for cell segmentation. <em>BioRxiv</em> 2023–11 (2025).</div>
+<div class="csl-left-margin">15. </div><div class="csl-right-inline">Marks, M. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-025-02879-w">CellSAM: A foundation model for cell segmentation</a>. <em>Nature Methods</em> <strong>22</strong>, 2585–2593 (2025).</div>
 </div>
-<div id="ref-pachitariu2025cellposesam" class="csl-entry" role="listitem">
-<div class="csl-left-margin">16. </div><div class="csl-right-inline">Pachitariu, M., Rariden, M. &amp; Stringer, C. Cellpose-<span>SAM</span>: Superhuman generalization for cellular segmentation. <em>bioRxiv</em> (2025) doi:<a href="https://doi.org/10.1101/2025.04.28.651001">10.1101/2025.04.28.651001</a>.</div>
+<div id="ref-pachitariu2025cellpose" class="csl-entry" role="listitem">
+<div class="csl-left-margin">16. </div><div class="csl-right-inline">Pachitariu, M., Rariden, M. &amp; Stringer, C. Cellpose-SAM: Superhuman generalization for cellular segmentation. <em>bioRxiv</em> 2025–04 (2025) doi:<a href="https://doi.org/10.1101/2025.04.28.651001">10.1101/2025.04.28.651001</a>.</div>
 </div>
 <div id="ref-liu2021swin" class="csl-entry" role="listitem">
-<div class="csl-left-margin">17. </div><div class="csl-right-inline">Liu, Z. <em>et al.</em> Swin transformer: Hierarchical vision transformer using shifted windows. in <em>Proceedings of the IEEE/CVF international conference on computer vision</em> 10012–10022 (2021).</div>
+<div class="csl-left-margin">17. </div><div class="csl-right-inline">Liu, Z. <em>et al.</em> Swin transformer: Hierarchical vision transformer using shifted windows. in <em>Proceedings of the IEEE/CVF international conference on computer vision</em> 10012–10022 (2021). doi:<a href="https://doi.org/10.1109/ICCV48922.2021.00986">10.1109/ICCV48922.2021.00986</a>.</div>
 </div>
 <div id="ref-zhang2025swincell" class="csl-entry" role="listitem">
-<div class="csl-left-margin">18. </div><div class="csl-right-inline">Zhang, X. <em>et al.</em> SwinCell: A 3D transformer and flow-based framework for improved cell segmentation. <em>Communications Biology</em> <strong>8</strong>, 962 (2025).</div>
+<div class="csl-left-margin">18. </div><div class="csl-right-inline">Zhang, X. <em>et al.</em> <a href="https://doi.org/10.1038/s42003-025-08397-x">SwinCell: A 3D transformer and flow-based framework for improved cell segmentation</a>. <em>Communications Biology</em> <strong>8</strong>, 962 (2025).</div>
 </div>
 <div id="ref-achard2025cellseg3d" class="csl-entry" role="listitem">
-<div class="csl-left-margin">19. </div><div class="csl-right-inline">Achard, C. <em>et al.</em> CellSeg3D, self-supervised 3D cell segmentation for fluorescence microscopy. <em>eLife</em> <strong>13</strong>, RP99848 (2025).</div>
+<div class="csl-left-margin">19. </div><div class="csl-right-inline">Achard, C. <em>et al.</em> <a href="https://doi.org/10.7554/eLife.99848.4">CellSeg3D, self-supervised 3D cell segmentation for fluorescence microscopy</a>. <em>eLife</em> <strong>13</strong>, RP99848 (2025).</div>
 </div>
 <div id="ref-heinrich2018synaptic" class="csl-entry" role="listitem">
-<div class="csl-left-margin">20. </div><div class="csl-right-inline">Heinrich, L., Funke, J., Pape, C., Nunez-Iglesias, J. &amp; Saalfeld, S. Synaptic cleft segmentation in non-isotropic volume electron microscopy of the complete drosophila brain. in <em>International conference on medical image computing and computer-assisted intervention</em> 317–325 (Springer, 2018).</div>
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Heinrich, L., Funke, J., Pape, C., Nunez-Iglesias, J. &amp; Saalfeld, S. Synaptic cleft segmentation in non-isotropic volume electron microscopy of the complete drosophila brain. in <em>Medical image computing and computer assisted intervention - MICCAI 2018: 21st international conference, granada, spain, september 16-20, 2018, proceedings, part II</em> 317–325 (Springer-Verlag, Berlin, Heidelberg, 2018). doi:<a href="https://doi.org/10.1007/978-3-030-00934-2_36">10.1007/978-3-030-00934-2_36</a>.</div>
 </div>
 <div id="ref-Schmidt2018" class="csl-entry" role="listitem">
 <div class="csl-left-margin">21. </div><div class="csl-right-inline">Schmidt, U., Weigert, M., Broaddus, C. &amp; Myers, G. Cell detection with star-convex polygons. in <em>Medical image computing and computer assisted intervention - MICCAI 2018</em> (eds. Frangi, A. F., Schnabel, J. A., Davatzikos, C., Alberola-López, C. &amp; Fichtinger, G.) 265–273 (Springer International Publishing, Cham, 2018). doi:<a href="https://doi.org/10.1007/978-3-030-00934-2_30">10.1007/978-3-030-00934-2_30</a>.</div>
 </div>
 <div id="ref-sheridan2023local" class="csl-entry" role="listitem">
-<div class="csl-left-margin">22. </div><div class="csl-right-inline">Sheridan, A. <em>et al.</em> Local shape descriptors for neuron segmentation. <em>Nature methods</em> <strong>20</strong>, 295–303 (2023).</div>
+<div class="csl-left-margin">22. </div><div class="csl-right-inline">Sheridan, A. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-022-01711-z">Local shape descriptors for neuron segmentation</a>. <em>Nature methods</em> <strong>20</strong>, 295–303 (2023).</div>
 </div>
 <div id="ref-kingma2014adam" class="csl-entry" role="listitem">
-<div class="csl-left-margin">23. </div><div class="csl-right-inline">Kingma, D. P. &amp; Ba, J. Adam: A method for stochastic optimization. <em>arXiv preprint arXiv:1412.6980</em> (2014).</div>
+<div class="csl-left-margin">23. </div><div class="csl-right-inline">Kingma, D. P. &amp; Ba, J. Adam: A method for stochastic optimization. (2017) doi:<a href="https://doi.org/10.48550/arXiv.1412.6980">10.48550/arXiv.1412.6980</a>.</div>
 </div>
 <div id="ref-loshchilov2016sgdr" class="csl-entry" role="listitem">
-<div class="csl-left-margin">24. </div><div class="csl-right-inline">Loshchilov, I. &amp; Hutter, F. Sgdr: Stochastic gradient descent with warm restarts. <em>arXiv preprint arXiv:1608.03983</em> (2016).</div>
+<div class="csl-left-margin">24. </div><div class="csl-right-inline">Loshchilov, I. &amp; Hutter, F. SGDR: Stochastic gradient descent with warm restarts. (2017) doi:<a href="https://doi.org/10.48550/arXiv.1608.03983">10.48550/arXiv.1608.03983</a>.</div>
 </div>
 <div id="ref-prechelt1998automatic" class="csl-entry" role="listitem">
-<div class="csl-left-margin">25. </div><div class="csl-right-inline">Prechelt, L. Automatic early stopping using cross validation: Quantifying the criteria. <em>Neural networks</em> <strong>11</strong>, 761–767 (1998).</div>
+<div class="csl-left-margin">25. </div><div class="csl-right-inline">Prechelt, L. <a href="https://doi.org/10.1016/S0893-6080(98)00010-0">Automatic early stopping using cross validation: Quantifying the criteria</a>. <em>Neural Networks</em> <strong>11</strong>, 761–767 (1998).</div>
 </div>
 <div id="ref-hinton2012improving" class="csl-entry" role="listitem">
-<div class="csl-left-margin">26. </div><div class="csl-right-inline">Hinton, G. E., Srivastava, N., Krizhevsky, A., Sutskever, I. &amp; Salakhutdinov, R. R. Improving neural networks by preventing co-adaptation of feature detectors. <em>arXiv preprint arXiv:1207.0580</em> (2012).</div>
+<div class="csl-left-margin">26. </div><div class="csl-right-inline">Hinton, G. E., Srivastava, N., Krizhevsky, A., Sutskever, I. &amp; Salakhutdinov, R. R. Improving neural networks by preventing co-adaptation of feature detectors. (2012) doi:<a href="https://doi.org/10.48550/arXiv.1207.0580">10.48550/arXiv.1207.0580</a>.</div>
 </div>
 <div id="ref-huang2016deep" class="csl-entry" role="listitem">
-<div class="csl-left-margin">27. </div><div class="csl-right-inline">Huang, G., Sun, Y., Liu, Z., Sedra, D. &amp; Weinberger, K. Q. Deep networks with stochastic depth. in <em>European conference on computer vision</em> 646–661 (Springer, 2016).</div>
+<div class="csl-left-margin">27. </div><div class="csl-right-inline">Huang, G., Sun, Y., Liu, Z., Sedra, D. &amp; Weinberger, K. Q. Deep networks with stochastic depth. in <em>European conference on computer vision</em> 646–661 (Springer, 2016). doi:<a href="https://doi.org/10.1007/978-3-319-46493-0_39">10.1007/978-3-319-46493-0_39</a>.</div>
 </div>
 <div id="ref-ioffe2015batch" class="csl-entry" role="listitem">
-<div class="csl-left-margin">28. </div><div class="csl-right-inline">Ioffe, S. &amp; Szegedy, C. Batch normalization: Accelerating deep network training by reducing internal covariate shift. in <em>International conference on machine learning</em> 448–456 (pmlr, 2015).</div>
+<div class="csl-left-margin">28. </div><div class="csl-right-inline">Ioffe, S. &amp; Szegedy, C. Batch normalization: Accelerating deep network training by reducing internal covariate shift. in <em>Proceedings of the 32nd international conference on machine learning - volume 37</em> 448–456 (JMLR.org, Lille, France, 2015). doi:<a href="https://doi.org/10.5555/3045118.3045167">10.5555/3045118.3045167</a>.</div>
 </div>
 <div id="ref-ba2016layer" class="csl-entry" role="listitem">
-<div class="csl-left-margin">29. </div><div class="csl-right-inline">Ba, J. L., Kiros, J. R. &amp; Hinton, G. E. Layer normalization. <em>arXiv preprint arXiv:1607.06450</em> (2016).</div>
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Ba, J. L., Kiros, J. R. &amp; Hinton, G. E. Layer normalization. (2016) doi:<a href="https://doi.org//10.48550/arXiv.1607.06450">/10.48550/arXiv.1607.06450</a>.</div>
 </div>
 <div id="ref-wang2020cnn" class="csl-entry" role="listitem">
-<div class="csl-left-margin">30. </div><div class="csl-right-inline">Wang, Z. J. <em>et al.</em> CNN explainer: Learning convolutional neural networks with interactive visualization. <em>IEEE Transactions on Visualization and Computer Graphics</em> <strong>27</strong>, 1396–1406 (2020).</div>
+<div class="csl-left-margin">30. </div><div class="csl-right-inline">Wang, Z. J. <em>et al.</em> <a href="https://doi.org/10.1109/TVCG.2020.3030418">CNN explainer: Learning convolutional neural networks with interactive visualization</a>. <em>IEEE Transactions on Visualization and Computer Graphics</em> <strong>27</strong>, 1396–1406 (2021).</div>
 </div>
 </div>
 </section>

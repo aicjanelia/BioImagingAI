@@ -347,7 +347,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2-primer.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI Primer</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI in a nutshell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -596,12 +596,13 @@ window.Quarto = {
   <li><a href="#pixel-classifiers" id="toc-pixel-classifiers" class="nav-link" data-scroll-target="#pixel-classifiers">Pixel Classifiers</a></li>
   <li><a href="#point-spread-function-psf" id="toc-point-spread-function-psf" class="nav-link" data-scroll-target="#point-spread-function-psf">Point Spread Function (PSF)</a></li>
   <li><a href="#pooling-layer" id="toc-pooling-layer" class="nav-link" data-scroll-target="#pooling-layer">Pooling Layer</a></li>
+  <li><a href="#pre-training" id="toc-pre-training" class="nav-link" data-scroll-target="#pre-training">Pre-training</a></li>
   <li><a href="#precision" id="toc-precision" class="nav-link" data-scroll-target="#precision">Precision</a></li>
-  <li><a href="#predictive-model" id="toc-predictive-model" class="nav-link" data-scroll-target="#predictive-model">Predictive Model</a></li>
   <li><a href="#probability-vector" id="toc-probability-vector" class="nav-link" data-scroll-target="#probability-vector">Probability Vector</a></li>
   <li><a href="#pseudo-label" id="toc-pseudo-label" class="nav-link" data-scroll-target="#pseudo-label">Pseudo-label</a></li>
   <li><a href="#quality-control-metric" id="toc-quality-control-metric" class="nav-link" data-scroll-target="#quality-control-metric">Quality Control Metric</a></li>
   <li><a href="#rcan-residual-channel-attention-network" id="toc-rcan-residual-channel-attention-network" class="nav-link" data-scroll-target="#rcan-residual-channel-attention-network">RCAN (residual channel attention network)</a></li>
+  <li><a href="#random-forest" id="toc-random-forest" class="nav-link" data-scroll-target="#random-forest">Random forest</a></li>
   <li><a href="#relu" id="toc-relu" class="nav-link" data-scroll-target="#relu">ReLU</a></li>
   <li><a href="#real-time-analysis" id="toc-real-time-analysis" class="nav-link" data-scroll-target="#real-time-analysis">Real-time analysis</a></li>
   <li><a href="#recall" id="toc-recall" class="nav-link" data-scroll-target="#recall">Recall</a></li>
@@ -611,6 +612,7 @@ window.Quarto = {
   <li><a href="#regularization" id="toc-regularization" class="nav-link" data-scroll-target="#regularization">Regularization</a></li>
   <li><a href="#reinforcement-learning" id="toc-reinforcement-learning" class="nav-link" data-scroll-target="#reinforcement-learning">Reinforcement learning</a></li>
   <li><a href="#representation" id="toc-representation" class="nav-link" data-scroll-target="#representation">Representation</a></li>
+  <li><a href="#representation-collapse" id="toc-representation-collapse" class="nav-link" data-scroll-target="#representation-collapse">Representation collapse</a></li>
   <li><a href="#resnet" id="toc-resnet" class="nav-link" data-scroll-target="#resnet">ResNet</a></li>
   <li><a href="#resampling" id="toc-resampling" class="nav-link" data-scroll-target="#resampling">Resampling</a></li>
   <li><a href="#resolution-enhancement" id="toc-resolution-enhancement" class="nav-link" data-scroll-target="#resolution-enhancement">Resolution enhancement</a></li>
@@ -698,7 +700,7 @@ window.Quarto = {
 </section>
 <section id="aberration" class="level2">
 <h2 class="anchored" data-anchor-id="aberration">Aberration</h2>
-<p>The spreading of light (also called ‘wavefront distortion’) due to imperfections in the optical path or variations in refractive index at the sample, which results in images that are blurrier than the ideal diffraction-limited image we would expect were aberrations absent.</p>
+<p>A distortion of the light’s wavefront caused by imperfections in the optical path or by refractive-index variations in the sample. It spreads the light and makes images blurrier than the ideal diffraction-limited image.</p>
 </section>
 <section id="activation-function" class="level2">
 <h2 class="anchored" data-anchor-id="activation-function">Activation Function</h2>
@@ -722,7 +724,7 @@ window.Quarto = {
 </section>
 <section id="attribution-map" class="level2">
 <h2 class="anchored" data-anchor-id="attribution-map">Attribution map</h2>
-<p>An attribution map is a pixel-wise image of how much each part of the input image contributed to the output image.</p>
+<p>A per-pixel image of how much each part of the input contributed to a model’s output. Some widely used variants are insensitive to the trained model and should be checked before they are trusted.</p>
 </section>
 <section id="autoencoder" class="level2">
 <h2 class="anchored" data-anchor-id="autoencoder">Autoencoder</h2>
@@ -740,7 +742,7 @@ window.Quarto = {
 </section>
 <section id="backpropagation" class="level2">
 <h2 class="anchored" data-anchor-id="backpropagation">Backpropagation</h2>
-<p>The method used by neural networks to learn from its predictions. Once the prediction is done, it is compared with the ground truth through a training loss and the value of the comparison is used backwards to sequentially update the weights in the neural network, reward it when making a good prediction and punish it when making a bad prediction.</p>
+<p>The method that computes, for every parameter of a neural network, how a small change in that parameter would change the error measured by the <a href="./glossary.html#loss-function">loss function</a>. It applies the chain rule of calculus backwards, from the error through all layers of the network. Backpropagation itself does not change the network; <a href="./glossary.html#gradient-descent">gradient descent</a> uses the values it computes to adjust the parameters so that the error decreases.</p>
 </section>
 <section id="balanced-dataset" class="level2">
 <h2 class="anchored" data-anchor-id="balanced-dataset">Balanced Dataset</h2>
@@ -772,7 +774,7 @@ window.Quarto = {
 </section>
 <section id="boosting-algorithm" class="level2">
 <h2 class="anchored" data-anchor-id="boosting-algorithm">Boosting algorithm</h2>
-<p>An ensemble learning method that builds a strong classifier by training many weak learners sequentially, with each new learner trained to correct the errors of the previous ones.</p>
+<p>An <a href="./glossary.html#ensemble">ensemble</a> method that builds a strong classifier from many simple ones, typically small <a href="./glossary.html#decision-tree">decision trees</a>, trained one after another so that each corrects the errors its predecessors left behind.</p>
 </section>
 <section id="bounding-region" class="level2">
 <h2 class="anchored" data-anchor-id="bounding-region">Bounding region</h2>
@@ -876,11 +878,11 @@ window.Quarto = {
 </section>
 <section id="deep-learning" class="level2">
 <h2 class="anchored" data-anchor-id="deep-learning">Deep learning</h2>
-<p>Deep learning is a type of <a href="./glossary.html#machine-learning">machine learning</a> that uses multi-layer <a href="./glossary.html#nueral-network">neural network</a> to peform tasks. The term “deep” refers to the use of many layers in the network.</p>
+<p>Deep learning is a type of <a href="./glossary.html#machine-learning">machine learning</a> that uses multi-layer <a href="./glossary.html#neural-network">neural networks</a> to perform tasks. The term “deep” refers to the use of many layers in the network.</p>
 </section>
 <section id="denoising" class="level2">
 <h2 class="anchored" data-anchor-id="denoising">Denoising</h2>
-<p>Denoising is a process in which unwanted noise or distortions are removed from an image or dataset. The goal of denoising is preserve the key underlying information during the process.</p>
+<p>Denoising is a process in which unwanted noise or distortions are removed from an image or dataset. The goal of denoising is to preserve the underlying signal while doing so.</p>
 </section>
 <section id="detection" class="level2">
 <h2 class="anchored" data-anchor-id="detection">Detection</h2>
@@ -916,7 +918,7 @@ window.Quarto = {
 </section>
 <section id="embedding-space" class="level2">
 <h2 class="anchored" data-anchor-id="embedding-space">Embedding Space</h2>
-<p>Embedding space is also know as a latent space or latent feature space. This space is a set of variables that describe items such that similar items are positioned closer together in the space.</p>
+<p>The space of lists of numbers (embeddings) that a model uses to describe its inputs. Also known as latent space or latent feature space.</p>
 </section>
 <section id="encoder-decoder" class="level2">
 <h2 class="anchored" data-anchor-id="encoder-decoder">Encoder-Decoder</h2>
@@ -992,7 +994,7 @@ window.Quarto = {
 </section>
 <section id="generative-model" class="level2">
 <h2 class="anchored" data-anchor-id="generative-model">Generative Model</h2>
-<p>A generative model is trained to create a distribution of responses, and to pull a sample from it as output. Because of this, running the model twice on the same input can lead to two different answers, each of which is as consistent with the training as the other. The sampled image or data will contain texture and noise like a real image, in contrast to the smoothed results of a <a href="./glossary.html#predictive-model">predictive model</a>.</p>
+<p>A model trained to draw samples from the distribution of possible outputs, rather than to return their mean. Running it twice on the same input can give two different answers. Each sample has the texture and contrast of real data, unlike the smooth mean, but no single sample represents the whole distribution. Variational autoencoders, generative adversarial networks, diffusion models, and flow matching are common examples.</p>
 </section>
 <section id="genetic-algorithms" class="level2">
 <h2 class="anchored" data-anchor-id="genetic-algorithms">Genetic Algorithms</h2>
@@ -1054,7 +1056,7 @@ window.Quarto = {
 </section>
 <section id="large-language-model-llm" class="level2">
 <h2 class="anchored" data-anchor-id="large-language-model-llm">Large Language Model (LLM)</h2>
-<p>Large Language Models (LLMs) are a type of AI model that was trained on a vast amount of data. Users interact with LLMs using natural language to accomplish a variety of tasks.</p>
+<p>A <a href="./glossary.html#foundation-model">foundation model</a> for text, pre-trained on a vast amount of text to predict the next word, and usually further trained to follow instructions. Users interact with LLMs in natural language to accomplish a variety of tasks.</p>
 </section>
 <section id="linear-layer" class="level2">
 <h2 class="anchored" data-anchor-id="linear-layer">Linear Layer</h2>
@@ -1078,7 +1080,7 @@ window.Quarto = {
 </section>
 <section id="machine-learning" class="level2">
 <h2 class="anchored" data-anchor-id="machine-learning">Machine learning</h2>
-<p>Machine learning is a type of artificial intelligence that focuses on learning from patterns in data and generalizing to new data. This allows the machine to take advantage of statistical algorithms to perform tasks without explicit instructions.</p>
+<p>A type of <a href="./glossary.html#artificial-intelligence">artificial intelligence</a> in which a person designs a family of functions with free parameters, and an optimization procedure fits the parameters to a set of examples. The rules are learned from data rather than written down by hand, and the goal is that they generalize to new data.</p>
 </section>
 <section id="manual-annotation" class="level2">
 <h2 class="anchored" data-anchor-id="manual-annotation">Manual Annotation</h2>
@@ -1110,7 +1112,7 @@ window.Quarto = {
 </section>
 <section id="n2n-noise2noise" class="level2">
 <h2 class="anchored" data-anchor-id="n2n-noise2noise">N2N (Noise2Noise)</h2>
-<p>A supervised denoising method that trains a neural network on pairs of independently noisy images of the same scene, requiring no clean reference data but needing paired noisy inputs. See <a href="https://github.com/NVlabs/noise2noise">https://github.com/NVlabs/noise2noise</a> for more information.</p>
+<p>A denoising method that trains a neural network on pairs of independently noisy images of the same scene, one as input and the other as target. It needs no clean reference image, but it needs the pairs. See <a href="https://github.com/NVlabs/noise2noise">https://github.com/NVlabs/noise2noise</a> for more information.</p>
 </section>
 <section id="n2s-noise2self" class="level2">
 <h2 class="anchored" data-anchor-id="n2s-noise2self">N2S (Noise2Self)</h2>
@@ -1134,7 +1136,7 @@ window.Quarto = {
 </section>
 <section id="neural-network" class="level2">
 <h2 class="anchored" data-anchor-id="neural-network">Neural Network</h2>
-<p>Neural networks are a type of computational model that was inspired by the way that biological neural networks are structured.</p>
+<p>A function built from many simple units, each adding up weighted inputs and passing the result through a simple nonlinear response, arranged in layers. The weights are the parameters learned during training. The name is a historical analogy to networks of biological neurons.</p>
 </section>
 <section id="neural-network-unit" class="level2">
 <h2 class="anchored" data-anchor-id="neural-network-unit">Neural Network Unit</h2>
@@ -1178,7 +1180,7 @@ window.Quarto = {
 </section>
 <section id="overfitting" class="level2">
 <h2 class="anchored" data-anchor-id="overfitting">Overfitting</h2>
-<p>When a model learns its training data too well it will no longer generalize well to new data, instead focusing on random noise and details that were present in the training data.</p>
+<p>When a model fits its training data so closely that it memorizes noise and incidental details, and no longer generalizes well to new data.</p>
 </section>
 <section id="padding" class="level2">
 <h2 class="anchored" data-anchor-id="padding">Padding</h2>
@@ -1208,13 +1210,13 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="pooling-layer">Pooling Layer</h2>
 <p>A pooling layer aggregates information from many vectors into fewer vectors, i.e., it downsamples the image. The pooling layer does this using sliding windows across the image of maximum or average operations. This removes redundant information and reduces the size of the image for the following calculations.</p>
 </section>
+<section id="pre-training" class="level2">
+<h2 class="anchored" data-anchor-id="pre-training">Pre-training</h2>
+<p>The first and most expensive stage of training, in which a model learns a general-purpose <a href="./glossary.html#representation">representation</a> from a large dataset, usually without labels by <a href="./glossary.html#self-supervised-learning">self-supervised learning</a>. The pre-trained model is then adapted to a specific task with far fewer labeled examples, by <a href="./glossary.html#fine-tuning">fine-tuning</a> or <a href="./glossary.html#semi-supervised-learning">semi-supervised learning</a>. <a href="./glossary.html#foundation-model">Foundation models</a> are pre-trained models.</p>
+</section>
 <section id="precision" class="level2">
 <h2 class="anchored" data-anchor-id="precision">Precision</h2>
 <p>A classification metric that measures the proportion of predicted positives that are correct: <a href="./glossary.html#true-positives">true positives</a> divided by the sum of true positives and <a href="./glossary.html#false-positives">false positives</a>. Precision answers “of everything the model called positive, how much actually was?” A model can achieve high precision by only making positive predictions it is very confident about, at the cost of missing some true positives (i.e., lower <a href="./glossary.html#recall">recall</a>). <span class="math display">\[ \text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}}\]</span></p>
-</section>
-<section id="predictive-model" class="level2">
-<h2 class="anchored" data-anchor-id="predictive-model">Predictive Model</h2>
-<p>A predictive model returns a single result, which is based on the average of everything the input could have been. This often results in a smoothed result, in contrast to the results from a <a href="./glossary.html#generative-model">generative model</a></p>
 </section>
 <section id="probability-vector" class="level2">
 <h2 class="anchored" data-anchor-id="probability-vector">Probability Vector</h2>
@@ -1231,6 +1233,10 @@ window.Quarto = {
 <section id="rcan-residual-channel-attention-network" class="level2">
 <h2 class="anchored" data-anchor-id="rcan-residual-channel-attention-network">RCAN (residual channel attention network)</h2>
 <p>A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See <a href="https://github.com/AiviaCommunity/3D-RCAN">https://github.com/AiviaCommunity/3D-RCAN</a> for more information.</p>
+</section>
+<section id="random-forest" class="level2">
+<h2 class="anchored" data-anchor-id="random-forest">Random forest</h2>
+<p>An <a href="./glossary.html#ensemble">ensemble</a> of <a href="./glossary.html#decision-tree">decision trees</a>, each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g.&nbsp;in ilastik and Labkit.</p>
 </section>
 <section id="relu" class="level2">
 <h2 class="anchored" data-anchor-id="relu">ReLU</h2>
@@ -1262,11 +1268,15 @@ window.Quarto = {
 </section>
 <section id="reinforcement-learning" class="level2">
 <h2 class="anchored" data-anchor-id="reinforcement-learning">Reinforcement learning</h2>
-<p>In reinforcement learning, <a href="./glossary.html#ai-agent">AI agents</a> learn how to make decisions by peforming tasks, after which they receive awards and/or penalties to improve decision making.</p>
+<p>In reinforcement learning, <a href="./glossary.html#ai-agent">AI agents</a> learn how to make decisions by acting and receiving rewards or penalties for the consequences, adjusting their behavior to collect more reward. No examples of correct behavior are needed.</p>
 </section>
 <section id="representation" class="level2">
 <h2 class="anchored" data-anchor-id="representation">Representation</h2>
-<p>A representation takes raw data (e.g., the pixels in an image or words in this textbook) and puts it into a structured format that the network can process.</p>
+<p>The internal description of an input that a network computes on the way to its output: a list of numbers that summarizes what the network has learned to consider relevant about an image or a text. A good representation can be reused for tasks the network was not trained on, which is what makes <a href="./glossary.html#foundation-model">foundation models</a> useful.</p>
+</section>
+<section id="representation-collapse" class="level2">
+<h2 class="anchored" data-anchor-id="representation-collapse">Representation collapse</h2>
+<p>A failure of <a href="./glossary.html#self-supervised-learning">self-supervised learning</a> in which the network describes every input with the same, or nearly the same, embedding. This trivially satisfies objectives that only reward agreement between views, but the network learns nothing. Not to be confused with <a href="./glossary.html#model-collapse">model collapse</a>.</p>
 </section>
 <section id="resnet" class="level2">
 <h2 class="anchored" data-anchor-id="resnet">ResNet</h2>
@@ -1294,7 +1304,7 @@ window.Quarto = {
 </section>
 <section id="self-supervised-learning" class="level2">
 <h2 class="anchored" data-anchor-id="self-supervised-learning">Self-supervised learning</h2>
-<p>A deep learning method where models generate their own supervisory signals from unlabeled data, often by using pretext tasks, to learn useful representations that can be applied to various downstream tasks.</p>
+<p>A form of <a href="./glossary.html#machine-learning">machine learning</a> that turns unlabeled data into a supervised problem, typically by hiding part of the data and training the model to fill it in. The model either is used directly, as in self-supervised denoising, or provides a <a href="./glossary.html#representation">representation</a> that is later adapted to other tasks.</p>
 </section>
 <section id="semantic-segmentation" class="level2">
 <h2 class="anchored" data-anchor-id="semantic-segmentation">Semantic Segmentation</h2>
@@ -1302,7 +1312,7 @@ window.Quarto = {
 </section>
 <section id="semi-supervised-learning" class="level2">
 <h2 class="anchored" data-anchor-id="semi-supervised-learning">Semi-Supervised Learning</h2>
-<p>Semi-supervised learning, also known as weak supervision, trains using a relatively small amount of labeled data combined with a large amount of unlabeled data. This combines techniques used in supervised learning with techniques from unsupervised learning.</p>
+<p>Training on a small amount of labeled data combined with a large amount of unlabeled data, for example by letting the model label the unlabeled examples itself (pseudo-labels) and learning from those as well. It often starts from a model after <a href="./glossary.html#pre-training">pre-training</a> without labels. Not to be confused with weak supervision, which trains on coarse or noisy labels.</p>
 </section>
 <section id="shallow-decision-trees" class="level2">
 <h2 class="anchored" data-anchor-id="shallow-decision-trees">Shallow decision trees</h2>
@@ -1314,7 +1324,7 @@ window.Quarto = {
 </section>
 <section id="shortcut-learning" class="level2">
 <h2 class="anchored" data-anchor-id="shortcut-learning">Shortcut learning</h2>
-<p>Shortcut learning occurs when a network learns about superficial or trivial features in the data rather than learning the important underlying concepts. For example, a network may learn that cancer patient datasets came from a different hospital than the healthy patients, rather than learning anything different about the structure of the MRI scans.</p>
+<p>Shortcut learning occurs when a network learns about superficial or trivial features in the data rather than learning the important underlying concepts. For example, a classifier whose control wells all sit at the edge of a plate may learn to recognize the edge position rather than the phenotype, and networks trained on chest radiographs can pick up which hospital acquired an image.</p>
 </section>
 <section id="sigmoid-function" class="level2">
 <h2 class="anchored" data-anchor-id="sigmoid-function">Sigmoid Function</h2>
@@ -1358,7 +1368,7 @@ window.Quarto = {
 </section>
 <section id="supervised-learning" class="level2">
 <h2 class="anchored" data-anchor-id="supervised-learning">Supervised learning</h2>
-<p>A deep learning method where models learn from labeled data (input-output pairs), enabling them to learn a mapping function for making predictions or decisions on unseen inputs.</p>
+<p>A form of <a href="./glossary.html#machine-learning">machine learning</a> in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a class, a position, a mask, or another image.</p>
 </section>
 <section id="support-vector-machine-svm" class="level2">
 <h2 class="anchored" data-anchor-id="support-vector-machine-svm">Support vector machine (SVM)</h2>
@@ -1402,7 +1412,7 @@ window.Quarto = {
 </section>
 <section id="transformer-models" class="level2">
 <h2 class="anchored" data-anchor-id="transformer-models">Transformer Models</h2>
-<p>A deep learning architecture based on the multi-head attention mechanism; specifically referring to the ‘vision transformer’ architecture. A vision transformer (ViT) is a transformer designed for computer vision. A ViT decomposes an input image into a series of patches (rather than text into tokens), serializes each patch into a vector, and maps it to a smaller dimension with a single matrix multiplication. These vector embeddings are then processed by a transformer encoder as if they were token embeddings.</p>
+<p>A deep learning architecture, originally developed for language, in which every part of the input is compared with every other part (attention), so that distant regions can inform each other. A vision transformer (ViT) cuts an image into small patches and treats them like the words of a sentence.</p>
 </section>
 <section id="true-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="true-negatives">True Negatives</h2>

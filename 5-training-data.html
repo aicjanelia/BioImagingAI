@@ -339,7 +339,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2-primer.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI Primer</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI in a nutshell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -578,7 +578,7 @@ Table&nbsp;5.1: Task-specific training-data requirements
 </section>
 <section id="choosing-representative-samples" class="level3" data-number="5.1.2">
 <h3 data-number="5.1.2" class="anchored" data-anchor-id="choosing-representative-samples"><span class="header-section-number">5.1.2</span> Choosing representative samples</h3>
-<p>Changes in staining, illumination, or detector settings can make images of the same biological structures look different and a model may fail on later acquisitions if its training data do not cover these differences. Such a systematic difference in the distribution of images, labels, or their relationship between training and later data is called <a href="./glossary.html#domain-shift">domain shift</a>. The bottom row of <a href="#fig-training-data-mismatches" class="quarto-xref">Figure&nbsp;<span>5.1</span></a> illustrates an extreme example: a denoising model trained on nuclei is applied to membrane images and fails to preserve their thin boundaries. Another example is classifying control and treated samples that were stained using different protocols. Such a systematic influence of staining on image appearance, called a <a href="./glossary.html#batch-effects">batch effect</a>, may let the model distinguish the groups by staining rather than by the biology<span class="citation" data-cites="geirhosShortcutLearningDeep2020"><sup><a href="references.html#ref-geirhosShortcutLearningDeep2020" role="doc-biblioref">5</a></sup></span>. If the staining protocol changes again in later acquisitions, the same batch effect can also cause domain shift.</p>
+<p>Changes in staining, illumination, or detector settings can make images of the same biological structures look different and a model may fail on later acquisitions if its training data do not cover these differences. Such a systematic difference in the distribution of images, labels, or their relationship between training and later data is called <a href="./glossary.html#domain-shift">domain shift</a>. The bottom row of <a href="#fig-training-data-mismatches" class="quarto-xref">Figure&nbsp;<span>5.1</span></a> illustrates an extreme example: a denoising model trained on nuclei is applied to membrane images and fails to preserve their thin boundaries. Another example is classifying control and treated samples that were stained using different protocols. Such a systematic influence of staining on image appearance, called a <a href="./glossary.html#batch-effects">batch effect</a>, may let the model distinguish the groups by staining rather than by the biology<span class="citation" data-cites="geirhos_shortcut_2020"><sup><a href="references.html#ref-geirhos_shortcut_2020" role="doc-biblioref">5</a></sup></span>. If the staining protocol changes again in later acquisitions, the same batch effect can also cause domain shift.</p>
 <p>To address these problems, collect independent specimens from each condition you plan to analyze, rather than relying on many images from one experiment. Sampling different regions within each specimen captures variation in structure, object density, and signal level, but cannot show how these features change between experiments. Including control and treated samples in the same experiments and acquisition batches then helps separate biological differences from technical effects<span class="citation" data-cites="bertramDataSetCreation2026"><sup><a href="references.html#ref-bertramDataSetCreation2026" role="doc-biblioref">6</a></sup></span>. Having relevant variation in the training data provides a form of insurance against failures on later experiments, so filling gaps in coverage should take priority over acquiring more similar images. Rotations, flips, intensity changes, or simulated noise can introduce variation through <a href="./glossary.html#data-augmentation">data augmentation</a>, provided they are physically and biologically plausible for the task. Spatial transformations must be identical for paired inputs and targets. Although augmentation can increase the nominal training-set size, it creates transformed versions of existing measurements and does not add independent specimens or experiments.</p>
 </section>
 <section id="planning-independent-splits" class="level3" data-number="5.1.3">
@@ -739,7 +739,7 @@ Table&nbsp;5.3: Example tools for dataset inspection and quality control
 <td>Stains, tissue regions, annotations, metadata, and slide heterogeneity</td>
 </tr>
 <tr class="even">
-<td>TrackMate<span class="citation" data-cites="ershovTrackMate7Integrating2022b"><sup><a href="references.html#ref-ershovTrackMate7Integrating2022b" role="doc-biblioref">20</a></sup></span> and Mastodon<span class="citation" data-cites="girstmairMastodonCommandCenter2025a"><sup><a href="references.html#ref-girstmairMastodonCommandCenter2025a" role="doc-biblioref">21</a></sup></span></td>
+<td>TrackMate<span class="citation" data-cites="ershov_trackmate_2022"><sup><a href="references.html#ref-ershov_trackmate_2022" role="doc-biblioref">20</a></sup></span> and Mastodon<span class="citation" data-cites="girstmairMastodonCommandCenter2025a"><sup><a href="references.html#ref-girstmairMastodonCommandCenter2025a" role="doc-biblioref">21</a></sup></span></td>
 <td>Time-lapse tracking and lineage data</td>
 <td>Detections, divisions, gaps, links, and lineage consistency</td>
 </tr>
@@ -808,8 +808,8 @@ Table&nbsp;5.3: Example tools for dataset inspection and quality control
 <div id="ref-Krull2019" class="csl-entry" role="listitem">
 <div class="csl-left-margin">4. </div><div class="csl-right-inline">Krull, A., Buchholz, T.-O. &amp; Jug, F. Noise2Void - learning denoising from single noisy images. in <em>2019 IEEE/CVF conference on computer vision and pattern recognition (CVPR)</em> 2124–2132 (2019). doi:<a href="https://doi.org/10.1109/CVPR.2019.00223">10.1109/CVPR.2019.00223</a>.</div>
 </div>
-<div id="ref-geirhosShortcutLearningDeep2020" class="csl-entry" role="listitem">
-<div class="csl-left-margin">5. </div><div class="csl-right-inline">Geirhos, R. <em>et al.</em> <a href="https://doi.org/10.1038/s42256-020-00257-z">Shortcut learning in deep neural networks</a>. <em>Nat Mach Intell</em> <strong>2</strong>, 665–673 (2020).</div>
+<div id="ref-geirhos_shortcut_2020" class="csl-entry" role="listitem">
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Geirhos, R. <em>et al.</em> <a href="https://doi.org/10.1038/s42256-020-00257-z">Shortcut learning in deep neural networks</a>. <em>Nature Machine Intelligence</em> <strong>2</strong>, 665–673 (2020).</div>
 </div>
 <div id="ref-bertramDataSetCreation2026" class="csl-entry" role="listitem">
 <div class="csl-left-margin">6. </div><div class="csl-right-inline">Bertram, C. A. <em>et al.</em> Data set creation for supervised deep learning-based analysis of microscopic images: Review of important considerations and recommendations. <em>Veterinary Pathology</em> 03009858261457959 (2026) doi:<a href="https://doi.org/10.1177/03009858261457959">10.1177/03009858261457959</a>.</div>
@@ -853,8 +853,8 @@ Table&nbsp;5.3: Example tools for dataset inspection and quality control
 <div id="ref-Bankhead2017" class="csl-entry" role="listitem">
 <div class="csl-left-margin">19. </div><div class="csl-right-inline">Bankhead, P. <em>et al.</em> <a href="https://doi.org/10.1038/s41598-017-17204-5"><span>QuPath</span>: Open source software for digital pathology image analysis</a>. <em>Sci. Rep.</em> <strong>7</strong>, 16878 (2017).</div>
 </div>
-<div id="ref-ershovTrackMate7Integrating2022b" class="csl-entry" role="listitem">
-<div class="csl-left-margin">20. </div><div class="csl-right-inline">Ershov, D. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-022-01507-1">TrackMate 7: Integrating state-of-the-art segmentation algorithms into tracking pipelines</a>. <em>Nature Methods</em> <strong>19</strong>, 829–832 (2022).</div>
+<div id="ref-ershov_trackmate_2022" class="csl-entry" role="listitem">
+<div class="csl-left-margin">20. </div><div class="csl-right-inline">Ershov, D. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-022-01507-1"><span>TrackMate</span> 7: Integrating state-of-the-art segmentation algorithms into tracking pipelines</a>. <em>Nature Methods</em> <strong>19</strong>, 829–832 (2022).</div>
 </div>
 <div id="ref-girstmairMastodonCommandCenter2025a" class="csl-entry" role="listitem">
 <div class="csl-left-margin">21. </div><div class="csl-right-inline">Girstmair, J. <em>et al.</em> Mastodon: The command center for large-scale lineage-tracing microscopy datasets. <a href="https://doi.org/10.64898/2025.12.10.693416">https://doi.org/10.64898/2025.12.10.693416</a> (2025) doi:<a href="https://doi.org/10.64898/2025.12.10.693416">10.64898/2025.12.10.693416</a>.</div>

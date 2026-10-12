@@ -340,7 +340,7 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2-primer.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI Primer</span></span></a>
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">AI in a nutshell</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -476,8 +476,8 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   </ul></li>
   <li><a href="#case-studies" id="toc-case-studies" class="nav-link" data-scroll-target="#case-studies"><span class="header-section-number">8.7</span> Case Studies</a>
   <ul class="collapse">
-  <li><a href="#case-study-1" id="toc-case-study-1" class="nav-link" data-scroll-target="#case-study-1"><span class="header-section-number">8.7.1</span> Case Study 1:</a></li>
-  <li><a href="#case-study-2" id="toc-case-study-2" class="nav-link" data-scroll-target="#case-study-2"><span class="header-section-number">8.7.2</span> Case Study 2:</a></li>
+  <li><a href="#case-study-8.1" id="toc-case-study-8.1" class="nav-link" data-scroll-target="#case-study-8.1"><span class="header-section-number">8.7.1</span> Case Study 8.1:</a></li>
+  <li><a href="#case-study-8.2" id="toc-case-study-8.2" class="nav-link" data-scroll-target="#case-study-8.2"><span class="header-section-number">8.7.2</span> Case Study 8.2:</a></li>
   </ul></li>
   <li><a href="#conclusion-2" id="toc-conclusion-2" class="nav-link" data-scroll-target="#conclusion-2"><span class="header-section-number">8.8</span> Conclusion</a></li>
   </ul>
@@ -541,20 +541,29 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Figure 1: Workflows contain modular components
+<span class="screen-reader-only">Note</span>Workflows contain modular components
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><img src="8-existing-tools_files/workflows.png" title="Workflows contain modular components" class="img-fluid" alt="Workflows contain modular components"> <strong>Figure 1.</strong> When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left of image) typically consists of multiple, modular subcomponents (right of image). You may be able to replace your whole workflow with an appropriate AI tool or you may be able to replace only a subcomponent while still keeping many of the original workflow subcomponents the same. Replacing a single subcomponent with an AI tool may force you to change surrounding subcomponents in your workflow - either with new tools or new configurations of existing tools - as the AI tool may require different inputs and produce different outputs.</p>
-<p>Though you may have built a workflow across multiple softwares, it is worth considering whether a single software (or a reduced number of softwares) can run your workflow and part of this consideration includes assessing how well your desired AI tool can run from within other software. Some examples of softwares that can be used to run other softwares include CellProfiler<span class="citation" data-cites="Stirling2021"><sup><a href="references.html#ref-Stirling2021" role="doc-biblioref">1</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">2</a></sup></span>, Bilayers<span class="citation" data-cites="Shah"><sup><a href="references.html#ref-Shah" role="doc-biblioref">3</a></sup></span>, ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">4</a></sup></span> or DL4MicEverywhere<span class="citation" data-cites="Hidalgo-Cenalmor2024"><sup><a href="references.html#ref-Hidalgo-Cenalmor2024" role="doc-biblioref">5</a></sup></span>, and Jupyter notebooks<span class="citation" data-cites="jupyter"><sup><a href="references.html#ref-jupyter" role="doc-biblioref">6</a></sup></span>.</p>
-<p>Figure adapted from<span class="citation" data-cites="Haase2024"><sup><a href="references.html#ref-Haase2024" role="doc-biblioref">7</a></sup></span>.</p>
+<div id="fig-workflows" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-workflows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/workflows.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-workflows-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.1: Adapted from<span class="citation" data-cites="Haase2024"><sup><a href="references.html#ref-Haase2024" role="doc-biblioref">1</a></sup></span>.
+</figcaption>
+</figure>
+</div>
+<p>When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left of image) typically consists of multiple, modular subcomponents (right of image). You may be able to replace your whole workflow with an appropriate AI tool or you may be able to replace only a subcomponent while still keeping many of the original workflow subcomponents the same. Replacing a single subcomponent with an AI tool may force you to change surrounding subcomponents in your workflow - either with new tools or new configurations of existing tools - as the AI tool may require different inputs and produce different outputs.</p>
+<p>Though you may have built a workflow across multiple softwares, it is worth considering whether a single software (or a reduced number of softwares) can run your workflow and part of this consideration includes assessing how well your desired AI tool can run from within other software. Some examples of softwares that can be used to run other softwares include CellProfiler<span class="citation" data-cites="Stirling2021"><sup><a href="references.html#ref-Stirling2021" role="doc-biblioref">2</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a></sup></span>, Bilayers<span class="citation" data-cites="Shah"><sup><a href="references.html#ref-Shah" role="doc-biblioref">4</a></sup></span>, ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">5</a></sup></span> or DL4MicEverywhere<span class="citation" data-cites="Hidalgo-Cenalmor2024"><sup><a href="references.html#ref-Hidalgo-Cenalmor2024" role="doc-biblioref">6</a></sup></span>, and Jupyter notebooks<span class="citation" data-cites="jupyter"><sup><a href="references.html#ref-jupyter" role="doc-biblioref">7</a></sup></span>.</p>
 </div>
 </div>
 <section id="questions-about-your-overall-workflow" class="level3" data-number="8.2.1">
 <h3 data-number="8.2.1" class="anchored" data-anchor-id="questions-about-your-overall-workflow"><span class="header-section-number">8.2.1</span> Questions about your overall workflow:</h3>
 <ul>
 <li><strong>What is your desired output?</strong><br>
-You must be able to concisely and specifically state what you would like output by your workflow. Do you need to segment objects? If so, do you need <a href="./glossary.html#semantic-segmentation">semantic</a>, <a href="./glossary.html#instance-segmentation">instance</a>, or <a href="./glossary.html#panoptic-segmentation">panoptic segmentation</a> (<a href="#Box1">Box 1</a>)? (see <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a> for more information) Do you need measurements and if so should they be made on individual objects or on images?<br>
+You must be able to concisely and specifically state what you would like output by your workflow. Do you need to segment objects? If so, do you need <a href="./glossary.html#semantic-segmentation">semantic</a>, <a href="./glossary.html#instance-segmentation">instance</a>, or <a href="./glossary.html#panoptic-segmentation">panoptic segmentation</a> (<a href="#Box1">Box 8.1</a>)? (see <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a> for more information) Do you need measurements and if so should they be made on individual objects or on images?<br>
 </li>
 <li><strong>How will you assess your outputs?</strong><br>
 Will your assessment be qualitative or quantitative? Do you have ground truth? Do you have the expertise to assess output quality? (see <a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a> for more information)</li>
@@ -626,7 +635,7 @@ There are many different reasons that images might require preprocessing and som
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<span class="screen-reader-only">Note</span>Box 1: Segmentation methods
+<span class="screen-reader-only">Note</span>Box 8.1: Segmentation methods
 </div>
 </div>
 <div class="callout-body-container callout-body">
@@ -664,7 +673,17 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><img src="8-existing-tools_files/research_progress.png" title="Research progress is rarely linear" class="img-fluid" alt="Research progress is rarely linear"> <strong>Figure 2.</strong> As scientists who care about the quality of our work, it’s tempting to always try to maximize the accuracy of our analysis. But it’s worth considering that “accuracy” vs “time spent” is often an asymptotic curve - you can keep pushing the accuracy higher and higher, but the gains may be marginal past a particular point. Time and effort spent on a project can have very different relationships with the output quality. Though one might hope to be in a regime where the amount of time spent is linearly correlated with the quality of a project’s output (blue line) so that it is clear exactly how much time must be put in to get a desired product, research rarely proceeds in such a fashion. Instead, it progresses in unpredictable fits and starts (green line) and/or it is in a state of diminishing returns (red line) where the closer you get to “perfect”, the longer it takes to improve the quality.</p>
+<div id="fig-research-progress" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-research-progress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/research_progress.png" title="Research progress is rarely linear" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-research-progress-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.2: Research progress is rarely linear
+</figcaption>
+</figure>
+</div>
+<p>As scientists who care about the quality of our work, it’s tempting to always try to maximize the accuracy of our analysis. But it’s worth considering that “accuracy” vs “time spent” is often an asymptotic curve - you can keep pushing the accuracy higher and higher, but the gains may be marginal past a particular point. Time and effort spent on a project can have very different relationships with the output quality. Though one might hope to be in a regime where the amount of time spent is linearly correlated with the quality of a project’s output (blue line) so that it is clear exactly how much time must be put in to get a desired product, research rarely proceeds in such a fashion. Instead, it progresses in unpredictable fits and starts (green line) and/or it is in a state of diminishing returns (red line) where the closer you get to “perfect”, the longer it takes to improve the quality.</p>
 </div>
 </div>
 <p>In<span class="citation" data-cites="Cimini2019"><sup><a href="references.html#ref-Cimini2019" role="doc-biblioref">11</a></sup></span> we detail and provide examples for a few key heuristics that we think about when deciding if a workflow is “good enough”. Those heuristics are:</p>
@@ -682,7 +701,7 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 </section>
 <section id="choosing-the-kind-of-tool-to-use" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="choosing-the-kind-of-tool-to-use"><span class="header-section-number">8.5</span> Choosing the kind of tool to use</h2>
-<p>Let’s consider the use case of instance segmentation (see <a href="#Box1">Box 1</a>), which is often a critical step in image analysis workflows. We have defined 6 categories of segmentation methods, each of which has its valid use cases. Ordered by increasing levels of computation comfort required they are:</p>
+<p>Let’s consider the use case of instance segmentation (see <a href="#Box1">Box 8.1</a>), which is often a critical step in image analysis workflows. We have defined 6 categories of segmentation methods, each of which has its valid use cases. Ordered by increasing levels of computation comfort required they are:</p>
 <ul>
 <li><a href="./glossary.html#manual-annotation">Manual annotation</a><br>
 </li>
@@ -713,7 +732,7 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 <tbody>
 <tr class="odd">
 <td style="text-align: left;"><strong>Manual Annotation</strong>: Hand-drawing in boundaries of all objects</td>
-<td style="text-align: left;">ImageJ<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">2</a></sup></span> <span class="citation" data-cites="Schindelin2015"><sup><a href="references.html#ref-Schindelin2015" role="doc-biblioref">12</a></sup></span>, Napari<span class="citation" data-cites="napari"><sup><a href="references.html#ref-napari" role="doc-biblioref">13</a></sup></span>, see also <a href="https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918">this forum thread</a> for 3D annotation</td>
+<td style="text-align: left;">ImageJ<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a></sup></span> <span class="citation" data-cites="Schindelin2015"><sup><a href="references.html#ref-Schindelin2015" role="doc-biblioref">12</a></sup></span>, Napari<span class="citation" data-cites="napari"><sup><a href="references.html#ref-napari" role="doc-biblioref">13</a></sup></span>, see also <a href="https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918">this forum thread</a> for 3D annotation</td>
 <td style="text-align: left;">Highest</td>
 <td style="text-align: left;">High accuracy/ outputs approaching ground truth</td>
 <td style="text-align: left;">High</td>
@@ -722,7 +741,7 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Classical Image Processing</strong>: Combining mathematically well-defined operations such as thresholding and watershedding to create objects</td>
-<td style="text-align: left;">CellProfiler<span class="citation" data-cites="Stirling2021"><sup><a href="references.html#ref-Stirling2021" role="doc-biblioref">1</a></sup></span>, QuPath<span class="citation" data-cites="Bankhead2017"><sup><a href="references.html#ref-Bankhead2017" role="doc-biblioref">14</a></sup></span>, Icy<span class="citation" data-cites="de-Chaumont2012"><sup><a href="references.html#ref-de-Chaumont2012" role="doc-biblioref">15</a></sup></span></td>
+<td style="text-align: left;">CellProfiler<span class="citation" data-cites="Stirling2021"><sup><a href="references.html#ref-Stirling2021" role="doc-biblioref">2</a></sup></span>, QuPath<span class="citation" data-cites="Bankhead2017"><sup><a href="references.html#ref-Bankhead2017" role="doc-biblioref">14</a></sup></span>, Icy<span class="citation" data-cites="de-Chaumont2012"><sup><a href="references.html#ref-de-Chaumont2012" role="doc-biblioref">15</a></sup></span></td>
 <td style="text-align: left;">Medium</td>
 <td style="text-align: left;">Needing to have a good sense of what the failure cases will be (e.g.&nbsp;when cells are too big, too small, too crowded, etc); needing to run in minimal computational footprints</td>
 <td style="text-align: left;">High</td>
@@ -766,7 +785,7 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 <h3 data-number="8.6.1" class="anchored" data-anchor-id="where-to-look-for-tools-and-models"><span class="header-section-number">8.6.1</span> Where to look for tools and models</h3>
 <p>There are many places that one can look to find new (or new-to-them) tools and models. A few suggestions are as follows:</p>
 <ul>
-<li>BioImage Model Zoo<span class="citation" data-cites="Ouyang2022"><sup><a href="references.html#ref-Ouyang2022" role="doc-biblioref">22</a></sup></span> is a community-driven AI model repository that offers a variety of pretrained AI models. All models are described by a common Model Resource Description File Specification which simplifies using models in the BioImage Model Zoo with partner software such as ilastik<span class="citation" data-cites="Berg2019"><sup><a href="references.html#ref-Berg2019" role="doc-biblioref">16</a></sup></span>, ImJoy<span class="citation" data-cites="Ouyang2019"><sup><a href="references.html#ref-Ouyang2019" role="doc-biblioref">23</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">2</a></sup></span>, deepImageJ<span class="citation" data-cites="Gomez-de-Mariscal2021"><sup><a href="references.html#ref-Gomez-de-Mariscal2021" role="doc-biblioref">24</a></sup></span> and ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">4</a></sup></span>.</li>
+<li>BioImage Model Zoo<span class="citation" data-cites="Ouyang2022"><sup><a href="references.html#ref-Ouyang2022" role="doc-biblioref">22</a></sup></span> is a community-driven AI model repository that offers a variety of pretrained AI models. All models are described by a common Model Resource Description File Specification which simplifies using models in the BioImage Model Zoo with partner software such as ilastik<span class="citation" data-cites="Berg2019"><sup><a href="references.html#ref-Berg2019" role="doc-biblioref">16</a></sup></span>, ImJoy<span class="citation" data-cites="Ouyang2019"><sup><a href="references.html#ref-Ouyang2019" role="doc-biblioref">23</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a></sup></span>, deepImageJ<span class="citation" data-cites="Gomez-de-Mariscal2021"><sup><a href="references.html#ref-Gomez-de-Mariscal2021" role="doc-biblioref">24</a></sup></span> and ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">5</a></sup></span>.</li>
 <li>Bioimage Informatics Index (Biii)<span class="citation" data-cites="Zhang2023"><sup><a href="references.html#ref-Zhang2023" role="doc-biblioref">25</a></sup></span> is a community-curated index that includes software and helps researchers find tools whether their search is problem-based (e.g.&nbsp;“find nuclei in cells”), method-based (e.g.&nbsp;“active contour-based segmentation”), or tool-based (e.g.&nbsp;“CellProfiler”).<br>
 </li>
 <li>The Scientific Community Image Forum (<a href="http://forum.image.sc">forum.image.sc</a>)<span class="citation" data-cites="Rueden2019"><sup><a href="references.html#ref-Rueden2019" role="doc-biblioref">26</a></sup></span> is a platform where users can pose bioimage software-related questions and receive feedback from a broad user community and maintainers from &gt;75 partner softwares.<br>
@@ -790,8 +809,8 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 </section>
 <section id="case-studies" class="level2" data-number="8.7">
 <h2 data-number="8.7" class="anchored" data-anchor-id="case-studies"><span class="header-section-number">8.7</span> Case Studies</h2>
-<section id="case-study-1" class="level3" data-number="8.7.1">
-<h3 data-number="8.7.1" class="anchored" data-anchor-id="case-study-1"><span class="header-section-number">8.7.1</span> Case Study 1:</h3>
+<section id="case-study-8.1" class="level3" data-number="8.7.1">
+<h3 data-number="8.7.1" class="anchored" data-anchor-id="case-study-8.1"><span class="header-section-number">8.7.1</span> Case Study 8.1:</h3>
 <section id="introduction-1" class="level4" data-number="8.7.1.1">
 <h4 data-number="8.7.1.1" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">8.7.1.1</span> Introduction</h4>
 <p>Elena is an image analyst who uses high content microscopy as a method for exploring drug mechanism of action. She uses an automated microscope to acquire 9 fields of view in each well of a 384-well plate and just acquired a batch of 4 plates worth of images. She often performs the same assay so she has a series of pipelines that she has nicely tuned for her usual experimental parameters. Elena has a new collaborator that would like to perform a similar screen in a different cell line as the collaborator is interested in a different specific area of biology. Because this is the first time that Elena has performed this assay in a new cell line, she needs to carefully tune her existing pipelines so that she has high-quality segmentation of Nuclei and Cell objects.</p>
@@ -832,8 +851,8 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 <p>This case study starts with a scientist trying to use her standard classical image processing methodds for object identification but finding that she gets better results with a new challenging segmentation task by moving to an AI tool. It shows iterative improvements using the same tool in different ways and highlights some of the simple changes she needed to make to her overall workflow to use the new tool.</p>
 </section>
 </section>
-<section id="case-study-2" class="level3" data-number="8.7.2">
-<h3 data-number="8.7.2" class="anchored" data-anchor-id="case-study-2"><span class="header-section-number">8.7.2</span> Case Study 2:</h3>
+<section id="case-study-8.2" class="level3" data-number="8.7.2">
+<h3 data-number="8.7.2" class="anchored" data-anchor-id="case-study-8.2"><span class="header-section-number">8.7.2</span> Case Study 8.2:</h3>
 <section id="introduction-2" class="level4" data-number="8.7.2.1">
 <h4 data-number="8.7.2.1" class="anchored" data-anchor-id="introduction-2"><span class="header-section-number">8.7.2.1</span> Introduction</h4>
 <p>Esteban is an image analyst, working with imaging data acquired by a collaborator. The collaborator studies zebrafish brains and sent Esteban fluorescent images taken in a large z-stack in live zebrafish. The zebrafish express a GFP-tagged protein in their microglia and the collaborators would like to be able to identify the microglia using an automated pipeline so that the researchers can ask biological questions such as where they are within the brain and whether they are close to other cell types (labeled in other fluorescent channels). The task is complicated because there is additional autofluorescence in the skin that is the same intensity as the microglia and they do not want skin autofluorescence identified. The images also have technical challenges because of the nature of their acquisition: because they are 3D live images, as you go deeper in the tissue the signal gets dimmer. This makes using normal <a href="./glossary.html#computer-vision">computer vision</a> segmentation quite hard.</p>
@@ -888,26 +907,26 @@ C) Ilastik uses pixel-based machine learning to create semantic segmentation. Th
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
+<div id="ref-Haase2024" class="csl-entry" role="listitem">
+<div class="csl-left-margin">1. </div><div class="csl-right-inline">Haase, R., Tischer, C., Bankhead, P., Miura, K. &amp; Cimini, B. <a href="https://osf.io/preprints/osf/2zgmc_v1">A call for <span>FAIR</span> and open-access training materials to advance <span>BioImage</span> analysis</a>. (2024).</div>
+</div>
 <div id="ref-Stirling2021" class="csl-entry" role="listitem">
-<div class="csl-left-margin">1. </div><div class="csl-right-inline">Stirling, D. R. <em>et al.</em> <a href="https://doi.org/10.1186/s12859-021-04344-9"><span>CellProfiler</span> 4: Improvements in speed, utility and usability</a>. <em>BMC Bioinformatics</em> <strong>22</strong>, 433 (2021).</div>
+<div class="csl-left-margin">2. </div><div class="csl-right-inline">Stirling, D. R. <em>et al.</em> <a href="https://doi.org/10.1186/s12859-021-04344-9"><span>CellProfiler</span> 4: Improvements in speed, utility and usability</a>. <em>BMC Bioinformatics</em> <strong>22</strong>, 433 (2021).</div>
 </div>
 <div id="ref-Schindelin2012" class="csl-entry" role="listitem">
-<div class="csl-left-margin">2. </div><div class="csl-right-inline">Schindelin, J. <em>et al.</em> <a href="https://doi.org/10.1038/nmeth.2019">Fiji: An open-source platform for biological-image analysis</a>. <em>Nature Methods</em> <strong>9</strong>, 676–682 (2012).</div>
+<div class="csl-left-margin">3. </div><div class="csl-right-inline">Schindelin, J. <em>et al.</em> <a href="https://doi.org/10.1038/nmeth.2019">Fiji: An open-source platform for biological-image analysis</a>. <em>Nature Methods</em> <strong>9</strong>, 676–682 (2012).</div>
 </div>
 <div id="ref-Shah" class="csl-entry" role="listitem">
-<div class="csl-left-margin">3. </div><div class="csl-right-inline">Shah, R., Gogoberidze, N. &amp; Cimini, B. <a href="https://github.com/bilayer-containers/bilayers">Bilayers</a>.</div>
+<div class="csl-left-margin">4. </div><div class="csl-right-inline">Shah, R., Gogoberidze, N. &amp; Cimini, B. <a href="https://github.com/bilayer-containers/bilayers">Bilayers</a>.</div>
 </div>
 <div id="ref-von_chamier2021" class="csl-entry" role="listitem">
-<div class="csl-left-margin">4. </div><div class="csl-right-inline">Chamier, L. von <em>et al.</em> <a href="https://doi.org/10.1038/s41467-021-22518-0">Democratising deep learning for microscopy with <span>ZeroCostDL4Mic</span></a>. <em>Nature Communications</em> <strong>12</strong>, 2276 (2021).</div>
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">Chamier, L. von <em>et al.</em> <a href="https://doi.org/10.1038/s41467-021-22518-0">Democratising deep learning for microscopy with <span>ZeroCostDL4Mic</span></a>. <em>Nature Communications</em> <strong>12</strong>, 2276 (2021).</div>
 </div>
 <div id="ref-Hidalgo-Cenalmor2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">5. </div><div class="csl-right-inline">Hidalgo-Cenalmor, I. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02295-6"><span>DL4MicEverywhere</span>: Deep learning for microscopy made flexible, shareable and reproducible</a>. <em>Nat. Methods</em> <strong>21</strong>, 925–927 (2024).</div>
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">Hidalgo-Cenalmor, I. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02295-6"><span>DL4MicEverywhere</span>: Deep learning for microscopy made flexible, shareable and reproducible</a>. <em>Nat. Methods</em> <strong>21</strong>, 925–927 (2024).</div>
 </div>
 <div id="ref-jupyter" class="csl-entry" role="listitem">
-<div class="csl-left-margin">6. </div><div class="csl-right-inline"><span class="nocase">Kluyver, T. <em>et al.</em></span> <a href="https://eprints.soton.ac.uk/403913/">Jupyter notebooks - a publishing format for reproducible computational workflows</a>. in <em>Positioning and power in academic publishing: Players, agents and agendas</em> (eds. Loizides, F. &amp; Scmidt, B.) 87–90 (IOS Press, Netherlands, 2016).</div>
-</div>
-<div id="ref-Haase2024" class="csl-entry" role="listitem">
-<div class="csl-left-margin">7. </div><div class="csl-right-inline">Haase, R., Tischer, C., Bankhead, P., Miura, K. &amp; Cimini, B. <a href="https://osf.io/preprints/osf/2zgmc_v1">A call for <span>FAIR</span> and open-access training materials to advance <span>BioImage</span> analysis</a>. (2024).</div>
+<div class="csl-left-margin">7. </div><div class="csl-right-inline"><span class="nocase">Kluyver, T. <em>et al.</em></span> <a href="https://eprints.soton.ac.uk/403913/">Jupyter notebooks - a publishing format for reproducible computational workflows</a>. in <em>Positioning and power in academic publishing: Players, agents and agendas</em> (eds. Loizides, F. &amp; Scmidt, B.) 87–90 (IOS Press, Netherlands, 2016).</div>
 </div>
 <div id="ref-Ljosa2012" class="csl-entry" role="listitem">
 <div class="csl-left-margin">8. </div><div class="csl-right-inline">Ljosa, V., Sokolnicki, K. L. &amp; Carpenter, A. E. <a href="https://doi.org/10.1038/nmeth.2083">Annotated high-throughput microscopy image sets for validation</a>. <em>Nat. Methods</em> <strong>9</strong>, 637 (2012).</div>
