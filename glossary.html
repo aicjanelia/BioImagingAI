@@ -558,6 +558,8 @@ window.Quarto = {
   <li><a href="#iou" id="toc-iou" class="nav-link" data-scroll-target="#iou">IoU</a></li>
   <li><a href="#kernel" id="toc-kernel" class="nav-link" data-scroll-target="#kernel">Kernel</a></li>
   <li><a href="#large-language-model-llm" id="toc-large-language-model-llm" class="nav-link" data-scroll-target="#large-language-model-llm">Large Language Model (LLM)</a></li>
+  <li><a href="#learning-rate" id="toc-learning-rate" class="nav-link" data-scroll-target="#learning-rate">Learning Rate</a></li>
+  <li><a href="#learning-rate-schedule" id="toc-learning-rate-schedule" class="nav-link" data-scroll-target="#learning-rate-schedule">Learning Rate Schedule</a></li>
   <li><a href="#linear-layer" id="toc-linear-layer" class="nav-link" data-scroll-target="#linear-layer">Linear Layer</a></li>
   <li><a href="#localization" id="toc-localization" class="nav-link" data-scroll-target="#localization">Localization</a></li>
   <li><a href="#logprobs" id="toc-logprobs" class="nav-link" data-scroll-target="#logprobs">Logprobs</a></li>
@@ -615,6 +617,7 @@ window.Quarto = {
   <li><a href="#representation-collapse" id="toc-representation-collapse" class="nav-link" data-scroll-target="#representation-collapse">Representation collapse</a></li>
   <li><a href="#resnet" id="toc-resnet" class="nav-link" data-scroll-target="#resnet">ResNet</a></li>
   <li><a href="#resampling" id="toc-resampling" class="nav-link" data-scroll-target="#resampling">Resampling</a></li>
+  <li><a href="#residual-connection" id="toc-residual-connection" class="nav-link" data-scroll-target="#residual-connection">Residual Connection</a></li>
   <li><a href="#resolution-enhancement" id="toc-resolution-enhancement" class="nav-link" data-scroll-target="#resolution-enhancement">Resolution enhancement</a></li>
   <li><a href="#retrieval-augmented-generation" id="toc-retrieval-augmented-generation" class="nav-link" data-scroll-target="#retrieval-augmented-generation">Retrieval-Augmented Generation</a></li>
   <li><a href="#segmentation-mask" id="toc-segmentation-mask" class="nav-link" data-scroll-target="#segmentation-mask">Segmentation mask</a></li>
@@ -634,6 +637,7 @@ window.Quarto = {
   <li><a href="#smart-microscopy" id="toc-smart-microscopy" class="nav-link" data-scroll-target="#smart-microscopy">Smart microscopy</a></li>
   <li><a href="#spatial-domain" id="toc-spatial-domain" class="nav-link" data-scroll-target="#spatial-domain">Spatial Domain</a></li>
   <li><a href="#star-convex-polygon" id="toc-star-convex-polygon" class="nav-link" data-scroll-target="#star-convex-polygon">Star-convex Polygon</a></li>
+  <li><a href="#stochastic-gradient-descent-sgd" id="toc-stochastic-gradient-descent-sgd" class="nav-link" data-scroll-target="#stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</a></li>
   <li><a href="#stride" id="toc-stride" class="nav-link" data-scroll-target="#stride">Stride</a></li>
   <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning">Supervised learning</a></li>
   <li><a href="#support-vector-machine-svm" id="toc-support-vector-machine-svm" class="nav-link" data-scroll-target="#support-vector-machine-svm">Support vector machine (SVM)</a></li>
@@ -647,6 +651,7 @@ window.Quarto = {
   <li><a href="#training-target" id="toc-training-target" class="nav-link" data-scroll-target="#training-target">Training Target</a></li>
   <li><a href="#transfer-learning" id="toc-transfer-learning" class="nav-link" data-scroll-target="#transfer-learning">Transfer Learning</a></li>
   <li><a href="#transformer-models" id="toc-transformer-models" class="nav-link" data-scroll-target="#transformer-models">Transformer Models</a></li>
+  <li><a href="#transposed-convolution" id="toc-transposed-convolution" class="nav-link" data-scroll-target="#transposed-convolution">Transposed Convolution</a></li>
   <li><a href="#true-negatives" id="toc-true-negatives" class="nav-link" data-scroll-target="#true-negatives">True Negatives</a></li>
   <li><a href="#true-positives" id="toc-true-positives" class="nav-link" data-scroll-target="#true-positives">True Positives</a></li>
   <li><a href="#u-net" id="toc-u-net" class="nav-link" data-scroll-target="#u-net">U-Net</a></li>
@@ -1058,6 +1063,14 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="large-language-model-llm">Large Language Model (LLM)</h2>
 <p>A <a href="./glossary.html#foundation-model">foundation model</a> for text, pre-trained on a vast amount of text to predict the next word, and usually further trained to follow instructions. Users interact with LLMs in natural language to accomplish a variety of tasks.</p>
 </section>
+<section id="learning-rate" class="level2">
+<h2 class="anchored" data-anchor-id="learning-rate">Learning Rate</h2>
+<p>The amount weights are updated at every iteration during <a href="./glossary.html#gradient-descent">gradient descent</a>. Metaphorically, this represents how fast the network “learns” from the current state at each iteration.</p>
+</section>
+<section id="learning-rate-schedule" class="level2">
+<h2 class="anchored" data-anchor-id="learning-rate-schedule">Learning Rate Schedule</h2>
+<p>A programmatic change in the learning rate over the course of an entire training run. This often involves reducing the learning rate near the end of training to enable smaller steps down the gradient, fine-tuning the weights near the loss minimum.</p>
+</section>
 <section id="linear-layer" class="level2">
 <h2 class="anchored" data-anchor-id="linear-layer">Linear Layer</h2>
 <p>Linear layers are also known as fully-connected layers or dense layers. They are a set of input nodes (or neurons) that are each connected to every output node of the layer.</p>
@@ -1286,6 +1299,10 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="resampling">Resampling</h2>
 <p>In the context of <a href="./glossary.html#convolutional-neural-networks-cnns">CNNs</a>, resampling describes changing the spatial dimensions of the image or features maps through either downsampling or upsampling. For example, an input 2D image could be resampled to be half the size in x and y.</p>
 </section>
+<section id="residual-connection" class="level2">
+<h2 class="anchored" data-anchor-id="residual-connection">Residual Connection</h2>
+<p>A specific instance of a skip connection, in which the input of a transformation block is added to the output.</p>
+</section>
 <section id="resolution-enhancement" class="level2">
 <h2 class="anchored" data-anchor-id="resolution-enhancement">Resolution enhancement</h2>
 <p>Deep learning methods that attempt to predict higher resolution images given lower resolution input data.</p>
@@ -1362,6 +1379,10 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="star-convex-polygon">Star-convex Polygon</h2>
 <p>A geometric shape used in segmentation algorithms like StarDist. Imagine drawing straight lines (rays) from the centre of an object out toward its edges — if you can see the edge from the centre in all directions, the object is considered star-convex. This method works well for blob-like structures such as nuclei, because their general shape can be captured by measuring how far each ray travels from the centre to the boundary.</p>
 </section>
+<section id="stochastic-gradient-descent-sgd" class="level2">
+<h2 class="anchored" data-anchor-id="stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</h2>
+<p>As most modern problems require large <a href="./glossary.html#training-data">training datasets</a> to effectively capture underlying signals, attempting to calculate the gradient over the entire dataset is often computationally prohibative. This is overcome by <a href="./glossary.html#batch">batching</a> the training data into smaller subsets. This naturally injects some stochasticty (randomness) into the gradient descent procedure based on how the batches are randomly determined.</p>
+</section>
 <section id="stride" class="level2">
 <h2 class="anchored" data-anchor-id="stride">Stride</h2>
 <p>When performing a convolution or cross-correlation, the kernel (aka the filter) moves across the entire image. When the stride is 1, this corresponds to moving the filter across every pixel in the image. For larger values of the stride, the kernel is moved more than one element at a time. For example, a stride of 2 would skip every other pixel in the image.</p>
@@ -1413,6 +1434,14 @@ window.Quarto = {
 <section id="transformer-models" class="level2">
 <h2 class="anchored" data-anchor-id="transformer-models">Transformer Models</h2>
 <p>A deep learning architecture, originally developed for language, in which every part of the input is compared with every other part (attention), so that distant regions can inform each other. A vision transformer (ViT) cuts an image into small patches and treats them like the words of a sentence.</p>
+</section>
+<section id="transposed-convolution" class="level2">
+<h2 class="anchored" data-anchor-id="transposed-convolution">Transposed Convolution</h2>
+<p>As in a normal convolution, a transposed convolution involves an image and a kernel. However, in this case, the image slides over the kernel (as opposed to the other way around). This naturally results in a spatially upsampled output, relative to the input. The <a href="./glossary.html#stride">stride</a> and <a href="./glossary.html#padding">padding</a> determines the upsampling factor. In particular, if the input is of size <span class="math inline">\((I_h , I_w)\)</span>, then a transposed convolution with kernel size <span class="math inline">\((k_h , k_w)\)</span>, padding size <span class="math inline">\((p_h , p_w)\)</span>, and stride <span class="math inline">\((s_h , s_w)\)</span> will result in an output of size <span class="math inline">\((O_h , O_w)\)</span>: <span class="math display">\[ \begin{aligned}
+  O_h &amp;= (I_h - 1) s_h + k_h - 2 p_h \\
+  O_w &amp;= (I_w - 1) s_w + k_w - 2 p_w
+\end{aligned}
+\]</span> This is often used in CNN architectures such as the <a href="./glossary.html#u-net">U-Net</a> to produce outputs at the correct spatial scale. See <a href="https://www.d2l.ai/chapter_computer-vision/transposed-conv.html">this example</a> for more information.</p>
 </section>
 <section id="true-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="true-negatives">True Negatives</h2>
