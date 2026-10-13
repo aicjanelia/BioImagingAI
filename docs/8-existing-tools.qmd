@@ -14,6 +14,9 @@ author:
         state: MA
         country: USA
         postal-code: 02142
+language:
+  crossref-nte-prefix: "Box"
+  crossref-nte-title: "Box"
 ---
 
 # How to Find and Select a Tool {#sec-8}
@@ -22,8 +25,6 @@ author:
 | *Imaging Platform, Broad Institute*
 | 
 :::
-
-## Introduction
 
 We are now transitioning away from a discussion of hardware and into a discussion of software.
 And, more specifically, in this chapter we focus on image analysis, particularly the human thought processes and decisions needed for selecting what software to use and figuring out how to appropriately/best use it.
@@ -42,7 +43,7 @@ Finally, we show a couple of case studies that fulfill different requirements.
 Before finding and selecting an AI tool, you first need to decide on the type of tool you need.
 Your tool selection will be influenced by a number of factors and you should first honestly answer the questions that follow.
 
-::: {.callout-note icon=false id=Figure1}
+::: {.callout-note icon=false #nte-Figure1}
 ## Workflows contain modular components
 
 ![Adapted from @Haase2024.](8-existing-tools_files/workflows.png){#fig-workflows}
@@ -61,7 +62,7 @@ Some examples of softwares that can be used to run other softwares include CellP
 - **What is your desired output?**   
   You must be able to concisely and specifically state what you would like output by your workflow.
   Do you need to segment objects?
-  If so, do you need [semantic](glossary.qmd#semantic-segmentation), [instance](glossary.qmd#instance-segmentation), or [panoptic segmentation](glossary.qmd#panoptic-segmentation) ([Box 8.1](#Box1))? (see @sec-4 and @sec-9 for more information)
+  If so, do you need [semantic](glossary.qmd#semantic-segmentation), [instance](glossary.qmd#instance-segmentation), or [panoptic segmentation](glossary.qmd#panoptic-segmentation) (@nte-Box1)? (see @sec-4 and @sec-9 for more information)
   Do you need measurements and if so should they be made on individual objects or on images?   
 - **How will you assess your outputs?**  
   Will your assessment be qualitative or quantitative?
@@ -72,7 +73,7 @@ Some examples of softwares that can be used to run other softwares include CellP
 - **What does your ideal workflow look like?**  
   Do you need all of the outputs to be made in a single software or are you comfortable using multiple softwares? If your images require preprocessing, does that need to happen in the same step? The same software?
 
-::: {.callout-note icon=false id=groundtruth}
+::: {.callout-note icon=false #nte-groundtruth}
 ### Ground Truth
 **Ground truth** can mean many things.
 The Broad Bioimage Benchmark Collection (BBBC) @Ljosa2012 provides an nice example of this.
@@ -134,8 +135,8 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
   There are many different reasons that images might require preprocessing and some of those reasons may be a way to overcome concerns/technical challenges raised in other questions above.
   Some examples of preprocessing include stitching or cropping of images, denoising, background subtraction, or flat field correction.
 
-::: {.callout-note icon=false id=Box1}
-## Box 8.1: Segmentation methods
+::: {.callout-note icon="false" #nte-Box1}
+## Segmentation methods
 In computer vision, there are several discrete kinds of segmentation, although in the field of bioimaging we often refer to all kinds of segmentation under the single blanket term of "segmentation".
 **Semantic segmentation** divides an image into classes.
 Ilastik is an example of a popular image analysis software that performs semantic segmentation.
@@ -170,7 +171,7 @@ In our experience, the best way to be sure you're best serving your scientific n
 
 Once you have conducted a thorough needs assessment, it should *theoretically* be simple to determine if a given tool or model is the right one for you. Unfortunately, no tool is likely to perfectly fit every single need that you have!
 You will likely need to break your needs into "must haves" and "nice-to-haves", and rank tools accordingly.
-Make sure you consider not just how well the tool will perform your specific task, but also how well it will fit in your workflow ([Figure 1](#Figure1))
+Make sure you consider not just how well the tool will perform your specific task, but also how well it will fit in your workflow (@nte-Figure1)
 
 ## How do I decide when my workflow is "good enough"? 
 
@@ -184,7 +185,7 @@ Additionally, during the piloting phase, there are likely to be changes introduc
 Phenotypic effect size has a large impact on necessary quality level.
 Simple, easily distinguished phenotypes (e.g. GFP is either in the nucleus or cytoplasm) may reach statistical significance with many fewer individual measurements and using much simple/cruder regions of interest (e.g. cell bounding boxes instead of careful cell margin segmentations) than more subtle phenotypes.
 
-::: {.callout-note icon=false}
+::: {.callout-note icon=false #nte-progress-not-linear}
 ## Research progress is rarely linear
 
 ![Research progress is rarely linear](8-existing-tools_files/research_progress.png "Research progress is rarely linear"){#fig-research-progress}
@@ -207,7 +208,7 @@ Those heuristics are:
 
 ## Choosing the kind of tool to use
 
-Let's consider the use case of instance segmentation (see [Box 8.1](#Box1)), which is often a critical step in image analysis workflows.
+Let's consider the use case of instance segmentation (see @nte-Box1), which is often a critical step in image analysis workflows.
 We have defined 6 categories of segmentation methods, each of which has its valid use cases.
 Ordered by increasing levels of computation comfort required they are:
 
@@ -251,7 +252,7 @@ All models are described by a common Model Resource Description File Specificati
 - Academic literature can include biology-focused research where users describe applications or computer science research where the tools and models themselves are more likely to be described.
 Keeping an eye on preprint servers like arXiv (particularly in Computing Research Repository or Quantitative Biology sections) and bioRxiv can help you find the most cutting-edge developments.
 
-::: {.callout-note icon=false}
+::: {.callout-note icon=false #nte-bioimage-analysts}
 ## Bioimage analysts
 
 There is a whole discipline of people who specialize in figuring out workflows for analyzing microscopy images - their official titles often vary, but many think of themselves as  *bioimage analysts*. If you want to find a local bioimage analyst, or even become one, you can check out the [Global Bioimage Analysts' Society (GloBIAS)](https://www.globias.org/), which holds events, coordinates trainings (including free help sessions), and hosts a database of bioimage analysts and bioimage analysis trainers.
@@ -259,7 +260,7 @@ There is a whole discipline of people who specialize in figuring out workflows f
 
 ## Case Studies
 
-### Case Study 8.1:
+### Case Study 8.1
 
 #### Introduction
 
@@ -306,7 +307,7 @@ The image above shows her new CellProfiler pipeline with the RunCellpose module 
 This case study starts with a scientist trying to use her standard classical image processing methodds for object identification but finding that she gets better results with a new challenging segmentation task by moving to an AI tool.
 It shows iterative improvements using the same tool in different ways and highlights some of the simple changes she needed to make to her overall workflow to use the new tool.
 
-### Case Study 8.2:  
+### Case Study 8.2 {#sec-case-study-8.2}
 
 #### Introduction
 

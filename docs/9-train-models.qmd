@@ -54,11 +54,6 @@ subtitle: Practical considerations through the lens of segmentation
 | 
 :::
 
-
-## Introduction {#sec-9.1}
-
-###  The challenge {#sec-9.1.1}
-
 The growing volume and complexity of image data necessitate increasingly advanced analytical tools. One example of challenging tasks is image segmentation, the process of identifying and delineating structures of interest within images. Segmentation can be particularly difficult and time-consuming when dealing with large, multidimensional datasets, such as 3D volumes or time-lapse sequences, where [manual annotation](glossary.qmd#manual-annotation) becomes impractical. Machine learning (ML), especially deep learning (DL), can provide effective solutions to these challenges [@heinrich2021].
 
 ML algorithms learn patterns from data to perform tasks such as [image classification](glossary.qmd#image-classification) and segmentation. Traditional ML methods, like random forest classifiers, depend on manually defined image features to classify pixels [@arganda-carreras2017; @Arzt2022; @Berg2019]. In contrast, DL algorithms can automatically discover and extract relevant features directly from image data using multilayer neural networks, which eliminates the need for manual feature selection. DL techniques are widely applied in complex image analysis tasks, including segmentation, [object detection](glossary.qmd#object-detection), feature extraction, denoising, and restoration [@moen2019; @pylvanainen2023]. Due to their ability to automatically learn hierarchical features, DL methods usually achieve greater accuracy and efficiency than traditional ML techniques [@krizhevsky2012; @Ronneberger2015].

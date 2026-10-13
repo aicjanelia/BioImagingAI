@@ -40,6 +40,12 @@ subtitle: A Manual for Using AI for Image Restoration
 
 # 3D-RCAN for Image Restoration {#sec-RCAN-appendix}
 
+::: {.content-visible when-format="pdf"}
+| **Yue Li^1^, Jun Zhu^1^, Mingzhe Wei^1^, Hari Shroff^2^, & Min Guo^1^**
+| *^1^Zhejiang University, ^2^HHMI Janelia Research Campus*
+| 
+:::
+
 ## Brief Introduction to the Model
 
 Residual Channel Attention Networks ([RCAN](glossary.qmd#rcan-residual-channel-attention-network) @Zhang2018), are deep learning architectures initially designed for 2D super-resolution images, leveraging residual learning and channel attention mechanisms to prioritize high-frequency details. Their hierarchical “residual-in-residual” structure and adaptive channel-wise feature scaling enable superior recovery of fine textures in natural images. Researchers adapted RCAN for 3D fluorescence microscopy data to address challenges in volumetric imaging. This 3D-RCAN @Chen2021 implementation modifies the original architecture by replacing 2D [convolutions](glossary.qmd#convolution) with 3D operations, optimizing parameters (e.g., residual groups, channel dimensions) for GPU efficiency, and processing spatiotemporal (4D) data. This adaptation enables denoising and resolution enhancement of volumetric time-lapse microscopy, achieving prolonged live-cell imaging with minimal photo bleaching. By training on paired low/high-quality datasets (e.g., confocal $\leftrightarrow$ STED or iSIM $\leftrightarrow$ expansion microscopy), 3D-RCAN restores sub cellular structures, improves lateral and axial resolution, and outperforms existing networks (e.g., [CARE](glossary.qmd#care-content-aware-image-restoration)) @Weigert2018) in fidelity metrics (e.g., SSIM @Wang2004 or peak signal to noise ratio). Its applications span fixed and live-cell studies, offering a versatile tool to overcome trade offs between spatiotemporal resolution and phototoxicity in fluorescence microscopy.
