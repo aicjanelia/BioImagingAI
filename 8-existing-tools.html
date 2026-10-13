@@ -462,9 +462,9 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
   <ul>
   <li><a href="#assessing-your-requirements-for-a-tool-in-a-perfect-world" id="toc-assessing-your-requirements-for-a-tool-in-a-perfect-world" class="nav-link active" data-scroll-target="#assessing-your-requirements-for-a-tool-in-a-perfect-world"><span class="header-section-number">8.1</span> Assessing your requirements for a tool (in a perfect world)</a>
   <ul class="collapse">
-  <li><a href="#questions-about-your-overall-workflow" id="toc-questions-about-your-overall-workflow" class="nav-link" data-scroll-target="#questions-about-your-overall-workflow"><span class="header-section-number">8.1.1</span> Questions about your overall workflow:</a></li>
-  <li><a href="#questions-about-your-resources-time-expertise-and-compute" id="toc-questions-about-your-resources-time-expertise-and-compute" class="nav-link" data-scroll-target="#questions-about-your-resources-time-expertise-and-compute"><span class="header-section-number">8.1.2</span> Questions about your resources: time, expertise, and compute:</a></li>
-  <li><a href="#questions-about-your-input-data" id="toc-questions-about-your-input-data" class="nav-link" data-scroll-target="#questions-about-your-input-data"><span class="header-section-number">8.1.3</span> Questions about your input data:</a></li>
+  <li><a href="#questions-about-your-overall-workflow" id="toc-questions-about-your-overall-workflow" class="nav-link" data-scroll-target="#questions-about-your-overall-workflow"><span class="header-section-number">8.1.1</span> Questions about your overall workflow</a></li>
+  <li><a href="#questions-about-your-resources-time-expertise-and-compute" id="toc-questions-about-your-resources-time-expertise-and-compute" class="nav-link" data-scroll-target="#questions-about-your-resources-time-expertise-and-compute"><span class="header-section-number">8.1.2</span> Questions about your resources: time, expertise, and compute</a></li>
+  <li><a href="#questions-about-your-input-data" id="toc-questions-about-your-input-data" class="nav-link" data-scroll-target="#questions-about-your-input-data"><span class="header-section-number">8.1.3</span> Questions about your input data</a></li>
   </ul></li>
   <li><a href="#assessing-your-requirements-for-a-tool-in-the-real-world" id="toc-assessing-your-requirements-for-a-tool-in-the-real-world" class="nav-link" data-scroll-target="#assessing-your-requirements-for-a-tool-in-the-real-world"><span class="header-section-number">8.2</span> Assessing your requirements for a tool (in the real world)</a></li>
   <li><a href="#how-do-i-decide-when-my-workflow-is-good-enough" id="toc-how-do-i-decide-when-my-workflow-is-good-enough" class="nav-link" data-scroll-target="#how-do-i-decide-when-my-workflow-is-good-enough"><span class="header-section-number">8.3</span> How do I decide when my workflow is “good enough”?</a></li>
@@ -526,11 +526,11 @@ gtag('config', 'G-Y29EKZ8LWD', { 'anonymize_ip': true});
 </header>
 
 
-<p>We are now transitioning away from a discussion of hardware and into a discussion of software. And, more specifically, in this chapter we focus on image analysis, particularly the human thought processes and decisions needed for selecting what software to use and figuring out how to appropriately/best use it. Amazing technological developments have occured since the invention of microscopy almost half a millenium ago; Our current relationship to biological microscopy is profoundly shaped by the development of both quantitative microscopy and artificial intelligence in the mid-twentieth century. However, underlying the actual use of any technological development is a human (in our case, likely a biologist) selecting a specific technology to solve a specific problem.</p>
-<p>In this chapter, we answer the questions of how do you find new-to-you AI models and how do you assess whether a new-to-you model or tool will meet your needs? In this chapter, we first help you assess your needs. We then introduce a way of categorizing tools and help you use your needs assessment to select the right tool category. We suggest several places where you can find AI models for bioimage analysis and describe how to assess how well tools in those locations meet your needs. Finally, we show a couple of case studies that fulfill different requirements.</p>
+<p>We are now transitioning away from a discussion of hardware and into a discussion of software. More specifically, in this chapter, we focus on image analysis, particularly the human thought processes and decisions needed for selecting what software to use and figuring out how to appropriately and effectively use it. Amazing technological developments have occurred since the invention of microscopy almost half a millennium ago. Our current relationship to biological microscopy is profoundly shaped by the development of both quantitative microscopy and artificial intelligence in the mid-twentieth century. However, underlying the actual use of any technological development is a human (in our case, likely a biologist) selecting a specific technology to solve a specific problem.</p>
+<p>In this chapter, we answer the questions of “how do you find new-to-you artificial intelligence (AI) models?”” and “how do you assess whether a new-to-you model or tool will meet your needs?”.” In this chapter, we first help you assess your needs. We then introduce a way of categorizing tools and help you use your needs assessment to select the right tool category. We suggest several places where you can find AI models for bioimage analysis and describe how to assess how well tools in those locations meet your needs. Finally, we show a couple of case studies that fulfill different requirements.</p>
 <section id="assessing-your-requirements-for-a-tool-in-a-perfect-world" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="assessing-your-requirements-for-a-tool-in-a-perfect-world"><span class="header-section-number">8.1</span> Assessing your requirements for a tool (in a perfect world)</h2>
-<p>Before finding and selecting an AI tool, you first need to decide on the type of tool you need. Your tool selection will be influenced by a number of factors and you should first honestly answer the questions that follow.</p>
+<p>Before finding and selecting an AI tool, you first need to decide on the type of tool you need. Your tool selection will be influenced by a number of factors, and you should first honestly answer the questions that follow.</p>
 <div id="nte-Figure1" class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -551,22 +551,22 @@ Figure&nbsp;8.1: Adapted from<span class="citation" data-cites="Haase2024"><sup>
 </figcaption>
 </figure>
 </div>
-<p>When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left of image) typically consists of multiple, modular subcomponents (right of image). You may be able to replace your whole workflow with an appropriate AI tool or you may be able to replace only a subcomponent while still keeping many of the original workflow subcomponents the same. Replacing a single subcomponent with an AI tool may force you to change surrounding subcomponents in your workflow - either with new tools or new configurations of existing tools - as the AI tool may require different inputs and produce different outputs.</p>
-<p>Though you may have built a workflow across multiple softwares, it is worth considering whether a single software (or a reduced number of softwares) can run your workflow and part of this consideration includes assessing how well your desired AI tool can run from within other software. Some examples of softwares that can be used to run other softwares include CellProfiler<span class="citation" data-cites="Stirling2021"><sup><a href="references.html#ref-Stirling2021" role="doc-biblioref">2</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a></sup></span>, Bilayers<span class="citation" data-cites="Shah"><sup><a href="references.html#ref-Shah" role="doc-biblioref">4</a></sup></span>, ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">5</a></sup></span> or DL4MicEverywhere<span class="citation" data-cites="Hidalgo-Cenalmor2024"><sup><a href="references.html#ref-Hidalgo-Cenalmor2024" role="doc-biblioref">6</a></sup></span>, and Jupyter notebooks<span class="citation" data-cites="jupyter"><sup><a href="references.html#ref-jupyter" role="doc-biblioref">7</a></sup></span>.</p>
+<p>When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left) typically consists of multiple, modular subcomponents (right). You may be able to replace your whole workflow with an appropriate AI tool or you may be able to replace only a subcomponent while still keeping many of the original workflow subcomponents the same. Replacing a single subcomponent with an AI tool may force you to change surrounding subcomponents in your workflow - either with new tools or new configurations of existing tools - as the AI tool may require different inputs and produce different outputs.</p>
+<p>Though you may have built a workflow across multiple software tools, it is worth considering whether a single software (or a reduced number of software programs) can run your workflow, and part of this consideration includes assessing how well your desired AI tool can run from within other software. Some examples of software that can be used to run other software include CellProfiler<span class="citation" data-cites="Stirling2021"><sup><a href="references.html#ref-Stirling2021" role="doc-biblioref">2</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a></sup></span>, Bilayers<span class="citation" data-cites="Shah"><sup><a href="references.html#ref-Shah" role="doc-biblioref">4</a></sup></span>, ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">5</a></sup></span> or DL4MicEverywhere<span class="citation" data-cites="Hidalgo-Cenalmor2024"><sup><a href="references.html#ref-Hidalgo-Cenalmor2024" role="doc-biblioref">6</a></sup></span>, and Jupyter notebooks<span class="citation" data-cites="jupyter"><sup><a href="references.html#ref-jupyter" role="doc-biblioref">7</a></sup></span>.</p>
 </div>
 </div>
 <section id="questions-about-your-overall-workflow" class="level3" data-number="8.1.1">
-<h3 data-number="8.1.1" class="anchored" data-anchor-id="questions-about-your-overall-workflow"><span class="header-section-number">8.1.1</span> Questions about your overall workflow:</h3>
+<h3 data-number="8.1.1" class="anchored" data-anchor-id="questions-about-your-overall-workflow"><span class="header-section-number">8.1.1</span> Questions about your overall workflow</h3>
 <ul>
 <li><strong>What is your desired output?</strong><br>
-You must be able to concisely and specifically state what you would like output by your workflow. Do you need to segment objects? If so, do you need <a href="./glossary.html#semantic-segmentation">semantic</a>, <a href="./glossary.html#instance-segmentation">instance</a>, or <a href="./glossary.html#panoptic-segmentation">panoptic segmentation</a> (<a href="#nte-Box1" class="quarto-xref">Box&nbsp;<span>8.3</span></a>)? (see <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a> for more information) Do you need measurements and if so should they be made on individual objects or on images?<br>
+You must be able to concisely and specifically state what you would like as output from your workflow. Do you need to segment objects? If so, do you need <a href="./glossary.html#semantic-segmentation">semantic</a>, <a href="./glossary.html#instance-segmentation">instance</a>, or <a href="./glossary.html#panoptic-segmentation">panoptic segmentation</a> (<a href="#nte-Box1" class="quarto-xref">Box&nbsp;<span>8.3</span></a>)? See <a href="4-architectures.html" class="quarto-xref"><span>Chapter 4</span></a> and <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a> for more information. Do you need measurements and, if so, should they be made on individual objects or on images?<br>
 </li>
 <li><strong>How will you assess your outputs?</strong><br>
-Will your assessment be qualitative or quantitative? Do you have ground truth? Do you have the expertise to assess output quality? (see <a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a> for more information)</li>
+Will your assessment be qualitative or quantitative? Do you have <a href="./glossary.html#ground-truth">ground truth</a>? Do you have the expertise to assess output quality? (see <a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a> for more information)</li>
 <li><strong>What is your desired “quality” of your outputs?</strong><br>
-Are you expecting outputs that approach <a href="./glossary.html#ground-truth">ground truth</a> or will “quick and dirty” be enough for you?</li>
+Are you expecting outputs that approach ground truth, or will “quick and dirty” be enough for you?</li>
 <li><strong>What does your ideal workflow look like?</strong><br>
-Do you need all of the outputs to be made in a single software or are you comfortable using multiple softwares? If your images require preprocessing, does that need to happen in the same step? The same software?</li>
+Do you need all of the outputs to be produced in a single software, or are you comfortable using multiple pieces of software? If your images require preprocessing, does that need to happen in the same step? The same software?</li>
 </ul>
 <div id="nte-groundtruth" class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -578,38 +578,39 @@ Box&nbsp;8.2: Ground Truth
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p><strong>Ground truth</strong> can mean many things. The Broad Bioimage Benchmark Collection (BBBC)<span class="citation" data-cites="Ljosa2012"><sup><a href="references.html#ref-Ljosa2012" role="doc-biblioref">8</a></sup></span> provides an nice example of this. In the BBBC, all datasets include ground truth, but that ground truth can be one or many of counts, foreground/background, outlines of objects, biological labels, location, or bounding boxes.</p>
+<p><strong>Ground truth</strong> can mean many things. The Broad Bioimage Benchmark Collection (BBBC)<span class="citation" data-cites="Ljosa2012"><sup><a href="references.html#ref-Ljosa2012" role="doc-biblioref">8</a></sup></span> provides a nice example of this. In the BBBC, all datasets include ground truth, but that ground truth can be one or many of counts, foreground/background, outlines of objects, biological labels, location, or bounding boxes.</p>
 </div>
 </div>
 </section>
 <section id="questions-about-your-resources-time-expertise-and-compute" class="level3" data-number="8.1.2">
-<h3 data-number="8.1.2" class="anchored" data-anchor-id="questions-about-your-resources-time-expertise-and-compute"><span class="header-section-number">8.1.2</span> Questions about your resources: time, expertise, and compute:</h3>
+<h3 data-number="8.1.2" class="anchored" data-anchor-id="questions-about-your-resources-time-expertise-and-compute"><span class="header-section-number">8.1.2</span> Questions about your resources: time, expertise, and compute</h3>
 <ul>
 <li><strong>How much time are you able to put into the task?</strong><br>
-An honest assessment at the beginning of any project about the time you are willing to invest is critical. If you are in a rush, you’ll probably want to select a method that is already familiar or best matches your existing competencies.<br>
+An honest assessment about the time you are willing to invest is critical at the beginning of any project . If you are in a rush, you’ll probably want to select a method that is already familiar or that best matches your existing competencies.<br>
 </li>
 <li><strong>What is your priority?</strong><br>
-Determining what your priority is goes hand in hand with assessing the amount of time you can put into your task. Perhaps you’re in a time crunch and speed is the most important consideration for you. Perhaps you have a specific <a href="./glossary.html#quality-control-metric">quality control (QC) metric</a> and you need the tool that will give you the outputs that optimize this metric. Perhaps you’ve always wanted to gain experience with a particular class of tool, so you want to figure out if this is the right use case for trying it.<br>
+Determining what your priority is goes hand in hand with assessing the amount of time you can put into your task. Perhaps you’re in a time crunch, and speed is the most important consideration for you. Perhaps you have a specific <a href="./glossary.html#quality-control-metric">quality control (QC) metric</a> and you need the tool that will give you the outputs that optimize this metric. Perhaps you’ve always wanted to gain experience with a particular class of tool, so you want to figure out if this is the right use case for trying it.<br>
 </li>
 <li><strong>What is your level of computational domain expertise and comfort?</strong><br>
-If you don’t have a high level of computational comfort, do you have the time and motivation to expand your skillset by building new skills outside of your comfort zone? Do you have a computational collaborator and how much time, in either teaching you or in handling the data themselves, are they able to contribute?&nbsp; Computation domain expertise has two critical, but separable, components. The first is the ability to understand what you are doing thoroughly enough that you can design, analyze, and interpret your experiment. The other component is the ability to comfortably interact with software as a computationalist might (e.g.&nbsp;are you comfortable working from the command line (which is text only) or would you prefer a GUI (graphical user interface), where you can point and click).</li>
+If you don’t have a high level of computational comfort, do you have the time and motivation to expand your skillset by building new skills outside of your comfort zone? Do you have a computational collaborator and how much time – either teaching you or handling the data themselves – are they able to contribute?<br>
+Computational domain expertise has two critical, but separable, components. The first is the ability to understand what you are doing thoroughly enough that you can design, analyze, and interpret your experiment. The other component is the ability to comfortably interact with software as a computationalist might (e.g.&nbsp;are you comfortable working from the command line (which is text only) or would you prefer a graphical user interface (GUI), where you can point and click?).</li>
 <li><strong>How do you like to learn things?</strong><br>
-Are you a person who likes to jump in and just turn all the knobs and buttons to see what they do? Do you love to cozy up with a good written manual at the end of the day? Do video walkthroughs bring you joy or frustration? How important is it to you that you be able to ask the tool creator questions directly? The type of documentation and instructional materials as well as their depth can vary greatly between tools.<br>
+Are you a person who likes to jump in and just turn all the knobs and buttons to see what they do? Do you love to cozy up with a good written manual at the end of the day? Do video walkthroughs bring you joy or frustration? How important is it to you to be able to ask the tool creator questions directly? The type of documentation and instructional materials, as well as their depth, can vary greatly between tools.<br>
 </li>
 <li><strong>What is your level of biological domain expertise?</strong><br>
-Are you confident that you fully understand the task so you can assess how well your AI model is performing? Do you have a biologist collaborator and how much time are they able to contribute to designing the experiment and/or analyzing data? Do you understand what controls you will need and/or corrections (such as single-color controls and/or measured flat-field corrections) you will need to make to be able to interpret your outputs?<br>
+Are you confident that you fully understand the task so you can assess how well your AI model is performing? Do you have a biologist collaborator and how much time are they able to contribute to designing the experiment and/or analyzing data? Do you understand what controls (e.g.&nbsp;single-color) and/or corrections (e.g.&nbsp;flat-field) you will need to make to be able to interpret your outputs?<br>
 </li>
 <li><strong>What access do you have to compute resources?</strong><br>
-Do you need to be able to run everything on your laptop or do you have ready access to a high performance cluster or scalable cloud compute? Do you have access to GPUs? Different tools have different compute requirements, especially as you scale them, and those requirements don’t always scale linearly with data size.</li>
+Do you need to be able to run everything on your laptop, or do you have ready access to a high-performance cluster or scalable cloud compute? Do you have access to GPUs? Different tools have different compute requirements, especially as you scale them, and those requirements don’t always scale linearly with data size.</li>
 </ul>
 </section>
 <section id="questions-about-your-input-data" class="level3" data-number="8.1.3">
-<h3 data-number="8.1.3" class="anchored" data-anchor-id="questions-about-your-input-data"><span class="header-section-number">8.1.3</span> Questions about your input data:</h3>
+<h3 data-number="8.1.3" class="anchored" data-anchor-id="questions-about-your-input-data"><span class="header-section-number">8.1.3</span> Questions about your input data</h3>
 <ul>
 <li><strong>How difficult are your images?</strong><br>
-Perfect, clean data is the ideal input to any analysis. But that’s not always the regime we’re in. There are many sources of “difficult”. A couple examples and corresponding questions are below.
+Perfect, clean data is the ideal input to any analysis. But that’s not always the regime we’re in. There are many sources of “difficult”. A couple of examples and corresponding questions are below.
 <ul>
-<li>Do your images have debris or other technical artifacts such as out-of-focus regions? Do those artifacts need to be identified and removed? If identified, should the whole image be dropped or do you need to keep non-artifact areas of the image?<br>
+<li>Do your images have debris or other technical artifacts such as out-of-focus regions? Do those artifacts need to be identified and removed? If identified, should the whole image be dropped, or do you need to keep non-artifact areas of the image?<br>
 </li>
 <li>Do you have <a href="./glossary.html#metadata">metadata</a> that needs to be associated with your images? Is that metadata organized? How is that metadata organized (e.g.&nbsp;in the file name, in a .csv file, in a picture of a handwritten lab notebook) and does it play nicely with the tool you would like to use?<br>
 </li>
@@ -617,13 +618,13 @@ Perfect, clean data is the ideal input to any analysis. But that’s not always 
 </li>
 </ul></li>
 <li><strong>How big is your data?</strong><br>
-The larger data is, the harder it can be to work with. If your data is large, what dimensionality is big? e.g.&nbsp;many images, large individual file sizes, many channels<br>
+The larger data is, the harder it can be to work with. If your data is large, what dimensionality is big (e.g.&nbsp;many images, large individual file sizes, many channels)?<br>
 </li>
 <li><strong>Do you need outputs in multiple dimensions?</strong><br>
-If you have z-planes, do you need 3D objects or can each plane be handled separately? If you have multiple timepoints, do you need objects tracked across timepoints or can each timepoint be handled separately?<br>
+If you have z-planes, do you need 3D objects, or can each plane be handled separately? If you have multiple timepoints, do you need objects tracked across timepoints, or can each timepoint be handled separately?<br>
 </li>
 <li><strong>Do your images require preprocessing?</strong><br>
-There are many different reasons that images might require preprocessing and some of those reasons may be a way to overcome concerns/technical challenges raised in other questions above. Some examples of preprocessing include stitching or cropping of images, denoising, background subtraction, or flat field correction.</li>
+There are many different reasons that images might require preprocessing and some of those reasons may be a way to overcome concerns/technical challenges raised in other questions above. Some examples of preprocessing include stitching or cropping of images, <a href="./glossary.html#denoising">denoising</a>, background subtraction, or flat-field correction.</li>
 </ul>
 <div id="nte-Box1" class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -635,30 +636,34 @@ Box&nbsp;8.3: Segmentation methods
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>In computer vision, there are several discrete kinds of segmentation, although in the field of bioimaging we often refer to all kinds of segmentation under the single blanket term of “segmentation”. <strong>Semantic segmentation</strong> divides an image into classes. Ilastik is an example of a popular image analysis software that performs semantic segmentation. <strong>Instance segmentation</strong> detects individual, specific objects within an image. CellProfiler is an example of a popular image analysis software that is most commonly used for instance segmentation. <strong>Panoptic segmentation</strong> is a combination of semantic segmentation and instance segmentation that separates an image into regions while also detecting individual object instances within those regions. Deep learning can be used for semantic, instance, or panoptic segmentation. Most classic image analysis methods are built around instance segmentation for cell-based images, though semantic segmentation is not uncommon for tissue/histology images.</p>
+<p>In computer vision, there are several discrete kinds of segmentation, although in the field of bioimaging we often refer to all forms of segmentation under the single blanket term. <strong>Semantic segmentation</strong> divides an image into classes. ilastik is an example of a popular image analysis software that performs semantic segmentation. <strong>Instance segmentation</strong> detects individual, specific objects within an image. CellProfiler is an example of a popular image analysis software that is most commonly used for instance segmentation. <strong>Panoptic segmentation</strong> is a combination of semantic segmentation and instance segmentation that separates an image into regions while also detecting individual object instances within those regions. Deep learning can be used for semantic, instance, or panoptic segmentation. Most classic image analysis methods are built around instance segmentation for cell-based images, though semantic segmentation is not uncommon for tissue/histology images.</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="8-existing-tools_files/segmentation_cellprofiler_ilastik.png" title="Segmentation comparison of CellProfiler and Ilastik" class="img-fluid figure-img"></p>
-<figcaption>Segmentation comparison of CellProfiler and Ilastik</figcaption>
+<p><img src="8-existing-tools_files/segmentation_cellprofiler_ilastik.png" title="Segmentation comparison of CellProfiler and ilastik" class="img-fluid figure-img"></p>
+<figcaption>Segmentation comparison of CellProfiler and ilastik</figcaption>
 </figure>
 </div>
-<p>Example of different types of segmentations produced between CellProfiler and Ilastik. A) Input image of Drosophila Kc167 cells, provided in the Example pipeline packaged with CellProfiler. B) CellProfiler uses classic image processing to create instance segmentations. The individual objects identified are shown as individually colored masks in the upper panel. The lower image is the input image overlaid with nuclei objects outlined in green and cell objects outlined in pink.<br>
-C) Ilastik uses pixel-based machine learning to create semantic segmentation. The image is the input image with green shaded areas in the class “Cells” and red shaded areas in the class “Background”.</p>
+<p>Examples of different types of segmentations produced by CellProfiler and ilastik. A) Input image of Drosophila Kc167 cells, provided in the Example pipeline packaged with CellProfiler. B) CellProfiler uses classic image processing to create instance segmentations. The individual objects identified are shown as individually colored masks in the upper panel. The lower image is the input image overlaid with nuclei objects outlined in green and cell objects outlined in pink.<br>
+C) ilastik uses pixel-based machine learning to create semantic segmentation. The image is the input image with green shaded areas in the class “Cells” and red shaded areas in the class “Background”.</p>
 </div>
 </div>
 </section>
 </section>
 <section id="assessing-your-requirements-for-a-tool-in-the-real-world" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="assessing-your-requirements-for-a-tool-in-the-real-world"><span class="header-section-number">8.2</span> Assessing your requirements for a tool (in the real world)</h2>
-<p>In several previous surveys we have run, scientists have reported that they generally don’t actually follow any thoughtful, rigorous process for deciding what tool they will use for a particular process. Instead, they sit down with a thing they know how to use and hope they can make it follow their use case<span class="citation" data-cites="Jamali2021"><sup><a href="references.html#ref-Jamali2021" role="doc-biblioref">9</a></sup></span> <span class="citation" data-cites="Sivagurunathan2023"><sup><a href="references.html#ref-Sivagurunathan2023" role="doc-biblioref">10</a></sup></span>. If they don’t already have familiarity with a tool that is appropriate for their task, they ask their labmates or maybe do a quick internet search. So know that if you found the section above overwhelming, you are not alone.</p>
-<p>If you already have familiarity with a tool and it fits your newest use case (especially if your newest use case isn’t <em>very</em> different from a use case where you’ve previously successfully used it) go ahead and stick with that tool. “If it ain’t broke, don’t fix it” is a common adage for a reason. But even for existing use cases, it’s worth actively contemplating your priorities every-so-often - maybe your GPU cluster is filling up these days and is harder to access, or after a new operating system upgrade a tool that was working great is now randomly crashing, or maybe there simply is something new (or new-to-you) available that will make your life easier. In our experience, the best way to be sure you’re best serving your scientific needs is simply to step back and consider your big picture goals and whether your tool choices are serving those goals with some regularity.</p>
-<p>Once you have conducted a thorough needs assessment, it should <em>theoretically</em> be simple to determine if a given tool or model is the right one for you. Unfortunately, no tool is likely to perfectly fit every single need that you have! You will likely need to break your needs into “must haves” and “nice-to-haves”, and rank tools accordingly. Make sure you consider not just how well the tool will perform your specific task, but also how well it will fit in your workflow (<a href="#nte-Figure1" class="quarto-xref">Box&nbsp;<span>8.1</span></a>)</p>
+<p>In several previous surveys we have run, scientists have reported that they generally don’t actually follow any thoughtful, rigorous process for deciding what tool they will use for a particular task. Instead, they sit down with a thing they know how to use and hope they can make it follow their use case<span class="citation" data-cites="Jamali2021 Sivagurunathan2023"><sup><a href="references.html#ref-Jamali2021" role="doc-biblioref">9</a>,<a href="references.html#ref-Sivagurunathan2023" role="doc-biblioref">10</a></sup></span>. If they don’t already have familiarity with a tool that is appropriate for their task, they ask their labmates or maybe do a quick internet search. So know that if you found the section above overwhelming, you are not alone.</p>
+<p>If you already have familiarity with a tool and it fits your newest use case (especially if your newest use case isn’t <em>very</em> different from a previous use case where you’ve successfully used it), go ahead and stick with that tool. “If it ain’t broke, don’t fix it” is a common adage for a reason. But even for existing use cases, it’s worth actively contemplating your priorities every so often – maybe your GPU cluster is filling up these days and is harder to access, or maybe after a new operating system upgrade, a tool that was working great is now randomly crashing, or maybe there simply is something new (or new-to-you) available that will make your life easier. In our experience, the best way to be sure you’re best serving your scientific needs is simply to step back with some regularity and consider your big picture goals and whether your tool choices are serving those goals.</p>
+<p>Once you have conducted a thorough needs assessment, it should <em>theoretically</em> be simple to determine whether a given tool or model is the right one for you. Unfortunately, no tool is likely to perfectly fit every single need that you have! You will likely be forced to break your needs into “must-haves” and “nice-to-haves”, and rank tools accordingly. Make sure you consider not just how well the tool will perform your specific task, but also how well it will fit in your workflow (<a href="#nte-Figure1" class="quarto-xref">Box&nbsp;<span>8.1</span></a>).</p>
 </section>
 <section id="how-do-i-decide-when-my-workflow-is-good-enough" class="level2" data-number="8.3">
 <h2 data-number="8.3" class="anchored" data-anchor-id="how-do-i-decide-when-my-workflow-is-good-enough"><span class="header-section-number">8.3</span> How do I decide when my workflow is “good enough”?</h2>
-<p>Deciding when a workflow is “good enough” can be really hard! We generally factor in two major considerations when deciding what quality level we are aiming to achieve: Is this a pilot or final data? and How big is the <a href="./glossary.html#effect-size">effect size</a> we’re looking for?</p>
-<p>We generally hold pilot data to a lower quality standard than final or production data. We are looking for a proof of concept that our assay/method can work but understand that there are likely to be refinements and improvements at many points in the workflow that will increase our final quality. Additionally, during the piloting phase, there are likely to be changes introduced that change the inputs to our workflow so time spent beyond a certain point of workflow refinement is lost with the retuning/adjustments required for the next pilot batch.</p>
-<p>Phenotypic effect size has a large impact on necessary quality level. Simple, easily distinguished phenotypes (e.g.&nbsp;GFP is either in the nucleus or cytoplasm) may reach statistical significance with many fewer individual measurements and using much simple/cruder regions of interest (e.g.&nbsp;cell bounding boxes instead of careful cell margin segmentations) than more subtle phenotypes.</p>
+<p>Deciding when a workflow is “good enough” can be really hard! We generally factor in two major considerations when deciding what quality level we are aiming to achieve:</p>
+<ul>
+<li><strong>Is this a pilot or final data?</strong><br>
+We generally hold pilot data to a lower quality standard than final or production data. We are looking for a proof of concept that our assay/method can work but understand that there are likely to be refinements and improvements at many points in the workflow that will increase our final quality. Additionally, during the piloting phase, there are likely to be changes introduced that alter the inputs to our workflow, so time spent beyond a certain point of refinement is lost with the adjustments required for the next pilot batch.</li>
+<li><strong>How big is the <a href="./glossary.html#effect-size">effect size</a> we’re looking for?</strong><br>
+Phenotypic effect size has a large impact on necessary quality level. Simple, easily distinguished phenotypes (e.g.&nbsp;GFP is either in the nucleus or cytoplasm) may reach statistical significance with many fewer individual measurements and using much simpler, cruder regions of interest (e.g.&nbsp;cell bounding boxes instead of careful cell margin segmentations) than more subtle phenotypes.</li>
+</ul>
 <div id="nte-progress-not-linear" class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -679,12 +684,12 @@ Figure&nbsp;8.2: Research progress is rarely linear
 </figcaption>
 </figure>
 </div>
-<p>As scientists who care about the quality of our work, it’s tempting to always try to maximize the accuracy of our analysis. But it’s worth considering that “accuracy” vs “time spent” is often an asymptotic curve - you can keep pushing the accuracy higher and higher, but the gains may be marginal past a particular point. Time and effort spent on a project can have very different relationships with the output quality. Though one might hope to be in a regime where the amount of time spent is linearly correlated with the quality of a project’s output (blue line) so that it is clear exactly how much time must be put in to get a desired product, research rarely proceeds in such a fashion. Instead, it progresses in unpredictable fits and starts (green line) and/or it is in a state of diminishing returns (red line) where the closer you get to “perfect”, the longer it takes to improve the quality.</p>
+<p>As scientists who care about the quality of our work, it’s tempting to always try to maximize the accuracy of our analysis. But it’s worth considering that “accuracy” vs “time spent” is often an asymptotic curve - you can keep pushing the accuracy higher and higher, but the gains may be marginal past a particular point. Time and effort spent on a project can have very different relationships with the output quality. One might hope to be in a regime where the amount of time spent is linearly correlated with the quality of a project’s output (blue line), so that it is clear exactly how much time must be put in to get a desired product. However, research rarely proceeds in such a fashion. Instead, it progresses in unpredictable fits and starts (green line) and/or it is in a state of diminishing returns (red line) where the closer you get to “perfect”, the longer it takes to improve the quality.</p>
 </div>
 </div>
-<p>In<span class="citation" data-cites="Cimini2019"><sup><a href="references.html#ref-Cimini2019" role="doc-biblioref">11</a></sup></span> we detail and provide examples for a few key heuristics that we think about when deciding if a workflow is “good enough”. Those heuristics are:</p>
+<p>In<span class="citation" data-cites="Cimini2019"><sup><a href="references.html#ref-Cimini2019" role="doc-biblioref">11</a></sup></span> we detail and provide examples for a few key heuristics that we think about when deciding whether a workflow is “good enough”:</p>
 <ol type="1">
-<li>How close to accurate do I need to be to assess the % or fold change I expect to see in this experiment?<br>
+<li>How close to accurate do I need to be to assess the percent or fold change I expect to see in this experiment?<br>
 </li>
 <li>How close to 100% accurate is it possible to get with my current workflow?<br>
 </li>
@@ -697,22 +702,22 @@ Figure&nbsp;8.2: Research progress is rarely linear
 </section>
 <section id="choosing-the-kind-of-tool-to-use" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="choosing-the-kind-of-tool-to-use"><span class="header-section-number">8.4</span> Choosing the kind of tool to use</h2>
-<p>Let’s consider the use case of instance segmentation (see <a href="#nte-Box1" class="quarto-xref">Box&nbsp;<span>8.3</span></a>), which is often a critical step in image analysis workflows. We have defined 6 categories of segmentation methods, each of which has its valid use cases. Ordered by increasing levels of computation comfort required they are:</p>
+<p>Let’s consider the use case of instance segmentation (see <a href="#nte-Box1" class="quarto-xref">Box&nbsp;<span>8.3</span></a>), which is often a critical step in image analysis workflows. We have defined six categories of segmentation methods, each of which has its valid use cases. Ordered by increasing levels of computation comfort required, they are:</p>
 <ul>
 <li><a href="./glossary.html#manual-annotation">Manual annotation</a><br>
 </li>
 <li>Classical image processing<br>
 </li>
-<li>Pixel based machine learning<br>
+<li>Pixel-based machine learning<br>
 </li>
-<li>Pretrained deep learning models<br>
+<li>Pre-trained deep learning models<br>
 </li>
-<li>Finetuned deep learning models<br>
+<li>Fine tuned deep learning models<br>
 </li>
 <li>From-scratch deep learning models</li>
 </ul>
 <p>We will not cover from-scratch deep learning models in this chapter. They are covered in <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a>.</p>
-<p>It is worth noting that many of the tool suggestions below are not confined to a single “class”. Many tools listed in the non-deep learning categories allow you to run pre-trained deep learning models inside them (e.g.&nbsp;CellProfiler has a RunCellPose module, ImageJ and QuPath also contain ability to run <a href="./glossary.html#pixel-classifiers">pixel classifiers</a>). All deep learning models <em>can</em> be re-tuned with some effort (they may just not have a friendly interface for doing so).</p>
+<p>It is worth noting that many of the tool suggestions below are not confined to a single “class”. Many tools listed in the non-deep-learning categories allow you to run pre-trained deep learning models inside them (e.g.&nbsp;CellProfiler has a RunCellPose module, ImageJ and QuPath also contain the ability to run <a href="./glossary.html#pixel-classifiers">pixel classifiers</a>). All deep learning models <em>can</em> be re-tuned with some effort (they may just not have a friendly interface for doing so). See #sec-9 for more information on <a href="./glossary.html#fine-tuning">fine-tuning</a> existing models.</p>
 <table class="caption-top table">
 <thead>
 <tr class="header">
@@ -727,26 +732,26 @@ Figure&nbsp;8.2: Research progress is rarely linear
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;"><strong>Manual Annotation</strong>: Hand-drawing in boundaries of all objects</td>
-<td style="text-align: left;">ImageJ<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a></sup></span> <span class="citation" data-cites="Schindelin2015"><sup><a href="references.html#ref-Schindelin2015" role="doc-biblioref">12</a></sup></span>, Napari<span class="citation" data-cites="napari"><sup><a href="references.html#ref-napari" role="doc-biblioref">13</a></sup></span>, see also <a href="https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918">this forum thread</a> for 3D annotation</td>
+<td style="text-align: left;"><strong>Manual Annotation</strong>: Hand-drawing the boundaries of all objects</td>
+<td style="text-align: left;">ImageJ<span class="citation" data-cites="Schindelin2012 Schindelin2015"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a>,<a href="references.html#ref-Schindelin2015" role="doc-biblioref">12</a></sup></span>, napari<span class="citation" data-cites="napari"><sup><a href="references.html#ref-napari" role="doc-biblioref">13</a></sup></span>, see also <a href="https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918">this forum thread</a> for 3D annotation</td>
 <td style="text-align: left;">Highest</td>
 <td style="text-align: left;">High accuracy/ outputs approaching ground truth</td>
 <td style="text-align: left;">High</td>
 <td style="text-align: left;">High</td>
-<td style="text-align: left;">Inter- and even intra-operator manual annotations (e.g.&nbsp;after time or image rotation) variability. Irreproducibility. Can not be automated.</td>
+<td style="text-align: left;">Inter- and even intra-operator manual annotations (e.g.&nbsp;after time or image rotation) variability. Irreproducibility. Cannot be automated.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"><strong>Classical Image Processing</strong>: Combining mathematically well-defined operations such as thresholding and watershedding to create objects</td>
 <td style="text-align: left;">CellProfiler<span class="citation" data-cites="Stirling2021"><sup><a href="references.html#ref-Stirling2021" role="doc-biblioref">2</a></sup></span>, QuPath<span class="citation" data-cites="Bankhead2017"><sup><a href="references.html#ref-Bankhead2017" role="doc-biblioref">14</a></sup></span>, Icy<span class="citation" data-cites="de-Chaumont2012"><sup><a href="references.html#ref-de-Chaumont2012" role="doc-biblioref">15</a></sup></span></td>
 <td style="text-align: left;">Medium</td>
-<td style="text-align: left;">Needing to have a good sense of what the failure cases will be (e.g.&nbsp;when cells are too big, too small, too crowded, etc); needing to run in minimal computational footprints</td>
+<td style="text-align: left;">Needing to have a good sense of what the failure cases will be (e.g.&nbsp;when cells are too big, too small, too crowded, etc); minimal computational footprint</td>
 <td style="text-align: left;">High</td>
 <td style="text-align: left;">Initially low, can be improved with experience</td>
 <td style="text-align: left;">Most performant on very bright objects on dark backgrounds</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Pixel based machine learning</strong>: Using properties of individual pixels to classify each pixel into belonging to a given set of “classes” (e.g.&nbsp;“true signal”, “autofluorescence”, and “background”)</td>
-<td style="text-align: left;">Ilastik<span class="citation" data-cites="Berg2019"><sup><a href="references.html#ref-Berg2019" role="doc-biblioref">16</a></sup></span>, Labkit<span class="citation" data-cites="Arzt2022"><sup><a href="references.html#ref-Arzt2022" role="doc-biblioref">17</a></sup></span></td>
+<td style="text-align: left;"><strong>Pixel-based machine learning</strong>: Using properties of individual pixels to classify each pixel into a given set of “classes” (e.g.&nbsp;“true signal”, “autofluorescence”, and “background”)</td>
+<td style="text-align: left;">ilastik<span class="citation" data-cites="Berg2019"><sup><a href="references.html#ref-Berg2019" role="doc-biblioref">16</a></sup></span>, Labkit<span class="citation" data-cites="Arzt2022"><sup><a href="references.html#ref-Arzt2022" role="doc-biblioref">17</a></sup></span></td>
 <td style="text-align: left;">Low to Medium</td>
 <td style="text-align: left;">Identifying well-separated objects that are not bright-on-dark or are not the <em>only</em> bright-on-dark objects present</td>
 <td style="text-align: left;">High</td>
@@ -754,8 +759,8 @@ Figure&nbsp;8.2: Research progress is rarely linear
 <td style="text-align: left;">Must be followed by Classical Image Processing if individual object masks are required</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"><strong>Pretrained deep learning models</strong>: Using a set of learned transformations (created by the developer) to define the positions and boundaries of objects</td>
-<td style="text-align: left;">Stardist<span class="citation" data-cites="Schmidt2018"><sup><a href="references.html#ref-Schmidt2018" role="doc-biblioref">18</a></sup></span>, Instanseg<span class="citation" data-cites="Goldsborough2024"><sup><a href="references.html#ref-Goldsborough2024" role="doc-biblioref">19</a></sup></span></td>
+<td style="text-align: left;"><strong>Pre-trained deep learning models</strong>: Using a set of learned transformations (created by the developer) to define the positions and boundaries of objects</td>
+<td style="text-align: left;">StarDist<span class="citation" data-cites="Schmidt2018"><sup><a href="references.html#ref-Schmidt2018" role="doc-biblioref">18</a></sup></span>, InstanSeg<span class="citation" data-cites="Goldsborough2024"><sup><a href="references.html#ref-Goldsborough2024" role="doc-biblioref">19</a></sup></span></td>
 <td style="text-align: left;">Low</td>
 <td style="text-align: left;">Maximum likelihood for good quality with minimal human time required</td>
 <td style="text-align: left;">High</td>
@@ -763,17 +768,17 @@ Figure&nbsp;8.2: Research progress is rarely linear
 <td style="text-align: left;">Unlikely to work if data similar to your data is not present in the training set. Can be hard to package into workflows.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"><strong>Fine tuned deep learning models</strong>: Updating or adding to a pretrained deep learning model with your data</td>
+<td style="text-align: left;"><strong>Fine tuned deep learning models</strong>: Updating or adding to a pre-trained deep learning model with your data</td>
 <td style="text-align: left;">Cellpose<span class="citation" data-cites="Pachitariu2022"><sup><a href="references.html#ref-Pachitariu2022" role="doc-biblioref">20</a></sup></span>, µSAM<span class="citation" data-cites="Archit2025"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">21</a></sup></span></td>
 <td style="text-align: left;">Medium</td>
 <td style="text-align: left;">Maximum likelihood for very good quality with less human time than manual annotation</td>
 <td style="text-align: left;">High</td>
 <td style="text-align: left;">High if properly represented in the training set</td>
-<td style="text-align: left;">Most computationally intensive. Many available models are not provided in a non-computationalist friendly format. Can be hard to package into workflows.</td>
+<td style="text-align: left;">Most computationally intensive. Many available models are not provided in a non-computationalist-friendly format. Can be hard to package into workflows.</td>
 </tr>
 </tbody>
 </table>
-<p>You may have noticed that all methods are listed as requiring a high level of biological expertise. It can be tempting for researchers without deep biological expertise to assume that they could just use a pretrained or fine tuned deep learning model and call it a day. However, we would caution that, while they may require less of a biologist’s time to tune at a first pass, it is still essential to involve a biologist with subject matter expertise to verify that the models are producing results that match known biology.</p>
+<p>You may have noticed that all methods are listed as requiring a high level of biological expertise. It can be tempting for researchers without deep biological expertise to assume that they could just use a pre-trained or fine tuned deep learning model and call it a day. However, we would caution that, while they may require less of a biologist’s time to tune at a first pass, it is still essential to involve a biologist with subject matter expertise to verify that the models are producing results that match known biology.</p>
 </section>
 <section id="finding-tools-and-models" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="finding-tools-and-models"><span class="header-section-number">8.5</span> Finding tools and models</h2>
@@ -781,12 +786,12 @@ Figure&nbsp;8.2: Research progress is rarely linear
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="where-to-look-for-tools-and-models"><span class="header-section-number">8.5.1</span> Where to look for tools and models</h3>
 <p>There are many places that one can look to find new (or new-to-them) tools and models. A few suggestions are as follows:</p>
 <ul>
-<li>BioImage Model Zoo<span class="citation" data-cites="Ouyang2022"><sup><a href="references.html#ref-Ouyang2022" role="doc-biblioref">22</a></sup></span> is a community-driven AI model repository that offers a variety of pretrained AI models. All models are described by a common Model Resource Description File Specification which simplifies using models in the BioImage Model Zoo with partner software such as ilastik<span class="citation" data-cites="Berg2019"><sup><a href="references.html#ref-Berg2019" role="doc-biblioref">16</a></sup></span>, ImJoy<span class="citation" data-cites="Ouyang2019"><sup><a href="references.html#ref-Ouyang2019" role="doc-biblioref">23</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a></sup></span>, deepImageJ<span class="citation" data-cites="Gomez-de-Mariscal2021"><sup><a href="references.html#ref-Gomez-de-Mariscal2021" role="doc-biblioref">24</a></sup></span> and ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">5</a></sup></span>.</li>
+<li>BioImage Model Zoo<span class="citation" data-cites="Ouyang2022"><sup><a href="references.html#ref-Ouyang2022" role="doc-biblioref">22</a></sup></span> is a community-driven AI model repository that offers a variety of pre-trained AI models. All models are described by a common Model Resource Description File Specification, which simplifies using models from the BioImage Model Zoo with partner software such as ilastik<span class="citation" data-cites="Berg2019"><sup><a href="references.html#ref-Berg2019" role="doc-biblioref">16</a></sup></span>, ImJoy<span class="citation" data-cites="Ouyang2019"><sup><a href="references.html#ref-Ouyang2019" role="doc-biblioref">23</a></sup></span>, Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">3</a></sup></span>, deepImageJ<span class="citation" data-cites="Gomez-de-Mariscal2021"><sup><a href="references.html#ref-Gomez-de-Mariscal2021" role="doc-biblioref">24</a></sup></span> and ZeroCostDL4Mic<span class="citation" data-cites="von_chamier2021"><sup><a href="references.html#ref-von_chamier2021" role="doc-biblioref">5</a></sup></span>.</li>
 <li>Bioimage Informatics Index (Biii)<span class="citation" data-cites="Zhang2023"><sup><a href="references.html#ref-Zhang2023" role="doc-biblioref">25</a></sup></span> is a community-curated index that includes software and helps researchers find tools whether their search is problem-based (e.g.&nbsp;“find nuclei in cells”), method-based (e.g.&nbsp;“active contour-based segmentation”), or tool-based (e.g.&nbsp;“CellProfiler”).<br>
 </li>
-<li>The Scientific Community Image Forum (<a href="http://forum.image.sc">forum.image.sc</a>)<span class="citation" data-cites="Rueden2019"><sup><a href="references.html#ref-Rueden2019" role="doc-biblioref">26</a></sup></span> is a platform where users can pose bioimage software-related questions and receive feedback from a broad user community and maintainers from &gt;75 partner softwares.<br>
+<li>The Scientific Community Image Forum (<a href="http://forum.image.sc">forum.image.sc</a>)<span class="citation" data-cites="Rueden2019"><sup><a href="references.html#ref-Rueden2019" role="doc-biblioref">26</a></sup></span> is a platform where users can pose bioimage software-related questions and receive feedback from a broad user community and maintainers from more than 75 software partners.<br>
 </li>
-<li>Academic literature can include biology-focused research where users describe applications or computer science research where the tools and models themselves are more likely to be described. Keeping an eye on preprint servers like arXiv (particularly in Computing Research Repository or Quantitative Biology sections) and bioRxiv can help you find the most cutting-edge developments.</li>
+<li>Academic literature can include biology-focused research, where users describe applications, or computer science research, where the tools and models themselves are more likely to be described. Keeping an eye on preprint servers like arXiv (particularly in Computing Research Repository or Quantitative Biology sections) and bioRxiv can help you find the most cutting-edge developments.</li>
 </ul>
 <div id="nte-bioimage-analysts" class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -809,97 +814,133 @@ Box&nbsp;8.5: Bioimage analysts
 <h3 data-number="8.6.1" class="anchored" data-anchor-id="case-study-8.1"><span class="header-section-number">8.6.1</span> Case Study 8.1</h3>
 <section id="introduction" class="level4" data-number="8.6.1.1">
 <h4 data-number="8.6.1.1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">8.6.1.1</span> Introduction</h4>
-<p>Elena is an image analyst who uses high content microscopy as a method for exploring drug mechanism of action. She uses an automated microscope to acquire 9 fields of view in each well of a 384-well plate and just acquired a batch of 4 plates worth of images. She often performs the same assay so she has a series of pipelines that she has nicely tuned for her usual experimental parameters. Elena has a new collaborator that would like to perform a similar screen in a different cell line as the collaborator is interested in a different specific area of biology. Because this is the first time that Elena has performed this assay in a new cell line, she needs to carefully tune her existing pipelines so that she has high-quality segmentation of Nuclei and Cell objects.</p>
+<p>Elena is an image analyst who uses high-content microscopy as a method for exploring drug mechanism of action. She uses an automated microscope to acquire nine fields of view in each well of a 384-well plate and has just acquired a batch of 4 plates worth of images. She often performs the same assay, so she has a series of pipelines that she has nicely tuned for her usual experimental parameters. Elena has a new collaborator who would like to perform a similar screen in a different cell line, as the collaborator is interested in a different specific area of biology. Because this is the first time that Elena has performed this assay in a new cell line, she needs to carefully tune her existing pipelines so that she has high-quality segmentations of Nuclei and Cell objects.</p>
 </section>
 <section id="workflow" class="level4" data-number="8.6.1.2">
 <h4 data-number="8.6.1.2" class="anchored" data-anchor-id="workflow"><span class="header-section-number">8.6.1.2</span> Workflow</h4>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/cellprofiler_identifyobjects.png" title="CellProfiler for nuclei and cell segmentation in easy to segment cells" class="img-fluid figure-img"></p>
-<figcaption>CellProfiler for nuclei and cell segmentation</figcaption>
+<div id="fig-cellprofiler-segmentation" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cellprofiler-segmentation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/cellprofiler_identifyobjects.png" title="CellProfiler for nuclei and cell segmentation in easy to segment cells" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cellprofiler-segmentation-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.3: CellProfiler for nuclei and cell segmentation
+</figcaption>
 </figure>
 </div>
-<p>Elena usually uses CellProfiler as an image analysis workflow tool, using classical image processing methods for object identification in her pipeline. Elena typically performs her screens in A549, U2OS, or HeLa cells which are all considered easy to use for high-content microscopy because they are relatively consistent in size, relatively round, and can grow both sparsely and confluently while remaining in a monolayer. She’s quite used to making parameter changes to the IdentifyPrimaryObjects and IdentifySecondaryObjects modules to fine-tune her nuclei and cell segmentations, respectively. The image above shows shows the modules in her CellProfiler pipeline (left) and the outputs of her IdentifyPrimaryObjects (center) and IdentifySecondaryObjects modules (right).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/fiji_composite.png" title="Fiji for compositing a new png image" class="img-fluid figure-img"></p>
-<figcaption>Fiji for compositing a new png image</figcaption>
+<p>Elena usually uses CellProfiler as an image analysis workflow tool, using classical image processing methods for object identification in her pipeline. Elena typically performs her screens in A549, U2OS, or HeLa cells, which are all considered easy to use for high-content microscopy because they are relatively consistent in size, relatively round, and can grow both sparsely and confluently while remaining in a monolayer. She’s quite used to making parameter changes to the IdentifyPrimaryObjects and IdentifySecondaryObjects modules to fine-tune her nuclei and cell segmentations, respectively. The image above (<a href="#fig-cellprofiler-segmentation" class="quarto-xref">Figure&nbsp;<span>8.3</span></a>) shows the modules in her CellProfiler pipeline (left) and the outputs of her IdentifyPrimaryObjects (center) and IdentifySecondaryObjects modules (right).</p>
+<div id="fig-fiji-png" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fiji-png-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/fiji_composite.png" title="Fiji for compositing a new png image" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fiji-png-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.4: Fiji for compositing a new png image
+</figcaption>
 </figure>
 </div>
-<p>Elena’s collaborator has acquired images in an adipocyte cell line and they are morphologically quite different from her typical screening cell lines. After being unsatisfied with what she was able to tune using classical segmentation in her standard Cellprofiler pipeline, Elena decides to turn to an AI tool. She starts by opening Cellpose in its web console as she has heard from colleagues that it is both very good out of the box and allows a user to fine tune it for their own data. She initially struggles to load one of her own images into the web tool but notices that the web page says “upload one PNG or JPG &lt;10 MB”. She also notices that the example images that are most similar to hers are in color, with a nuclear channel in blue and a cell marker in green. Elena’s raw images are in .tif format with a single grayscale channel per image so she uses Fiji to make a composite .png image. The image above shows her single-channel .tif images opened with FIJI (left, center) and the composite .png image that she created (right).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/cellpose_console_lipocytes.png" title="Cellpose web console" class="img-fluid figure-img"></p>
-<figcaption>Cellpose web console</figcaption>
+<p>Elena’s collaborator has acquired images in an adipocyte cell line, and these cells are morphologically quite different from her typical screening cell lines. Dissatisfied with what she was able to produce using classical segmentation techniques in her standard CellProfiler pipeline, Elena decides to turn to an AI tool. She starts by opening Cellpose in its web console because she has heard from colleagues that it is both very good out of the box and allows a user to fine-tune it for their own data. She initially struggles to load one of her own images into the web tool but notices that the web page says “upload one PNG or JPG &lt;10 MB”. She also notices that the example images that are most similar to hers are in color, with a nuclear channel in blue and a cell marker in green. Elena’s raw images are in .tif format with a single grayscale channel per image, so she uses Fiji to make a composite .png image. The image above (<a href="#fig-fiji-png" class="quarto-xref">Figure&nbsp;<span>8.4</span></a>) shows her single-channel .tif images opened with Fiji (left, center) and the composite .png image that she created (right).</p>
+<div id="fig-cellpose-web" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cellpose-web-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/cellpose_console_lipocytes.png" title="Cellpose web console" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cellpose-web-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.5: Cellpose web console
+</figcaption>
 </figure>
 </div>
-<p>Elena loads her new composite .png into the Cellpose web console and sees that it has identified a number of reasonable cell objects but is not of the quality that she wants for use in her screen. However, Elena is excited to explore a new tool and has been actively builing her computational skills so she decides to proceed with Cellpose and see if she can improve the outputs. The image above shows her example image loaded into the Cellpose web console (far left) along with the predicted object outlines (center left), masks (center right), and flows (far right).</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/runcellpose_in_cellprofiler.png" title="RunCellpose in CellProfiler" class="img-fluid figure-img"></p>
-<figcaption>RunCellpose in CellProfiler</figcaption>
+<p>Elena loads her new composite .png into the Cellpose web console and sees that it has identified a number of reasonable cell objects but is not of the quality that she wants for use in her screen. However, Elena is excited to explore a new tool and has been actively building her computational skills so she decides to proceed with Cellpose and see if she can improve the outputs. The image above (<a href="#fig-cellpose-web" class="quarto-xref">Figure&nbsp;<span>8.5</span></a>) shows her example image loaded into the Cellpose web console (far left) along with the predicted object outlines (center left), masks (center right), and flows (far right).</p>
+<div id="fig-cellpose-cellprofiler" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cellpose-cellprofiler-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/runcellpose_in_cellprofiler.png" title="RunCellpose in CellProfiler" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cellpose-cellprofiler-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.6: RunCellpose in CellProfiler
+</figcaption>
 </figure>
 </div>
-<p>Elena takes advantage of the fact that Cellpose allows for fine-tuning of the pretrained deep learning models it provides. She re-trains Cellpose using a Colab notebook and sees that it now performs quite well on test images from her dataset. Because CellProfiler is also an image analysis workflow tool, Elena is able to insert a RunCellpose module in her original pipeline instead of the original secondary object identification module and keep the rest of her image handling and analysis the same while using the newer, better performing object identification that Cellpose provides. The image above shows her new CellProfiler pipeline with the RunCellpose module pointing to her custom fine-tuned Cellpose model.</p>
+<p>Elena takes advantage of the fact that Cellpose allows for fine-tuning of the pre-trained deep learning models it provides. She retrains Cellpose using a Colab notebook and sees that it now performs quite well on test images from her dataset. Because CellProfiler is also an image analysis workflow tool, Elena is able to insert a RunCellpose module in her original pipeline instead of the original secondary object identification module. This allows her to keep the rest of her image handling and analysis the same while using the newer, better-performing object identification that Cellpose provides. The image above (<a href="#fig-cellpose-cellprofiler" class="quarto-xref">Figure&nbsp;<span>8.6</span></a>) shows her new CellProfiler pipeline with the RunCellpose module pointing to her custom fine-tuned Cellpose model.</p>
 </section>
 <section id="conclusion" class="level4" data-number="8.6.1.3">
 <h4 data-number="8.6.1.3" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">8.6.1.3</span> Conclusion</h4>
-<p>This case study starts with a scientist trying to use her standard classical image processing methodds for object identification but finding that she gets better results with a new challenging segmentation task by moving to an AI tool. It shows iterative improvements using the same tool in different ways and highlights some of the simple changes she needed to make to her overall workflow to use the new tool.</p>
+<p>This case study starts with a scientist trying to use her standard classical image processing methods for object identification but finding that she gets better results with a new, challenging segmentation task by moving to an AI tool. It shows iterative improvements using the same tool in different ways and highlights some of the simple changes she needed to make to her overall workflow to use the new tool.</p>
 </section>
 </section>
 <section id="sec-case-study-8.2" class="level3" data-number="8.6.2">
 <h3 data-number="8.6.2" class="anchored" data-anchor-id="sec-case-study-8.2"><span class="header-section-number">8.6.2</span> Case Study 8.2</h3>
 <section id="introduction-1" class="level4" data-number="8.6.2.1">
 <h4 data-number="8.6.2.1" class="anchored" data-anchor-id="introduction-1"><span class="header-section-number">8.6.2.1</span> Introduction</h4>
-<p>Esteban is an image analyst, working with imaging data acquired by a collaborator. The collaborator studies zebrafish brains and sent Esteban fluorescent images taken in a large z-stack in live zebrafish. The zebrafish express a GFP-tagged protein in their microglia and the collaborators would like to be able to identify the microglia using an automated pipeline so that the researchers can ask biological questions such as where they are within the brain and whether they are close to other cell types (labeled in other fluorescent channels). The task is complicated because there is additional autofluorescence in the skin that is the same intensity as the microglia and they do not want skin autofluorescence identified. The images also have technical challenges because of the nature of their acquisition: because they are 3D live images, as you go deeper in the tissue the signal gets dimmer. This makes using normal <a href="./glossary.html#computer-vision">computer vision</a> segmentation quite hard.</p>
+<p>Esteban is an image analyst, working with imaging data acquired by some collaborators. The collaborators study zebrafish brains and sent Esteban fluorescent images taken in a large z-stack in live zebrafish. The zebrafish express a GFP-tagged protein in their microglia and the collaborators would like to be able to identify the microglia using an automated pipeline. Ultimately, the researchers aim to ask biological questions such as where the microglia are within the brain and whether they are close to other cell types (labeled in other fluorescent channels). The task is complicated because there is significant autofluorescence in the skin that they do not want to be erroneously identified as microglia. The images also have technical challenges because of how they were acquired: in live 3D images, as you go deeper in the tissue the signal tends to get dimmer. This makes using normal <a href="./glossary.html#computer-vision">computer vision</a> segmentation quite hard.</p>
 </section>
 <section id="workflow-1" class="level4" data-number="8.6.2.2">
 <h4 data-number="8.6.2.2" class="anchored" data-anchor-id="workflow-1"><span class="header-section-number">8.6.2.2</span> Workflow</h4>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/napari_point_annotations.png" title="Point Annotations in napari" class="img-fluid figure-img"></p>
-<figcaption>Point Annotations in napari</figcaption>
+<div id="fig-napari" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-napari-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/napari_point_annotations.png" title="Point Annotations in napari" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-napari-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.7: Point Annotations in napari
+</figcaption>
 </figure>
 </div>
-<p>To help orient Esteban to the image data, he was given a spreadsheet of x,y,z coordinates of microglia that the collaborators manually annotated. Esteban started by opening the images and their point annotations in napari to orient himself to the data. The image above shows an example image opened in napari with red circles around the point annotations.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/napari_sam_guided_annotations.png" title="Guided Annotations in napari with SAM" class="img-fluid figure-img"></p>
-<figcaption>Guided Annotations in napari with SAM</figcaption>
+<p>To help orient Esteban to the image data, he was given a spreadsheet of x,y,z coordinates of microglia that the collaborators manually annotated. Esteban starts by opening the images and their point annotations in napari to orient himself to the data. The image above (<a href="#fig-napari" class="quarto-xref">Figure&nbsp;<span>8.7</span></a>) shows an example image opened in napari with red circles around the point annotations.</p>
+<div id="fig-napari-sam" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-napari-sam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/napari_sam_guided_annotations.png" title="Guided Annotations in napari with SAM" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-napari-sam-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.8: Guided Annotations in napari with SAM
+</figcaption>
 </figure>
 </div>
-<p>Esteban then loaded µSAM in napari to use as an annotation tool so that he could use the point annotations to make object masks. He tried using automatic segmentation but it didn’t work on his images. Instead, he used µSAM assisted segmentation, manually providing positive prompts, and got out reasonable segmentations of the microglia in the image. The image above is quite similar to the previous image but also has the µSAM segmentations in color overlays.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/napari_sam_3D_guided_annotations.png" title="Visualizing 3D annotations in napari" class="img-fluid figure-img"></p>
-<figcaption>Visualizing 3D annotations in napari</figcaption>
+<p>Esteban then loads µSAM in napari to use as an annotation tool so that he could use the point annotations to make object masks. He tries using automatic segmentation, but it didn’t work on his images. Instead, he uses µSAM-assisted segmentation, manually providing positive prompts, and gets out reasonable segmentations of the microglia in the image. The image above (<a href="#fig-napari-sam" class="quarto-xref">Figure&nbsp;<span>8.8</span></a>) is quite similar to the previous image but also has the µSAM segmentations in color overlays.</p>
+<div id="fig-napari-3d" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-napari-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/napari_sam_3D_guided_annotations.png" title="Visualizing 3D annotations in napari" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-napari-3d-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.9: Visualizing 3D annotations in napari
+</figcaption>
 </figure>
 </div>
-<p>Though Esteban has three dimensional data, the segmentations he is creating are 2D so he confirms that he is happy with his final masks by examining the image and masks in a 3D viewer. The above image shows a 3 dimensional view of his data that contains all of the image slices and annotations viewed together.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/cellpose_python_microglia.png" title="Cellpose predictions" class="img-fluid figure-img"></p>
-<figcaption>Cellpose predictions</figcaption>
+<p>Though Esteban has three-dimensional data, the segmentations he is creating are 2D so he confirms that he is happy with his final masks by examining the image and masks in a 3D viewer. The image above (<a href="#fig-napari-3d" class="quarto-xref">Figure&nbsp;<span>8.9</span></a>) shows a three-dimensional view of his data that contains all of the image slices and annotations viewed together.</p>
+<div id="fig-cellpose-microglia" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-cellpose-microglia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/cellpose_python_microglia.png" title="Cellpose predictions" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-cellpose-microglia-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.10: Cellpose predictions
+</figcaption>
 </figure>
 </div>
-<p>Now that Esteban has both images and masks, he calls Cellpose in Python and retrains the cyto model with his annotations. He runs the retrained model on a new image (left image) and finds that the cell probability prediction seems to identify microglia and autofluorescence (center image), but, unfortunately, the gradient prediction is not finding any cell objects (right image). Esteban’s training images are quite sparse (the vast majority of the image is background) so the Cellpose model learned that it can be mostly correct by deciding that <em>everything</em> is background.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="8-existing-tools_files/ilastik_3class_segmentation.png" title="ilastik 3 class predictions" class="img-fluid figure-img"></p>
-<figcaption>ilastik 3 class predictions</figcaption>
+<p>Now that Esteban has both images and masks, he calls Cellpose in Python and retrains the cyto model with his annotations (<a href="#fig-cellpose-microglia" class="quarto-xref">Figure&nbsp;<span>8.10</span></a>). He runs the retrained model on a new image (left image) and finds that the cell probability prediction seems to identify microglia and autofluorescence (center image), but, unfortunately, the gradient prediction is not finding any cell objects (right image). Esteban’s training images are quite sparse (the vast majority of the image is background), so the Cellpose model learned that it can be mostly correct by deciding that <em>everything</em> is background.</p>
+<div id="fig-ilastik" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ilastik-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="8-existing-tools_files/ilastik_3class_segmentation.png" title="ilastik 3 class predictions" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-ilastik-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8.11: ilastik 3 class predictions
+</figcaption>
 </figure>
 </div>
-<p>Since neither a pre-trained model (µSAM) nor a fine-tuned model (Cellpose) worked on his images, Esteban decided to try pixel classification. He used ilastik, first providing annotations for microglia and background. The classifier worked quite well at distinguishing microglia from background, but classified the skin autofluorescence as microglia. Esteban built on this by using larger filters so that the classifier had more contextual information, training 3 classes (microglia, skin, and background) instead of 2, and adding in autocontext<span class="citation" data-cites="Kreshuk2019"><sup><a href="references.html#ref-Kreshuk2019" role="doc-biblioref">27</a></sup></span> which improves classification by running it in multiple stages. Esteban’s final 3-class pixel classifier performs well to identify microglia separately from skin across the images in his datasets. The above image shows a zoom-in of one of his images with the three classes overlaid - red for background pixels, blue for skin pixels, and yellow for microglia pixels.</p>
+<p>Since neither a pre-trained model (µSAM) nor a fine-tuned model (Cellpose) worked on his images, Esteban decides to try pixel classification. He uses ilastik, first providing annotations for microglia and background. The classifier works quite well at distinguishing microglia from background, but classifies the skin autofluorescence as microglia. Esteban builds on this by using larger filters so that the classifier has more contextual information, training three classes (microglia, skin, and background) instead of two, and adding in autocontext<span class="citation" data-cites="Kreshuk2019"><sup><a href="references.html#ref-Kreshuk2019" role="doc-biblioref">27</a></sup></span>, which improves classification by running it in multiple stages. Esteban’s final three-class pixel classifier performs well at identifying microglia separately from skin across the images in his datasets. The image above (<a href="#fig-ilastik" class="quarto-xref">Figure&nbsp;<span>8.11</span></a>) shows a zoom-in of one of his images with the three classes overlaid - red for background pixels, blue for skin pixels, and yellow for microglia pixels.</p>
 </section>
 <section id="conclusion-1" class="level4" data-number="8.6.2.3">
 <h4 data-number="8.6.2.3" class="anchored" data-anchor-id="conclusion-1"><span class="header-section-number">8.6.2.3</span> Conclusion</h4>
-<p>This case study starts with a scientist trying multiple state-of-the-art deep learning segmentation tools for a specific, challenging segmentation task. He ultimately discovers that a machine learning pixel classifier works better for this task, illustrating that 1) “less-advanced” tools can perform better than deep learning tools and 2) biological expertise is always needed when inspecting any tool’s outputs.</p>
+<p>This case study starts with a scientist trying multiple state-of-the-art deep learning segmentation tools for a specific, challenging segmentation task. He ultimately discovers that a machine learning pixel classifier works better for this task, illustrating that 1) “less-advanced” tools can perform better than deep learning tools in some instances, and 2) biological expertise is always needed when inspecting any tool’s outputs.</p>
 </section>
 </section>
 </section>
 <section id="conclusion-2" class="level2" data-number="8.7">
 <h2 data-number="8.7" class="anchored" data-anchor-id="conclusion-2"><span class="header-section-number">8.7</span> Conclusion</h2>
-<p>As we shift our focus from hardware to software, it is common and understandable to feel overwhelmed - the bioimage analysis tool space is a constantly-changing array of best practices, and not all microscopists are highly computationally comfortable. This chapter therefore mostly talks about <em>how to make decisions</em>, as opposed to <em>use X tool for Y task</em>. Ultimately, the “right tool for your task” is the tool (or chain of tools) that allows you to be confident that your analysis has been performed <strong>well enough</strong>, and helps you understand the answer to your biological question and how confident you can be in your conclusion. Even if you try a tool and decide it isn’t the right solution for this question, this time still isn’t wasted - it simply enlarged the toolbox you can use for answering future questions. In the subsequent chapters, we will teach you about how to train models which could be important parts of your toolbox, but we suggest you keep our guidelines in mind as you finalize the decisions around when your model is “trained enough” and how you decide on your overall workflow.</p>
+<p>As we shift our focus from hardware to software, it is common and understandable to feel overwhelmed - the bioimage analysis tool space is a constantly changing array of best practices, and not all microscopists are highly computationally comfortable. This chapter therefore mostly talks about <em>how to make decisions</em>, as opposed to <em>use X tool for Y task</em>. Ultimately, the “right tool for your task” is the tool (or chain of tools) that allows you to be confident that your analysis has been performed <strong>well enough</strong>, helps you understand the answer to your biological question, and produces results with which you have sufficient confidence. Even if you try a tool and decide it isn’t the right solution for this question, this time still isn’t wasted: it has simply enlarged the toolbox you can use for answering future questions. In the subsequent chapters, we will teach you about how to train (<a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a>) and evaluate (<a href="10-output-quality.html" class="quarto-xref"><span>Chapter 10</span></a>) models that could be important parts of your toolbox, but we suggest you keep our guidelines in mind as you finalize the decisions around when your model is “trained enough” and how you decide on your overall workflow.</p>
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
