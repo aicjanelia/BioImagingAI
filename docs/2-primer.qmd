@@ -12,6 +12,12 @@ subtitle: An Introduction to Artificial Intelligence
 
 # AI in a nutshell {#sec-primer}
 
+::: {.content-visible when-format="pdf"}
+| **Stephan Saalfeld**
+| *HHMI Janelia Research Campus*
+| 
+:::
+
 Empirical science relies on the analysis and interpretation of large amounts of diverse raw data. In the life sciences, microscopy has become one of the largest sources of such data. A single light-sheet experiment can produce terabytes of volumetric time-lapse data; high-content screening campaigns image millions of cells across thousands of conditions; electron microscopy reconstructs tissue at nanometer-scale resolution across volumes approaching a cubic millimeter, yielding more than a petabyte of images from a single sample [@shapson2024petavoxel;@microns2025functional].
 
 A human expert might trace a few hundred neurons or label several thousand cells, but biological questions increasingly demand analysis that is both orders of magnitude larger and more complete. Even where each individual decision is easy, the sheer number of decisions puts manual analysis out of reach.

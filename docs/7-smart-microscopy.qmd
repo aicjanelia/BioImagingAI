@@ -72,8 +72,6 @@ language:
 ![Victoria Augoustides, Giorgio Tortarolo, and Alara Kiris contributed equally to this chapter. Suliana Manley and Wesley Legant are co-corresponding authors.](7-smart-microscopy_files/equalContribution.png)
 :::
 
-## Imaging the Events of Biological Systems
-
 Microscopy experiments answer biological questions by measuring structures and dynamic processes in living systems. To collect useful data, the microscopist must decide where, when, how fast, and how long to image based on features and processes in the specimen. Traditionally, the microscopist identifies regions of interest ([ROIs](glossary.qmd#region-of-interest-roi)), monitors sample behavior, and adjusts acquisition settings using domain expertise and visual inspection. While effective for small-scale experiments, this manual workflow limits throughput, introduces operator-dependent variability, and can miss rare or rapidly occurring biological phenomena.
 
 These challenges motivate the development of [smart microscopy](glossary.qmd#smart-microscopy) systems that can automatically recognize biologically relevant features and respond in real time. Automated decision-making can increase acquisition speed, improve reproducibility, and enable experiments that would be impractical for a human operator to perform manually. Recent advances in machine learning have substantially expanded the range of biological signatures that can be recognized during image acquisition, bringing microscopy closer to a paradigm in which imaging systems actively direct an experiment's trajectory rather than simply record data.

@@ -23,6 +23,12 @@ bibliography: references.bib
 
 # Output Quality {#sec-output_quality}
 
+::: {.content-visible when-format="pdf"}
+| **Morgan Schwartz^1^, Diane Adjavon^2^**
+| *^1^HHMI Janelia Research Campus, ^2^biohub, *
+| 
+:::
+
 <!-- Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
 
 * why do we need metrics? to pick models from different training iterations

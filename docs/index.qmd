@@ -1,8 +1,8 @@
 ---
 editors: [
   "Teng-Leong Chew",
-  "Rachel Lee",
-  "Owen Puls"
+  "Rachel M. Lee",
+  "Owen F. Puls"
 ]
 affiliation: [
   "HHMI Janelia Research Campus"
@@ -17,6 +17,13 @@ format:
 
 
 # Welcome {.unnumbered}
+
+::: {.content-visible when-format="pdf"}
+| Editors:
+| **Teng-Leong Chew, Rachel M. Lee, Owen F. Puls**
+| *HHMI Janelia Research Campus*
+| 
+:::
 
 _AI in Microscopy_ is an interactive online textbook intended to introduce biologists and microscopists to the fundamentals of artificial intelligence and machine learning.
 
