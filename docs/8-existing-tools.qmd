@@ -46,7 +46,7 @@ Your tool selection will be influenced by a number of factors, and you should fi
 ::: {.callout-note icon=false #nte-Figure1}
 ## Workflows contain modular components
 
-![Adapted from @Haase2024.](8-existing-tools_files/workflows.png){#fig-workflows}
+![Adapted from @Haase2024.](8-existing-tools_files/workflows_white.png){#fig-workflows}
 
 When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left) typically consists of multiple, modular subcomponents (right).
 You may be able to replace your whole workflow with an appropriate AI tool or you may be able to replace only a subcomponent while still keeping many of the original workflow subcomponents the same.
@@ -189,7 +189,7 @@ We generally factor in two major considerations when deciding what quality level
 ::: {.callout-note icon=false #nte-progress-not-linear}
 ## Research progress is rarely linear
 
-![Research progress is rarely linear](8-existing-tools_files/research_progress.png "Research progress is rarely linear"){#fig-research-progress}
+![Research progress is rarely linear](8-existing-tools_files/research_progress_white.png "Research progress is rarely linear"){#fig-research-progress}
 
 As scientists who care about the quality of our work, it's tempting to always try to maximize the accuracy of our analysis.
 But it's worth considering that "accuracy" vs "time spent" is often an asymptotic curve - you can keep pushing the accuracy higher and higher, but the gains may be marginal past a particular point.
@@ -279,7 +279,7 @@ Elena typically performs her screens in A549, U2OS, or HeLa cells, which are all
 She’s quite used to making parameter changes to the IdentifyPrimaryObjects and IdentifySecondaryObjects modules to fine-tune her nuclei and cell segmentations, respectively.
 The image above (@fig-cellprofiler-segmentation) shows the modules in her CellProfiler pipeline (left) and the outputs of her IdentifyPrimaryObjects (center) and IdentifySecondaryObjects modules (right).
 
-![Fiji for compositing a new png image](8-existing-tools_files/fiji_composite.png "Fiji for compositing a new png image"){#fig-fiji-png}
+![Fiji for compositing a new png image](8-existing-tools_files/fiji_composite_white.png "Fiji for compositing a new png image"){#fig-fiji-png}
 
 Elena’s collaborator has acquired images in an adipocyte cell line, and these cells are morphologically quite different from her typical screening cell lines.
 Dissatisfied with what she was able to produce using classical segmentation techniques in her standard CellProfiler pipeline, Elena decides to turn to an AI tool.
