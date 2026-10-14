@@ -56,6 +56,13 @@ format:
   pdf:
     documentclass: scrreprt
     cite-method: biblatex
+    header-includes: |
+      \usepackage{etoolbox}
+      \makeatletter
+      \pretocmd{\chapter}{\phantomsection}{}{}
+      \pretocmd{\section}{\phantomsection}{}{}
+      \pretocmd{\subsection}{\phantomsection}{}{}
+      \makeatother
 
 # glossary:
 #   path: glossary.yml
