@@ -15,8 +15,8 @@ author:
         country: USA
         postal-code: 02142
 language:
-  crossref-nte-prefix: "Box"
-  crossref-nte-title: "Box"
+  crossref-tip-prefix: "Box"
+  crossref-tip-title: "Box"
 ---
 
 # How to Find and Select a Tool {#sec-8}
@@ -32,7 +32,7 @@ Amazing technological developments have occurred since the invention of microsco
 Our current relationship to biological microscopy is profoundly shaped by the development of both quantitative microscopy and artificial intelligence in the mid-twentieth century.
 However, underlying the actual use of any technological development is a human (in our case, likely a biologist) selecting a specific technology to solve a specific problem.
 
-In this chapter, we answer the questions of "how do you find new-to-you artificial intelligence (AI) models?"" and "how do you assess whether a new-to-you model or tool will meet your needs?"."
+In this chapter, we answer the questions of "how do you find new-to-you artificial intelligence (AI) models?" and "how do you assess whether a new-to-you model or tool will meet your needs?".
 In this chapter, we first help you assess your needs.
 We then introduce a way of categorizing tools and help you use your needs assessment to select the right tool category.
 We suggest several places where you can find AI models for bioimage analysis and describe how to assess how well tools in those locations meet your needs.
@@ -43,10 +43,10 @@ Finally, we show a couple of case studies that fulfill different requirements.
 Before finding and selecting an AI tool, you first need to decide on the type of tool you need.
 Your tool selection will be influenced by a number of factors, and you should first honestly answer the questions that follow.
 
-::: {.callout-note icon=false #nte-Figure1}
+::: {.callout-tip icon=false #tip-Figure1}
 ## Workflows contain modular components
 
-![Adapted from @Haase2024.](8-existing-tools_files/workflows_white.png){#fig-workflows}
+![Adapted from @Haase2024.](8-existing-tools_files/workflows_white.png)
 
 When thinking of your workflow and how you might incorporate an AI tool, consider that a workflow (left) typically consists of multiple, modular subcomponents (right).
 You may be able to replace your whole workflow with an appropriate AI tool or you may be able to replace only a subcomponent while still keeping many of the original workflow subcomponents the same.
@@ -62,18 +62,18 @@ Some examples of software that can be used to run other software include CellPro
 - **What is your desired output?**   
   You must be able to concisely and specifically state what you would like as output from your workflow.
   Do you need to segment objects?
-  If so, do you need [semantic](glossary.qmd#semantic-segmentation), [instance](glossary.qmd#instance-segmentation), or [panoptic segmentation](glossary.qmd#panoptic-segmentation) (@nte-Box1)? See @sec-4 and @sec-9 for more information.
+  If so, do you need [semantic](glossary.qmd#semantic-segmentation), [instance](glossary.qmd#instance-segmentation), or [panoptic segmentation](glossary.qmd#panoptic-segmentation) (@tip-Box1)? See @sec-4 and @sec-9 for more information.
   Do you need measurements and, if so, should they be made on individual objects or on images?   
 - **How will you assess your outputs?**  
   Will your assessment be qualitative or quantitative?
   Do you have [ground truth](glossary.qmd#ground-truth)?
-  Do you have the expertise to assess output quality? (see @sec-output_quality for more information)
+  Do you have the expertise to assess output quality? (See @sec-output_quality for more information.)
 - **What is your desired "quality" of your outputs?**  
   Are you expecting outputs that approach ground truth, or will "quick and dirty" be enough for you?
 - **What does your ideal workflow look like?**  
   Do you need all of the outputs to be produced in a single software, or are you comfortable using multiple pieces of software? If your images require preprocessing, does that need to happen in the same step? The same software?
 
-::: {.callout-note icon=false #nte-groundtruth}
+::: {.callout-note icon=false}
 ### Ground Truth
 **Ground truth** can mean many things.
 The Broad Bioimage Benchmark Collection (BBBC) [@Ljosa2012] provides a nice example of this.
@@ -95,7 +95,7 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
   Do you have a computational collaborator and how much time -- either teaching you or handling the data themselves -- are they able to contribute?  
   Computational domain expertise has two critical, but separable, components.
   The first is the ability to understand what you are doing thoroughly enough that you can design, analyze, and interpret your experiment.
-  The other component is the ability to comfortably interact with software as a computationalist might (e.g. are you comfortable working from the command line (which is text only) or would you prefer a graphical user interface (GUI), where you can point and click?).
+  The other component is the ability to comfortably interact with software as a computationalist might (e.g., are you comfortable working from the command line, which is text only, or would you prefer a graphical user interface (GUI), where you can point and click?).
 - **How do you like to learn things?**  
   Are you a person who likes to jump in and just turn all the knobs and buttons to see what they do?
   Do you love to cozy up with a good written manual at the end of the day?
@@ -105,7 +105,7 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
 - **What is your level of biological domain expertise?**  
   Are you confident that you fully understand the task so you can assess how well your AI model is performing?
   Do you have a biologist collaborator and how much time are they able to contribute to designing the experiment and/or analyzing data?
-  Do you understand what controls (e.g. single-color) and/or corrections (e.g. flat-field) you will need to make to be able to interpret your outputs?   
+  Do you understand what controls (e.g., single-color) and/or corrections (e.g., flat-field) you will need to make to be able to interpret your outputs?   
 - **What access do you have to compute resources?**  
   Do you need to be able to run everything on your laptop, or do you have ready access to a high-performance cluster or scalable cloud compute?
   Do you have access to GPUs?
@@ -121,13 +121,13 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
   - Do your images have debris or other technical artifacts such as out-of-focus regions? Do those artifacts need to be identified and removed? If identified, should the whole image be dropped, or do you need to keep non-artifact areas of the image?  
   - Do you have [metadata](glossary.qmd#metadata) that needs to be associated with your images?
   Is that metadata organized?
-  How is that metadata organized (e.g. in the file name, in a .csv file, in a picture of a handwritten lab notebook) and does it play nicely with the tool you would like to use?  
+  How is that metadata organized (e.g., in the file name, in a .csv file, in a picture of a handwritten lab notebook) and does it play nicely with the tool you would like to use?  
   - Are your images in a friendly format?
   Are they in a proprietary file format?
   Are they in a file format that allows access to chunks?  
 - **How big is your data?**  
   The larger data is, the harder it can be to work with.
-  If your data is large, what dimensionality is big (e.g. many images, large individual file sizes, many channels)?   
+  If your data is large, what dimensionality is big (e.g., many images, large individual file sizes, many channels)?   
 - **Do you need outputs in multiple dimensions?**  
   If you have z-planes, do you need 3D objects, or can each plane be handled separately?
   If you have multiple timepoints, do you need objects tracked across timepoints, or can each timepoint be handled separately?  
@@ -135,7 +135,7 @@ In the BBBC, all datasets include ground truth, but that ground truth can be one
   There are many different reasons that images might require preprocessing and some of those reasons may be a way to overcome concerns/technical challenges raised in other questions above.
   Some examples of preprocessing include stitching or cropping of images, [denoising](glossary.qmd#denoising), background subtraction, or flat-field correction.
 
-::: {.callout-note icon="false" #nte-Box1}
+::: {.callout-tip icon="false" #tip-Box1}
 ## Segmentation methods
 In computer vision, there are several discrete kinds of segmentation, although in the field of bioimaging we often refer to all forms of segmentation under the single blanket term.
 **Semantic segmentation** divides an image into classes.
@@ -146,15 +146,9 @@ CellProfiler is an example of a popular image analysis software that is most com
 Deep learning can be used for semantic, instance, or panoptic segmentation.
 Most classic image analysis methods are built around instance segmentation for cell-based images, though semantic segmentation is not uncommon for tissue/histology images.
 
-![Segmentation comparison of CellProfiler and ilastik](8-existing-tools_files/segmentation_cellprofiler_ilastik.png "Segmentation comparison of CellProfiler and ilastik")
+![**Examples of different types of segmentations produced by CellProfiler and ilastik.** (A) Input image of Drosophila Kc167 cells, provided in the Example pipeline packaged with CellProfiler. (B) CellProfiler uses classic image processing to create instance segmentations. The individual objects identified are shown as individually colored masks in the upper panel.
+The lower image is the input image overlaid with nuclei objects outlined in green and cell objects outlined in pink.  (C) ilastik uses pixel-based machine learning to create semantic segmentation. The image is the input image with green shaded areas in the class "Cells" and red shaded areas in the class "Background".](8-existing-tools_files/segmentation_cellprofiler_ilastik.png "Segmentation comparison of CellProfiler and ilastik")
 
-Examples of different types of segmentations produced by CellProfiler and ilastik.
-A) Input image of Drosophila Kc167 cells, provided in the Example pipeline packaged with CellProfiler.
-B) CellProfiler uses classic image processing to create instance segmentations.
-The individual objects identified are shown as individually colored masks in the upper panel.
-The lower image is the input image overlaid with nuclei objects outlined in green and cell objects outlined in pink.  
-C) ilastik uses pixel-based machine learning to create semantic segmentation.
-The image is the input image with green shaded areas in the class "Cells" and red shaded areas in the class "Background".
 :::
 
 ## Assessing your requirements for a tool (in the real world)
@@ -166,12 +160,12 @@ So know that if you found the section above overwhelming, you are not alone.
 
 If you already have familiarity with a tool and it fits your newest use case (especially if your newest use case isn't *very* different from a previous use case where you've successfully used it), go ahead and stick with that tool.
 "If it ain't broke, don't fix it" is a common adage for a reason.
-But even for existing use cases, it's worth actively contemplating your priorities every so often -- maybe your GPU cluster is filling up these days and is harder to access, or maybe after a new operating system upgrade, a tool that was working great is now randomly crashing, or maybe there simply is something new (or new-to-you) available that will make your life easier.
+But even for existing use cases, it's worth actively contemplating your priorities every so often---maybe your GPU cluster is filling up these days and is harder to access, or maybe after a new operating system upgrade, a tool that was working great is now randomly crashing, or maybe there simply is something new (or new-to-you) available that will make your life easier.
 In our experience, the best way to be sure you're best serving your scientific needs is simply to step back with some regularity and consider your big picture goals and whether your tool choices are serving those goals.
 
 Once you have conducted a thorough needs assessment, it should *theoretically* be simple to determine whether a given tool or model is the right one for you. Unfortunately, no tool is likely to perfectly fit every single need that you have!
 You will likely be forced to break your needs into "must-haves" and "nice-to-haves", and rank tools accordingly.
-Make sure you consider not just how well the tool will perform your specific task, but also how well it will fit in your workflow (@nte-Figure1).
+Make sure you consider not just how well the tool will perform your specific task, but also how well it will fit in your workflow (@tip-Figure1).
 
 ## How do I decide when my workflow is "good enough"? 
 
@@ -182,20 +176,20 @@ We generally factor in two major considerations when deciding what quality level
   We generally hold pilot data to a lower quality standard than final or production data.
   We are looking for a proof of concept that our assay/method can work but understand that there are likely to be refinements and improvements at many points in the workflow that will increase our final quality.
   Additionally, during the piloting phase, there are likely to be changes introduced that alter the inputs to our workflow, so time spent beyond a certain point of refinement is lost with the adjustments required for the next pilot batch.
-- **How big is the [effect size](glossary.qmd#effect-size) we're looking for?**  
-  Phenotypic effect size has a large impact on necessary quality level.
-  Simple, easily distinguished phenotypes (e.g. GFP is either in the nucleus or cytoplasm) may reach statistical significance with many fewer individual measurements and using much simpler, cruder regions of interest (e.g. cell bounding boxes instead of careful cell margin segmentations) than more subtle phenotypes.
+- **How big is the effect size we're looking for?**  
+  Phenotypic [effect size](glossary.qmd#effect-size) has a large impact on necessary quality level.
+  Simple, easily distinguished phenotypes (e.g. GFP, is either in the nucleus or cytoplasm) may reach statistical significance with many fewer individual measurements and using much simpler, cruder regions of interest (e.g., cell bounding boxes instead of careful cell margin segmentations) than more subtle phenotypes.
 
-::: {.callout-note icon=false #nte-progress-not-linear}
+::: {.callout-tip icon=false #tip-progress-not-linear}
 ## Research progress is rarely linear
 
-![Research progress is rarely linear](8-existing-tools_files/research_progress_white.png "Research progress is rarely linear"){#fig-research-progress}
+![Research progress is rarely linear.](8-existing-tools_files/research_progress_white.png "Research progress is rarely linear")
 
 As scientists who care about the quality of our work, it's tempting to always try to maximize the accuracy of our analysis.
 But it's worth considering that "accuracy" vs "time spent" is often an asymptotic curve - you can keep pushing the accuracy higher and higher, but the gains may be marginal past a particular point.
 Time and effort spent on a project can have very different relationships with the output quality.
-One might hope to be in a regime where the amount of time spent is linearly correlated with the quality of a project’s output (blue line), so that it is clear exactly how much time must be put in to get a desired product. However, research rarely proceeds in such a fashion.
-Instead, it progresses in unpredictable fits and starts (green line) and/or it is in a state of diminishing returns (red line) where the closer you get to "perfect", the longer it takes to improve the quality.
+One might hope to be in a regime where the amount of time spent is linearly correlated with the quality of a project’s output (straight blue line), so that it is clear exactly how much time must be put in to get a desired product. However, research rarely proceeds in such a fashion.
+Instead, it progresses in unpredictable fits and starts (curvy green line) and/or it is in a state of diminishing returns (asymptotic red line) where the closer you get to "perfect", the longer it takes to improve the quality.
 :::
 
 In [@Cimini2019] we detail and provide examples for a few key heuristics that we think about when deciding whether a workflow is "good enough":  
@@ -204,11 +198,11 @@ In [@Cimini2019] we detail and provide examples for a few key heuristics that we
 2. How close to 100% accurate is it possible to get with my current workflow?  
 3. How important is this aspect of my experiment to my overall hypothesis?  
 4. How wrong is my current pipeline output?  
-5. What else could I do (e.g. develop a different approach/workflow, learn a new tool, generate new input data) in the time it will take me to make my pipeline maximally accurate?
+5. What else could I do (e.g., develop a different approach/workflow, learn a new tool, generate new input data) in the time it will take me to make my pipeline maximally accurate?
 
 ## Choosing the kind of tool to use
 
-Let's consider the use case of instance segmentation (see @nte-Box1), which is often a critical step in image analysis workflows.
+Let's consider the use case of instance segmentation (see @tip-Box1), which is often a critical step in image analysis workflows.
 We have defined six categories of segmentation methods, each of which has its valid use cases.
 Ordered by increasing levels of computation comfort required, they are:
 
@@ -223,14 +217,14 @@ We will not cover from-scratch deep learning models in this chapter.
 They are covered in @sec-9.
 
 It is worth noting that many of the tool suggestions below are not confined to a single "class".
-Many tools listed in the non-deep-learning categories allow you to run pre-trained deep learning models inside them (e.g. CellProfiler has a RunCellPose module, ImageJ and QuPath also contain the ability to run [pixel classifiers](glossary.qmd#pixel-classifiers)). 
-All deep learning models *can* be re-tuned with some effort (they may just not have a friendly interface for doing so). See #sec-9 for more information on [fine-tuning](glossary.qmd#fine-tuning) existing models. 
+Many tools listed in the non-deep-learning categories allow you to run pre-trained deep learning models inside them (e.g., CellProfiler has a RunCellPose module, ImageJ and QuPath also contain the ability to run [pixel classifiers](glossary.qmd#pixel-classifiers)). 
+All deep learning models *can* be re-tuned with some effort (they may just not have a friendly interface for doing so). See @sec-9 for more information on [fine-tuning](glossary.qmd#fine-tuning) existing models. 
 
 | Method category | Suggested light microscopy tools | Time required | Best if your priorities include | Biological expertise level required | Ability to handle *reasonable* technical noise and variability | Largest drawback |
 | :---- | :---- | :---- | :---- | :---- | :---- | :---- |
-| **Manual Annotation**: Hand-drawing the boundaries of all objects | ImageJ [@Schindelin2012; @Schindelin2015], napari [@napari], see also [this forum thread](https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918) for 3D annotation | Highest | High accuracy/ outputs approaching ground truth | High | High | Inter- and even intra-operator manual annotations (e.g. after time or image rotation) variability. Irreproducibility. Cannot be automated. |
-| **Classical Image Processing**: Combining mathematically well-defined operations such as thresholding and watershedding to create objects | CellProfiler [@Stirling2021], QuPath [@Bankhead2017], Icy [@de-Chaumont2012] | Medium | Needing to have a good sense of what the failure cases will be (e.g. when cells are too big, too small, too crowded, etc); minimal computational footprint  | High | Initially low, can be improved with experience  | Most performant on very bright objects on dark backgrounds |
-| **Pixel-based machine learning**: Using properties of individual pixels to classify each pixel into a given set of "classes" (e.g. "true signal", "autofluorescence", and "background")  | ilastik [@Berg2019], Labkit [@Arzt2022] | Low to Medium | Identifying well-separated objects that are not bright-on-dark or are not the *only* bright-on-dark objects present | High | High if properly represented in the training set | Must be followed by Classical Image Processing if individual object masks are required |
+| **Manual Annotation**: Hand-drawing the boundaries of all objects | ImageJ [@Schindelin2012; @Schindelin2015], napari [@napari], see also [this forum thread](https://forum.image.sc/t/comparison-of-some-tools-for-3d-dense-ground-truth-annotations/38918) for 3D annotation | Highest | High accuracy/ outputs approaching ground truth | High | High | Inter- and even intra-operator manual annotations (e.g., after time or image rotation) variability. Irreproducibility. Cannot be automated. |
+| **Classical Image Processing**: Combining mathematically well-defined operations such as thresholding and watershedding to create objects | CellProfiler [@Stirling2021], QuPath [@Bankhead2017], Icy [@de-Chaumont2012] | Medium | Needing to have a good sense of what the failure cases will be (e.g., when cells are too big, too small, too crowded, etc.); minimal computational footprint  | High | Initially low, can be improved with experience  | Most performant on very bright objects on dark backgrounds |
+| **Pixel-based machine learning**: Using properties of individual pixels to classify each pixel into a given set of "classes" (e.g., "true signal", "autofluorescence", and "background")  | ilastik [@Berg2019], Labkit [@Arzt2022] | Low to Medium | Identifying well-separated objects that are not bright-on-dark or are not the *only* bright-on-dark objects present | High | High if properly represented in the training set | Must be followed by Classical Image Processing if individual object masks are required |
 | **Pre-trained deep learning models**: Using a set of learned transformations (created by the developer) to define the positions and boundaries of objects  | StarDist [@Schmidt2018], InstanSeg [@Goldsborough2024] | Low | Maximum likelihood for good quality with minimal human time required  | High | High if properly represented in the training set (which you may not know) | Unlikely to work if data similar to your data is not present in the training set. Can be hard to package into workflows. |
 | **Fine tuned deep learning models**: Updating or adding to a pre-trained deep learning model with your data  | Cellpose [@Pachitariu2022], µSAM [@Archit2025] | Medium | Maximum likelihood for very good quality with less human time than manual annotation | High | High if properly represented in the training set | Most computationally intensive. Many available models are not provided in a non-computationalist-friendly format. Can be hard to package into workflows.  |
 
@@ -247,15 +241,15 @@ A few suggestions are as follows:
 
 - BioImage Model Zoo [@Ouyang2022] is a community-driven AI model repository that offers a variety of pre-trained AI models.
 All models are described by a common Model Resource Description File Specification, which simplifies using models from the BioImage Model Zoo with partner software such as ilastik [@Berg2019], ImJoy [@Ouyang2019], Fiji [@Schindelin2012], deepImageJ [@Gomez-de-Mariscal2021] and ZeroCostDL4Mic [@von_chamier2021].
-- Bioimage Informatics Index (Biii) [@Zhang2023] is a community-curated index that includes software and helps researchers find tools whether their search is problem-based (e.g. "find nuclei in cells"), method-based (e.g. "active contour-based segmentation"), or tool-based (e.g. "CellProfiler").  
+- Bioimage Informatics Index (Biii) [@Zhang2023] is a community-curated index that includes software and helps researchers find tools whether their search is problem-based (e.g., "find nuclei in cells"), method-based (e.g., "active contour-based segmentation"), or tool-based (e.g., "CellProfiler").  
 - The Scientific Community Image Forum ([forum.image.sc](http://forum.image.sc)) [@Rueden2019] is a platform where users can pose bioimage software-related questions and receive feedback from a broad user community and maintainers from more than 75 software partners.  
 - Academic literature can include biology-focused research, where users describe applications, or computer science research, where the tools and models themselves are more likely to be described.
 Keeping an eye on preprint servers like arXiv (particularly in Computing Research Repository or Quantitative Biology sections) and bioRxiv can help you find the most cutting-edge developments.
 
-::: {.callout-note icon=false #nte-bioimage-analysts}
-## Bioimage analysts
+::: {.callout-note icon=false}
+## BioImage Analysts
 
-There is a whole discipline of people who specialize in figuring out workflows for analyzing microscopy images - their official titles often vary, but many think of themselves as *bioimage analysts*. If you want to find a local bioimage analyst, or even become one, you can check out the [Global Bioimage Analysts' Society (GloBIAS)](https://www.globias.org/), which holds events, coordinates trainings (including free help sessions), and hosts a database of bioimage analysts and bioimage analysis trainers.
+There is a whole discipline of people who specialize in figuring out workflows for analyzing microscopy images---their official titles often vary, but many think of themselves as *bioimage analysts*. If you want to find a local bioimage analyst, or even become one, you can check out the [Global Bioimage Analysts' Society (GloBIAS)](https://www.globias.org/), which holds events, coordinates trainings (including free help sessions), and hosts a database of bioimage analysts and bioimage analysis trainers.
 :::
 
 ## Case Studies
@@ -351,7 +345,7 @@ He uses ilastik, first providing annotations for microglia and background.
 The classifier works quite well at distinguishing microglia from background, but classifies the skin autofluorescence as microglia.
 Esteban builds on this by using larger filters so that the classifier has more contextual information, training three classes (microglia, skin, and background) instead of two, and adding in autocontext [@Kreshuk2019], which improves classification by running it in multiple stages.
 Esteban’s final three-class pixel classifier performs well at identifying microglia separately from skin across the images in his datasets.
-The image above (@fig-ilastik) shows a zoom-in of one of his images with the three classes overlaid - red for background pixels, blue for skin pixels, and yellow for microglia pixels.
+The image above (@fig-ilastik) shows a zoom-in of one of his images with the three classes overlaid---red for background pixels, blue for skin pixels, and yellow for microglia pixels.
 
 #### Conclusion
 
