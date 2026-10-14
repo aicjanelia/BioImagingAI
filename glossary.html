@@ -595,6 +595,7 @@ window.Quarto = {
   <li><a href="#panoptic-segmentation" id="toc-panoptic-segmentation" class="nav-link" data-scroll-target="#panoptic-segmentation">Panoptic Segmentation</a></li>
   <li><a href="#patches" id="toc-patches" class="nav-link" data-scroll-target="#patches">Patches</a></li>
   <li><a href="#perceptron" id="toc-perceptron" class="nav-link" data-scroll-target="#perceptron">Perceptron</a></li>
+  <li><a href="#perceptual-loss" id="toc-perceptual-loss" class="nav-link" data-scroll-target="#perceptual-loss">Perceptual Loss</a></li>
   <li><a href="#pixel-classifiers" id="toc-pixel-classifiers" class="nav-link" data-scroll-target="#pixel-classifiers">Pixel Classifiers</a></li>
   <li><a href="#point-spread-function-psf" id="toc-point-spread-function-psf" class="nav-link" data-scroll-target="#point-spread-function-psf">Point Spread Function (PSF)</a></li>
   <li><a href="#pooling-layer" id="toc-pooling-layer" class="nav-link" data-scroll-target="#pooling-layer">Pooling Layer</a></li>
@@ -639,6 +640,7 @@ window.Quarto = {
   <li><a href="#star-convex-polygon" id="toc-star-convex-polygon" class="nav-link" data-scroll-target="#star-convex-polygon">Star-convex Polygon</a></li>
   <li><a href="#stochastic-gradient-descent-sgd" id="toc-stochastic-gradient-descent-sgd" class="nav-link" data-scroll-target="#stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</a></li>
   <li><a href="#stride" id="toc-stride" class="nav-link" data-scroll-target="#stride">Stride</a></li>
+  <li><a href="#structural-similarity-index-ssim" id="toc-structural-similarity-index-ssim" class="nav-link" data-scroll-target="#structural-similarity-index-ssim">Structural Similarity Index (SSIM)</a></li>
   <li><a href="#supervised-learning" id="toc-supervised-learning" class="nav-link" data-scroll-target="#supervised-learning">Supervised learning</a></li>
   <li><a href="#support-vector-machine-svm" id="toc-support-vector-machine-svm" class="nav-link" data-scroll-target="#support-vector-machine-svm">Support vector machine (SVM)</a></li>
   <li><a href="#tensor" id="toc-tensor" class="nav-link" data-scroll-target="#tensor">Tensor</a></li>
@@ -662,6 +664,7 @@ window.Quarto = {
   <li><a href="#virtual-machine" id="toc-virtual-machine" class="nav-link" data-scroll-target="#virtual-machine">Virtual Machine</a></li>
   <li><a href="#vision-language-model-vlm" id="toc-vision-language-model-vlm" class="nav-link" data-scroll-target="#vision-language-model-vlm">Vision-Language Model (VLM)</a></li>
   <li><a href="#visual-question-answering" id="toc-visual-question-answering" class="nav-link" data-scroll-target="#visual-question-answering">Visual Question Answering</a></li>
+  <li><a href="#wiener-filter" id="toc-wiener-filter" class="nav-link" data-scroll-target="#wiener-filter">Wiener Filter</a></li>
   <li><a href="#zernike-modes" id="toc-zernike-modes" class="nav-link" data-scroll-target="#zernike-modes">Zernike Modes</a></li>
   </ul>
 </nav>
@@ -713,7 +716,7 @@ window.Quarto = {
 </section>
 <section id="activations" class="level2">
 <h2 class="anchored" data-anchor-id="activations">Activations</h2>
-<p>The values of elements in neural network units, often specifically the values of the output of an activation function.</p>
+<p>The values of elements in neural network units, often specifically the values of the output of an <a href="glossary.yml#activation-function">activation function</a>.</p>
 </section>
 <section id="adaptive-optics" class="level2">
 <h2 class="anchored" data-anchor-id="adaptive-optics">Adaptive Optics</h2>
@@ -1211,6 +1214,10 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="perceptron">Perceptron</h2>
 <p>Perceptrons are a specific type of an artificial neuron or node. They perform a calculation that is a linear weighted sum of the inputs to the node followed by a <a href="./glossary.html#nonlinear">nonlinear</a> <a href="./glossary.html#activation-function">activation function</a>. They are used for binary classification, and can be combined to create more complex network architectures.</p>
 </section>
+<section id="perceptual-loss" class="level2">
+<h2 class="anchored" data-anchor-id="perceptual-loss">Perceptual Loss</h2>
+<p>Instead of comparing pixel intensity, perceptual loss functions compare high-level features — such as those defined in the <a href="./glossary.html#embedding-space">embedding space</a> — of images between model outputs and ground truth. This allows models to produce outputs that match the high-level structure and texture of the ground truth that human perception encodes.</p>
+</section>
 <section id="pixel-classifiers" class="level2">
 <h2 class="anchored" data-anchor-id="pixel-classifiers">Pixel Classifiers</h2>
 <p>Machine learning models that classify each pixel in an image based on features such as intensity, texture, or local neighborhood. Commonly used in traditional workflows for segmentation or classification tasks.</p>
@@ -1387,6 +1394,12 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="stride">Stride</h2>
 <p>When performing a convolution or cross-correlation, the kernel (aka the filter) moves across the entire image. When the stride is 1, this corresponds to moving the filter across every pixel in the image. For larger values of the stride, the kernel is moved more than one element at a time. For example, a stride of 2 would skip every other pixel in the image.</p>
 </section>
+<section id="structural-similarity-index-ssim" class="level2">
+<h2 class="anchored" data-anchor-id="structural-similarity-index-ssim">Structural Similarity Index (SSIM)</h2>
+<p>The structural similarity index measure (SSIM) is a metric which measures the similarity between two images. It attempts to improve upon <a href="glossary.yml#mean-squared-error">MSE</a> by taking image texture into account. It is calculated using the following formula.</p>
+<p><span class="math display">\[\text{SSIM} ( x , y ) = \frac{( 2 \mu_{x} \mu_{y} + c_{1}) ( 2 \sigma_{xy} + c_{2})}{( \mu^{2}_{x} \mu^{2}_{y} + c_{1} ) ( \sigma^{2}_{x} \sigma^{2}_{y} + c_{2} ) }\]</span></p>
+<p>where <span class="math inline">\(x , y\)</span> are two images, <span class="math inline">\(\mu\)</span> is the average intensity, <span class="math inline">\(\sigma\)</span> is the variance of the intensity, and <span class="math inline">\(c_{1} , c_{2}\)</span> are variables determined by the dynamic range of the image (<span class="math inline">\(c_{i} = ( k_{i} L )^{2}\)</span> for <span class="math inline">\(k_{1} = 0.01 , k_{2} = 0.03\)</span>).</p>
+</section>
 <section id="supervised-learning" class="level2">
 <h2 class="anchored" data-anchor-id="supervised-learning">Supervised learning</h2>
 <p>A form of <a href="./glossary.html#machine-learning">machine learning</a> in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a class, a position, a mask, or another image.</p>
@@ -1482,6 +1495,10 @@ window.Quarto = {
 <section id="visual-question-answering" class="level2">
 <h2 class="anchored" data-anchor-id="visual-question-answering">Visual Question Answering</h2>
 <p>Visual Question Answering (VQA) is when a model is asked an open-ended question based on an image input. The result is a natural language response to a natural language question associated with an image.</p>
+</section>
+<section id="wiener-filter" class="level2">
+<h2 class="anchored" data-anchor-id="wiener-filter">Wiener Filter</h2>
+<p>Wiener filters are used to estimate an unknown underlying signal from am observed noisy response. For an example use-case of this filter in image processing, see <a href="https://www.mathworks.com/help/images/deblurring-images-using-a-wiener-filter.html">this Matlab implementation</a>.</p>
 </section>
 <section id="zernike-modes" class="level2">
 <h2 class="anchored" data-anchor-id="zernike-modes">Zernike Modes</h2>
