@@ -222,7 +222,7 @@ Upsampling  : |
   Upsampling is a technique to increase the sampling of input data. For an image, this involves increasing the number of pixels and interpolating values for the newly sampled pixels.
 
 Perceptron  : |
-  Perceptrons are linear weighted sums of inputs followed by a nonlinear activation function. They are used for binary classification, and can be combined to create more complex network architectures. Perceptrons are a specific type of an artificial neuron or node.
+  Perceptrons are a specific type of an artificial neuron or node. They perform a calculation that is a linear weighted sum of the inputs to the node followed by a [nonlinear](glossary.qmd#nonlinear) [activation function](glossary.qmd#activation-function). They are used for binary classification, and can be combined to create more complex network architectures. 
 
 Activation Function  : |
   An activation function is a mathematical formula that calculates the output of a node. These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," an analogy to the way in which biological neurons can be activated.
@@ -382,7 +382,7 @@ Hausdorff Distance : |
   A small Hausdorff distance means every point on one boundary has a close counterpart on the other.
 
 Average Precision : |
-  Average Precision (AP) summarizes the precision–recall trade-off across confidence thresholds.
+  Average Precision (AP) summarizes the precision-recall trade-off across confidence thresholds.
   A predicted instance counts as a true positive only if its [IoU](glossary.qmd#IoU) with a ground-truth instance exceeds a threshold $x$:
 
   $$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
