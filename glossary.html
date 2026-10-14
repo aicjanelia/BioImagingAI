@@ -741,7 +741,7 @@ window.Quarto = {
 </section>
 <section id="average-precision" class="level2">
 <h2 class="anchored" data-anchor-id="average-precision">Average Precision</h2>
-<p>Average Precision (AP) summarizes the precisionâ€“recall trade-off across confidence thresholds. A predicted instance counts as a true positive only if its <a href="./glossary.html#IoU">IoU</a> with a ground-truth instance exceeds a threshold <span class="math inline">\(x\)</span>:</p>
+<p>Average Precision (AP) summarizes the precision-recall trade-off across confidence thresholds. A predicted instance counts as a true positive only if its <a href="./glossary.html#IoU">IoU</a> with a ground-truth instance exceeds a threshold <span class="math inline">\(x\)</span>:</p>
 <p><span class="math display">\[\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k\]</span></p>
 <p>where <span class="math inline">\(P_k\)</span> and <span class="math inline">\(R_k\)</span> are precision and recall at the <span class="math inline">\(k\)</span>-th confidence threshold after matching predictions to ground-truth at IoU <span class="math inline">\(\geq x\)</span>. Higher <span class="math inline">\(x\)</span> demands more precise localization.</p>
 </section>
@@ -1209,7 +1209,7 @@ window.Quarto = {
 </section>
 <section id="perceptron" class="level2">
 <h2 class="anchored" data-anchor-id="perceptron">Perceptron</h2>
-<p>Perceptrons are linear weighted sums of inputs followed by a nonlinear activation function. They are used for binary classification, and can be combined to create more complex network architectures. Perceptrons are a specific type of an artificial neuron or node.</p>
+<p>Perceptrons are a specific type of an artificial neuron or node. They perform a calculation that is a linear weighted sum of the inputs to the node followed by a <a href="./glossary.html#nonlinear">nonlinear</a> <a href="./glossary.html#activation-function">activation function</a>. They are used for binary classification, and can be combined to create more complex network architectures.</p>
 </section>
 <section id="pixel-classifiers" class="level2">
 <h2 class="anchored" data-anchor-id="pixel-classifiers">Pixel Classifiers</h2>
@@ -1591,6 +1591,13 @@ window.Quarto = {
           if (link.dataset.originalHref !== undefined) {
             link.href = link.dataset.originalHref;
           }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+            // default icon
+            link.classList.add("external");
         }
       }
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
