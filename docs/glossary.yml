@@ -282,7 +282,7 @@ Regularization  : |
   Regularization adds a penalty term to the loss function to prevent overfitting. This term discourages overly complex models.
 
 Activations : |
-  The values of elements in neural network units, often specifically the values of the output of an activation function.
+  The values of elements in neural network units, often specifically the values of the output of an [activation function](glossary.yml#activation-function).
 
 Channels : |
   In natural color images there are often three channels (red, green, and blue). In microscopy images, the number of channels can refer to the number of fluorescent labels or image settings used while imaging. The term is used similarly in neural networks where channels refers to the number of layers in an image. These channels can come from convolutional operations, leading to images with hundreds of channels corresponding to each filter used.
@@ -611,3 +611,16 @@ Transposed Convolution: |
   \end{aligned}
   $$
   This is often used in CNN architectures such as the [U-Net](glossary.qmd#u-net) to produce outputs at the correct spatial scale. See [this example](https://www.d2l.ai/chapter_computer-vision/transposed-conv.html) for more information.
+
+Wiener Filter: |
+  Wiener filters are used to estimate an unknown underlying signal from am observed noisy response. For an example use-case of this filter in image processing, see [this Matlab implementation](https://www.mathworks.com/help/images/deblurring-images-using-a-wiener-filter.html).
+
+Structural Similarity Index (SSIM): |
+  The structural similarity index measure (SSIM) is a metric which measures the similarity between two images. It attempts to improve upon [MSE](glossary.yml#mean-squared-error) by taking image texture into account. It is calculated using the following formula.
+
+  $$\text{SSIM} ( x , y ) = \frac{( 2 \mu_{x} \mu_{y} + c_{1}) ( 2 \sigma_{xy} + c_{2})}{( \mu^{2}_{x} \mu^{2}_{y} + c_{1} ) ( \sigma^{2}_{x} \sigma^{2}_{y} + c_{2} ) }$$
+
+  where $x , y$ are two images, $\mu$ is the average intensity, $\sigma$ is the variance of the intensity, and $c_{1} , c_{2}$ are variables determined by the dynamic range of the image ($c_{i} = ( k_{i} L )^{2}$ for $k_{1} = 0.01 , k_{2} = 0.03$).
+
+Perceptual Loss: |
+  Instead of comparing pixel intensity, perceptual loss functions compare high-level features --- such as those defined in the [embedding space](glossary.qmd#embedding-space) --- of images between model outputs and ground truth. This allows models to produce outputs that match the high-level structure and texture of the ground truth that human perception encodes.
