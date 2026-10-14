@@ -158,7 +158,7 @@ The approaches above sort methods by where their training signal comes from; the
 
 Segmentation converts an image into a list of things you can measure. Counts, sizes, per-cell intensities, colocalization, morphology---almost every quantitative claim made from a microscopy image passes through it, which is why the rest of this book keeps returning to it.
 
-The literature uses three terms, not always consistently. Semantic segmentation assigns each pixel a class without separating objects of the same class, instance segmentation gives each object its own identity (@sec-supervised), and [panoptic segmentation](glossary.qmd#panoptic-segmentation) does both at once. @nte-Box1 works the distinction through on a real image.
+The literature uses three terms, not always consistently. Semantic segmentation assigns each pixel a class without separating objects of the same class, instance segmentation gives each object its own identity (@sec-supervised), and [panoptic segmentation](glossary.qmd#panoptic-segmentation) does both at once. @tip-Box1 works the distinction through on a real image.
 
 What makes an annotation expensive is not the number of pixels but how precisely the shape has to be drawn. Semantic segmentation is forgiving: a [pixel classifier](glossary.qmd#pixel-classifiers) can be trained from a few brush strokes per class on a handful of images, as interactive tools such as ilastik have done since before deep learning [@Berg2019]. Instance segmentation is not, because every object needs its own identity, and most methods need each boundary drawn accurately---slow, careful work rather than a lot of clicking.
 
