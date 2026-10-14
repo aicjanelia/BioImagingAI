@@ -611,3 +611,6 @@ Transposed Convolution: |
   \end{aligned}
   $$
   This is often used in CNN architectures such as the [U-Net](glossary.qmd#u-net) to produce outputs at the correct spatial scale. See [this example](https://www.d2l.ai/chapter_computer-vision/transposed-conv.html) for more information.
+
+Wiener Filter: |
+  Signal processing filter used to estimate an unknown underlying signal from am observed noisy response. For an example use-case of this filter in image processing, see [this Matlab implementation](https://www.mathworks.com/help/images/deblurring-images-using-a-wiener-filter.html).
