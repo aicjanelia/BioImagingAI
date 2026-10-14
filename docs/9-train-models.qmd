@@ -65,7 +65,7 @@ Segmentation greatly benefits from ML and DL, as manual segmentation is extremel
 
 ### Defining your task and success criteria {#sec-9.2.1}
 
-Every image analysis project should begin by clearly defining the scientific question you wish to answer, along with the criteria by which success will be measured. These foundational decisions will fundamentally shape your entire workflow. Careful planning of your objectives ensures that the chosen approach closely aligns with your scientific goals and will guide critical decisions about data annotation, model selection and performance evaluation. 
+Every image analysis project should begin by clearly defining the scientific question you wish to answer, along with the criteria by which success will be measured. These foundational decisions will fundamentally shape your entire workflow. Careful planning of your objectives ensures that the chosen approach closely aligns with your scientific goals and will guide critical decisions about data annotation, model selection and performance evaluation. For more commentary on these ideas, see @sec-8. 
 
 Since segmentation serves as the central example in this chapter, it is important to first understand the different types of segmentation tasks encountered in microscopy before discussing how deep learning methods can be applied. These tasks can typically be categorised into three main types (@fig-1). Each segmentation type presents distinct challenges and is suited to different biological questions:
 
@@ -79,9 +79,7 @@ Since segmentation serves as the central example in this chapter, it is importan
 
 Consider whether your segmentation solution is meant for a specific experiment or needs to generalise across various imaging techniques, sample types, or experimental conditions. Additionally, evaluate the volume of data to analyse, the feasibility of manual analysis, and the resources available to create a tailored image analysis pipeline. Avoid overengineering a solution when a simple analysis could provide the answer you seek.
 
-Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”* -- see @sec-output_quality for more information. This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful (see @sec-output_quality).
-
-While the following steps focus on segmentation, the underlying principles can be readily adapted to a wide range of DL tasks in microscopy.
+Alongside task-specific considerations, it is equally important to clearly define the success criteria based on your objectives. For example, be prepared to answer the question, *“What do I need to accomplish for my analysis to be sufficient?”*. This is important because no analysis is ever 100% accurate. Establishing these criteria early streamlines both the development and evaluation processes, ensuring that your outcomes are scientifically meaningful and practically useful (see @sec-output_quality for more information).
 
 ### Evaluating alternatives: Is DL the right choice? {#sec-9.2.2}
 
@@ -97,7 +95,7 @@ If you are unsure which approach to use, we usually recommend first trying class
 
 ## Implementing a DL segmentation workflow {#sec-9.3}
 
-Although we use segmentation as our primary example, the workflow outlined in this section can be adapted to other deep learning tasks in microscopy and bioimage analysis.
+As before, although we use segmentation as our primary example, the workflow outlined in this section can be adapted to other deep learning tasks in microscopy and bioimage analysis.
 
 ### Overview of a typical DL segmentation workflow {#sec-9.3.1}
 
@@ -121,7 +119,7 @@ Choosing the right DL strategy requires aligning your goal, object shape, data d
 
 #### Leveraging pre-trained models {#sec-9.3.3.1}
 
-The increasing availability of already trained (pre-trained) DL models has greatly simplified image analysis. Many of these models can be directly applied to your data, removing the need to train your own model [@bejarano2024; @fisch2024]. This reduces the technical barrier and saves time, making advanced analysis more accessible. However, it is essential to evaluate the quality of any pre-trained model before relying on its results (@fig-4). A model that performs well in one context may not be as effective on your specific data. Always conduct quality control by visually inspecting the outputs and assessing performance with quantitative metrics such as Intersection over Union (IoU) or F1-score, using a small, representative test set. This step is vital when model predictions are used in downstream analyses (see @sec-9.3.7).
+The increasing availability of already trained (pre-trained) DL models has greatly simplified image analysis. Many of these models can be directly applied to your data, removing the need to train your own model [@bejarano2024; @fisch2024]. This reduces the technical barrier and saves time, making advanced analysis more accessible. However, it is essential to evaluate the quality of any pre-trained model before relying on its results (@fig-4). A model that performs well in one context may not be as effective on your specific data. Always conduct quality control by visually inspecting the outputs and assessing performance with quantitative metrics such as Intersection over Union (IoU) or F1-score, using a small, representative test set. This step is vital when model predictions are used in downstream analyses (see @sec-9.3.7 and @sec-output_quality).
 
 Another significant benefit of pre-trained models is their adaptability. Instead of starting from scratch, you can often fine-tune an existing model (see @sec-9.3.6). This method entails retraining the model with a smaller, task-specific dataset, enabling it to adjust to your images while requiring far fewer annotations.
 
@@ -188,7 +186,7 @@ _See also [@fazeli2020]._
 
 Creating high-quality annotations often represents the most time-consuming aspect of training a DL model for segmentation. To alleviate this burden, you can start from automatically produced initial segmentations. For example, using simple thresholding methods such as Otsu's thresholding to generate rough segmentations can decrease the total annotation time. Even more powerfully, pre-trained DL models such as those provided with StarDist [@Schmidt2018] and Cellpose [@stringer2021] can generate more accurate initial segmentations that users can manually refine. These annotations can then be used to retrain the model, establishing an iterative cycle that accelerates both labelling and model refinement. 
 
-New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy (μSAM) [@Archit2025] facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [@Pachitariu2022] features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
+New tools are also pushing the boundaries of interactive annotation. For example, Segment Anything for Microscopy ($\mu$SAM) [@Archit2025] facilitates automatic and user-guided segmentation and allows the model to be retrained on user-provided data. Similarly, Cellpose 2.0 [@Pachitariu2022] features a human-in-the-loop workflow, allowing users to edit DL-generated segmentations. This hybrid approach enhances accuracy while significantly reducing the time and effort required for manual annotation.
 
 #### Expanding your dataset with augmentation and synthetic data {#sec-9.3.4.4}
 
@@ -232,7 +230,7 @@ During each step, the model generates predictions for the current data batch. Th
 
 At the end of each epoch, the model assesses its performance on the validation set, which comprises data it has not encountered during training. This produces the validation loss, indicating how well the model generalises to new data.
 
-Monitoring both training and validation losses during training helps determine whether the model is learning effectively. A consistently decreasing validation loss indicates that the model is improving and generalising well (see @sec-9.3.5.4).
+Monitoring both training and validation losses during training helps determine whether the model is learning effectively. A consistently decreasing validation loss indicates that the model is improving and generalising well (see @sec-9.3.5.4). To learn more on the intricacies of training models, see @sec-4.
 
 #### Choosing your model hyperparameters {#sec-9.3.5.3}
 
@@ -244,7 +242,7 @@ Now that you understand the training process, the next step is to configure the 
 
 * **Learning rate:** It determines the extent to which the model’s weights are adjusted during training. A high learning rate can result in quicker training but may overshoot the optimal solution. Conversely, a low learning rate provides more stable progress, although it may slow down convergence.
 
-* **Optimizer:** An algorithm that updates weights to minimise the loss function. Common optimisers include SGD (stochastic gradient descent) and Adam (adaptive moment estimation), the latter being widely used for its adaptive learning rate and robust performance.
+* **Optimizer:** An algorithm that updates weights to minimise the loss function. Common optimisers include SGD (stochastic gradient descent) and Adam (adaptive moment estimation)[@kingma2014adam] , the latter being widely used for its adaptive learning rate and robust performance.
 
 * **Learning rate scheduler:** Dynamically adjusts the learning rate during training, typically decreasing it after a specific number of epochs or when the validation loss plateaus. This approach helps balance rapid early learning with more refined convergence later on.
 
@@ -336,6 +334,8 @@ Once a segmentation model has been trained and validated, it can be used on new,
 
 **I found a tool or DL model online, but it does not work. What should I do?**
 
+@fig-10 provides a visual guide for trouble-shooting a workflow using a given model.
+
 ![Common DL segmentation problems and troubleshooting tips.](9-figures/chapter9_10_Does yout model work_white.png){#fig-10}
 
 **When should I train a model or segment manually?**
@@ -380,7 +380,7 @@ GUI-based tools include, for instance (see @sec-8 for more tools):
 * Ilastik  
 * QuPath
 
-Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like BiaPy, and DL4MicEverywhere [@Hidalgo-Cenalmor2024] leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. DL4MicEverywhere, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.
+Interactive Jupyter notebooks provide a flexible balance between code and GUI. They enable you to execute code in manageable steps (cells) and immediately see the results. Tools like BiaPy [@Franco-Barranco2025-of], and DL4MicEverywhere [@Hidalgo-Cenalmor2024] leverage Jupyter notebooks, concealing complex code behind user-friendly interfaces. These platforms cater to users with little or no coding experience while still allowing advanced users to access and modify code as needed. DL4MicEverywhere, in particular, established a widely adopted framework for training DL models via notebooks, contributing to the standardisation and simplification of the workflow.
 
 If you are comfortable with programming, you will have even more flexibility. Languages such as Python, MATLAB, Julia, Java, and Rust provide options for building and customizing DL workflows. Python stands out as the most beginner-friendly and widely supported choice, boasting a large ecosystem of libraries and community support. Popular Python libraries for DL include PyTorch, TensorFlow, Keras, and JAX.
 
@@ -402,7 +402,7 @@ Additionally, consider whether to train and deploy your model locally or in the 
 
 There are four typical combinations of training and prediction workflows:
 
-* Training and prediction locally is well suited for small to medium-sized datasets, especially when computational demands are moderate and data privacy is a priority. This approach also supports some user-friendly desktop applications, such as the Cellpose 2.0 [@Pachitariu2022], which can be run locally without requiring cloud access or advanced technical setup.
+* Training and prediction locally is well suited for small to medium-sized datasets, especially when computational demands are moderate and data privacy is a priority. This approach also supports some user-friendly desktop applications, such as Cellpose 2.0 [@Pachitariu2022], which can be run locally without requiring cloud access or advanced technical setup.
 
 * Training locally, prediction in the cloud may be useful when models are trained in-house but need to be deployed at scale or integrated into cloud-based pipelines.
 
