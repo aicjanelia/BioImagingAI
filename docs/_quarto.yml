@@ -51,9 +51,18 @@ format:
       dark: darkly
     code-fold: true
     code-summary: "show code"
+    link-external-icon: true
+    link-external-newwindow: true
   pdf:
     documentclass: scrreprt
     cite-method: biblatex
+    header-includes: |
+      \usepackage{etoolbox}
+      \makeatletter
+      \pretocmd{\chapter}{\phantomsection}{}{}
+      \pretocmd{\section}{\phantomsection}{}{}
+      \pretocmd{\subsection}{\phantomsection}{}{}
+      \makeatother
 
 # glossary:
 #   path: glossary.yml
