@@ -624,3 +624,6 @@ Structural Similarity Index (SSIM): |
 
 Perceptual Loss: |
   Instead of comparing pixel intensity, perceptual loss functions compare high-level features --- such as those defined in the [embedding space](glossary.qmd#embedding-space) --- of images between model outputs and ground truth. This allows models to produce outputs that match the high-level structure and texture of the ground truth that human perception encodes.
+
+Weakly Supervised Learning: |
+  Weakly supervised learning takes partial, noisy, or imprecise labels to guide training. These labels are often combined with unlabeled data which the model learns from in an [unsupervised](glossary.qmd#unsupervised-learning) manner. This can be significantly reduce the annotation time and speed up deployment of a model.
