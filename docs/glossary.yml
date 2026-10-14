@@ -616,7 +616,7 @@ Wiener Filter: |
   Wiener filters are used to estimate an unknown underlying signal from am observed noisy response. For an example use-case of this filter in image processing, see [this Matlab implementation](https://www.mathworks.com/help/images/deblurring-images-using-a-wiener-filter.html).
 
 Structural Similarity Index (SSIM): |
-  The structural similarity index measure (SSIM) is a metric which measures the similarity between two images. It attempts to improve upon [MSE](glossary.yml#mean-squared-error) by taking image texture into account. It is calculated using the following formula.
+  The structural similarity index measure (SSIM) is a metric which measures the similarity between two images. It attempts to improve upon [MSE](glossary.qmd#mean-squared-error) by taking image texture into account. It is calculated using the following formula.
 
   $$\text{SSIM} ( x , y ) = \frac{( 2 \mu_{x} \mu_{y} + c_{1}) ( 2 \sigma_{xy} + c_{2})}{( \mu^{2}_{x} \mu^{2}_{y} + c_{1} ) ( \sigma^{2}_{x} \sigma^{2}_{y} + c_{2} ) }$$
 
