@@ -51,6 +51,8 @@ format:
       dark: darkly
     code-fold: true
     code-summary: "show code"
+    link-external-icon: true
+    link-external-newwindow: true
   pdf:
     documentclass: scrreprt
     cite-method: biblatex
