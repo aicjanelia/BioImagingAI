@@ -144,7 +144,7 @@ CARE (Content-aware image restoration): |
   A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See [https://github.com/CSBDeep/CSBDeep](https://github.com/CSBDeep/CSBDeep) for more information.
 
 RCAN (residual channel attention network): |
-  A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See [https://github.com/AiviaCommunity/3D-RCAN](https://github.com/AiviaCommunity/3D-RCAN) for more information.
+  A deep learning-based method using [residual learning](glossary.qmd#residual-learning) and [channel attention](glossary.qmd#channel-attention) to improve image restoration tasks. See [https://github.com/AiviaCommunity/3D-RCAN](https://github.com/AiviaCommunity/3D-RCAN) for more information.
 
 N2V (Noise2Void): |
   A self-supervised denoising method that trains a neural network to predict pixel values from noisy images by masking input pixels, requiring only single noisy images without paired clean data. See [https://github.com/juglab/n2v](https://github.com/juglab/n2v) for more information. 
@@ -627,3 +627,9 @@ Perceptual Loss: |
 
 Weakly Supervised Learning: |
   Weakly supervised learning takes partial, noisy, or imprecise labels to guide training. These labels are often combined with unlabeled data which the model learns from in an [unsupervised](glossary.qmd#unsupervised-learning) manner. This can be significantly reduce the annotation time and speed up deployment of a model.
+
+Residual Learning: |
+  In conventional architectures, the models ideally learn to map inputs $x$ to the optimized output $O$. Through the implementation of [residual connections](glossary.qmd#residual-connection) that adds $x$ to the output. As a result, the network output now becomes $O - x$. In words, the network learns to the difference between the optimial output and the input. This can minimize the effect of large gradients, improve performance, and accelerate training.
+
+Channel Attention: |
+  Networks that use channel attention give individual weights to each channel in an input. This allows networks to learn the importance of individual channels.
