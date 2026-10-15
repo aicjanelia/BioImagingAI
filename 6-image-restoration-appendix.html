@@ -644,16 +644,16 @@ window.Quarto = {
 
 <section id="brief-introduction-to-the-model" class="level2" data-number="A.1">
 <h2 data-number="A.1" class="anchored" data-anchor-id="brief-introduction-to-the-model"><span class="header-section-number">A.1</span> Brief Introduction to the Model</h2>
-<p>Residual Channel Attention Networks (<a href="./glossary.html#rcan-residual-channel-attention-network">RCAN</a><span class="citation" data-cites="Zhang2018"><sup><a href="references.html#ref-Zhang2018" role="doc-biblioref">1</a></sup></span>), are deep learning architectures initially designed for 2D super-resolution images, leveraging residual learning and channel attention mechanisms to prioritize high-frequency details. Their hierarchical “residual-in-residual” structure and adaptive channel-wise feature scaling enable superior recovery of fine textures in natural images. Researchers adapted RCAN for 3D fluorescence microscopy data to address challenges in volumetric imaging. This 3D-RCAN<span class="citation" data-cites="Chen2021"><sup><a href="references.html#ref-Chen2021" role="doc-biblioref">2</a></sup></span> implementation modifies the original architecture by replacing 2D <a href="./glossary.html#convolution">convolutions</a> with 3D operations, optimizing parameters (e.g., residual groups, channel dimensions) for GPU efficiency, and processing spatiotemporal (4D) data. This adaptation enables denoising and resolution enhancement of volumetric time-lapse microscopy, achieving prolonged live-cell imaging with minimal photo bleaching. By training on paired low/high-quality datasets (e.g., confocal <span class="math inline">\(\leftrightarrow\)</span> STED or iSIM <span class="math inline">\(\leftrightarrow\)</span> expansion microscopy), 3D-RCAN restores sub cellular structures, improves lateral and axial resolution, and outperforms existing networks (e.g., <a href="./glossary.html#care-content-aware-image-restoration">CARE</a>)<span class="citation" data-cites="Weigert2018"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">3</a></sup></span>) in fidelity metrics (e.g., SSIM<span class="citation" data-cites="Wang2004"><sup><a href="references.html#ref-Wang2004" role="doc-biblioref">4</a></sup></span> or peak signal to noise ratio). Its applications span fixed and live-cell studies, offering a versatile tool to overcome trade offs between spatiotemporal resolution and phototoxicity in fluorescence microscopy.</p>
+<p>Residual Channel Attention Networks (<a href="./glossary.html#rcan-residual-channel-attention-network">RCAN</a><span class="citation" data-cites="Zhang2018"><sup><a href="references.html#ref-Zhang2018" role="doc-biblioref">1</a></sup></span>), are deep learning architectures initially designed for 2D super-resolution images, leveraging residual learning and channel attention mechanisms to prioritize high-frequency details. Their hierarchical “residual-in-residual” structure and adaptive channel-wise feature scaling enable superior recovery of fine textures in natural images. Researchers adapted RCAN for 3D fluorescence microscopy data to address challenges in volumetric imaging. This 3D-RCAN<span class="citation" data-cites="Chen2021"><sup><a href="references.html#ref-Chen2021" role="doc-biblioref">2</a></sup></span> implementation modifies the original architecture by replacing 2D <a href="./glossary.html#convolution">convolutions</a> with 3D operations, optimizing parameters (e.g., residual groups, channel dimensions) for GPU efficiency, and processing spatiotemporal (4D) data. This adaptation enables denoising and resolution enhancement of volumetric time-lapse microscopy, achieving prolonged live-cell imaging with minimal photo bleaching. By training on paired low/high-quality datasets (e.g., confocal <span class="math inline">\(\leftrightarrow\)</span> STED or iSIM <span class="math inline">\(\leftrightarrow\)</span> expansion microscopy), 3D-RCAN restores sub cellular structures, improves lateral and axial resolution, and outperforms existing networks (e.g., <a href="./glossary.html#care-content-aware-image-restoration">CARE</a><span class="citation" data-cites="Weigert2018"><sup><a href="references.html#ref-Weigert2018" role="doc-biblioref">3</a></sup></span>) in fidelity metrics (e.g., SSIM<span class="citation" data-cites="Wang2004"><sup><a href="references.html#ref-Wang2004" role="doc-biblioref">4</a></sup></span> or peak signal to noise ratio). Its applications span fixed and live-cell studies, offering a versatile tool to overcome trade offs between spatiotemporal resolution and phototoxicity in fluorescence microscopy.</p>
 <p>Several features of this neural network enable it to handle complex <a href="./glossary.html#image-restoration">image restoration</a> tasks effectively, as described in the paragraphs below. In later sections, we will employ this model as an example to show you how to undertake AI restoration in fluorescence microscopy.</p>
 <section id="residual-learning" class="level3" data-number="A.1.1">
 <h3 data-number="A.1.1" class="anchored" data-anchor-id="residual-learning"><span class="header-section-number">A.1.1</span> Residual Learning</h3>
 <p>3D-RCAN uses a residual learning approach, which means that the network learns the difference (or residual) between the input image and the desired output. Instead of learning the entire image transformation directly, the network focuses on predicting the fine details that need improvement. This makes it easier for the network to capture high-frequency details (like edges and textures) while ignoring unnecessary background information. The network architecture is built using a residual-in-residual structure. This means that within each “residual block” (a unit of processing), there are even smaller “residual blocks.” This hierarchical design improves the network’s ability to learn intricate patterns in the data, allowing for better restoration of fine image details. The network essentially learns to focus on increasingly refined features at different levels of abstraction.</p>
-<p>3D-RCAN incorporates skip connections in its architecture. Skip connections are shortcuts that allow the input image to bypass certain network layers and pass directly to later layers. There are long skip connections (which bypass multiple layers) and short skip connections (which skip only a few layers). These connections enable the network to focus on high-frequency information and avoid losing important details that may be “washed out” in deeper layers.</p>
+<p>3D-RCAN incorporates <a href="./glossary.html#skip-connection">skip connections</a> in its architecture. Skip connections are shortcuts that allow the input image to bypass certain network layers and pass directly to later layers. There are long skip connections (which bypass multiple layers) and short skip connections (which skip only a few layers). These connections enable the network to focus on high-frequency information and avoid losing important details that may be “washed out” in deeper layers.</p>
 </section>
 <section id="channel-attention-mechanism" class="level3" data-number="A.1.2">
 <h3 data-number="A.1.2" class="anchored" data-anchor-id="channel-attention-mechanism"><span class="header-section-number">A.1.2</span> Channel Attention Mechanism</h3>
-<p>One of the distinctive features of 3D-RCAN is its channel attention mechanism. In any image, different features (such as color or depth in the case of microscopy images) have different levels of influence in the image. The channel attention mechanism allows 3D-RCAN to focus on the most important channels by adaptively adjusting the weight given to each feature channel. This helps the network to enhance high-resolution details in relevant channels while minimizing the influence of less important features.</p>
+<p>One of the distinctive features of 3D-RCAN is its <a href="./glossary.html#channels">channel</a> attention mechanism. In any image, different features (such as color or depth in the case of microscopy images) have different levels of influence in the image. The channel attention mechanism allows 3D-RCAN to focus on the most important channels by adaptively adjusting the weight given to each feature channel. This helps the network to enhance high-resolution details in relevant channels while minimizing the influence of less important features.</p>
 </section>
 <section id="d-adaptation-for-image-volumes" class="level3" data-number="A.1.3">
 <h3 data-number="A.1.3" class="anchored" data-anchor-id="d-adaptation-for-image-volumes"><span class="header-section-number">A.1.3</span> 3D Adaptation for Image Volumes</h3>
@@ -688,7 +688,7 @@ Figure&nbsp;A.1: <strong>The architecture of 3D-RCAN.</strong> This diagram illu
 </section>
 <section id="installation-of-dependencies" class="level3" data-number="A.2.2">
 <h3 data-number="A.2.2" class="anchored" data-anchor-id="installation-of-dependencies"><span class="header-section-number">A.2.2</span> Installation of Dependencies</h3>
-<p>3D-RCAN itself does not require installation and installation of the required the dependencies takes few seconds on a typical PC. The installation process involves three main steps:</p>
+<p>3D-RCAN itself does not require installation and installation of the required the dependencies takes a few seconds on a typical PC. The installation process involves three main steps:</p>
 <p><strong>1. Check system requirements</strong>: Ensure your system meets the basic requirements listed above, particularly Python 3.7 and CUDA compatibility.</p>
 <p><strong>2. Create a new virtual environment</strong>: Set up an isolated Python environment to avoid conflicts with other projects and ensure reproducibility.</p>
 <p><strong>3. Install dependencies</strong>: Download the repository and install required Python packages using the requirements.txt file provided in the <a href="https://github.com/AiviaCommunity/3D-RCAN">3D-RCAN respository</a>.</p>
@@ -721,7 +721,7 @@ Figure&nbsp;A.1: <strong>The architecture of 3D-RCAN.</strong> This diagram illu
 <h3 data-number="A.2.5" class="anchored" data-anchor-id="training"><span class="header-section-number">A.2.5</span> Training</h3>
 <p>Training a 3D-RCAN model requires a <code>config.json</code> file to specify parameters and data locations.</p>
 <p>To initiate training, use the command:</p>
-<pre><code>python train.py -c config.json -o /path/to/training/output/dir</code></pre>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> train.py <span class="at">-c</span> config.json <span class="at">-o</span> /path/to/training/output/dir</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <p>Training data can be specified in the <code>config.json</code> file by either:</p>
 <ol type="1">
 <li>Providing paths to folders containing raw and ground truth images (<code>training_data_dir</code>).</li>
@@ -737,12 +737,12 @@ Figure&nbsp;A.1: <strong>The architecture of 3D-RCAN.</strong> This diagram illu
 <p>There are two primary ways to apply a model:</p>
 <ol type="1">
 <li><p>To a single image</p>
-<pre><code>python apply.py -m /path/to/model_dir -i input_raw_image.tif -o output.tif</code></pre></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> apply.py <span class="at">-m</span> /path/to/model_dir <span class="at">-i</span> input_raw_image.tif <span class="at">-o</span> output.tif</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div></li>
 <li><p>To a folder of images (batch mode)</p>
-<pre><code>python apply.py -m /path/to/model_dir 
--i /path/to/input_image_dir 
--o /path/to/output_image_dir</code></pre>
-<p>When processing a folder, ground truth images can also be specified using the -g argument for comparison.</p></li>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> apply.py <span class="at">-m</span> /path/to/model_dir </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="ex">-i</span> /path/to/input_image_dir </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="ex">-o</span> /path/to/output_image_dir</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>When processing a folder, ground truth images can also be specified using the <code>-g</code> argument for comparison.</p></li>
 </ol>
 <p>Key command-line arguments include:</p>
 <ul>
@@ -765,7 +765,7 @@ Figure&nbsp;A.1: <strong>The architecture of 3D-RCAN.</strong> This diagram illu
 <section id="data-preparation" class="level3" data-number="A.3.1">
 <h3 data-number="A.3.1" class="anchored" data-anchor-id="data-preparation"><span class="header-section-number">A.3.1</span> Data Preparation</h3>
 <p><strong>Input Format</strong>: 3D TIFF stacks (Z-Y-X order)</p>
-<p><strong>Data Pairs</strong>: The <a href="[DeAbePlusData](https://zenodo.org/records/11277422)">example image pairs</a> we employ are shown in <a href="#fig-denoise-data" class="quarto-xref">Figure&nbsp;<span>A.2</span></a> and are available in the denoising section of the <a href="https://zenodo.org/records/4645466">data for the 3D-RCAN paper</a>.</p>
+<p><strong>Data Pairs</strong>: The <a href="https://zenodo.org/records/11277422">example image pairs</a> we employ are shown in <a href="#fig-denoise-data" class="quarto-xref">Figure&nbsp;<span>A.2</span></a> and are available in the denoising section of the <a href="https://zenodo.org/records/4645466">data for the 3D-RCAN paper</a>.</p>
 <ul>
 <li><p><strong>Low-SNR Data</strong>: Noisy images. Here we use low signal-to-noise ratio data obtained by imaging mitochondria labeled with mEmerald-Tomm20-C-10 in living U2OS cells using instant structured illumination microscopy under low illumination intensities.</p></li>
 <li><p><strong>High-SNR Ground Truth</strong>: Corresponding clean images. Here we use high signal-to-noise ratio and high-resolution data obtained by imaging mitochondria labeled with mEmerald-Tomm20-C-10 in living U2OS cells using instant structured illumination microscopy under high illumination intensities.</p></li>
@@ -828,7 +828,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are using a Mac or Linux system, replace the \ in the example paths with /.</p>
+<p>If you are using a Mac or Linux system, replace the \ \ in the example paths with /.</p>
 </div>
 </div>
 </section>
@@ -874,10 +874,10 @@ Figure&nbsp;A.3: <strong>Denoising Performance.</strong> The images show raw dat
 </section>
 <section id="sec-denoise-guidance" class="level3" data-number="A.3.4">
 <h3 data-number="A.3.4" class="anchored" data-anchor-id="sec-denoise-guidance"><span class="header-section-number">A.3.4</span> Further Denoising Guidance</h3>
-<p>To improve the performance of the 3D-RCAN model when unsatisfied with denoising results, we recommend starting by tuning hyperparameters in the <code>config.json</code> file. Start by adjusting the model architecture parameters to balance computational constraints and feature extraction capabilities. For instance, increasing num_channels (default:32) enhances the network’s capacity to learn complex features but requires more GPU memory. If limited by hardware, reducing it to 16-24 while moderately increasing num_residual_groups (default:5) or num_residual_blocks per group (default:3) could maintain depth without overwhelming resources. The channel_reduction ratio (default:8) for attention mechanisms can be lowered to 4-6 to amplify the model’s sensitivity to channel-wise dependencies, though this should be validated using metrics to avoid overfitting.</p>
-<p>Training dynamics can be optimized by revisiting the initial_learning_rate (default:1e-4). If training loss plateaus or fluctuates, gradually lowering it to 1e-5 stabilizes convergence, while aggressive learning rates (e.g., 5e-4) might accelerate early training but risk divergence. Switching the loss function from MAE (robust to noise) to MSE could prioritize pixel-level accuracy for high-frequency details, especially when ground truth data has sharp structures. Extending training epochs beyond the default 300—coupled with early stopping based on validation loss—helps the model capture subtle patterns in volumetric data.</p>
-<p>Data-related parameters require careful calibration. Enabling data_augmentation (default:True) remains vital for small datasets to simulate variations in microscopy imaging, but it can be disabled for large, diverse datasets to speed up training. The intensity_threshold (default:0.25) and area_ratio_threshold (default:0.5) act as filters for low-quality patches. Raising the intensity threshold to 0.3-0.4 suppresses noisy backgrounds, while lowering the area ratio to 0.3-0.4 accommodates sparse biological structures like microtubules. For validation, always specify a dedicated validation_data_dir to monitor generalization and prevent overfitting.</p>
-<p>Finally, hardware limitations can be mitigated by reducing block_shape dimensions during inference or simplifying the model architecture. Experiment iteratively: establish a baseline with default settings, then progressively scale model complexity while tracking validation metrics like PSNR/SSIM. Consider hybrid strategies, such as combining MAE loss with SSIM regularization (a loss penalty using SSIM to preserve structural fidelity and prevent over-smoothing) or dynamic learning rate schedules, to adapt to specific data characteristics. Always validate changes against biologically relevant structures in your test set, as quantitative metrics alone may not reflect practical image quality for microscopy analysis.</p>
+<p>To improve the performance of the 3D-RCAN model when unsatisfied with denoising results, we recommend starting by tuning hyperparameters in the <code>config.json</code> file. Start by adjusting the model architecture parameters to balance computational constraints and feature extraction capabilities. For instance, increasing <code>num_channels</code> (default:32) enhances the network’s capacity to learn complex features but requires more GPU memory. If limited by hardware, reducing it to 16-24 while moderately increasing <code>num_residual_groups</code> (default:5) or <code>num_residual_blocks</code> per group (default:3) could maintain depth without overwhelming resources. The <code>channel_reduction</code> ratio (default:8) for attention mechanisms can be lowered to 4-6 to amplify the model’s sensitivity to channel-wise dependencies, though this should be validated using metrics to avoid overfitting.</p>
+<p>Training dynamics can be optimized by revisiting the <code>initial_learning_rate</code> (default:1e-4). If training loss plateaus or fluctuates, gradually lowering it to 1e-5 stabilizes convergence, while aggressive learning rates (e.g., 5e-4) might accelerate early training but risk divergence. Switching the loss function from MAE (robust to noise) to MSE could prioritize pixel-level accuracy for high-frequency details, especially when ground truth data has sharp structures. Extending training epochs beyond the default 300—coupled with early stopping based on validation loss—helps the model capture subtle patterns in volumetric data.</p>
+<p>Data-related parameters require careful calibration. Enabling <code>data_augmentation</code> (default:True) remains vital for small datasets to simulate variations in microscopy imaging, but it can be disabled for large, diverse datasets to speed up training. The <code>intensity_threshold</code> (default:0.25) and <code>area_ratio_threshold</code> (default:0.5) act as filters for low-quality patches. Raising the intensity threshold to 0.3-0.4 suppresses noisy backgrounds, while lowering the area ratio to 0.3-0.4 accommodates sparse biological structures like microtubules. For validation, always specify a dedicated <code>validation_data_dir</code> to monitor generalization and prevent overfitting.</p>
+<p>Finally, hardware limitations can be mitigated by reducing <code>block_shape</code> dimensions during inference or simplifying the model architecture. Experiment iteratively: establish a baseline with default settings, then progressively scale model complexity while tracking validation metrics like PSNR/SSIM. Consider hybrid strategies, such as combining MAE loss with SSIM regularization (a loss penalty using SSIM to preserve structural fidelity and prevent over-smoothing) or dynamic learning rate schedules, to adapt to specific data characteristics. Always validate changes against biologically relevant structures in your test set, as quantitative metrics alone may not reflect practical image quality for microscopy analysis.</p>
 </section>
 </section>
 <section id="deconvolution-tutorial" class="level2" data-number="A.4">
@@ -946,7 +946,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are using a Mac or Linux system, replace the \ in the example paths with /.</p>
+<p>If you are using a Mac or Linux system, replace the \ \ in the example paths with /.</p>
 </div>
 </div>
 </section>
@@ -1054,7 +1054,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are using a Mac or Linux system, replace the \ in the example paths with /.</p>
+<p>If you are using a Mac or Linux system, replace the \ \ in the example paths with /.</p>
 </div>
 </div>
 </section>
@@ -1100,7 +1100,7 @@ Figure&nbsp;A.7: <strong>3D-RCAN Deaberration prediction.</strong> The images sh
 <section id="data-preparation-3" class="level3" data-number="A.6.1">
 <h3 data-number="A.6.1" class="anchored" data-anchor-id="data-preparation-3"><span class="header-section-number">A.6.1</span> Data Preparation</h3>
 <p><strong>Input Format</strong>: 3D TIFF stacks (Z-Y-X order)</p>
-<p><strong>Data Pairs</strong>: The <a href="[DeAbePlusData](https://zenodo.org/records/11277422)">example image pairs</a> we employ are shown in <a href="#fig-SR-dataset" class="quarto-xref">Figure&nbsp;<span>A.8</span></a>. You can find these examples in the ‘confocal_2_STED’ section of the <a href="https://zenodo.org/records/4645466">data for the 3D-RCAN paper</a>.</p>
+<p><strong>Data Pairs</strong>: The <a href="https://zenodo.org/records/11277422">example image pairs</a> we employ are shown in <a href="#fig-SR-dataset" class="quarto-xref">Figure&nbsp;<span>A.8</span></a>. You can find these examples in the ‘confocal_2_STED’ section of the <a href="https://zenodo.org/records/4645466">data for the 3D-RCAN paper</a>.</p>
 <ul>
 <li><p><strong>Raw data:</strong> The “raw” data here refers to the original confocal microscopy images of the fixed mouse embryonic fibroblast (MEF) cells, specifically focusing on the microtubules. These images are acquired directly from the confocal microscope without any further processing or enhancement. They represent the initial, unaltered state of the microtubule structures as captured by the confocal microscope.</p></li>
 <li><p><strong>Ground Truth (GT) data</strong>: The “ground truth” (GT) data consists of the high-resolution STED (Stimulated Emission Depletion) microscopy images of the same fixed MEF cells, again focusing on the microtubules.</p></li>
@@ -1161,7 +1161,7 @@ Tip
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are using a Mac or Linux system, replace the \ in the example paths with /.</p>
+<p>If you are using a Mac or Linux system, replace the \ \ in the example paths with /.</p>
 </div>
 </div>
 <hr>
