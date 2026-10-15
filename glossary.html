@@ -492,6 +492,7 @@ window.Quarto = {
   <li><a href="#care-content-aware-image-restoration" id="toc-care-content-aware-image-restoration" class="nav-link" data-scroll-target="#care-content-aware-image-restoration">CARE (Content-aware image restoration)</a></li>
   <li><a href="#capacity" id="toc-capacity" class="nav-link" data-scroll-target="#capacity">Capacity</a></li>
   <li><a href="#centroid-coordinate" id="toc-centroid-coordinate" class="nav-link" data-scroll-target="#centroid-coordinate">Centroid coordinate</a></li>
+  <li><a href="#channel-attention" id="toc-channel-attention" class="nav-link" data-scroll-target="#channel-attention">Channel Attention</a></li>
   <li><a href="#channels" id="toc-channels" class="nav-link" data-scroll-target="#channels">Channels</a></li>
   <li><a href="#class" id="toc-class" class="nav-link" data-scroll-target="#class">Class</a></li>
   <li><a href="#class-label" id="toc-class-label" class="nav-link" data-scroll-target="#class-label">Class label</a></li>
@@ -619,6 +620,7 @@ window.Quarto = {
   <li><a href="#resnet" id="toc-resnet" class="nav-link" data-scroll-target="#resnet">ResNet</a></li>
   <li><a href="#resampling" id="toc-resampling" class="nav-link" data-scroll-target="#resampling">Resampling</a></li>
   <li><a href="#residual-connection" id="toc-residual-connection" class="nav-link" data-scroll-target="#residual-connection">Residual Connection</a></li>
+  <li><a href="#residual-learning" id="toc-residual-learning" class="nav-link" data-scroll-target="#residual-learning">Residual Learning</a></li>
   <li><a href="#resolution-enhancement" id="toc-resolution-enhancement" class="nav-link" data-scroll-target="#resolution-enhancement">Resolution enhancement</a></li>
   <li><a href="#retrieval-augmented-generation" id="toc-retrieval-augmented-generation" class="nav-link" data-scroll-target="#retrieval-augmented-generation">Retrieval-Augmented Generation</a></li>
   <li><a href="#segmentation-mask" id="toc-segmentation-mask" class="nav-link" data-scroll-target="#segmentation-mask">Segmentation mask</a></li>
@@ -800,6 +802,10 @@ window.Quarto = {
 <section id="centroid-coordinate" class="level2">
 <h2 class="anchored" data-anchor-id="centroid-coordinate">Centroid coordinate</h2>
 <p>An object’s geometric center point, used as a simple way to describe its location in an image.</p>
+</section>
+<section id="channel-attention" class="level2">
+<h2 class="anchored" data-anchor-id="channel-attention">Channel Attention</h2>
+<p>Networks that use channel attention give individual weights to each channel in an input. This allows networks to learn the importance of individual channels.</p>
 </section>
 <section id="channels" class="level2">
 <h2 class="anchored" data-anchor-id="channels">Channels</h2>
@@ -1253,7 +1259,7 @@ window.Quarto = {
 </section>
 <section id="rcan-residual-channel-attention-network" class="level2">
 <h2 class="anchored" data-anchor-id="rcan-residual-channel-attention-network">RCAN (residual channel attention network)</h2>
-<p>A deep learning-based method using residual learning and channel attention to improve image restoration tasks. See <a href="https://github.com/AiviaCommunity/3D-RCAN">https://github.com/AiviaCommunity/3D-RCAN</a> for more information.</p>
+<p>A deep learning-based method using <a href="./glossary.html#residual-learning">residual learning</a> and <a href="./glossary.html#channel-attention">channel attention</a> to improve image restoration tasks. See <a href="https://github.com/AiviaCommunity/3D-RCAN">https://github.com/AiviaCommunity/3D-RCAN</a> for more information.</p>
 </section>
 <section id="random-forest" class="level2">
 <h2 class="anchored" data-anchor-id="random-forest">Random forest</h2>
@@ -1310,6 +1316,10 @@ window.Quarto = {
 <section id="residual-connection" class="level2">
 <h2 class="anchored" data-anchor-id="residual-connection">Residual Connection</h2>
 <p>A specific instance of a skip connection, in which the input of a transformation block is added to the output.</p>
+</section>
+<section id="residual-learning" class="level2">
+<h2 class="anchored" data-anchor-id="residual-learning">Residual Learning</h2>
+<p>In conventional architectures, the models ideally learn to map inputs <span class="math inline">\(x\)</span> to the optimized output <span class="math inline">\(O\)</span>. Through the implementation of <a href="./glossary.html#residual-connection">residual connections</a> that adds <span class="math inline">\(x\)</span> to the output. As a result, the network output now becomes <span class="math inline">\(O - x\)</span>. In words, the network learns to the difference between the optimial output and the input. This can minimize the effect of large gradients, improve performance, and accelerate training.</p>
 </section>
 <section id="resolution-enhancement" class="level2">
 <h2 class="anchored" data-anchor-id="resolution-enhancement">Resolution enhancement</h2>
