@@ -271,6 +271,7 @@ DICE is the [harmonic mean](glossary.qmd#harmonic-mean) of [precision](glossary.
 The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.
 :::
 
+::: {.content-visible unless-format="pdf"}
 ```{python}
 #| fig-align: center
 import matplotlib.pyplot as plt
@@ -324,7 +325,14 @@ legend_elements = [
 ax.legend(handles=legend_elements, loc="upper center", 
             bbox_to_anchor=(0.5, -0.02),
             ncol=2, frameon=False, fontsize=14)
+
 ```
+:::
+
+::: {.content-visible when-format="pdf"}
+![](10-quality-figures/fig_itersection_union.png)
+:::
+
 :::
 
 Alternatively, if we are interested in counting the number of nuclei, a model which changes the size of the nuclei should not impact the analysis.
@@ -342,6 +350,7 @@ $$ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}$$
 
 Precision answers "of all predicted instances, how many were correct?"; recall answers "of all real instances, how many were found?"; F1 is their harmonic mean.
 
+::: {.content-visible unless-format="pdf"}
 ```{python}
 #| fig-align: center
 import matplotlib.pyplot as plt
@@ -401,7 +410,11 @@ ax.legend(handles=legend_elements, loc="upper center",
             bbox_to_anchor=(0.5, -0.02),
             ncol=1, frameon=False, fontsize=9)
 ```
+:::
 
+::: {.content-visible when-format="pdf"}
+![](10-quality-figures/fig_precision_recall.png)
+:::
 :::
 
 Open the callouts below for more metrics that are common in image analysis.
@@ -417,6 +430,7 @@ $$d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B}
 
 A small Hausdorff distance means every point on one boundary has a close counterpart on the other.
 
+::: {.content-visible unless-format="pdf"}
 ```{python}
 #| fig-align: center
 import matplotlib.pyplot as plt
@@ -471,7 +485,11 @@ ax.text(mid[0] - 0.1, mid[1] - 0.3, "$d_H$",
 ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
           ncol=2, frameon=False, fontsize=14)
 ```
+:::
 
+::: {.content-visible when-format="pdf"}
+![](10-quality-figures/fig_Hausdorff.png)
+:::
 :::
 
 
@@ -1205,7 +1223,7 @@ A single metric is rarely sufficient to fully evaluate a models performance as i
 | Validation loss | Fast | Val | Enables monitoring of over/under fitting during training | BCE |
 | Validation metrics | Fast | Val| Additional metrics that provide more insight into training progress outside the loss function and assist in checkpoint selection	MSE | 
 | Test metrics | Slow | Test | Final metrics that are run on test data in order to critically evaluate model performance and failure modes	Object-based recall and precision |
-: **A comparison of stages of model evaluation.** The segmentation example highlights specific metrics that would be used in each of these stages in a segmentation pipeline. {#tbl-stages-model-eval}
+: **A comparison of stages of model evaluation.** The segmentation example highlights specific metrics that would be used in each of these stages in a segmentation pipeline. {#tbl-metric-stages}
 
 <!-- Splitting your training data: training, validation, and test sets {#sec-9.3.5.1} -->
 <!-- monitoring training and val losses #sec-9.3.5.4 -->
