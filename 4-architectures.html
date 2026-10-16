@@ -531,7 +531,7 @@ window.Quarto = {
   <li><a href="#sec-unet-architecture" id="toc-sec-unet-architecture" class="nav-link" data-scroll-target="#sec-unet-architecture"><span class="header-section-number">4.1.3</span> U-nets</a></li>
   <li><a href="#vision-transformers" id="toc-vision-transformers" class="nav-link" data-scroll-target="#vision-transformers"><span class="header-section-number">4.1.4</span> Vision transformers</a></li>
   </ul></li>
-  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions"><span class="header-section-number">4.2</span> Loss functions</a></li>
+  <li><a href="#sec-4-loss" id="toc-sec-4-loss" class="nav-link" data-scroll-target="#sec-4-loss"><span class="header-section-number">4.2</span> Loss functions</a></li>
   <li><a href="#sec-training-neural-networks" id="toc-sec-training-neural-networks" class="nav-link" data-scroll-target="#sec-training-neural-networks"><span class="header-section-number">4.3</span> Training neural networks</a></li>
   <li><a href="#sec-computer-vision-resources" id="toc-sec-computer-vision-resources" class="nav-link" data-scroll-target="#sec-computer-vision-resources"><span class="header-section-number">4.4</span> Additional resources</a></li>
   </ul>
@@ -681,7 +681,7 @@ Figure&nbsp;4.5: Illustration of a multilayer perceptron (MLP) with two hidden l
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a multi-layer perceptron with 30,000 input values, a hidden layer with 30,000 units, and an output layer with one output. The code is run on an example of 8 input images, and outputs the sizes of the input, output, weights matrix (W), and bias vector (b).</p>
-<div id="c32c60c3" class="cell" data-execution_count="1">
+<div id="a3787680" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch </span>
@@ -802,7 +802,7 @@ Figure&nbsp;4.7: Convolutional operation with padding from <a href="https://gith
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a convolutional layer with 3 input channels, 6 output channels and a kernel size of 9.</p>
-<div id="ab2b65e9" class="cell" data-execution_count="3">
+<div id="b2fe011b" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConvolutionalLayer(nn.Module):</span>
@@ -885,7 +885,7 @@ Figure&nbsp;4.8: Illustration of max-pooling with a kernel size of 2 and stride 
 </div>
 <div class="callout-body-container callout-body">
 <p>This example code implements max-pooling with a kernel size of 2 and a stride of 2.</p>
-<div id="257c2c3d" class="cell" data-execution_count="5">
+<div id="b2d25204" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># max pooling operation</span></span>
@@ -951,8 +951,8 @@ Figure&nbsp;4.11: Segment Anything model<span class="citation" data-cites="kiril
 <p>SAM is trained as a promptable model, meaning a user can specify an object for segmentation with a click or a bounding box and the model will produce a predicted object in that region. However, we often want automated segmentations in which we do not have to click on everything in the image. Thus, multiple groups have adapted the SAM decoder to predict <a href="./glossary.html#auxiliary-variables">auxiliary variables</a>, which we will discuss next as we learn about loss functions. Other innovations in transformers have adapted the architecture to be more suited to the spatial layout of images, such as the Swin transformer<span class="citation" data-cites="liu2021swin"><sup><a href="references.html#ref-liu2021swin" role="doc-biblioref">17</a></sup></span>, which has also been adapted for biological applications<span class="citation" data-cites="zhang2025swincell achard2025cellseg3d"><sup><a href="references.html#ref-zhang2025swincell" role="doc-biblioref">18</a>,<a href="references.html#ref-achard2025cellseg3d" role="doc-biblioref">19</a></sup></span>.</p>
 </section>
 </section>
-<section id="loss-functions" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="loss-functions"><span class="header-section-number">4.2</span> Loss functions</h2>
+<section id="sec-4-loss" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="sec-4-loss"><span class="header-section-number">4.2</span> Loss functions</h2>
 <p>In a standard image classification network, the output is a vector with length equal to the number of classes in the task. Each of the entries in this vector represents the predicted probability of the class, and the predicted label for the image is chosen as the index of the vector with the largest entry. For each training image we have a <a href="./glossary.html#ground-truth">ground-truth</a> label for the class. How closely the network matches the label is the loss, which is defined as a function between the vector output of the network and the ground-truth label. A lower loss means we matched the ground-truth data better. The gradients of the network are computed automatically via <a href="./glossary.html#backpropagation">back-propagation</a>, and an <a href="./glossary.html#optimizer">optimizer</a> is specified to modify the parameters in order to minimize the loss (described more below).</p>
 <p>For classification, we are evaluating predicted probabilities, so we need to take the output from the network and convert it to a probability that sums to one across classes. For this, a softmax (or its cousin the sigmoid) operation is performed, defined as <span class="math inline">\(p_c(x) = e^{x_{c}} / (\sum_{i=1}^C e^{x_{i}})\)</span>. The cross-entropy loss is a standard loss function for classification, and for comparing probability distributions generally. This loss maximizes the predicted probability of the true class, achieving its minimum value of 0 when the probability of the true class is predicted to be one (<a href="#eq-cross-entropy" class="quarto-xref">Equation&nbsp;<span>4.4</span></a>).</p>
 <p><span id="eq-cross-entropy"><span class="math display">\[
@@ -981,7 +981,7 @@ Figure&nbsp;4.12: An image (upper left) is input to a u-net trained to predict c
 </div>
 <div class="callout-body-container callout-body">
 <p>Here is example code for cell/not-cell prediction with one convolutional layer.</p>
-<div id="44e7a2c5" class="cell" data-execution_count="6">
+<div id="1bda6c4f" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare layer</span></span>
@@ -1016,7 +1016,7 @@ shape of b:  torch.Size([1])
 input shape:  torch.Size([8, 3, 50, 50])
 output shape:  torch.Size([8, 1, 50, 50])
 target shape:  torch.Size([8, 1, 50, 50])
-loss =  0.6812711954116821</code></pre>
+loss =  0.6894519925117493</code></pre>
 </div>
 </div>
 </div>
