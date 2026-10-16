@@ -27,12 +27,13 @@ format:
 
 _AI in Microscopy_ is an interactive online textbook intended to introduce biologists and microscopists to the fundamentals of artificial intelligence and machine learning.
 
-The table of contents on the left can be used to navigate the book.  Subsections of each chapter appear as a clickable menu on the right side of each chapter page. Key terms in each chapter are highlighted as links to the Glossary page.  A free PDF of the textbook can be downloaded from the upper left menu, which also contains a toggle for using the website in dark mode.
+The table of contents on the left can be used to navigate the book.  Subsections of each chapter appear as a clickable menu on the right side of each chapter page. Key terms in each chapter are highlighted as links to the [Glossary](glossary.qmd) page.  The upper left menu contains a toggle for using the website in dark mode.
+
+A free PDF of the textbook can be downloaded from the upper left menu. Note that this PDF lacks some of the functionality of the online interactive book.
 
 The source code for this textbook is available on [GitHub](https://github.com/aicjanelia/BioImagingAI/). All content is licensed under [BSD 3-Clause](https://github.com/aicjanelia/BioImagingAI/?tab=BSD-3-Clause-1-ov-file), except where noted otherwise.
 
-:::{.callout-caution}
-_AI in Microscopy_ is currently under construction and some chapters are incomplete. This page will continue to be updated as the textbook progresses.
-:::
+### AI Disclosure {.unnumbered}
+Anthropic's Claude (Sonnet 5 and Sonnet 5.5) assisted in identifying broken links, proof reading, and developing formatting solutions for this book. All content was reviewed, revised, and verified by the human editors and authors, who take full responsibility for the final text.
 
 <!-- - How to cite the book. -->
