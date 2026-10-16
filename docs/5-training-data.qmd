@@ -148,7 +148,7 @@ Previews and reports help you locate examples that need closer inspection in lar
 | Tool | Typical data or workflow | Useful checks |
 |---|---|---|
 | Fiji/ImageJ [@Schindelin2012] | Local 2D, multichannel, z-stack, or time-lapse images | Intensities, histograms, overlays, and pair alignment |
-| napari [@ahlers2023] | N-dimensional images, labels, points, shapes, or tracks | Layer comparison and 3D or time navigation |
+| napari [@sofroniew2026] | N-dimensional images, labels, points, shapes, or tracks | Layer comparison and 3D or time navigation |
 | QuPath [@Bankhead2017] | Histopathology and large 2D slides | Stains, tissue regions, annotations, metadata, and slide heterogeneity |
 | TrackMate [@ershov_trackmate_2022] and Mastodon [@girstmairMastodonCommandCenter2025a] | Time-lapse tracking and lineage data | Detections, divisions, gaps, links, and lineage consistency |
 | Vizarr/Viv [@manzVivMultiscaleVisualization2022] | Remote multiscale OME-Zarr or Zarr images | Browser-based channel and spatial inspection |
