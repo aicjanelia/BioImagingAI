@@ -633,3 +633,6 @@ Residual Learning: |
 
 Channel Attention: |
   Networks that use channel attention give individual weights to each channel in an input. This allows networks to learn the importance of individual channels.
+
+Forward Pass: |
+  The process by which an input is fed through each layer of a neural network, in a sequential manner. The result of the final layer is the output which can be compared to [ground truth](glossary.qmd#ground-truth).
