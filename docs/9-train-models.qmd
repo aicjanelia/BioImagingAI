@@ -147,7 +147,7 @@ However, alternative approaches can help reduce the need for extensive manual an
 
 #### Creating manual annotations {#sec-9.3.4.2}
 
-Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [@Schindelin2012], napari [@ahlers2023], and QuPath [@Bankhead2017] are frequently employed for manual labeling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
+Creating accurate annotations manually is time-consuming, particularly for 3D datasets. Tools like Fiji [@Schindelin2012], napari [@sofroniew2026], and QuPath [@Bankhead2017] are frequently employed for manual labeling. Typically, manual annotation involves drawing each object on the image and converting it into a mask or label. 
 
 ::: {.callout-tip collapse="true"}
 ## **Here is an example pipeline for manually annotating data using Fiji** 
