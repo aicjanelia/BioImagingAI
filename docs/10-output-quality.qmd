@@ -14,7 +14,7 @@ author:
         state: NY
         country: USA
         postal-code:  
-subtitle: How to pick a model?
+subtitle: How to evaluate a model?
 # jupyter: python3
 execute:
     cache: true
@@ -25,7 +25,7 @@ bibliography: references.bib
 
 ::: {.content-visible when-format="pdf"}
 | **Morgan Schwartz^1^, Diane Adjavon^2^**
-| *^1^HHMI Janelia Research Campus, ^2^biohub, *
+| *^1^HHMI Janelia Research Campus, ^2^biohub*
 | 
 :::
 
@@ -45,23 +45,23 @@ We will focus on *segmentation* and *cell tracking* as concrete examples, but th
 
 ## Metrics and Losses
 
-In @sec-9, you learned about how to train a machine learning model.
-Recall that this requires selecting a [loss function](glossary.qmd#loss-function): a function that represents how far the model's output is from your desired ground truth. 
-As training relies on [gradient descent](glossary.qmd#gradient-descent), the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
+In @sec-9, you learned how to train a machine learning model.
+Recall that this requires selecting a [loss function](glossary.qmd#loss-function): a function that represents how far the model's output is from your desired [ground truth](glossary.qmd#ground-truth). 
+As training relies on [gradient descent](glossary.qmd#gradient-descent), the loss must be [differentiable](glossary.qmd#differentiable); the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
 The model's parameters are optimized to minimize the loss on a [training dataset](glossary.qmd#training-data), and you evaluate the same loss on a held-out [validation dataset](glossary.qmd#validation-data) to get an idea of how well your model would perform on new data.
 
 Once you've trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model.
 A [metric](glossary.qmd#quality-control-metric) is any function that scores your predictions.
 Unlike a loss, it does not have to be differentiable because it is not used for optimization. 
-This means that you can get more specific which how you evaluate the quality of your model output, as we'll see below.
+This means that you can get more specific about how you evaluate the quality of your model output, as we'll see below.
 
 <!-- For example, look at the segmentation outputs in @fig-segmentations.
 At first glance, it is difficult to judge which of these is the most appropriate. -->
 
 
 Consider the case of nuclear segmentation. 
-Suppose you have fluorescently labelled nuclei, as in ([@fig-image]), that you want to segment for downstream analysis.
-Two standard losses for this task are [binary cross entropy (BCE)](glossary.qmd#binary-cross-entropy), and [mean squared error (MSE)](glossary.qmd#mean-squared-error).
+Suppose you have fluorescently labeled nuclei, as in ([@fig-image]), that you want to segment for downstream analysis.
+Two standard losses for this task are [binary cross-entropy (BCE)](glossary.qmd#binary-cross-entropy) and [mean squared error (MSE)](glossary.qmd#mean-squared-error).
 These functions are often optimized for the task of [semantic segmentation](glossary.qmd#semantic-segmentation), separating foreground from background.
 While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.
 
@@ -174,8 +174,8 @@ def make_holey(bw, erode_radius=2, fp_radius=18, seed=42):
 ```{python}
 #| code-fold: true
 #| label: fig-image
-#| fig-cap: Our cells, with the ground truth overlaid. This ground truth is the output of a Cellpose[@stringer2021] model, but in practice it should be manually annotated.
-
+#| fig-cap: Our cells, with the ground truth overlaid. This ground truth is the output of a Cellpose [@stringer2021] model, but in practice, it should be manually annotated.
+### Code for Figure 10.1
 import contextlib, io, logging
 from cellpose import models
 
@@ -202,30 +202,30 @@ plt.show()
 ```
 
 
-::: {.callout-note appearance="simple" icon=false collapse="false"}
+::: {.callout-note appearance="simple" icon=false collapse="false" #note-bce}
 # Binary Cross-Entropy (BCE)
 
 Binary cross-entropy penalizes the model based on how confident it is in the wrong answer. 
-This loss requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+This loss requires the output to be interpretable as a probability — it asks "is this pixel foreground or background?" and treats all wrongly classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
 For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
 $$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
 :::
 
-::: {.callout-note appearance="simple" icon=false collapse="false"}
+::: {.callout-note appearance="simple" icon=false collapse="false" #note-mse}
 # Mean Squared Error (MSE)
 
 The mean squared error penalizes the model proportionally to the squared difference between its prediction and the ground truth:
 $$\text{MSE} = \frac{1}{N} \sum_{i=1}^{N} (y_i - \hat{y}_i)^2$$
-MSE measures *how far* the prediction is from the target value, and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a [distance transform](glossary.qmd#distance-transform) or a [confidence score](glossary.qmd#confidence-score).
-Because it sums squared errors over all pixels, it is sensitive to the total *extent* of the error: predicting an entire missing cell as background accumulates far more MSE than a few wrongly-classified boundary pixels.
+MSE measures *how far* the prediction is from the target value and does not require the output to be a probability — it works equally well when the model produces a continuous map such as a [distance transform](glossary.qmd#distance-transform) or a [confidence score](glossary.qmd#confidence-score).
+It sums squared errors over all pixels, so it is sensitive to the total *extent* of the error: predicting a whole missing cell incorrectly accumulates far more MSE than a few wrongly classified boundary pixels.
 :::
 
 Luckily, we can keep track of both of these things by using one of these functions as a metric.
-For example, as we optimize binary cross-entropy, we can compute the mean-squared error on the validation data.
+For example, as we optimize binary cross-entropy, we can compute the mean squared error on the validation data.
 Watching multiple numbers evolve during training gives a fuller picture than any single number alone.
 
 After training a model for [semantic](glossary.qmd#semantic-segmentation), or foreground/background, segmentation, it is common to use a method such as watershed to obtain [instance segmentations](glossary.qmd#instance-segmentation): segmentation masks for each individual nucleus. 
-How well we can do this task, followed by what downstream analysis we intend for our instance segmentations, cannot be easily measured with BCE or MSE.
+How well we can do this task, and  what downstream analysis we intend for our instance segmentations, cannot be easily measured with BCE or MSE.
 One can imagine other functions, however, that could more accurately describe "good performance".
 
 ```{python}
@@ -233,12 +233,12 @@ One can imagine other functions, however, that could more accurately describe "g
 #| label: fig-segmentations
 #| fig-cap: "Four examples of segmentations from different models. Each has a distinct failure mode that is hard to spot at a glance."
 #| fig-subcap:
-#|   - "Undersegmented: masks shrink away from cell borders"
-#|   - "Oversegmented: masks are too large, adjacent cells merge"
-#|   - "False negatives: missing cells and split nuclei."
-#|   - "Holes and false positives: gaps inside cells and spurious detections."
+#|   - "Under-segmented: masks shrink away from cell borders"
+#|   - "Overs-egmented: masks are too large and adjacent cells merge"
+#|   - "False negatives: missing cells and split nuclei"
+#|   - "Holes and false positives: gaps inside cells and spurious detections"
 #| layout-ncol: 2
-
+### Code for Figure 10.2
 predictions = [
     make_undersegmented(filled),
     make_oversegmented(filled),
@@ -253,15 +253,15 @@ for pred in predictions:
     plt.show()
 ```
 
-If we are interested in measuring the size of each nucleus, a model which under ([@fig-segmentations]a) or over segments nuclei ([@fig-segmentations]b) would create erroneous measurements of size. 
-Instead a model that misses some detections ([@fig-segmentations]c) might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
-In this case an appropriate metric would be  pixel-overlap metrics like [Intersection over Union (IoU)](glossary.qmd#iou) or the [Dice coefficient](glossary.qmd#f1-score). 
+If we are interested in measuring the size of each nucleus, a model that under ([@fig-segmentations]a) or over ([@fig-segmentations]b) segments nuclei would create erroneous measurements of size. 
+Instead, a model that misses some detections ([@fig-segmentations]c) might be preferable as long as the detections that exist correctly reflect the size of the nucleus. 
+In this case, an appropriate metric would be pixel-overlap metrics like [Intersection over Union (IoU)](glossary.qmd#iou) or the [Dice coefficient](glossary.qmd#f1-score). 
 A metric that captures this will look very different from BCE or MSE.
 
-:::{.callout-note appearance="simple" icon=false collapse="false"}
-# IoU and DICE are overlap metrics.
+:::{.callout-note appearance="simple" icon=false collapse="false" #note-iou}
+# IoU and DICE are overlap metrics
 
-Both metrics quantify the overlap between a predicted region $B$ and the ground truth $A$, by comparing the intersection of the two regions ($\cap$) and their union ($\cup$). Both metrics range from 0 (no overlap) to 1 (perfect overlap).
+Both metrics quantify the overlap between a predicted region $B$ and the ground truth $A$, by comparing the intersection ($\cap$) of the two regions and their union ($\cup$). Both metrics range from 0 (no overlap) to 1 (perfect overlap).
 
 $$\text{IoU}(A, B) = \frac{|A \cap B|}{|A \cup B|} \qquad \text{DICE}(A, B) = \frac{2\,|A \cap B|}{|A|+|B|}$$
 
@@ -335,15 +335,15 @@ ax.legend(handles=legend_elements, loc="upper center",
 
 :::
 
-Alternatively, if we are interested in counting the number of nuclei, a model which changes the size of the nuclei should not impact the analysis.
-However a model that misses nuclei ([@fig-segmentations]c), detects artifacts as nuclei ([@fig-segmentations]d), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
+Alternatively, if we are interested in counting the number of nuclei, a model that changes the size of the nuclei should not impact the analysis.
+However, a model that misses nuclei ([@fig-segmentations]c), detects artifacts as nuclei ([@fig-segmentations]d), merges multiple nuclei into one ([@fig-segmentations]b), or splits a single nucleus into multiple ([@fig-segmentations]c) would introduce errors into the final counts. 
 In this case, a metric built around per-instance detection, such as [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall) (or [F1-score](glossary.qmd#f1-score)) after matching predicted masks to [ground truth](glossary.qmd#ground-truth), captures the problems that matter to the analysis. It will also reveal the false positives and false negatives that would need correction.
 Different downstream uses call for different metrics.
 
-::: {.callout-note appearance="simple" icon=false collapse="false"}
-# Precision, recall, and F1-score are instance-level metrics.
+::: {.callout-note appearance="simple" icon=false collapse="false" #note-prf1}
+# Precision, recall, and F1-score are instance-level metrics
 
-A predicted instance is a true positive (TP) if it sufficiently overlaps a ground-truth instance (e.g. IoU $\geq 0.5$), a false positive (FP) if it has no matching ground truth, and a false negative (FN) if a ground-truth instance was never detected.
+A predicted instance is a true positive (TP) if it sufficiently overlaps a ground-truth instance (e.g., IoU $\geq 0.5$), a false positive (FP) if it has no matching ground truth, and a false negative (FN) if a ground-truth instance was never detected.
 
 $$\text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}} \qquad \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}$$
 $$ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}$$
@@ -418,10 +418,10 @@ ax.legend(handles=legend_elements, loc="upper center",
 :::
 
 Open the callouts below for more metrics that are common in image analysis.
-You can find many other examples of metrics for various tasks, along with their pitfalls at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
+You can find many other examples of metrics for various tasks, along with their pitfalls, at [MetricsReloaded](https://metrics-reloaded.dkfz.de/).
 
-::: {.callout-note appearance="simple" icon=false collapse="true"}
-# The Hausdorff distance focuses on boundaries.
+::: {.callout-note appearance="simple" icon=false collapse="true" #note-hd}
+# The Hausdorff distance focuses on boundaries
 
 The [Hausdorff distance](glossary.qmd#hausdorff-distance) measures how far apart two sets of boundary points are at their worst-case point.
 For boundary point sets $A$ and $B$:
@@ -493,15 +493,15 @@ ax.legend(loc="upper center", bbox_to_anchor=(0.5, -0.02),
 :::
 
 
-::: {.callout-note appearance="simple" icon=false collapse="true"}
-# Average precision rewards finding the right instances.
+::: {.callout-note appearance="simple" icon=false collapse="true" #note-ap}
+# Average precision rewards finding the right instances
 
 [Average Precision (AP)](glossary.qmd#average-precision) summarizes the precision–recall trade-off across confidence thresholds.
-A predicted instance counts as a true positive only if its IoU with a ground-truth instance exceeds a threshold $x$:
+A predicted instance counts as a true positive only if its IoU with a ground-truth instance meets or exceeds a threshold $x$:
 
 $$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
 
-where $P_k$ and $R_k$ are precision and recall at the $k$-th confidence threshold after matching predictions to ground-truth at IoU $\geq x$.
+where $P_k$ and $R_k$ are precision and recall at the $k$-th confidence threshold after matching predictions to ground truth at IoU $\geq x$.
 Higher $x$ demands more precise localization.
 
 ```{python}
@@ -539,7 +539,7 @@ ax.legend(loc="upper right", frameon=False, fontsize=11)
 :::
 
 Some of these metrics may not be differentiable, and therefore cannot be directly optimized; they cannot be used as losses.
-The practical workflow is therefore: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.
+As a result, the practical workflow is: choose a differentiable loss to train the model, then evaluate a richer set of metrics on held-out data to judge whether the trained model actually behaves the way you need it to.
 
 ::: {.callout-tip}
 Explore this [demo](https://metrics-reloaded.dkfz.de/metric-demo/segmentation) to see the direct impact of different segmentation errors on a variety of metrics.
@@ -552,21 +552,21 @@ So, how do you choose which metrics to measure and which ones to pay attention t
 
 ## What Metric to Pick?
 
-When selecting a metric or metrics to use for evaluating a model, there are two key axes to consider. The first is the downstream analysis task that the data will be used for. The second is the time/cost needed to correct errors prior to that analysis task. In many cases the downstream analysis task will influence which types of errors can be tolerated. 
+When selecting a metric or metrics to use for evaluating a model, there are two key axes to consider. The first is the downstream analysis task that the data will be used for. The second is the time/cost needed to correct errors prior to that analysis task. In many cases, the downstream analysis task will influence which types of errors can be tolerated. 
 
 
-This is why there is rarely one "correct" metric for a task like segmentation; the same set of predicted masks can look excellent by one measure and mediocre by another, and the right choice depends on tracing through how errors in the output propagate into errors in the analysis you actually care about. In some cases no single number can capture this tradeoff, and getting a picture of quality you can act on requires reporting several complementary metrics side by side, or splitting evaluation into stages that reflect distinct sources of error. This tension is especially visible in cell tracking, where a solution can be scored separately on how well it detects cells in each frame and on how well it links them across frames, and both pieces have to be weighed together to judge whether the result is fit for the application at hand.
+This is why there is rarely one "correct" metric for a task like segmentation; the same set of predicted masks can look excellent by one measure and mediocre by another, and the right choice depends on tracing through how errors in the output propagate into errors in the analysis you actually care about. In some cases, no single number can capture this trade-off, and getting a picture of quality you can act on requires reporting several complementary metrics side by side, or splitting evaluation into stages that reflect distinct sources of error. This tension is especially visible in cell tracking, where a solution can be scored separately on how well it detects cells in each frame and on how well it links them across frames, and both pieces have to be weighed together to judge whether the result is fit for the application at hand.
 
 
 ### Cell Tracking Metrics {#sec-cell-tracking-metrics}
 
-Cell tracking is typically approached as a multi-stage task. The first stage is detection: cells in each frame of the time series are detected using [point detections](glossary.qmd#centroid-coordinate), [bounding boxes](glossary.qmd#bounding-region) or [segmentation masks](glossary.qmd#binary-segmentation). In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
+Cell tracking is typically approached as a multi-stage task. The first stage is detection: cells in each frame of the time series are identified using [point detections](glossary.qmd#centroid-coordinate), [bounding boxes](glossary.qmd#bounding-region), or [segmentation masks](glossary.qmd#binary-segmentation). In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
 
 <!-- Intro to tracking figure -->
 ```{python}
 #| label: fig-tracking-graph
 #| fig-cap: "Cell tracking represented as a graph. (Top) Segmentation masks
-#|   detect a few cells in each of three time points; the blue cell persists
+#|   detect a few cells in each of three timepoints; the blue cell persists
 #|   across all three frames while the orange cell divides into two daughters
 #|   (green and purple) at $t = 2$. (Bottom) The corresponding tracking graph places one
 #|   node per detected cell, with edges linking the same cell across frames.
@@ -591,7 +591,7 @@ NODE_SIZE = 220
 EDGE_WIDTH = 2
 N_FRAMES = 3
 
-# Scene: a few cells tracked across three time points.
+# Scene: a few cells tracked across three timepoints.
 #   Cell A (blue):   present in all 3 frames, drifting horizontally but holding
 #                    a fixed vertical position so its lineage is a straight line.
 #   Cell B (orange): present in frames 0 and 1, divides at frame 2 into two
@@ -639,7 +639,7 @@ fig = plt.figure(figsize=(5,5*(5/7)))
 gs = fig.add_gridspec(2, N_FRAMES, height_ratios=[1.0, 1.15],
                       hspace=0.28, wspace=0.12)
 
-# Top row: segmentation masks at each time point
+# Top row: segmentation masks at each timepoint
 for t in range(N_FRAMES):
     ax = fig.add_subplot(gs[0, t])
     ax.set_facecolor("white")
@@ -686,17 +686,17 @@ for s in gax.spines.values():
 fig.subplots_adjust(left=0.05, right=0.97, top=0.92, bottom=0.06)
 ```
 
-With this framework, we can consider some of the common errors that appear in tracking solutions. [@fig-track-errors]a illustrates basic node errors of a false positive detection (shown in red) and a missing blue detection. The missing node also leads to two missing edges. Often in biology when we are interested in cell tracking, there is a particular value placed on the detection of cell divisions so that cell lineages can be reconstructed over several rounds of divisions. As such we need to consider the specific types of errors that occur involving cell divisions. [@fig-track-errors]b illustrates a missing edge that results in a missed division detection. [@fig-track-errors]c instead shows a case where a division is detected, but one daughter is incorrectly assigned to the division leading to an incorrect lineage tree. Finally, [@fig-track-errors]d illustrates an identity switch where edges are incorrectly assigned in a single frame leading to a swap of lineage identity. 
+With this framework, we can consider some of the common errors that appear in tracking solutions. [@fig-track-errors]a illustrates basic node errors of a false positive detection (shown in red) and a missing detection (blue). The missing node also leads to two missing edges. Often in biology when we are interested in cell tracking, there is a particular value placed on the detection of cell divisions so that cell lineages can be reconstructed over several rounds of divisions. As such, we need to consider the specific types of errors that occur involving cell divisions. [@fig-track-errors]b illustrates a missing edge that results in a missed division detection. [@fig-track-errors]c instead shows a case where a division is detected, but one daughter is incorrectly assigned to the division, leading to an incorrect lineage tree. Finally, [@fig-track-errors]d illustrates an identity switch where edges are incorrectly assigned in a single frame leading to a swap of lineage identity. 
 
 <!-- Tracking error types -->
 ```{python}
 #| label: fig-track-errors
 #| fig-cap: "Common types of tracking errors. (a) This example prediction demonstrates multiple types of 
-#|   node and edge errors: false negative node, false negative edges, and false positive node. (b) This example 
+#|   node and edge errors: a false-negative node, false-negative edges, and a false-positive node. (b) This example 
 #|   shows a missed division as the result of a missed edge between a parent and a daughter. (c) This example 
 #|   shows a division where the parent was correctly identified, but one of the daughters was incorrectly assigned 
 #|   to a different node. (d) This is an example of an identity switch where two nodes are swapped and assigned to 
-#|   the incorrect lineage part way through the lineage."
+#|   the incorrect lineage partway through the lineage."
 #| echo: false
 
 import matplotlib.pyplot as plt
@@ -903,19 +903,19 @@ def plot_figure():
 plot_figure()
 ```
 
-There is a common inclination to use a single metric that is intended to capture overall performance on the task. In cell tracking, there are two common single metrics. The first is the TRA[@mavska2014benchmark] score defined by the Cell Tracking Challenge. A second unified metric is CHOTA[@kaiser2024chota] (Cell-specific Higher Order Tracking Accuracy). Single metrics can be convenient; however, they are uninformative when the intention is to evaluate and then improve a tracking solution. A unified metric does not indicate what types of errors are present. 
+There is a common inclination to use a single metric that is intended to capture overall performance on the task. In cell tracking, there are two common single metrics. The first is the TRA [@mavska2014benchmark] score defined by the Cell Tracking Challenge. A second unified metric is CHOTA [@kaiser2024chota] (Cell-specific Higher Order Tracking Accuracy). Single metrics can be convenient; however, they are uninformative when the intention is to evaluate and then improve a tracking solution. A unified metric does not indicate what types of errors are present. 
 
-:::{.callout-note appearance="simple" icon=false}
-# TRA[@mavska2014benchmark]
+:::{.callout-note appearance="simple" icon=false #note-tra}
+# TRA [@mavska2014benchmark]
 
-This score is a weighted sum of node and edge errors that is normalized between 0 and 1. It is derived from the Acyclic Oriented Graph Matching[@matula2015cell] (AOGM) measure which reflects the number of changes needed to turn the reference graph into the target graph.
+This score is a weighted sum of node and edge errors that is normalized between 0 and 1. It is derived from the Acyclic Oriented Graph Matching [@matula2015cell] (AOGM) measure, which reflects the number of changes needed to turn the reference graph into the target graph.
 
 $$\textrm{TRA} = 1 - \frac{\textrm{min}(\textrm{AOGM},\textrm{AOGM}_0)}{\textrm{AOGM}_0}$$
 
 :::
 
-:::{.callout-note appearance="simple" icon=false}
-# CHOTA[@kaiser2024chota]
+:::{.callout-note appearance="simple" icon=false #note-chota}
+# CHOTA [@kaiser2024chota]
 This metric captures local correctness, global coherence, and aspects of lineage tracking. CHOTA is computed as
 $$\textrm{CHOTA} = \sqrt{\frac{\sum_{c \in \textrm{TP}} A^\sigma(c)}{|\textrm{TP}| + |\text{FN}| + |\text{FP}|}}$$
 
@@ -925,9 +925,9 @@ where $A^\sigma(c)$ is a lineage-oriented association score that measures how we
 
 @fig-sparse-edges illustrates three tracking failure modes and the metric scores for each solution. As the discussion below shows, solutions that fail in very different ways can end up with similar overall scores, and the two unified metrics can even disagree with each other about which solution is preferable.
 
-Consider the three failure modes in @fig-sparse-edges. The two unified metrics produce very different rankings of solutions. The TRA score ranks no divisions (0.957) similarly to sparse edges (0.947) and far above missing nodes (0.732). In contrast, while all solutions score relatively low on CHOTA, the missing node solution ranks highest (0.560) followed by no divisions (0.333) and sparse edges (0.297). Because TRA and CHOTA weight node, edge, and lineage errors differently, two established "single number" metrics can disagree about which solution is preferable. Neither score reveals whether the underlying problem is due to missed detections, broken links, or failure to find divisions. To identify the specific failure modes, we need to examine metrics for nodes, edges, and divisions separately.
+Consider the three failure modes in @fig-sparse-edges. The two unified metrics produce very different rankings of solutions. The TRA score ranks no divisions (0.957) similarly to sparse edges (0.947), and far above missing nodes (0.732). In contrast, while all solutions score relatively low on CHOTA, the missing-node solution ranks highest (0.560), followed by no divisions (0.333) and sparse edges (0.297). Because TRA and CHOTA weight node, edge, and lineage errors differently, two established "single number" metrics can disagree about which solution is preferable. Neither score reveals whether the underlying problem is due to missed detections, broken links, or failure to find divisions. To identify the specific failure modes, we need to examine metrics for nodes, edges, and divisions separately.
 
-The per-component metrics reveal the distinct failure mode in each solution. The missing node solution (b) has the lowest node F1 (0.858) of the three because a quarter of detections are dropped; since each dropped node also severs the edges that pass through it, this single error mode depresses edge F1 (0.798) and division F1 (0.399) as well. The sparse edge (c) and no-division (d) solutions both keep every detection (node F1 = 1.000) and lose the same fraction of edges (edge F1 = 0.800), yet they are far from equivalent: sparse edges still recovers roughly half of the true divisions (division F1 = 0.505) because the deleted edges are scattered at random, while the no-division solution deterministically removes every division edge, so no division is ever proposed and division F1 is undefined.
+The per-component metrics reveal the distinct failure mode in each solution. The missing node solution (b) has the lowest node F1 (0.858) of the three because a quarter of detections are dropped; since each dropped node also severs the edges that pass through it, this single error mode depresses edge F1 (0.798) and division F1 (0.399) as well. The sparse-edge (c) and no-division (d) solutions both keep every detection (node F1 = 1.000) and lose the same fraction of edges (edge F1 = 0.800), yet they are far from equivalent: the sparse-edge solution still recovers roughly half of the true divisions (division F1 = 0.505) because the deleted edges are scattered at random, while the no-division solution deterministically removes every division edge, so no division is ever proposed and division F1 is undefined.
 
 
 <!-- Generate lineage trees with regular divisions -->
@@ -1208,45 +1208,45 @@ fig.subplots_adjust(left=0.03, right=0.99, top=0.88, bottom=0.04,
                     wspace=0.05, hspace=0.3)
 ```
 
-Whether an error is acceptable depends entirely on what the tracking result will be used for. If the downstream analysis measures single-cell metrics such as migration speed, the no-division solution is nearly as good as ground truth: every cell is detected, most links are correct, and the fact that no lineage relationships were ever proposed is irrelevant to the task. If instead the goal is to study clonal relationships or developmental lineages the no-division solution is worthless despite its high TRA, because it recovers zero divisions and can never support a lineage-based analysis. The missing node solution sits at the opposite end of this trade-off: it has the worst TRA of the three, but a downstream analysis focused on lineage structure might tolerate it better than that score suggests. Choosing a metric, or a small panel of metrics, should therefore start from the biological question at hand rather than from convenience.
+Whether an error is acceptable depends entirely on what the tracking result will be used for. If the downstream analysis measures single-cell metrics such as migration speed, the no-division solution is nearly as good as ground truth: every cell is detected, most links are correct, and the fact that no lineage relationships were ever proposed is irrelevant to the task. If instead the goal is to study clonal relationships or developmental lineages, the no-division solution is worthless despite its high TRA, because it recovers zero divisions and can never support a lineage-based analysis. The missing node solution sits at the opposite end of this trade-off: it has the worst TRA of the three, but a downstream analysis focused on lineage structure might tolerate it better than that score suggests. Choosing a metric, or a small panel of metrics, should therefore start from the biological question at hand rather than from convenience.
 
 A second, independent axis is how easy an error is to catch and fix once a human is proofreading the result, and it does not always line up with how tolerable the error is for the downstream analysis. Missing nodes and sparse edges leave a visible gap or an orphaned track segment, and the fix is local: add the missing node or edge back and reconnect two pieces that are otherwise correct. A systematically missed division is much harder to catch, because neither daughter track looks wrong on its own; the cells are simply tracked as if they had always been independent, so a curator scanning tracks has no local cue that a division was ever missed. The more tolerable error is therefore not necessarily the one with the better score on a given metric, but the one that is cheap to find and correct, particularly if missing detections are easy to flag and cheap to review manually.
 
 ## Conclusion 
 
 We compute metrics to get a reasonable description of how well our model is expected to perform in the future, on unseen data. 
-A single metric is rarely sufficient to fully evaluate a models performance as illustrated by @sec-cell-tracking-metrics. If multiple metrics are needed to fully evaluate a model, when do you run these metrics and on what data? As discussed in @sec-9.3.5.4, you will minimally compute a loss both on your training and validation sets during the course of training. Some metrics can be easily computed on the validation dataset and used to select a checkpoint for further testing. These metrics should be computationally inexpensive to compute in order to avoid slowing down the training process. Typically these would be metrics that are computed on a pixel-pixel level. In contrast, consider metrics that are computed on an object level such as those discussed in @sec-cell-tracking-metrics. Each cell tracking metric requires a preliminary stage in which each ground truth cell is matched to a predicted cell prior to evaluation. While there are many different ways to perform the matching step, it is ultimately a slow and expensive process. Metrics that rely on a matching stage are best reserved for running on the final test data split. @tbl-metric-stages elaborates on the stages of model evaluation and illustrates how metrics might be selected for a segmentation model.
+A single metric is rarely sufficient to fully evaluate model performance as illustrated by @sec-cell-tracking-metrics. If multiple metrics are needed to fully evaluate a model, when do you run these metrics and on what data? As discussed in @sec-9.3.5.4, you will minimally compute a loss on both your training and validation sets during the course of training. Some metrics can be easily computed on the validation dataset and used to select a checkpoint for further testing. These metrics should be computationally inexpensive to compute in order to avoid slowing down the training process. Typically these would be metrics that are computed on a pixel level. In contrast, consider metrics that are computed on an object level, such as those discussed in @sec-cell-tracking-metrics. Each cell tracking metric requires a preliminary stage in which each ground truth cell is matched to a predicted cell prior to evaluation. While there are many different ways to perform the matching step, it is ultimately a slow and expensive process. Metrics that rely on a matching stage are best reserved for running on the final test data split. @tbl-metric-stages elaborates on the stages of model evaluation and illustrates how metrics might be selected for a segmentation model.
 
 | Stage | Speed of Computation | Data Split | Purpose | Segmentation Example |
 | ---- | ---- | ---- | ---- | ---- |
 | Training loss | Fast | Train | Guides gradient descent during training | BCE |
-| Validation loss | Fast | Val | Enables monitoring of over/under fitting during training | BCE |
-| Validation metrics | Fast | Val | Additional metrics that provide more insight into training progress outside the loss function and assist in checkpoint selection | MSE | 
+| Validation loss | Fast | Validation | Enables monitoring of over/underfitting during training | BCE |
+| Validation metrics | Fast | Validation | Additional metrics that provide more insight into training progress outside the loss function and assist in checkpoint selection | MSE | 
 | Test metrics | Slow | Test | Final metrics that are run on test data in order to critically evaluate model performance and failure modes | Object-based recall and precision |
 : **A comparison of stages of model evaluation.** The segmentation example highlights specific metrics that would be used in each of these stages in a segmentation pipeline. {#tbl-metric-stages}
 
 <!-- Splitting your training data: training, validation, and test sets {#sec-9.3.5.1} -->
 <!-- monitoring training and val losses #sec-9.3.5.4 -->
 
-Biological data varies from experiment to experiment, however, and whether the model will be robust to these variations remains somewhat of an open question. 
-In the ideal case, we would like the models to be able to output a level of certainty along with its predicted segmentations or tracks. 
+Biological data varies from experiment to experiment, however, and whether the model will be robust to these variations remains something of an open question. 
+In the ideal case, we would like the models to be able to output a level of certainty along with the predicted segmentations or tracks. 
 Unfortunately, uncertainty estimation remains an unsolved problem; methods such as test-time augmentation [@moshkov2020test;@wang2019aleatoric] can give you an estimate if you have a good model of your data's sources of noise.
 
-:::{.callout-note appearance="simple" icon=false collapse="false"}
+:::{.callout-note appearance="simple" icon=false collapse="false" #note-tta}
 # Test-time augmentation as a measure of uncertainty
 
-Test-time augmentation is one way of quantifying the uncertainty of a model, by estimating the robustness of its outputs with regards to noise.
+Test-time augmentation (TTA) is one way of quantifying the uncertainty of a model, by estimating the robustness of its outputs with regard to noise.
 
-To apply TTA, you run the model multiple times on the same image, each time with a perturbation that reflects a realistic source of variation in your imaging system. For fluorescence microscopy, this might include: adding Poisson or Gaussian noise to simulate photon shot noise or detector read noise, shifting the intensity or contrast to mimic staining variability between experiments, or applying a slight blur to simulate focus drift. You then aggregate the predictions to get your final output.
+To apply TTA, you run the model multiple times on the same image, each time with a perturbation that reflects a realistic source of variation in your imaging system. For fluorescence microscopy, this might include adding Poisson or Gaussian noise to simulate photon shot noise or detector read noise, shifting the intensity or contrast to mimic staining variability between experiments, or applying a slight blur to simulate focus drift. You then aggregate the predictions to get your final output.
 
 The spread across the individual predictions acts as a proxy for uncertainty. 
-Where every perturbed version produces nearly the same thing, we can be confident in the model is output.
+Where every perturbed version produces nearly the same thing, we can be confident in the model output.
 Regions where the predictions disagree, however, may warrant manual review.
 
-Note that TTA only captures uncertainty relative to the noise sources you have modelled. It will not detect failure modes shared by all augmentations, such as a systematic bias introduced during training.
+Note that TTA captures uncertainty only relative to the noise sources you have modeled. It will not detect failure modes shared by all augmentations, such as a systematic bias introduced during training.
 :::
 
-The best measure of your model's output, current and future, still remains a good testing dataset. 
+The best measure of your model's output, current and future, remains a good testing dataset. 
 Make sure to fully annotate a testing set that is diverse enough to be representative of future experiments.
 Compute a variety of metrics to understand the different types of failures you can expect, and to what extent.
 And finally, make sure to look at your model outputs in conjunction with your data! 
@@ -1255,4 +1255,4 @@ For most tasks, the best judge of quality is you.
 
 ## AI Disclosure {.unnumbered}
 
-AI language models (Anthropic’s Claude, specifically Claude Sonnet 5) were used during the preparation of this chapter. Their roles included drafting prose, generating code examples, and producing demonstration figures. All content was reviewed, revised, and verified by the human authors, who take full responsibility for the accuracy and scientific integrity of the final text. Selection of references was the work of the human authors.
+AI language models (Claude Sonnet 5) were used during the preparation of this chapter. Their roles included drafting prose, generating code examples, and producing demonstration figures. All content was reviewed, revised, and verified by the human authors, who take full responsibility for the accuracy and scientific integrity of the final text. Selection of references was the work of the human authors.
