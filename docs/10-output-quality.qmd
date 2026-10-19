@@ -29,12 +29,6 @@ bibliography: references.bib
 | 
 :::
 
-<!-- Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
-
-* why do we need metrics? to pick models from different training iterations
-  (avoid overfitting) and to select models with different hyperparameters
-* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5 -->
-
 You have trained a model. 
 How do you know if it is any good?
 A model that looks convincing on a handful of images can quietly fail on the rest of your dataset, and a model that scores well on one measure of quality can perform poorly on another.
@@ -54,10 +48,6 @@ Once you've trained a model, or potentially several, evaluating a diverse set of
 A [metric](glossary.qmd#quality-control-metric) is any function that scores your predictions.
 Unlike a loss, it does not have to be differentiable because it is not used for optimization. 
 This means that you can get more specific about how you evaluate the quality of your model output, as we'll see below.
-
-<!-- For example, look at the segmentation outputs in @fig-segmentations.
-At first glance, it is difficult to judge which of these is the most appropriate. -->
-
 
 Consider the case of nuclear segmentation. 
 Suppose you have fluorescently labeled nuclei, as in ([@fig-image]), that you want to segment for downstream analysis.
@@ -562,7 +552,6 @@ This is why there is rarely one "correct" metric for a task like segmentation; t
 
 Cell tracking is typically approached as a multi-stage task. The first stage is detection: cells in each frame of the time series are identified using [point detections](glossary.qmd#centroid-coordinate), [bounding boxes](glossary.qmd#bounding-region), or [segmentation masks](glossary.qmd#binary-segmentation). In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (@fig-tracking-graph). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges). 
 
-<!-- Intro to tracking figure -->
 ```{python}
 #| label: fig-tracking-graph
 #| fig-cap: "Cell tracking represented as a graph. (Top) Segmentation masks
@@ -688,7 +677,6 @@ fig.subplots_adjust(left=0.05, right=0.97, top=0.92, bottom=0.06)
 
 With this framework, we can consider some of the common errors that appear in tracking solutions. [@fig-track-errors]a illustrates basic node errors of a false positive detection (shown in red) and a missing detection (blue). The missing node also leads to two missing edges. Often in biology when we are interested in cell tracking, there is a particular value placed on the detection of cell divisions so that cell lineages can be reconstructed over several rounds of divisions. As such, we need to consider the specific types of errors that occur involving cell divisions. [@fig-track-errors]b illustrates a missing edge that results in a missed division detection. [@fig-track-errors]c instead shows a case where a division is detected, but one daughter is incorrectly assigned to the division, leading to an incorrect lineage tree. Finally, [@fig-track-errors]d illustrates an identity switch where edges are incorrectly assigned in a single frame leading to a swap of lineage identity. 
 
-<!-- Tracking error types -->
 ```{python}
 #| label: fig-track-errors
 #| fig-cap: "Common types of tracking errors. (a) This example prediction demonstrates multiple types of 
@@ -930,7 +918,6 @@ Consider the three failure modes in @fig-sparse-edges. The two unified metrics p
 The per-component metrics reveal the distinct failure mode in each solution. The missing node solution (b) has the lowest node F1 (0.858) of the three because a quarter of detections are dropped; since each dropped node also severs the edges that pass through it, this single error mode depresses edge F1 (0.798) and division F1 (0.399) as well. The sparse-edge (c) and no-division (d) solutions both keep every detection (node F1 = 1.000) and lose the same fraction of edges (edge F1 = 0.800), yet they are far from equivalent: the sparse-edge solution still recovers roughly half of the true divisions (division F1 = 0.505) because the deleted edges are scattered at random, while the no-division solution deterministically removes every division edge, so no division is ever proposed and division F1 is undefined.
 
 
-<!-- Generate lineage trees with regular divisions -->
 ```{python}
 #| code-fold: true
 #| code-summary: Show code to generate a set of lineage trees with regular divisions
@@ -1023,7 +1010,7 @@ def remove_nodes(g, mod=4):
 gt = build_lineage_tree(n_starting_nodes=10, n_frames=30, division_every=5)
 ```
 
-<!-- Plotting utilities -->
+
 ```{python}
 #| echo: false
 
@@ -1076,7 +1063,7 @@ def plot_graph(g, ax, color=BLUE):
     ax.axis("off")
 ```
 
-<!-- Metric computation -->
+
 ```{python}
 #| code-fold: true
 #| code-summary: Show code to compute metrics on tracking solutions using [`traccuracy`](https://github.com/live-image-tracking-tools/traccuracy)
@@ -1104,7 +1091,7 @@ def compute_metrics(solution):
     return results
 ```
 
-<!-- Solution figure -->
+
 ```{python}
 #| label: fig-sparse-edges
 #| fig-cap: "Tracking solutions with common failure modes, each scored with a
@@ -1224,9 +1211,6 @@ A single metric is rarely sufficient to fully evaluate model performance as illu
 | Validation metrics | Fast | Validation | Additional metrics that provide more insight into training progress outside the loss function and assist in checkpoint selection | MSE | 
 | Test metrics | Slow | Test | Final metrics that are run on test data in order to critically evaluate model performance and failure modes | Object-based recall and precision |
 : **A comparison of stages of model evaluation.** The segmentation example highlights specific metrics that would be used in each of these stages in a segmentation pipeline. {#tbl-metric-stages}
-
-<!-- Splitting your training data: training, validation, and test sets {#sec-9.3.5.1} -->
-<!-- monitoring training and val losses #sec-9.3.5.4 -->
 
 Biological data varies from experiment to experiment, however, and whether the model will be robust to these variations remains something of an open question. 
 In the ideal case, we would like the models to be able to output a level of certainty along with the predicted segmentations or tracks. 

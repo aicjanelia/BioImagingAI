@@ -39,7 +39,3 @@ The second section focuses on extending microscopy hardware with AI. To render a
 The third and final section will address the use of AI and ML to process and analyze microscopy data in order to extract biological information beyond what is achievable through human observation alone. [Chapter 8](#sec-8) will focus on helping readers find and use available open-source tools. When those existing tools are still insufficient, [Chapter 9](#sec-9) seeks to further widen the horizon by discussing the process of training new models for specific image processing and analysis tasks. Finally, [Chapter 10](#sec-output_quality) will address the question of “when is my model performing well enough?”. This important step pinpoints potential weaknesses of any model, thereby placing results in meaningful context.
 
 We conclude with [Chapter 11](#sec-outlook), which summarizes the core concepts and aims to inspire readers to begin taking full advantage of the promise of the new era of AI and ML. To close the loop, we also hope that by equipping readers with the [proper vocabulary](#sec-glossary), the book will facilitate more effective communication between biologists and AI tool developers.
-
-<!-- ## Potential Additions
-
-Topics suggested during the authors' meetings: Discuss that AI is not always solution and talk about when it is actually useful. Discuss that there are many types of microscopy images and each will have their own AI considerations (e.g., imaging modality, 2D vs 3D, static vs time lapse). -->
