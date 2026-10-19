@@ -681,7 +681,7 @@ Figure&nbsp;4.5: Illustration of a multilayer perceptron (MLP) with two hidden l
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a multi-layer perceptron with 30,000 input values, a hidden layer with 30,000 units, and an output layer with one output. The code is run on an example of 8 input images, and outputs the sizes of the input, output, weights matrix (W), and bias vector (b).</p>
-<div id="ccb44f49" class="cell" data-execution_count="1">
+<div id="3a264c40" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch </span>
@@ -802,7 +802,7 @@ Figure&nbsp;4.7: Convolutional operation with padding from <a href="https://gith
 </div>
 <div class="callout-body-container callout-body">
 <p>Here we show a code example for a convolutional layer with 3 input channels, 6 output channels and a kernel size of 9.</p>
-<div id="f9ddfb0c" class="cell" data-execution_count="3">
+<div id="7b7047f8" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> ConvolutionalLayer(nn.Module):</span>
@@ -885,7 +885,7 @@ Figure&nbsp;4.8: Illustration of max-pooling with a kernel size of 2 and stride 
 </div>
 <div class="callout-body-container callout-body">
 <p>This example code implements max-pooling with a kernel size of 2 and a stride of 2.</p>
-<div id="afb097a2" class="cell" data-execution_count="5">
+<div id="35e7e912" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># max pooling operation</span></span>
@@ -981,7 +981,7 @@ Figure&nbsp;4.12: An image (upper left) is input to a u-net trained to predict c
 </div>
 <div class="callout-body-container callout-body">
 <p>Here is example code for cell/not-cell prediction with one convolutional layer.</p>
-<div id="8d86e96e" class="cell" data-execution_count="6">
+<div id="8a1cd3f2" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># declare layer</span></span>
@@ -1016,7 +1016,7 @@ shape of b:  torch.Size([1])
 input shape:  torch.Size([8, 3, 50, 50])
 output shape:  torch.Size([8, 1, 50, 50])
 target shape:  torch.Size([8, 1, 50, 50])
-loss =  0.6900844573974609</code></pre>
+loss =  0.6949002742767334</code></pre>
 </div>
 </div>
 </div>
@@ -1134,10 +1134,10 @@ Figure&nbsp;4.16: Example training loss and validation loss across epochs.
 <div class="csl-left-margin">4. </div><div class="csl-right-inline">Cybenko, G. <a href="https://doi.org/10.1007/BF02551274">Approximation by superpositions of a sigmoidal function</a>. <em>Mathematics of control, signals and systems</em> <strong>2</strong>, 303–314 (1989).</div>
 </div>
 <div id="ref-lecun1995convolutional" class="csl-entry" role="listitem">
-<div class="csl-left-margin">5. </div><div class="csl-right-inline">LeCun, Y. &amp; Bengio, Y. <a href="https://dl.acm.org/doi/10.5555/303568.303704">Convolutional networks for images, speech, and time series</a>. <em>The handbook of brain theory and neural networks</em> 255–258 (1998).</div>
+<div class="csl-left-margin">5. </div><div class="csl-right-inline">LeCun, Y. &amp; Bengio, Y. Convolutional networks for images, speech, and time series. in <em>The handbook of brain theory and neural networks</em> 255–258 (MIT Press, 1998). doi:<a href="https://doi.org/10.5555/303568.303704">10.5555/303568.303704</a>.</div>
 </div>
 <div id="ref-lecun1998mnist" class="csl-entry" role="listitem">
-<div class="csl-left-margin">6. </div><div class="csl-right-inline">LeCun, Y. <a href="https://huggingface.co/datasets/ylecun/mnist">The MNIST database of handwritten digits</a>. <em>http://yann.lecun.com/exdb/mnist/</em> (1998).</div>
+<div class="csl-left-margin">6. </div><div class="csl-right-inline">LeCun, Y. <a href="https://huggingface.co/datasets/ylecun/mnist">The MNIST database of handwritten digits</a>. (1998).</div>
 </div>
 <div id="ref-spanhol2016breast" class="csl-entry" role="listitem">
 <div class="csl-left-margin">7. </div><div class="csl-right-inline">Spanhol, F. A., Oliveira, L. S., Petitjean, C. &amp; Heutte, L. Breast cancer histopathological image classification using convolutional neural networks. in <em>2016 international joint conference on neural networks (IJCNN)</em> 2560–2567 (IEEE, 2016). doi:<a href="https://doi.org/10.1109/IJCNN.2016.7727519">10.1109/IJCNN.2016.7727519</a>.</div>
@@ -1161,7 +1161,7 @@ Figure&nbsp;4.16: Example training loss and validation loss across epochs.
 <div class="csl-left-margin">13. </div><div class="csl-right-inline">Kirillov, A. <em>et al.</em> Segment anything. in <em>2023 IEEE/CVF international conference on computer vision (ICCV)</em> 3992–4003 (2023). doi:<a href="https://doi.org/10.1109/ICCV51070.2023.00371">10.1109/ICCV51070.2023.00371</a>.</div>
 </div>
 <div id="ref-Archit2025" class="csl-entry" role="listitem">
-<div class="csl-left-margin">14. </div><div class="csl-right-inline"><span class="nocase">Archit, A. <em>et al.</em></span> <a href="https://doi.org/10.1038/s41592-024-02580-4">Segment anything for microscopy</a>. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
+<div class="csl-left-margin">14. </div><div class="csl-right-inline">Archit, A. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-024-02580-4">Segment anything for microscopy</a>. <em>Nature Methods</em> <strong>22</strong>, 579–591 (2025).</div>
 </div>
 <div id="ref-israel2025cellsam" class="csl-entry" role="listitem">
 <div class="csl-left-margin">15. </div><div class="csl-right-inline">Marks, M. <em>et al.</em> <a href="https://doi.org/10.1038/s41592-025-02879-w">CellSAM: A foundation model for cell segmentation</a>. <em>Nature Methods</em> <strong>22</strong>, 2585–2593 (2025).</div>
@@ -1206,7 +1206,7 @@ Figure&nbsp;4.16: Example training loss and validation loss across epochs.
 <div class="csl-left-margin">28. </div><div class="csl-right-inline">Ioffe, S. &amp; Szegedy, C. Batch normalization: Accelerating deep network training by reducing internal covariate shift. in <em>Proceedings of the 32nd international conference on machine learning - volume 37</em> 448–456 (JMLR.org, Lille, France, 2015). doi:<a href="https://doi.org/10.5555/3045118.3045167">10.5555/3045118.3045167</a>.</div>
 </div>
 <div id="ref-ba2016layer" class="csl-entry" role="listitem">
-<div class="csl-left-margin">29. </div><div class="csl-right-inline">Ba, J. L., Kiros, J. R. &amp; Hinton, G. E. Layer normalization. (2016) doi:<a href="https://doi.org/10.48550/arXiv.1607.06450">10.48550/arXiv.1607.06450</a>.</div>
+<div class="csl-left-margin">29. </div><div class="csl-right-inline">Ba, J. L., Kiros, J. R. &amp; Hinton, G. E. Layer normalization. <em>arXiv preprint</em> (2016) doi:<a href="https://doi.org/10.48550/arXiv.1607.06450">10.48550/arXiv.1607.06450</a>.</div>
 </div>
 <div id="ref-wang2020cnn" class="csl-entry" role="listitem">
 <div class="csl-left-margin">30. </div><div class="csl-right-inline">Wang, Z. J. <em>et al.</em> <a href="https://doi.org/10.1109/TVCG.2020.3030418">CNN explainer: Learning convolutional neural networks with interactive visualization</a>. <em>IEEE Transactions on Visualization and Computer Graphics</em> <strong>27</strong>, 1396–1406 (2021).</div>
