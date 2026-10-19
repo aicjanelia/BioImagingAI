@@ -35,7 +35,7 @@ Instance Segmentation: |
   A segmentation task that not only separates objects from the background but also distinguishes between individual objects of the same type (e.g., separating touching cells one by one).
 
 Distance Transform: |
-  A transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In [instance segmentation](glossary.qmd#instance-segmentation), distance transforms are commonly used to help separate touching or overlapping objects—for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a binary mask into individual instances.
+  A transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In [instance segmentation](glossary.qmd#instance-segmentation), distance transforms are commonly used to help separate touching or overlapping objects --- for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a [binary mask](glossary.qmd#binary-segmentation) into individual instances.
 
 Confidence Score: |
   A continuous value, often between 0 and 1, that reflects how certain a model is about a given prediction. Unlike a [distance transform](glossary.qmd#distance-transform), which encodes geometric information such as position within an object, a confidence score expresses the model's belief that a prediction is correct --- for example, that a pixel belongs to the foreground class or that a detected object was correctly identified during [object detection](glossary.qmd#object-detection). Confidence scores are useful for filtering predictions, such as discarding low-confidence detections, but a high confidence score does not guarantee a correct prediction, particularly when a model is poorly calibrated.
@@ -53,16 +53,16 @@ Data Augmentation: |
   A strategy to artificially increase the diversity of a dataset prior to training by applying transformations such as rotation, flipping, or brightness adjustment. It helps improve model robustness and generalisation.
 
 Domain Randomization: |
-  Using simulations or synthetic training data, domain randomization applies random and exaggerated variations to background, lighting, shapes, or textures in the synthetic dataset. This strategy helps the model learn domain-invariant features and is usually used for pretraining a neural network or to enable simulation-to-real transfer.
+  Using simulations or synthetic [training data](glossary.qmd#training-data), domain randomization applies random and exaggerated variations to background, lighting, shapes, or textures in the synthetic dataset. This strategy helps the model learn domain-invariant features and is usually used for pretraining a [neural network](glossary.qmd#neural-network) or to enable simulation-to-real transfer.
 
 Bayesian Optimization: |
   A strategy that allows the [optimization](glossary.qmd#optimizer) of black-box functions such as deep neural networks. It creates a surrogate model, which is a probabilistic representation of the objective function, using only a few example points.
 
 Gaussian Process: |
-  A common surrogate model for optimization strategies such as Bayesian Optimization. A Gaussian Process is a non-parametric model that represents a probability distribution over possible functions. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.
+  A common surrogate model for [optimization](glossary.qmd#optimizer) strategies such as [Bayesian Optimization](glossary.qmd#bayesian-optimization). A Gaussian Process is a non-parametric model that represents a probability distribution over possible functions. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some [hyperparameters](glossary.qmd#hyperparameters).
 
 Genetic Algorithms: |
-  An optimisation method inspired by the principles of natural selection and genetics. It starts with a population of solutions. These solutions are combined through a process called crossover to produce new solutions (offspring). During this process, random changes or mutations may occur to introduce diversity. After crossover and mutation, a selection step chooses the best solutions from both the parent and offspring populations to form the next generation. This cycle repeats for a set number of generations or until a predefined goal or stopping criterion is met.
+  An [optimisation](glossary.qmd#optimizer) method inspired by the principles of natural selection and genetics. It starts with a population of solutions. These solutions are combined through a process called crossover to produce new solutions (offspring). During this process, random changes or mutations may occur to introduce diversity. After crossover and mutation, a selection step chooses the best solutions from both the parent and offspring populations to form the next generation. This cycle repeats for a set number of generations or until a predefined goal or stopping criterion is met.
 
 Virtual Machine: |
   On a physical computer, you install an operating system (e.g., Windows or Ubuntu) that you interact with. A virtual machine is a program that simulates a complete computer with its own operating system. This lets you run a "computer inside your computer" (e.g., using Linux inside Windows or the other way around). As this simulated computer is separate from your physical one, it adds an extra layer of security, because unless the user specifically allows it, the virtual machine cannot access or connect to your real computer.
@@ -85,7 +85,7 @@ Harmonic Mean: |
   A type of average of a set of numbers, calculated as the number of values divided by the sum of their reciprocals. Unlike the arithmetic mean, the harmonic mean is closer to the smaller of the values being averaged, so it penalizes cases where one value is much lower than the other. This makes it useful for combining two metrics, such as [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall), into a single score that only looks good when both metrics are good.
 
 F1 Score: |
-  A classification metric that gives the [harmonic mean](glossary.qmd#harmonic-mean) of [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall). This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.
+  A [classification](glossary.qmd#classification) metric that gives the [harmonic mean](glossary.qmd#harmonic-mean) of [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall). This metric was originally designed for binary classification but can be adapted to multiclass classification by calculating the F1 score per class.
   $$ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}$$
   This metric is also known as the DICE coefficient.
 
@@ -96,7 +96,7 @@ Hyperparameters: |
   The options you choose when training a machine learning model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss, etc.) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.
 
 Epoch: |
-  One complete pass through the entire training dataset during the training process.
+  One complete pass through the entire [training dataset](glossary.qmd#training-data) during the training process.
 
 Batch: |
   A small group of data that is processed together at the same time. For example, when training a machine learning model, a batch is a group of data that is given to the model for learning. Batches are commonly used to make the processes more efficient.
@@ -111,7 +111,7 @@ Effect Size: |
   How "strong" a phenotype is, or how mathematically possible it is to distinguish a given population from the control population.
 
 Ground Truth: |
-  Accurate data against which a model can be evaluated. Ground truth data is often manually annotated. The data type itself will vary depending on the task and evaluation. e.g. instance segmentation may be compared to ground truth object counts or masks.
+  Accurate data against which a model can be evaluated. Ground truth data is often [manually annotated](glossary.qmd#manual-annotation). The data type itself will vary depending on the task and evaluation. e.g. [instance segmentation](glossary.qmd#instance-segmentation) may be compared to ground truth object counts or masks.
 
 Metadata: |
   Any data that provides additional information about other data. In bioimaging, examples include information about sample preparation, the imaging instrument, and image acquisition parameters.
@@ -174,7 +174,7 @@ Convolutional Neural Networks (CNNs): |
   A [deep learning](glossary.qmd#deep-learning) architecture that applies [convolutions](glossary.qmd#convolution) to automatically learn features from images for computer vision tasks like [classification](glossary.qmd#classification) and [detection](glossary.qmd#object-detection).
 
 Generative Adversarial Networks (GANs): |
-  A deep learning architecture where two neural networks, a generator and a discriminator, are trained in an adversarial process, enabling the generator to create synthetic data, such as realistic images, by learning to deceive the discriminator.
+  A [deep learning](glossary.qmd#deep-learning) architecture where two [neural networks](glossary.qmd#neural-network), a generator and a discriminator, are trained in an adversarial process, enabling the generator to create synthetic data, such as realistic images, by learning to deceive the discriminator.
 
 Autoencoder: |
   A [deep learning](glossary.qmd#deep-learning) architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsupervised learning version of the more general [encoder-decoder](glossary.qmd#encoder-decoder) architecture.
@@ -294,7 +294,7 @@ Multilayer Perceptron : |
   A sequence of fully-connected layers that are applied in series, each on the output of the previous one, is called a multilayer perceptron (MLP). This is the simplest example of a deep neural network.
 
 Foundation Model : |
-  A foundation model is a model that was trained on a very large and very diverse dataset. Because of this diversity in training data, foundation models can be used for many downstream tasks or can be fine-tuned for specific purposes.
+  A foundation model is a model that was trained on a very large and very diverse dataset. Because of this diversity in [training data](glossary.qmd#training-data), foundation models can be used for many downstream tasks or can be [fine-tuned](glossary.qmd#fine-tuning) for specific purposes.
 
 Momentum : |
   In the context of learning rate, momentum speeds up learning when the gradient is consistent over multiple iterations, which allows the training to avoid local minima.
@@ -318,13 +318,13 @@ AI agent : |
   AI agents extend models into systems that can take actions (running code, calling APIs, controlling hardware), observe the results, and adapt their approach iteratively. At its core, an AI agent is a system built around a language model that operates in a loop: it observes the current state (an image, a dataset, an error message), reasons about what to do next, acts by invoking tools or executing code, and then observes the outcome --- repeating until the task is complete. This observe-reason-act cycle is what distinguishes an agent from a chatbot.
 
 Function Calling : |
-  Function calling is also called tool use. This is the ability for LLMs to invoke external tools, APIs, and software through structured interfaces rather than generating plain text. 
+  Function calling is also called tool use. This is the ability for [LLMs](glossary.qmd#large-language-model-llm) to invoke external tools, APIs, and software through structured interfaces rather than generating plain text. 
 
 Tokens : |
   Tokens are units of data processed by an AI model. For an LLM, these tokens are chunks that may be whole words or subword pieces. For instance, "microscope" might be a single token, while "fluorescence" might be split into "fluor" + "escence."
 
 Fine-Tuning : |
-  Fine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific training data. In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
+  Fine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific [training data](glossary.qmd#training-data). In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.
 
 Tool Definitions : |
   Tool definitions are structured descriptions of available functions, their parameters, and expected inputs. When a user makes a request, the model reasons about which tools are needed, generates structured calls with correct parameters, receives results, and decides whether to take further action or report findings.
@@ -348,7 +348,7 @@ Agentic Workflow : |
   Agentic workflows are hand-designed sequences of tool calls with human-specified decision points. A developer would define: "first call the segmentation tool, then if the count is above 100 switch to algorithm B." These workflows are effective but rigid: every decision point must be anticipated in advance.
 
 General Agency : |
-  General agency gives AI agents access to broad capabilities --- a terminal, a file system, APIs, analysis libraries --- and lets them determine the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal ("segment and count the nuclei in this dataset") and works out what tools to use, in what order, handling errors as they arise.
+  General agency gives [AI](glossary.qmd#artificial-intelligence) agents access to broad capabilities --- a terminal, a file system, APIs, analysis libraries --- and lets them determine the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal ("segment and count the nuclei in this dataset") and works out what tools to use, in what order, handling errors as they arise.
 
 Coding Agent : |
   Coding agents are [AI](glossary.qmd#artificial-intelligence) systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier [LLM](glossary.qmd#large-language-model-llm) assistants that could only suggest code snippets.
@@ -409,10 +409,10 @@ Cytoprofile : |
   A numerical [feature vector](glossary.qmd#feature-vector) describing a biological cell's phenotype, derived from measurements of shape, intensity, and texture extracted from microscopy images.
 
 End-to-end learning : |
-  A deep learning approach in which all stages of a task (e.g., locating and identifying objects) are optimized jointly within a single model, rather than being handled as separate, independent steps.
+  A [deep learning](glossary.qmd#deep-learning) approach in which all stages of a task (e.g., locating and identifying objects) are optimized jointly within a single model, rather than being handled as separate, independent steps.
 
 Ensemble : |
-  A machine-learning approach that combines predictions from multiple individual models to produce a single result that can be more robust than any single model alone.
+  A [machine-learning](glossary.qmd#machine-learning) approach that combines predictions from multiple individual models to produce a single result that can be more robust than any single model alone.
 
 Event : |
   A set of spatial features that change or transitions over time, temporally defined by a beginning and an end.
@@ -520,7 +520,7 @@ Tracking : |
   Tracking links objects over time. It requires both finding objects and determining how they are associated over time.
 
 Generative Model : |
-  A model trained to draw samples from the distribution of possible outputs, rather than to return their mean. Running it twice on the same input can give two different answers. Each sample has the texture and contrast of real data, unlike the smooth mean, but no single sample represents the whole distribution. Variational autoencoders, generative adversarial networks, diffusion models, and flow matching are common examples.
+  A model trained to draw samples from the distribution of possible outputs, rather than to return their mean. Running it twice on the same input can give two different answers. Each sample has the texture and contrast of real data, unlike the smooth mean, but no single sample represents the whole distribution. Variational [autoencoders](glossary.qmd#autoencoder), [generative adversarial networks](glossary.qmd#generative-adversarial-networks-gans), diffusion models, and flow matching are common examples.
 
 Overfitting : |
   When a model fits its training data so closely that it memorizes noise and incidental details, and no longer generalizes well to new data.
@@ -635,4 +635,4 @@ Channel Attention: |
   Networks that use channel attention give individual weights to each channel in an input. This allows networks to learn the importance of individual channels.
 
 Forward Pass: |
-  The process by which an input is fed through each layer of a neural network, in a sequential manner. The result of the final layer is the output which can be compared to [ground truth](glossary.qmd#ground-truth).
+  The process by which an input is fed through each layer of a [neural network](glossary.qmd#forward-pass), in a sequential manner. The result of the final layer is the output which can be compared to [ground truth](glossary.qmd#ground-truth).
