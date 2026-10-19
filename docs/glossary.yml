@@ -11,16 +11,16 @@ Test Data: |
   Data held out from both the [training data](glossary.qmd#training-data) and [validation data](glossary.qmd#validation-data), used only after training is complete to give an unbiased estimate of how a model will perform on new, unseen data. Because it plays no role in training or [hyperparameter](glossary.qmd#hyperparameters) tuning, test data should only be used once a model is finalized.
 
 False Positives: |
-  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.
+  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.
 
 False Negatives: |
-  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive.
+  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive.
 
 True Positives: |
-  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.
+  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.
 
 True Negatives: |
-  In a scenario where you have two classes "positive" and "negative", you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.
+  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.
 
 Manual Annotation: |
   The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like [Fiji](glossary.qmd#fiji) or napari, this step is essential for creating ground truth data to train or evaluate machine learning models.
@@ -38,10 +38,10 @@ Distance Transform: |
   A transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In [instance segmentation](glossary.qmd#instance-segmentation), distance transforms are commonly used to help separate touching or overlapping objects --- for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a [binary mask](glossary.qmd#binary-segmentation) into individual instances.
 
 Confidence Score: |
-  A continuous value, often between 0 and 1, that reflects how certain a model is about a given prediction. Unlike a [distance transform](glossary.qmd#distance-transform), which encodes geometric information such as position within an object, a confidence score expresses the model's belief that a prediction is correct --- for example, that a pixel belongs to the foreground class or that a detected object was correctly identified during [object detection](glossary.qmd#object-detection). Confidence scores are useful for filtering predictions, such as discarding low-confidence detections, but a high confidence score does not guarantee a correct prediction, particularly when a model is poorly calibrated.
+  A continuous value, often between 0 and 1, that reflects how certain a model is about a given prediction. Unlike a [distance transform](glossary.qmd#distance-transform), which encodes geometric information such as position within an object, a confidence score expresses the model's belief that a prediction is correct --- for example, that a pixel belongs to the foreground [class](glossary.qmd#class) or that a detected object was correctly identified during [object detection](glossary.qmd#object-detection). Confidence scores are useful for filtering predictions, such as discarding low-confidence detections, but a high confidence score does not guarantee a correct prediction, particularly when a model is poorly calibrated.
 
 Semantic Segmentation: |
-  A form of segmentation where each pixel in an image is assigned to a [class](glossary.qmd#classification) (e.g., nucleus, cytoplasm, background), but it does not distinguish between separate instances of the same class.
+  A form of segmentation where each pixel in an image is assigned to a [class](glossary.qmd#class) (e.g., nucleus, cytoplasm, background), but it does not distinguish between separate instances of the same class.
 
 Pixel Classifiers: |
   [Machine learning](glossary.qmd#machine-learning) models that classify each pixel in an image based on features such as intensity, texture, or local neighborhood. Commonly used in traditional workflows for [segmentation](glossary.qmd#segmentation-mask) or [classification](glossary.qmd#classification) tasks.
@@ -90,7 +90,7 @@ F1 Score: |
   This metric is also known as the DICE coefficient.
 
 Image Classification: |
-  A computer vision task where each image is associated with one class and the goal of this task is to correctly predict that class. 
+  A computer vision task where each image is associated with one [class](glossary.qmd#class) and the goal of this task is to correctly predict that class. 
 
 Hyperparameters: |
   The options you choose when training a [machine learning](glossary.qmd#machine-learning) model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss, etc.) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.
@@ -192,7 +192,7 @@ Self-supervised learning: |
   A form of [machine learning](glossary.qmd#machine-learning) that turns unlabeled data into a [supervised problem](glossary.qmd#supervised-learning), typically by hiding part of the data and training the model to fill it in. The model either is used directly, as in self-supervised [denoising](glossary.qmd#denoising), or provides a [representation](glossary.qmd#representation) that is later adapted to other tasks.
 
 Supervised learning: |
-  A form of [machine learning](glossary.qmd#machine-learning) in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a class, a position, a mask, or another image.
+  A form of [machine learning](glossary.qmd#machine-learning) in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a [class](glossary.qmd#class), a position, a mask, or another image.
 
 Neural Network Unit: |
   A neural unit is the processing element of a neural network. It also sometimes called a node or artificial neuron.
@@ -442,7 +442,7 @@ Shallow decision trees : |
   Simple, low-complexity [decision tree](glossary.qmd#decision-tree) models that make classification decisions using only a few splits, often used as building blocks within ensemble methods.
 
 Decision tree : |
-  Decision trees are flow-chart-like models that make simple yes/no decisions in a series of conditional steps. The first root node splits the entire dataset into two groups, after which internal nodes and branches continue to split the data through conditional questions, finally terminating in a leaf node that provides the answer, class, or prediction.
+  Decision trees are flow-chart-like models that make simple yes/no decisions in a series of conditional steps. The first root node splits the entire dataset into two groups, after which internal nodes and branches continue to split the data through conditional questions, finally terminating in a leaf node that provides the answer, [class](glossary.qmd#class), or prediction.
 
 Random forest : |
   An [ensemble](glossary.qmd#ensemble) of [decision trees](glossary.qmd#decision-tree), each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g. in ilastik and Labkit.
@@ -601,7 +601,7 @@ Data Provenance: |
   The record of how each file in a dataset came to be and what produced it, forming a graph in which every file is a node and every processing step an edge back to the files it was derived from. Acquisition is the first node, holding the specimen, instrument, and settings that produced the raw image. Later nodes cover processing steps with their order and parameters, targets with the annotator, model, or script that generated them and the review they received, and the assignment of examples to splits. Provenance is what allows a result to be traced back to the raw data, corrected, and reproduced.
 
 Retrieval-Augmented Generation: |
-  A technique that allows [LLMs](glossary.qmd#large-language-models) to incorporate new supplmental information from outside the training set. This increases the flexibility of LLMs to respond to domain-specific queries.
+  A technique that allows [LLMs](glossary.qmd#large-language-model-llm) to incorporate new supplmental information from outside the training set. This increases the flexibility of LLMs to respond to domain-specific queries.
 
 Transposed Convolution: |
   As in a normal [convolution](glossary.qmd#convolution), a transposed convolution involves an image and a [kernel](glossary.qmd#kernel). However, in this case, the image slides over the kernel (as opposed to the other way around). This naturally results in a spatially [upsampled](glossary.qmd#upsampling) output, relative to the input. The [stride](glossary.qmd#stride) and [padding](glossary.qmd#padding) determines the upsampling factor. In particular, if the input is of size $(I_h , I_w)$, then a transposed convolution with kernel size $(k_h , k_w)$, padding size $(p_h , p_w)$, and stride $(s_h , s_w)$ will result in an output of size $(O_h , O_w)$:
