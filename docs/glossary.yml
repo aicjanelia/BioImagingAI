@@ -29,7 +29,7 @@ Object Detection: |
   A computer vision task that identifies and locates individual objects within an image, typically by drawing [bounding boxes](glossary.qmd#bounding-region) around them. It provides both the category (what) and position (where) of each object.
 
 Binary Segmentation: |
-  A type of image segmentation where each pixel is classified into one of two categories --- typically "foreground" (e.g., cell) or "background." The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).
+  A type of [image segmentation](glossary.qmd#segmentation-mask) where each pixel is classified into one of two categories --- typically "foreground" (e.g., cell) or "background." The output is a binary mask distinguishing objects (set to a value of 1) from their background (0).
 
 Instance Segmentation: |
   A segmentation task that not only separates objects from the background but also distinguishes between individual objects of the same type (e.g., separating touching cells one by one).
@@ -56,7 +56,7 @@ Domain Randomization: |
   Using simulations or synthetic training data, domain randomization applies random and exaggerated variations to background, lighting, shapes, or textures in the synthetic dataset. This strategy helps the model learn domain-invariant features and is usually used for pretraining a neural network or to enable simulation-to-real transfer.
 
 Bayesian Optimization: |
-  A strategy that allows the optimization of black-box functions such as deep neural networks. It creates a surrogate model, which is a probabilistic representation of the objective function, using only a few example points.
+  A strategy that allows the [optimization](glossary.qmd#optimizer) of black-box functions such as deep neural networks. It creates a surrogate model, which is a probabilistic representation of the objective function, using only a few example points.
 
 Gaussian Process: |
   A common surrogate model for optimization strategies such as Bayesian Optimization. A Gaussian Process is a non-parametric model that represents a probability distribution over possible functions. In the hyperparameter search scenario, the Gaussian Process models the probability of getting an objective function value based on some hyperparameters.
@@ -102,10 +102,10 @@ Batch: |
   A small group of data that is processed together at the same time. For example, when training a machine learning model, a batch is a group of data that is given to the model for learning. Batches are commonly used to make the processes more efficient.
 
 Backpropagation: |
-  The method that computes, for every parameter of a neural network, how a small change in that parameter would change the error measured by the [loss function](glossary.qmd#loss-function). It applies the chain rule of calculus backwards, from the error through all layers of the network. Backpropagation itself does not change the network; [gradient descent](glossary.qmd#gradient-descent) uses the values it computes to adjust the parameters so that the error decreases.
+  The method that computes, for every parameter of a [neural network](glossary.qmd#neural-network), how a small change in that parameter would change the error measured by the [loss function](glossary.qmd#loss-function). It applies the chain rule of calculus backwards, from the error, through all layers of the network. Backpropagation itself does not change the network; [gradient descent](glossary.qmd#gradient-descent) uses the values it computes to adjust the parameters so that the error decreases.
 
 Computer Vision: |
-  A field of computer science wherein computers extract information from images. It often involves object detection within images and can involve classification of the images and/or objects.
+  A field of computer science wherein computers extract information from images. It often involves [object detection](glossary.qmd#object-detection) within images and can involve [classification](glossary.qmd#classification) of the images and/or objects.
 
 Effect Size: |
   How "strong" a phenotype is, or how mathematically possible it is to distinguish a given population from the control population.
@@ -135,13 +135,13 @@ Frequency Domain: |
   The representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using the Fourier transform.
 
 Adaptive Optics: |
-  Technology that senses distortions in the wavefront of light and cancels them, thereby suppressing optical aberrations to enhance image clarity.
+  Technology that senses distortions in the wavefront of light and cancels them, thereby suppressing [optical aberrations](glossary.qmd#aberration) to enhance image clarity.
 
 Nonlinear Problem: |
   A mathematical problem where the governing equations or operations are nonlinear, meaning outputs are not linearly proportional to inputs.
 
 CARE (Content-aware image restoration): |
-  A deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See [https://github.com/CSBDeep/CSBDeep](https://github.com/CSBDeep/CSBDeep) for more information.
+  A [deep learning](glossary.qmd#deep-learning)-based method for [image restoration](glossary.qmd#image-restoration) that leverages content-specific features to enhance degraded images. See [https://github.com/CSBDeep/CSBDeep](https://github.com/CSBDeep/CSBDeep) for more information.
 
 RCAN (residual channel attention network): |
   A deep learning-based method using [residual learning](glossary.qmd#residual-learning) and [channel attention](glossary.qmd#channel-attention) to improve image restoration tasks. See [https://github.com/AiviaCommunity/3D-RCAN](https://github.com/AiviaCommunity/3D-RCAN) for more information.
@@ -156,7 +156,7 @@ N2N (Noise2Noise): |
   A denoising method that trains a neural network on pairs of independently noisy images of the same scene, one as input and the other as target. It needs no clean reference image, but it needs the pairs. See [https://github.com/NVlabs/noise2noise](https://github.com/NVlabs/noise2noise) for more information. 
 
 Deconvolution: |
-  A mathematical process to partially reverse the blurring effect caused by the microscope's PSF, increasing contrast and resolution over the raw image data if performed carefully.
+  A mathematical process to partially reverse the blurring effect caused by the microscope's [PSF](glossary.qmd#point-spread-function-psf), increasing contrast and resolution over the raw image data if performed carefully.
 
 Aberration: |
   A distortion of the light's wavefront caused by imperfections in the optical path or by refractive-index variations in the sample. It spreads the light and makes images blurrier than the ideal diffraction-limited image.
@@ -168,16 +168,16 @@ Fiji: |
   An image processing platform that comes bundled with many plugins for scientific image analysis. See [https://imagej.net/software/fiji/](https://imagej.net/software/fiji/) for more information.
 
 Convolution: |
-  A mathematical process where a kernel (small matrix) slides over input data (e.g., images) to compute feature maps, highlighting patterns like edges or textures.
+  A mathematical process where a [kernel](glossary.qmd#kernel) (small matrix) slides over input data (e.g., images) to compute [feature maps](glossary.qmd#feature-vector), highlighting patterns like edges or textures.
 
 Convolutional Neural Networks (CNNs): |
-  A deep learning architecture that applies convolutions to automatically learn features from images for computer vision tasks like classification and detection.
+  A [deep learning](glossary.qmd#deep-learning) architecture that applies [convolutions](glossary.qmd#convolution) to automatically learn features from images for computer vision tasks like [classification](glossary.qmd#classification) and [detection](glossary.qmd#object-detection).
 
 Generative Adversarial Networks (GANs): |
   A deep learning architecture where two neural networks, a generator and a discriminator, are trained in an adversarial process, enabling the generator to create synthetic data, such as realistic images, by learning to deceive the discriminator.
 
 Autoencoder: |
-  A deep learning architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsupervised learning version of the more general encoder-decoder architecture.
+  A [deep learning](glossary.qmd#deep-learning) architecture used to learn efficient coding of unlabeled data. An autoencoder learns two functions: an encoding function that transforms the input data, and a decoding function that recreates the input data from the encoded representation. It is an unsupervised learning version of the more general [encoder-decoder](glossary.qmd#encoder-decoder) architecture.
 
 ReLU: |
   An activation function common in deep learning that outputs the input directly if it is positive, and outputs zero otherwise. That is, it is the ramp function where it equals x if x>0 and 0 if x<=0. This characteristic helps introduce non-linearity into the model and mitigate the vanishing gradient problem. ReLU stands for rectified linear unit.  
@@ -225,13 +225,13 @@ Perceptron  : |
   Perceptrons are a specific type of an artificial neuron or node. They perform a calculation that is a linear weighted sum of the inputs to the node followed by a [nonlinear](glossary.qmd#nonlinear) [activation function](glossary.qmd#activation-function). They are used for binary classification, and can be combined to create more complex network architectures. 
 
 Activation Function  : |
-  An activation function is a mathematical formula that calculates the output of a node. These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," an analogy to the way in which biological neurons can be activated.
+  An activation function is a mathematical formula that calculates the output of a [node](glossary.qmd#neural-network-unit). These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," an analogy to the way in which biological neurons can be activated.
 
 Linear Layer  : |
   Linear layers are also known as fully-connected layers or dense layers. They are a set of input nodes (or neurons) that are each connected to every output node of the layer. 
 
 Bias Vector  : |
-  The bias vector is a set of values (one for each node in the layer) that is added to the weighted input of the layer before the activation function is calculated. Note that the use of "bias" here is mathematical and not related to any potential biases in the model's decision making.
+  The bias vector is a set of values (one for each [node](glossary.qmd#neural-network-unit) in the layer) that is added to the weighted input of the layer before the [activation function](glossary.qmd#activation-function) is calculated. Note that the use of "bias" here is mathematical and not related to any potential biases in the model's decision making.
 
 Nonlinear  : |
   If a system or function is non-linear, changes in its output are not proportional to the changes that are made to the input. Non-linear functions are incorporated into machine learning networks to allow for the solution of complicated problems because it allows for non-linear decision boundaries.
@@ -264,7 +264,7 @@ Embedding Space  : |
   The space of lists of numbers (embeddings) that a model uses to describe its inputs. Also known as latent space or latent feature space.
 
 Auxiliary Variables  : |
-  Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precision, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other shape descriptors can be used as part of of a loss function. 
+  Auxiliary variables are variables added to a linear programming problem to simplify mathematics, improve precision, or handle missing data. An example of an auxiliary variable is distance to the boundary. These or other [shape descriptors](glossary.qmd#shape-descriptors) can be used as part of of a [loss function](glossary.qmd#loss-function). 
 
 Loss function : |
   A loss function (or cost function) is a formula for quantifying how much a model's prediction deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss. As training relies on [gradient descent](glossary.qmd#gradient-descent), the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.
@@ -282,10 +282,10 @@ Regularization  : |
   Regularization adds a penalty term to the loss function to prevent overfitting. This term discourages overly complex models.
 
 Activations : |
-  The values of elements in neural network units, often specifically the values of the output of an [activation function](glossary.yml#activation-function).
+  The values of elements in [neural network units](glossary.qmd#neural-network-unit), often specifically the values of the output of an [activation function](glossary.yml#activation-function).
 
 Channels : |
-  In natural color images there are often three channels (red, green, and blue). In microscopy images, the number of channels can refer to the number of fluorescent labels or image settings used while imaging. The term is used similarly in neural networks where channels refers to the number of layers in an image. These channels can come from convolutional operations, leading to images with hundreds of channels corresponding to each filter used.
+  In natural color images, there are often three channels (red, green, and blue). In microscopy images, the number of channels can refer to the number of fluorescent labels or image settings used while imaging. The term is used similarly in neural networks, where channels refers to the number of layers in an image. These channels can come from convolutional operations, leading to images with hundreds of channels corresponding to each filter used.
 
 Capacity : |
   A model's capacity reflects how much information a network can store. It corresponds to a network's ability to model an arbitrary function.
@@ -351,7 +351,7 @@ General Agency : |
   General agency gives AI agents access to broad capabilities --- a terminal, a file system, APIs, analysis libraries --- and lets them determine the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal ("segment and count the nuclei in this dataset") and works out what tools to use, in what order, handling errors as they arise.
 
 Coding Agent : |
-  Coding agents are AI systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier LLM assistants that could only suggest code snippets.
+  Coding agents are [AI](glossary.qmd#artificial-intelligence) systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier [LLM](glossary.qmd#large-language-model) assistants that could only suggest code snippets.
 
 Skills Atrophy : |
   Skills atrophy is the decrease or loss of human expertise due to underuse. In this context, skills atrophy could be caused by an over-reliance on AI tools. This gradual erosion of the community's ability would decrease the field's ability to evaluate AI outputs.
@@ -363,8 +363,8 @@ Image Translation : |
   Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g. brightfield) into a different modality (e.g. DAPI staining of nuclei) in the same field of view.
 
 Binary Cross-Entropy : |
-  Binary cross-entropy (BCE) penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability --- it asks "is this pixel foreground or background?" and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
-  For ground truth label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
+  Binary cross-entropy (BCE) penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability --- it asks "is this pixel foreground or background?" and treats all wrongly classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
+  For [ground truth](glossary.qmd#ground-truth) label $y_i \in \{0,1\}$ and predicted probability $\hat{y}_i \in [0,1]$:
   $$\text{BCE} = -\frac{1}{N} \sum_{i=1}^{N} \bigl[ y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i) \bigr]$$
 
 Mean Squared Error : |
@@ -383,11 +383,11 @@ Hausdorff Distance : |
 
 Average Precision : |
   Average Precision (AP) summarizes the precision-recall trade-off across confidence thresholds.
-  A predicted instance counts as a true positive only if its [IoU](glossary.qmd#IoU) with a ground-truth instance exceeds a threshold $x$:
+  A predicted instance counts as a [true positive](glossary.qmd#true-positives) only if its [IoU](glossary.qmd#IoU) with a [ground-truth](glossary.qmd#ground-truth) instance exceeds a threshold $x$:
 
   $$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
 
-  where $P_k$ and $R_k$ are precision and recall at the $k$-th confidence threshold after matching predictions to ground-truth at IoU $\geq x$.
+  where $P_k$ and $R_k$ are [precision](glossary.qmd#precision) and [recall](glossary.qmd#recall) at the $k$-th confidence threshold after matching predictions to ground-truth at IoU $\geq x$.
   Higher $x$ demands more precise localization.
 
 Boosting algorithm : |
@@ -406,7 +406,7 @@ Classification : |
   The process of assigning a data point to one of a set of predefined categories, based on its measured features.
 
 Cytoprofile : |
-  A numerical feature vector describing a biological cell's phenotype, derived from measurements of shape, intensity, and texture extracted from microscopy images.
+  A numerical [feature vector](glossary.qmd#feature-vector) describing a biological cell's phenotype, derived from measurements of shape, intensity, and texture extracted from microscopy images.
 
 End-to-end learning : |
   A deep learning approach in which all stages of a task (e.g., locating and identifying objects) are optimized jointly within a single model, rather than being handled as separate, independent steps.
@@ -493,7 +493,7 @@ Pre-training : |
   The first and most expensive stage of training, in which a model learns a general-purpose [representation](glossary.qmd#representation) from a large dataset, usually without labels by [self-supervised learning](glossary.qmd#self-supervised-learning). The pre-trained model is then adapted to a specific task with far fewer labeled examples, by [fine-tuning](glossary.qmd#fine-tuning) or [semi-supervised learning](glossary.qmd#semi-supervised-learning). [Foundation models](glossary.qmd#foundation-model) are pre-trained models.
 
 Contrastive loss : |
-  A contrastive loss function attempts to minimize the distance between input pairs that are similar while simultaneously maximizing the distance between input pairs that are dissimilar.
+  A contrastive [loss function](glossary.qmd#loss-function) attempts to minimize the distance between input pairs that are similar while simultaneously maximizing the distance between input pairs that are dissimilar.
 
 Representation : |
   The internal description of an input that a network computes on the way to its output: a list of numbers that summarizes what the network has learned to consider relevant about an image or a text. A good representation can be reused for tasks the network was not trained on, which is what makes [foundation models](glossary.qmd#foundation-model) useful.
@@ -514,7 +514,7 @@ Resolution enhancement : |
   Deep learning methods that attempt to predict higher resolution images given lower resolution input data.
 
 Detection: |
-  Detection finds where the objects are without defining their full shape. This requires simpler annotations (e.g., a point or box) than full segmentation.
+  Detection finds where the objects are without defining their full shape. This requires simpler annotations (e.g., a point or box) than full [segmentation](glossary.qmd#segmentation-mask).
 
 Tracking : |
   Tracking links objects over time. It requires both finding objects and determining how they are associated over time.
@@ -568,7 +568,7 @@ OME-Zarr : |
   OME-Zarr is a next-generation file format (NGFF) developed by the [Open Microscopy Environment](https://www.openmicroscopy.org/ome-file-formats/). The Zarr format stores images in smaller chunked image arrays, which allows for efficient access, storage, and processing of large datasets, while OME provides standards for accessing microscopy metadata.
 
 Data loader : |
-  The data loader is a software component that connects the raw training data files with the training pipeline. It can manage tasks such as batching and efficiently feed samples to the model.
+  The data loader is a software component that connects the raw training data files with the training pipeline. It can manage tasks such as [batching](glossary.qmd#batch) and efficiently feed samples to the model.
 
 Tensor : |
   Tensors are multi-dimensional matrices that are used in many machine learning contexts as a way of organizing data.
@@ -577,7 +577,7 @@ NaN : |
   Not-a-number (NaN) values are used where an operation results in something that is not a real number (such as dividing zero by zero).
 
 Balanced Dataset : |
-  In a balanced dataset, each class or type of data is equally represented in the training data. In an unbalanced dataset, the model may become biased towards the classes that have more examples.
+  In a balanced dataset, each class or type of data is equally represented in the [training data](glossary.qmd#training-data). In an unbalanced dataset, the model may become biased towards the classes that have more examples.
 
 Class : |
   A class describes the group or category an image, pixel, or object falls into. This includes distinguishing dataset types such as "control" or "mutant," as well as distinguishing "foreground" and "background" pixels.
@@ -592,10 +592,10 @@ Segmentation mask : |
   A segmentation mask is an image where each pixel is given a corresponding [class](glossary.qmd#class). For example, this could be a black and white image where cells are white and the background is black.
 
 Batch Effects: |
-  Systematic technical differences between groups of samples that arise from preparation, handling, acquisition, or processing rather than from the biological variable of interest.
+  Systematic technical differences between groups of samples that arise from preparation, handling, acquisition, or processing, rather than from the biological variable of interest.
 
 Data Leakage: |
-  Information from validation or test examples that influences model training or selection, often because related samples, duplicates, or preprocessing statistics cross dataset splits.
+  Information from [validation](glossary.qmd#validation-data) or [test](glossary.qmd#test-data) examples that influences model training or selection, often because related samples, duplicates, or preprocessing statistics cross dataset splits.
 
 Data Provenance: |
   The record of how each file in a dataset came to be and what produced it, forming a graph in which every file is a node and every processing step an edge back to the files it was derived from. Acquisition is the first node, holding the specimen, instrument, and settings that produced the raw image. Later nodes cover processing steps with their order and parameters, targets with the annotator, model, or script that generated them and the review they received, and the assignment of examples to splits. Provenance is what allows a result to be traced back to the raw data, corrected, and reproduced.
