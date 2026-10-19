@@ -254,7 +254,7 @@
     "href": "4-architectures.html#sec-4-loss",
     "title": "4  Architectures and Loss Functions",
     "section": "4.2 Loss functions",
-    "text": "4.2 Loss functions\nIn a standard image classification network, the output is a vector with length equal to the number of classes in the task. Each of the entries in this vector represents the predicted probability of the class, and the predicted label for the image is chosen as the index of the vector with the largest entry. For each training image we have a ground-truth label for the class. How closely the network matches the label is the loss, which is defined as a function between the vector output of the network and the ground-truth label. A lower loss means we matched the ground-truth data better. The gradients of the network are computed automatically via back-propagation, and an optimizer is specified to modify the parameters in order to minimize the loss (described more below).\nFor classification, we are evaluating predicted probabilities, so we need to take the output from the network and convert it to a probability that sums to one across classes. For this, a softmax (or its cousin the sigmoid) operation is performed, defined as \\(p_c(x) = e^{x_{c}} / (\\sum_{i=1}^C e^{x_{i}})\\). The cross-entropy loss is a standard loss function for classification, and for comparing probability distributions generally. This loss maximizes the predicted probability of the true class, achieving its minimum value of 0 when the probability of the true class is predicted to be one (Equation 4.4).\n\\[\n\\ell(x, y) = - \\sum_{c=1}^C \\log [p_c(x)] y_c.\n\\tag{4.4}\\]\nIn segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, “not cell” as zeros and “cell” as ones2.\n\n\n\n\n\n\nFigure 4.12: An image (upper left) is input to a u-net trained to predict cell/not cell pixels. The output of the network is the predicted cell probability image (bottom left). A sigmoid is applied to the cell probability (middle bottom), and compared to the ground-truth cell probabilities (middle top). The comparison is performed using the binary cross-entropy loss per-pixel (right).\n\n\n\nIn PyTorch, the sigmoid and cross-entropy loss are combined into a single function; for two-class prediction the function is nn.BCEWithLogitsLoss, and for multi-class prediction the function is nn.CrossEntropyLoss.\n\n\n\n\n\n\nTipCell/Not-Cell Prediction\n\n\n\nHere is example code for cell/not-cell prediction with one convolutional layer.\n\n\nshow code\n# declare layer\nlayer = ConvolutionalLayer(c_in=3, c_out=1, K=9)\nprint('shape of filter W: ', layer.conv.weight.data.shape)\nprint('shape of b: ', layer.conv.bias.data.shape)\n\n# define input images\nn_images = 8\nX = torch.zeros((n_images, 3, 50, 50))\n# define random cell probabilities\ny_true = (torch.randn((n_images, 1, 50, 50)) &gt; 0.5).float()\n\n# define loss function\nloss_fn = nn.BCEWithLogitsLoss()\n\n# compute network prediction and loss\ny = layer(X)\n\nprint('input shape: ', X.shape)\nprint('output shape: ', y.shape)\nprint('target shape: ', y_true.shape)\n\n# evaluate loss function\nloss = loss_fn(y, y_true)\n\nprint('loss = ', loss.item())\n\n\nshape of filter W:  torch.Size([1, 3, 9, 9])\nshape of b:  torch.Size([1])\ninput shape:  torch.Size([8, 3, 50, 50])\noutput shape:  torch.Size([8, 1, 50, 50])\ntarget shape:  torch.Size([8, 1, 50, 50])\nloss =  0.7029110789299011\n\n\n\n\nTo create segmentations for each cell, a threshold is defined on the cell probability and any pixels above the threshold that are connected to each other are formed into objects. This threshold is defined using a validation set—images that are not used for training or testing—to help ensure the threshold generalizes to the held-out test images. The predicted segmentations with this loss function often contain several merges, because cells can often touch each other and the connected components of the image will combine the touching cells into single components.\n\n\n\n\n\n\nFigure 4.13: Segmentation with pixel-wise cell/not cell predictions.\n\n\n\nTo better train the network to discriminate boundaries, a boundary pixel class can be introduced, creating a three-class prediction loss function. This can improve segmentation performance, but the segmentations can still contain merges. This is illustrated in the tutorial notebook.\nThe training signals for the network so far have consisted only of class labels. However, it can be helpful to ask the network to predict more complex information about the segmentation. For example, the distance to the boundary can be used to provide context about the local shape of the object20. The distance-to-boundary is computed for each pixel in each object, and the network is trained to predict this, in addition to a multi-class loss like cell/not-cell. Distance-to-boundary is not a class but a continuous variable. In this case, the loss function often used is a mean-squared error between the ground-truth (\\(\\tilde{Y}\\)) and the predicted values (\\(Y\\)), as shown in Equation 4.5.\n\\[\n\\ell_\\text{MSE} = \\sum_{ij} (Y_{ij} - \\tilde{Y}_{ij})^2.\n\\tag{4.5}\\]\nStarDist21 extends this approach by computing the distance-to-boundary along multiple fixed rays emanating from each pixel in an object, which can then be used for reconstruction of convex objects21. Cellpose creates a different type of representation from gradients indicating the direction towards the cell center, and tracks the gradients to reconstruct the segmented objects from the fixed points of the dynamics10. This representation helps prevent merges by having strong differences in gradients in boundary areas between two objects, and is sufficiently flexible to be used for non-convex cellular shapes. Other examples of auxiliary variables include local shape descriptors (LSDs), which include other global features like the size of the object, which can be useful for electron microscopy segmentation of neurons with long processes22.\n\n\n\n\n\n\nFigure 4.14: Segmentation networks are often trained to predict an auxiliary variable. For example, they may predict the distance from the cell boundary, radial distances (as in StarDist21), or gradient flows (as in CellPose10). The calculation of gradient flows is useful for non-convex cells (right panel).",
+    "text": "4.2 Loss functions\nIn a standard image classification network, the output is a vector with length equal to the number of classes in the task. Each of the entries in this vector represents the predicted probability of the class, and the predicted label for the image is chosen as the index of the vector with the largest entry. For each training image we have a ground-truth label for the class. How closely the network matches the label is the loss, which is defined as a function between the vector output of the network and the ground-truth label. A lower loss means we matched the ground-truth data better. The gradients of the network are computed automatically via back-propagation, and an optimizer is specified to modify the parameters in order to minimize the loss (described more below).\nFor classification, we are evaluating predicted probabilities, so we need to take the output from the network and convert it to a probability that sums to one across classes. For this, a softmax (or its cousin the sigmoid) operation is performed, defined as \\(p_c(x) = e^{x_{c}} / (\\sum_{i=1}^C e^{x_{i}})\\). The cross-entropy loss is a standard loss function for classification, and for comparing probability distributions generally. This loss maximizes the predicted probability of the true class, achieving its minimum value of 0 when the probability of the true class is predicted to be one (Equation 4.4).\n\\[\n\\ell(x, y) = - \\sum_{c=1}^C \\log [p_c(x)] y_c.\n\\tag{4.4}\\]\nIn segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, “not cell” as zeros and “cell” as ones2.\n\n\n\n\n\n\nFigure 4.12: An image (upper left) is input to a u-net trained to predict cell/not cell pixels. The output of the network is the predicted cell probability image (bottom left). A sigmoid is applied to the cell probability (middle bottom), and compared to the ground-truth cell probabilities (middle top). The comparison is performed using the binary cross-entropy loss per-pixel (right).\n\n\n\nIn PyTorch, the sigmoid and cross-entropy loss are combined into a single function; for two-class prediction the function is nn.BCEWithLogitsLoss, and for multi-class prediction the function is nn.CrossEntropyLoss.\n\n\n\n\n\n\nTipCell/Not-Cell Prediction\n\n\n\nHere is example code for cell/not-cell prediction with one convolutional layer.\n\n\nshow code\n# declare layer\nlayer = ConvolutionalLayer(c_in=3, c_out=1, K=9)\nprint('shape of filter W: ', layer.conv.weight.data.shape)\nprint('shape of b: ', layer.conv.bias.data.shape)\n\n# define input images\nn_images = 8\nX = torch.zeros((n_images, 3, 50, 50))\n# define random cell probabilities\ny_true = (torch.randn((n_images, 1, 50, 50)) &gt; 0.5).float()\n\n# define loss function\nloss_fn = nn.BCEWithLogitsLoss()\n\n# compute network prediction and loss\ny = layer(X)\n\nprint('input shape: ', X.shape)\nprint('output shape: ', y.shape)\nprint('target shape: ', y_true.shape)\n\n# evaluate loss function\nloss = loss_fn(y, y_true)\n\nprint('loss = ', loss.item())\n\n\nshape of filter W:  torch.Size([1, 3, 9, 9])\nshape of b:  torch.Size([1])\ninput shape:  torch.Size([8, 3, 50, 50])\noutput shape:  torch.Size([8, 1, 50, 50])\ntarget shape:  torch.Size([8, 1, 50, 50])\nloss =  0.6924495100975037\n\n\n\n\nTo create segmentations for each cell, a threshold is defined on the cell probability and any pixels above the threshold that are connected to each other are formed into objects. This threshold is defined using a validation set—images that are not used for training or testing—to help ensure the threshold generalizes to the held-out test images. The predicted segmentations with this loss function often contain several merges, because cells can often touch each other and the connected components of the image will combine the touching cells into single components.\n\n\n\n\n\n\nFigure 4.13: Segmentation with pixel-wise cell/not cell predictions.\n\n\n\nTo better train the network to discriminate boundaries, a boundary pixel class can be introduced, creating a three-class prediction loss function. This can improve segmentation performance, but the segmentations can still contain merges. This is illustrated in the tutorial notebook.\nThe training signals for the network so far have consisted only of class labels. However, it can be helpful to ask the network to predict more complex information about the segmentation. For example, the distance to the boundary can be used to provide context about the local shape of the object20. The distance-to-boundary is computed for each pixel in each object, and the network is trained to predict this, in addition to a multi-class loss like cell/not-cell. Distance-to-boundary is not a class but a continuous variable. In this case, the loss function often used is a mean-squared error between the ground-truth (\\(\\tilde{Y}\\)) and the predicted values (\\(Y\\)), as shown in Equation 4.5.\n\\[\n\\ell_\\text{MSE} = \\sum_{ij} (Y_{ij} - \\tilde{Y}_{ij})^2.\n\\tag{4.5}\\]\nStarDist21 extends this approach by computing the distance-to-boundary along multiple fixed rays emanating from each pixel in an object, which can then be used for reconstruction of convex objects21. Cellpose creates a different type of representation from gradients indicating the direction towards the cell center, and tracks the gradients to reconstruct the segmented objects from the fixed points of the dynamics10. This representation helps prevent merges by having strong differences in gradients in boundary areas between two objects, and is sufficiently flexible to be used for non-convex cellular shapes. Other examples of auxiliary variables include local shape descriptors (LSDs), which include other global features like the size of the object, which can be useful for electron microscopy segmentation of neurons with long processes22.\n\n\n\n\n\n\nFigure 4.14: Segmentation networks are often trained to predict an auxiliary variable. For example, they may predict the distance from the cell boundary, radial distances (as in StarDist21), or gradient flows (as in CellPose10). The calculation of gradient flows is useful for non-convex cells (right panel).",
     "crumbs": [
       "Getting Started with AI",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Functions</span>"
@@ -742,8 +742,8 @@
     "objectID": "glossary.html#ai-agent",
     "href": "glossary.html#ai-agent",
     "title": "Glossary",
-    "section": "AI agent",
-    "text": "AI agent\nAI agents extend models into systems that can take actions (running code, calling APIs, controlling hardware), observe the results, and adapt their approach iteratively. At its core, an AI agent is a system built around a language model that operates in a loop: it observes the current state (an image, a dataset, an error message), reasons about what to do next, acts by invoking tools or executing code, and then observes the outcome — repeating until the task is complete. This observe-reason-act cycle is what distinguishes an agent from a chatbot.",
+    "section": "AI Agent",
+    "text": "AI Agent\nAI agents extend models into systems that can take actions (running code, calling APIs, controlling hardware), observe the results, and adapt their approach iteratively. At its core, an AI agent is a system built around a language model that operates in a loop: it observes the current state (an image, a dataset, an error message), reasons about what to do next, acts by invoking tools or executing code, and then observes the outcome — repeating until the task is complete. This observe-reason-act cycle is what distinguishes an agent from a chatbot.",
     "crumbs": [
       "Glossary"
     ]
@@ -812,8 +812,8 @@
     "objectID": "glossary.html#attribution-map",
     "href": "glossary.html#attribution-map",
     "title": "Glossary",
-    "section": "Attribution map",
-    "text": "Attribution map\nA per-pixel image of how much each part of the input contributed to a model’s output. Some widely used variants are insensitive to the trained model and should be checked before they are trusted.",
+    "section": "Attribution Map",
+    "text": "Attribution Map\nA per-pixel image of how much each part of the input contributed to a model’s output. Some widely used variants are insensitive to the trained model and should be checked before they are trusted.",
     "crumbs": [
       "Glossary"
     ]
@@ -853,7 +853,7 @@
     "href": "glossary.html#backpropagation",
     "title": "Glossary",
     "section": "Backpropagation",
-    "text": "Backpropagation\nThe method that computes, for every parameter of a neural network, how a small change in that parameter would change the error measured by the loss function. It applies the chain rule of calculus backwards, from the error through all layers of the network. Backpropagation itself does not change the network; gradient descent uses the values it computes to adjust the parameters so that the error decreases.",
+    "text": "Backpropagation\nThe method that computes, for every parameter of a neural network, how a small change in that parameter would change the error measured by the loss function. It applies the chain rule of calculus backwards, from the error, through all layers of the network. Backpropagation itself does not change the network; gradient descent uses the values it computes to adjust the parameters so that the error decreases.",
     "crumbs": [
       "Glossary"
     ]
@@ -883,7 +883,7 @@
     "href": "glossary.html#batch-effects",
     "title": "Glossary",
     "section": "Batch Effects",
-    "text": "Batch Effects\nSystematic technical differences between groups of samples that arise from preparation, handling, acquisition, or processing rather than from the biological variable of interest.",
+    "text": "Batch Effects\nSystematic technical differences between groups of samples that arise from preparation, handling, acquisition, or processing, rather than from the biological variable of interest.",
     "crumbs": [
       "Glossary"
     ]
@@ -913,7 +913,7 @@
     "href": "glossary.html#binary-cross-entropy",
     "title": "Glossary",
     "section": "Binary Cross-Entropy",
-    "text": "Binary Cross-Entropy\nBinary cross-entropy (BCE) penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability — it asks “is this pixel foreground or background?” and treats all wrongly-classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell. For ground truth label \\(y_i \\in \\{0,1\\}\\) and predicted probability \\(\\hat{y}_i \\in [0,1]\\): \\[\\text{BCE} = -\\frac{1}{N} \\sum_{i=1}^{N} \\bigl[ y_i \\log(\\hat{y}_i) + (1-y_i)\\log(1-\\hat{y}_i) \\bigr]\\]",
+    "text": "Binary Cross-Entropy\nBinary cross-entropy (BCE) penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability — it asks “is this pixel foreground or background?” and treats all wrongly classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell. For ground truth label \\(y_i \\in \\{0,1\\}\\) and predicted probability \\(\\hat{y}_i \\in [0,1]\\): \\[\\text{BCE} = -\\frac{1}{N} \\sum_{i=1}^{N} \\bigl[ y_i \\log(\\hat{y}_i) + (1-y_i)\\log(1-\\hat{y}_i) \\bigr]\\]",
     "crumbs": [
       "Glossary"
     ]
@@ -932,8 +932,8 @@
     "objectID": "glossary.html#boosting-algorithm",
     "href": "glossary.html#boosting-algorithm",
     "title": "Glossary",
-    "section": "Boosting algorithm",
-    "text": "Boosting algorithm\nAn ensemble method that builds a strong classifier from many simple ones, typically small decision trees, trained one after another so that each corrects the errors its predecessors left behind.",
+    "section": "Boosting Algorithm",
+    "text": "Boosting Algorithm\nAn ensemble method that builds a strong classifier from many simple ones, typically small decision trees, trained one after another so that each corrects the errors its predecessors left behind.",
     "crumbs": [
       "Glossary"
     ]
@@ -942,8 +942,8 @@
     "objectID": "glossary.html#bounding-region",
     "href": "glossary.html#bounding-region",
     "title": "Glossary",
-    "section": "Bounding region",
-    "text": "Bounding region\nA geometric shape, typically a box, drawn around an object in an image to indicate its spatial extent.",
+    "section": "Bounding Region",
+    "text": "Bounding Region\nA geometric shape, typically a box, drawn around an object in an image to indicate its spatial extent.",
     "crumbs": [
       "Glossary"
     ]
@@ -972,8 +972,8 @@
     "objectID": "glossary.html#centroid-coordinate",
     "href": "glossary.html#centroid-coordinate",
     "title": "Glossary",
-    "section": "Centroid coordinate",
-    "text": "Centroid coordinate\nAn object’s geometric center point, used as a simple way to describe its location in an image.",
+    "section": "Centroid Coordinate",
+    "text": "Centroid Coordinate\nAn object’s geometric center point, used as a simple way to describe its location in an image.",
     "crumbs": [
       "Glossary"
     ]
@@ -993,7 +993,7 @@
     "href": "glossary.html#channels",
     "title": "Glossary",
     "section": "Channels",
-    "text": "Channels\nIn natural color images there are often three channels (red, green, and blue). In microscopy images, the number of channels can refer to the number of fluorescent labels or image settings used while imaging. The term is used similarly in neural networks where channels refers to the number of layers in an image. These channels can come from convolutional operations, leading to images with hundreds of channels corresponding to each filter used.",
+    "text": "Channels\nIn natural color images, there are often three channels (red, green, and blue). In microscopy images, the number of channels can refer to the number of fluorescent labels or image settings used while imaging. The term is used similarly in neural networks, where channels refers to the number of layers in an image. These channels can come from convolutional operations, leading to images with hundreds of channels corresponding to each filter used.",
     "crumbs": [
       "Glossary"
     ]
@@ -1012,8 +1012,8 @@
     "objectID": "glossary.html#class-label",
     "href": "glossary.html#class-label",
     "title": "Glossary",
-    "section": "Class label",
-    "text": "Class label\nA descriptive name selected from a predefined list of categories, assigned to a detected object or event to describe its identity.",
+    "section": "Class Label",
+    "text": "Class Label\nA descriptive name selected from a predefined list of categories, assigned to a detected object or event to describe its identity.",
     "crumbs": [
       "Glossary"
     ]
@@ -1092,8 +1092,8 @@
     "objectID": "glossary.html#contrastive-loss",
     "href": "glossary.html#contrastive-loss",
     "title": "Glossary",
-    "section": "Contrastive loss",
-    "text": "Contrastive loss\nA contrastive loss function attempts to minimize the distance between input pairs that are similar while simultaneously maximizing the distance between input pairs that are dissimilar.",
+    "section": "Contrastive Loss",
+    "text": "Contrastive Loss\nA contrastive loss function attempts to minimize the distance between input pairs that are similar while simultaneously maximizing the distance between input pairs that are dissimilar.",
     "crumbs": [
       "Glossary"
     ]
@@ -1159,6 +1159,16 @@
     ]
   },
   {
+    "objectID": "glossary.html#data-loader",
+    "href": "glossary.html#data-loader",
+    "title": "Glossary",
+    "section": "Data Loader",
+    "text": "Data Loader\nThe data loader is a software component that connects the raw training data files with the training pipeline. It can manage tasks such as batching and efficiently feed samples to the model.",
+    "crumbs": [
+      "Glossary"
+    ]
+  },
+  {
     "objectID": "glossary.html#data-provenance",
     "href": "glossary.html#data-provenance",
     "title": "Glossary",
@@ -1169,21 +1179,11 @@
     ]
   },
   {
-    "objectID": "glossary.html#data-loader",
-    "href": "glossary.html#data-loader",
-    "title": "Glossary",
-    "section": "Data loader",
-    "text": "Data loader\nThe data loader is a software component that connects the raw training data files with the training pipeline. It can manage tasks such as batching and efficiently feed samples to the model.",
-    "crumbs": [
-      "Glossary"
-    ]
-  },
-  {
     "objectID": "glossary.html#decision-tree",
     "href": "glossary.html#decision-tree",
     "title": "Glossary",
-    "section": "Decision tree",
-    "text": "Decision tree\nDecision trees are flow-chart-like models that make simple yes/no decisions in a series of conditional steps. The first root node splits the entire dataset into two groups, after which internal nodes and branches continue to split the data through conditional questions, finally terminating in a leaf node that provides the answer, class, or prediction.",
+    "section": "Decision Tree",
+    "text": "Decision Tree\nDecision trees are flow-chart-like models that make simple yes/no decisions in a series of conditional steps. The first root node splits the entire dataset into two groups, after which internal nodes and branches continue to split the data through conditional questions, finally terminating in a leaf node that provides the answer, class, or prediction.",
     "crumbs": [
       "Glossary"
     ]
@@ -1202,8 +1202,8 @@
     "objectID": "glossary.html#deep-learning",
     "href": "glossary.html#deep-learning",
     "title": "Glossary",
-    "section": "Deep learning",
-    "text": "Deep learning\nDeep learning is a type of machine learning that uses multi-layer neural networks to perform tasks. The term “deep” refers to the use of many layers in the network.",
+    "section": "Deep Learning",
+    "text": "Deep Learning\nDeep learning is a type of machine learning that uses multi-layer neural networks to perform tasks. The term “deep” refers to the use of many layers in the network.",
     "crumbs": [
       "Glossary"
     ]
@@ -1242,8 +1242,8 @@
     "objectID": "glossary.html#dimensionality-reduction",
     "href": "glossary.html#dimensionality-reduction",
     "title": "Glossary",
-    "section": "Dimensionality reduction",
-    "text": "Dimensionality reduction\nTaking a dataset that is in a high-dimensional space and reducing it to a lower-dimensional representation that tries to retain as much of the important information and underlying properties of the high-dimensional data as possible.",
+    "section": "Dimensionality Reduction",
+    "text": "Dimensionality Reduction\nTaking a dataset that is in a high-dimensional space and reducing it to a lower-dimensional representation that tries to retain as much of the important information and underlying properties of the high-dimensional data as possible.",
     "crumbs": [
       "Glossary"
     ]
@@ -1253,7 +1253,7 @@
     "href": "glossary.html#distance-transform",
     "title": "Glossary",
     "section": "Distance Transform",
-    "text": "Distance Transform\nA transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In instance segmentation, distance transforms are commonly used to help separate touching or overlapping objectsâ€”for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a binary mask into individual instances.",
+    "text": "Distance Transform\nA transformation that assigns each foreground pixel a value representing its distance to the nearest background pixel or object boundary, producing an image that peaks at object centers and falls to zero at their edges. In instance segmentation, distance transforms are commonly used to help separate touching or overlapping objects — for example, as a target the model learns to regress during training, or as an input to watershed-based post-processing that splits a binary mask into individual instances.",
     "crumbs": [
       "Glossary"
     ]
@@ -1272,8 +1272,8 @@
     "objectID": "glossary.html#domain-shift",
     "href": "glossary.html#domain-shift",
     "title": "Glossary",
-    "section": "Domain shift",
-    "text": "Domain shift\nDomain shift occurs when a model is trained and tested on one type of data, but later applied to a related but different data distribution. In microscopy, an example of this is training a model on data from one microscope, but then applying it to data acquired using a different system or technique.",
+    "section": "Domain Shift",
+    "text": "Domain Shift\nDomain shift occurs when a model is trained and tested on one type of data, but later applied to a related but different data distribution. In microscopy, an example of this is training a model on data from one microscope, but then applying it to data acquired using a different system or technique.",
     "crumbs": [
       "Glossary"
     ]
@@ -1322,8 +1322,8 @@
     "objectID": "glossary.html#end-to-end-learning",
     "href": "glossary.html#end-to-end-learning",
     "title": "Glossary",
-    "section": "End-to-end learning",
-    "text": "End-to-end learning\nA deep learning approach in which all stages of a task (e.g., locating and identifying objects) are optimized jointly within a single model, rather than being handled as separate, independent steps.",
+    "section": "End-to-end Learning",
+    "text": "End-to-end Learning\nA deep learning approach in which all stages of a task (e.g., locating and identifying objects) are optimized jointly within a single model, rather than being handled as separate, independent steps.",
     "crumbs": [
       "Glossary"
     ]
@@ -1362,8 +1362,8 @@
     "objectID": "glossary.html#event-detection",
     "href": "glossary.html#event-detection",
     "title": "Glossary",
-    "section": "Event detection",
-    "text": "Event detection\nThe algorithmic identification of temporal changes or transitions in a system, requiring analysis of data across time.",
+    "section": "Event Detection",
+    "text": "Event Detection\nThe algorithmic identification of temporal changes or transitions in a system, requiring analysis of data across time.",
     "crumbs": [
       "Glossary"
     ]
@@ -1422,8 +1422,8 @@
     "objectID": "glossary.html#fine-tuning",
     "href": "glossary.html#fine-tuning",
     "title": "Glossary",
-    "section": "Fine-Tuning",
-    "text": "Fine-Tuning\nFine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific training data. In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.",
+    "section": "Fine-tuning",
+    "text": "Fine-tuning\nFine-tuning takes a pre-trained model and adapts it to a new task by providing task-specific training data. In classic fine-tuning, all layers of the pre-trained model are retrained, with their weights initialised from the original training. Thus, you continue training the full model using the new data. This approach allows the model to adjust more comprehensively to new data while still preserving the advantages of pre-learned features.",
     "crumbs": [
       "Glossary"
     ]
@@ -1709,11 +1709,11 @@
     ]
   },
   {
-    "objectID": "glossary.html#long-short-term-memory-lstm",
-    "href": "glossary.html#long-short-term-memory-lstm",
+    "objectID": "glossary.html#long-short-term-mmmory-lstm",
+    "href": "glossary.html#long-short-term-mmmory-lstm",
     "title": "Glossary",
-    "section": "Long-short term memory (LSTM)",
-    "text": "Long-short term memory (LSTM)\nA type of recurrent neural network designed to retain information over longer sequences, addressing limitations of standard RNNs in capturing long-range temporal dependencies.",
+    "section": "Long-short Term mMmory (LSTM)",
+    "text": "Long-short Term mMmory (LSTM)\nA type of recurrent neural network designed to retain information over longer sequences, addressing limitations of standard RNNs in capturing long-range temporal dependencies.",
     "crumbs": [
       "Glossary"
     ]
@@ -1722,8 +1722,8 @@
     "objectID": "glossary.html#loss-function",
     "href": "glossary.html#loss-function",
     "title": "Glossary",
-    "section": "Loss function",
-    "text": "Loss function\nA loss function (or cost function) is a formula for quantifying how much a model’s prediction deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss. As training relies on gradient descent, the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.",
+    "section": "Loss Function",
+    "text": "Loss Function\nA loss function (or cost function) is a formula for quantifying how much a model’s prediction deviates from the actual ground truth value. The loss function returns a single scalar number to quantify the loss. As training relies on gradient descent, the loss must be differentiable; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step.",
     "crumbs": [
       "Glossary"
     ]
@@ -1732,8 +1732,8 @@
     "objectID": "glossary.html#machine-learning",
     "href": "glossary.html#machine-learning",
     "title": "Glossary",
-    "section": "Machine learning",
-    "text": "Machine learning\nA type of artificial intelligence in which a person designs a family of functions with free parameters, and an optimization procedure fits the parameters to a set of examples. The rules are learned from data rather than written down by hand, and the goal is that they generalize to new data.",
+    "section": "Machine Learning",
+    "text": "Machine Learning\nA type of artificial intelligence in which a person designs a family of functions with free parameters, and an optimization procedure fits the parameters to a set of examples. The rules are learned from data rather than written down by hand, and the goal is that they generalize to new data.",
     "crumbs": [
       "Glossary"
     ]
@@ -1743,7 +1743,7 @@
     "href": "glossary.html#manual-annotation",
     "title": "Glossary",
     "section": "Manual Annotation",
-    "text": "Manual Annotation\nThe process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or Napari, this step is essential for creating ground truth data to train or evaluate machine learning models.",
+    "text": "Manual Annotation\nThe process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like Fiji or napari, this step is essential for creating ground truth data to train or evaluate machine learning models.",
     "crumbs": [
       "Glossary"
     ]
@@ -1769,21 +1769,21 @@
     ]
   },
   {
-    "objectID": "glossary.html#model-context-protocol-mcp",
-    "href": "glossary.html#model-context-protocol-mcp",
+    "objectID": "glossary.html#model-collapse",
+    "href": "glossary.html#model-collapse",
     "title": "Glossary",
-    "section": "Model Context Protocol (MCP)",
-    "text": "Model Context Protocol (MCP)\nThe Model Context Protocol (MCP) is a standardized way for AI systems to connect to external tools and data sources. MCP gives any AI model a universal way to discover and use any compatible tool — analogous to how USB standardized device connectivity. For microscopy, MCP means that a single agent could potentially access a microscope control system, an image analysis library, a literature database, and a model repository through the same protocol.",
+    "section": "Model Collapse",
+    "text": "Model Collapse\nModel collapse occurs when performance degrades due to training on uncurated or synthetic data, especially training on data from another model (including the same model at prior training steps).",
     "crumbs": [
       "Glossary"
     ]
   },
   {
-    "objectID": "glossary.html#model-collapse",
-    "href": "glossary.html#model-collapse",
+    "objectID": "glossary.html#model-context-protocol-mcp",
+    "href": "glossary.html#model-context-protocol-mcp",
     "title": "Glossary",
-    "section": "Model collapse",
-    "text": "Model collapse\nModel collapse occurs when performance degrades due to training on uncurated or synthetic data, especially training on data from another model (including the same model at prior training steps).",
+    "section": "Model Context Protocol (MCP)",
+    "text": "Model Context Protocol (MCP)\nThe Model Context Protocol (MCP) is a standardized way for AI systems to connect to external tools and data sources. MCP gives any AI model a universal way to discover and use any compatible tool — analogous to how USB standardized device connectivity. For microscopy, MCP means that a single agent could potentially access a microscope control system, an image analysis library, a literature database, and a model repository through the same protocol.",
     "crumbs": [
       "Glossary"
     ]
@@ -1922,8 +1922,8 @@
     "objectID": "glossary.html#nyquist-sampling",
     "href": "glossary.html#nyquist-sampling",
     "title": "Glossary",
-    "section": "Nyquist sampling",
-    "text": "Nyquist sampling\nThe Nyquist sampling rule states that recovering a continous signal requires sampling it at twice its highest frequency to accurately reconstruct it. In microscopy, Nyquist sampling thus requires that pixel sizes should be smaller than half the relevant optical resolution.",
+    "section": "Nyquist Sampling",
+    "text": "Nyquist Sampling\nThe Nyquist sampling rule states that recovering a continous signal requires sampling it at twice its highest frequency to accurately reconstruct it. In microscopy, Nyquist sampling thus requires that pixel sizes should be smaller than half the relevant optical resolution.",
     "crumbs": [
       "Glossary"
     ]
@@ -1962,8 +1962,8 @@
     "objectID": "glossary.html#object-storage",
     "href": "glossary.html#object-storage",
     "title": "Glossary",
-    "section": "Object storage",
-    "text": "Object storage\nObject stoarge is a computer storage architecture that views data as blobs or objects, rather than a traditional file system file hierarchy. This has advanatges for indexing and metadata management.",
+    "section": "Object Storage",
+    "text": "Object Storage\nObject stoarge is a computer storage architecture that views data as blobs or objects, rather than a traditional file system file hierarchy. This has advanatges for indexing and metadata management.",
     "crumbs": [
       "Glossary"
     ]
@@ -2122,8 +2122,8 @@
     "objectID": "glossary.html#rcan-residual-channel-attention-network",
     "href": "glossary.html#rcan-residual-channel-attention-network",
     "title": "Glossary",
-    "section": "RCAN (residual channel attention network)",
-    "text": "RCAN (residual channel attention network)\nA deep learning-based method using residual learning and channel attention to improve image restoration tasks. See https://github.com/AiviaCommunity/3D-RCAN for more information.",
+    "section": "RCAN (Residual Channel Attention Network)",
+    "text": "RCAN (Residual Channel Attention Network)\nA deep learning-based method using residual learning and channel attention to improve image restoration tasks. See https://github.com/AiviaCommunity/3D-RCAN for more information.",
     "crumbs": [
       "Glossary"
     ]
@@ -2132,8 +2132,8 @@
     "objectID": "glossary.html#random-forest",
     "href": "glossary.html#random-forest",
     "title": "Glossary",
-    "section": "Random forest",
-    "text": "Random forest\nAn ensemble of decision trees, each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g. in ilastik and Labkit.",
+    "section": "Random Forest",
+    "text": "Random Forest\nAn ensemble of decision trees, each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g. in ilastik and Labkit.",
     "crumbs": [
       "Glossary"
     ]
@@ -2152,8 +2152,8 @@
     "objectID": "glossary.html#real-time-analysis",
     "href": "glossary.html#real-time-analysis",
     "title": "Glossary",
-    "section": "Real-time analysis",
-    "text": "Real-time analysis\nAn approach in which images are processed as the data is acquired. This is in contrast to a-posterior analysis, where the data is acquired before processing.",
+    "section": "Real-time Analysis",
+    "text": "Real-time Analysis\nAn approach in which images are processed as the data is acquired. This is in contrast to a-posterior analysis, where the data is acquired before processing.",
     "crumbs": [
       "Glossary"
     ]
@@ -2182,8 +2182,8 @@
     "objectID": "glossary.html#recurrent-neural-networks-rnns",
     "href": "glossary.html#recurrent-neural-networks-rnns",
     "title": "Glossary",
-    "section": "Recurrent neural networks (RNNs)",
-    "text": "Recurrent neural networks (RNNs)\nNeural network architectures designed to process sequential data by maintaining an internal memory of previous inputs, used to model temporal dependencies.",
+    "section": "Recurrent Neural Networks (RNNs)",
+    "text": "Recurrent Neural Networks (RNNs)\nNeural network architectures designed to process sequential data by maintaining an internal memory of previous inputs, used to model temporal dependencies.",
     "crumbs": [
       "Glossary"
     ]
@@ -2192,8 +2192,8 @@
     "objectID": "glossary.html#region-of-interest-roi",
     "href": "glossary.html#region-of-interest-roi",
     "title": "Glossary",
-    "section": "Region of interest (ROI)",
-    "text": "Region of interest (ROI)\nA defined area within an image or specimen selected for closer analysis, imaging, or targeted intervention.",
+    "section": "Region of Interest (ROI)",
+    "text": "Region of Interest (ROI)\nA defined area within an image or specimen selected for closer analysis, imaging, or targeted intervention.",
     "crumbs": [
       "Glossary"
     ]
@@ -2212,8 +2212,8 @@
     "objectID": "glossary.html#reinforcement-learning",
     "href": "glossary.html#reinforcement-learning",
     "title": "Glossary",
-    "section": "Reinforcement learning",
-    "text": "Reinforcement learning\nIn reinforcement learning, AI agents learn how to make decisions by acting and receiving rewards or penalties for the consequences, adjusting their behavior to collect more reward. No examples of correct behavior are needed.",
+    "section": "Reinforcement Learning",
+    "text": "Reinforcement Learning\nIn reinforcement learning, AI agents learn how to make decisions by acting and receiving rewards or penalties for the consequences, adjusting their behavior to collect more reward. No examples of correct behavior are needed.",
     "crumbs": [
       "Glossary"
     ]
@@ -2232,8 +2232,8 @@
     "objectID": "glossary.html#representation-collapse",
     "href": "glossary.html#representation-collapse",
     "title": "Glossary",
-    "section": "Representation collapse",
-    "text": "Representation collapse\nA failure of self-supervised learning in which the network describes every input with the same, or nearly the same, embedding. This trivially satisfies objectives that only reward agreement between views, but the network learns nothing. Not to be confused with model collapse.",
+    "section": "Representation Collapse",
+    "text": "Representation Collapse\nA failure of self-supervised learning in which the network describes every input with the same, or nearly the same, embedding. This trivially satisfies objectives that only reward agreement between views, but the network learns nothing. Not to be confused with model collapse.",
     "crumbs": [
       "Glossary"
     ]
@@ -2273,7 +2273,7 @@
     "href": "glossary.html#residual-learning",
     "title": "Glossary",
     "section": "Residual Learning",
-    "text": "Residual Learning\nIn conventional architectures, the models ideally learn to map inputs \\(x\\) to the optimized output \\(O\\). Through the implementation of residual connections that adds \\(x\\) to the output. As a result, the network output now becomes \\(O - x\\). In words, the network learns to the difference between the optimial output and the input. This can minimize the effect of large gradients, improve performance, and accelerate training.",
+    "text": "Residual Learning\nIn conventional architectures, the models ideally learn to map inputs \\(x\\) to the optimized output \\(O\\). In residual learning, the implementation of residual connections adds \\(x\\) to the output. As a result, the network output now becomes \\(O - x\\). In words, the network learns the difference between the optimial output and the input. This can minimize the effect of large gradients, improve performance, and accelerate training.",
     "crumbs": [
       "Glossary"
     ]
@@ -2282,8 +2282,8 @@
     "objectID": "glossary.html#resolution-enhancement",
     "href": "glossary.html#resolution-enhancement",
     "title": "Glossary",
-    "section": "Resolution enhancement",
-    "text": "Resolution enhancement\nDeep learning methods that attempt to predict higher resolution images given lower resolution input data.",
+    "section": "Resolution Enhancement",
+    "text": "Resolution Enhancement\nDeep learning methods that attempt to predict higher resolution images given lower resolution input data.",
     "crumbs": [
       "Glossary"
     ]
@@ -2302,8 +2302,8 @@
     "objectID": "glossary.html#segmentation-mask",
     "href": "glossary.html#segmentation-mask",
     "title": "Glossary",
-    "section": "Segmentation mask",
-    "text": "Segmentation mask\nA segmentation mask is an image where each pixel is given a corresponding class. For example, this could be a black and white image where cells are white and the background is black.",
+    "section": "Segmentation Mask",
+    "text": "Segmentation Mask\nA segmentation mask is an image where each pixel is given a corresponding class. For example, this could be a black and white image where cells are white and the background is black.",
     "crumbs": [
       "Glossary"
     ]
@@ -2352,8 +2352,8 @@
     "objectID": "glossary.html#shallow-decision-trees",
     "href": "glossary.html#shallow-decision-trees",
     "title": "Glossary",
-    "section": "Shallow decision trees",
-    "text": "Shallow decision trees\nSimple, low-complexity decision tree models that make classification decisions using only a few splits, often used as building blocks within ensemble methods.",
+    "section": "Shallow Decision Trees",
+    "text": "Shallow Decision Trees\nSimple, low-complexity decision tree models that make classification decisions using only a few splits, often used as building blocks within ensemble methods.",
     "crumbs": [
       "Glossary"
     ]
@@ -2362,8 +2362,8 @@
     "objectID": "glossary.html#shape-descriptors",
     "href": "glossary.html#shape-descriptors",
     "title": "Glossary",
-    "section": "Shape descriptors",
-    "text": "Shape descriptors\nA set of quantitative measurements that characterize the geometric form of an object, such as circularity, elongation, or perimeter.",
+    "section": "Shape Descriptors",
+    "text": "Shape Descriptors\nA set of quantitative measurements that characterize the geometric form of an object, such as circularity, elongation, or perimeter.",
     "crumbs": [
       "Glossary"
     ]
@@ -2372,8 +2372,8 @@
     "objectID": "glossary.html#shortcut-learning",
     "href": "glossary.html#shortcut-learning",
     "title": "Glossary",
-    "section": "Shortcut learning",
-    "text": "Shortcut learning\nShortcut learning occurs when a network learns about superficial or trivial features in the data rather than learning the important underlying concepts. For example, a classifier whose control wells all sit at the edge of a plate may learn to recognize the edge position rather than the phenotype, and networks trained on chest radiographs can pick up which hospital acquired an image.",
+    "section": "Shortcut Learning",
+    "text": "Shortcut Learning\nShortcut learning occurs when a network learns about superficial or trivial features in the data rather than learning the important underlying concepts. For example, a classifier whose control wells all sit at the edge of a plate may learn to recognize the edge position rather than the phenotype, and networks trained on chest radiographs can pick up which hospital acquired an image.",
     "crumbs": [
       "Glossary"
     ]
@@ -2392,8 +2392,8 @@
     "objectID": "glossary.html#signal-to-noise-ratio",
     "href": "glossary.html#signal-to-noise-ratio",
     "title": "Glossary",
-    "section": "Signal-to-noise ratio",
-    "text": "Signal-to-noise ratio\nThe signal-to-noise ratio (SNR) measures the level of the desired signal to the unwanted noise or background. In fluorescence microscopy, this often relates the intensity of the labeled object to the intensity of the image background.",
+    "section": "Signal-to-noise Ratio",
+    "text": "Signal-to-noise Ratio\nThe signal-to-noise ratio (SNR) measures the level of the desired signal to the unwanted noise or background. In fluorescence microscopy, this often relates the intensity of the labeled object to the intensity of the image background.",
     "crumbs": [
       "Glossary"
     ]
@@ -2402,8 +2402,8 @@
     "objectID": "glossary.html#silent-error",
     "href": "glossary.html#silent-error",
     "title": "Glossary",
-    "section": "Silent error",
-    "text": "Silent error\nA silent error occurs when a model outputs the wrong answer or otherwise fails without generating any warning or message.",
+    "section": "Silent Error",
+    "text": "Silent Error\nA silent error occurs when a model outputs the wrong answer or otherwise fails without generating any warning or message.",
     "crumbs": [
       "Glossary"
     ]
@@ -2412,8 +2412,8 @@
     "objectID": "glossary.html#single-shot-detection",
     "href": "glossary.html#single-shot-detection",
     "title": "Glossary",
-    "section": "Single-shot detection",
-    "text": "Single-shot detection\nAn object detection approach in which localization and classification are performed simultaneously in a single pass through the model, rather than through separate sequential stages.",
+    "section": "Single-shot Detection",
+    "text": "Single-shot Detection\nAn object detection approach in which localization and classification are performed simultaneously in a single pass through the model, rather than through separate sequential stages.",
     "crumbs": [
       "Glossary"
     ]
@@ -2442,8 +2442,8 @@
     "objectID": "glossary.html#smart-microscopy",
     "href": "glossary.html#smart-microscopy",
     "title": "Glossary",
-    "section": "Smart microscopy",
-    "text": "Smart microscopy\nAn imaging approach in which acquisition parameters are automatically adjusted based on features or events recognized in the data, rather than relying solely on manual operator control.",
+    "section": "Smart Microscopy",
+    "text": "Smart Microscopy\nAn imaging approach in which acquisition parameters are automatically adjusted based on features or events recognized in the data, rather than relying solely on manual operator control.",
     "crumbs": [
       "Glossary"
     ]
@@ -2493,7 +2493,7 @@
     "href": "glossary.html#structural-similarity-index-ssim",
     "title": "Glossary",
     "section": "Structural Similarity Index (SSIM)",
-    "text": "Structural Similarity Index (SSIM)\nThe structural similarity index measure (SSIM) is a metric which measures the similarity between two images. It attempts to improve upon MSE by taking image texture into account. It is calculated using the following formula.\n\\[\\text{SSIM} ( x , y ) = \\frac{( 2 \\mu_{x} \\mu_{y} + c_{1}) ( 2 \\sigma_{xy} + c_{2})}{( \\mu^{2}_{x} \\mu^{2}_{y} + c_{1} ) ( \\sigma^{2}_{x} \\sigma^{2}_{y} + c_{2} ) }\\]\nwhere \\(x , y\\) are two images, \\(\\mu\\) is the average intensity, \\(\\sigma\\) is the variance of the intensity, and \\(c_{1} , c_{2}\\) are variables determined by the dynamic range of the image (\\(c_{i} = ( k_{i} L )^{2}\\) for \\(k_{1} = 0.01 , k_{2} = 0.03\\)).",
+    "text": "Structural Similarity Index (SSIM)\nThe structural similarity index measure (SSIM) is a metric which measures the similarity between two images. It attempts to improve upon MSE by taking image texture into account. It is calculated using the following formula.\n\\[\\text{SSIM} ( x , y ) = \\frac{( 2 \\mu_{x} \\mu_{y} + c_{1}) ( 2 \\sigma_{xy} + c_{2})}{( \\mu^{2}_{x} + \\mu^{2}_{y} + c_{1} ) ( \\sigma^{2}_{x} + \\sigma^{2}_{y} + c_{2} ) }\\]\nwhere \\(x , y\\) are two images, \\(\\mu\\) is the average intensity, \\(\\sigma\\) is the variance of the intensity, and \\(c_{1} , c_{2}\\) are variables determined by the dynamic range of the image (\\(c_{i} = ( k_{i} L )^{2}\\) for \\(k_{1} = 0.01 , k_{2} = 0.03\\)).",
     "crumbs": [
       "Glossary"
     ]
@@ -2502,8 +2502,8 @@
     "objectID": "glossary.html#supervised-learning",
     "href": "glossary.html#supervised-learning",
     "title": "Glossary",
-    "section": "Supervised learning",
-    "text": "Supervised learning\nA form of machine learning in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a class, a position, a mask, or another image.",
+    "section": "Supervised Learning",
+    "text": "Supervised Learning\nA form of machine learning in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a class, a position, a mask, or another image.",
     "crumbs": [
       "Glossary"
     ]
@@ -2512,8 +2512,8 @@
     "objectID": "glossary.html#support-vector-machine-svm",
     "href": "glossary.html#support-vector-machine-svm",
     "title": "Glossary",
-    "section": "Support vector machine (SVM)",
-    "text": "Support vector machine (SVM)\nA supervised machine-learning algorithm that learns the decision boundary that best separates data points of different classes by maximizing the margin between them.",
+    "section": "Support Vector Machine (SVM)",
+    "text": "Support Vector Machine (SVM)\nA supervised machine-learning algorithm that learns the decision boundary that best separates data points of different classes by maximizing the margin between them.",
     "crumbs": [
       "Glossary"
     ]
@@ -2672,8 +2672,8 @@
     "objectID": "glossary.html#unsupervised-learning",
     "href": "glossary.html#unsupervised-learning",
     "title": "Glossary",
-    "section": "Unsupervised learning",
-    "text": "Unsupervised learning\nUnsupervised learning is a type of machine learning in which the machine works only with the raw, unlabeled data. It uses algorithms to find structure or patterns in the data without user guidance or predetermined categories.",
+    "section": "Unsupervised Learning",
+    "text": "Unsupervised Learning\nUnsupervised learning is a type of machine learning in which the machine works only with the raw, unlabeled data. It uses algorithms to find structure or patterns in the data without user guidance or predetermined categories.",
     "crumbs": [
       "Glossary"
     ]
