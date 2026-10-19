@@ -282,7 +282,7 @@ Regularization  : |
   Regularization adds a penalty term to the loss function to prevent overfitting. This term discourages overly complex models.
 
 Activations : |
-  The values of elements in [neural network units](glossary.qmd#neural-network-unit), often specifically the values of the output of an [activation function](glossary.yml#activation-function).
+  The values of elements in [neural network units](glossary.qmd#neural-network-unit), often specifically the values of the output of an [activation function](glossary.qmd#activation-function).
 
 Channels : |
   In natural color images, there are often three channels (red, green, and blue). In microscopy images, the number of channels can refer to the number of fluorescent labels or image settings used while imaging. The term is used similarly in neural networks, where channels refers to the number of layers in an image. These channels can come from convolutional operations, leading to images with hundreds of channels corresponding to each filter used.
@@ -351,7 +351,7 @@ General Agency : |
   General agency gives AI agents access to broad capabilities --- a terminal, a file system, APIs, analysis libraries --- and lets them determine the right sequence of actions for each task. Rather than pre-scripting workflows, the agent receives a goal ("segment and count the nuclei in this dataset") and works out what tools to use, in what order, handling errors as they arise.
 
 Coding Agent : |
-  Coding agents are [AI](glossary.qmd#artificial-intelligence) systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier [LLM](glossary.qmd#large-language-model) assistants that could only suggest code snippets.
+  Coding agents are [AI](glossary.qmd#artificial-intelligence) systems that operate directly in development environments with access to terminals, file systems, and web browsers. These agents go well beyond earlier [LLM](glossary.qmd#large-language-model-llm) assistants that could only suggest code snippets.
 
 Skills Atrophy : |
   Skills atrophy is the decrease or loss of human expertise due to underuse. In this context, skills atrophy could be caused by an over-reliance on AI tools. This gradual erosion of the community's ability would decrease the field's ability to evaluate AI outputs.
@@ -383,7 +383,7 @@ Hausdorff Distance : |
 
 Average Precision : |
   Average Precision (AP) summarizes the precision-recall trade-off across confidence thresholds.
-  A predicted instance counts as a [true positive](glossary.qmd#true-positives) only if its [IoU](glossary.qmd#IoU) with a [ground-truth](glossary.qmd#ground-truth) instance exceeds a threshold $x$:
+  A predicted instance counts as a [true positive](glossary.qmd#true-positives) only if its [IoU](glossary.qmd#iou) with a [ground-truth](glossary.qmd#ground-truth) instance exceeds a threshold $x$:
 
   $$\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k$$
 
