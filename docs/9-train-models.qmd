@@ -43,8 +43,6 @@ subtitle: Practical considerations through the lens of segmentation
 ---
 
 # How to Train and Use Deep Learning Models in Microscopy {#sec-9}
-<!--Your first header will be the chapter's upper-level table of contents title.-->
-<!--If you'd like to have a subtitle, include it in the Quarto header above -->
 
 ::: {.content-visible when-format="pdf"}
 | **Joanna W. Pylvänäinen, Iván Hidalgo-Cenalmor, & Guillaume Jacquemet**
@@ -443,82 +441,3 @@ The decision to use DL should be driven by the complexity of the task, the avail
 Notably, the landscape of DL segmentation is rapidly evolving. The emergence of foundation models, which are large, versatile networks pre-trained on vast and diverse datasets, promises to further lower the barriers to entry [@Archit2025]. These models enable transfer learning, fine-tuning, and even zero-shot segmentation, where accurate predictions can be made on previously unseen data with minimal or no task-specific training. This shift opens exciting new avenues for researchers who previously lacked the resources or expertise to apply DL in their work.
 
 The ongoing development and democratization of DL tools, along with enhancements in model generalizability, human-in-the-loop workflows, and reproducibility, are changing how microscopy data is analyzed. Still, the key to successful segmentation will always involve careful planning, quality control, and selecting the right tool for the task, whether it involves DL or not.
-
-<!-- 
-## References {#sec-9.6}
-
-   [**Ahlers, J., Althviz Moré, D., Amsalem, O., Anderson, A., Bokota, G., Boone, P., Bragantini, J., Buckley, G., Burt, A., Bussonnier, M., et al.** (2023). napari: a multi-dimensional image viewer for Python.]
-
-   [**Archit, A., Freckmann, L., Nair, S., Khalid, N., Hilt, P., Rajashekar, V., Freitag, M., Teuber, C., Buckley, G., von Haaren, S., et al.** (2025). Segment Anything for Microscopy. *Nat Methods* **22**, 579–591.]
-
-   [**Arganda-Carreras, I., Kaynig, V., Rueden, C., Eliceiri, K. W., Schindelin, J., Cardona, A. and Sebastian Seung, H.** (2017). Trainable Weka Segmentation: a machine learning tool for microscopy pixel classification. *Bioinformatics* **33**, 2424–2426.]
-
-   [**Arzt, M., Deschamps, J., Schmied, C., Pietzsch, T., Schmidt, D., Tomancak, P., Haase, R. and Jug, F.** (2022). LABKIT: Labeling and Segmentation Toolkit for Big Image Data. *Frontiers in Computer Science* **4**,.]
-
-   [**Bankhead, P., Loughrey, M. B., Fernández, J. A., Dombrowski, Y., McArt, D. G., Dunne, P. D., McQuaid, S., Gray, R. T., Murray, L. J., Coleman, H. G., et al.** (2017). QuPath: Open source software for digital pathology image analysis. *Sci Rep* **7**, 16878\.]
-
-   [**Bannon, D., Moen, E., Schwartz, M., Borba, E., Kudo, T., Greenwald, N., Vijayakumar, V., Chang, B., Pao, E., Osterman, E., et al.** (2021). DeepCell Kiosk: scaling deep learning–enabled cellular image analysis with Kubernetes. *Nat Methods* **18**, 43–45.]
-
-   [**Bejarano, L., Kauzlaric, A., Lamprou, E., Lourenco, J., Fournier, N., Ballabio, M., Colotti, R., Maas, R., Galland, S., Massara, M., et al.** (2024). Interrogation of endothelial and mural cells in brain metastasis reveals key immune-regulatory mechanisms. *Cancer Cell* **42**, 378-395.e10.]
-
-   [**Berg, S., Kutra, D., Kroeger, T., Straehle, C. N., Kausler, B. X., Haubold, C., Schiegg, M., Ales, J., Beier, T., Rudy, M., et al.** (2019). ilastik: interactive machine learning for (bio)image analysis. *Nat Methods* **16**, 1226–1232.]
-
-   [**Caicedo, J. C., McQuin, C., Goodman, A., Singh, S. and Carpenter, A. E.** (2018). Weakly Supervised Learning of Single-Cell Feature Embeddings. In *2018 IEEE/CVF Conference on Computer Vision and Pattern Recognition*, pp. 9309–9318.]
-
-   [**Cardoso, M. J., Li, W., Brown, R., Ma, N., Kerfoot, E., Wang, Y., Murrey, B., Myronenko, A., Zhao, C., Yang, D., et al.** (2022). MONAI: An open-source framework for deep learning in healthcare.]
-
-   [**Chen, J., Ding, L., Viana, M. P., Lee, H., Sluezwski, M. F., Morris, B., Hendershott, M. C., Yang, R., Mueller, I. A. and Rafelski, S. M.** (2020). The Allen Cell and Structure Segmenter: a new open source toolkit for segmenting 3D intracellular structures in fluorescence microscopy images. 491035\.]
-
-   [**Conrad, R. and Narayan, K.** (2023). Instance segmentation of mitochondria in electron microscopy images with a generalist deep learning model trained on a diverse dataset. *Cell Systems* **14**, 58-71.e5.](https://www.
-
-   [**Fazeli, E., Roy, N. H., Follain, G., Laine, R. F., von Chamier, L., Hänninen, P. E., Eriksson, J. E., Tinevez, J.-Y. and Jacquemet, G.** (2020). Automated cell tracking using StarDist and TrackMate. *F1000Res* **9**, 1279\.]
-
-   [**Fisch, D., Zhang, T., Sun, H., Ma, W., Tan, Y., Gygi, S. P., Higgins, D. E. and Kagan, J. C.** (2024). Molecular definition of the endogenous Toll-like receptor signalling pathways. *Nature* **631**, 635–644.]
-
-   [**Follain, G., Ghimire, S., Pylvänäinen, J. W., Vaitkevičiūtė, M., Wurzinger, D., Guzmán, C., Conway, J. R., Dibus, M., Oikari, S., Rilla, K., et al.** (2024). Fast label-free live imaging reveals key roles of flow dynamics and CD44-HA interaction in cancer cell arrest on endothelial monolayers. 2024.09.30.615654.]
-
-   [**Heinrich, L., Bennett, D., Ackerman, D., Park, W., Bogovic, J., Eckstein, N., Petruncio, A., Clements, J., Pang, S., Xu, C. S., et al.** (2021). Whole-cell organelle segmentation in volume electron microscopy. *Nature* **599**, 141–146.]
-
-   [**Hidalgo-Cenalmor, I., Pylvänäinen, J. W., G. Ferreira, M., Russell, C. T., Saguy, A., Arganda-Carreras, I., Shechtman, Y., AI4Life Horizon Europe Program Consortium, Muñoz-Barrutia, A., Serrano-Solano, B., et al.** (2024). DL4MicEverywhere: deep learning for microscopy made flexible, shareable and reproducible. *Nat Methods*.]
-
-   [**Kochetov, B., Bell, P. D., Garcia, P. S., Shalaby, A. S., Raphael, R., Raymond, B., Leibowitz, B. J., Schoedel, K., Brand, R. M., Brand, R. E., et al.** (2024). UNSEG: unsupervised segmentation of cells and their nuclei in complex tissue samples. *Commun Biol* **7**, 1–14.]
-
-   [**Krizhevsky, A., Sutskever, I. and Hinton, G. E.** (2012). ImageNet Classification with Deep Convolutional Neural Networks. In *Advances in Neural Information Processing Systems*, p. Curran Associates, Inc.]
-
-   [**Laine, R. F., Arganda-Carreras, I., Henriques, R. and Jacquemet, G.** (2021). Avoiding a replication crisis in deep-learning-based bioimage analysis. *Nat Methods* **18**, 1136–1144.]
-
-   [**Lecun, Y., Bottou, L., Bengio, Y. and Haffner, P.** (1998). Gradient-based learning applied to document recognition. *Proceedings of the IEEE* **86**, 2278–2324.]
-
-   [**Li, Y. and Shen, L.** (2018). cC-GAN: A Robust Transfer-Learning Framework for HEp-2 Specimen Image Segmentation. *IEEE Access* **6**, 14048–14058.]
-
-   [**Lin, B., Emami, N., Santos, D. A., Luo, Y., Banerjee, S. and Xu, B.-X.** (2022). A deep learned nanowire segmentation model using synthetic data augmentation. *npj Comput Mater* **8**, 1–12.]
-
-   [**Liu, B., Polack, M., Coudray, N., Claudio Quiros, A., Sakellaropoulos, T., Le, H., Karimkhan, A., Crobach, A. S. L. P., van Krieken, J. H. J. M., Yuan, K., et al.** (2025). Self-supervised learning reveals clinically relevant histomorphological patterns for therapeutic strategies in colon cancer. *Nat Commun* **16**, 2328\.]
-
-   [**Moen, E., Bannon, D., Kudo, T., Graf, W., Covert, M. and Van Valen, D.** (2019). Deep learning for cellular image analysis. *Nature Methods* **16**, 1233–1246.]
-
-   [**Morid, M. A., Borjali, A. and Del Fiol, G.** (2021). A scoping review of transfer learning research on medical image analysis using ImageNet. *Computers in Biology and Medicine* **128**, 104115\.]
-
-   [**Moshkov, N., Bornholdt, M., Benoit, S., Smith, M., McQuin, C., Goodman, A., Senft, R. A., Han, Y., Babadi, M., Horvath, P., et al.** (2024). Learning representations for image-based profiling of perturbations. *Nat Commun* **15**, 1594\.]
-
-   [**Ouyang, W., Beuttenmueller, F., Gómez-de-Mariscal, E., Pape, C., Burke, T., Garcia-López-de-Haro, C., Russell, C., Moya-Sans, L., de-la-Torre-Gutiérrez, C., Schmidt, D., et al.** (2022). BioImage Model Zoo: A Community-Driven Resource for Accessible Deep Learning in BioImage Analysis. 2022.06.07.495102.]
-
-   [**Pachitariu, M. and Stringer, C.** (2022). Cellpose 2.0: how to train your own model. *Nat Methods* 1–8.]
-
-   [**Pylvänäinen, J. W., Gómez-de-Mariscal, E., Henriques, R. and Jacquemet, G.** (2023). Live-cell imaging in the deep learning era. *Current Opinion in Cell Biology* **85**, 102271\.]
-
-   [**Rangel DaCosta, L., Sytwu, K., Groschner, C. K. and Scott, M. C.** (2024). A robust synthetic data generation framework for machine learning in high-resolution transmission electron microscopy (HRTEM). *npj Comput Mater* **10**, 1–11.]
-
-   [**Ronneberger, O., Fischer, P. and Brox, T.** (2015). U-Net: Convolutional Networks for Biomedical Image Segmentation.]
-
-   [**Russell, C. T., Burel, J.-M., Athar, A., Li, S., Sarkans, U., Swedlow, J., Brazma, A., Hartley, M. and Uhlmann, V.** (2024). bia-binder: A web-native cloud compute service for the bioimage analysis community.]
-
-   [**Schindelin, J., Arganda-Carreras, I., Frise, E., Kaynig, V., Longair, M., Pietzsch, T., Preibisch, S., Rueden, C., Saalfeld, S., Schmid, B., et al.** (2012). Fiji: an open-source platform for biological-image analysis. *Nature Methods* **9**, 676–682.]
-
-   [**Schmidt, U., Weigert, M., Broaddus, C. and Myers, G.** (2018). Cell Detection with Star-Convex Polygons. In *Medical Image Computing and Computer Assisted Intervention – MICCAI 2018* (ed. Frangi, A. F.), Schnabel, J. A.), Davatzikos, C.), Alberola-López, C.), and Fichtinger, G.), pp. 265–273. Cham: Springer International Publishing.]
-
-   [**Shorten, C. and Khoshgoftaar, T. M.** (2019). A survey on Image Data Augmentation for Deep Learning. *Journal of Big Data* **6**, 60\.]
-
-   [**Stringer, C., Wang, T., Michaelos, M. and Pachitariu, M.** (2021). Cellpose: a generalist algorithm for cellular segmentation. *Nat Methods* **18**, 100–106.]
-
-   [**von Chamier, L., Laine, R. F., Jukkala, J., Spahn, C., Krentzel, D., Nehme, E., Lerche, M., Hernández-Pérez, S., Mattila, P. K., Karinou, E., et al.** (2021). Democratising deep learning for microscopy with ZeroCostDL4Mic. *Nature Communications* **12**, 2276\.] -->

@@ -35,5 +35,3 @@ The source code for this textbook is available on [GitHub](https://github.com/ai
 
 ### AI Disclosure {.unnumbered}
 Anthropic's Claude (Sonnet 5 and Sonnet 5.5) assisted in identifying broken links, proof reading, and developing formatting solutions for this book. All content was reviewed, revised, and verified by the human editors and authors, who take full responsibility for the final text.
-
-<!-- - How to cite the book. -->
