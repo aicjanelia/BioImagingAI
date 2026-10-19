@@ -2971,6 +2971,25 @@ computer</a>. <em>Nature Biotechnology</em> <strong>44</strong>, 493–494
   </div>
 </nav>
 </div> <!-- /content -->
+<script>
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a.quarto-xref');
+  if (!a) return;
+  const href = a.getAttribute('data-original-href') || a.getAttribute('href') || '';
+  const i = href.indexOf('#');
+  if (i < 0) return;
+  const norm = p => p.replace(/(index)?\.html$/, '').replace(/\/$/, '');
+  const path = href.slice(0, i);
+  if (path && norm(new URL(path, location.href).pathname) !== norm(location.pathname)) return;
+  const id = decodeURIComponent(href.slice(i + 1));
+  const el = [...document.querySelectorAll('[id="' + CSS.escape(id) + '"]')]
+    .find(n => !n.closest('[data-tippy-root]'));
+  if (!el) return;
+  e.preventDefault();
+  history.pushState(null, '', '#' + id);
+  el.scrollIntoView();
+}, true);
+</script>
 
 
 

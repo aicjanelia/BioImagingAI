@@ -579,19 +579,12 @@ window.Quarto = {
 </header>
 
 
-<!-- Starting prompt for this chapter: Chapter 10 addresses how to assess the quality of a model’s output, mentioning Metrics Reloaded. This chapter should address the question: how do I know my model is good enough? It should frame this discussion using the example of a segmentation model and discuss how tools can identify uncertain decisions from a model.
-
-* why do we need metrics? to pick models from different training iterations
-  (avoid overfitting) and to select models with different hyperparameters
-* mention train/validate/test, discuss the need for "ground truth" data, can callback to chapter 5 -->
 <p>You have trained a model. How do you know if it is any good? A model that looks convincing on a handful of images can quietly fail on the rest of your dataset, and a model that scores well on one measure of quality can perform poorly on another. Choosing the right way to measure quality is therefore just as important as the training itself.</p>
 <p>In this chapter we will look at how metrics and losses differ, how to pick measures that actually reflect your scientific goal, and how to use held-out test data to get an honest estimate of how your model will behave on new images. We will focus on <em>segmentation</em> and <em>cell tracking</em> as concrete examples, but the principles apply broadly.</p>
 <section id="metrics-and-losses" class="level2" data-number="10.1">
 <h2 data-number="10.1" class="anchored" data-anchor-id="metrics-and-losses"><span class="header-section-number">10.1</span> Metrics and Losses</h2>
 <p>In <a href="9-train-models.html" class="quarto-xref"><span>Chapter 9</span></a>, you learned how to train a machine learning model. Recall that this requires selecting a <a href="./glossary.html#loss-function">loss function</a>: a function that represents how far the model’s output is from your desired <a href="./glossary.html#ground-truth">ground truth</a>. As training relies on <a href="./glossary.html#gradient-descent">gradient descent</a>, the loss must be <a href="./glossary.html#differentiable">differentiable</a>; the algorithm needs the slope of the loss with respect to every parameter to know which direction to step. The model’s parameters are optimized to minimize the loss on a <a href="./glossary.html#training-data">training dataset</a>, and you evaluate the same loss on a held-out <a href="./glossary.html#validation-data">validation dataset</a> to get an idea of how well your model would perform on new data.</p>
 <p>Once you’ve trained a model, or potentially several, evaluating a diverse set of metrics on testing data allows you to get a better picture of the quality of the model. A <a href="./glossary.html#quality-control-metric">metric</a> is any function that scores your predictions. Unlike a loss, it does not have to be differentiable because it is not used for optimization. This means that you can get more specific about how you evaluate the quality of your model output, as we’ll see below.</p>
-<!-- For example, look at the segmentation outputs in @fig-segmentations.
-At first glance, it is difficult to judge which of these is the most appropriate. -->
 <p>Consider the case of nuclear segmentation. Suppose you have fluorescently labeled nuclei, as in (<a href="#fig-image" class="quarto-xref">Figure&nbsp;<span>10.1</span></a>), that you want to segment for downstream analysis. Two standard losses for this task are <a href="./glossary.html#binary-cross-entropy">binary cross-entropy (BCE)</a> and <a href="./glossary.html#mean-squared-error">mean squared error (MSE)</a>. These functions are often optimized for the task of <a href="./glossary.html#semantic-segmentation">semantic segmentation</a>, separating foreground from background. While both of these are differentiable functions, they have very different pros and cons when it comes to training a model.</p>
 <div id="cell-fig-image" class="cell" data-execution_count="2">
 <details class="code-fold">
@@ -774,7 +767,7 @@ Note
 <p>The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.</p>
 </div>
 </div>
-<div id="9baba81c" class="cell" data-execution_count="4">
+<div id="b6cc3563" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -856,7 +849,7 @@ Note
 <p>A predicted instance is a true positive (TP) if it sufficiently overlaps a ground-truth instance (e.g., IoU <span class="math inline">\(\geq 0.5\)</span>), a false positive (FP) if it has no matching ground truth, and a false negative (FN) if a ground-truth instance was never detected.</p>
 <p><span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}} \qquad \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}\]</span> <span class="math display">\[ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}\]</span></p>
 <p>Precision answers “of all predicted instances, how many were correct?”; recall answers “of all real instances, how many were found?”; F1 is their harmonic mean.</p>
-<div id="3a3ad0b0" class="cell" data-execution_count="5">
+<div id="f276f873" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -943,7 +936,7 @@ Note
 <p>The <a href="./glossary.html#hausdorff-distance">Hausdorff distance</a> measures how far apart two sets of boundary points are at their worst-case point. For boundary point sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>:</p>
 <p><span class="math display">\[d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)\]</span></p>
 <p>A small Hausdorff distance means every point on one boundary has a close counterpart on the other.</p>
-<div id="556a8166" class="cell" data-execution_count="6">
+<div id="591363ae" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1024,7 +1017,7 @@ Note
 <p><a href="./glossary.html#average-precision">Average Precision (AP)</a> summarizes the precision–recall trade-off across confidence thresholds. A predicted instance counts as a true positive only if its IoU with a ground-truth instance meets or exceeds a threshold <span class="math inline">\(x\)</span>:</p>
 <p><span class="math display">\[\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k\]</span></p>
 <p>where <span class="math inline">\(P_k\)</span> and <span class="math inline">\(R_k\)</span> are precision and recall at the <span class="math inline">\(k\)</span>-th confidence threshold after matching predictions to ground truth at IoU <span class="math inline">\(\geq x\)</span>. Higher <span class="math inline">\(x\)</span> demands more precise localization.</p>
-<div id="8195d8ad" class="cell" data-execution_count="7">
+<div id="d5059218" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1090,7 +1083,6 @@ Tip
 <section id="sec-cell-tracking-metrics" class="level3" data-number="10.2.1">
 <h3 data-number="10.2.1" class="anchored" data-anchor-id="sec-cell-tracking-metrics"><span class="header-section-number">10.2.1</span> Cell Tracking Metrics</h3>
 <p>Cell tracking is typically approached as a multi-stage task. The first stage is detection: cells in each frame of the time series are identified using <a href="./glossary.html#centroid-coordinate">point detections</a>, <a href="./glossary.html#bounding-region">bounding boxes</a>, or <a href="./glossary.html#binary-segmentation">segmentation masks</a>. In the second stage, cells are connected between frames. For the purposes of evaluation, it is helpful to consider a tracking solution as a graph where each cell in a timepoint is a node and edges connect the cells (or nodes) across frames (<a href="#fig-tracking-graph" class="quarto-xref">Figure&nbsp;<span>10.3</span></a>). A cell dividing into two daughters appears as a node with two outgoing edges, so a tracking solution is naturally represented as a set of lineage trees. Metrics that evaluate tracking solutions can consider both the performance of the detection phase (the nodes) and the performance of the linking (the edges).</p>
-<!-- Intro to tracking figure -->
 <div id="cell-fig-tracking-graph" class="cell" data-execution_count="8">
 <div class="cell-output cell-output-display">
 <div id="fig-tracking-graph" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1106,7 +1098,6 @@ Figure&nbsp;10.3: Cell tracking represented as a graph. (Top) Segmentation masks
 </div>
 </div>
 <p>With this framework, we can consider some of the common errors that appear in tracking solutions. <a href="#fig-track-errors" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>a illustrates basic node errors of a false positive detection (shown in red) and a missing detection (blue). The missing node also leads to two missing edges. Often in biology when we are interested in cell tracking, there is a particular value placed on the detection of cell divisions so that cell lineages can be reconstructed over several rounds of divisions. As such, we need to consider the specific types of errors that occur involving cell divisions. <a href="#fig-track-errors" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>b illustrates a missing edge that results in a missed division detection. <a href="#fig-track-errors" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>c instead shows a case where a division is detected, but one daughter is incorrectly assigned to the division, leading to an incorrect lineage tree. Finally, <a href="#fig-track-errors" class="quarto-xref">Figure&nbsp;<span>10.4</span></a>d illustrates an identity switch where edges are incorrectly assigned in a single frame leading to a swap of lineage identity.</p>
-<!-- Tracking error types -->
 <div id="cell-fig-track-errors" class="cell" data-execution_count="9">
 <div class="cell-output cell-output-display">
 <div id="fig-track-errors" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1153,8 +1144,7 @@ Figure&nbsp;10.4: Common types of tracking errors. (a) This example prediction d
 <p><a href="#fig-sparse-edges" class="quarto-xref">Figure&nbsp;<span>10.5</span></a> illustrates three tracking failure modes and the metric scores for each solution. As the discussion below shows, solutions that fail in very different ways can end up with similar overall scores, and the two unified metrics can even disagree with each other about which solution is preferable.</p>
 <p>Consider the three failure modes in <a href="#fig-sparse-edges" class="quarto-xref">Figure&nbsp;<span>10.5</span></a>. The two unified metrics produce very different rankings of solutions. The TRA score ranks no divisions (0.957) similarly to sparse edges (0.947), and far above missing nodes (0.732). In contrast, while all solutions score relatively low on CHOTA, the missing-node solution ranks highest (0.560), followed by no divisions (0.333) and sparse edges (0.297). Because TRA and CHOTA weight node, edge, and lineage errors differently, two established “single number” metrics can disagree about which solution is preferable. Neither score reveals whether the underlying problem is due to missed detections, broken links, or failure to find divisions. To identify the specific failure modes, we need to examine metrics for nodes, edges, and divisions separately.</p>
 <p>The per-component metrics reveal the distinct failure mode in each solution. The missing node solution (b) has the lowest node F1 (0.858) of the three because a quarter of detections are dropped; since each dropped node also severs the edges that pass through it, this single error mode depresses edge F1 (0.798) and division F1 (0.399) as well. The sparse-edge (c) and no-division (d) solutions both keep every detection (node F1 = 1.000) and lose the same fraction of edges (edge F1 = 0.800), yet they are far from equivalent: the sparse-edge solution still recovers roughly half of the true divisions (division F1 = 0.505) because the deleted edges are scattered at random, while the no-division solution deterministically removes every division edge, so no division is ever proposed and division F1 is undefined.</p>
-<!-- Generate lineage trees with regular divisions -->
-<div id="09b0b6c0" class="cell" data-execution_count="10">
+<div id="d1dfed46" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show code to generate a set of lineage trees with regular divisions</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
@@ -1246,9 +1236,7 @@ Figure&nbsp;10.4: Common types of tracking errors. (a) This example prediction d
 <span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>gt <span class="op">=</span> build_lineage_tree(n_starting_nodes<span class="op">=</span><span class="dv">10</span>, n_frames<span class="op">=</span><span class="dv">30</span>, division_every<span class="op">=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<!-- Plotting utilities -->
-<!-- Metric computation -->
-<div id="37b4a6bc" class="cell" data-execution_count="12">
+<div id="a8e422b1" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show code to compute metrics on tracking solutions using <a href="https://github.com/live-image-tracking-tools/traccuracy"><code>traccuracy</code></a></summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> traccuracy.matchers <span class="im">import</span> Matched</span>
@@ -1273,7 +1261,6 @@ Figure&nbsp;10.4: Common types of tracking errors. (a) This example prediction d
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> results</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<!-- Solution figure -->
 <div id="cell-fig-sparse-edges" class="cell" data-execution_count="13">
 <div class="cell-output cell-output-display">
 <div id="fig-sparse-edges" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -1352,8 +1339,6 @@ Table&nbsp;10.1: <strong>A comparison of stages of model evaluation.</strong> Th
 </div>
 </figure>
 </div>
-<!-- Splitting your training data: training, validation, and test sets {#sec-9.3.5.1} -->
-<!-- monitoring training and val losses #sec-9.3.5.4 -->
 <p>Biological data varies from experiment to experiment, however, and whether the model will be robust to these variations remains something of an open question. In the ideal case, we would like the models to be able to output a level of certainty along with the predicted segmentations or tracks. Unfortunately, uncertainty estimation remains an unsolved problem; methods such as test-time augmentation<span class="citation" data-cites="moshkov2020test wang2019aleatoric"><sup><a href="references.html#ref-moshkov2020test" role="doc-biblioref">5</a>,<a href="references.html#ref-wang2019aleatoric" role="doc-biblioref">6</a></sup></span> can give you an estimate if you have a good model of your data’s sources of noise.</p>
 <div id="note-tta" class="callout callout-style-simple callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="true" aria-label="Toggle callout">
@@ -1837,6 +1822,25 @@ Table&nbsp;10.1: <strong>A comparison of stages of model evaluation.</strong> Th
   </div>
 </nav>
 </div> <!-- /content -->
+<script>
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a.quarto-xref');
+  if (!a) return;
+  const href = a.getAttribute('data-original-href') || a.getAttribute('href') || '';
+  const i = href.indexOf('#');
+  if (i < 0) return;
+  const norm = p => p.replace(/(index)?\.html$/, '').replace(/\/$/, '');
+  const path = href.slice(0, i);
+  if (path && norm(new URL(path, location.href).pathname) !== norm(location.pathname)) return;
+  const id = decodeURIComponent(href.slice(i + 1));
+  const el = [...document.querySelectorAll('[id="' + CSS.escape(id) + '"]')]
+    .find(n => !n.closest('[data-tippy-root]'));
+  if (!el) return;
+  e.preventDefault();
+  history.pushState(null, '', '#' + id);
+  el.scrollIntoView();
+}, true);
+</script>
 
 
 

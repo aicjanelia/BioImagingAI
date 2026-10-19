@@ -519,9 +519,6 @@ Figure&nbsp;1.1: <strong>AI impacts every aspect of the microscopy workflow.</st
 <p>The second section focuses on extending microscopy hardware with AI. To render a microscope “smart”, i.e., for it to perform an experiment with minimal or no human intervention, ML software first needs to be trained on extensive and high-quality training data. The collection and design of training data will be covered in <a href="5-training-data.html">Chapter 5</a>. <a href="6-image-restoration.html">Chapter 6</a> will discuss the implementation of AI and ML to enhance the capabilities of existing microscopes through resolution improvement and denoising. Likewise, AI and ML models can be designed to control event-driven image acquisition to visualize biological events that are rare and/or photosensitive (<a href="7-smart-microscopy.html">Chapter 7</a>).</p>
 <p>The third and final section will address the use of AI and ML to process and analyze microscopy data in order to extract biological information beyond what is achievable through human observation alone. <a href="8-existing-tools.html">Chapter 8</a> will focus on helping readers find and use available open-source tools. When those existing tools are still insufficient, <a href="9-train-models.html">Chapter 9</a> seeks to further widen the horizon by discussing the process of training new models for specific image processing and analysis tasks. Finally, <a href="10-output-quality.html">Chapter 10</a> will address the question of “when is my model performing well enough?”. This important step pinpoints potential weaknesses of any model, thereby placing results in meaningful context.</p>
 <p>We conclude with <a href="11-outlook.html">Chapter 11</a>, which summarizes the core concepts and aims to inspire readers to begin taking full advantage of the promise of the new era of AI and ML. To close the loop, we also hope that by equipping readers with the <a href="glossary.html">proper vocabulary</a>, the book will facilitate more effective communication between biologists and AI tool developers.</p>
-<!-- ## Potential Additions
-
-Topics suggested during the authors' meetings: Discuss that AI is not always solution and talk about when it is actually useful. Discuss that there are many types of microscopy images and each will have their own AI considerations (e.g., imaging modality, 2D vs 3D, static vs time lapse). -->
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="0" data-line-spacing="2" role="list" style="display: none">
@@ -971,6 +968,25 @@ Topics suggested during the authors' meetings: Discuss that AI is not always sol
   </div>
 </nav>
 </div> <!-- /content -->
+<script>
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a.quarto-xref');
+  if (!a) return;
+  const href = a.getAttribute('data-original-href') || a.getAttribute('href') || '';
+  const i = href.indexOf('#');
+  if (i < 0) return;
+  const norm = p => p.replace(/(index)?\.html$/, '').replace(/\/$/, '');
+  const path = href.slice(0, i);
+  if (path && norm(new URL(path, location.href).pathname) !== norm(location.pathname)) return;
+  const id = decodeURIComponent(href.slice(i + 1));
+  const el = [...document.querySelectorAll('[id="' + CSS.escape(id) + '"]')]
+    .find(n => !n.closest('[data-tippy-root]'));
+  if (!el) return;
+  e.preventDefault();
+  history.pushState(null, '', '#' + id);
+  el.scrollIntoView();
+}, true);
+</script>
 
 
 
