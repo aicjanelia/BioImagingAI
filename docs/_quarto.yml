@@ -2,6 +2,7 @@ project:
   type: book
   resources:
   - CNAME
+  post-render: python fix_search.py
 
 book:
   title: "AI in Microscopy: A BioImaging Guide"
@@ -38,7 +39,7 @@ book:
     - references.qmd
   appendices:
     - 6-image-restoration-appendix.qmd
-
+    
 bibliography: references.bib
 csl: settings/nature.csl
 
