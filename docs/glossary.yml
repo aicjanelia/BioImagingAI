@@ -11,16 +11,16 @@ Test Data: |
   Data held out from both the [training data](glossary.qmd#training-data) and [validation data](glossary.qmd#validation-data), used only after training is complete to give an unbiased estimate of how a model will perform on new, unseen data. Because it plays no role in training or [hyperparameter](glossary.qmd#hyperparameters) tuning, test data should only be used once a model is finalized.
 
 False Positives: |
-  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.
+  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative. For example, a cell that appears in the segmentation (positive) but does not actually exist in the image is a false positive.
 
 False Negatives: |
-  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive.
+  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive. For example, a cell that was missed by a segmentation approach is a false negative: the cell is there (positive), but the segmentation is negative.
 
 True Positives: |
-  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.
+  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive. For example, if the network correctly segments a cell in the image, the segmentation is positive for the positive region of the image.
 
 True Negatives: |
-  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.
+  In a scenario where you have two [classes](glossary.qmd#class) "positive" and "negative", you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.  For example, if the network correctly lacks a segmentation in an empty/background region of an image, the segmentation is correctly negative for the negative region of the image.
 
 Manual Annotation: |
   The process of manually labeling specific structures or objects in an image using drawing tools. Typically done in software like [Fiji](glossary.qmd#fiji) or napari, this step is essential for creating ground truth data to train or evaluate machine learning models.
@@ -71,7 +71,7 @@ Star-convex Polygon: |
   A geometric shape used in segmentation algorithms like StarDist. Imagine drawing straight lines (rays) from the centre of an object out toward its edges --- if you can see the edge from the centre in all directions, the object is considered star-convex. This method works well for blob-like structures such as nuclei, because their general shape can be captured by measuring how far each ray travels from the centre to the boundary.
 
 IoU: |
-  "Intersection over Union". A segmentation metric that calculates the area of overlap between two [segmentation masks](glossary.qmd#segmentation-mask) divided by the area of their union.
+  IoU stands for "Intersection over Union". It is a segmentation metric that calculates the area of overlap between two [segmentation masks](glossary.qmd#segmentation-mask) divided by the area of their union.
 
 Precision: |
   A [classification](glossary.qmd#classification) metric that measures the proportion of predicted positives that are correct: [true positives](glossary.qmd#true-positives) divided by the sum of true positives and [false positives](glossary.qmd#false-positives). Precision answers "of everything the model called positive, how much actually was?" A model can achieve high precision by only making positive predictions it is very confident about, at the cost of missing some true positives (i.e., lower [recall](glossary.qmd#recall)).
@@ -93,7 +93,7 @@ Image Classification: |
   A computer vision task where each image is associated with one [class](glossary.qmd#class) and the goal of this task is to correctly predict that class. 
 
 Hyperparameters: |
-  The options you choose when training a [machine learning](glossary.qmd#machine-learning) model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss, etc.) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.
+  The options you choose when training a [machine learning](glossary.qmd#machine-learning) model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.
 
 Epoch: |
   One complete pass through the entire [training dataset](glossary.qmd#training-data) during the training process.
@@ -111,7 +111,7 @@ Effect Size: |
   How "strong" a phenotype is, or how mathematically possible it is to distinguish a given population from the control population.
 
 Ground Truth: |
-  Accurate data against which a model can be evaluated. Ground truth data is often [manually annotated](glossary.qmd#manual-annotation). The data type itself will vary depending on the task and evaluation. e.g. [instance segmentation](glossary.qmd#instance-segmentation) may be compared to ground truth object counts or masks.
+  Accurate data against which a model can be evaluated. Ground truth data is often [manually annotated](glossary.qmd#manual-annotation). The data type itself will vary depending on the task and evaluation. For example, [instance segmentation](glossary.qmd#instance-segmentation) may be compared to ground truth object counts or masks.
 
 Metadata: |
   Any data that provides additional information about other data. In bioimaging, examples include information about sample preparation, the imaging instrument, and image acquisition parameters.
@@ -120,7 +120,7 @@ Panoptic Segmentation: |
   A computer vision technique that is a combination of [semantic segmentation](glossary.qmd#semantic-segmentation) and [instance segmentation](glossary.qmd#instance-segmentation). It separates an image into regions while also detecting individual object instances within those regions.
 
 Quality Control Metric: |
-  Any metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g. an image doesn't have debris) or continuous (e.g. annotated object centroids are within 5 pixels of the ground truth centroids).
+  Any metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g., an image doesn't have debris) or continuous (e.g., annotated object centroids are within 5 pixels of the ground truth centroids).
 
 Image Restoration: |
   The process of recovering clear, high-quality images from degraded raw data contaminated by blur, noise, or other distortions.
@@ -132,7 +132,7 @@ Spatial Domain: |
   The representation of an image as a function of spatial coordinates.
 
 Frequency Domain: |
-  The representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using the Fourier transform.
+  The representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using a Fourier transform.
 
 Adaptive Optics: |
   Technology that senses distortions in the wavefront of light and cancels them, thereby suppressing [optical aberrations](glossary.qmd#aberration) to enhance image clarity.
@@ -140,7 +140,7 @@ Adaptive Optics: |
 Nonlinear Problem: |
   A mathematical problem where the governing equations or operations are nonlinear, meaning outputs are not linearly proportional to inputs.
 
-CARE (Content-aware image restoration): |
+CARE (Content-aware Image Restoration): |
   A [deep learning](glossary.qmd#deep-learning)-based method for [image restoration](glossary.qmd#image-restoration) that leverages content-specific features to enhance degraded images. See [https://github.com/CSBDeep/CSBDeep](https://github.com/CSBDeep/CSBDeep) for more information.
 
 RCAN (Residual Channel Attention Network): |
@@ -186,13 +186,13 @@ Sigmoid Function: |
   An [activation function](glossary.qmd#activation-function) common in [deep learning](glossary.qmd#deep-learning) that [non-linearly](glossary.qmd#nonlinear) maps real inputs to outputs between 0 and 1, being most sensitive to changes in inputs around zero and increasingly compressing extreme positive or negative inputs as they approach 1 or 0 respectively; this characteristic enables it to model probabilities for binary [classification](glossary.qmd#classification) and introduce smooth non-linearity.
 
 Transformer Models: |
-  A [deep learning](glossary.qmd#deep-learning) architecture, originally developed for language, in which every part of the input is compared with every other part (attention), so that distant regions can inform each other. A vision transformer (ViT) cuts an image into small patches and treats them like the words of a sentence.
+  A [deep learning](glossary.qmd#deep-learning) architecture, originally developed for language, in which every part of the input is compared with every other part ([attention](glossary.qmd#self-attention)), so that distant regions can inform each other. A vision transformer (ViT) cuts an image into small patches and treats them like the words of a sentence.
 
 Self-supervised learning: |
   A form of [machine learning](glossary.qmd#machine-learning) that turns unlabeled data into a [supervised problem](glossary.qmd#supervised-learning), typically by hiding part of the data and training the model to fill it in. The model either is used directly, as in self-supervised [denoising](glossary.qmd#denoising), or provides a [representation](glossary.qmd#representation) that is later adapted to other tasks.
 
 Supervised Learning: |
-  A form of [machine learning](glossary.qmd#machine-learning) in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a [class](glossary.qmd#class), a position, a mask, or another image.
+  A form of [machine learning](glossary.qmd#machine-learning) in which every training input comes paired with the correct answer (the target), and the model learns to produce that answer from the input. The target can be a [class](glossary.qmd#class), a position, a mask, or another image.
 
 Neural Network Unit: |
   A neural unit is the processing element of a neural network. It also sometimes called a node or artificial neuron.
@@ -210,7 +210,7 @@ Probability Vector  : |
   A probability vector is composed of values that indicate the probability of a particular variable (e.g., the probability that an image is a dog or cat). The values of a probability vector sum to one.
 
 Skip Connection  : |
-  Skip connections are also sometimes know as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a [U-Net](glossary.qmd#u-net) architecture connect across image resolutions.
+  Skip connections are also sometimes known as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a [U-Net](glossary.qmd#u-net) architecture connect across image resolutions.
 
 Residual Connection  : |
   A specific instance of a [skip connection](glossary.qmd#skip-connection), in which the input of a transformation block is added to the output.
@@ -225,7 +225,7 @@ Perceptron  : |
   Perceptrons are a specific type of an [artificial neuron or node](glossary.qmd#neural-network-unit). They perform a calculation that is a linear weighted sum of the inputs to the node followed by a [nonlinear](glossary.qmd#nonlinear) [activation function](glossary.qmd#activation-function). They are used for binary classification, and can be combined to create more complex network architectures. 
 
 Activation Function  : |
-  An activation function is a mathematical formula that calculates the output of a [node](glossary.qmd#neural-network-unit). These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," an analogy to the way in which biological neurons can be activated.
+  An activation function is a mathematical formula that calculates the output of a [node](glossary.qmd#neural-network-unit). These functions are [nonlinear](glossary.qmd#nonlinear), which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is "activated," an analogy to the way in which biological neurons can be activated.
 
 Linear Layer  : |
   Linear layers are also known as fully-connected layers or dense layers. They are a set of input [nodes](glossary.qmd#neural-network-unit) (or neurons) that are each connected to every output node of the layer. 
@@ -246,7 +246,7 @@ Pooling Layer  : |
   A pooling layer aggregates information from many vectors into fewer vectors, i.e., it [downsamples](glossary.qmd#downsampling) the image. The pooling layer does this using sliding windows across the image of maximum or average operations. This removes redundant information and reduces the size of the image for the following calculations.
 
 Stride  : |
-  When performing a [convolution](glossary.qmd#convolution) or cross-correlation, the kernel (aka the filter) moves across the entire image. When the stride is 1, this corresponds to moving the filter across every pixel in the image. For larger values of the stride, the kernel is moved more than one element at a time. For example, a stride of 2 would skip every other pixel in the image.
+  When performing a [convolution](glossary.qmd#convolution) or cross-correlation, the [kernel](glossary.qmd#kernel) (aka the filter) moves across the entire image. When the stride is 1, this corresponds to moving the filter across every pixel in the image. For larger values of the stride, the kernel is moved more than one element at a time. For example, a stride of 2 would skip every other pixel in the image.
 
 Padding  : |
   Padding involves adding extra layers of pixels around an image to avoid edge effects. Padding can be performed by simply setting the extra pixels to zero, or it can take into account the image itself (such as in mirror padding or replicate padding).
@@ -276,7 +276,7 @@ Gradient Descent  : |
   Gradient descent computes the gradient of the loss with respect to each weight. Moving the weights in the negative direction of the gradient reduces the loss for the given images or data points over which the loss is computed.
 
 Stochastic Gradient Descent (SGD) : |
-  As most modern problems require large [training datasets](glossary.qmd#training-data) to effectively capture underlying signals, attempting to calculate the gradient over the entire dataset is often computationally prohibative. This is overcome by [batching](glossary.qmd#batch) the training data into smaller subsets. This naturally injects some stochasticty (randomness) into the [gradient descent](glossary.qmd#gradient-descent) procedure based on how the batches are randomly determined.
+  As most modern problems require large [training datasets](glossary.qmd#training-data) to effectively capture underlying signals, attempting to calculate the gradient over the entire dataset is often computationally prohibitive. This is overcome by [batching](glossary.qmd#batch) the training data into smaller subsets. This naturally injects some stochasticty (randomness) into the [gradient descent](glossary.qmd#gradient-descent) procedure based on how the batches are randomly determined.
 
 Regularization  : |
   Regularization adds a penalty term to the [loss function](glossary.qmd#loss-function) to prevent overfitting. This term discourages overly complex models.
@@ -360,7 +360,7 @@ ResNet : |
   A residual neural network (ResNet) is a deep learning architecture in which [skip connections](glossary.qmd#skip-connection) between layers are used to learn [residual mappings](glossary.qmd#residual-learning) instead of direct transformations, increasing training efficacy and deeper networks.
 
 Image Translation : |
-  Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g. brightfield) into a different modality (e.g. DAPI staining of nuclei) in the same field of view.
+  Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g., brightfield) into a different modality (e.g., DAPI staining of nuclei) in the same field of view.
 
 Binary Cross-Entropy : |
   Binary cross-entropy (BCE) penalizes the model based on how confident it is in the wrong answer. BCE requires the output to be interpretable as a probability --- it asks "is this pixel foreground or background?" and treats all wrongly classified pixels the same way, whether they are at a cell boundary, inside a hole, or belong to an entirely missing cell.
@@ -415,7 +415,7 @@ Ensemble : |
   A [machine-learning](glossary.qmd#machine-learning) approach that combines predictions from multiple individual models to produce a single result that can be more robust than any single model alone.
 
 Event : |
-  A set of spatial features that change or transitions over time, temporally defined by a beginning and an end.
+  A set of spatial features that change or transition over time, temporally defined by a beginning and an end.
 
 Event Detection : |
   The algorithmic identification of temporal changes or transitions in a system, requiring analysis of data across time.
@@ -426,7 +426,7 @@ Feature vector : |
 Localization : |
   The task of determining the spatial position of an object or event within an image.
 
-Long-short Term mMmory (LSTM) : |
+Long-short Term Memory (LSTM) : |
   A type of [recurrent neural network](glossary.qmd#recurrent-neural-networks-rnns) designed to retain information over longer sequences, addressing limitations of standard RNNs in capturing long-range temporal dependencies.
 
 Object : |
@@ -445,7 +445,7 @@ Decision Tree : |
   Decision trees are flow-chart-like models that make simple yes/no decisions in a series of conditional steps. The first root node splits the entire dataset into two groups, after which internal nodes and branches continue to split the data through conditional questions, finally terminating in a leaf node that provides the answer, [class](glossary.qmd#class), or prediction.
 
 Random Forest : |
-  An [ensemble](glossary.qmd#ensemble) of [decision trees](glossary.qmd#decision-tree), each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g. in ilastik and Labkit.
+  An [ensemble](glossary.qmd#ensemble) of [decision trees](glossary.qmd#decision-tree), each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g., in ilastik and Labkit.
 
 Shape Descriptors : |
   A set of quantitative measurements that characterize the geometric form of an object, such as circularity, elongation, or perimeter.
@@ -534,8 +534,8 @@ Shortcut Learning : |
 Attribution Map : |
   A per-pixel image of how much each part of the input contributed to a model's output. Some widely used variants are insensitive to the trained model and should be checked before they are trusted.
 
-Artificial intelligence : |
-  Artificial intelligence (AI) refers to a computational system that is capable of performing a task that would normally require human intelligence.
+Artificial Intelligence : |
+  Artificial Intelligence (AI) refers to a computational system that is capable of performing a task that would normally require human intelligence.
 
 Signal-to-noise Ratio : |
   The signal-to-noise ratio (SNR) measures the level of the desired signal to the unwanted noise or background. In fluorescence microscopy, this often relates the intensity of the labeled object to the intensity of the image background.
@@ -613,7 +613,7 @@ Transposed Convolution: |
   This is often used in [CNN](glossary.qmd#convolutional-neural-networks-cnns) architectures such as the [U-Net](glossary.qmd#u-net) to produce outputs at the correct spatial scale. See [this example](https://www.d2l.ai/chapter_computer-vision/transposed-conv.html) for more information.
 
 Wiener Filter: |
-  Wiener filters are used to estimate an unknown underlying signal from am observed noisy response. For an example use-case of this filter in image processing, see [this Matlab implementation](https://www.mathworks.com/help/images/deblurring-images-using-a-wiener-filter.html).
+  Wiener filters are used to estimate an unknown underlying signal from an observed noisy response. For an example use-case of this filter in image processing, see [this MATLAB implementation](https://www.mathworks.com/help/images/deblurring-images-using-a-wiener-filter.html).
 
 Structural Similarity Index (SSIM): |
   The structural similarity index measure (SSIM) is a metric which measures the similarity between two images. It attempts to improve upon [MSE](glossary.qmd#mean-squared-error) by taking image texture into account. It is calculated using the following formula.
@@ -626,7 +626,7 @@ Perceptual Loss: |
   Instead of comparing pixel intensity, perceptual loss functions compare high-level features --- such as those defined in the [embedding space](glossary.qmd#embedding-space) --- of images between model outputs and [ground truth](glossary.qmd#ground-truth). This allows models to produce outputs that match the high-level structure and texture of the ground truth that human perception encodes.
 
 Weakly Supervised Learning: |
-  Weakly supervised learning takes partial, noisy, or imprecise labels to guide training. These labels are often combined with unlabeled data which the model learns from in an [unsupervised](glossary.qmd#unsupervised-learning) manner. This can be significantly reduce the annotation time and speed up deployment of a model.
+  Weakly supervised learning takes partial, noisy, or imprecise labels to guide training. These labels are often combined with unlabeled data which the model learns from in an [unsupervised](glossary.qmd#unsupervised-learning) manner. This can significantly reduce the annotation time and speed up deployment of a model.
 
 Residual Learning: |
   In conventional architectures, the models ideally learn to map inputs $x$ to the optimized output $O$. In residual learning, the implementation of [residual connections](glossary.qmd#residual-connection) adds $x$ to the output. As a result, the network output now becomes $O - x$. In words, the network learns the difference between the optimial output and the input. This can minimize the effect of large gradients, improve performance, and accelerate training.
@@ -636,3 +636,6 @@ Channel Attention: |
 
 Forward Pass: |
   The process by which an input is fed through each layer of a [neural network](glossary.qmd#neural-network), in a sequential manner. The result of the final layer is the output which can be compared to [ground truth](glossary.qmd#ground-truth).
+
+Inference: |
+  After a model has been trained, it can be applied to new, unseen data. The process of applying the model to this new data is known as inference.
