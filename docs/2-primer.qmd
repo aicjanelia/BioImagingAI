@@ -10,7 +10,7 @@ author:
 subtitle: An Introduction to Artificial Intelligence
 ---
 
-# AI in a nutshell {#sec-primer}
+# AI in a Nutshell {#sec-primer}
 
 ::: {.content-visible when-format="pdf"}
 | **Stephan Saalfeld**
