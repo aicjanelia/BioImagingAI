@@ -7,6 +7,20 @@ author:
         state: VA
         country: USA
         postal-code: 20147
+  - name: Rachel M. Lee
+    orcid: 0000-0001-9359-0422
+    affiliations:
+      - name: HHMI Janelia Research Campus
+        state: VA
+        country: USA
+        postal-code: 20147
+  - name: Owen F. Puls
+    orcid: 0000-0002-5097-3420
+    affiliations:
+      - name: HHMI Janelia Research Campus
+        state: VA
+        country: USA
+        postal-code: 20147
 contributors: [
   ""
 ]
@@ -16,26 +30,23 @@ subtitle: AI at Every Stage of the Microscopy Workflow
 # Preface {#sec-1}
 
 ::: {.content-visible when-format="pdf"}
-| **Teng-Leong Chew**
+| **Teng-Leong Chew, Rachel M. Lee, & Owen F. Puls**
 | *HHMI Janelia Research Campus*
 | 
 :::
 
+The rapid advancement of microscopy, further fueled by parallel developments in related technologies such as probe chemistry, molecular biology, and image analysis methods, has propelled bioimaging to the forefront of life science studies [@balasubramanian_imagining_2023]. In fact, many life scientists now fully expect to visualize intricate biological processes in the context of a whole, living organism---a prospect deemed impossible a mere decade ago.
 
-The rapid advancement of microscopy, further fueled by parallel developments in related technologies such as probe chemistry, molecular biology, and image analysis methods, has propelled bioimaging to the forefront of life science studies [@balasubramanian_imagining_2023]. In fact, many life scientists now fully expect to visualize intricate biological processes in the context of a whole, living organism --- a prospect deemed impossible a mere decade ago.
+This seemingly limitless possibility has greatly amplified the complexity of the questions that can be probed. Likewise, it demands a significant degree of forethought in the design of biological experiments [@wait_hypothesis-driven_2020;@lee_believing_2024] to ensure that the maximal amount of biological information can be extracted from the acquired data. At the same time, the wealth of information contained in modern bioimage data can now often exceed the grasp of a human observer. This thus requires computational means to aid in data interpretation. In other words, the ever-expanding and multifaceted field of artificial intelligence (AI) can no longer be separated from bioimaging. Yet the absence of a comprehensive resource to systematically explore how AI can enhance bioimaging prevents many in the community from taking advantage of this indispensable technology. This textbook therefore aims to demystify AI in its many forms and outline proper use cases thereof to facilitate biological discovery. We have specifically contextualized the textbook for our two target audiences: microscopists and biologists. New AI and machine learning (ML) tools often fail to tailor explanations and tutorials for the very users that will ultimately effectuate scientific discovery.  We hope this textbook will bridge that gap.
 
-This seemingly limitless possibility has greatly amplified the complexity of the questions that can be probed. Likewise, it demands a significant degree of forethought in the design of biological experiments [@wait_hypothesis-driven_2020;@lee_believing_2024] to ensure that the maximal amount of biological information can be extracted from the acquired data. At the same time, the wealth of information contained in modern bioimage data can now often exceed the grasp of a human observer and thus require computational means to aid in data interpretation. In other words, the ever-expanding and multifaceted field of artificial intelligence (AI) can no longer be separated from bioimaging. Yet the absence of a comprehensive resource to systematically explore how AI can enhance bioimaging prevents many in the community from taking advantage of this indispensable technology. This textbook therefore aims to demystify AI in its many forms and outline proper use cases thereof to facilitate biological discovery. We have specifically contextualized the textbook for our two target audiences: microscopists and biologists. The scientists developing new AI and machine learning (ML) tools often fail to tailor explanations and tutorials for these users who will ultimately effectuate this discovery. We hope this textbook will bridge the gap.
+As the chapters of this book will collectively demonstrate, AI now plays an indispensable role in the four main stages of the microscopy experimental workflow (@fig-ai_workflow): project design, tool-building, execution of experiments, and data modeling. The microscopist must optimize each of these stages in concert to maximize the usefulness of their data [@wait_hypothesis-driven_2020;@lee_believing_2024]. That optimization can be enhanced by AI tools, which are capable of everything from generating new ideas for experiments to maxizing the information in noisy images.
 
-## Textbook Outline
+![**AI impacts every aspect of the microscopy workflow.** The experimental process represents a cycle through four distinct phases: experimental design, constructing systems and workflows, testing hypotheses using these workflows, and analyzing their outputs to develop new models that inform new experiments. AI holds the capacity to impact each phase of this cycle. See also [AI@HHMI](https://www.hhmi.org/research/janelia/AI).](1-intro_files/Figure1.png){#fig-ai_workflow}
 
-As the chapters of this book will collectively demonstrate, AI now plays an indispensable role in the four main stages of the microscopy experimental workflow (@fig-ai_workflow): Project design, tool-building, execution of experiments, and data modeling. To address each part of this workflow, this textbook is divided into three distinct sections. 
+To guide researchers just getting started with AI, the first section of this book focuses on introducing the core concepts of AI, large language models (LLMs), and the computational architectures that underpin these technologies. [Chapter 2](#sec-primer) will introduce the basic principles behind AI and ML as a gateway for those less familiar with this topic. In the experimental workflow, modern hypotheses can now drive a project design so complex that AI may be required to design the tools needed to tackle the experimental challenge. As will be discussed in [Chapter 3](#sec-llms), this can be accomplished by using LLMs as assistants. [Chapter 4](#sec-4) will further explain the construction of AI models.
 
-![**AI impacts every aspect of the microscopy workflow.** The experimental process represents a cycle through four distinct phases: experimental design, constructing systems and workflows, testing hypotheses using these workflows, and analyzing their outputs to develop new models that inform new experiments. In the current age, AI holds the capacity to impact each phase of this cycle.](1-intro_files/Figure1.png){#fig-ai_workflow}
+The next section focuses on extending microscopy hardware with AI. To render a microscope “smart”, i.e., for it to perform an experiment with minimal or no human intervention, ML software first needs to be trained on extensive and high-quality training data. The collection and design of training data will be covered in [Chapter 5](#sec-training). [Chapter 6](#sec-Image-Restoration) will discuss the implementation of AI and ML to enhance the capabilities of existing microscopes denoising and other image restoration techniques. Likewise, AI and ML models can be designed to control event-driven image acquisition to visualize biological events that are rare and/or photosensitive ([Chapter 7](#sec-hardware)). 
 
-The first focuses on introducing the core concepts of AI, large language models (LLMs), and the computational architectures that underpin these technologies. [Chapter 2](#sec-primer) will introduce the basic principles behind artificial intelligence and ML as a gateway for those less familiar with this topic. In the experimental workflow, modern hypotheses can now drive a project design so complex that artificial intelligence may be required to conceptualize and build the dedicated microscopy tool needed to tackle the experimental challenge. As will be discussed in [Chapter 3](#sec-llms), this can be accomplished by using LLMs as assistants. [Chapter 4](#sec-4) will further explain the construction of AI models.
-
-The second section focuses on extending microscopy hardware with AI. To render a microscope “smart”, i.e., for it to perform an experiment with minimal or no human intervention, ML software first needs to be trained on extensive and high-quality training data. The collection and design of training data will be covered in [Chapter 5](#sec-training). [Chapter 6](#sec-Image-Restoration) will discuss the implementation of AI and ML to enhance the capabilities of existing microscopes through resolution improvement and denoising. Likewise, AI and ML models can be designed to control event-driven image acquisition to visualize biological events that are rare and/or photosensitive ([Chapter 7](#sec-hardware)). 
-
-The third and final section will address the use of AI and ML to process and analyze microscopy data in order to extract biological information beyond what is achievable through human observation alone. [Chapter 8](#sec-8) will focus on helping readers find and use available open-source tools. When those existing tools are still insufficient, [Chapter 9](#sec-9) seeks to further widen the horizon by discussing the process of training new models for specific image processing and analysis tasks. Finally, [Chapter 10](#sec-output_quality) will address the question of “when is my model performing well enough?”. This important step pinpoints potential weaknesses of any model, thereby placing results in meaningful context.
+The final section will address processing and analyzing microscopy data in order to extract biological information beyond what is achievable through human observation alone. [Chapter 8](#sec-8) will focus on helping readers find and use available open-source tools. When those existing tools are insufficient, [Chapter 9](#sec-9) seeks to further widen the horizon by discussing the process of training new models for specific image processing and analysis tasks. Finally, [Chapter 10](#sec-output_quality) will address the question of when a model is performing well enough. This important step pinpoints potential weaknesses of the analysis approach, thereby placing results in meaningful context.
 
 We conclude with [Chapter 11](#sec-outlook), which summarizes the core concepts and aims to inspire readers to begin taking full advantage of the promise of the new era of AI and ML. To close the loop, we also hope that by equipping readers with the [proper vocabulary](#sec-glossary), the book will facilitate more effective communication between biologists and AI tool developers.

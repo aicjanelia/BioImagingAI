@@ -33,5 +33,51 @@ A free PDF of the textbook can be downloaded from the upper left menu. Note that
 
 The source code for this textbook is available on [GitHub](https://github.com/aicjanelia/BioImagingAI/). All content is licensed under [BSD 3-Clause](https://github.com/aicjanelia/BioImagingAI/?tab=BSD-3-Clause-1-ov-file), except where noted otherwise.
 
+### Contributors {.unnumbered}
+| @sec-1 
+|    Teng-Leong Chew, Rachel M. Lee & Owen F. Puls
+|    *HHMI Janelia Research Campus*
+|
+| @sec-primer
+|    Stephan Saalfeld
+|    *HHMI Janelia Research Campus*
+|
+| @sec-llms
+|    Wei Ouyang & Hanzhao Zhang
+|    *SciLifeLab | KTH Royal Institute of Technology*
+|
+| @sec-4
+|    Carsen Stringer & Marius Pachitariu
+|    *HHMI Janelia Research Campus*
+|
+| @sec-training
+|    Martin Weigert
+|    *Technische Universität Dresden*
+|
+| @sec-Image-Restoration
+|    Yue Li, Jun Zhu, Mingzhe Wei, Hari Shroff, & Min Guo
+|    *Zhejiang University & HHMI Janelia Research Campus*
+|
+| @sec-hardware
+|    Victoria Augoustides, Giorgio Tortarolo, Alara Kiris, Suliana Manley, & Wesley Legant
+|    *University of North Carolina at Chapel Hill & École Polytechnique Fédérale de Lausanne*
+|
+| @sec-8
+|    Beth Cimini & Erin Weisbart
+|    *Imaging Platform, Broad Institute*
+|
+| @sec-9
+|    Joanna W. Pylvänäinen, Iván Hidalgo-Cenalmor, & Guillaume Jacquemet
+|    *Åbo Akademi University*
+|
+| @sec-output_quality
+|    Morgan Schwartz & Diane Adjavon
+|    *HHMI Janelia Research Campus & biohub*
+|
+| @sec-outlook
+|    Anna Kreshuk
+|    *European Molecular Biology Laboratory*
+
+
 ### AI Disclosure {.unnumbered}
 Anthropic's Claude (Sonnet 5 and Sonnet 5.5) assisted in identifying broken links, proof reading, and developing formatting solutions for this book. All content was reviewed, revised, and verified by the human editors and authors, who take full responsibility for the final text.
