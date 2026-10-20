@@ -254,7 +254,7 @@
     "href": "4-architectures.html#sec-4-loss",
     "title": "4  Architectures and Loss Functions",
     "section": "4.2 Loss functions",
-    "text": "4.2 Loss functions\nIn a standard image classification network, the output is a vector with length equal to the number of classes in the task. Each of the entries in this vector represents the predicted probability of the class, and the predicted label for the image is chosen as the index of the vector with the largest entry. For each training image we have a ground-truth label for the class. How closely the network matches the label is the loss, which is defined as a function between the vector output of the network and the ground-truth label. A lower loss means we matched the ground-truth data better. The gradients of the network are computed automatically via back-propagation, and an optimizer is specified to modify the parameters in order to minimize the loss (described more below).\nFor classification, we are evaluating predicted probabilities, so we need to take the output from the network and convert it to a probability that sums to one across classes. For this, a softmax (or its cousin the sigmoid) operation is performed, defined as \\(p_c(x) = e^{x_{c}} / (\\sum_{i=1}^C e^{x_{i}})\\). The cross-entropy loss is a standard loss function for classification, and for comparing probability distributions generally. This loss maximizes the predicted probability of the true class, achieving its minimum value of 0 when the probability of the true class is predicted to be one (Equation 4.4).\n\\[\n\\ell(x, y) = - \\sum_{c=1}^C \\log [p_c(x)] y_c.\n\\tag{4.4}\\]\nIn segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, “not cell” as zeros and “cell” as ones2.\n\n\n\n\n\n\nFigure 4.12: An image (upper left) is input to a u-net trained to predict cell/not cell pixels. The output of the network is the predicted cell probability image (bottom left). A sigmoid is applied to the cell probability (middle bottom), and compared to the ground-truth cell probabilities (middle top). The comparison is performed using the binary cross-entropy loss per-pixel (right).\n\n\n\nIn PyTorch, the sigmoid and cross-entropy loss are combined into a single function; for two-class prediction the function is nn.BCEWithLogitsLoss, and for multi-class prediction the function is nn.CrossEntropyLoss.\n\n\n\n\n\n\nTipCell/Not-Cell Prediction\n\n\n\nHere is example code for cell/not-cell prediction with one convolutional layer.\n\n\nshow code\n# declare layer\nlayer = ConvolutionalLayer(c_in=3, c_out=1, K=9)\nprint('shape of filter W: ', layer.conv.weight.data.shape)\nprint('shape of b: ', layer.conv.bias.data.shape)\n\n# define input images\nn_images = 8\nX = torch.zeros((n_images, 3, 50, 50))\n# define random cell probabilities\ny_true = (torch.randn((n_images, 1, 50, 50)) &gt; 0.5).float()\n\n# define loss function\nloss_fn = nn.BCEWithLogitsLoss()\n\n# compute network prediction and loss\ny = layer(X)\n\nprint('input shape: ', X.shape)\nprint('output shape: ', y.shape)\nprint('target shape: ', y_true.shape)\n\n# evaluate loss function\nloss = loss_fn(y, y_true)\n\nprint('loss = ', loss.item())\n\n\nshape of filter W:  torch.Size([1, 3, 9, 9])\nshape of b:  torch.Size([1])\ninput shape:  torch.Size([8, 3, 50, 50])\noutput shape:  torch.Size([8, 1, 50, 50])\ntarget shape:  torch.Size([8, 1, 50, 50])\nloss =  0.7017548084259033\n\n\n\n\nTo create segmentations for each cell, a threshold is defined on the cell probability and any pixels above the threshold that are connected to each other are formed into objects. This threshold is defined using a validation set—images that are not used for training or testing—to help ensure the threshold generalizes to the held-out test images. The predicted segmentations with this loss function often contain several merges, because cells can often touch each other and the connected components of the image will combine the touching cells into single components.\n\n\n\n\n\n\nFigure 4.13: Segmentation with pixel-wise cell/not cell predictions.\n\n\n\nTo better train the network to discriminate boundaries, a boundary pixel class can be introduced, creating a three-class prediction loss function. This can improve segmentation performance, but the segmentations can still contain merges. This is illustrated in the tutorial notebook.\nThe training signals for the network so far have consisted only of class labels. However, it can be helpful to ask the network to predict more complex information about the segmentation. For example, the distance to the boundary can be used to provide context about the local shape of the object20. The distance-to-boundary is computed for each pixel in each object, and the network is trained to predict this, in addition to a multi-class loss like cell/not-cell. Distance-to-boundary is not a class but a continuous variable. In this case, the loss function often used is a mean-squared error between the ground-truth (\\(\\tilde{Y}\\)) and the predicted values (\\(Y\\)), as shown in Equation 4.5.\n\\[\n\\ell_\\text{MSE} = \\sum_{ij} (Y_{ij} - \\tilde{Y}_{ij})^2.\n\\tag{4.5}\\]\nStarDist21 extends this approach by computing the distance-to-boundary along multiple fixed rays emanating from each pixel in an object, which can then be used for reconstruction of convex objects21. Cellpose creates a different type of representation from gradients indicating the direction towards the cell center, and tracks the gradients to reconstruct the segmented objects from the fixed points of the dynamics10. This representation helps prevent merges by having strong differences in gradients in boundary areas between two objects, and is sufficiently flexible to be used for non-convex cellular shapes. Other examples of auxiliary variables include local shape descriptors (LSDs), which include other global features like the size of the object, which can be useful for electron microscopy segmentation of neurons with long processes22.\n\n\n\n\n\n\nFigure 4.14: Segmentation networks are often trained to predict an auxiliary variable. For example, they may predict the distance from the cell boundary, radial distances (as in StarDist21), or gradient flows (as in CellPose10). The calculation of gradient flows is useful for non-convex cells (right panel).",
+    "text": "4.2 Loss functions\nIn a standard image classification network, the output is a vector with length equal to the number of classes in the task. Each of the entries in this vector represents the predicted probability of the class, and the predicted label for the image is chosen as the index of the vector with the largest entry. For each training image we have a ground-truth label for the class. How closely the network matches the label is the loss, which is defined as a function between the vector output of the network and the ground-truth label. A lower loss means we matched the ground-truth data better. The gradients of the network are computed automatically via back-propagation, and an optimizer is specified to modify the parameters in order to minimize the loss (described more below).\nFor classification, we are evaluating predicted probabilities, so we need to take the output from the network and convert it to a probability that sums to one across classes. For this, a softmax (or its cousin the sigmoid) operation is performed, defined as \\(p_c(x) = e^{x_{c}} / (\\sum_{i=1}^C e^{x_{i}})\\). The cross-entropy loss is a standard loss function for classification, and for comparing probability distributions generally. This loss maximizes the predicted probability of the true class, achieving its minimum value of 0 when the probability of the true class is predicted to be one (Equation 4.4).\n\\[\n\\ell(x, y) = - \\sum_{c=1}^C \\log [p_c(x)] y_c.\n\\tag{4.4}\\]\nIn segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, “not cell” as zeros and “cell” as ones2.\n\n\n\n\n\n\nFigure 4.12: An image (upper left) is input to a u-net trained to predict cell/not cell pixels. The output of the network is the predicted cell probability image (bottom left). A sigmoid is applied to the cell probability (middle bottom), and compared to the ground-truth cell probabilities (middle top). The comparison is performed using the binary cross-entropy loss per-pixel (right).\n\n\n\nIn PyTorch, the sigmoid and cross-entropy loss are combined into a single function; for two-class prediction the function is nn.BCEWithLogitsLoss, and for multi-class prediction the function is nn.CrossEntropyLoss.\n\n\n\n\n\n\nTipCell/Not-Cell Prediction\n\n\n\nHere is example code for cell/not-cell prediction with one convolutional layer.\n\n\nshow code\n# declare layer\nlayer = ConvolutionalLayer(c_in=3, c_out=1, K=9)\nprint('shape of filter W: ', layer.conv.weight.data.shape)\nprint('shape of b: ', layer.conv.bias.data.shape)\n\n# define input images\nn_images = 8\nX = torch.zeros((n_images, 3, 50, 50))\n# define random cell probabilities\ny_true = (torch.randn((n_images, 1, 50, 50)) &gt; 0.5).float()\n\n# define loss function\nloss_fn = nn.BCEWithLogitsLoss()\n\n# compute network prediction and loss\ny = layer(X)\n\nprint('input shape: ', X.shape)\nprint('output shape: ', y.shape)\nprint('target shape: ', y_true.shape)\n\n# evaluate loss function\nloss = loss_fn(y, y_true)\n\nprint('loss = ', loss.item())\n\n\nshape of filter W:  torch.Size([1, 3, 9, 9])\nshape of b:  torch.Size([1])\ninput shape:  torch.Size([8, 3, 50, 50])\noutput shape:  torch.Size([8, 1, 50, 50])\ntarget shape:  torch.Size([8, 1, 50, 50])\nloss =  0.6846106648445129\n\n\n\n\nTo create segmentations for each cell, a threshold is defined on the cell probability and any pixels above the threshold that are connected to each other are formed into objects. This threshold is defined using a validation set—images that are not used for training or testing—to help ensure the threshold generalizes to the held-out test images. The predicted segmentations with this loss function often contain several merges, because cells can often touch each other and the connected components of the image will combine the touching cells into single components.\n\n\n\n\n\n\nFigure 4.13: Segmentation with pixel-wise cell/not cell predictions.\n\n\n\nTo better train the network to discriminate boundaries, a boundary pixel class can be introduced, creating a three-class prediction loss function. This can improve segmentation performance, but the segmentations can still contain merges. This is illustrated in the tutorial notebook.\nThe training signals for the network so far have consisted only of class labels. However, it can be helpful to ask the network to predict more complex information about the segmentation. For example, the distance to the boundary can be used to provide context about the local shape of the object20. The distance-to-boundary is computed for each pixel in each object, and the network is trained to predict this, in addition to a multi-class loss like cell/not-cell. Distance-to-boundary is not a class but a continuous variable. In this case, the loss function often used is a mean-squared error between the ground-truth (\\(\\tilde{Y}\\)) and the predicted values (\\(Y\\)), as shown in Equation 4.5.\n\\[\n\\ell_\\text{MSE} = \\sum_{ij} (Y_{ij} - \\tilde{Y}_{ij})^2.\n\\tag{4.5}\\]\nStarDist21 extends this approach by computing the distance-to-boundary along multiple fixed rays emanating from each pixel in an object, which can then be used for reconstruction of convex objects21. Cellpose creates a different type of representation from gradients indicating the direction towards the cell center, and tracks the gradients to reconstruct the segmented objects from the fixed points of the dynamics10. This representation helps prevent merges by having strong differences in gradients in boundary areas between two objects, and is sufficiently flexible to be used for non-convex cellular shapes. Other examples of auxiliary variables include local shape descriptors (LSDs), which include other global features like the size of the object, which can be useful for electron microscopy segmentation of neurons with long processes22.\n\n\n\n\n\n\nFigure 4.14: Segmentation networks are often trained to predict an auxiliary variable. For example, they may predict the distance from the cell boundary, radial distances (as in StarDist21), or gradient flows (as in CellPose10). The calculation of gradient flows is useful for non-convex cells (right panel).",
     "crumbs": [
       "Getting Started with AI",
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Architectures and Loss Functions</span>"
@@ -802,8 +802,8 @@
     "objectID": "glossary.html#artificial-intelligence",
     "href": "glossary.html#artificial-intelligence",
     "title": "Glossary",
-    "section": "Artificial intelligence",
-    "text": "Artificial intelligence\nArtificial intelligence (AI) refers to a computational system that is capable of performing a task that would normally require human intelligence.",
+    "section": "Artificial Intelligence",
+    "text": "Artificial Intelligence\nArtificial Intelligence (AI) refers to a computational system that is capable of performing a task that would normally require human intelligence.",
     "crumbs": [
       "Glossary"
     ]
@@ -952,8 +952,8 @@
     "objectID": "glossary.html#care-content-aware-image-restoration",
     "href": "glossary.html#care-content-aware-image-restoration",
     "title": "Glossary",
-    "section": "CARE (Content-aware image restoration)",
-    "text": "CARE (Content-aware image restoration)\nA deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See https://github.com/CSBDeep/CSBDeep for more information.",
+    "section": "CARE (Content-aware Image Restoration)",
+    "text": "CARE (Content-aware Image Restoration)\nA deep learning-based method for image restoration that leverages content-specific features to enhance degraded images. See https://github.com/CSBDeep/CSBDeep for more information.",
     "crumbs": [
       "Glossary"
     ]
@@ -1353,7 +1353,7 @@
     "href": "glossary.html#event",
     "title": "Glossary",
     "section": "Event",
-    "text": "Event\nA set of spatial features that change or transitions over time, temporally defined by a beginning and an end.",
+    "text": "Event\nA set of spatial features that change or transition over time, temporally defined by a beginning and an end.",
     "crumbs": [
       "Glossary"
     ]
@@ -1383,7 +1383,7 @@
     "href": "glossary.html#false-negatives",
     "title": "Glossary",
     "section": "False Negatives",
-    "text": "False Negatives\nIn a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive.",
+    "text": "False Negatives\nIn a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive. For example, a cell that was missed by a segmentation approach is a false negative: the cell is there (positive), but the segmentation is negative.",
     "crumbs": [
       "Glossary"
     ]
@@ -1393,7 +1393,7 @@
     "href": "glossary.html#false-positives",
     "title": "Glossary",
     "section": "False Positives",
-    "text": "False Positives\nIn a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.",
+    "text": "False Positives\nIn a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative. For example, a cell that appears in the segmentation (positive) but does not actually exist in the image is a false positive.",
     "crumbs": [
       "Glossary"
     ]
@@ -1453,7 +1453,7 @@
     "href": "glossary.html#frequency-domain",
     "title": "Glossary",
     "section": "Frequency Domain",
-    "text": "Frequency Domain\nThe representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using the Fourier transform.",
+    "text": "Frequency Domain\nThe representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using a Fourier transform.",
     "crumbs": [
       "Glossary"
     ]
@@ -1533,7 +1533,7 @@
     "href": "glossary.html#ground-truth",
     "title": "Glossary",
     "section": "Ground Truth",
-    "text": "Ground Truth\nAccurate data against which a model can be evaluated. Ground truth data is often manually annotated. The data type itself will vary depending on the task and evaluation. e.g. instance segmentation may be compared to ground truth object counts or masks.",
+    "text": "Ground Truth\nAccurate data against which a model can be evaluated. Ground truth data is often manually annotated. The data type itself will vary depending on the task and evaluation. For example, instance segmentation may be compared to ground truth object counts or masks.",
     "crumbs": [
       "Glossary"
     ]
@@ -1583,7 +1583,7 @@
     "href": "glossary.html#hyperparameters",
     "title": "Glossary",
     "section": "Hyperparameters",
-    "text": "Hyperparameters\nThe options you choose when training a machine learning model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss, etc.) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.",
+    "text": "Hyperparameters\nThe options you choose when training a machine learning model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.",
     "crumbs": [
       "Glossary"
     ]
@@ -1613,7 +1613,17 @@
     "href": "glossary.html#image-translation",
     "title": "Glossary",
     "section": "Image Translation",
-    "text": "Image Translation\nImage-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g. brightfield) into a different modality (e.g. DAPI staining of nuclei) in the same field of view.",
+    "text": "Image Translation\nImage-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g., brightfield) into a different modality (e.g., DAPI staining of nuclei) in the same field of view.",
+    "crumbs": [
+      "Glossary"
+    ]
+  },
+  {
+    "objectID": "glossary.html#inference",
+    "href": "glossary.html#inference",
+    "title": "Glossary",
+    "section": "Inference",
+    "text": "Inference\nAfter a model has been trained, it can be applied to new, unseen data. The process of applying the model to this new data is known as inference.",
     "crumbs": [
       "Glossary"
     ]
@@ -1633,7 +1643,7 @@
     "href": "glossary.html#iou",
     "title": "Glossary",
     "section": "IoU",
-    "text": "IoU\n“Intersection over Union”. A segmentation metric that calculates the area of overlap between two segmentation masks divided by the area of their union.",
+    "text": "IoU\nIoU stands for “Intersection over Union”. It is a segmentation metric that calculates the area of overlap between two segmentation masks divided by the area of their union.",
     "crumbs": [
       "Glossary"
     ]
@@ -1709,11 +1719,11 @@
     ]
   },
   {
-    "objectID": "glossary.html#long-short-term-mmmory-lstm",
-    "href": "glossary.html#long-short-term-mmmory-lstm",
+    "objectID": "glossary.html#long-short-term-memory-lstm",
+    "href": "glossary.html#long-short-term-memory-lstm",
     "title": "Glossary",
-    "section": "Long-short Term mMmory (LSTM)",
-    "text": "Long-short Term mMmory (LSTM)\nA type of recurrent neural network designed to retain information over longer sequences, addressing limitations of standard RNNs in capturing long-range temporal dependencies.",
+    "section": "Long-short Term Memory (LSTM)",
+    "text": "Long-short Term Memory (LSTM)\nA type of recurrent neural network designed to retain information over longer sequences, addressing limitations of standard RNNs in capturing long-range temporal dependencies.",
     "crumbs": [
       "Glossary"
     ]
@@ -2113,7 +2123,7 @@
     "href": "glossary.html#quality-control-metric",
     "title": "Glossary",
     "section": "Quality Control Metric",
-    "text": "Quality Control Metric\nAny metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g. an image doesn’t have debris) or continuous (e.g. annotated object centroids are within 5 pixels of the ground truth centroids).",
+    "text": "Quality Control Metric\nAny metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g., an image doesn’t have debris) or continuous (e.g., annotated object centroids are within 5 pixels of the ground truth centroids).",
     "crumbs": [
       "Glossary"
     ]
@@ -2133,7 +2143,7 @@
     "href": "glossary.html#random-forest",
     "title": "Glossary",
     "section": "Random Forest",
-    "text": "Random Forest\nAn ensemble of decision trees, each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g. in ilastik and Labkit.",
+    "text": "Random Forest\nAn ensemble of decision trees, each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g., in ilastik and Labkit.",
     "crumbs": [
       "Glossary"
     ]
@@ -2433,7 +2443,7 @@
     "href": "glossary.html#skip-connection",
     "title": "Glossary",
     "section": "Skip Connection",
-    "text": "Skip Connection\nSkip connections are also sometimes know as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a U-Net architecture connect across image resolutions.",
+    "text": "Skip Connection\nSkip connections are also sometimes known as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a U-Net architecture connect across image resolutions.",
     "crumbs": [
       "Glossary"
     ]
@@ -2473,7 +2483,7 @@
     "href": "glossary.html#stochastic-gradient-descent-sgd",
     "title": "Glossary",
     "section": "Stochastic Gradient Descent (SGD)",
-    "text": "Stochastic Gradient Descent (SGD)\nAs most modern problems require large training datasets to effectively capture underlying signals, attempting to calculate the gradient over the entire dataset is often computationally prohibative. This is overcome by batching the training data into smaller subsets. This naturally injects some stochasticty (randomness) into the gradient descent procedure based on how the batches are randomly determined.",
+    "text": "Stochastic Gradient Descent (SGD)\nAs most modern problems require large training datasets to effectively capture underlying signals, attempting to calculate the gradient over the entire dataset is often computationally prohibitive. This is overcome by batching the training data into smaller subsets. This naturally injects some stochasticty (randomness) into the gradient descent procedure based on how the batches are randomly determined.",
     "crumbs": [
       "Glossary"
     ]
@@ -2503,7 +2513,7 @@
     "href": "glossary.html#supervised-learning",
     "title": "Glossary",
     "section": "Supervised Learning",
-    "text": "Supervised Learning\nA form of machine learning in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a class, a position, a mask, or another image.",
+    "text": "Supervised Learning\nA form of machine learning in which every training input comes paired with the correct answer (the target), and the model learns to produce that answer from the input. The target can be a class, a position, a mask, or another image.",
     "crumbs": [
       "Glossary"
     ]
@@ -2633,7 +2643,7 @@
     "href": "glossary.html#true-negatives",
     "title": "Glossary",
     "section": "True Negatives",
-    "text": "True Negatives\nIn a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.",
+    "text": "True Negatives\nIn a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative. For example, if the network correctly lacks a segmentation in an empty/background region of an image, the segmentation is correctly negative for the negative region of the image.",
     "crumbs": [
       "Glossary"
     ]
@@ -2643,7 +2653,7 @@
     "href": "glossary.html#true-positives",
     "title": "Glossary",
     "section": "True Positives",
-    "text": "True Positives\nIn a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.",
+    "text": "True Positives\nIn a scenario where you have two classes “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive. For example, if the network correctly segments a cell in the image, the segmentation is positive for the positive region of the image.",
     "crumbs": [
       "Glossary"
     ]
@@ -2733,7 +2743,7 @@
     "href": "glossary.html#weakly-supervised-learning",
     "title": "Glossary",
     "section": "Weakly Supervised Learning",
-    "text": "Weakly Supervised Learning\nWeakly supervised learning takes partial, noisy, or imprecise labels to guide training. These labels are often combined with unlabeled data which the model learns from in an unsupervised manner. This can be significantly reduce the annotation time and speed up deployment of a model.",
+    "text": "Weakly Supervised Learning\nWeakly supervised learning takes partial, noisy, or imprecise labels to guide training. These labels are often combined with unlabeled data which the model learns from in an unsupervised manner. This can significantly reduce the annotation time and speed up deployment of a model.",
     "crumbs": [
       "Glossary"
     ]
@@ -2743,7 +2753,7 @@
     "href": "glossary.html#wiener-filter",
     "title": "Glossary",
     "section": "Wiener Filter",
-    "text": "Wiener Filter\nWiener filters are used to estimate an unknown underlying signal from am observed noisy response. For an example use-case of this filter in image processing, see this Matlab implementation.",
+    "text": "Wiener Filter\nWiener filters are used to estimate an unknown underlying signal from an observed noisy response. For an example use-case of this filter in image processing, see this MATLAB implementation.",
     "crumbs": [
       "Glossary"
     ]

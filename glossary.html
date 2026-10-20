@@ -474,7 +474,7 @@ window.Quarto = {
   <li><a href="#activations" id="toc-activations" class="nav-link" data-scroll-target="#activations">Activations</a></li>
   <li><a href="#adaptive-optics" id="toc-adaptive-optics" class="nav-link" data-scroll-target="#adaptive-optics">Adaptive Optics</a></li>
   <li><a href="#agentic-workflow" id="toc-agentic-workflow" class="nav-link" data-scroll-target="#agentic-workflow">Agentic Workflow</a></li>
-  <li><a href="#artificial-intelligence" id="toc-artificial-intelligence" class="nav-link" data-scroll-target="#artificial-intelligence">Artificial intelligence</a></li>
+  <li><a href="#artificial-intelligence" id="toc-artificial-intelligence" class="nav-link" data-scroll-target="#artificial-intelligence">Artificial Intelligence</a></li>
   <li><a href="#attribution-map" id="toc-attribution-map" class="nav-link" data-scroll-target="#attribution-map">Attribution Map</a></li>
   <li><a href="#autoencoder" id="toc-autoencoder" class="nav-link" data-scroll-target="#autoencoder">Autoencoder</a></li>
   <li><a href="#auxiliary-variables" id="toc-auxiliary-variables" class="nav-link" data-scroll-target="#auxiliary-variables">Auxiliary Variables</a></li>
@@ -489,7 +489,7 @@ window.Quarto = {
   <li><a href="#binary-segmentation" id="toc-binary-segmentation" class="nav-link" data-scroll-target="#binary-segmentation">Binary Segmentation</a></li>
   <li><a href="#boosting-algorithm" id="toc-boosting-algorithm" class="nav-link" data-scroll-target="#boosting-algorithm">Boosting Algorithm</a></li>
   <li><a href="#bounding-region" id="toc-bounding-region" class="nav-link" data-scroll-target="#bounding-region">Bounding Region</a></li>
-  <li><a href="#care-content-aware-image-restoration" id="toc-care-content-aware-image-restoration" class="nav-link" data-scroll-target="#care-content-aware-image-restoration">CARE (Content-aware image restoration)</a></li>
+  <li><a href="#care-content-aware-image-restoration" id="toc-care-content-aware-image-restoration" class="nav-link" data-scroll-target="#care-content-aware-image-restoration">CARE (Content-aware Image Restoration)</a></li>
   <li><a href="#capacity" id="toc-capacity" class="nav-link" data-scroll-target="#capacity">Capacity</a></li>
   <li><a href="#centroid-coordinate" id="toc-centroid-coordinate" class="nav-link" data-scroll-target="#centroid-coordinate">Centroid Coordinate</a></li>
   <li><a href="#channel-attention" id="toc-channel-attention" class="nav-link" data-scroll-target="#channel-attention">Channel Attention</a></li>
@@ -556,6 +556,7 @@ window.Quarto = {
   <li><a href="#image-classification" id="toc-image-classification" class="nav-link" data-scroll-target="#image-classification">Image Classification</a></li>
   <li><a href="#image-restoration" id="toc-image-restoration" class="nav-link" data-scroll-target="#image-restoration">Image Restoration</a></li>
   <li><a href="#image-translation" id="toc-image-translation" class="nav-link" data-scroll-target="#image-translation">Image Translation</a></li>
+  <li><a href="#inference" id="toc-inference" class="nav-link" data-scroll-target="#inference">Inference</a></li>
   <li><a href="#instance-segmentation" id="toc-instance-segmentation" class="nav-link" data-scroll-target="#instance-segmentation">Instance Segmentation</a></li>
   <li><a href="#iou" id="toc-iou" class="nav-link" data-scroll-target="#iou">IoU</a></li>
   <li><a href="#kernel" id="toc-kernel" class="nav-link" data-scroll-target="#kernel">Kernel</a></li>
@@ -565,7 +566,7 @@ window.Quarto = {
   <li><a href="#linear-layer" id="toc-linear-layer" class="nav-link" data-scroll-target="#linear-layer">Linear Layer</a></li>
   <li><a href="#localization" id="toc-localization" class="nav-link" data-scroll-target="#localization">Localization</a></li>
   <li><a href="#logprobs" id="toc-logprobs" class="nav-link" data-scroll-target="#logprobs">Logprobs</a></li>
-  <li><a href="#long-short-term-mmmory-lstm" id="toc-long-short-term-mmmory-lstm" class="nav-link" data-scroll-target="#long-short-term-mmmory-lstm">Long-short Term mMmory (LSTM)</a></li>
+  <li><a href="#long-short-term-memory-lstm" id="toc-long-short-term-memory-lstm" class="nav-link" data-scroll-target="#long-short-term-memory-lstm">Long-short Term Memory (LSTM)</a></li>
   <li><a href="#loss-function" id="toc-loss-function" class="nav-link" data-scroll-target="#loss-function">Loss Function</a></li>
   <li><a href="#machine-learning" id="toc-machine-learning" class="nav-link" data-scroll-target="#machine-learning">Machine Learning</a></li>
   <li><a href="#manual-annotation" id="toc-manual-annotation" class="nav-link" data-scroll-target="#manual-annotation">Manual Annotation</a></li>
@@ -716,7 +717,7 @@ window.Quarto = {
 </section>
 <section id="activation-function" class="level2">
 <h2 class="anchored" data-anchor-id="activation-function">Activation Function</h2>
-<p>An activation function is a mathematical formula that calculates the output of a <a href="./glossary.html#neural-network-unit">node</a>. These functions are nonlinear, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is “activated,” an analogy to the way in which biological neurons can be activated.</p>
+<p>An activation function is a mathematical formula that calculates the output of a <a href="./glossary.html#neural-network-unit">node</a>. These functions are <a href="./glossary.html#nonlinear">nonlinear</a>, which allows the network to solve nontrivial problems. They are so named because the output of the function decides to what extent each node in the network is “activated,” an analogy to the way in which biological neurons can be activated.</p>
 </section>
 <section id="activations" class="level2">
 <h2 class="anchored" data-anchor-id="activations">Activations</h2>
@@ -731,8 +732,8 @@ window.Quarto = {
 <p>Agentic workflows are hand-designed sequences of tool calls with human-specified decision points. A developer would define: “first call the segmentation tool, then if the count is above 100 switch to algorithm B.” These workflows are effective but rigid: every decision point must be anticipated in advance.</p>
 </section>
 <section id="artificial-intelligence" class="level2">
-<h2 class="anchored" data-anchor-id="artificial-intelligence">Artificial intelligence</h2>
-<p>Artificial intelligence (AI) refers to a computational system that is capable of performing a task that would normally require human intelligence.</p>
+<h2 class="anchored" data-anchor-id="artificial-intelligence">Artificial Intelligence</h2>
+<p>Artificial Intelligence (AI) refers to a computational system that is capable of performing a task that would normally require human intelligence.</p>
 </section>
 <section id="attribution-map" class="level2">
 <h2 class="anchored" data-anchor-id="attribution-map">Attribution Map</h2>
@@ -793,7 +794,7 @@ window.Quarto = {
 <p>A geometric shape, typically a box, drawn around an object in an image to indicate its spatial extent.</p>
 </section>
 <section id="care-content-aware-image-restoration" class="level2">
-<h2 class="anchored" data-anchor-id="care-content-aware-image-restoration">CARE (Content-aware image restoration)</h2>
+<h2 class="anchored" data-anchor-id="care-content-aware-image-restoration">CARE (Content-aware Image Restoration)</h2>
 <p>A <a href="./glossary.html#deep-learning">deep learning</a>-based method for <a href="./glossary.html#image-restoration">image restoration</a> that leverages content-specific features to enhance degraded images. See <a href="https://github.com/CSBDeep/CSBDeep">https://github.com/CSBDeep/CSBDeep</a> for more information.</p>
 </section>
 <section id="capacity" class="level2">
@@ -954,7 +955,7 @@ window.Quarto = {
 </section>
 <section id="event" class="level2">
 <h2 class="anchored" data-anchor-id="event">Event</h2>
-<p>A set of spatial features that change or transitions over time, temporally defined by a beginning and an end.</p>
+<p>A set of spatial features that change or transition over time, temporally defined by a beginning and an end.</p>
 </section>
 <section id="event-detection" class="level2">
 <h2 class="anchored" data-anchor-id="event-detection">Event Detection</h2>
@@ -966,11 +967,11 @@ window.Quarto = {
 </section>
 <section id="false-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="false-negatives">False Negatives</h2>
-<p>In a scenario where you have two <a href="./glossary.html#class">classes</a> “positive” and “negative”, you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive.</p>
+<p>In a scenario where you have two <a href="./glossary.html#class">classes</a> “positive” and “negative”, you try to predict cases as one of those classes. False negatives are the cases that you incorrectly predicted as negative and were really positive. For example, a cell that was missed by a segmentation approach is a false negative: the cell is there (positive), but the segmentation is negative.</p>
 </section>
 <section id="false-positives" class="level2">
 <h2 class="anchored" data-anchor-id="false-positives">False Positives</h2>
-<p>In a scenario where you have two <a href="./glossary.html#class">classes</a> “positive” and “negative”, you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative.</p>
+<p>In a scenario where you have two <a href="./glossary.html#class">classes</a> “positive” and “negative”, you try to predict cases as one of those classes. False positives are the cases that you incorrectly predicted as positive and were really negative. For example, a cell that appears in the segmentation (positive) but does not actually exist in the image is a false positive.</p>
 </section>
 <section id="feature-vector" class="level2">
 <h2 class="anchored" data-anchor-id="feature-vector">Feature vector</h2>
@@ -994,7 +995,7 @@ window.Quarto = {
 </section>
 <section id="frequency-domain" class="level2">
 <h2 class="anchored" data-anchor-id="frequency-domain">Frequency Domain</h2>
-<p>The representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using the Fourier transform.</p>
+<p>The representation of an image as a function of spatial frequency, obtained by transforming an image from the spatial domain using a Fourier transform.</p>
 </section>
 <section id="function-calling" class="level2">
 <h2 class="anchored" data-anchor-id="function-calling">Function Calling</h2>
@@ -1026,7 +1027,7 @@ window.Quarto = {
 </section>
 <section id="ground-truth" class="level2">
 <h2 class="anchored" data-anchor-id="ground-truth">Ground Truth</h2>
-<p>Accurate data against which a model can be evaluated. Ground truth data is often <a href="./glossary.html#manual-annotation">manually annotated</a>. The data type itself will vary depending on the task and evaluation. e.g.&nbsp;<a href="./glossary.html#instance-segmentation">instance segmentation</a> may be compared to ground truth object counts or masks.</p>
+<p>Accurate data against which a model can be evaluated. Ground truth data is often <a href="./glossary.html#manual-annotation">manually annotated</a>. The data type itself will vary depending on the task and evaluation. For example, <a href="./glossary.html#instance-segmentation">instance segmentation</a> may be compared to ground truth object counts or masks.</p>
 </section>
 <section id="hallucinations" class="level2">
 <h2 class="anchored" data-anchor-id="hallucinations">Hallucinations</h2>
@@ -1048,7 +1049,7 @@ window.Quarto = {
 </section>
 <section id="hyperparameters" class="level2">
 <h2 class="anchored" data-anchor-id="hyperparameters">Hyperparameters</h2>
-<p>The options you choose when training a <a href="./glossary.html#machine-learning">machine learning</a> model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss, etc.) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.</p>
+<p>The options you choose when training a <a href="./glossary.html#machine-learning">machine learning</a> model that affect the training process or the architecture of the model (e.g., learning rate, batch size, number of layers, training loss) are called hyperparameters. This term is used to differentiate them from the parameters (also known as weights) of the machine learning model.</p>
 </section>
 <section id="image-classification" class="level2">
 <h2 class="anchored" data-anchor-id="image-classification">Image Classification</h2>
@@ -1060,7 +1061,11 @@ window.Quarto = {
 </section>
 <section id="image-translation" class="level2">
 <h2 class="anchored" data-anchor-id="image-translation">Image Translation</h2>
-<p>Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g.&nbsp;brightfield) into a different modality (e.g.&nbsp;DAPI staining of nuclei) in the same field of view.</p>
+<p>Image-to-image translation (or style transfer) is a generative AI technique which transforms an input image into the style of another image. In the microscopy context, this could manifest as a network which transforms an image of one modality (e.g., brightfield) into a different modality (e.g., DAPI staining of nuclei) in the same field of view.</p>
+</section>
+<section id="inference" class="level2">
+<h2 class="anchored" data-anchor-id="inference">Inference</h2>
+<p>After a model has been trained, it can be applied to new, unseen data. The process of applying the model to this new data is known as inference.</p>
 </section>
 <section id="instance-segmentation" class="level2">
 <h2 class="anchored" data-anchor-id="instance-segmentation">Instance Segmentation</h2>
@@ -1068,7 +1073,7 @@ window.Quarto = {
 </section>
 <section id="iou" class="level2">
 <h2 class="anchored" data-anchor-id="iou">IoU</h2>
-<p>“Intersection over Union”. A segmentation metric that calculates the area of overlap between two <a href="./glossary.html#segmentation-mask">segmentation masks</a> divided by the area of their union.</p>
+<p>IoU stands for “Intersection over Union”. It is a segmentation metric that calculates the area of overlap between two <a href="./glossary.html#segmentation-mask">segmentation masks</a> divided by the area of their union.</p>
 </section>
 <section id="kernel" class="level2">
 <h2 class="anchored" data-anchor-id="kernel">Kernel</h2>
@@ -1098,8 +1103,8 @@ window.Quarto = {
 <h2 class="anchored" data-anchor-id="logprobs">Logprobs</h2>
 <p>Logprobs is short for log probabilities. Taking the logarithm of a probability has practical computational advantages. In the <a href="./glossary.html#artificial-intelligence">AI</a> context, logprobs refers to the probability of each <a href="./glossary.html#tokens">token</a>, given the previous token, and can be used as a measure of model confidence.</p>
 </section>
-<section id="long-short-term-mmmory-lstm" class="level2">
-<h2 class="anchored" data-anchor-id="long-short-term-mmmory-lstm">Long-short Term mMmory (LSTM)</h2>
+<section id="long-short-term-memory-lstm" class="level2">
+<h2 class="anchored" data-anchor-id="long-short-term-memory-lstm">Long-short Term Memory (LSTM)</h2>
 <p>A type of <a href="./glossary.html#recurrent-neural-networks-rnns">recurrent neural network</a> designed to retain information over longer sequences, addressing limitations of standard RNNs in capturing long-range temporal dependencies.</p>
 </section>
 <section id="loss-function" class="level2">
@@ -1260,7 +1265,7 @@ window.Quarto = {
 </section>
 <section id="quality-control-metric" class="level2">
 <h2 class="anchored" data-anchor-id="quality-control-metric">Quality Control Metric</h2>
-<p>Any metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g.&nbsp;an image doesn’t have debris) or continuous (e.g.&nbsp;annotated object centroids are within 5 pixels of the ground truth centroids).</p>
+<p>Any metric that can be used to evaluate quality. It will vary depending on the task and data type. It can be binary (e.g., an image doesn’t have debris) or continuous (e.g., annotated object centroids are within 5 pixels of the ground truth centroids).</p>
 </section>
 <section id="rcan-residual-channel-attention-network" class="level2">
 <h2 class="anchored" data-anchor-id="rcan-residual-channel-attention-network">RCAN (Residual Channel Attention Network)</h2>
@@ -1268,7 +1273,7 @@ window.Quarto = {
 </section>
 <section id="random-forest" class="level2">
 <h2 class="anchored" data-anchor-id="random-forest">Random Forest</h2>
-<p>An <a href="./glossary.html#ensemble">ensemble</a> of <a href="./glossary.html#decision-tree">decision trees</a>, each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g.&nbsp;in ilastik and Labkit.</p>
+<p>An <a href="./glossary.html#ensemble">ensemble</a> of <a href="./glossary.html#decision-tree">decision trees</a>, each trained on a random subset of the examples and features, whose votes are combined into a single prediction. Widely used for interactive pixel classification, e.g., in ilastik and Labkit.</p>
 </section>
 <section id="relu" class="level2">
 <h2 class="anchored" data-anchor-id="relu">ReLU</h2>
@@ -1388,7 +1393,7 @@ window.Quarto = {
 </section>
 <section id="skip-connection" class="level2">
 <h2 class="anchored" data-anchor-id="skip-connection">Skip Connection</h2>
-<p>Skip connections are also sometimes know as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a <a href="./glossary.html#u-net">U-Net</a> architecture connect across image resolutions.</p>
+<p>Skip connections are also sometimes known as residual connections. These connections are made when the output of a layer of the model is added to or concatenated with a later layer in the network while bypassing any layers that may be in between. For example, the layers in a <a href="./glossary.html#u-net">U-Net</a> architecture connect across image resolutions.</p>
 </section>
 <section id="smart-microscopy" class="level2">
 <h2 class="anchored" data-anchor-id="smart-microscopy">Smart Microscopy</h2>
@@ -1404,11 +1409,11 @@ window.Quarto = {
 </section>
 <section id="stochastic-gradient-descent-sgd" class="level2">
 <h2 class="anchored" data-anchor-id="stochastic-gradient-descent-sgd">Stochastic Gradient Descent (SGD)</h2>
-<p>As most modern problems require large <a href="./glossary.html#training-data">training datasets</a> to effectively capture underlying signals, attempting to calculate the gradient over the entire dataset is often computationally prohibative. This is overcome by <a href="./glossary.html#batch">batching</a> the training data into smaller subsets. This naturally injects some stochasticty (randomness) into the <a href="./glossary.html#gradient-descent">gradient descent</a> procedure based on how the batches are randomly determined.</p>
+<p>As most modern problems require large <a href="./glossary.html#training-data">training datasets</a> to effectively capture underlying signals, attempting to calculate the gradient over the entire dataset is often computationally prohibitive. This is overcome by <a href="./glossary.html#batch">batching</a> the training data into smaller subsets. This naturally injects some stochasticty (randomness) into the <a href="./glossary.html#gradient-descent">gradient descent</a> procedure based on how the batches are randomly determined.</p>
 </section>
 <section id="stride" class="level2">
 <h2 class="anchored" data-anchor-id="stride">Stride</h2>
-<p>When performing a <a href="./glossary.html#convolution">convolution</a> or cross-correlation, the kernel (aka the filter) moves across the entire image. When the stride is 1, this corresponds to moving the filter across every pixel in the image. For larger values of the stride, the kernel is moved more than one element at a time. For example, a stride of 2 would skip every other pixel in the image.</p>
+<p>When performing a <a href="./glossary.html#convolution">convolution</a> or cross-correlation, the <a href="./glossary.html#kernel">kernel</a> (aka the filter) moves across the entire image. When the stride is 1, this corresponds to moving the filter across every pixel in the image. For larger values of the stride, the kernel is moved more than one element at a time. For example, a stride of 2 would skip every other pixel in the image.</p>
 </section>
 <section id="structural-similarity-index-ssim" class="level2">
 <h2 class="anchored" data-anchor-id="structural-similarity-index-ssim">Structural Similarity Index (SSIM)</h2>
@@ -1418,7 +1423,7 @@ window.Quarto = {
 </section>
 <section id="supervised-learning" class="level2">
 <h2 class="anchored" data-anchor-id="supervised-learning">Supervised Learning</h2>
-<p>A form of <a href="./glossary.html#machine-learning">machine learning</a> in which every training input comes paired with the correct answer, the target, and the model learns to produce that answer from the input. The target can be a <a href="./glossary.html#class">class</a>, a position, a mask, or another image.</p>
+<p>A form of <a href="./glossary.html#machine-learning">machine learning</a> in which every training input comes paired with the correct answer (the target), and the model learns to produce that answer from the input. The target can be a <a href="./glossary.html#class">class</a>, a position, a mask, or another image.</p>
 </section>
 <section id="support-vector-machine-svm" class="level2">
 <h2 class="anchored" data-anchor-id="support-vector-machine-svm">Support Vector Machine (SVM)</h2>
@@ -1462,7 +1467,7 @@ window.Quarto = {
 </section>
 <section id="transformer-models" class="level2">
 <h2 class="anchored" data-anchor-id="transformer-models">Transformer Models</h2>
-<p>A <a href="./glossary.html#deep-learning">deep learning</a> architecture, originally developed for language, in which every part of the input is compared with every other part (attention), so that distant regions can inform each other. A vision transformer (ViT) cuts an image into small patches and treats them like the words of a sentence.</p>
+<p>A <a href="./glossary.html#deep-learning">deep learning</a> architecture, originally developed for language, in which every part of the input is compared with every other part (<a href="./glossary.html#self-attention">attention</a>), so that distant regions can inform each other. A vision transformer (ViT) cuts an image into small patches and treats them like the words of a sentence.</p>
 </section>
 <section id="transposed-convolution" class="level2">
 <h2 class="anchored" data-anchor-id="transposed-convolution">Transposed Convolution</h2>
@@ -1474,11 +1479,11 @@ window.Quarto = {
 </section>
 <section id="true-negatives" class="level2">
 <h2 class="anchored" data-anchor-id="true-negatives">True Negatives</h2>
-<p>In a scenario where you have two <a href="./glossary.html#class">classes</a> “positive” and “negative”, you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative.</p>
+<p>In a scenario where you have two <a href="./glossary.html#class">classes</a> “positive” and “negative”, you try to predict cases as one of those classes. True negatives are the cases that you predicted as negative and were really negative. For example, if the network correctly lacks a segmentation in an empty/background region of an image, the segmentation is correctly negative for the negative region of the image.</p>
 </section>
 <section id="true-positives" class="level2">
 <h2 class="anchored" data-anchor-id="true-positives">True Positives</h2>
-<p>In a scenario where you have two <a href="./glossary.html#class">classes</a> “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive.</p>
+<p>In a scenario where you have two <a href="./glossary.html#class">classes</a> “positive” and “negative”, you try to predict cases as one of those classes. True positives are the cases that you predicted as positive and were really positive. For example, if the network correctly segments a cell in the image, the segmentation is positive for the positive region of the image.</p>
 </section>
 <section id="u-net" class="level2">
 <h2 class="anchored" data-anchor-id="u-net">U-Net</h2>
@@ -1514,11 +1519,11 @@ window.Quarto = {
 </section>
 <section id="weakly-supervised-learning" class="level2">
 <h2 class="anchored" data-anchor-id="weakly-supervised-learning">Weakly Supervised Learning</h2>
-<p>Weakly supervised learning takes partial, noisy, or imprecise labels to guide training. These labels are often combined with unlabeled data which the model learns from in an <a href="./glossary.html#unsupervised-learning">unsupervised</a> manner. This can be significantly reduce the annotation time and speed up deployment of a model.</p>
+<p>Weakly supervised learning takes partial, noisy, or imprecise labels to guide training. These labels are often combined with unlabeled data which the model learns from in an <a href="./glossary.html#unsupervised-learning">unsupervised</a> manner. This can significantly reduce the annotation time and speed up deployment of a model.</p>
 </section>
 <section id="wiener-filter" class="level2">
 <h2 class="anchored" data-anchor-id="wiener-filter">Wiener Filter</h2>
-<p>Wiener filters are used to estimate an unknown underlying signal from am observed noisy response. For an example use-case of this filter in image processing, see <a href="https://www.mathworks.com/help/images/deblurring-images-using-a-wiener-filter.html">this Matlab implementation</a>.</p>
+<p>Wiener filters are used to estimate an unknown underlying signal from an observed noisy response. For an example use-case of this filter in image processing, see <a href="https://www.mathworks.com/help/images/deblurring-images-using-a-wiener-filter.html">this MATLAB implementation</a>.</p>
 </section>
 <section id="zernike-modes" class="level2">
 <h2 class="anchored" data-anchor-id="zernike-modes">Zernike Modes</h2>
