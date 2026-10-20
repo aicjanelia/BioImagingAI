@@ -252,7 +252,7 @@ Ultimately, successful model development depends on balancing biological relevan
 
 ## Real-Time Event Detection in Smart Microscopy
 
-In smart microscopy workflows, event detection can be performed either after image acquisition or during image acquisition. These two approaches, often referred to as *a-posteriori* and *real-time* analysis, respectively, differ not only in when inference occurs but also in how detection influences the experiment itself.
+In smart microscopy workflows, event detection can be performed either after image acquisition or during image acquisition. These two approaches, often referred to as *a-posteriori* and *real-time* analysis, respectively, differ not only in when [inference](glossary.qmd#inference) occurs but also in how detection influences the experiment itself.
 
 In [a-posteriori analysis](glossary.qmd#a-posteriori-analysis), events are identified after the complete dataset has been acquired and stored. This approach allows computationally intensive algorithms to be applied without constraints imposed by the instrument's acquisition speed and is well suited for retrospective analysis, hypothesis generation, and machine learning model development. However, because detection occurs after the experiment is complete, the results cannot influence image acquisition or experimental conditions.
 

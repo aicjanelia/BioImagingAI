@@ -404,7 +404,7 @@ There are four typical combinations of training and prediction workflows:
 
 * **Training locally + prediction in the cloud** may be useful when models are trained in-house but need to be deployed at scale or integrated into cloud-based pipelines.
 
-* **Training in the cloud + prediction locally** enables researchers to take advantage of powerful cloud GPUs for model development, while keeping inference close to the data source (e.g., on a microscope workstation or when dealing with sensitive data).
+* **Training in the cloud + prediction locally** enables researchers to take advantage of powerful cloud GPUs for model development, while keeping [inference](glossary.qmd#inference) close to the data source (e.g., on a microscope workstation or when dealing with sensitive data).
 
 * **Training in the cloud + prediction in the cloud** is well suited for collaborative projects or large-scale deployments, where access to centralized, scalable infrastructure is critical.
 
