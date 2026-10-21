@@ -562,7 +562,7 @@ window.Quarto = {
   </div>
   <div class="quarto-title-meta-contents">
         <p class="affiliation">
-            biohub
+            Biohub
           </p>
       </div>
   </div>
@@ -767,7 +767,7 @@ Note
 <p>The DICE coefficient is the F1-score applied to pixel-level segmentation masks, and the two names are sometimes used interchangeably in the biomedical imaging literature.</p>
 </div>
 </div>
-<div id="ef312bc5" class="cell" data-execution_count="4">
+<div id="b9971b68" class="cell" data-execution_count="4">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -849,7 +849,7 @@ Note
 <p>A predicted instance is a true positive (TP) if it sufficiently overlaps a ground-truth instance (e.g., IoU <span class="math inline">\(\geq 0.5\)</span>), a false positive (FP) if it has no matching ground truth, and a false negative (FN) if a ground-truth instance was never detected.</p>
 <p><span class="math display">\[\text{Precision} = \frac{\text{TP}}{\text{TP}+\text{FP}} \qquad \text{Recall} = \frac{\text{TP}}{\text{TP}+\text{FN}}\]</span> <span class="math display">\[ \text{F1} = \frac{2\,\text{TP}}{2\,\text{TP}+\text{FP}+\text{FN}}\]</span></p>
 <p>Precision answers “of all predicted instances, how many were correct?”; recall answers “of all real instances, how many were found?”; F1 is their harmonic mean.</p>
-<div id="3b1fdca5" class="cell" data-execution_count="5">
+<div id="586139bb" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -936,7 +936,7 @@ Note
 <p>The <a href="./glossary.html#hausdorff-distance">Hausdorff distance</a> measures how far apart two sets of boundary points are at their worst-case point. For boundary point sets <span class="math inline">\(A\)</span> and <span class="math inline">\(B\)</span>:</p>
 <p><span class="math display">\[d_H(A, B) = \max\!\left(\sup_{a \in A} \inf_{b \in B} d(a,b),\; \sup_{b \in B} \inf_{a \in A} d(a,b)\right)\]</span></p>
 <p>A small Hausdorff distance means every point on one boundary has a close counterpart on the other.</p>
-<div id="6cf173a7" class="cell" data-execution_count="6">
+<div id="8b619966" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1017,7 +1017,7 @@ Note
 <p><a href="./glossary.html#average-precision">Average Precision (AP)</a> summarizes the precision–recall trade-off across confidence thresholds. A predicted instance counts as a true positive only if its IoU with a ground-truth instance meets or exceeds a threshold <span class="math inline">\(x\)</span>:</p>
 <p><span class="math display">\[\text{AP}_x = \sum_{k} (R_k - R_{k-1})\, P_k\]</span></p>
 <p>where <span class="math inline">\(P_k\)</span> and <span class="math inline">\(R_k\)</span> are precision and recall at the <span class="math inline">\(k\)</span>-th confidence threshold after matching predictions to ground truth at IoU <span class="math inline">\(\geq x\)</span>. Higher <span class="math inline">\(x\)</span> demands more precise localization.</p>
-<div id="e6a647b4" class="cell" data-execution_count="7">
+<div id="4fbf53c7" class="cell" data-execution_count="7">
 <details class="code-fold">
 <summary>show code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
@@ -1144,7 +1144,7 @@ Figure&nbsp;10.4: Common types of tracking errors. (a) This example prediction d
 <p><a href="#fig-sparse-edges" class="quarto-xref">Figure&nbsp;<span>10.5</span></a> illustrates three tracking failure modes and the metric scores for each solution. As the discussion below shows, solutions that fail in very different ways can end up with similar overall scores, and the two unified metrics can even disagree with each other about which solution is preferable.</p>
 <p>Consider the three failure modes in <a href="#fig-sparse-edges" class="quarto-xref">Figure&nbsp;<span>10.5</span></a>. The two unified metrics produce very different rankings of solutions. The TRA score ranks no divisions (0.957) similarly to sparse edges (0.947), and far above missing nodes (0.732). In contrast, while all solutions score relatively low on CHOTA, the missing-node solution ranks highest (0.560), followed by no divisions (0.333) and sparse edges (0.297). Because TRA and CHOTA weight node, edge, and lineage errors differently, two established “single number” metrics can disagree about which solution is preferable. Neither score reveals whether the underlying problem is due to missed detections, broken links, or failure to find divisions. To identify the specific failure modes, we need to examine metrics for nodes, edges, and divisions separately.</p>
 <p>The per-component metrics reveal the distinct failure mode in each solution. The missing node solution (b) has the lowest node F1 (0.858) of the three because a quarter of detections are dropped; since each dropped node also severs the edges that pass through it, this single error mode depresses edge F1 (0.798) and division F1 (0.399) as well. The sparse-edge (c) and no-division (d) solutions both keep every detection (node F1 = 1.000) and lose the same fraction of edges (edge F1 = 0.800), yet they are far from equivalent: the sparse-edge solution still recovers roughly half of the true divisions (division F1 = 0.505) because the deleted edges are scattered at random, while the no-division solution deterministically removes every division edge, so no division is ever proposed and division F1 is undefined.</p>
-<div id="f6c79f76" class="cell" data-execution_count="10">
+<div id="f388a191" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Show code to generate a set of lineage trees with regular divisions</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> networkx <span class="im">as</span> nx</span>
@@ -1236,7 +1236,7 @@ Figure&nbsp;10.4: Common types of tracking errors. (a) This example prediction d
 <span id="cb7-87"><a href="#cb7-87" aria-hidden="true" tabindex="-1"></a>gt <span class="op">=</span> build_lineage_tree(n_starting_nodes<span class="op">=</span><span class="dv">10</span>, n_frames<span class="op">=</span><span class="dv">30</span>, division_every<span class="op">=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
-<div id="5b78b3b8" class="cell" data-execution_count="12">
+<div id="44ef4b3a" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Show code to compute metrics on tracking solutions using <a href="https://github.com/live-image-tracking-tools/traccuracy"><code>traccuracy</code></a></summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> traccuracy.matchers <span class="im">import</span> Matched</span>
