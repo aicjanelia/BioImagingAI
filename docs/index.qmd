@@ -35,7 +35,7 @@ The source code for this textbook is available on [GitHub](https://github.com/ai
 
 ### Contributors {.unnumbered}
 | @sec-1 
-|    Teng-Leong Chew, Rachel M. Lee & Owen F. Puls
+|    Teng-Leong Chew, Rachel M. Lee, Owen F. Puls
 |    *HHMI Janelia Research Campus*
 |
 | @sec-primer
@@ -55,11 +55,11 @@ The source code for this textbook is available on [GitHub](https://github.com/ai
 |    *Technische Universität Dresden*
 |
 | @sec-Image-Restoration
-|    Yue Li, Jun Zhu, Mingzhe Wei, Hari Shroff, & Min Guo
+|    Yue Li, Jun Zhu, Mingzhe Wei, Hari Shroff, Min Guo
 |    *Zhejiang University & HHMI Janelia Research Campus*
 |
 | @sec-hardware
-|    Victoria Augoustides, Giorgio Tortarolo, Alara Kiris, Suliana Manley, & Wesley Legant
+|    Victoria Augoustides, Giorgio Tortarolo, Alara Kiris, Suliana Manley, Wesley Legant
 |    *University of North Carolina at Chapel Hill & École Polytechnique Fédérale de Lausanne*
 |
 | @sec-8
@@ -67,12 +67,12 @@ The source code for this textbook is available on [GitHub](https://github.com/ai
 |    *Imaging Platform, Broad Institute*
 |
 | @sec-9
-|    Joanna W. Pylvänäinen, Iván Hidalgo-Cenalmor, & Guillaume Jacquemet
+|    Joanna W. Pylvänäinen, Iván Hidalgo-Cenalmor, Guillaume Jacquemet
 |    *Åbo Akademi University*
 |
 | @sec-output_quality
 |    Morgan Schwartz & Diane Adjavon
-|    *HHMI Janelia Research Campus & biohub*
+|    *HHMI Janelia Research Campus & Biohub*
 |
 | @sec-outlook
 |    Anna Kreshuk

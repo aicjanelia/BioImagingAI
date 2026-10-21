@@ -10,7 +10,7 @@ author:
   - name: Diane Adjavon
     orcid: 0009-0001-4702-0776
     affiliations:
-      - name: biohub 
+      - name: Biohub 
         state: NY
         country: USA
         postal-code:  
