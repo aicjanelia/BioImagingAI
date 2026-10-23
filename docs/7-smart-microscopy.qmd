@@ -60,7 +60,7 @@ language:
   crossref-tip-title: "Case Study"
 ---
 
-# Adding AI to Hardware {#sec-hardware}
+# Object and Event Detection Within Microscopy Images {#sec-hardware}
 
 ::: {.content-visible when-format="pdf"}
 | **Victoria Augoustides^1^, Giorgio Tortarolo^2^, Alara Kiris^2^, Suliana Manley^2^, & Wesley Legant^1^**
