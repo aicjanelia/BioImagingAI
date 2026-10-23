@@ -3,21 +3,21 @@ author:
   - name: Yue Li
     orcid: 0000-0002-9299-0974
     affiliations:
-      - name: Zhejiang University
+      - name: College of Biosystems Engineering and Food Science, Zhejiang University
         city: Hangzhou
         country: China
         postal-code: 310027
   - name: Jun Zhu
     # orcid: xxx
     affiliations:
-      - name: Zhejiang University
+      - name: College of Optical Science and Engineering, Zhejiang University
         city: Hangzhou
         country: China
         postal-code: 310027
   - name: Mingzhe Wei
     # orcid: xxx
     affiliations:
-      - name: Zhejiang University
+      - name: College of Optical Science and Engineering, Zhejiang University
         city: Hangzhou
         country: China
         postal-code: 310027
@@ -31,7 +31,7 @@ author:
   - name: Min Guo
     orcid: 0000-0002-2093-8771
     affiliations:
-      - name: Zhejiang University
+      - name: College of Optical Science and Engineering, Zhejiang University
         city: Hangzhou
         country: China
         postal-code: 310027
