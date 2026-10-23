@@ -33,11 +33,11 @@ In computer vision, multiple neural network architectures were designed for vari
 
 In the case of biological problems, however, it is often necessary for the output to be the same size as the input---pixel-level labels---rather than a single object category label. For example, for cell classification, each pixel in the output may represent the cell class of the pixel. A common architecture for this is a [U-Net](glossary.qmd#u-net)[@Ronneberger2015], which applies filters and downsamples like AlexNet, and then additionally applies filters with [upsampling](glossary.qmd#upsampling), in the end producing an output at the same pixel resolution as the input.
 
-![U-net architecture, adapted from [@Ronneberger2015] and described further in @sec-unet-architecture. This neural network was revolutionary for biological analysis, in part due to the image-sized outputs and dense [skip connections](glossary.qmd#skip-connection) between layers on the downsampling and upsampling passes.](4-architectures/unet.PNG){#fig-unet}
+![U-Net architecture, adapted from [@Ronneberger2015] and described further in @sec-unet-architecture. This neural network was revolutionary for biological analysis, in part due to the image-sized outputs and [skip connections](glossary.qmd#skip-connection) between layers on the downsampling and upsampling passes.](4-architectures/unet.PNG){#fig-unet}
 
 ### Linear layers (aka fully-connected layers or dense layers)
 
-Early research focused on the computational properties of [perceptrons](glossary.qmd#perceptron), defined as linear weighted sums of inputs, followed by a nonlinear [activation function](glossary.qmd#activation-function) [@rumelhart1986learning]. In other words, a vector of features ($\vec{x}$) is the input: they are multiplied by a weight ($\vec{w}$) specific to each feature , summed together, and then put through a [nonlinear function](glossary.qmd#nonlinear). An example of a feature set may be a summary of cell-based quantifications in an image---e.g., how many cells are oblong or the fraction of cells with specific RNA expression---and the output may represent the phenotype of the cells in the image---e.g., cancerous or non-cancerous.
+Early research focused on the computational properties of [perceptrons](glossary.qmd#perceptron), defined as linear weighted sums of inputs, followed by a nonlinear [activation function](glossary.qmd#activation-function) [@rumelhart1986learning]. In other words, a vector of features ($\vec{x}$) is the input: they are multiplied by a weight ($\vec{w}$) specific to each feature, summed together, and then put through a [nonlinear function](glossary.qmd#nonlinear). An example of a feature set may be a summary of cell-based quantifications in an image---e.g., how many cells are oblong or the fraction of cells with specific RNA expression---and the output may represent the phenotype of the cells in the image---e.g., cancerous or non-cancerous.
 
 A neural network layer consists of a collection of such perceptrons, each with their own input weights; when these vectors of weights for each perceptron are put together, they create a weights matrix $W$. Another term often added to these computations is a [bias](glossary.qmd#bias-vector) value, and there is one term for each output, creating a vector $\vec{b}$. This additive term provides flexibility for the layer to produce non-zero outputs, even when the inputs are zero. This is summarized by @eq-W-b, where $m$ is the number of inputs and $n$ is the number of outputs.
 
@@ -80,9 +80,9 @@ $$ {#eq-ReLu}
 
 ![ReLU nonlinearity. This is the most-used activation function in neural networks, sometimes with small modifications.](4-architectures/relu.png){width=33% #fig-relu}
 
-A sequence of such layers that are applied in series, each on the output of the previous one, is called a [multilayer perceptron (MLP)](glossary.qmd#multilayer-perceptron) (see @fig-mlp). This is the simplest example of a deep neural network, and we illustrate the code below. 
+A sequence of such layers that are applied in series, each on the output of the previous one, is called a [multi-layer perceptron (MLP)](glossary.qmd#multilayer-perceptron) (see @fig-mlp). This is the simplest example of a deep neural network, and we illustrate the code below. 
 
-![Illustration of a multilayer perceptron (MLP) with two hidden layers.](4-architectures/mlp.png){#fig-mlp width=60%}
+![Illustration of a multi-layer perceptron (MLP) with two hidden layers.](4-architectures/mlp.png){#fig-mlp width=60%}
 
 For images, we note that [dense linear layers](glossary.qmd#linear-layer) are not efficient in the number of parameters and computations they perform. To see why, consider a modest-sized input image of 100 by 100 pixels with 3 channels. In this case, there are 30,000 input values. If the output of the layer is the same size as the input, then there are 30,000 output values. The weights matrix then has size 30,000 by 30,000 and the bias vector has length 30,000. This is almost a billion parameters to fit, and would lead to overfitting even with a large amount of training data. 
 
@@ -115,7 +115,7 @@ class MLP(nn.Module):
         self.out_layer = nn.Linear(n_hidden, 1) # hidden units --> output
 
     def forward(self, X):
-        """ Input images and output label (e.g. 0 for cat / 1 for dog)
+        """ Input images and output label (e.g. 0 for not cell / 1 for cell)
 
         Args:
         X (torch.Tensor): input image (flattened), must be of
@@ -184,7 +184,7 @@ class MLP(nn.Module):
         self.out_layer = nn.Linear(n_hidden, 1) 
 
     def forward(self, X):
-        """ Input images and output label (e.g. 0 for cat / 1 for dog)
+        """ Input images and output label (e.g. 0 for not cell / 1 for cell)
 
         Args:
         X (torch.Tensor): input image (flattened), must be of
@@ -248,7 +248,7 @@ The 2D convolutional filter $W$ is often also called a [kernel](glossary.qmd#ker
 ![Convolutional operation with padding from [conv_arithmetic](https://github.com/vdumoulin/conv_arithmetic). This illustrates the creation of a single channel output from a single channel input, where the input is in blue, the filter is gray, and the output is in green. In practice, both inputs and outputs have multiple channels and all combinations of input and output need to be calculated and summed accordingly.](4-architectures/same_padding_no_strides_pdf.png){#fig-convpad width=40%}
 :::
 
-The number of input and output images is called [channels](glossary.qmd#channels), similar to the three red/green/blue channels for RGB images. @fig-convpad is an example with a single input and a single output channel, but in general a 2D convolutional layer has multiple input and output channels. Each output channel is the result of a 2D convolutional kernel applied to the input, with weights for each input feature. 
+Each of the input and output maps of a layer is called a [channel](glossary.qmd#channels), similar to the three red/green/blue channels for RGB images. @fig-convpad is an example with a single input and a single output channel, but in general a 2D convolutional layer has multiple input and output channels. Each output channel is the result of a convolutional kernel, with a size of input channels by kernel size by kernel size, applied to the input channels. 
 
 A convolutional layer operates under two main assumptions: 1) the computation only requires local features that are within the spatial extent of the filter operation; and 2) it is not necessary to perform different computations at different positions in the image, and thus the same filter operation can be convolutionally applied across all positions in the image. When these assumptions are acceptable, a convolutional layer can reduce the number of parameters substantially compared to linear layers. We note that for certain microscopy tasks, the amount of spatial context required may vary---for example determining the boundary of a tissue may require a larger context than a task like nuclear segmentation.
 
@@ -268,7 +268,7 @@ class ConvolutionalLayer(nn.Module):
         """Initialize layer
 
         Args:
-            c_in: number of input stimulus channels
+            c_in: number of input channels
             c_out: number of output convolutional channels
             K: size of each convolutional filter
 
@@ -281,10 +281,10 @@ class ConvolutionalLayer(nn.Module):
         """Run images through convolutional layer
 
         Args:
-            X (torch.Tensor): n_images x c_in x h x w tensor with stimuli
+            X (torch.Tensor): n_images x c_in x h x w tensor of input images.
 
         Returns:
-            (torch.Tensor): n_images x c_out x h x w tensor with convolutional layer unit activations.
+            (torch.Tensor): n_images x c_out x h x w tensor of convolutional layer unit activations.
 
         """
         Y = self.conv(X)  # output of convolutional layer
@@ -326,7 +326,7 @@ class ConvolutionalLayer(nn.Module):
         """Initialize layer
 
         Args:
-            c_in: number of input stimulus channels
+            c_in: number of input channels
             c_out: number of output convolutional channels
             K: size of each convolutional filter
 
@@ -339,10 +339,10 @@ class ConvolutionalLayer(nn.Module):
         """Run images through convolutional layer
 
         Args:
-            X (torch.Tensor): n_images x c_in x h x w tensor with stimuli
+            X (torch.Tensor): n_images x c_in x h x w tensor of input images.
 
         Returns:
-            (torch.Tensor): n_images x c_out x h x w tensor with 
+            (torch.Tensor): n_images x c_out x h x w tensor of 
             convolutional layer unit activations.
 
         """
@@ -370,7 +370,7 @@ print('output shape: ', y.shape)
 ```
 :::
 
-We define the [receptive field](glossary.qmd#receptive-field) size of a convolutional layer as the total spatial extent of pixels that influence the activations of the layer. For a single convolutional layer, the activations have a receptive field size equivalent to the kernel size: each activation only receives information from pixels within the kernel window. However, objects in images are often larger than the kernel size. To increase the amount of spatial information used for computation, [pooling layers](glossary.qmd#pooling-layer) are introduced between convolutional layers. A pooling layer performs operations in sliding windows across the image, just like the convolutional layer, but in this case a maximum or average operation is computed within the window, independently for each input channel (rather than the application of a filter). To reduce the size of the image, this convolutional operation is applied with a “stride”: to downsample the image by a factor of two, we may use a pooling size of 2 with a stride also set to 2, like in the example below. 
+We define the [receptive field](glossary.qmd#receptive-field) size of a convolutional layer as the total spatial extent of pixels that influence the activations of the layer. For a single convolutional layer, the activations have a receptive field size equivalent to the kernel size: each activation only receives information from pixels within the kernel window. However, objects in images are often larger than the kernel size. To increase the amount of spatial information used for computation, [pooling layers](glossary.qmd#pooling-layer) are introduced between convolutional layers. A pooling layer performs operations in sliding windows across the image, just like the convolutional layer, but in this case a maximum or average operation is computed within the window, independently for each input channel (rather than the application of a filter). To reduce the size of the image, this sliding-window operation is applied with a “stride”: to downsample the image by a factor of two, we may use a pooling size of 2 with a stride also set to 2, like in the example below. 
 
 ![Illustration of max-pooling with a kernel size of 2 and stride of 2, from [PyTorchStepByStep](https://github.com/dvgodoy/PyTorchStepByStep).](4-architectures/pooling.png){#fig-pool width=90%}
 
@@ -394,32 +394,32 @@ If we apply several convolutional and pooling layers, we end up with an output t
 Lighter blue indicates a higher activation for each unit. The final output layer represents the probability of the input image corresponding to a value between 0 and 9. In this example, the network correctly identifies the input as the number 3. To see this in action, check out the interactive demonstration by Adam Harley: [https://adamharley.com/nn_vis/cnn/2d.html](https://adamharley.com/nn_vis/cnn/2d.html)
 ](4-architectures/mnist.PNG){#fig-mnist}
 
-Having an output that is downsampled relative to the input is appropriate for a task like object recognition, where the output is the [class](glossary.qmd#class-label) of the image, like cat or dog. In the case of biological images, this could be a global image label of a cancerous or non-cancerous phenotype [@spanhol2016breast]. However, for pixel-specific classification or segmentation, we require the output to be the same size as the input. This is where u-nets come in.
+Having an output that is downsampled relative to the input is appropriate for a task like object recognition, where the output is the [class](glossary.qmd#class-label) of the image, like cat or dog. In the case of biological images, this could be a global image label of a cancerous or non-cancerous phenotype [@spanhol2016breast]. However, for pixel-specific classification or segmentation, we require the output to be the same size as the input. This is where U-Nets come in.
 
-### U-nets {#sec-unet-architecture}
+### U-Nets {#sec-unet-architecture}
 
-U-nets were introduced by Ronneberger, Fischer, and Brox [-@Ronneberger2015] and are one example of a [convolutional neural network (CNN)](glossary.qmd#convolutional-neural-networks-cnns) (@fig-unet). They share some similarities with feature pyramid networks [@lin2017feature], but u-nets are more frequently used in biological applications, so we will focus on them. U-nets have what is called an [encoder-decoder](glossary.qmd#encoder-decoder) structure, like an [autoencoder](glossary.qmd#autoencoder) [@hinton2006reducing]. The "encoder" consists of the convolutional layers and pooling layers ([downsampling](glossary.qmd#downsampling)), and is the first half of the network. The "decoder" consists of convolutional layers and [upsampling](glossary.qmd#upsampling) or [strided](glossary.qmd#stride) transposed convolution layers ("conv-transpose"). This is the second half of the network, which returns an output at the same spatial resolution as the input. 
+U-Nets were introduced by Ronneberger, Fischer, and Brox [-@Ronneberger2015] and are one example of a [convolutional neural network (CNN)](glossary.qmd#convolutional-neural-networks-cnns) (@fig-unet). They share some similarities with feature pyramid networks [@lin2017feature], but U-Nets are more frequently used in biological applications, so we will focus on them. U-Nets have what is called an [encoder-decoder](glossary.qmd#encoder-decoder) structure, like an [autoencoder](glossary.qmd#autoencoder) [@hinton2006reducing]. The "encoder" consists of the convolutional layers and pooling layers ([downsampling](glossary.qmd#downsampling)), and is the first half of the network. The "decoder" consists of convolutional layers and [upsampling](glossary.qmd#upsampling) or [strided](glossary.qmd#stride) transposed convolution layers ("conv-transpose"). This is the second half of the network, which returns an output at the same spatial resolution as the input. 
 
-In the case of an autoencoder [@hinton2006reducing], the network is trained to reproduce the input, and the output of the encoder is defined to be lower-dimensional than the input. The output of the encoder is then a compressed version of the inputs that can be used to visualize the data. We can also visualize the output of the encoder of a u-net, although u-nets are usually not trained to predict their inputs. Instead, u-nets are often trained to predict pixel-level cell probabilities, with pixels inside cells defined as one and pixels outside cells defined as zero.
+In the case of an autoencoder [@hinton2006reducing], the network is trained to reproduce the input, and the output of the encoder is defined to be lower-dimensional than the input. The output of the encoder is then a compressed version of the inputs that can be used to visualize the data. We can also visualize the output of the encoder of a U-Net, although U-Nets are usually not trained to predict their inputs. Instead, U-Nets are often trained to predict pixel-level cell probabilities, with pixels inside cells defined as one and pixels outside cells defined as zero.
  
-Downsampling results in a loss of fine spatial information. To recover this information, in the u-net the output of the convolutional layers in the encoder is concatenated with the activations from the decoder at each spatial scale using [skip connections](glossary.qmd#skip-connection) (“copy” operation in @fig-unet). This preserves the higher resolution details, which is important for precise segmentations and pixel-wise predictions.
+Downsampling results in a loss of fine spatial information. To recover this information, in the U-Net the output of the convolutional layers in the encoder is concatenated with the activations from the decoder at each spatial scale using [skip connections](glossary.qmd#skip-connection) (“copy” operation in @fig-unet). This preserves the higher resolution details, which is important for precise segmentations and pixel-wise predictions.
 
-Conventional u-nets [@Ronneberger2015] have two convolutional layers per spatial scale and a small kernel size of 3 in each layer. Each of these sets of convolutional layers per spatial scale is often referred to as a block. The downsampling after each block is often set to a factor of 2. Because the kernel size is small, the only way to have large receptive field sizes is through several downsampling blocks. If we want the network to learn complicated tasks across many diverse images, then we need it to have a large [capacity](glossary.qmd#capacity). This can be achieved by adding more weights to the network, for example by increasing the number of channels in the convolutional layers and/or by adding more convolutional layers in each block and/or by increasing the number of downsampling and upsampling stages [@stringer2021].
+Conventional U-Nets [@Ronneberger2015] have two convolutional layers per spatial scale and a small kernel size of 3 in each layer. Each of these sets of convolutional layers per spatial scale is often referred to as a block. The downsampling after each block is often set to a factor of 2. Because the kernel size is small, the only way to have large receptive field sizes is through several downsampling blocks. If we want the network to learn complicated tasks across many diverse images, then we need it to have a large [capacity](glossary.qmd#capacity). This can be achieved by adding more weights to the network, for example by increasing the number of channels in the convolutional layers and/or by adding more convolutional layers in each block and/or by increasing the number of downsampling and upsampling stages [@stringer2021].
 
 ### Vision transformers
 
-Vision transformers are modern architectures that are replacing convolutional networks in many applications. They are not as parameter-efficient as convolutional neural networks. For example, the Cellpose segmentation u-net has 6.6 million parameters while ViT-H (“vision-transformer-huge”) has 632 million parameters [@dosovitskiy2020image]. They are still much more efficient than dense linear layers due to special architecture choices (see below), and they introduce a new type of operation called [self-attention](glossary.qmd#self-attention). Transformers avoid overfitting this large set of parameters through training on very large amounts of data. Even though they have many more parameters than standard convolutional networks, they are not too much slower because most of the operations within the transformer are matrix multiplications which are fast on newer GPUs with tensor cores (learn more in this [explainer from TechRadar](https://www.techradar.com/computing/gpu/what-is-a-tensor-core-the-nvidia-gpu-technology-explained)). With more parameters, they have a larger capacity than standard convolutional neural networks to learn from large training datasets.
+Vision transformers are modern architectures that are replacing convolutional networks in many applications. They are not as parameter-efficient as convolutional neural networks. For example, the Cellpose segmentation U-Net has 6.6 million parameters while ViT-H (“vision-transformer-huge”) has 632 million parameters [@dosovitskiy2020image]. They are still much more efficient than dense linear layers due to special architecture choices (see below), and they introduce a new type of operation called [self-attention](glossary.qmd#self-attention). Transformers avoid overfitting this large set of parameters through training on very large amounts of data. Even though they have many more parameters than standard convolutional networks, they are not too much slower because most of the operations within the transformer are matrix multiplications which are fast on newer GPUs with tensor cores (learn more in this [explainer from TechRadar](https://www.techradar.com/computing/gpu/what-is-a-tensor-core-the-nvidia-gpu-technology-explained)). With more parameters, they have a larger capacity than standard convolutional neural networks to learn from large training datasets.
 
-The vision transformer first divides the input image into [patches](glossary.qmd#patches), e.g., 16 by 16 pixels each. In the first layer of the transformer the patches are transformed into the [embedding space](glossary.qmd#embedding-space), using a linear operation that is often implemented using strided convolutions. This embedding space is generally several times larger than the number of pixels in the patch; for example the embedding space in ViT-H is 1280. If an image is 512 by 512 pixels, then it has 32 by 32 (=1024) patches, so the patch embeddings are of dimensionality 1024 patches by 1280 feature dimensions in the case of ViT-H.
+The vision transformer first divides the input image into [patches](glossary.qmd#patches), e.g., 16 by 16 pixels each. In the first layer of the transformer the patches are transformed into the [embedding space](glossary.qmd#embedding-space), using a linear operation that is often implemented using strided convolutions. This embedding space is generally several times larger than the number of pixels in the patch; for example the embedding dimension in ViT-H is 1280. If an image is 512 by 512 pixels, then it has 32 by 32 (=1024) patches, so the patch embeddings are of dimensionality 1024 patches by 1280 feature dimensions in the case of ViT-H.
 
-These patch embeddings are input to the transformer encoder, which consists of many blocks ($L$). Each transformer block has a self-attention block and a [multi-layer perceptron](glossary.qmd#multilayer-perceptron) (MLP) block. The input patches to each self-attention block are multiplied by three sets of learned feature vectors, which create the queries (Q), keys (K), and values (V) input to the self-attention block. The queries and keys are multiplied across patches, and a normalization operation is applied---this is the attention matrix, where each entry $(i,j)$ is the interaction between patches $i$ and $j$. Because this matrix is across all patches in the image, this operation enables sharing of information across the entire image. The attention matrix is then multiplied with the values matrix, and the result of this operation, which is of size equal to the number of patches by the number of features, is fed into the MLP. This MLP acts on the feature dimension, applying the same operation to each patch, and often consists of two layers, with a nonlinearity in the hidden layer only. [Residual connections](glossary.qmd#residual-connection) are added to both the attention and MLP operations, in order to speed up training.
+These patch embeddings are input to the transformer encoder, which consists of many blocks ($L$). Each transformer block has a self-attention block and a [multi-layer perceptron](glossary.qmd#multilayer-perceptron) (MLP) block. The input patches to each self-attention block are multiplied by three learned weight matrices, which create the queries (Q), keys (K), and values (V) input to the self-attention block. The queries and keys are multiplied across patches, and a normalization operation is applied---this is the attention matrix, where each entry $(i,j)$ is the interaction between patches $i$ and $j$. Because this matrix is across all patches in the image, this operation enables sharing of information across the entire image. The attention matrix is then multiplied with the values matrix, and the result of this operation, which is of size equal to the number of patches by the number of features, is fed into the MLP. This MLP acts on the feature dimension, applying the same operation to each patch, and often consists of two layers, with a nonlinearity in the hidden layer only. [Residual connections](glossary.qmd#residual-connection) are added to both the attention and MLP operations, in order to speed up training.
 
 ![Vision transformer architecture. Originally invented for language modeling [@vaswani2017attention], transformers were then adapted for image processing [@dosovitskiy2020image]. The critical innovation in transformers is the self-attention block (left illustration from [PyTorchStepByStep
 ](https://github.com/dvgodoy/PyTorchStepByStep)).](4-architectures/transformer.PNG){width=90% #fig-vit}
 
 Vision transformers were first trained on image classification tasks but have been extended for various visual tasks like segmentation. A notable example is the Segment Anything model (SAM) [@kirillov2023segment]. This model was originally trained and designed for natural image datasets, but has since been adapted for cellular segmentation by multiple groups [@Archit2025; @israel2025cellsam]. The Segment Anything model is considered to be a [foundation model](glossary.qmd#foundation-model): it can generalize well to new images and be used for a variety of visual tasks in addition to segmentation. 
 
-![Segment Anything model [@kirillov2023segment]; illustration from [@pachitariu2025cellpose]. This architecture differs from a standard transformer in the decoding module, which is necessary for outputting segmentations of images. This model requires inputs in the form of point clicks, box outlines or textual instructions.](4-architectures/sam.PNG){width=60% #fig-sam}
+![Segment Anything model [@kirillov2023segment]; illustration from [@pachitariu2025cellpose]. This architecture differs from a standard transformer in the decoding module, which is necessary for outputting segmentations of images. This model requires inputs in the form of point clicks, box outlines or masks.](4-architectures/sam.PNG){width=60% #fig-sam}
 
 SAM is trained as a promptable model, meaning a user can specify an object for segmentation with a click or a bounding box and the model will produce a predicted object in that region. However, we often want automated segmentations in which we do not have to click on everything in the image. Thus, multiple groups have adapted the SAM decoder to predict [auxiliary variables](glossary.qmd#auxiliary-variables), which we will discuss next as we learn about loss functions. Other innovations in transformers have adapted the architecture to be more suited to the spatial layout of images, such as the Swin transformer [@liu2021swin], which has also been adapted for biological applications [@zhang2025swincell; @achard2025cellseg3d].
 
@@ -433,11 +433,11 @@ $$
 \ell(x, y) = - \sum_{c=1}^C \log [p_c(x)] y_c.
 $$ {#eq-cross-entropy}
 
-In segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original u-net paper, the loss was defined using two classes, "not cell" as zeros and "cell" as ones [@Ronneberger2015]. 
+In segmentation and biological classification tasks, as mentioned before, the output is often the same size as the input in pixels and the loss is computed per-pixel. There will thus be multiple outputs of this size, each one corresponding to a class, like the entries in the vector for overall image classification. In the original U-Net paper, the loss was defined using two classes, "not cell" as zeros and "cell" as ones [@Ronneberger2015]. 
 
-![An image (upper left) is input to a u-net trained to predict cell/not cell pixels. The output of the network is the predicted cell probability image (bottom left). A sigmoid is applied to the cell probability (middle bottom), and compared to the ground-truth cell probabilities (middle top). The comparison is performed using the binary cross-entropy loss per-pixel (right).](4-architectures/bceloss.PNG){#fig-bce width=70%}
+![An image (upper left) is input to a U-Net trained to predict cell/not cell pixels. The output of the network is the predicted cell probability image (bottom left). A sigmoid is applied to the cell probability (middle bottom), and compared to the ground-truth cell probabilities (middle top). The comparison is performed using the binary cross-entropy loss per-pixel (right).](4-architectures/bceloss.PNG){#fig-bce width=70%}
 
-In PyTorch, the sigmoid and cross-entropy loss are combined into a single function; for two-class prediction the function is [`nn.BCEWithLogitsLoss`](https://docs.pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html), and for multi-class prediction the function is [`nn.CrossEntropyLoss`](https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html). 
+In PyTorch, the sigmoid and binary cross-entropy loss are combined into a single function for two-class prediction, [`nn.BCEWithLogitsLoss`](https://docs.pytorch.org/docs/stable/generated/torch.nn.BCEWithLogitsLoss.html); for multi-class prediction, the softmax and cross-entropy functions are combined in [`nn.CrossEntropyLoss`](https://docs.pytorch.org/docs/stable/generated/torch.nn.CrossEntropyLoss.html). 
 
 ::: {.callout-tip}
 ## Cell/Not-Cell Prediction
@@ -452,7 +452,7 @@ print('shape of b: ', layer.conv.bias.data.shape)
 # define input images
 n_images = 8
 X = torch.zeros((n_images, 3, 50, 50))
-# define random cell probabilities
+# define random binary cell label
 y_true = (torch.randn((n_images, 1, 50, 50)) > 0.5).float()
 
 # define loss function
@@ -478,28 +478,28 @@ To create segmentations for each cell, a threshold is defined on the cell probab
 
 To better train the network to discriminate boundaries, a boundary pixel class can be introduced, creating a three-class prediction loss function. This can improve segmentation performance, but the segmentations can still contain merges. This is illustrated in the [tutorial notebook](https://github.com/aicjanelia/BioImagingAI/blob/main/notebooks/tutorial_segmentation.ipynb).
 
-The training signals for the network so far have consisted only of class labels. However, it can be helpful to ask the network to predict more complex information about the segmentation. For example, the distance to the boundary can be used to provide context about the local shape of the object [@heinrich2018synaptic]. The distance-to-boundary is computed for each pixel in each object, and the network is trained to predict this, in addition to a multi-class loss like cell/not-cell. Distance-to-boundary is not a class but a continuous variable. In this case, the loss function often used is a [mean-squared error](glossary.qmd#mean-squared-error) between the ground-truth ($\tilde{Y}$) and the predicted values ($Y$), as shown in @eq-mse-loss.
+The training signals for the network so far have consisted only of class labels. However, it can be helpful to ask the network to predict more complex information about the segmentation. For example, the distance to the boundary can be used to provide context about the local shape of the object [@heinrich2018synaptic]. The distance-to-boundary is computed for each pixel in each object, and the network is trained to predict this, in addition to a multi-class loss like cell/not-cell. Distance-to-boundary is not a class but a continuous variable. In this case, the loss function often used is a [mean-squared error](glossary.qmd#mean-squared-error) between the ground-truth ($\tilde{Y}$) and the predicted values ($Y$), as shown in @eq-mse-loss, where $N$ is the number of pixels in the image.
 
 $$
-\ell_\text{MSE} = \sum_{ij} (Y_{ij} - \tilde{Y}_{ij})^2.
+\ell_\text{MSE} = \frac{1}{N} \sum_{ij} (Y_{ij} - \tilde{Y}_{ij})^2.
 $$ {#eq-mse-loss}
 
-[StarDist](https://stardist.net/)[@Schmidt2018] extends this approach by computing the distance-to-boundary along multiple fixed rays emanating from each pixel in an object, which can then be used for reconstruction of convex objects [@Schmidt2018]. [Cellpose](https://www.cellpose.org/) creates a different type of representation from gradients indicating the direction towards the cell center, and tracks the gradients to reconstruct the segmented objects from the fixed points of the dynamics [@stringer2021]. This representation helps prevent merges by having strong differences in gradients in boundary areas between two objects, and is sufficiently flexible to be used for non-convex cellular shapes. Other examples of auxiliary variables include local shape descriptors (LSDs), which include other global features like the size of the object, which can be useful for electron microscopy segmentation of neurons with long processes [@sheridan2023local].
+[StarDist](https://stardist.net/)[@Schmidt2018] extends this approach by computing the distance-to-boundary along multiple fixed rays emanating from each pixel in an object, which can then be used for reconstruction of convex objects [@Schmidt2018]. [Cellpose](https://www.cellpose.org/) creates a different type of representation from gradients indicating the direction towards the cell center, and tracks the gradients to reconstruct the segmented objects from the fixed points of the dynamics [@stringer2021]. This representation helps prevent merges by having strong differences in gradients in boundary areas between two objects, and is sufficiently flexible to be used for non-convex cellular shapes. Other examples of auxiliary variables include local shape descriptors (LSDs), which include global features like the size of the object, which can be useful for electron microscopy segmentation of neurons with long processes [@sheridan2023local].
 
-![Segmentation networks are often trained to predict an auxiliary variable. For example, they may predict the distance from the cell boundary, radial distances (as in StarDist [@Schmidt2018]), or gradient flows (as in CellPose [@stringer2021]). The calculation of gradient flows is useful for non-convex cells (right panel).](4-architectures/auxloss.PNG){width=80% #fig-aux}
+![Segmentation networks are often trained to predict an auxiliary variable. For example, they may predict the distance from the cell boundary, radial distances (as in StarDist [@Schmidt2018]), or gradient flows (as in Cellpose [@stringer2021]). The calculation of gradient flows is useful for non-convex cells (right panel).](4-architectures/auxloss.PNG){width=80% #fig-aux}
 
 ## Training neural networks {#sec-training-neural-networks}
 
 Now that we have defined a loss function, we want to minimize the loss $\ell$ by updating the weights in the network. For a problem like segmentation, we will need images with ground-truth segmentation labels---this labeling can be done using tools like [Ilastik](https://www.ilastik.org/), [ImageJ](https://imagej.net/software/imagej/), [Paintera](https://github.com/saalfeldlab/paintera), or [Napari](https://napari.org/stable/). Once ground-truth labeling is performed on some images, training can be attempted. 
 
-We will want to use most of the ground-truth labeled images for training, making up a [training set](glossary.qmd#training-data), and leave a small subset (like 10%) for testing the performance of the network. For some algorithms, we may also need a [validation set](glossary.qmd#validation-data) for setting post-processing parameters like the cell probability threshold, in which case we can reserve 10-15% of the training set images for validation. In other words, we use the validation set to determine the threshold on the cell probabilities that produces the best segmentations on the ground-truth labels. See @sec-training for more details on this.
+We will want to use most of the ground-truth labeled images for training, making up a [training set](glossary.qmd#training-data), and leave a small subset (like 10%) for testing the performance of the network. For some algorithms, we may also need a [validation set](glossary.qmd#validation-data) for setting post-processing parameters like the cell probability threshold, in which case we can reserve 10-15% of the non-test images for validation. In other words, we use the validation set to determine the threshold on the cell probabilities that produces the best segmentations on the ground-truth labels. See @sec-training for more details on this.
 
 During optimization, we run the training images through the network, compute the loss, and compute the weight updates that minimize the loss via [gradient descent](glossary.qmd#gradient-descent). Gradient descent computes the gradient of the loss with respect to each weight. Moving the weights in the negative direction of the gradient reduces the loss for the given images or data points over which the loss is computed. These weight updates are scaled by the [learning rate](glossary.qmd#learning-rate), $\alpha$ (@eq-learning-rate).
 
 $$ 
 \begin{aligned}
-\vec{v}_t &= \alpha \, d L(\vec{w}_t) / d \vec{w}_t \\
-   \vec{w}_t &= \vec{w}_{t-1} - \vec{v}_t
+\vec{v}_{t} &= \alpha \, d L(\vec{w}_t) / d \vec{w}_t \\
+   \vec{w}_{t+1} &= \vec{w}_{t} - \vec{v}_{t}
 \end{aligned}
 $$ {#eq-learning-rate}
 
@@ -514,24 +514,24 @@ We could compute the loss and gradients over all images in the training set, but
 
 It can also be beneficial to include [momentum](glossary.qmd#momentum) to speed up training, with some value $\beta$ between zero and one. Momentum pushes weight updates along the same direction they have been updating in the past. The updated version of $\vec{v}$ in this case is shown in @eq-momentum, where in standard SGD, $\beta = 0$ (i.e. no momentum). In other words, past weight updates slowly decay over optimization steps (at rate $\beta$), and new weight updates are added with size $\alpha$.
 $$
-\vec{v}_t = \beta \vec{v}_{t-1} + \alpha\, \frac{d L(\vec{w}_t)}{d \vec{w}_t}
+\vec{v}_{t} = \beta \vec{v}_{t-1} + \alpha\, \frac{d L(\vec{w}_{t})}{d \vec{w}_{t}}
 $$ {#eq-momentum}
 
 Different weights in the network may have differently scaled gradients, and thus a single learning rate may not work well. The Adam optimizer uses a moving average of both the first and second moments of the gradient for rescaling the weight updates while including a momentum term [@kingma2014adam]. This optimizer works better than standard SGD in many cases, and requires less fine-tuning to find good hyperparameter values. In addition to using an optimizer like Adam, it may be helpful to use a [learning rate schedule](glossary.qmd#learning-rate-schedule) that reduces the learning rate towards the end of training to enable smaller steps for fine-tuning the final weights [@loshchilov2016sgdr]. Sometimes a validation set is used to re-instantiate the best weights, as evaluated on the validation set, before a decrease in the learning rate [@prechelt1998automatic].
 
-During fitting it is important to monitor the training loss and the validation loss. With an appropriate learning rate that is not too large, the training loss should always decrease. The loss on held-out validation data should also ideally decrease over training. If not, then the network is [overfitting](glossary.qmd#overfitting) to the training set: the weights are becoming specifically tuned for the training set examples and no longer generalize to held-out data.
+During fitting it is important to monitor the training loss and the validation loss. With an appropriate learning rate that is not too large, the training loss should decrease overall. The loss on held-out validation data should also ideally decrease over training. If not, then the network is [overfitting](glossary.qmd#overfitting) to the training set: the weights are becoming specifically tuned for the training set examples and no longer generalize to held-out data.
 
 ![Example training loss and validation loss across epochs.](4-architectures/trainloss.png){#fig-trainloss width=40%}
 
-To avoid overfitting to the training set, various weight [regularization](glossary.qmd#regularization) strategies are used. Most commonly in computer vision problems, weight decay will be used for regularization, which is closely related to L2 regularization. This operation reduces the weights by a small fraction $\lambda$ at each optimization step (@eq-weight-decay).
+To avoid overfitting to the training set, various weight [regularization](glossary.qmd#regularization) strategies are used. Most commonly in computer vision problems, weight decay will be used for regularization, which is closely related to L2 regularization. This operation reduces the weights by a small fraction $\lambda$, scaled by the learning rate, at each optimization step (@eq-weight-decay).
 
 $$
-\vec{w}_t = \vec{w}_{t-1} - \alpha \lambda \vec{w}_{t-1} - \vec{v}_t.
+\vec{w}_{t+1} = \vec{w}_{t} - \alpha \lambda \vec{w}_{t} - \vec{v}_t.
 $$ {#eq-weight-decay}
 
-This fraction is proportional to the size of the weight, so large weights require stronger gradient sizes to maintain their large size. This means that weight changes that are spurious, for example because a single training batch happened to generate them, will later be undone by the weight regularization returning the weights towards zero.
+The weight reduction is proportional to the size of the weight, so large weights require stronger gradient sizes to maintain their large size. This means that weight changes that are spurious, for example because a single training batch happened to generate them, will later be undone by the weight regularization returning the weights towards zero.
 
-Other forms of regularization include drop-out, in which a random subset of activations is dropped in linear layers [@hinton2012improving], or entire layers or blocks are randomly dropped [@huang2016deep], for example in transformer architectures [@kirillov2023segment]. Often, normalization layers are used after each layer to normalize the activations, with batch normalization used for convolutional layers and layer normalization used in transformers [@ioffe2015batch; @ba2016layer]. This normalization reduces the likelihood of vanishing and exploding gradients, and helps to regularize the weight values. 
+Other forms of regularization include dropout, in which a random subset of activations is dropped in linear layers [@hinton2012improving], or entire layers or blocks are randomly dropped [@huang2016deep], for example in transformer architectures [@kirillov2023segment]. Often, normalization layers are used after each layer to normalize the activations, with batch normalization used for convolutional layers and layer normalization used in transformers [@ioffe2015batch; @ba2016layer]. This normalization reduces the likelihood of vanishing and exploding gradients, and helps to regularize the weight values. 
 
 Additionally, [data augmentation](glossary.qmd#data-augmentation) reduces the likelihood of overfitting (see @sec-training for more information on these topics). There is also more detail about training neural networks in @sec-9.
 
@@ -553,3 +553,6 @@ For more details and exercises for these concepts we recommend the following res
     How momentum works by Gabriel Goh](https://distill.pub/2017/momentum/)
 :::
 
+## AI Disclosure {.unnumbered}
+
+Text and figures were human-generated or sourced from the literature. Anthropic's Claude Opus 5.5 was used to copy-edit this chapter.
