@@ -224,7 +224,7 @@ One can imagine other functions, however, that could more accurately describe "g
 #| fig-cap: "Four examples of segmentations from different models. Each has a distinct failure mode that is hard to spot at a glance."
 #| fig-subcap:
 #|   - "Under-segmented: masks shrink away from cell borders"
-#|   - "Overs-egmented: masks are too large and adjacent cells merge"
+#|   - "Over-segmented: masks are too large and adjacent cells merge"
 #|   - "False negatives: missing cells and split nuclei"
 #|   - "Holes and false positives: gaps inside cells and spurious detections"
 #| layout-ncol: 2

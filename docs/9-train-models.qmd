@@ -353,7 +353,7 @@ If performance is poor, you may need additional annotated data to help the model
 
 **How many images should I have to train my model?**
 
-Refer to @sec-9.2.1 for more details. There is no one-size-fits-all answer---it depends on the complexity of your task, your model architecture, and the variability in your data. More complex tasks typically require more data. Larger images can also be broken into more patches, effectively increasing your dataset size. While few-shot models are being developed for small datasets, most established DL models require a substantial amount of data.
+Refer to @sec-9.3.4.5 for more details. There is no one-size-fits-all answer---it depends on the complexity of your task, your model architecture, and the variability in your data. More complex tasks typically require more data. Larger images can also be broken into more patches, effectively increasing your dataset size. While few-shot models are being developed for small datasets, most established DL models require a substantial amount of data.
 
 **Possible technical issues that you may encounter when training your DL model.**
 
