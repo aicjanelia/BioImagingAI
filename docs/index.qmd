@@ -33,6 +33,10 @@ A free PDF of the textbook can be downloaded from the upper left menu. Note that
 
 The source code for this textbook is available on [GitHub](https://github.com/aicjanelia/BioImagingAI/). All content is licensed under [BSD 3-Clause](https://github.com/aicjanelia/BioImagingAI/?tab=BSD-3-Clause-1-ov-file), except where noted otherwise.
 
+To cite individual chapters of this book, please use the following format (replace the relevant chapter and authors accordingly):
+
+> Last Name, First Initial (2026). Chapter Title. In T.-L. Chew, R. M. Lee & O. F. Puls (Eds.) *AI in Microscopy: A BioImaging Guide* (Ch. Number). [https://doi.org/10.5281/zenodo.23669197](https://doi.org/10.5281/zenodo.23669197)
+
 ### Contributors {.unnumbered}
 | @sec-1 
 |    Teng-Leong Chew, Rachel M. Lee, Owen F. Puls
