@@ -6,6 +6,7 @@ author:
       - name: SciLifeLab | KTH Royal Institute of Technology
         country: Sweden
   - name: Hanzhao Zhang
+    orcid: 0009-0008-0238-0111
     affiliations:
       - name: SciLifeLab | KTH Royal Institute of Technology
         country: Sweden

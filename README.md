@@ -1,3 +1,5 @@
+[![DOI](https://zenodo.org/badge/935622721.svg)](https://zenodo.org/badge/latestdoi/935622721)
+
 # AI in Microscopy: A BioImaging Guide
 
 <div align="center">
