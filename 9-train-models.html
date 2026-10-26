@@ -941,7 +941,7 @@ Figure&nbsp;9.10: Common DL segmentation problems and troubleshooting tips.
 <li>Am I training on one experimental batch while validating or testing on another?</li>
 </ul>
 <p><strong>How many images should I have to train my model?</strong></p>
-<p>Refer to <a href="#sec-9.2.1" class="quarto-xref"><span>Section 9.1.1</span></a> for more details. There is no one-size-fits-all answer—it depends on the complexity of your task, your model architecture, and the variability in your data. More complex tasks typically require more data. Larger images can also be broken into more patches, effectively increasing your dataset size. While few-shot models are being developed for small datasets, most established DL models require a substantial amount of data.</p>
+<p>Refer to <a href="#sec-9.3.4.5" class="quarto-xref"><span>Section 9.2.4.5</span></a> for more details. There is no one-size-fits-all answer—it depends on the complexity of your task, your model architecture, and the variability in your data. More complex tasks typically require more data. Larger images can also be broken into more patches, effectively increasing your dataset size. While few-shot models are being developed for small datasets, most established DL models require a substantial amount of data.</p>
 <p><strong>Possible technical issues that you may encounter when training your DL model.</strong></p>
 <ul>
 <li>The model predicts the same class for all pixels or segments in every cell. Your dataset might be unbalanced, containing too many similar examples. Adding more diverse or underrepresented examples can help the model learn to differentiate between classes.<br>
