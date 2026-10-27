@@ -8,14 +8,14 @@ author:
         country: China
         postal-code: 310027
   - name: Jun Zhu
-    # orcid: xxx
+    orcid: 0009-0003-8394-9624
     affiliations:
       - name: College of Optical Science and Engineering, Zhejiang University
         city: Hangzhou
         country: China
         postal-code: 310027
   - name: Mingzhe Wei
-    # orcid: xxx
+    orcid: 0009-0008-9129-0408
     affiliations:
       - name: College of Optical Science and Engineering, Zhejiang University
         city: Hangzhou
