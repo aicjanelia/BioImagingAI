@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.10.19">
+<meta name="generator" content="quarto-1.11.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -66,18 +66,19 @@ div.csl-indent {
 <link href="./settings/favicon.svg" rel="icon" type="image/svg+xml">
 <script src="site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/scrollable-regions/scrollable-regions.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-447e42e69aaa9833c0ba1b986f430b20.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-f07248834697d125d844cdaf4174b45d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-a64f2b92d8b4b45ab5f5d9261e8b8c9d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-f07248834697d125d844cdaf4174b45d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-3e85a260b67f28a9366826c9faecba52.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-eb72c8c7634f96230fde4180da2be9cb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-3e85a260b67f28a9366826c9faecba52.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -147,7 +148,7 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-sidebar floating quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+<body class="nav-sidebar floating quarto-light"><a id="quarto-skip-link" class="visually-hidden-focusable" href="#quarto-document-content">Skip to main content</a><script id="quarto-html-before-body" type="application/javascript">
     const toggleBodyColorMode = (bsSheetEl) => {
       const mode = bsSheetEl.getAttribute("data-mode");
       const bodyEl = window.document.querySelector("body");
@@ -170,6 +171,7 @@ window.Quarto = {
       for (let i=0; i < toggles.length; i++) {
         const toggle = toggles[i];
         if (toggle) {
+          toggle.setAttribute("aria-checked", alternate ? "true" : "false");
           if (alternate) {
             toggle.classList.add("alternate");
           } else {
@@ -199,13 +201,19 @@ window.Quarto = {
       manageTransitions('#quarto-margin-sidebar .nav-link', true);
       // Switch the toggles
       setColorSchemeToggle(alternate)
-      // Hack to workaround the fact that safari doesn't
-      // properly recolor the scrollbar when toggling (#1455)
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455).
+    // Not run on load: stylesheets are set before first paint there, and
+    // scrolling would undo the scroll to a URL fragment (#14973).
+    // The one pixel nudge keeps the reader where they were.
+    const refreshSafariScrollbar = () => {
       if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
         manageTransitions("body", false);
-        window.scrollTo(0, 1);
+        const scrollY = window.scrollY;
+        window.scrollTo(0, scrollY > 0 ? scrollY - 1 : 1);
         setTimeout(() => {
-          window.scrollTo(0, 0);
+          window.scrollTo(0, scrollY);
           manageTransitions("body", true);
         }, 40);
       }
@@ -299,6 +307,7 @@ window.Quarto = {
       // Read the current dark / light value
       let toAlternate = !hasAlternateSentinel();
       toggleColorMode(toAlternate);
+      refreshSafariScrollbar();
       setStyleSentinel(toAlternate);
       toggleGiscusIfUsed(toAlternate, darkModeDefault);
       window.dispatchEvent(new Event('resize'));
@@ -313,13 +322,13 @@ window.Quarto = {
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav">
+  <nav class="quarto-secondary-nav" aria-label="Toolbar">
     <div class="container-fluid d-flex">
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./6-image-restoration.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></a></li></ol></nav>
-        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        <nav class="quarto-page-breadcrumbs" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./6-image-restoration.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></a></li></ol></nav>
+        <a class="flex-grow-1" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
@@ -330,14 +339,14 @@ window.Quarto = {
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto" aria-label="Site">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
       <a href="./">AI in Microscopy: A BioImaging Guide</a> 
         <div class="sidebar-tools-main tools-wide">
     <a href="https://github.com/aicjanelia/BioImagingAI" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
     <a href="./AI-in-Microscopy--A-BioImaging-Guide.pdf" title="Download PDF" class="quarto-navigation-tool px-1" aria-label="Download PDF"><i class="bi bi-file-pdf"></i></a>
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+  <button type="button" role="switch" aria-checked="false" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="bi"></i></button>
 </div>
     </div>
       </div>
@@ -362,13 +371,10 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
- <span class="menu-text">Getting Started with AI</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-controls="quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-1-label">Getting Started with AI</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-1" aria-labelledby="quarto-sidebar-section-1-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./2-primer.html" class="sidebar-item-text sidebar-link">
@@ -391,13 +397,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
- <span class="menu-text">Image Acquisition</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-controls="quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-2-label">Image Acquisition</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" aria-labelledby="quarto-sidebar-section-2-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./5-training-data.html" class="sidebar-item-text sidebar-link">
@@ -420,13 +423,10 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
- <span class="menu-text">Image Analysis</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-controls="quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-3-label">Image Analysis</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-3" aria-labelledby="quarto-sidebar-section-3-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./8-existing-tools.html" class="sidebar-item-text sidebar-link">
@@ -467,13 +467,10 @@ window.Quarto = {
 </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
- <span class="menu-text">Appendices</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
-            <i class="bi bi-chevron-right ms-2"></i>
-          </a> 
+            <button type="button" class="sidebar-item-text sidebar-item-toggle sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-controls="quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text" id="quarto-sidebar-section-4-label">Appendices</span><i class="bi bi-chevron-right" aria-hidden="true"></i></button>
       </div>
-      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-4" aria-labelledby="quarto-sidebar-section-4-label" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./6-image-restoration-appendix.html" class="sidebar-item-text sidebar-link">
@@ -488,7 +485,7 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" aria-labelledby="toc-title" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
@@ -521,10 +518,10 @@ window.Quarto = {
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content">
+<main class="content" id="quarto-document-content" tabindex="-1">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./6-image-restoration.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="Breadcrumbs"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./5-training-data.html">Image Acquisition</a></li><li class="breadcrumb-item"><a href="./6-image-restoration.html"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title"><span id="sec-Image-Restoration" class="quarto-section-identifier"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Image Restoration</span></span></h1>
 <p class="subtitle lead">Using Artificial Intelligence for Image Restoration in Fluorescence Microscopy</p>
@@ -589,7 +586,7 @@ window.Quarto = {
 </header>
 
 
-<p>Fluorescence microscopy is central to biological discovery, enabling the visualization of cellular and subcellular structures with exquisite detail. From observing dynamic intracellular processes to mapping entire tissues, microscopy is indispensable for understanding biological systems<span class="citation" data-cites="Wu2022"><sup><a href="references.html#ref-Wu2022" role="doc-biblioref">1</a></sup></span>. However, the quality ofy images is often compromised due to intrinsic limitations such as noise, <a href="./glossary.html#aberration">optical aberrations</a>, diffraction, and limited signal<span class="citation" data-cites="Schermelleh2010"><sup><a href="references.html#ref-Schermelleh2010" role="doc-biblioref">2</a></sup></span>. These factors hinder analysis and interpretation, particularly when studying fine biological structures or dynamic processes. For example, by quantifying the intensity of fluorescence signals, researchers infer the abundance or expression levels of specific molecules (e.g., proteins tagged with a genetically expressed marker). Using image segmentation, researchers can analyze the size, shape, distribution, and number of specific objects within a defined region<span class="citation" data-cites="Archit2025"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">3</a></sup></span>. By tracking the movement of fluorescently labeled molecules or cells over time, researchers can study processes including endocytosis, intracellular transport, and cellular signaling<span class="citation" data-cites="Sahl2017"><sup><a href="references.html#ref-Sahl2017" role="doc-biblioref">4</a></sup></span>. In these scenarios, noise and low signal-to-noise ratio (SNR) can make it difficult to distinguish between the actual signal and background, and spatial blurring causes fluorescence signal to spread out, confounding the ability to accurately assign pixels to specific regions or structures.</p>
+<p>Fluorescence microscopy is central to biological discovery, enabling the visualization of cellular and subcellular structures with exquisite detail. From observing dynamic intracellular processes to mapping entire tissues, microscopy is indispensable for understanding biological systems<span class="citation" data-cites="Wu2022"><sup><a href="references.html#ref-Wu2022" role="doc-biblioref">1</a></sup></span>. However, the quality of images is often compromised due to intrinsic limitations such as noise, <a href="./glossary.html#aberration">optical aberrations</a>, diffraction, and limited signal<span class="citation" data-cites="Schermelleh2010"><sup><a href="references.html#ref-Schermelleh2010" role="doc-biblioref">2</a></sup></span>. These factors hinder analysis and interpretation, particularly when studying fine biological structures or dynamic processes. For example, by quantifying the intensity of fluorescence signals, researchers infer the abundance or expression levels of specific molecules (e.g., proteins tagged with a genetically expressed marker). Using image segmentation, researchers can analyze the size, shape, distribution, and number of specific objects within a defined region<span class="citation" data-cites="Archit2025"><sup><a href="references.html#ref-Archit2025" role="doc-biblioref">3</a></sup></span>. By tracking the movement of fluorescently labeled molecules or cells over time, researchers can study processes including endocytosis, intracellular transport, and cellular signaling<span class="citation" data-cites="Sahl2017"><sup><a href="references.html#ref-Sahl2017" role="doc-biblioref">4</a></sup></span>. In these scenarios, noise and low signal-to-noise ratio (SNR) can make it difficult to distinguish between the actual signal and background, and spatial blurring causes fluorescence signal to spread out, confounding the ability to accurately assign pixels to specific regions or structures.</p>
 <p>Many of these problems can be overcome with suitable hardware or by using advanced imaging techniques. To improve spatial resolution, super-resolution techniques — stimulated emission depletion (STED), structured illumination microscopy (SIM), or single-molecule localization microscopy (SMLM) — may be employed<span class="citation" data-cites="Schermelleh2019"><sup><a href="references.html#ref-Schermelleh2019" role="doc-biblioref">5</a></sup></span>. To suppress noise and maximize the collection of useful signal, highly sensitive detectors, such as cooled charge-coupled devices (CCDs) or complementary metal-oxide-semiconductor (CMOS) sensors, can be used. To correct optical distortions, advanced microscopes integrate adaptive optics (<a href="./glossary.html#adaptive-optics">AO</a>)<span class="citation" data-cites="Ji2017 Hampson2021"><sup><a href="references.html#ref-Ji2017" role="doc-biblioref">6</a>,<a href="references.html#ref-Hampson2021" role="doc-biblioref">7</a></sup></span>, which use real-time feedback to dynamically adjust the focus and compensate for aberrations. However, these technologies often come with high cost, require complex operation, or need extensive maintenance. Additionally, improving one attribute of the image (e.g., spatial resolution) often results in a compromise in another (e.g., temporal resolution), requiring careful consideration of the specific needs of a study and the resources available<span class="citation" data-cites="Shroff2024"><sup><a href="references.html#ref-Shroff2024" role="doc-biblioref">8</a></sup></span>.</p>
 <p>Another way to address these limitations is to develop <a href="./glossary.html#image-restoration">image restoration</a> techniques that enhance the quality of microscopy data, often without expensive instrumentation. Traditionally, these techniques relied on mathematical algorithms and physical models of the imaging process. However, recent advances in <a href="./glossary.html#artificial-intelligence">artificial intelligence (AI)</a>, particularly <a href="./glossary.html#deep-learning">deep learning (DL)</a>, have transformed image restoration by enabling data-driven approaches that offer improved performance and flexibility. Manufacturers have increasingly integrated image restoration technologies as an essential component of their products to ensure their users can obtain clearer images directly from the microscope, e.g., Leica THUNDER Imager, Olympus cellSens, Andor iQ, ZEISS arivis, and Nikon NIS-Elements.</p>
 <p>In this chapter, we provide a practical overview of image restoration for applications in fluorescence microscopy. We begin by introducing the general concept of image restoration, then describe traditional and deep learning-based approaches. Next, we review key technologies and advances by categorizing restoration into four major areas: <a href="./glossary.html#denoising">denoising</a>, <a href="./glossary.html#deconvolution">deconvolution</a>, <a href="./glossary.html#aberration">deaberration</a>, and <a href="./glossary.html#resolution-enhancement">resolution enhancement</a>. Finally, we provide practical guidelines for implementing image restoration, including step-by-step workflows and test datasets for interested readers to practice applying these methods.</p>
@@ -623,7 +620,7 @@ Figure&nbsp;6.1: <strong>Schematic of image degradation model for fluorescence m
 </section>
 <section id="deconvolution" class="level4" data-number="6.1.2.2">
 <h4 data-number="6.1.2.2" class="anchored" data-anchor-id="deconvolution"><span class="header-section-number">6.1.2.2</span> Deconvolution</h4>
-<p>Deconvolution is the process of reversing optical blur introduced by the PSF of the microscope (<span class="math inline">\(f(\phi)\)</span> in <a href="#fig-image-degradation" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>) and is most often implemented without considering optical aberrations. It improves effective contrast and resolution by accounting for such blur and reassigning the relevant signal to its most likely location, given the blurring and noise models. Traditional deconvolution methods include frequency-domain algorithms like naive inverse filtering and Wiener filtering<span class="citation" data-cites="Wiener1949 Gonzalez2008"><sup><a href="references.html#ref-Wiener1949" role="doc-biblioref">16</a>,<a href="references.html#ref-Gonzalez2008" role="doc-biblioref">17</a></sup></span>, optimization-based algorithms like Tikhonov regularization<span class="citation" data-cites="Tikhonov1963"><sup><a href="references.html#ref-Tikhonov1963" role="doc-biblioref">18</a></sup></span>, and iterative deconvolution methods like the Tikhonov-Miller algorithm<span class="citation" data-cites="Miller1970"><sup><a href="references.html#ref-Miller1970" role="doc-biblioref">19</a></sup></span>, fast iterative soft-thresholding algorithm<span class="citation" data-cites="Beck2009"><sup><a href="references.html#ref-Beck2009" role="doc-biblioref">20</a></sup></span>, and Richardson-Lucy deconvolution<span class="citation" data-cites="Lucy1974 Richardson1972"><sup><a href="references.html#ref-Lucy1974" role="doc-biblioref">21</a>,<a href="references.html#ref-Richardson1972" role="doc-biblioref">22</a></sup></span>. Traditional deconvolution methods can require significant computational resources, especially for large datasets with complex blurring functions, and also can amplify noise<span class="citation" data-cites="Sarder2006 Goodwin2014 Guo2020"><sup><a href="references.html#ref-Sarder2006" role="doc-biblioref">23</a>–<a href="references.html#ref-Guo2020" role="doc-biblioref">25</a></sup></span>. Commercial deconvolution software includes Huygens, DeltaVison Deconvolution, and AutoQuant. There are also open-source deconvolution plugins integrated into Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">26</a></sup></span> (e.g., DeconvolutionLab2<span class="citation" data-cites="Sage2017"><sup><a href="references.html#ref-Sage2017" role="doc-biblioref">27</a></sup></span>) or <a href="https://mipav.cit.nih.gov/">Medical Image Processing, Analysis, and Visualization (MIPAV)</a><span class="citation" data-cites="Bazin2007"><sup><a href="references.html#ref-Bazin2007" role="doc-biblioref">28</a></sup></span> programs.</p>
+<p>Deconvolution is the process of reversing optical blur introduced by the PSF of the microscope (<span class="math inline">\(f(\phi)\)</span> in <a href="#fig-image-degradation" class="quarto-xref">Figure&nbsp;<span>6.1</span></a>) and is most often implemented without considering optical aberrations. It improves effective contrast and resolution by accounting for such blur and reassigning the relevant signal to its most likely location, given the blurring and noise models. Traditional deconvolution methods include frequency-domain algorithms like naive inverse filtering and Wiener filtering<span class="citation" data-cites="Wiener1949 Gonzalez2008"><sup><a href="references.html#ref-Wiener1949" role="doc-biblioref">16</a>,<a href="references.html#ref-Gonzalez2008" role="doc-biblioref">17</a></sup></span>, optimization-based algorithms like Tikhonov regularization<span class="citation" data-cites="Tikhonov1963"><sup><a href="references.html#ref-Tikhonov1963" role="doc-biblioref">18</a></sup></span>, and iterative deconvolution methods like the Tikhonov-Miller algorithm<span class="citation" data-cites="Miller1970"><sup><a href="references.html#ref-Miller1970" role="doc-biblioref">19</a></sup></span>, fast iterative soft-thresholding algorithm<span class="citation" data-cites="Beck2009"><sup><a href="references.html#ref-Beck2009" role="doc-biblioref">20</a></sup></span>, and Richardson-Lucy deconvolution<span class="citation" data-cites="Lucy1974 Richardson1972"><sup><a href="references.html#ref-Lucy1974" role="doc-biblioref">21</a>,<a href="references.html#ref-Richardson1972" role="doc-biblioref">22</a></sup></span>. Traditional deconvolution methods can require significant computational resources, especially for large datasets with complex blurring functions, and also can amplify noise<span class="citation" data-cites="Sarder2006 Goodwin2014 Guo2020"><sup><a href="references.html#ref-Sarder2006" role="doc-biblioref">23</a>–<a href="references.html#ref-Guo2020" role="doc-biblioref">25</a></sup></span>. Commercial deconvolution software includes Huygens, DeltaVision Deconvolution, and AutoQuant. There are also open-source deconvolution plugins integrated into Fiji<span class="citation" data-cites="Schindelin2012"><sup><a href="references.html#ref-Schindelin2012" role="doc-biblioref">26</a></sup></span> (e.g., DeconvolutionLab2<span class="citation" data-cites="Sage2017"><sup><a href="references.html#ref-Sage2017" role="doc-biblioref">27</a></sup></span>) or <a href="https://mipav.cit.nih.gov/">Medical Image Processing, Analysis, and Visualization (MIPAV)</a><span class="citation" data-cites="Bazin2007"><sup><a href="references.html#ref-Bazin2007" role="doc-biblioref">28</a></sup></span> programs.</p>
 </section>
 <section id="deaberration" class="level4" data-number="6.1.2.3">
 <h4 data-number="6.1.2.3" class="anchored" data-anchor-id="deaberration"><span class="header-section-number">6.1.2.3</span> Deaberration</h4>
@@ -680,7 +677,7 @@ Figure&nbsp;6.2: <strong>Different denoising methods for microscopy images.</str
 <img src="6-image-restoration_files/image3_white.png" class="img-fluid figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-decon-methods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6.3: <strong>Different Deep Learning-Based Methods for Deconvolution in Microscopy Images.</strong> (a) Data-driven based deconvolution methods<span class="citation" data-cites="Guo2020 Weigert2018"><sup><a href="references.html#ref-Guo2020" role="doc-biblioref">25</a>,<a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a></sup></span>, where a neural network is trained using only a large-set of paired raw data and ground truth (GT, e.g., joint deconvolution of multiview data) . (b) Physics-informed deconvolution<span class="citation" data-cites="Li2022 Yanny2022"><sup><a href="references.html#ref-Li2022" role="doc-biblioref">47</a>,<a href="references.html#ref-Yanny2022" role="doc-biblioref">48</a></sup></span>, whereby a neural network is trained using not only paired datasets but also incorporatesprior physical knowledge, such as embedding the image formation function in the loss function and/or the Richardson-Lucy framework or Wiener filtering in the network architecture.
+Figure&nbsp;6.3: <strong>Different Deep Learning-Based Methods for Deconvolution in Microscopy Images.</strong> (a) Data-driven based deconvolution methods<span class="citation" data-cites="Guo2020 Weigert2018"><sup><a href="references.html#ref-Guo2020" role="doc-biblioref">25</a>,<a href="references.html#ref-Weigert2018" role="doc-biblioref">38</a></sup></span>, where a neural network is trained using only a large-set of paired raw data and ground truth (GT, e.g., joint deconvolution of multiview data) . (b) Physics-informed deconvolution<span class="citation" data-cites="Li2022 Yanny2022"><sup><a href="references.html#ref-Li2022" role="doc-biblioref">47</a>,<a href="references.html#ref-Yanny2022" role="doc-biblioref">48</a></sup></span>, whereby a neural network is trained using not only paired datasets but also incorporates prior physical knowledge, such as embedding the image formation function in the loss function and/or the Richardson-Lucy framework or Wiener filtering in the network architecture.
 </figcaption>
 </figure>
 </div>
@@ -734,7 +731,7 @@ Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain n
 <li><p><strong>Generative Adversarial Networks (GANs)</strong>: GANs can be used for tasks like image generation or synthesis (e.g., resolution enhancement), where the goal is to generate realistic images from degraded inputs. GANs consist of two networks: a generator (which creates images) and a discriminator (which evaluates the quality of the generated images).</p></li>
 <li><p><strong>Autoencoders</strong>: These are unsupervised learning models that can be used for denoising, inpainting, and compression. Autoencoders consist of an encoder and a decoder that map input data into a lower-dimensional representation and then reconstruct it.</p></li>
 </ul>
-<p>Choosing established networks (e.g., CARE, Noise2Void), or even starting with pre-trained models, will lead to faster deployment. See <a href="8-existing-tools.html" class="quarto-xref"><span>Chapter 8</span></a> for information on finding existing toos.</p>
+<p>Choosing established networks (e.g., CARE, Noise2Void), or even starting with pre-trained models, will lead to faster deployment. See <a href="8-existing-tools.html" class="quarto-xref"><span>Chapter 8</span></a> for information on finding existing tools.</p>
 </section>
 <section id="training" class="level3" data-number="6.3.3">
 <h3 data-number="6.3.3" class="anchored" data-anchor-id="training"><span class="header-section-number">6.3.3</span> Training</h3>
@@ -992,15 +989,50 @@ Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain n
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
     if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-      const a = window.document.createElement('a');
-      a.classList.add('top-right');
-      a.classList.add('quarto-color-scheme-toggle');
-      a.href = "";
-      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const toggle = window.document.createElement('button');
+      toggle.type = "button";
+      toggle.setAttribute("role", "switch");
+      toggle.setAttribute("aria-checked", "false");
+      toggle.classList.add('top-right');
+      toggle.classList.add('quarto-color-scheme-toggle');
+      toggle.setAttribute("aria-label", "Toggle dark mode");
+      toggle.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
       const i = window.document.createElement("i");
       i.classList.add('bi');
-      a.appendChild(i);
-      window.document.body.appendChild(a);
+      toggle.appendChild(i);
+      // Put the toggle in a landmark of its own, so that landmark navigation
+      // can reach it.
+      //
+      // The container is always a fresh direct child of body, and the toggle is
+      // never moved into page furniture that the theme or the author controls.
+      // The toggle is positioned against the page, so any ancestor that
+      // establishes a containing block captures it: a positioned element or a
+      // grid for position: absolute, and transform, filter, will-change or
+      // contain for position: fixed. A direct child of body has none of these
+      // to inherit, and the shift when one appears is silent and visual.
+      //
+      // ARIA says a document should have at most one banner, and axe reports a
+      // duplicate whether or not the banners carry distinct labels. So use a
+      // header when the page has no banner yet, and a named region otherwise.
+      //
+      // A header is a banner wherever it sits, unless it is inside sectioning
+      // content, so this cannot just look at the children of body: a custom
+      // page layout wraps the title block header in a plain div. An explicit
+      // role="banner" always counts.
+      const sectioning = 'article, aside, main, nav, section, [role="article"], [role="complementary"], [role="main"], [role="navigation"], [role="region"]';
+      const hasBanner = Array.from(
+        window.document.querySelectorAll('header:not([role]), [role="banner"]')
+      ).some(function(el) {
+        return el.hasAttribute("role") || el.closest(sectioning) === null;
+      });
+      const container = window.document.createElement(hasBanner ? "div" : "header");
+      if (hasBanner) {
+        container.setAttribute("role", "region");
+        container.setAttribute("aria-label", "Toggle dark mode");
+      }
+      container.classList.add('quarto-color-scheme-toggle-container');
+      container.appendChild(toggle);
+      window.document.body.appendChild(container);
     }
     setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
@@ -1075,11 +1107,30 @@ Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain n
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
         var filterRegex = new RegExp('/' + window.location.host + '/');
+      const newWindowLabel = "(opens in a new tab)";
+      const newWindowNoteId = "quarto-ext-newwindow-label";
+      // Links reference one hidden label through aria-describedby, so the
+      // announcement never changes their accessible name.
+      var describeNewWindow = (link) => {
+        if (!window.document.getElementById(newWindowNoteId)) {
+          var newWindowNote = window.document.createElement("span");
+          newWindowNote.id = newWindowNoteId;
+          newWindowNote.hidden = true;
+          newWindowNote.textContent = newWindowLabel;
+          window.document.body.appendChild(newWindowNote);
+        }
+        var describedBy = (link.getAttribute("aria-describedby") || "").split(/\s+/).filter(Boolean);
+        if (!describedBy.includes(newWindowNoteId)) {
+          describedBy.push(newWindowNoteId);
+          link.setAttribute("aria-describedby", describedBy.join(" "));
+        }
+      }
       var isInternal = (href) => {
           return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
       // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      window.quartoDecorateExternalLinks = function (root) {
+     var links = (root || window.document).querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
       for (var i=0; i<links.length; i++) {
         const link = links[i];
         if (!isInternal(link.href)) {
@@ -1093,10 +1144,72 @@ Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain n
             if (link.getAttribute("rel") === null) {
               link.setAttribute("rel", "noopener");
             }
+            describeNewWindow(link);
+          if (!link.classList.contains('no-external-icon')) {
             // default icon
             link.classList.add("external");
+          }
         }
       }
+      };
+      window.quartoDecorateExternalLinks(window.document);
+    // Esc closes the popup (WCAG 1.4.13) and focus leaving both trigger and
+    // popup closes it (WCAG 2.4.11); tippy handles neither for interactive popups.
+    const hideOnEscAndFocusOut = {
+      name: 'hideOnEscAndFocusOut',
+      defaultValue: true,
+      fn(instance) {
+        const dismiss = () => {
+          // A show scheduled by the trigger delay would otherwise reopen it
+          instance.clearDelayTimeouts();
+          instance.hide();
+        };
+        const onKeyDown = (event) => {
+          if (event.key !== 'Escape') {
+            return;
+          }
+          // Keep Esc from also reaching page handlers (e.g. reveal.js overview),
+          // except an open reveal.js slide menu, which Esc should close too.
+          // The menu handles keys only when its keyboard option is on.
+          const menuHandlesEsc = window.Reveal?.getPlugin?.('menu')?.isOpen() &&
+            window.Reveal.getConfig().menu?.keyboard !== false;
+          if (!menuHandlesEsc) {
+            event.stopPropagation();
+          }
+          if (instance.popper.contains(window.document.activeElement)) {
+            // Disabled while refocusing so the focus trigger does not reopen it
+            instance.disable();
+            instance.reference.focus();
+            instance.enable();
+          }
+          dismiss();
+        };
+        const onFocusOut = (event) => {
+          const target = event.relatedTarget;
+          if (target && !instance.reference.contains(target) &&
+              !instance.popper.contains(target)) {
+            dismiss();
+          }
+        };
+        // On the trigger too: a click trigger (code-annotations: select) has no
+        // blur handling. Attached for the instance's lifetime so leaving the
+        // trigger also cancels a show still pending on the trigger delay.
+        instance.reference.addEventListener('focusout', onFocusOut);
+        return {
+          onShow() {
+            window.document.addEventListener('keydown', onKeyDown, true);
+            instance.popper.addEventListener('focusout', onFocusOut);
+          },
+          onHide() {
+            window.document.removeEventListener('keydown', onKeyDown, true);
+            instance.popper.removeEventListener('focusout', onFocusOut);
+          },
+          onDestroy() {
+            instance.reference.removeEventListener('focusout', onFocusOut);
+          },
+        };
+      },
+    };
     function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
       const config = {
         allowHTML: true,
@@ -1110,6 +1223,7 @@ Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain n
         interactiveBorder: 10,
         theme: 'quarto',
         placement: 'bottom-start',
+        plugins: [hideOnEscAndFocusOut],
       };
       if (contentFn) {
         config.content = contentFn;
@@ -1272,44 +1386,54 @@ Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain n
           const lineIds = lines.map((line) => {
             return targetCell + "-" + line;
           })
-          let top = null;
-          let height = null;
-          let parent = null;
+          // Each band is positioned against its own containing block, which is
+          // not the offsetParent of the lines, so place it from client rects.
+          const placeBand = (band, firstEl, lastEl, codeBlock) => {
+            const container = band.offsetParent;
+            if (container === null) {
+              return;
+            }
+            const containerRect = container.getBoundingClientRect();
+            // Reveal.js scales slides with a transform, so convert client
+            // pixels back to the CSS pixels of the container.
+            const scale = containerRect.height / container.offsetHeight || 1;
+            const firstRect = firstEl.getBoundingClientRect();
+            const lastRect = lastEl.getBoundingClientRect();
+            const top = (firstRect.top - containerRect.top) / scale - container.clientTop + container.scrollTop;
+            const height = (lastRect.bottom - firstRect.top) / scale;
+            band.style.top = top - 2 + "px";
+            band.style.height = height + 4 + "px";
+            if (codeBlock) {
+              // Without the copy button wrapper, the containing block is wider
+              // than the code block, so span the code block explicitly.
+              const blockRect = codeBlock.getBoundingClientRect();
+              band.style.left = (blockRect.left - containerRect.left) / scale - container.clientLeft + container.scrollLeft + "px";
+              band.style.width = blockRect.width / scale + "px";
+            }
+          };
           if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
+            const el = window.document.getElementById(lineIds[0]);
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const parent = el.parentElement.parentElement;
+            // cook up a div (if necessary) and position it
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
             }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
+            placeBand(div, el, lastEl, parent.closest("div.sourceCode") || parent);
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
             }
+            placeBand(gutterDiv, el, lastEl);
             selectedAnnoteEl = annoteEl;
           }
         };
@@ -1408,7 +1532,10 @@ Figure&nbsp;6.5: <strong>Schematic of resolution enhancement with cross-domain n
     }
   });
   </script>
-<nav class="page-navigation">
+  <script type="application/javascript">
+  window.quartoScrollableRegionsLabels = {"code":"Scrollable code","output":"Scrollable output"};
+  </script>
+<nav class="page-navigation" aria-label="Page">
   <div class="nav-page nav-page-previous">
       <a href="./5-training-data.html" class="pagination-link" aria-label="Collecting Training Data">
         <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Collecting Training Data</span></span>
